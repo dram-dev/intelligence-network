@@ -22,6 +22,9 @@
     <dict>
         <key>PATH</key>
         <string>/Users/dramsey/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/bin</string>
+        <!-- git + gh need HOME to find credentials when the run pushes docs/ (SITE_AUTO_PUSH). -->
+        <key>HOME</key>
+        <string>/Users/dramsey</string>
     </dict>
 
     <!-- Third in the overnight queue: macro 01:00 → PC 01:05 → this at 01:10.
