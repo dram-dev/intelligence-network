@@ -131,13 +131,32 @@ def drive() -> None:
 
 
 @drive.command(name="init")
-def drive_init() -> None:
-    """Authorize (browser on first run), create the folder + Latest doc."""
+@click.option("--remote", is_flag=True, help="Sign in on another device (phone): prints a link to open there.")
+@click.option("--code", "code", default=None, help="Finish a --remote sign-in: the URL your browser was sent to.")
+def drive_init(remote: bool, code: str | None) -> None:
+    """Authorize Google Drive once, then create the folder + Latest doc.
+
+    On this Mac: `drive init` opens the browser. Headless / from a phone:
+    `drive init --remote`, approve on the phone, then `drive init --code '<URL>'`.
+    """
+    from intelnet import gdrive
     from intelnet.gdrive import DriveNotConfigured, publisher
 
     db.init_db()
     try:
-        publisher.authorize()
+        if remote:
+            url = gdrive.begin_remote_authorization()
+            console.print("[bold]1.[/bold] Open this link on your phone (or any browser) and approve:")
+            console.print(url, markup=False, highlight=False, soft_wrap=True)
+            console.print("[bold]2.[/bold] Google then sends the browser to a localhost address that won't load — "
+                          "that's expected. Copy the whole address-bar URL.")
+            console.print("[bold]3.[/bold] Run: uv run intelnet drive init --code '<that URL>'")
+            return
+        if code:
+            gdrive.complete_remote_authorization(code)
+            console.print("[green]✓[/green] Google Drive authorized")
+        else:
+            publisher.authorize()
         fid = publisher.ensure_folder()
         lid = publisher.ensure_latest_doc(fid)
     except DriveNotConfigured as exc:

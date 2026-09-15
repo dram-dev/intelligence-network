@@ -196,3 +196,56 @@ def test_interactive_authorization_writes_a_private_token(tmp_path, monkeypatch)
     gdrive._get_credentials(interactive=True)
     assert token.exists() and oct(token.stat().st_mode)[-3:] == "600"
     assert seen == {"port": 0, "prompt": "consent"}
+
+
+def test_remote_sign_in_round_trip(tmp_path, monkeypatch):
+    import json as _json
+
+    import google_auth_oauthlib.flow as oauth_flow
+
+    from intelnet import gdrive
+
+    _, token = _oauth_paths(tmp_path, monkeypatch)
+    made = []
+
+    class FakeCreds:
+        def to_json(self):
+            return '{"token": "t", "refresh_token": "r"}'
+
+    class FakeFlow:
+        def __init__(self, **kw):
+            self.kw, self.code_verifier, self.fetched = kw, kw.get("code_verifier") or "verifier-123", None
+
+        def authorization_url(self, **kw):
+            self.auth_kw = kw
+            return "https://accounts.google.com/o/oauth2/auth?client_id=c&state=st8", "st8"
+
+        def fetch_token(self, **kw):
+            self.fetched = kw
+
+        @property
+        def credentials(self):
+            return FakeCreds()
+
+    def _factory(cls, path, scopes, **kw):
+        made.append(FakeFlow(**kw))
+        return made[-1]
+
+    monkeypatch.setattr(oauth_flow.InstalledAppFlow, "from_client_secrets_file", classmethod(_factory))
+    url = gdrive.begin_remote_authorization()
+    assert url.startswith("https://accounts.google.com/") and made[0].auth_kw["prompt"] == "consent"
+    pending = gdrive._pending_path()
+    assert _json.loads(pending.read_text()) == {"state": "st8", "code_verifier": "verifier-123",
+                                                "redirect_uri": gdrive.REMOTE_REDIRECT}
+    assert oct(pending.stat().st_mode)[-3:] == "600"
+
+    with pytest.raises(gdrive.DriveNotConfigured, match="different sign-in"):
+        gdrive.complete_remote_authorization("http://localhost:8765/?state=other&code=abc")
+    with pytest.raises(gdrive.DriveNotConfigured, match="declined"):
+        gdrive.complete_remote_authorization("http://localhost:8765/?error=access_denied&state=st8")
+
+    gdrive.complete_remote_authorization("'http://localhost:8765/?state=st8&code=4/0AbC&scope=x'")
+    assert made[-1].fetched == {"code": "4/0AbC"} and made[-1].kw["code_verifier"] == "verifier-123"
+    assert token.exists() and oct(token.stat().st_mode)[-3:] == "600" and not pending.exists()
+    with pytest.raises(gdrive.DriveNotConfigured, match="No sign-in in progress"):
+        gdrive.complete_remote_authorization("4/0AbC")

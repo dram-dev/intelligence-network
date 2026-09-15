@@ -17,9 +17,12 @@ creates). All Drive calls go through `_svc()` so tests inject a fake.
 """
 from __future__ import annotations
 
+import json
 import logging
+import os
 from pathlib import Path
 from typing import Any
+from urllib.parse import parse_qs, urlparse
 
 from intelnet import db
 from intelnet.config import settings
@@ -83,6 +86,77 @@ def _get_credentials(interactive: bool = False):
     token_path.parent.mkdir(parents=True, exist_ok=True)
     token_path.write_text(creds.to_json())
     token_path.chmod(0o600)
+    return creds
+
+
+# ── sign-in from another device (phone) ────────────────────────────────────
+# The normal `drive init` opens a browser on this machine. On a headless Mac mini
+# you can instead open the Google link on your phone: after you approve, Google
+# redirects to a localhost address that won't load on the phone — its URL carries
+# a single-use code, which `drive init --code '<that URL>'` exchanges here. The
+# PKCE verifier never leaves this machine.
+
+REMOTE_REDIRECT = "http://localhost:8765/"
+PENDING_NAME = "gdrive_pending.json"
+
+
+def _pending_path() -> Path:
+    return Path(settings.gdrive_token_path).with_name(PENDING_NAME)
+
+
+def _write_token(creds: Any) -> None:
+    token_path = Path(settings.gdrive_token_path)
+    token_path.parent.mkdir(parents=True, exist_ok=True)
+    token_path.write_text(creds.to_json())
+    token_path.chmod(0o600)
+
+
+def begin_remote_authorization() -> str:
+    """Start a sign-in to finish on another device. Returns the link to open there."""
+    from google_auth_oauthlib.flow import InstalledAppFlow
+
+    creds_path = Path(settings.gdrive_credentials_path)
+    if not creds_path.exists():
+        raise DriveNotConfigured(f"Google OAuth client not found at {creds_path} — see secrets/README.md")
+    flow = InstalledAppFlow.from_client_secrets_file(str(creds_path), SCOPES, redirect_uri=REMOTE_REDIRECT)
+    url, state = flow.authorization_url(access_type="offline", prompt="consent")
+    pending = _pending_path()
+    pending.parent.mkdir(parents=True, exist_ok=True)
+    pending.write_text(json.dumps({"state": state, "code_verifier": flow.code_verifier,
+                                   "redirect_uri": REMOTE_REDIRECT}))
+    pending.chmod(0o600)
+    return url
+
+
+def complete_remote_authorization(response: str) -> Any:
+    """Finish a remote sign-in from the redirected URL (or the bare code). Writes the token."""
+    from google_auth_oauthlib.flow import InstalledAppFlow
+
+    pending_path = _pending_path()
+    if not pending_path.exists():
+        raise DriveNotConfigured("No sign-in in progress — start one with `uv run intelnet drive init --remote`")
+    pending = json.loads(pending_path.read_text())
+    text = response.strip().strip("'\"")
+    code = text
+    if "://" in text or "code=" in text or "error=" in text:
+        query = parse_qs(urlparse(text if "://" in text else "http://x/?" + text.split("?", 1)[-1]).query)
+        if query.get("error"):
+            raise DriveNotConfigured(f"Google declined the sign-in: {query['error'][0]}")
+        code = (query.get("code") or [""])[0]
+        state = (query.get("state") or [""])[0]
+        if state and state != pending["state"]:
+            raise DriveNotConfigured("That link belongs to a different sign-in attempt — start again with --remote")
+    if not code:
+        raise DriveNotConfigured("No authorization code in what was pasted — copy the whole address-bar URL")
+    os.environ.setdefault("OAUTHLIB_RELAX_TOKEN_SCOPE", "1")
+    flow = InstalledAppFlow.from_client_secrets_file(
+        str(settings.gdrive_credentials_path), SCOPES, redirect_uri=pending["redirect_uri"],
+        code_verifier=pending["code_verifier"], autogenerate_code_verifier=False,
+    )
+    flow.fetch_token(code=code)
+    creds = flow.credentials
+    _write_token(creds)
+    pending_path.unlink(missing_ok=True)
     return creds
 
 
