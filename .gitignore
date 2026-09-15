@@ -10,8 +10,8 @@ secrets/*
 !config/*.json
 !tests/fixtures/*.json
 
-# Data
-data/
+# Data (the SQLite state at the project root; docs/data is the public snapshot)
+/data/
 *.db
 *.db-journal
 *.db-wal
