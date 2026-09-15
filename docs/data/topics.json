@@ -1,0 +1,2210 @@
+[
+ {
+  "name": "agriculture",
+  "label": "Agriculture",
+  "description": "Crop stage and condition, planting and harvest progress, pests, disease, damage and drought.",
+  "categories": [
+   {
+    "key": "agriculture.events",
+    "description": "Network-detected agricultural events near you \u2014 drought stress, crop damage, pest or disease outbreaks"
+   },
+   {
+    "key": "agriculture.reports",
+    "description": "Every accepted field report near you (raw)"
+   },
+   {
+    "key": "agriculture.digest",
+    "description": "The daily digest (Google Doc link) when it is published"
+   }
+  ],
+  "metrics": [
+   {
+    "key": "corn_stage",
+    "label": "Corn growth stage",
+    "unit": "stage",
+    "kind": "numeric",
+    "aliases": [
+     "corn stage",
+     "corn at",
+     "corn is at",
+     "corn"
+    ],
+    "units": [
+     "stage"
+    ],
+    "default_unit": "",
+    "words": {
+     "planted": 0.0,
+     "emerged": 1.0,
+     "ve": 1.0,
+     "v2": 2.0,
+     "v3": 3.0,
+     "v4": 4.0,
+     "v5": 5.0,
+     "v6": 6.0,
+     "v7": 7.0,
+     "v8": 8.0,
+     "v9": 9.0,
+     "v10": 10.0,
+     "v11": 11.0,
+     "v12": 12.0,
+     "v13": 13.0,
+     "v14": 14.0,
+     "vt": 15.0,
+     "tasseling": 15.0,
+     "tassel": 15.0,
+     "r1": 16.0,
+     "silking": 16.0,
+     "silk": 16.0,
+     "r2": 17.0,
+     "blister": 17.0,
+     "r3": 18.0,
+     "milk": 18.0,
+     "r4": 19.0,
+     "dough": 19.0,
+     "r5": 20.0,
+     "dent": 20.0,
+     "r6": 21.0,
+     "black layer": 21.0,
+     "mature": 21.0,
+     "harvested": 25.0
+    },
+    "range": [
+     0.0,
+     25.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "stage": 1.0
+    }
+   },
+   {
+    "key": "soy_stage",
+    "label": "Soybean growth stage",
+    "unit": "stage",
+    "kind": "numeric",
+    "aliases": [
+     "soybean stage",
+     "soy stage",
+     "beans at",
+     "beans are at",
+     "soybeans at",
+     "soybeans",
+     "beans"
+    ],
+    "units": [
+     "stage"
+    ],
+    "default_unit": "",
+    "words": {
+     "planted": 0.0,
+     "emerged": 1.0,
+     "vc": 1.0,
+     "v1": 2.0,
+     "v2": 3.0,
+     "v3": 4.0,
+     "v4": 5.0,
+     "v5": 6.0,
+     "v6": 7.0,
+     "r1": 11.0,
+     "beginning bloom": 11.0,
+     "flowering": 11.0,
+     "r2": 12.0,
+     "full bloom": 12.0,
+     "r3": 13.0,
+     "beginning pod": 13.0,
+     "podding": 13.0,
+     "r4": 14.0,
+     "full pod": 14.0,
+     "r5": 15.0,
+     "beginning seed": 15.0,
+     "r6": 16.0,
+     "full seed": 16.0,
+     "r7": 17.0,
+     "beginning maturity": 17.0,
+     "r8": 18.0,
+     "full maturity": 18.0,
+     "dropping leaves": 17.0,
+     "harvested": 22.0
+    },
+    "range": [
+     0.0,
+     22.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "stage": 1.0
+    }
+   },
+   {
+    "key": "crop_condition",
+    "label": "Crop condition (NASS scale)",
+    "unit": "score",
+    "kind": "numeric",
+    "aliases": [
+     "crop condition",
+     "condition",
+     "crop looks",
+     "crop rating",
+     "crops look"
+    ],
+    "units": [
+     "score"
+    ],
+    "default_unit": "",
+    "words": {
+     "very poor": 1.0,
+     "poor": 2.0,
+     "fair": 3.0,
+     "good": 4.0,
+     "excellent": 5.0
+    },
+    "range": [
+     1.0,
+     5.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "score": 1.0
+    }
+   },
+   {
+    "key": "yield_bu_ac",
+    "label": "Yield",
+    "unit": "bu/ac",
+    "kind": "numeric",
+    "aliases": [
+     "yield",
+     "yields",
+     "yielding",
+     "bushels per acre",
+     "bu/ac",
+     "bpa"
+    ],
+    "units": [
+     "bu/ac",
+     "bpa",
+     "bu",
+     "bushels",
+     "t/ha"
+    ],
+    "default_unit": "bu/ac",
+    "words": {},
+    "range": [
+     0.0,
+     400.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "bu/ac": 1.0,
+     "bpa": 1.0,
+     "bu": 1.0,
+     "bushels": 1.0,
+     "t/ha": 14.87
+    }
+   },
+   {
+    "key": "planting_progress_pct",
+    "label": "Planting progress",
+    "unit": "pct",
+    "kind": "numeric",
+    "aliases": [
+     "planting progress",
+     "planted percent",
+     "percent planted",
+     "% planted"
+    ],
+    "units": [
+     "%",
+     "pct",
+     "percent"
+    ],
+    "default_unit": "%",
+    "words": {},
+    "range": [
+     0.0,
+     100.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "%": 1.0,
+     "pct": 1.0,
+     "percent": 1.0
+    }
+   },
+   {
+    "key": "harvest_progress_pct",
+    "label": "Harvest progress",
+    "unit": "pct",
+    "kind": "numeric",
+    "aliases": [
+     "harvest progress",
+     "harvested percent",
+     "percent harvested",
+     "% harvested"
+    ],
+    "units": [
+     "%",
+     "pct",
+     "percent"
+    ],
+    "default_unit": "%",
+    "words": {},
+    "range": [
+     0.0,
+     100.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "%": 1.0,
+     "pct": 1.0,
+     "percent": 1.0
+    }
+   },
+   {
+    "key": "drought_category",
+    "label": "Drought category (USDM)",
+    "unit": "D-level",
+    "kind": "numeric",
+    "aliases": [
+     "drought category",
+     "drought level",
+     "usdm",
+     "drought monitor"
+    ],
+    "units": [
+     "d-level",
+     "level"
+    ],
+    "default_unit": "",
+    "words": {
+     "none": 0.0,
+     "d0": 1.0,
+     "abnormally dry": 1.0,
+     "d1": 2.0,
+     "moderate drought": 2.0,
+     "d2": 3.0,
+     "severe drought": 3.0,
+     "d3": 4.0,
+     "extreme drought": 4.0,
+     "d4": 5.0,
+     "exceptional drought": 5.0
+    },
+    "range": [
+     0.0,
+     5.0
+    ],
+    "event": [
+     [
+      3.0,
+      0.4
+     ],
+     [
+      4.0,
+      0.7
+     ],
+     [
+      5.0,
+      1.0
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "d-level": 1.0,
+     "level": 1.0
+    }
+   },
+   {
+    "key": "drought_stress",
+    "label": "Drought stress",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "drought stress",
+     "leaves rolling",
+     "corn rolling",
+     "curling leaves",
+     "crops wilting",
+     "firing lower leaves"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.5
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "crop_damage",
+    "label": "Crop damage",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "crop damage",
+     "hail damage",
+     "lodging",
+     "lodged corn",
+     "green snap",
+     "greensnap",
+     "flattened corn",
+     "frost damage",
+     "freeze damage"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.6
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "pest_pressure",
+    "label": "Pest pressure",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "pest pressure",
+     "aphids",
+     "soybean aphid",
+     "armyworm",
+     "armyworms",
+     "fall armyworm",
+     "rootworm",
+     "japanese beetles",
+     "corn borer",
+     "cutworm",
+     "stink bugs",
+     "grasshoppers",
+     "insect pressure"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.5
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "disease",
+    "label": "Crop disease",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "tar spot",
+     "gray leaf spot",
+     "grey leaf spot",
+     "southern rust",
+     "common rust",
+     "northern corn leaf blight",
+     "sudden death syndrome",
+     "sds",
+     "white mold",
+     "frogeye",
+     "crop disease",
+     "blight"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.5
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "field_work",
+    "label": "Field work underway",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "field work",
+     "planting underway",
+     "planters rolling",
+     "harvest underway",
+     "combines rolling",
+     "combining",
+     "in the field",
+     "tillage underway",
+     "spraying"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   }
+  ]
+ },
+ {
+  "name": "air",
+  "label": "Air",
+  "description": "PM2.5, AQI, ozone, wildfire smoke, odor and open burning.",
+  "categories": [
+   {
+    "key": "air.events",
+    "description": "Network-detected air events near you \u2014 unhealthy PM2.5 / AQI, ozone, smoke"
+   },
+   {
+    "key": "air.reports",
+    "description": "Every accepted air reading near you (raw)"
+   },
+   {
+    "key": "air.digest",
+    "description": "The daily digest (Google Doc link) when it is published"
+   }
+  ],
+  "metrics": [
+   {
+    "key": "pm25_ugm3",
+    "label": "PM2.5",
+    "unit": "\u00b5g/m\u00b3",
+    "kind": "numeric",
+    "aliases": [
+     "pm2.5",
+     "pm25",
+     "pm 2.5",
+     "fine particulates",
+     "particulates"
+    ],
+    "units": [
+     "ug/m3",
+     "\u00b5g/m\u00b3",
+     "ugm3"
+    ],
+    "default_unit": "ug/m3",
+    "words": {},
+    "range": [
+     0.0,
+     1000.0
+    ],
+    "event": [
+     [
+      35.5,
+      0.4
+     ],
+     [
+      55.5,
+      0.7
+     ],
+     [
+      125.5,
+      1.0
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "ug/m3": 1.0,
+     "\u00b5g/m\u00b3": 1.0,
+     "ugm3": 1.0
+    }
+   },
+   {
+    "key": "aqi",
+    "label": "Air Quality Index",
+    "unit": "AQI",
+    "kind": "numeric",
+    "aliases": [
+     "aqi",
+     "air quality index",
+     "air quality"
+    ],
+    "units": [
+     "aqi"
+    ],
+    "default_unit": "",
+    "words": {},
+    "range": [
+     0.0,
+     500.0
+    ],
+    "event": [
+     [
+      101.0,
+      0.4
+     ],
+     [
+      151.0,
+      0.7
+     ],
+     [
+      201.0,
+      1.0
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "aqi": 1.0
+    }
+   },
+   {
+    "key": "ozone_ppb",
+    "label": "Ozone",
+    "unit": "ppb",
+    "kind": "numeric",
+    "aliases": [
+     "ozone",
+     "o3"
+    ],
+    "units": [
+     "ppb",
+     "ppm"
+    ],
+    "default_unit": "ppb",
+    "words": {},
+    "range": [
+     0.0,
+     400.0
+    ],
+    "event": [
+     [
+      71.0,
+      0.5
+     ],
+     [
+      86.0,
+      0.8
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "ppb": 1.0,
+     "ppm": 1000.0
+    }
+   },
+   {
+    "key": "smoke",
+    "label": "Smoke",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "smoke",
+     "wildfire smoke",
+     "smoky",
+     "smoky haze",
+     "haze",
+     "hazy sky"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.4
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "odor",
+    "label": "Odor",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "odor",
+     "odour",
+     "chemical smell",
+     "ammonia smell",
+     "manure smell",
+     "gas smell",
+     "strong smell"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "open_burning",
+    "label": "Open burning",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "open burning",
+     "field burn",
+     "field burning",
+     "burning brush",
+     "burn pile"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   }
+  ]
+ },
+ {
+  "name": "soil",
+  "label": "Soil",
+  "description": "Soil moisture, temperature, chemistry and structure from probes, kits and the shovel test.",
+  "categories": [
+   {
+    "key": "soil.events",
+    "description": "Network-detected soil events near you \u2014 drought-dry profiles, root-limiting compaction, erosion"
+   },
+   {
+    "key": "soil.reports",
+    "description": "Every accepted soil reading near you (raw)"
+   },
+   {
+    "key": "soil.digest",
+    "description": "The daily digest (Google Doc link) when it is published"
+   }
+  ],
+  "metrics": [
+   {
+    "key": "soil_moisture_pct",
+    "label": "Soil moisture",
+    "unit": "pct",
+    "kind": "numeric",
+    "aliases": [
+     "soil moisture",
+     "vwc",
+     "volumetric water content",
+     "soil water",
+     "moisture probe"
+    ],
+    "units": [
+     "%",
+     "pct",
+     "percent"
+    ],
+    "default_unit": "%",
+    "words": {},
+    "range": [
+     0.0,
+     70.0
+    ],
+    "event": [
+     [
+      10.0,
+      0.4
+     ],
+     [
+      6.0,
+      0.7
+     ]
+    ],
+    "event_direction": "below",
+    "display": null,
+    "convert": {
+     "%": 1.0,
+     "pct": 1.0,
+     "percent": 1.0
+    }
+   },
+   {
+    "key": "soil_temp_c",
+    "label": "Soil temperature",
+    "unit": "degC",
+    "kind": "numeric",
+    "aliases": [
+     "soil temp",
+     "soil temperature",
+     "ground temp",
+     "ground temperature",
+     "4-inch soil temp"
+    ],
+    "units": [
+     "c",
+     "\u00b0c",
+     "f",
+     "\u00b0f",
+     "degrees"
+    ],
+    "default_unit": "f",
+    "words": {},
+    "range": [
+     -25.0,
+     55.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": {
+     "unit": "\u00b0F",
+     "expr": "x * 9 / 5 + 32"
+    },
+    "convert": {
+     "c": 1.0,
+     "\u00b0c": 1.0,
+     "f": {
+      "expr": "(x - 32) * 5 / 9"
+     },
+     "\u00b0f": {
+      "expr": "(x - 32) * 5 / 9"
+     },
+     "degrees": {
+      "expr": "(x - 32) * 5 / 9"
+     }
+    }
+   },
+   {
+    "key": "soil_ph",
+    "label": "Soil pH",
+    "unit": "pH",
+    "kind": "numeric",
+    "aliases": [
+     "soil ph",
+     "ph"
+    ],
+    "units": [
+     "ph"
+    ],
+    "default_unit": "",
+    "words": {},
+    "range": [
+     3.0,
+     10.0
+    ],
+    "event": [
+     [
+      5.2,
+      0.4
+     ]
+    ],
+    "event_direction": "below",
+    "display": null,
+    "convert": {
+     "ph": 1.0
+    }
+   },
+   {
+    "key": "organic_matter_pct",
+    "label": "Organic matter",
+    "unit": "pct",
+    "kind": "numeric",
+    "aliases": [
+     "organic matter",
+     "om",
+     "som",
+     "soil organic matter"
+    ],
+    "units": [
+     "%",
+     "pct",
+     "percent"
+    ],
+    "default_unit": "%",
+    "words": {},
+    "range": [
+     0.0,
+     25.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "%": 1.0,
+     "pct": 1.0,
+     "percent": 1.0
+    }
+   },
+   {
+    "key": "infiltration_mmh",
+    "label": "Infiltration rate",
+    "unit": "mm/h",
+    "kind": "numeric",
+    "aliases": [
+     "infiltration",
+     "infiltration rate",
+     "infiltration test"
+    ],
+    "units": [
+     "mm/h",
+     "mmh",
+     "mm/hr",
+     "in/hr",
+     "in/h",
+     "iph"
+    ],
+    "default_unit": "in/hr",
+    "words": {},
+    "range": [
+     0.0,
+     600.0
+    ],
+    "event": [
+     [
+      2.5,
+      0.4
+     ]
+    ],
+    "event_direction": "below",
+    "display": {
+     "unit": "in/hr",
+     "expr": "x / 25.4"
+    },
+    "convert": {
+     "mm/h": 1.0,
+     "mmh": 1.0,
+     "mm/hr": 1.0,
+     "in/hr": 25.4,
+     "in/h": 25.4,
+     "iph": 25.4
+    }
+   },
+   {
+    "key": "compaction_psi",
+    "label": "Penetration resistance",
+    "unit": "psi",
+    "kind": "numeric",
+    "aliases": [
+     "compaction",
+     "penetrometer",
+     "penetration resistance",
+     "cone index"
+    ],
+    "units": [
+     "psi",
+     "kpa",
+     "mpa"
+    ],
+    "default_unit": "psi",
+    "words": {},
+    "range": [
+     0.0,
+     1200.0
+    ],
+    "event": [
+     [
+      300.0,
+      0.5
+     ],
+     [
+      450.0,
+      0.8
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "psi": 1.0,
+     "kpa": 0.145038,
+     "mpa": 145.038
+    }
+   },
+   {
+    "key": "earthworms_count",
+    "label": "Earthworms per shovel",
+    "unit": "count",
+    "kind": "numeric",
+    "aliases": [
+     "earthworms",
+     "worms",
+     "worm count",
+     "earthworm count"
+    ],
+    "units": [
+     "count",
+     "per shovel",
+     "/shovel"
+    ],
+    "default_unit": "count",
+    "words": {},
+    "range": [
+     0.0,
+     100.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "count": 1.0,
+     "per shovel": 1.0,
+     "/shovel": 1.0
+    }
+   },
+   {
+    "key": "erosion",
+    "label": "Erosion",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "erosion",
+     "gully",
+     "gullies",
+     "rills",
+     "rill erosion",
+     "soil loss",
+     "washout",
+     "ephemeral gully"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.6
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "cover_crop",
+    "label": "Cover crop established",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "cover crop",
+     "cover crop up",
+     "cover established",
+     "rye up",
+     "cover crop emerged"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "crusting",
+    "label": "Surface crusting",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "crusting",
+     "soil crust",
+     "crusted over",
+     "surface sealed"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.4
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   }
+  ]
+ },
+ {
+  "name": "water",
+  "label": "Water",
+  "description": "Stream stage and flow, lakes and wells, water quality, ponding and tile drainage.",
+  "categories": [
+   {
+    "key": "water.events",
+    "description": "Network-detected water events near you \u2014 low oxygen, nitrate spikes, fish kills, blooms"
+   },
+   {
+    "key": "water.reports",
+    "description": "Every accepted water reading near you (raw)"
+   },
+   {
+    "key": "water.digest",
+    "description": "The daily digest (Google Doc link) when it is published"
+   }
+  ],
+  "metrics": [
+   {
+    "key": "stage_m",
+    "label": "Stage (gauge height)",
+    "unit": "m",
+    "kind": "numeric",
+    "aliases": [
+     "stage",
+     "gauge height",
+     "gage height",
+     "river stage",
+     "stream stage",
+     "creek level",
+     "river level",
+     "water level"
+    ],
+    "units": [
+     "m",
+     "ft",
+     "feet",
+     "in",
+     "cm"
+    ],
+    "default_unit": "ft",
+    "words": {},
+    "range": [
+     -3.0,
+     25.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": {
+     "unit": "ft",
+     "expr": "x / 0.3048"
+    },
+    "convert": {
+     "m": 1.0,
+     "ft": 0.3048,
+     "feet": 0.3048,
+     "in": 0.0254,
+     "cm": 0.01
+    }
+   },
+   {
+    "key": "discharge_cms",
+    "label": "Streamflow",
+    "unit": "m\u00b3/s",
+    "kind": "numeric",
+    "aliases": [
+     "discharge",
+     "streamflow",
+     "stream flow",
+     "river flow",
+     "flow rate",
+     "cfs"
+    ],
+    "units": [
+     "cms",
+     "m3/s",
+     "m\u00b3/s",
+     "cfs",
+     "ft3/s",
+     "ft\u00b3/s"
+    ],
+    "default_unit": "cfs",
+    "words": {},
+    "range": [
+     0.0,
+     60000.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": {
+     "unit": "cfs",
+     "expr": "x / 0.0283168"
+    },
+    "convert": {
+     "cms": 1.0,
+     "m3/s": 1.0,
+     "m\u00b3/s": 1.0,
+     "cfs": 0.0283168,
+     "ft3/s": 0.0283168,
+     "ft\u00b3/s": 0.0283168
+    }
+   },
+   {
+    "key": "water_temp_c",
+    "label": "Water temperature",
+    "unit": "degC",
+    "kind": "numeric",
+    "aliases": [
+     "water temp",
+     "water temperature",
+     "stream temp",
+     "river temp",
+     "lake temp",
+     "creek temp"
+    ],
+    "units": [
+     "c",
+     "\u00b0c",
+     "f",
+     "\u00b0f"
+    ],
+    "default_unit": "f",
+    "words": {},
+    "range": [
+     -1.0,
+     40.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": {
+     "unit": "\u00b0F",
+     "expr": "x * 9 / 5 + 32"
+    },
+    "convert": {
+     "c": 1.0,
+     "\u00b0c": 1.0,
+     "f": {
+      "expr": "(x - 32) * 5 / 9"
+     },
+     "\u00b0f": {
+      "expr": "(x - 32) * 5 / 9"
+     }
+    }
+   },
+   {
+    "key": "turbidity_ntu",
+    "label": "Turbidity",
+    "unit": "NTU",
+    "kind": "numeric",
+    "aliases": [
+     "turbidity",
+     "ntu",
+     "cloudiness"
+    ],
+    "units": [
+     "ntu",
+     "fnu"
+    ],
+    "default_unit": "ntu",
+    "words": {},
+    "range": [
+     0.0,
+     5000.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "ntu": 1.0,
+     "fnu": 1.0
+    }
+   },
+   {
+    "key": "dissolved_oxygen_mgl",
+    "label": "Dissolved oxygen",
+    "unit": "mg/L",
+    "kind": "numeric",
+    "aliases": [
+     "dissolved oxygen",
+     "do",
+     "d.o.",
+     "oxygen"
+    ],
+    "units": [
+     "mg/l",
+     "mgl",
+     "ppm"
+    ],
+    "default_unit": "mg/l",
+    "words": {},
+    "range": [
+     0.0,
+     25.0
+    ],
+    "event": [
+     [
+      4.0,
+      0.5
+     ],
+     [
+      2.0,
+      0.8
+     ]
+    ],
+    "event_direction": "below",
+    "display": null,
+    "convert": {
+     "mg/l": 1.0,
+     "mgl": 1.0,
+     "ppm": 1.0
+    }
+   },
+   {
+    "key": "water_ph",
+    "label": "Water pH",
+    "unit": "pH",
+    "kind": "numeric",
+    "aliases": [
+     "water ph",
+     "stream ph",
+     "river ph",
+     "lake ph",
+     "pond ph"
+    ],
+    "units": [
+     "ph"
+    ],
+    "default_unit": "",
+    "words": {},
+    "range": [
+     3.0,
+     12.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "ph": 1.0
+    }
+   },
+   {
+    "key": "conductivity_uscm",
+    "label": "Specific conductance",
+    "unit": "\u00b5S/cm",
+    "kind": "numeric",
+    "aliases": [
+     "conductivity",
+     "specific conductance",
+     "ec",
+     "us/cm"
+    ],
+    "units": [
+     "us/cm",
+     "\u00b5s/cm",
+     "uscm",
+     "ms/cm"
+    ],
+    "default_unit": "us/cm",
+    "words": {},
+    "range": [
+     0.0,
+     30000.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "us/cm": 1.0,
+     "\u00b5s/cm": 1.0,
+     "uscm": 1.0,
+     "ms/cm": 1000.0
+    }
+   },
+   {
+    "key": "nitrate_mgl",
+    "label": "Nitrate-N",
+    "unit": "mg/L",
+    "kind": "numeric",
+    "aliases": [
+     "nitrate",
+     "nitrate-n",
+     "no3",
+     "nitrates"
+    ],
+    "units": [
+     "mg/l",
+     "mgl",
+     "ppm"
+    ],
+    "default_unit": "mg/l",
+    "words": {},
+    "range": [
+     0.0,
+     150.0
+    ],
+    "event": [
+     [
+      10.0,
+      0.5
+     ],
+     [
+      20.0,
+      0.8
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "mg/l": 1.0,
+     "mgl": 1.0,
+     "ppm": 1.0
+    }
+   },
+   {
+    "key": "well_depth_m",
+    "label": "Depth to water (well)",
+    "unit": "m",
+    "kind": "numeric",
+    "aliases": [
+     "well depth",
+     "depth to water",
+     "water table",
+     "well level",
+     "static water level"
+    ],
+    "units": [
+     "m",
+     "ft",
+     "feet"
+    ],
+    "default_unit": "ft",
+    "words": {},
+    "range": [
+     0.0,
+     400.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": {
+     "unit": "ft",
+     "expr": "x / 0.3048"
+    },
+    "convert": {
+     "m": 1.0,
+     "ft": 0.3048,
+     "feet": 0.3048
+    }
+   },
+   {
+    "key": "ponding",
+    "label": "Ponding / field flooding",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "ponding",
+     "ponded",
+     "standing water",
+     "water over the crop",
+     "field flooded",
+     "field under water"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.5
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "tile_flow",
+    "label": "Tile lines running",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "tile running",
+     "tile flow",
+     "tile flowing",
+     "tile lines running",
+     "tiles running"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "fish_kill",
+    "label": "Fish kill",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "fish kill",
+     "dead fish",
+     "fishkill"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.7
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "algae_bloom",
+    "label": "Algal bloom",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "algae bloom",
+     "algal bloom",
+     "blue-green algae",
+     "cyanobacteria",
+     "green scum",
+     "bloom on the lake"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.5
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "bank_erosion",
+    "label": "Bank erosion / slump",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "bank erosion",
+     "bank slump",
+     "streambank collapse",
+     "bank collapse"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   }
+  ]
+ },
+ {
+  "name": "weather",
+  "label": "Weather",
+  "description": "Ground-truth weather observations and official hazard products.",
+  "categories": [
+   {
+    "key": "weather.warnings",
+    "description": "NWS warnings (Severe/Extreme alerts) for your area \u2014 tornado, severe thunderstorm, flash flood\u2026"
+   },
+   {
+    "key": "weather.alerts",
+    "description": "Every NWS alert for your area (watches, advisories, statements)"
+   },
+   {
+    "key": "weather.events",
+    "description": "Network-detected events \u2014 corroborated readings that crossed a threshold near you"
+   },
+   {
+    "key": "weather.reports",
+    "description": "Every accepted contribution near you (raw, unfiltered)"
+   },
+   {
+    "key": "weather.digest",
+    "description": "The daily digest (Google Doc link) when it is published"
+   }
+  ],
+  "metrics": [
+   {
+    "key": "temp_c",
+    "label": "Temperature",
+    "unit": "degC",
+    "kind": "numeric",
+    "aliases": [
+     "temp",
+     "temperature",
+     "t",
+     "air temp"
+    ],
+    "units": [
+     "c",
+     "\u00b0c",
+     "degc",
+     "f",
+     "\u00b0f",
+     "degf",
+     "degrees",
+     "deg"
+    ],
+    "default_unit": "f",
+    "words": {},
+    "range": [
+     -45.0,
+     55.0
+    ],
+    "event": [
+     [
+      40.0,
+      0.5
+     ],
+     [
+      43.0,
+      0.8
+     ]
+    ],
+    "event_direction": "above",
+    "display": {
+     "unit": "\u00b0F",
+     "expr": "x * 9 / 5 + 32"
+    },
+    "convert": {
+     "c": 1.0,
+     "\u00b0c": 1.0,
+     "degc": 1.0,
+     "f": {
+      "expr": "(x - 32) * 5 / 9"
+     },
+     "\u00b0f": {
+      "expr": "(x - 32) * 5 / 9"
+     },
+     "degf": {
+      "expr": "(x - 32) * 5 / 9"
+     },
+     "degrees": {
+      "expr": "(x - 32) * 5 / 9"
+     },
+     "deg": {
+      "expr": "(x - 32) * 5 / 9"
+     }
+    }
+   },
+   {
+    "key": "dewpoint_c",
+    "label": "Dew point",
+    "unit": "degC",
+    "kind": "numeric",
+    "aliases": [
+     "dewpoint",
+     "dew point",
+     "dp",
+     "dew"
+    ],
+    "units": [
+     "c",
+     "\u00b0c",
+     "f",
+     "\u00b0f",
+     "degrees",
+     "deg"
+    ],
+    "default_unit": "f",
+    "words": {},
+    "range": [
+     -45.0,
+     35.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": {
+     "unit": "\u00b0F",
+     "expr": "x * 9 / 5 + 32"
+    },
+    "convert": {
+     "c": 1.0,
+     "\u00b0c": 1.0,
+     "f": {
+      "expr": "(x - 32) * 5 / 9"
+     },
+     "\u00b0f": {
+      "expr": "(x - 32) * 5 / 9"
+     },
+     "degrees": {
+      "expr": "(x - 32) * 5 / 9"
+     },
+     "deg": {
+      "expr": "(x - 32) * 5 / 9"
+     }
+    }
+   },
+   {
+    "key": "humidity_pct",
+    "label": "Relative humidity",
+    "unit": "pct",
+    "kind": "numeric",
+    "aliases": [
+     "humidity",
+     "rh",
+     "relative humidity"
+    ],
+    "units": [
+     "%",
+     "pct",
+     "percent"
+    ],
+    "default_unit": "%",
+    "words": {},
+    "range": [
+     0.0,
+     100.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "%": 1.0,
+     "pct": 1.0,
+     "percent": 1.0
+    }
+   },
+   {
+    "key": "pressure_hpa",
+    "label": "Pressure",
+    "unit": "hPa",
+    "kind": "numeric",
+    "aliases": [
+     "pressure",
+     "baro",
+     "barometer",
+     "mslp",
+     "slp"
+    ],
+    "units": [
+     "hpa",
+     "mb",
+     "mbar",
+     "inhg",
+     "in",
+     "pa"
+    ],
+    "default_unit": "inhg",
+    "words": {},
+    "range": [
+     900.0,
+     1100.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": {
+     "unit": "inHg",
+     "expr": "x / 33.8639"
+    },
+    "convert": {
+     "hpa": 1.0,
+     "mb": 1.0,
+     "mbar": 1.0,
+     "inhg": 33.8639,
+     "in": 33.8639,
+     "pa": 0.01
+    }
+   },
+   {
+    "key": "wind_ms",
+    "label": "Sustained wind",
+    "unit": "m/s",
+    "kind": "numeric",
+    "aliases": [
+     "wind",
+     "wind speed",
+     "sustained",
+     "sustained wind"
+    ],
+    "units": [
+     "ms",
+     "m/s",
+     "mps",
+     "mph",
+     "kt",
+     "kts",
+     "knots",
+     "kmh",
+     "km/h"
+    ],
+    "default_unit": "mph",
+    "words": {},
+    "range": [
+     0.0,
+     90.0
+    ],
+    "event": [
+     [
+      18.0,
+      0.4
+     ],
+     [
+      26.0,
+      0.7
+     ]
+    ],
+    "event_direction": "above",
+    "display": {
+     "unit": "mph",
+     "expr": "x / 0.44704"
+    },
+    "convert": {
+     "ms": 1.0,
+     "m/s": 1.0,
+     "mps": 1.0,
+     "mph": 0.44704,
+     "kt": 0.514444,
+     "kts": 0.514444,
+     "knots": 0.514444,
+     "kmh": 0.277778,
+     "km/h": 0.277778
+    }
+   },
+   {
+    "key": "wind_gust_ms",
+    "label": "Wind gust",
+    "unit": "m/s",
+    "kind": "numeric",
+    "aliases": [
+     "gust",
+     "gusts",
+     "wind gust",
+     "wind gusts",
+     "gusting",
+     "peak gust"
+    ],
+    "units": [
+     "ms",
+     "m/s",
+     "mps",
+     "mph",
+     "kt",
+     "kts",
+     "knots",
+     "kmh",
+     "km/h"
+    ],
+    "default_unit": "mph",
+    "words": {},
+    "range": [
+     0.0,
+     120.0
+    ],
+    "event": [
+     [
+      26.0,
+      0.5
+     ],
+     [
+      33.0,
+      0.8
+     ],
+     [
+      40.0,
+      1.0
+     ]
+    ],
+    "event_direction": "above",
+    "display": {
+     "unit": "mph",
+     "expr": "x / 0.44704"
+    },
+    "convert": {
+     "ms": 1.0,
+     "m/s": 1.0,
+     "mps": 1.0,
+     "mph": 0.44704,
+     "kt": 0.514444,
+     "kts": 0.514444,
+     "knots": 0.514444,
+     "kmh": 0.277778,
+     "km/h": 0.277778
+    }
+   },
+   {
+    "key": "rain_mm",
+    "label": "Rainfall",
+    "unit": "mm",
+    "kind": "numeric",
+    "aliases": [
+     "rain",
+     "rainfall",
+     "precip",
+     "precipitation",
+     "rain total",
+     "storm total"
+    ],
+    "units": [
+     "mm",
+     "in",
+     "inch",
+     "inches",
+     "cm"
+    ],
+    "default_unit": "in",
+    "words": {},
+    "range": [
+     0.0,
+     600.0
+    ],
+    "event": [
+     [
+      25.0,
+      0.4
+     ],
+     [
+      50.0,
+      0.7
+     ],
+     [
+      100.0,
+      1.0
+     ]
+    ],
+    "event_direction": "above",
+    "display": {
+     "unit": "in",
+     "expr": "x / 25.4"
+    },
+    "convert": {
+     "mm": 1.0,
+     "in": 25.4,
+     "inch": 25.4,
+     "inches": 25.4,
+     "cm": 10.0
+    }
+   },
+   {
+    "key": "snow_cm",
+    "label": "Snowfall",
+    "unit": "cm",
+    "kind": "numeric",
+    "aliases": [
+     "snow",
+     "snowfall",
+     "snow total",
+     "snow depth"
+    ],
+    "units": [
+     "cm",
+     "in",
+     "inch",
+     "inches",
+     "mm"
+    ],
+    "default_unit": "in",
+    "words": {},
+    "range": [
+     0.0,
+     150.0
+    ],
+    "event": [
+     [
+      15.0,
+      0.4
+     ],
+     [
+      30.0,
+      0.8
+     ]
+    ],
+    "event_direction": "above",
+    "display": {
+     "unit": "in",
+     "expr": "x / 2.54"
+    },
+    "convert": {
+     "cm": 1.0,
+     "in": 2.54,
+     "inch": 2.54,
+     "inches": 2.54,
+     "mm": 0.1
+    }
+   },
+   {
+    "key": "hail_mm",
+    "label": "Hail size",
+    "unit": "mm",
+    "kind": "numeric",
+    "aliases": [
+     "hail",
+     "hailstones",
+     "hail size"
+    ],
+    "units": [
+     "mm",
+     "in",
+     "inch",
+     "inches",
+     "cm"
+    ],
+    "default_unit": "in",
+    "words": {
+     "pea": 6.0,
+     "marble": 13.0,
+     "mothball": 13.0,
+     "dime": 18.0,
+     "penny": 19.0,
+     "nickel": 22.0,
+     "quarter": 25.0,
+     "half dollar": 32.0,
+     "ping pong": 38.0,
+     "ping-pong": 38.0,
+     "walnut": 38.0,
+     "golf ball": 44.0,
+     "golfball": 44.0,
+     "golf-ball": 44.0,
+     "hen egg": 51.0,
+     "egg": 51.0,
+     "tennis ball": 64.0,
+     "baseball": 70.0,
+     "tea cup": 76.0,
+     "teacup": 76.0,
+     "grapefruit": 100.0,
+     "softball": 114.0
+    },
+    "range": [
+     0.0,
+     200.0
+    ],
+    "event": [
+     [
+      25.0,
+      0.5
+     ],
+     [
+      44.0,
+      0.8
+     ],
+     [
+      70.0,
+      1.0
+     ]
+    ],
+    "event_direction": "above",
+    "display": {
+     "unit": "in",
+     "expr": "x / 25.4"
+    },
+    "convert": {
+     "mm": 1.0,
+     "in": 25.4,
+     "inch": 25.4,
+     "inches": 25.4,
+     "cm": 10.0
+    }
+   },
+   {
+    "key": "visibility_km",
+    "label": "Visibility",
+    "unit": "km",
+    "kind": "numeric",
+    "aliases": [
+     "visibility",
+     "vis",
+     "vsby"
+    ],
+    "units": [
+     "km",
+     "mi",
+     "mile",
+     "miles",
+     "m"
+    ],
+    "default_unit": "mi",
+    "words": {},
+    "range": [
+     0.0,
+     100.0
+    ],
+    "event": [
+     [
+      0.4,
+      0.4
+     ]
+    ],
+    "event_direction": "below",
+    "display": {
+     "unit": "mi",
+     "expr": "x / 1.609344"
+    },
+    "convert": {
+     "km": 1.0,
+     "mi": 1.609344,
+     "mile": 1.609344,
+     "miles": 1.609344,
+     "m": 0.001
+    }
+   },
+   {
+    "key": "tornado",
+    "label": "Tornado",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "tornado",
+     "twister",
+     "tornado on the ground"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      1.0
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "funnel_cloud",
+    "label": "Funnel cloud",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "funnel",
+     "funnel cloud",
+     "wall cloud",
+     "rotation"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.5
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "flooding",
+    "label": "Flooding",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "flood",
+     "flooding",
+     "flash flood",
+     "street flooding",
+     "water over road",
+     "high water"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.7
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "wind_damage",
+    "label": "Wind damage",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "wind damage",
+     "tree down",
+     "trees down",
+     "power lines down",
+     "roof damage",
+     "damage"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.6
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "power_outage",
+    "label": "Power outage",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "outage",
+     "power outage",
+     "power out",
+     "no power",
+     "blackout"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.4
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "lightning",
+    "label": "Lightning",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "lightning",
+     "thunder"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   }
+  ]
+ }
+]

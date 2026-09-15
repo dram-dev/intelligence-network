@@ -1,0 +1,36 @@
+{
+ "generated_at": "2026-09-15T11:39:36+00:00",
+ "sample": false,
+ "days": 14,
+ "network_name": "Intelligence Network",
+ "state": "IL",
+ "bot_handle": "",
+ "group_url": "",
+ "github_repo": "dram-dev/intelligence-network",
+ "site_url": "",
+ "links": {
+  "folder": "https://drive.google.com/drive/folders/f",
+  "latest": "https://docs.google.com/document/d/l/edit",
+  "digest": "https://docs.google.com/document/d/d/edit"
+ },
+ "vitals": {
+  "sensors_total": 0,
+  "sensors_active_24h": 0,
+  "sensors_active_7d": 0,
+  "signals_24h_human": 0,
+  "signals_24h_reference": 0,
+  "corroborated_7d": 0,
+  "flagged_7d": 0,
+  "human_7d": 0,
+  "events_open": 0,
+  "events_24h": 0,
+  "alerts_active": 0,
+  "subscriptions": 0,
+  "subscribers": 0,
+  "counties_total": 102,
+  "counties_covered_7d": 0,
+  "counties_reference_7d": 0,
+  "corroboration_rate_7d": 0.0
+ },
+ "subscriptions": {}
+}

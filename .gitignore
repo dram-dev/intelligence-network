@@ -9,6 +9,7 @@ secrets/*
 *.json
 !config/*.json
 !tests/fixtures/*.json
+!docs/data/*.json
 
 # Data (the SQLite state at the project root; docs/data is the public snapshot)
 /data/

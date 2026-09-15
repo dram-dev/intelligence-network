@@ -1,0 +1,853 @@
+{
+ "nodes": [
+  {
+   "id": "topic:agriculture",
+   "kind": "topic",
+   "label": "Agriculture",
+   "topic": "agriculture",
+   "n": 0
+  },
+  {
+   "id": "metric:corn_stage",
+   "kind": "metric",
+   "label": "Corn growth stage",
+   "topic": "agriculture",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:soy_stage",
+   "kind": "metric",
+   "label": "Soybean growth stage",
+   "topic": "agriculture",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:crop_condition",
+   "kind": "metric",
+   "label": "Crop condition (NASS scale)",
+   "topic": "agriculture",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:yield_bu_ac",
+   "kind": "metric",
+   "label": "Yield",
+   "topic": "agriculture",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:planting_progress_pct",
+   "kind": "metric",
+   "label": "Planting progress",
+   "topic": "agriculture",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:harvest_progress_pct",
+   "kind": "metric",
+   "label": "Harvest progress",
+   "topic": "agriculture",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:drought_category",
+   "kind": "metric",
+   "label": "Drought category (USDM)",
+   "topic": "agriculture",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:drought_stress",
+   "kind": "metric",
+   "label": "Drought stress",
+   "topic": "agriculture",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "metric:crop_damage",
+   "kind": "metric",
+   "label": "Crop damage",
+   "topic": "agriculture",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "metric:pest_pressure",
+   "kind": "metric",
+   "label": "Pest pressure",
+   "topic": "agriculture",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "metric:disease",
+   "kind": "metric",
+   "label": "Crop disease",
+   "topic": "agriculture",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "metric:field_work",
+   "kind": "metric",
+   "label": "Field work underway",
+   "topic": "agriculture",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "topic:air",
+   "kind": "topic",
+   "label": "Air",
+   "topic": "air",
+   "n": 0
+  },
+  {
+   "id": "metric:pm25_ugm3",
+   "kind": "metric",
+   "label": "PM2.5",
+   "topic": "air",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:aqi",
+   "kind": "metric",
+   "label": "Air Quality Index",
+   "topic": "air",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:ozone_ppb",
+   "kind": "metric",
+   "label": "Ozone",
+   "topic": "air",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:smoke",
+   "kind": "metric",
+   "label": "Smoke",
+   "topic": "air",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "metric:odor",
+   "kind": "metric",
+   "label": "Odor",
+   "topic": "air",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "metric:open_burning",
+   "kind": "metric",
+   "label": "Open burning",
+   "topic": "air",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "topic:soil",
+   "kind": "topic",
+   "label": "Soil",
+   "topic": "soil",
+   "n": 0
+  },
+  {
+   "id": "metric:soil_moisture_pct",
+   "kind": "metric",
+   "label": "Soil moisture",
+   "topic": "soil",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:soil_temp_c",
+   "kind": "metric",
+   "label": "Soil temperature",
+   "topic": "soil",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:soil_ph",
+   "kind": "metric",
+   "label": "Soil pH",
+   "topic": "soil",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:organic_matter_pct",
+   "kind": "metric",
+   "label": "Organic matter",
+   "topic": "soil",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:infiltration_mmh",
+   "kind": "metric",
+   "label": "Infiltration rate",
+   "topic": "soil",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:compaction_psi",
+   "kind": "metric",
+   "label": "Penetration resistance",
+   "topic": "soil",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:earthworms_count",
+   "kind": "metric",
+   "label": "Earthworms per shovel",
+   "topic": "soil",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:erosion",
+   "kind": "metric",
+   "label": "Erosion",
+   "topic": "soil",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "metric:cover_crop",
+   "kind": "metric",
+   "label": "Cover crop established",
+   "topic": "soil",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "metric:crusting",
+   "kind": "metric",
+   "label": "Surface crusting",
+   "topic": "soil",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "topic:water",
+   "kind": "topic",
+   "label": "Water",
+   "topic": "water",
+   "n": 0
+  },
+  {
+   "id": "metric:stage_m",
+   "kind": "metric",
+   "label": "Stage (gauge height)",
+   "topic": "water",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:discharge_cms",
+   "kind": "metric",
+   "label": "Streamflow",
+   "topic": "water",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:water_temp_c",
+   "kind": "metric",
+   "label": "Water temperature",
+   "topic": "water",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:turbidity_ntu",
+   "kind": "metric",
+   "label": "Turbidity",
+   "topic": "water",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:dissolved_oxygen_mgl",
+   "kind": "metric",
+   "label": "Dissolved oxygen",
+   "topic": "water",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:water_ph",
+   "kind": "metric",
+   "label": "Water pH",
+   "topic": "water",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:conductivity_uscm",
+   "kind": "metric",
+   "label": "Specific conductance",
+   "topic": "water",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:nitrate_mgl",
+   "kind": "metric",
+   "label": "Nitrate-N",
+   "topic": "water",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:well_depth_m",
+   "kind": "metric",
+   "label": "Depth to water (well)",
+   "topic": "water",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:ponding",
+   "kind": "metric",
+   "label": "Ponding / field flooding",
+   "topic": "water",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "metric:tile_flow",
+   "kind": "metric",
+   "label": "Tile lines running",
+   "topic": "water",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "metric:fish_kill",
+   "kind": "metric",
+   "label": "Fish kill",
+   "topic": "water",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "metric:algae_bloom",
+   "kind": "metric",
+   "label": "Algal bloom",
+   "topic": "water",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "metric:bank_erosion",
+   "kind": "metric",
+   "label": "Bank erosion / slump",
+   "topic": "water",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "topic:weather",
+   "kind": "topic",
+   "label": "Weather",
+   "topic": "weather",
+   "n": 0
+  },
+  {
+   "id": "metric:temp_c",
+   "kind": "metric",
+   "label": "Temperature",
+   "topic": "weather",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:dewpoint_c",
+   "kind": "metric",
+   "label": "Dew point",
+   "topic": "weather",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:humidity_pct",
+   "kind": "metric",
+   "label": "Relative humidity",
+   "topic": "weather",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:pressure_hpa",
+   "kind": "metric",
+   "label": "Pressure",
+   "topic": "weather",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:wind_ms",
+   "kind": "metric",
+   "label": "Sustained wind",
+   "topic": "weather",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:wind_gust_ms",
+   "kind": "metric",
+   "label": "Wind gust",
+   "topic": "weather",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:rain_mm",
+   "kind": "metric",
+   "label": "Rainfall",
+   "topic": "weather",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:snow_cm",
+   "kind": "metric",
+   "label": "Snowfall",
+   "topic": "weather",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:hail_mm",
+   "kind": "metric",
+   "label": "Hail size",
+   "topic": "weather",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:visibility_km",
+   "kind": "metric",
+   "label": "Visibility",
+   "topic": "weather",
+   "n": 0,
+   "flag": false
+  },
+  {
+   "id": "metric:tornado",
+   "kind": "metric",
+   "label": "Tornado",
+   "topic": "weather",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "metric:funnel_cloud",
+   "kind": "metric",
+   "label": "Funnel cloud",
+   "topic": "weather",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "metric:flooding",
+   "kind": "metric",
+   "label": "Flooding",
+   "topic": "weather",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "metric:wind_damage",
+   "kind": "metric",
+   "label": "Wind damage",
+   "topic": "weather",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "metric:power_outage",
+   "kind": "metric",
+   "label": "Power outage",
+   "topic": "weather",
+   "n": 0,
+   "flag": true
+  },
+  {
+   "id": "metric:lightning",
+   "kind": "metric",
+   "label": "Lightning",
+   "topic": "weather",
+   "n": 0,
+   "flag": true
+  }
+ ],
+ "links": [
+  {
+   "source": "metric:corn_stage",
+   "target": "topic:agriculture",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:soy_stage",
+   "target": "topic:agriculture",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:crop_condition",
+   "target": "topic:agriculture",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:yield_bu_ac",
+   "target": "topic:agriculture",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:planting_progress_pct",
+   "target": "topic:agriculture",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:harvest_progress_pct",
+   "target": "topic:agriculture",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:drought_category",
+   "target": "topic:agriculture",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:drought_stress",
+   "target": "topic:agriculture",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:crop_damage",
+   "target": "topic:agriculture",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:pest_pressure",
+   "target": "topic:agriculture",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:disease",
+   "target": "topic:agriculture",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:field_work",
+   "target": "topic:agriculture",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:pm25_ugm3",
+   "target": "topic:air",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:aqi",
+   "target": "topic:air",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:ozone_ppb",
+   "target": "topic:air",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:smoke",
+   "target": "topic:air",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:odor",
+   "target": "topic:air",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:open_burning",
+   "target": "topic:air",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:soil_moisture_pct",
+   "target": "topic:soil",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:soil_temp_c",
+   "target": "topic:soil",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:soil_ph",
+   "target": "topic:soil",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:organic_matter_pct",
+   "target": "topic:soil",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:infiltration_mmh",
+   "target": "topic:soil",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:compaction_psi",
+   "target": "topic:soil",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:earthworms_count",
+   "target": "topic:soil",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:erosion",
+   "target": "topic:soil",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:cover_crop",
+   "target": "topic:soil",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:crusting",
+   "target": "topic:soil",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:stage_m",
+   "target": "topic:water",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:discharge_cms",
+   "target": "topic:water",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:water_temp_c",
+   "target": "topic:water",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:turbidity_ntu",
+   "target": "topic:water",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:dissolved_oxygen_mgl",
+   "target": "topic:water",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:water_ph",
+   "target": "topic:water",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:conductivity_uscm",
+   "target": "topic:water",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:nitrate_mgl",
+   "target": "topic:water",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:well_depth_m",
+   "target": "topic:water",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:ponding",
+   "target": "topic:water",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:tile_flow",
+   "target": "topic:water",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:fish_kill",
+   "target": "topic:water",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:algae_bloom",
+   "target": "topic:water",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:bank_erosion",
+   "target": "topic:water",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:temp_c",
+   "target": "topic:weather",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:dewpoint_c",
+   "target": "topic:weather",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:humidity_pct",
+   "target": "topic:weather",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:pressure_hpa",
+   "target": "topic:weather",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:wind_ms",
+   "target": "topic:weather",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:wind_gust_ms",
+   "target": "topic:weather",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:rain_mm",
+   "target": "topic:weather",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:snow_cm",
+   "target": "topic:weather",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:hail_mm",
+   "target": "topic:weather",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:visibility_km",
+   "target": "topic:weather",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:tornado",
+   "target": "topic:weather",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:funnel_cloud",
+   "target": "topic:weather",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:flooding",
+   "target": "topic:weather",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:wind_damage",
+   "target": "topic:weather",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:power_outage",
+   "target": "topic:weather",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "metric:lightning",
+   "target": "topic:weather",
+   "kind": "belongs",
+   "weight": 1
+  }
+ ]
+}
