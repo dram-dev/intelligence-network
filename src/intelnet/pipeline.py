@@ -99,6 +99,7 @@ def _run(run_type: str, skip_publish: bool, console: Any) -> dict[str, Any]:
             # recorded locally and the run stays green until Drive is authorized.
             console.print(f"  [yellow]⚠[/yellow] not published: {exc}")
             summary["publish_skipped"] = str(exc)
+            _warn_admin_drive(str(exc), model.date)
         except Exception as exc:  # noqa: BLE001
             logger.exception("pipeline: Drive publish failed")
             console.print(f"  [red]✗[/red] publish failed: {exc}")
@@ -133,6 +134,30 @@ def _run(run_type: str, skip_publish: bool, console: Any) -> dict[str, Any]:
                status="ok" if "publish_error" not in summary else "error",
                error=summary.get("publish_error"))
     return summary
+
+
+def _warn_admin_drive(reason: str, date: str) -> None:
+    """DM the admin (once a day) when Drive needs re-authorizing.
+
+    While the Google app is in "Testing", its login expires every 7 days; without
+    this the digest would quietly stop reaching Drive. Silent when Drive was never
+    set up (no OAuth client file) — that's a setup state, not a lapse.
+    """
+    from pathlib import Path
+
+    from intelnet.telegram import bot, esc
+
+    chat = settings.telegram_admin_chat_id
+    if not chat or not Path(settings.gdrive_credentials_path).exists():
+        return
+    key = f"drive-auth:{date}"
+    if db.already_notified(key, chat):
+        return
+    text = ("⚠️ <b>Today's digest wasn't uploaded to Google Drive</b>\n"
+            f"{esc(reason)}\n"
+            "On the Mac mini: <code>cd ~/Projects/intelligence-network &amp;&amp; uv run intelnet drive init</code>")
+    if bot.send_to(chat, text):
+        db.record_notification(key, chat)
 
 
 def run(run_type: str = "daily", skip_publish: bool = False, console: Any = None,

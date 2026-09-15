@@ -66,6 +66,38 @@ def test_pipeline_publishes_when_drive_enabled(stubbed, monkeypatch):
     assert db.latest_digest()["drive_url"].endswith("/d/edit")
 
 
+def test_expired_drive_login_dms_the_admin_once_a_day(stubbed, sent, monkeypatch, tmp_path):
+    from intelnet import gdrive
+    from intelnet.config import settings
+
+    client = tmp_path / "client.json"
+    client.write_text("{}")
+    monkeypatch.setattr(settings, "gdrive_enabled", True)
+    monkeypatch.setattr(settings, "gdrive_credentials_path", client)
+
+    class Expired:
+        def publish(self, date, html):
+            raise gdrive.DriveNotConfigured("Google authorization expired or was revoked — run `uv run intelnet drive init`")
+
+        def sync_readers(self):
+            return 0
+
+    monkeypatch.setattr(gdrive, "publisher", Expired())
+    summary = pipeline.run("daily")
+    assert "expired" in summary["publish_skipped"] and "publish_error" not in summary
+    admin = [t for c, t in sent if c == "999"]
+    assert len(admin) == 1 and "drive init" in admin[0]
+    pipeline.run("manual")                                   # same day: no second DM
+    assert len([t for c, t in sent if c == "999"]) == 1
+    client.unlink()                                          # Drive never set up: stay quiet
+    sent.clear()
+    db.remove_subscription("999")
+    with db.get_conn() as conn:
+        conn.execute("DELETE FROM notify_log")
+    pipeline.run("manual")
+    assert not [t for c, t in sent if c == "999"]
+
+
 def test_pipeline_waits_for_the_lock_and_gives_up_when_wedged(stubbed, monkeypatch, tmp_path):
     monkeypatch.setenv("PIPELINE_LOCK_TIMEOUT_SEC", "0.3")
     hold = threading.Event()
