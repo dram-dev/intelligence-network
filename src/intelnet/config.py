@@ -85,6 +85,11 @@ class Settings(BaseSettings):
     )
     gdrive_folder_name: str = Field(default="Intelligence Network", alias="GDRIVE_FOLDER_NAME")
     gdrive_public_link: bool = Field(default=True, alias="GDRIVE_PUBLIC_LINK")
+    # The Google account the digest is published from — the service's public face.
+    # When set, sign-in pre-selects it and every Drive session verifies the
+    # authorized account matches, so a token from the wrong account can never
+    # write (or expose) the public folder.
+    gdrive_account: str = Field(default="", alias="GDRIVE_ACCOUNT")
 
     @field_validator("ollama_host", "mlx_server_url", mode="before")
     @classmethod

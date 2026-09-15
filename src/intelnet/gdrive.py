@@ -40,6 +40,37 @@ class DriveNotConfigured(RuntimeError):
     """No credentials / token available (or GDRIVE_ENABLED=false)."""
 
 
+class DriveWrongAccount(DriveNotConfigured):
+    """Authorized as a different Google account than GDRIVE_ACCOUNT."""
+
+    def __init__(self, actual: str | None, expected: str) -> None:
+        self.actual, self.expected = actual, expected
+        super().__init__(
+            f"Google Drive is authorized as {actual or 'an unknown account'}, not {expected} — "
+            f"sign in again and pick {expected}: `uv run intelnet drive init --remote`"
+        )
+
+
+# Show the account chooser (and pre-select GDRIVE_ACCOUNT) instead of silently
+# reusing whichever Google account the browser happens to be signed in to.
+PROMPT = "select_account consent"
+
+
+def _account_hint() -> dict[str, str]:
+    acct = settings.gdrive_account.strip()
+    return {"login_hint": acct} if acct else {}
+
+
+def verify_account(service: Any) -> str | None:
+    """The authorized account's e-mail; raises DriveWrongAccount if GDRIVE_ACCOUNT differs."""
+    about = service.about().get(fields="user(emailAddress)").execute()
+    actual = ((about.get("user") or {}).get("emailAddress") or "").strip()
+    expected = settings.gdrive_account.strip()
+    if expected and actual.lower() != expected.lower():
+        raise DriveWrongAccount(actual or None, expected)
+    return actual or None
+
+
 def _get_credentials(interactive: bool = False):
     """Load (and refresh) the saved token. Only `interactive` may open a browser.
 
@@ -81,8 +112,8 @@ def _get_credentials(interactive: bool = False):
                 "Google Drive is not authorized yet — run `uv run intelnet drive init`"
             )
         flow = InstalledAppFlow.from_client_secrets_file(str(creds_path), SCOPES)
-        # prompt=consent guarantees a refresh token even on a re-authorization.
-        creds = flow.run_local_server(port=0, prompt="consent")
+        # prompt includes consent, which guarantees a refresh token on re-authorization.
+        creds = flow.run_local_server(port=0, prompt=PROMPT, **_account_hint())
     token_path.parent.mkdir(parents=True, exist_ok=True)
     token_path.write_text(creds.to_json())
     token_path.chmod(0o600)
@@ -119,7 +150,7 @@ def begin_remote_authorization() -> str:
     if not creds_path.exists():
         raise DriveNotConfigured(f"Google OAuth client not found at {creds_path} — see secrets/README.md")
     flow = InstalledAppFlow.from_client_secrets_file(str(creds_path), SCOPES, redirect_uri=REMOTE_REDIRECT)
-    url, state = flow.authorization_url(access_type="offline", prompt="consent")
+    url, state = flow.authorization_url(access_type="offline", prompt=PROMPT, **_account_hint())
     pending = _pending_path()
     pending.parent.mkdir(parents=True, exist_ok=True)
     pending.write_text(json.dumps({"state": state, "code_verifier": flow.code_verifier,
@@ -176,8 +207,15 @@ class DrivePublisher:
             from googleapiclient.discovery import build
 
             creds = _get_credentials(interactive)
-            self._service = build("drive", "v3", credentials=creds, cache_discovery=False)
+            service = build("drive", "v3", credentials=creds, cache_discovery=False)
+            if settings.gdrive_account.strip():
+                verify_account(service)       # never publish from the wrong Google account
+            self._service = service
         return self._service
+
+    def account(self) -> str | None:
+        """E-mail of the Google account Drive is authorized as."""
+        return verify_account(self._svc())
 
     def authorize(self) -> None:
         """Browser consent on first use — only `intelnet drive init` calls this."""

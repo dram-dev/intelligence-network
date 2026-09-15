@@ -195,7 +195,7 @@ def test_interactive_authorization_writes_a_private_token(tmp_path, monkeypatch)
                         classmethod(lambda cls, path, scopes: FakeFlow()))
     gdrive._get_credentials(interactive=True)
     assert token.exists() and oct(token.stat().st_mode)[-3:] == "600"
-    assert seen == {"port": 0, "prompt": "consent"}
+    assert seen == {"port": 0, "prompt": "select_account consent"}
 
 
 def test_remote_sign_in_round_trip(tmp_path, monkeypatch):
@@ -233,7 +233,8 @@ def test_remote_sign_in_round_trip(tmp_path, monkeypatch):
 
     monkeypatch.setattr(oauth_flow.InstalledAppFlow, "from_client_secrets_file", classmethod(_factory))
     url = gdrive.begin_remote_authorization()
-    assert url.startswith("https://accounts.google.com/") and made[0].auth_kw["prompt"] == "consent"
+    assert url.startswith("https://accounts.google.com/") and made[0].auth_kw["prompt"] == "select_account consent"
+    assert "login_hint" not in made[0].auth_kw
     pending = gdrive._pending_path()
     assert _json.loads(pending.read_text()) == {"state": "st8", "code_verifier": "verifier-123",
                                                 "redirect_uri": gdrive.REMOTE_REDIRECT}
@@ -249,3 +250,49 @@ def test_remote_sign_in_round_trip(tmp_path, monkeypatch):
     assert token.exists() and oct(token.stat().st_mode)[-3:] == "600" and not pending.exists()
     with pytest.raises(gdrive.DriveNotConfigured, match="No sign-in in progress"):
         gdrive.complete_remote_authorization("4/0AbC")
+
+
+def test_account_pinning(tmp_path, monkeypatch):
+    import google_auth_oauthlib.flow as oauth_flow
+
+    from intelnet import gdrive
+    from intelnet.config import settings
+
+    class About:
+        def __init__(self, email):
+            self.email = email
+
+        def get(self, fields=None):
+            return _Call({"user": {"emailAddress": self.email}})
+
+    class Svc:
+        def __init__(self, email):
+            self._about = About(email)
+
+        def about(self):
+            return self._about
+
+    monkeypatch.setattr(settings, "gdrive_account", "")
+    assert gdrive.verify_account(Svc("someone@gmail.com")) == "someone@gmail.com"     # not pinned: anything goes
+    monkeypatch.setattr(settings, "gdrive_account", "ilintelligencenetwork@gmail.com")
+    assert gdrive.verify_account(Svc("ILIntelligenceNetwork@gmail.com")) == "ILIntelligenceNetwork@gmail.com"
+    with pytest.raises(gdrive.DriveWrongAccount) as exc:
+        gdrive.verify_account(Svc("david.j.ramsey@gmail.com"))
+    assert exc.value.actual == "david.j.ramsey@gmail.com" and "pick ilintelligencenetwork@gmail.com" in str(exc.value)
+    assert isinstance(exc.value, gdrive.DriveNotConfigured)                         # pipeline treats it as not configured
+
+    # sign-in links pre-select the pinned account
+    _oauth_paths(tmp_path, monkeypatch)
+    captured = {}
+
+    class Flow:
+        code_verifier = "v"
+
+        def authorization_url(self, **kw):
+            captured.update(kw)
+            return "https://accounts.google.com/o/oauth2/auth?x", "s"
+
+    monkeypatch.setattr(oauth_flow.InstalledAppFlow, "from_client_secrets_file",
+                        classmethod(lambda cls, path, scopes, **kw: Flow()))
+    gdrive.begin_remote_authorization()
+    assert captured["login_hint"] == "ilintelligencenetwork@gmail.com" and captured["prompt"] == "select_account consent"

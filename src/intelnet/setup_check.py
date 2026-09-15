@@ -90,6 +90,17 @@ def run_checks(*, online: bool = True) -> list[Check]:
                             "Google Cloud Console → OAuth client (Desktop) → secrets/gdrive_credentials.json"))
         checks.append(Check("drive: token", token.exists(), str(token) if token.exists() else "not authorized yet",
                             "run: uv run intelnet drive init  (browser consent once)"))
+        if token.exists() and online:
+            from intelnet.gdrive import DriveNotConfigured, DrivePublisher
+
+            expected = settings.gdrive_account.strip()
+            try:
+                acct = DrivePublisher().account()
+                checks.append(Check("drive: account", True, (acct or "unknown")
+                                    + ("" if expected else " — set GDRIVE_ACCOUNT to pin it")))
+            except DriveNotConfigured as exc:
+                checks.append(Check("drive: account", False, str(exc),
+                                    "uv run intelnet drive init --remote  (pick the service account)"))
         from intelnet.gdrive import KV_FOLDER, KV_LATEST
 
         folder = db.kv_get(KV_FOLDER)

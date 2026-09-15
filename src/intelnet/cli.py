@@ -140,7 +140,7 @@ def drive_init(remote: bool, code: str | None) -> None:
     `drive init --remote`, approve on the phone, then `drive init --code '<URL>'`.
     """
     from intelnet import gdrive
-    from intelnet.gdrive import DriveNotConfigured, publisher
+    from intelnet.gdrive import DriveNotConfigured, DriveWrongAccount, publisher
 
     db.init_db()
     try:
@@ -154,11 +154,18 @@ def drive_init(remote: bool, code: str | None) -> None:
             return
         if code:
             gdrive.complete_remote_authorization(code)
-            console.print("[green]✓[/green] Google Drive authorized")
         else:
             publisher.authorize()
+        console.print(f"[green]✓[/green] Google Drive authorized as {escape(publisher.account() or 'unknown')}")
         fid = publisher.ensure_folder()
         lid = publisher.ensure_latest_doc(fid)
+    except DriveWrongAccount as exc:
+        # Don't keep a token for the wrong account: the nightly run would only refuse it.
+        from pathlib import Path
+
+        Path(settings.gdrive_token_path).unlink(missing_ok=True)
+        console.print(f"[red]✗[/red] {escape(str(exc))}")
+        raise SystemExit(1) from exc
     except DriveNotConfigured as exc:
         console.print(f"[red]✗[/red] {escape(str(exc))}")
         raise SystemExit(1) from exc
