@@ -69,8 +69,10 @@ def run_checks(*, online: bool = True) -> list[Check]:
         me = telegram_get_me() if online else {"username": settings.telegram_bot_handle or "?"}
         if me:
             handle = me.get("username") or ""
-            hint = "" if settings.telegram_bot_handle else f"add TELEGRAM_BOT_HANDLE={handle} to .env (shown on the site)"
-            checks.append(Check("telegram bot", True, f"@{handle} ({me.get('first_name', '')})", hint))
+            detail = f"@{handle} ({me.get('first_name', '')})"
+            if not settings.telegram_bot_handle:
+                detail += f" — add TELEGRAM_BOT_HANDLE={handle} to .env so the site can link it"
+            checks.append(Check("telegram bot", True, detail))
         else:
             checks.append(Check("telegram bot", False, "token set but getMe failed",
                                 "re-check TELEGRAM_BOT_TOKEN (from @BotFather); no 'bot' prefix"))

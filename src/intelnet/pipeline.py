@@ -150,6 +150,10 @@ def notify_digest(force: bool = False) -> dict[str, Any]:
     row = db.latest_digest()
     if row is None:
         return {"sent": 0, "reason": "no digest"}
+    if not (row["drive_url"] or row["latest_url"]):
+        # A digest with nothing to open (Drive not authorized yet) — a ping
+        # without a link would just be noise.
+        return {"sent": 0, "reason": "no link (Drive not configured)", "date": row["date"]}
     if not force and not subscriptions_allowed_now():
         return {"sent": 0, "reason": "quiet hours", "date": row["date"]}
     sent = subscriptions.fanout_digest(row["date"], row["drive_url"] or row["latest_url"],

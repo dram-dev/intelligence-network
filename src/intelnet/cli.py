@@ -327,7 +327,7 @@ def setup(do_install: bool, offline: bool) -> None:
     for c in checks:
         glyph = "[green]✓[/green]" if c.ok else ("[dim]○[/dim]" if c.optional else "[red]✗[/red]")
         line = f"{glyph} {escape(c.name)}: {escape(c.detail)}"
-        if c.fix and not c.ok or (c.ok and c.fix):
+        if c.fix and not c.ok:
             line += f"\n    [dim]→ {escape(c.fix)}[/dim]"
         console.print(line)
     ok, total = setup_check.summary(checks)

@@ -91,6 +91,9 @@ def test_pipeline_waits_for_the_lock_and_gives_up_when_wedged(stubbed, monkeypat
 
 def test_notify_digest_respects_quiet_hours(fresh_db, sent, monkeypatch):
     assert pipeline.notify_digest()["reason"] == "no digest"
+    db.record_digest("2026-09-14", drive_file_id=None, drive_url=None, latest_url=None, folder_url=None,
+                     n_events=0, n_signals=0, n_sensors=0)
+    assert pipeline.notify_digest(force=True)["reason"].startswith("no link")     # Drive not set up: no ping
     db.record_digest("2026-09-15", drive_file_id="d", drive_url="https://docs.google.com/document/d/d/edit",
                      latest_url=None, folder_url=None, n_events=1, n_signals=2, n_sensors=1)
     db.add_subscription("5", "weather.digest", "il")
