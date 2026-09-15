@@ -155,7 +155,9 @@ def _warn_admin_drive(reason: str, date: str) -> None:
         return
     text = ("⚠️ <b>Today's digest wasn't uploaded to Google Drive</b>\n"
             f"{esc(reason)}\n"
-            "On the Mac mini: <code>cd ~/Projects/intelligence-network &amp;&amp; uv run intelnet drive init</code>")
+            "On the Mac mini: <code>cd ~/Projects/intelligence-network &amp;&amp; uv run intelnet drive init</code>\n"
+            "From your phone: run <code>uv run intelnet drive init --remote</code>, open the link, then "
+            "<code>drive init --code '&lt;URL&gt;'</code> with the address Google sends you to.")
     if bot.send_to(chat, text):
         db.record_notification(key, chat)
 
