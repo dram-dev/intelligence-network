@@ -1,0 +1,155 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "id": "0",
+   "type": "Feature",
+   "properties": {
+    "wfo": "DVN",
+    "type": "R",
+    "magf": 1.0,
+    "county": "Whiteside",
+    "typetext": "RAIN",
+    "state": "IL",
+    "remark": "Storm total rainfall so far.",
+    "city": "3 E Garden Plain",
+    "source": "Public",
+    "unit": "Inch",
+    "valid": "2026-09-09T10:56:00Z",
+    "lon": -90.08,
+    "lat": 41.81,
+    "qualifier": "M",
+    "product_id": "202609091106-KDVN-NWUS53-LSRDVN",
+    "st": "IL",
+    "magnitude": "1"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -90.08,
+     41.81
+    ]
+   }
+  },
+  {
+   "id": "1",
+   "type": "Feature",
+   "properties": {
+    "wfo": "DVN",
+    "type": "R",
+    "magf": 1.03,
+    "county": "Jo Daviess",
+    "typetext": "RAIN",
+    "state": "IL",
+    "remark": null,
+    "city": "Galena",
+    "source": "Public",
+    "unit": "Inch",
+    "valid": "2026-09-09T12:46:00Z",
+    "lon": -90.43,
+    "lat": 42.42,
+    "qualifier": "M",
+    "product_id": "202609091412-KDVN-NWUS53-LSRDVN",
+    "st": "IL",
+    "magnitude": "1.03"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -90.43,
+     42.42
+    ]
+   }
+  },
+  {
+   "id": "2",
+   "type": "Feature",
+   "properties": {
+    "wfo": "DVN",
+    "type": "R",
+    "magf": 1.18,
+    "county": "Henry",
+    "typetext": "RAIN",
+    "state": "IL",
+    "remark": null,
+    "city": "2 SE Warner",
+    "source": "Trained Spotter",
+    "unit": "Inch",
+    "valid": "2026-09-10T03:10:00Z",
+    "lon": -90.37,
+    "lat": 41.39,
+    "qualifier": "M",
+    "product_id": "202609100703-KDVN-NWUS53-LSRDVN",
+    "st": "IL",
+    "magnitude": "1.18"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -90.37,
+     41.39
+    ]
+   }
+  },
+  {
+   "id": "3",
+   "type": "Feature",
+   "properties": {
+    "wfo": "ILX",
+    "type": "T",
+    "magf": null,
+    "county": "Marshall",
+    "typetext": "TORNADO",
+    "state": "IL",
+    "remark": "Video evidence of a tornado in a farm field 2-3 miles southeast of Toluca. No damage was observed or reported.",
+    "city": "3 SE Toluca",
+    "source": "Public",
+    "unit": null,
+    "valid": "2026-09-10T20:35:00Z",
+    "lon": -89.09,
+    "lat": 40.97,
+    "qualifier": null,
+    "product_id": "202609111452-KILX-NWUS53-LSRILX",
+    "st": "IL",
+    "magnitude": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.09,
+     40.97
+    ]
+   }
+  },
+  {
+   "id": "4",
+   "type": "Feature",
+   "properties": {
+    "wfo": "LOT",
+    "type": "W",
+    "magf": null,
+    "county": "Will",
+    "typetext": "WATERSPOUT",
+    "state": "IL",
+    "remark": "Multiple photos and videos captured an inland waterspout occurring over the Braidwood Power Plant Cooling Pond. The waterspout lasted a few minutes and did not appear to move over land or cause any damage. The location of this waterspout is approximate.",
+    "city": "2 SE Godley",
+    "source": "Public",
+    "unit": null,
+    "valid": "2026-09-10T20:40:00Z",
+    "lon": -88.22,
+    "lat": 41.22,
+    "qualifier": null,
+    "product_id": "202609111757-KLOT-NWUS53-LSRLOT",
+    "st": "IL",
+    "magnitude": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -88.22,
+     41.22
+    ]
+   }
+  }
+ ]
+}

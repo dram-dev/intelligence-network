@@ -1,0 +1,59 @@
+name: CI
+
+# Test gate. digest-core is consumed as an editable path dependency from the
+# sibling pc-insurance-digest checkout (../pc-insurance-digest/packages/digest-core),
+# so the workflow checks both repos out side by side under the workspace.
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: tests (py3.12)
+    runs-on: ubuntu-latest
+    env:
+      LLM_ENABLED: "false"
+      GDRIVE_ENABLED: "false"
+      NOTIFY_ENABLED: "false"
+      GEO_ONLINE_LOOKUP: "false"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: intelligence-network
+
+      - name: Checkout digest-core (pc-insurance-digest)
+        uses: actions/checkout@v4
+        with:
+          repository: dram-dev/pc-insurance-digest
+          path: pc-insurance-digest
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Sync dependencies
+        working-directory: intelligence-network
+        run: uv sync --frozen
+
+      - name: Run test suite
+        working-directory: intelligence-network
+        run: uv run --no-sync pytest
+
+  lint:
+    name: ruff
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ruff lint
+        run: uvx ruff@0.15.0 check .

@@ -1,0 +1,266 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3a1d6564b326cb8601ff3cdb2671a17dce3f7033.002.1",
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3a1d6564b326cb8601ff3cdb2671a17dce3f7033.002.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.3a1d6564b326cb8601ff3cdb2671a17dce3f7033.002.1",
+    "areaDesc": "Jefferson; Wayne; Edwards; Wabash; Perry; Franklin; Hamilton; White; Jackson; Williamson; Saline; Gallatin; Union; Johnson; Pope; Hardin; Alexander; Pulaski; Massac; Gibson; Pike; Posey; Vanderburgh; Warrick; Spencer; Ballard; McCracken; Livingston; Marshall; Calloway; Crittenden; Lyon; Trigg; Caldwell; Union; Webster; Hopkins; Christian; Henderson; Daviess; McLean; Muhlenberg; Todd; Perry; Bollinger; Cape Girardeau; Wayne",
+    "geocode": {
+     "SAME": [
+      "017081",
+      "017191",
+      "017047",
+      "017185",
+      "017145",
+      "017055",
+      "017065",
+      "017193",
+      "017077",
+      "017199",
+      "017165",
+      "017059",
+      "017181",
+      "017087",
+      "017151",
+      "017069",
+      "017003",
+      "017153",
+      "017127",
+      "018051",
+      "018125",
+      "018129",
+      "018163",
+      "018173",
+      "018147",
+      "021007",
+      "021145",
+      "021139",
+      "021157",
+      "021035",
+      "021055",
+      "021143",
+      "021221",
+      "021033",
+      "021225",
+      "021233",
+      "021107",
+      "021047",
+      "021101",
+      "021059",
+      "021149",
+      "021177",
+      "021219",
+      "029157",
+      "029017",
+      "029031",
+      "029223"
+     ],
+     "UGC": [
+      "ILZ075",
+      "ILZ076",
+      "ILZ077",
+      "ILZ078",
+      "ILZ080",
+      "ILZ081",
+      "ILZ082",
+      "ILZ083",
+      "ILZ084",
+      "ILZ085",
+      "ILZ086",
+      "ILZ087",
+      "ILZ088",
+      "ILZ089",
+      "ILZ090",
+      "ILZ091",
+      "ILZ092",
+      "ILZ093",
+      "ILZ094",
+      "INZ081",
+      "INZ082",
+      "INZ085",
+      "INZ086",
+      "INZ087",
+      "INZ088",
+      "KYZ004",
+      "KYZ005",
+      "KYZ007",
+      "KYZ008",
+      "KYZ009",
+      "KYZ010",
+      "KYZ011",
+      "KYZ012",
+      "KYZ013",
+      "KYZ014",
+      "KYZ015",
+      "KYZ016",
+      "KYZ017",
+      "KYZ018",
+      "KYZ019",
+      "KYZ020",
+      "KYZ021",
+      "KYZ022",
+      "MOZ076",
+      "MOZ086",
+      "MOZ087",
+      "MOZ100"
+     ]
+    },
+    "references": [
+     {
+      "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.7918d836a9aa2064485ea23c41052f887d0ad3d1.002.1",
+      "identifier": "urn:oid:2.49.0.1.840.0.7918d836a9aa2064485ea23c41052f887d0ad3d1.002.1",
+      "sender": "w-nws.webmaster@noaa.gov",
+      "sent": "2026-09-14T11:22:00-05:00"
+     }
+    ],
+    "sent": "2026-09-14T22:23:00-05:00",
+    "effective": "2026-09-14T22:23:00-05:00",
+    "onset": "2026-09-15T11:00:00-05:00",
+    "expires": "2026-09-15T17:00:00-05:00",
+    "ends": "2026-09-16T19:00:00-05:00",
+    "status": "Actual",
+    "messageType": "Update",
+    "category": "Met",
+    "severity": "Moderate",
+    "certainty": "Likely",
+    "urgency": "Expected",
+    "event": "Heat Advisory",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Paducah KY",
+    "headline": "Heat Advisory issued September 14 at 10:23PM CDT until September 16 at 7:00PM CDT by NWS Paducah KY",
+    "description": "* WHAT...Daily peak heat index values around 105 degrees.\n\n* WHERE...Portions of southern Illinois, southwest Indiana, western\nKentucky, and southeast Missouri.\n\n* WHEN...From 11 AM CDT /noon EDT/ Tuesday to 7 PM CDT /8 PM EDT/\nWednesday.\n\n* IMPACTS...Hot temperatures and high humidity may cause hea",
+    "instruction": "Drink plenty of fluids, stay in an air-conditioned room, stay out of\nthe sun, and check up on relatives and neighbors.\n\nTake extra precautions when outside. Wear lightweight and loose\nfitting clothing. Try to limit strenuous activities to early morning\nor evening. Take action when you see symptoms of heat exhaustion and\nheat stroke.",
+    "response": "Execute",
+    "note": null,
+    "parameters": {
+     "AWIPSidentifier": [
+      "NPWPAH"
+     ],
+     "WMOidentifier": [
+      "WWUS73 KPAH 150323"
+     ],
+     "NWSheadline": [
+      "HEAT ADVISORY REMAINS IN EFFECT FROM 11 AM CDT /NOON EDT/ TUESDAY TO 7 PM CDT /8 PM EDT/ WEDNESDAY"
+     ],
+     "BLOCKCHANNEL": [
+      "EAS",
+      "NWEM",
+      "CMAS"
+     ],
+     "VTEC": [
+      "/O.CON.KPAH.HT.Y.0013.260915T1600Z-260917T0000Z/"
+     ],
+     "eventEndingTime": [
+      "2026-09-16T19:00:00-05:00"
+     ],
+     "expiredReferences": [
+      "w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.ee0b5bd142ee04c3f854f5de32e0d1151b7aa8fd.003.1,2026-09-13T23:06:00-05:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.2b7855cad0ae4492dd436e83550522da108f557a.002.1,2026-09-13T11:12:00-05:00"
+     ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+     "SAME": [
+      "NWS"
+     ],
+     "NationalWeatherService": [
+      "HTY"
+     ]
+    }
+   }
+  },
+  {
+   "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.607912bcc3c46d6445b773f06c6c129688ea02b4.002.1",
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.607912bcc3c46d6445b773f06c6c129688ea02b4.002.1",
+    "@type": "wx:Alert",
+    "id": "urn:oid:2.49.0.1.840.0.607912bcc3c46d6445b773f06c6c129688ea02b4.002.1",
+    "areaDesc": "Lake; Northern Cook",
+    "geocode": {
+     "SAME": [
+      "017097",
+      "017031"
+     ],
+     "UGC": [
+      "ILZ006",
+      "ILZ103"
+     ]
+    },
+    "references": [
+     {
+      "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.651f59214a614d583d3a44e4f3360314e6d73f16.001.1",
+      "identifier": "urn:oid:2.49.0.1.840.0.651f59214a614d583d3a44e4f3360314e6d73f16.001.1",
+      "sender": "w-nws.webmaster@noaa.gov",
+      "sent": "2026-09-14T13:43:00-05:00"
+     }
+    ],
+    "sent": "2026-09-14T21:22:00-05:00",
+    "effective": "2026-09-14T21:22:00-05:00",
+    "onset": "2026-09-14T21:22:00-05:00",
+    "expires": "2026-09-15T05:30:00-05:00",
+    "ends": "2026-09-15T07:00:00-05:00",
+    "status": "Actual",
+    "messageType": "Update",
+    "category": "Met",
+    "severity": "Moderate",
+    "certainty": "Likely",
+    "urgency": "Expected",
+    "event": "Beach Hazards Statement",
+    "sender": "w-nws.webmaster@noaa.gov",
+    "senderName": "NWS Chicago IL",
+    "headline": "Beach Hazards Statement issued September 14 at 9:22PM CDT until September 15 at 7:00AM CDT by NWS Chicago IL",
+    "description": "* WHAT...High wave action and dangerous currents expected at Lake\nMichigan beaches. Waves 5 to 8 feet expected.\n\n* WHERE...Lake IL and Northern Cook Counties.\n\n* WHEN...Until 7 AM CDT Tuesday.\n\n* IMPACTS...Swimming conditions will be life threatening,\nespecially for inexperienced swimmers.",
+    "instruction": "Remain out of the water to avoid dangerous swimming conditions\nand do not venture out onto piers, jetties, breakwalls, or other\nshoreline structures.",
+    "response": "Avoid",
+    "note": null,
+    "parameters": {
+     "AWIPSidentifier": [
+      "CFWLOT"
+     ],
+     "WMOidentifier": [
+      "WHUS43 KLOT 150222"
+     ],
+     "NWSheadline": [
+      "BEACH HAZARDS STATEMENT REMAINS IN EFFECT UNTIL 7 AM CDT TUESDAY"
+     ],
+     "BLOCKCHANNEL": [
+      "EAS",
+      "NWEM",
+      "CMAS"
+     ],
+     "VTEC": [
+      "/O.CON.KLOT.BH.S.0014.000000T0000Z-260915T1200Z/"
+     ],
+     "eventEndingTime": [
+      "2026-09-15T07:00:00-05:00"
+     ],
+     "expiredReferences": [
+      "w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.2c963174e0c5631e4fb99b1fce50334ef0e87902.001.1,2026-09-14T11:06:00-05:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.9711c70474ffdab4f0def9c3e3743238679804f9.001.1,2026-09-14T09:33:00-05:00 w-nws.webmaster@noaa.gov,urn:oid:2.49.0.1.840.0.21855122174f87698904123f2bf8b271bb97c9eb.002.1,2026-09-14T03:08:00-05:00"
+     ]
+    },
+    "scope": "Public",
+    "code": "IPAWSv1.0",
+    "language": "en-US",
+    "web": "http://www.weather.gov",
+    "eventCode": {
+     "SAME": [
+      "NWS"
+     ],
+     "NationalWeatherService": [
+      "BHS"
+     ]
+    }
+   }
+  }
+ ],
+ "title": "Current watches, warnings, and advisories for Illinois"
+}

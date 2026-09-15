@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.dr.intelnet.bot</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>__UV_PATH__</string>
+        <string>run</string>
+        <string>intelnet</string>
+        <string>bot</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>__PROJECT_PATH__</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/Users/dramsey/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/bin</string>
+        <key>HOME</key>
+        <string>/Users/dramsey</string>
+    </dict>
+
+    <!-- Long-poll listener: restarted on crash, NOT after a clean exit
+         (`intelnet bot` exits 0 when Telegram isn't configured). -->
+    <key>KeepAlive</key>
+    <dict>
+        <key>SuccessfulExit</key>
+        <false/>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>__PROJECT_PATH__/logs/bot.out.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>__PROJECT_PATH__/logs/bot.err.log</string>
+
+    <key>ThrottleInterval</key>
+    <integer>30</integer>
+</dict>
+</plist>

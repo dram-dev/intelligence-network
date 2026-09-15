@@ -1,0 +1,24 @@
+# Reading-list feeds for the daily digest (the "classic curated" half).
+# Each entry: url, name, optional topic_hint + limit. Google News RSS search
+# proxies keep this keyless. Illinois-scoped on purpose — the network's ground.
+feeds:
+  - name: Google News · Illinois severe weather
+    url: "https://news.google.com/rss/search?q=Illinois+(tornado+OR+%22severe+weather%22+OR+%22flash+flood%22+OR+hail+OR+%22damaging+winds%22+OR+derecho)+when:2d&hl=en-US&gl=US&ceid=US:en"
+    topic_hint: weather
+    limit: 25
+  - name: Google News · Chicago weather
+    url: "https://news.google.com/rss/search?q=Chicago+weather+(storm+OR+flooding+OR+snow+OR+heat+OR+%22lake+effect%22)+when:2d&hl=en-US&gl=US&ceid=US:en"
+    topic_hint: weather
+    limit: 15
+  - name: Google News · Illinois winter + flooding
+    url: "https://news.google.com/rss/search?q=Illinois+(%22winter+storm%22+OR+blizzard+OR+%22ice+storm%22+OR+%22river+flooding%22+OR+%22flood+warning%22)+when:2d&hl=en-US&gl=US&ceid=US:en"
+    topic_hint: weather
+    limit: 15
+  - name: NWS Chicago (LOT) news
+    url: "https://www.weather.gov/rss_page.php?site_name=lot"
+    topic_hint: weather
+    limit: 10
+  - name: NWS Lincoln (ILX) news
+    url: "https://www.weather.gov/rss_page.php?site_name=ilx"
+    topic_hint: weather
+    limit: 10

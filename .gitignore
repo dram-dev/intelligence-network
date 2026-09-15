@@ -1,0 +1,44 @@
+# Environment
+.env
+.venv/
+venv/
+
+# Secrets (but keep the README)
+secrets/*
+!secrets/README.md
+*.json
+!config/*.json
+!tests/fixtures/*.json
+
+# Data
+data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Logs
+logs/
+
+# Claude Code session cruft (keep durable project assets)
+.claude/*
+!.claude/commands/
+!.claude/agents/
+!.claude/skills/
+
+# OS
+.DS_Store
+Thumbs.db

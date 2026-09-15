@@ -1,0 +1,296 @@
+# Topic pack: weather — the first topic on the network.
+#
+# A topic pack IS the common data language for one subject: the metrics a
+# sensor can report, the aliases and units people actually type, the sanity
+# ranges, how nearby reports are judged to agree, when a reading becomes an
+# event, and which subscription categories the topic exposes. Drop another
+# file in this directory (air quality, river gauges, road conditions, …) and
+# the parser, corroboration engine, subscriptions and digest pick it up
+# unchanged — nothing here is weather-specific in code.
+#
+# Field reference (metric):
+#   label            display name
+#   unit             canonical unit every value is stored in
+#   kind             numeric (default) | flag (0/1 presence report)
+#   aliases          words the parser accepts for this metric
+#   units            {typed unit: factor} or {typed unit: {expr: ...}} to canonical
+#   words            named sizes/levels → canonical value (hail: "quarter" → 25 mm)
+#   range            [min, max] sanity bounds; outside → rejected
+#   tolerance        how far two nearby readings may differ and still agree
+#                    (abs: absolute in canonical units; rel: fraction of the max)
+#   radius_km        two readings within this distance are "nearby"
+#   window_min       …and within this many minutes of each other
+#   event            [[threshold, severity 0–1], …] — crossing the first row
+#                    opens/attaches an event; severity feeds the event score
+#   default_unit     unit assumed when a bare number is typed (US contributors
+#                    type inches / mph / °F, so those are the defaults)
+#   display_unit     {unit, expr} for the human-facing echo (in, mph, °F)
+
+topic: weather
+label: Weather
+description: Ground-truth weather observations and official hazard products.
+
+categories:
+  warnings: NWS warnings (Severe/Extreme alerts) for your area — tornado, severe thunderstorm, flash flood…
+  alerts:   Every NWS alert for your area (watches, advisories, statements)
+  events:   Network-detected events — corroborated readings that crossed a threshold near you
+  reports:  Every accepted contribution near you (raw, unfiltered)
+  digest:   The daily digest (Google Doc link) when it is published
+
+# NWS alert severity → subscription categories that receive it.
+alert_routing:
+  Extreme:  [warnings, alerts]
+  Severe:   [warnings, alerts]
+  Moderate: [alerts]
+  Minor:    [alerts]
+  Unknown:  [alerts]
+
+metrics:
+  temp_c:
+    label: Temperature
+    unit: degC
+    aliases: [temp, temperature, t, air temp]
+    units: {c: 1, "°c": 1, degc: 1, f: {expr: "(x - 32) * 5 / 9"}, "°f": {expr: "(x - 32) * 5 / 9"}, degf: {expr: "(x - 32) * 5 / 9"}, degrees: {expr: "(x - 32) * 5 / 9"}, deg: {expr: "(x - 32) * 5 / 9"}}
+    default_unit: f
+    range: [-45, 55]
+    tolerance: {abs: 3.0}
+    radius_km: 20
+    window_min: 60
+    display_unit: {unit: "°F", expr: "x * 9 / 5 + 32"}
+    event: [[40, 0.5], [43, 0.8]]
+
+  dewpoint_c:
+    label: Dew point
+    unit: degC
+    aliases: [dewpoint, dew point, dp, dew]
+    units: {c: 1, "°c": 1, f: {expr: "(x - 32) * 5 / 9"}, "°f": {expr: "(x - 32) * 5 / 9"}, degrees: {expr: "(x - 32) * 5 / 9"}, deg: {expr: "(x - 32) * 5 / 9"}}
+    default_unit: f
+    range: [-45, 35]
+    tolerance: {abs: 3.0}
+    radius_km: 20
+    window_min: 60
+    display_unit: {unit: "°F", expr: "x * 9 / 5 + 32"}
+
+  humidity_pct:
+    label: Relative humidity
+    unit: pct
+    aliases: [humidity, rh, relative humidity]
+    units: {"%": 1, pct: 1, percent: 1}
+    default_unit: "%"
+    range: [0, 100]
+    tolerance: {abs: 15}
+    radius_km: 20
+    window_min: 60
+
+  pressure_hpa:
+    label: Pressure
+    unit: hPa
+    aliases: [pressure, baro, barometer, mslp, slp]
+    units: {hpa: 1, mb: 1, mbar: 1, inhg: 33.8639, "in": 33.8639, pa: 0.01}
+    default_unit: inhg
+    range: [900, 1100]
+    tolerance: {abs: 4}
+    radius_km: 40
+    window_min: 60
+    display_unit: {unit: inHg, expr: "x / 33.8639"}
+
+  wind_ms:
+    label: Sustained wind
+    unit: m/s
+    aliases: [wind, wind speed, sustained, sustained wind]
+    units: {ms: 1, "m/s": 1, mps: 1, mph: 0.44704, kt: 0.514444, kts: 0.514444, knots: 0.514444, kmh: 0.277778, "km/h": 0.277778}
+    default_unit: mph
+    range: [0, 90]
+    tolerance: {rel: 0.35, abs: 3}
+    radius_km: 20
+    window_min: 60
+    display_unit: {unit: mph, expr: "x / 0.44704"}
+    event: [[18, 0.4], [26, 0.7]]
+
+  wind_gust_ms:
+    label: Wind gust
+    unit: m/s
+    aliases: [gust, gusts, wind gust, wind gusts, gusting, peak gust]
+    units: {ms: 1, "m/s": 1, mps: 1, mph: 0.44704, kt: 0.514444, kts: 0.514444, knots: 0.514444, kmh: 0.277778, "km/h": 0.277778}
+    default_unit: mph
+    range: [0, 120]
+    tolerance: {rel: 0.35, abs: 4}
+    radius_km: 25
+    window_min: 90
+    display_unit: {unit: mph, expr: "x / 0.44704"}
+    # 58 mph is the NWS severe-thunderstorm wind criterion; 74 mph hurricane force.
+    event: [[26, 0.5], [33, 0.8], [40, 1.0]]
+
+  rain_mm:
+    label: Rainfall
+    unit: mm
+    aliases: [rain, rainfall, precip, precipitation, rain total, storm total]
+    units: {mm: 1, "in": 25.4, inch: 25.4, inches: 25.4, cm: 10}
+    default_unit: "in"
+    range: [0, 600]
+    tolerance: {rel: 0.4, abs: 6}
+    radius_km: 15
+    window_min: 180
+    display_unit: {unit: "in", expr: "x / 25.4"}
+    event: [[25, 0.4], [50, 0.7], [100, 1.0]]
+
+  snow_cm:
+    label: Snowfall
+    unit: cm
+    aliases: [snow, snowfall, snow total, snow depth]
+    units: {cm: 1, "in": 2.54, inch: 2.54, inches: 2.54, mm: 0.1}
+    default_unit: "in"
+    range: [0, 150]
+    tolerance: {rel: 0.4, abs: 3}
+    radius_km: 20
+    window_min: 360
+    display_unit: {unit: "in", expr: "x / 2.54"}
+    event: [[15, 0.4], [30, 0.8]]
+
+  hail_mm:
+    label: Hail size
+    unit: mm
+    aliases: [hail, hailstones, hail size]
+    units: {mm: 1, "in": 25.4, inch: 25.4, inches: 25.4, cm: 10}
+    # NWS hail size chart (diameter). Words beat numbers for most people.
+    words:
+      pea: 6
+      marble: 13
+      mothball: 13
+      dime: 18
+      penny: 19
+      nickel: 22
+      quarter: 25
+      half dollar: 32
+      ping pong: 38
+      ping-pong: 38
+      walnut: 38
+      golf ball: 44
+      golfball: 44
+      golf-ball: 44
+      hen egg: 51
+      egg: 51
+      tennis ball: 64
+      baseball: 70
+      tea cup: 76
+      teacup: 76
+      grapefruit: 100
+      softball: 114
+    default_unit: "in"
+    range: [0, 200]
+    tolerance: {rel: 0.5, abs: 10}
+    radius_km: 25
+    window_min: 90
+    display_unit: {unit: "in", expr: "x / 25.4"}
+    # 1 in (quarter) is the NWS severe criterion.
+    event: [[25, 0.5], [44, 0.8], [70, 1.0]]
+
+  visibility_km:
+    label: Visibility
+    unit: km
+    aliases: [visibility, vis, vsby]
+    units: {km: 1, mi: 1.609344, mile: 1.609344, miles: 1.609344, m: 0.001}
+    default_unit: mi
+    range: [0, 100]
+    tolerance: {rel: 0.5, abs: 1}
+    radius_km: 20
+    window_min: 60
+    display_unit: {unit: mi, expr: "x / 1.609344"}
+    # low visibility: fog / blowing snow / dust
+    event: [[0.4, 0.4]]
+    event_direction: below
+
+  # ── flags: presence reports ("tornado on the ground", "street flooding") ──
+  tornado:
+    label: Tornado
+    kind: flag
+    aliases: [tornado, twister, tornado on the ground]
+    radius_km: 30
+    window_min: 90
+    event: [[1, 1.0]]
+
+  funnel_cloud:
+    label: Funnel cloud
+    kind: flag
+    aliases: [funnel, funnel cloud, wall cloud, rotation]
+    radius_km: 30
+    window_min: 90
+    event: [[1, 0.5]]
+
+  flooding:
+    label: Flooding
+    kind: flag
+    aliases: [flood, flooding, flash flood, street flooding, water over road, high water]
+    radius_km: 15
+    window_min: 180
+    event: [[1, 0.7]]
+
+  wind_damage:
+    label: Wind damage
+    kind: flag
+    aliases: [wind damage, tree down, trees down, power lines down, roof damage, damage]
+    radius_km: 20
+    window_min: 180
+    event: [[1, 0.6]]
+
+  power_outage:
+    label: Power outage
+    kind: flag
+    aliases: [outage, power outage, power out, no power, blackout]
+    radius_km: 15
+    window_min: 240
+    event: [[1, 0.4]]
+
+  lightning:
+    label: Lightning
+    kind: flag
+    aliases: [lightning, thunder]
+    radius_km: 20
+    window_min: 60
+
+# Which active NWS alerts count as official support for a human report of a
+# metric (a tornado report under a Tornado Warning is reference-corroborated).
+alert_support:
+  tornado:       [tornado_warning]
+  funnel_cloud:  [tornado_warning, severe_thunderstorm_warning, tornado_watch]
+  hail_mm:       [severe_thunderstorm_warning]
+  wind_gust_ms:  [severe_thunderstorm_warning, high_wind_warning, wind_advisory]
+  wind_damage:   [severe_thunderstorm_warning, high_wind_warning]
+  flooding:      [flash_flood_warning, flood_warning, flood_advisory]
+  rain_mm:       [flash_flood_warning, flood_warning, flood_advisory, flood_watch]
+  snow_cm:       [winter_storm_warning, winter_weather_advisory, blizzard_warning]
+  visibility_km: [dense_fog_advisory, blizzard_warning]
+  power_outage:  [severe_thunderstorm_warning, high_wind_warning, ice_storm_warning]
+
+# ── Official product mappings ─────────────────────────────────────────────
+# IEM Local Storm Report types → metric (+ unit the magnitude is reported in).
+lsr_types:
+  HAIL:              {metric: hail_mm, unit: "in"}
+  TSTM WND GST:      {metric: wind_gust_ms, unit: mph}
+  NON-TSTM WND GST:  {metric: wind_gust_ms, unit: mph}
+  MARINE TSTM WIND:  {metric: wind_gust_ms, unit: mph}
+  TSTM WND DMG:      {metric: wind_damage}
+  NON-TSTM WND DMG:  {metric: wind_damage}
+  RAIN:              {metric: rain_mm, unit: "in"}
+  HEAVY RAIN:        {metric: rain_mm, unit: "in"}
+  SNOW:              {metric: snow_cm, unit: "in"}
+  HEAVY SNOW:        {metric: snow_cm, unit: "in"}
+  FLASH FLOOD:       {metric: flooding}
+  FLOOD:             {metric: flooding}
+  TORNADO:           {metric: tornado}
+  FUNNEL CLOUD:      {metric: funnel_cloud}
+  LANDSPOUT:         {metric: funnel_cloud}
+  WATERSPOUT:        {metric: funnel_cloud}
+  LIGHTNING:         {metric: lightning}
+  DENSE FOG:         {metric: visibility_km, unit: mi}
+
+# IEM ASOS "currents" columns → metric (+ the column's unit).
+station_fields:
+  tmpf:  {metric: temp_c, unit: f}
+  dwpf:  {metric: dewpoint_c, unit: f}
+  relh:  {metric: humidity_pct, unit: "%"}
+  sknt:  {metric: wind_ms, unit: kt}
+  gust:  {metric: wind_gust_ms, unit: kt}
+  phour: {metric: rain_mm, unit: "in"}
+  alti:  {metric: pressure_hpa, unit: inhg}
+  vsby:  {metric: visibility_km, unit: mi}
