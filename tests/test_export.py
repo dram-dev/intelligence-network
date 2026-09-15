@@ -66,3 +66,17 @@ def test_policy_pages_are_filled_in(fresh_db, tmp_path: Path, monkeypatch):
     assert "Limited Use" in privacy and "drive.file" in privacy and "/forget confirm" in privacy
     assert "Not an official warning service" in (tmp_path / "terms.html").read_text(encoding="utf-8")
     assert snap["site_url"] == "https://dram-dev.github.io/intelligence-network/"
+
+
+def test_drive_links_hidden_while_drive_is_off(fresh_db, monkeypatch):
+    from intelnet.config import settings
+
+    db.record_digest("2026-09-15", drive_file_id="d", drive_url="https://docs.google.com/document/d/d/edit",
+                     latest_url="https://docs.google.com/document/d/l/edit",
+                     folder_url="https://drive.google.com/drive/folders/f", n_events=0, n_signals=0, n_sensors=0)
+    off = export.snapshot(days=1)
+    assert off["links"] == {"folder": None, "latest": None, "digest": None}
+    assert off["digests"][0]["date"] == "2026-09-15" and off["digests"][0]["drive_url"] is None
+    monkeypatch.setattr(settings, "gdrive_enabled", True)
+    on = export.snapshot(days=1)
+    assert on["links"]["latest"].endswith("/l/edit") and on["digests"][0]["drive_url"].endswith("/d/edit")

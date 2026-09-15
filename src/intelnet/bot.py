@@ -243,6 +243,9 @@ def cmd_alerts(message: dict, sensor: Sensor | None, args: str) -> str:
 
 
 def cmd_latest(message: dict, sensor: Sensor | None, args: str) -> str:
+    if not settings.gdrive_enabled:
+        return ("📰 The digest's Google Drive home is offline for now. The network is still collecting "
+                "readings and sending alerts; digest links will be back here when it returns.")
     row = db.latest_digest()
     if row is None:
         return "No digest published yet — the first one lands after tonight's run."

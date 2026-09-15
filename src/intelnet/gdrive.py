@@ -97,6 +97,13 @@ def _get_credentials(interactive: bool = False):
         try:
             creds.refresh(Request())
         except RefreshError as exc:
+            detail = str(exc).lower()
+            if "disabled_client" in detail or "account" in detail and ("disabled" in detail or "deleted" in detail):
+                # Re-authorizing can't fix this: Google shut the client or the account down.
+                raise DriveNotConfigured(
+                    "Google has disabled this app's OAuth client or its Google account — restore the "
+                    "account (or set up a new client) before Drive publishing can resume"
+                ) from exc
             if not interactive:
                 raise DriveNotConfigured(
                     "Google authorization expired or was revoked — run `uv run intelnet drive init`"

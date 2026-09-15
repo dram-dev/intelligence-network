@@ -122,6 +122,10 @@ def test_pipeline_waits_for_the_lock_and_gives_up_when_wedged(stubbed, monkeypat
 
 
 def test_notify_digest_respects_quiet_hours(fresh_db, sent, monkeypatch):
+    from intelnet.config import settings
+
+    assert pipeline.notify_digest()["reason"].startswith("Drive publishing is off")
+    monkeypatch.setattr(settings, "gdrive_enabled", True)
     assert pipeline.notify_digest()["reason"] == "no digest"
     db.record_digest("2026-09-14", drive_file_id=None, drive_url=None, latest_url=None, folder_url=None,
                      n_events=0, n_signals=0, n_sensors=0)

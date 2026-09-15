@@ -174,6 +174,8 @@ def run(run_type: str = "daily", skip_publish: bool = False, console: Any = None
 
 def notify_digest(force: bool = False) -> dict[str, Any]:
     """Telegram ping for the latest digest (quiet-hours aware unless forced)."""
+    if not settings.gdrive_enabled:
+        return {"sent": 0, "reason": "Drive publishing is off (GDRIVE_ENABLED=false)"}
     row = db.latest_digest()
     if row is None:
         return {"sent": 0, "reason": "no digest"}

@@ -308,3 +308,23 @@ def test_account_pinning(tmp_path, monkeypatch):
                         classmethod(lambda cls, path, scopes, **kw: Flow()))
     gdrive.begin_remote_authorization()
     assert captured["login_hint"] == "ilintelligencenetwork@gmail.com" and captured["prompt"] == "select_account consent"
+
+
+def test_disabled_client_is_reported_as_such(tmp_path, monkeypatch):
+    from google.auth.exceptions import RefreshError
+    from google.oauth2 import credentials as gcreds
+
+    from intelnet import gdrive
+
+    _, token = _oauth_paths(tmp_path, monkeypatch)
+    token.write_text('{"token": "a", "refresh_token": "r", "client_id": "c", "client_secret": "s", '
+                     '"token_uri": "https://oauth2.googleapis.com/token", "expiry": "2020-01-01T00:00:00Z"}')
+
+    def _disabled(self, request):
+        raise RefreshError("disabled_client: The OAuth client was disabled.",
+                           {"error": "disabled_client", "error_description": "The OAuth client was disabled."})
+
+    monkeypatch.setattr(gcreds.Credentials, "refresh", _disabled)
+    for interactive in (False, True):
+        with pytest.raises(gdrive.DriveNotConfigured, match="has disabled this app"):
+            gdrive._get_credentials(interactive=interactive)

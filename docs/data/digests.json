@@ -1,9 +1,9 @@
 [
  {
   "date": "2026-09-15",
-  "drive_url": "https://docs.google.com/document/d/1A8KtPVdx6I-NMsAiVHEPCPwYbdFhflNmb8M0nixMzH0/edit",
-  "latest_url": "https://docs.google.com/document/d/1pU_qedEUjRd5C6kZpRF3w-_njpS6_zsmQIqwBUvN0kw/edit",
-  "folder_url": "https://drive.google.com/drive/folders/10LXhVLmbA6xekUOXLUgVO_JFM9BjCw6d",
+  "drive_url": null,
+  "latest_url": null,
+  "folder_url": null,
   "n_events": 0,
   "n_signals": 0,
   "n_sensors": 0

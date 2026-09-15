@@ -95,11 +95,18 @@ def test_near_alerts_latest_network(fresh_db):
     assert "Rainfall" in r and "last 6h" in r
     assert "No active NWS alerts for Sangamon County" in bot.handle_message(msg("/alerts"))
     assert "No active NWS alerts for Cook County" in bot.handle_message(msg("/alerts cook"))
-    assert "No digest published yet" in bot.handle_message(msg("/latest"))
-    db.record_digest("2026-09-15", drive_file_id="d", drive_url="https://docs.google.com/document/d/d/edit",
-                     latest_url="https://docs.google.com/document/d/l/edit",
-                     folder_url="https://drive.google.com/drive/folders/f", n_events=0, n_signals=0, n_sensors=0)
-    r = bot.handle_message(msg("/latest"))
+    from intelnet.config import settings
+
+    assert "offline" in bot.handle_message(msg("/latest"))              # Drive off (tests) → no dead links
+    settings.gdrive_enabled = True
+    try:
+        assert "No digest published yet" in bot.handle_message(msg("/latest"))
+        db.record_digest("2026-09-15", drive_file_id="d", drive_url="https://docs.google.com/document/d/d/edit",
+                         latest_url="https://docs.google.com/document/d/l/edit",
+                         folder_url="https://drive.google.com/drive/folders/f", n_events=0, n_signals=0, n_sensors=0)
+        r = bot.handle_message(msg("/latest"))
+    finally:
+        settings.gdrive_enabled = False
     assert "2026-09-15" in r and "docs.google.com/document/d/d" in r
     assert "Sensors: 1 joined" in bot.handle_message(msg("/network"))
 

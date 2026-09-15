@@ -233,8 +233,12 @@ def _leaderboard(days: int) -> list[dict[str, Any]]:
 def _digests() -> list[dict[str, Any]]:
     with db.get_conn() as conn:
         rows = conn.execute("SELECT * FROM digests ORDER BY date DESC LIMIT 60").fetchall()
-    return [{k: r[k] for k in ("date", "drive_url", "latest_url", "folder_url", "n_events", "n_signals",
-                               "n_sensors")} for r in rows]
+    out = [{k: r[k] for k in ("date", "drive_url", "latest_url", "folder_url", "n_events", "n_signals",
+                              "n_sensors")} for r in rows]
+    if not settings.gdrive_enabled:           # Drive offline: never publish links that won't open
+        for d in out:
+            d["drive_url"] = d["latest_url"] = d["folder_url"] = None
+    return out
 
 
 def _sources() -> list[dict[str, Any]]:
@@ -258,9 +262,8 @@ def snapshot(days: int = 14, *, sample: bool = False) -> dict[str, Any]:
         "github_repo": settings.github_repo,
         "site_url": settings.public_site_url,
         "contact_email": settings.network_contact_email,
-        "links": {"folder": latest["folder_url"] if latest else None,
-                  "latest": latest["latest_url"] if latest else None,
-                  "digest": latest["drive_url"] if latest else None},
+        "links": ({"folder": latest["folder_url"], "latest": latest["latest_url"], "digest": latest["drive_url"]}
+                  if latest and settings.gdrive_enabled else {"folder": None, "latest": None, "digest": None}),
         "vitals": db.vitals(),
         "subscriptions": db.subscription_counts(),
         "topics": _topics_doc(),
