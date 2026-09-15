@@ -1,0 +1,52 @@
+"""Public snapshot + site build: anonymised, complete, and the page inlines it."""
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+from intelnet import db, demo, export
+
+
+def test_snapshot_is_public_by_construction(fresh_db):
+    out = demo.seed(days=5)
+    assert out["sensors"] == 36 and out["signals"] > 100
+    snap = export.snapshot(days=5, sample=True)
+    assert snap["sample"] and snap["state"] == "IL" and snap["vitals"]["sensors_total"] == 36
+    assert len(snap["counties"]) == 102 and sum(c["human"] for c in snap["counties"]) > 0
+    assert len(snap["activity"]) == 5 and set(snap["activity"][0]) >= {"date", "weather", "soil", "reference", "alerts"}
+    assert {t["name"] for t in snap["topics"]} == {"weather", "soil", "water", "agriculture", "air"}
+    assert snap["sources"] and all("url" in s for s in snap["sources"])
+    # no identity leaks: handles only, no names / ZIP+4 / coordinates for humans
+    text = json.dumps(snap)
+    for leak in ('"Ann"', '"Bo"', '"Cy"', "tg:1001", "62704-", '"lat": 39.77'):
+        assert leak not in text, leak
+    sensors = [n for n in snap["graph"]["nodes"] if n["kind"] == "sensor"]
+    assert sensors and all(n["label"].startswith("s-") and "lat" not in n for n in sensors)
+    assert any(link["kind"] == "corroborated" for link in snap["graph"]["links"])
+    assert snap["events"] and any(e["verified"] for e in snap["events"])
+    assert snap["leaderboard"] and snap["leaderboard"][0]["handle"].startswith("s-")
+
+
+def test_write_json_and_build_site(fresh_db, tmp_path: Path):
+    demo.seed(days=3)
+    snap = export.snapshot(days=3, sample=True)
+    files = export.write_json(snap, tmp_path / "data")
+    assert {p.name for p in files} >= {"network.json", "graph.json", "counties.json", "events.json", "sources.json"}
+    frag = tmp_path / "frag.html"
+    frag.write_text("<title>T</title>\n<link rel=\"stylesheet\" href=\"x\">\n<style>b{}</style>\n"
+                    "<main>hi</main>\n<script>window.NETWORK_DATA = /*__NETWORK_DATA__*/null;</script>\n",
+                    encoding="utf-8")
+    out = export.build_site(snap, fragment=frag, out=tmp_path / "index.html")
+    html = out.read_text(encoding="utf-8")
+    assert html.startswith("<!doctype html>") and "<title>T</title>" in html.split("</head>")[0]
+    assert "window.NETWORK_DATA = {" in html and '"sample": true' in html.replace('"sample":true', '"sample": true')
+    assert "<\\/" in html or "</" not in json.dumps(snap)      # script-safe escaping
+    body = export.artifact_fragment(snap, fragment=frag)
+    assert body.startswith("<title>") and "window.NETWORK_DATA = {" in body
+
+
+def test_export_all_without_fragment(fresh_db, tmp_path: Path, monkeypatch):
+    monkeypatch.setattr(export, "FRAGMENT", tmp_path / "missing.html")
+    res = export.export_all(tmp_path / "docs", days=2, site=True)
+    assert len(res["json"]) == 10 and "site" not in res
+    assert db.vitals()["sensors_total"] == 0

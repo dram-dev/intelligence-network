@@ -2,23 +2,48 @@
 # Each entry: url, name, optional topic_hint + limit. Google News RSS search
 # proxies keep this keyless. Illinois-scoped on purpose — the network's ground.
 feeds:
+  # ── weather ──
   - name: Google News · Illinois severe weather
     url: "https://news.google.com/rss/search?q=Illinois+(tornado+OR+%22severe+weather%22+OR+%22flash+flood%22+OR+hail+OR+%22damaging+winds%22+OR+derecho)+when:2d&hl=en-US&gl=US&ceid=US:en"
     topic_hint: weather
-    limit: 25
+    limit: 20
   - name: Google News · Chicago weather
     url: "https://news.google.com/rss/search?q=Chicago+weather+(storm+OR+flooding+OR+snow+OR+heat+OR+%22lake+effect%22)+when:2d&hl=en-US&gl=US&ceid=US:en"
     topic_hint: weather
-    limit: 15
+    limit: 12
   - name: Google News · Illinois winter + flooding
     url: "https://news.google.com/rss/search?q=Illinois+(%22winter+storm%22+OR+blizzard+OR+%22ice+storm%22+OR+%22river+flooding%22+OR+%22flood+warning%22)+when:2d&hl=en-US&gl=US&ceid=US:en"
     topic_hint: weather
-    limit: 15
+    limit: 12
   - name: NWS Chicago (LOT) news
     url: "https://www.weather.gov/rss_page.php?site_name=lot"
     topic_hint: weather
-    limit: 10
+    limit: 8
   - name: NWS Lincoln (ILX) news
     url: "https://www.weather.gov/rss_page.php?site_name=ilx"
     topic_hint: weather
+    limit: 8
+  # ── water ──
+  - name: Google News · Illinois rivers + water quality
+    url: "https://news.google.com/rss/search?q=Illinois+(%22river+levels%22+OR+%22water+quality%22+OR+nitrate+OR+%22fish+kill%22+OR+%22algae+bloom%22+OR+%22Illinois+River%22+OR+%22Mississippi+River%22+flood)+when:3d&hl=en-US&gl=US&ceid=US:en"
+    topic_hint: water
+    limit: 12
+  # ── soil ──
+  - name: Google News · Illinois soil health
+    url: "https://news.google.com/rss/search?q=Illinois+(%22soil+health%22+OR+%22cover+crops%22+OR+%22soil+moisture%22+OR+erosion+OR+%22nutrient+loss%22)+when:7d&hl=en-US&gl=US&ceid=US:en"
+    topic_hint: soil
     limit: 10
+  # ── agriculture ──
+  - name: Google News · Illinois crops
+    url: "https://news.google.com/rss/search?q=Illinois+(%22crop+progress%22+OR+harvest+OR+planting+OR+drought+OR+%22corn+yield%22+OR+%22soybean%22+OR+%22tar+spot%22+OR+%22crop+condition%22)+when:3d&hl=en-US&gl=US&ceid=US:en"
+    topic_hint: agriculture
+    limit: 15
+  - name: farmdoc daily
+    url: "https://farmdocdaily.illinois.edu/feed"
+    topic_hint: agriculture
+    limit: 8
+  # ── air ──
+  - name: Google News · Illinois air quality
+    url: "https://news.google.com/rss/search?q=Illinois+(%22air+quality%22+OR+%22wildfire+smoke%22+OR+%22ozone+action%22+OR+%22air+quality+alert%22)+when:3d&hl=en-US&gl=US&ceid=US:en"
+    topic_hint: air
+    limit: 8

@@ -1,0 +1,173 @@
+# Topic pack: water — streams, lakes, wells, tile lines and what's in them.
+#
+# Illinois is drained by the Illinois, Kaskaskia, Sangamon, Rock, Fox, Big
+# Muddy and the two great rivers on its borders; most cropland runs on tile.
+# USGS gauges are the fixed network; people add creek levels, well readings,
+# ponding in fields, tile lines running, fish kills and blooms.
+
+topic: water
+label: Water
+description: Stream stage and flow, lakes and wells, water quality, ponding and tile drainage.
+
+categories:
+  events:  Network-detected water events near you — low oxygen, nitrate spikes, fish kills, blooms
+  reports: Every accepted water reading near you (raw)
+  digest:  The daily digest (Google Doc link) when it is published
+
+metrics:
+  stage_m:
+    label: Stage (gauge height)
+    unit: m
+    aliases: [stage, gauge height, gage height, river stage, stream stage, creek level, river level, water level]
+    units: {m: 1, ft: 0.3048, feet: 0.3048, "in": 0.0254, cm: 0.01}
+    default_unit: ft
+    range: [-3, 25]
+    tolerance: {rel: 0.15, abs: 0.15}
+    radius_km: 10
+    window_min: 120
+    display_unit: {unit: ft, expr: "x / 0.3048"}
+    # flood stage is site-specific — official flood products come via weather.alerts
+
+  discharge_cms:
+    label: Streamflow
+    unit: "m³/s"
+    aliases: [discharge, streamflow, stream flow, river flow, flow rate, cfs]
+    units: {cms: 1, "m3/s": 1, "m³/s": 1, cfs: 0.0283168, "ft3/s": 0.0283168, "ft³/s": 0.0283168}
+    default_unit: cfs
+    range: [0, 60000]
+    tolerance: {rel: 0.3, abs: 0.5}
+    radius_km: 10
+    window_min: 120
+    display_unit: {unit: cfs, expr: "x / 0.0283168"}
+
+  water_temp_c:
+    label: Water temperature
+    unit: degC
+    aliases: [water temp, water temperature, stream temp, river temp, lake temp, creek temp]
+    units: {c: 1, "°c": 1, f: {expr: "(x - 32) * 5 / 9"}, "°f": {expr: "(x - 32) * 5 / 9"}}
+    default_unit: f
+    range: [-1, 40]
+    tolerance: {abs: 2}
+    radius_km: 15
+    window_min: 180
+    display_unit: {unit: "°F", expr: "x * 9 / 5 + 32"}
+
+  turbidity_ntu:
+    label: Turbidity
+    unit: NTU
+    aliases: [turbidity, ntu, cloudiness]
+    units: {ntu: 1, fnu: 1}
+    default_unit: ntu
+    range: [0, 5000]
+    tolerance: {rel: 0.5, abs: 10}
+    radius_km: 10
+    window_min: 240
+
+  dissolved_oxygen_mgl:
+    label: Dissolved oxygen
+    unit: mg/L
+    aliases: [dissolved oxygen, do, "d.o.", oxygen]
+    units: {"mg/l": 1, mgl: 1, ppm: 1}
+    default_unit: "mg/l"
+    range: [0, 25]
+    tolerance: {abs: 1.5}
+    radius_km: 10
+    window_min: 240
+    # < 4 mg/L stresses fish; < 2 is a kill risk
+    event: [[4, 0.5], [2, 0.8]]
+    event_direction: below
+
+  water_ph:
+    label: Water pH
+    unit: pH
+    aliases: [water ph, stream ph, river ph, lake ph, pond ph]
+    units: {ph: 1}
+    range: [3, 12]
+    tolerance: {abs: 0.5}
+    radius_km: 10
+    window_min: 480
+
+  conductivity_uscm:
+    label: Specific conductance
+    unit: "µS/cm"
+    aliases: [conductivity, specific conductance, ec, "us/cm"]
+    units: {"us/cm": 1, "µs/cm": 1, uscm: 1, "ms/cm": 1000}
+    default_unit: "us/cm"
+    range: [0, 30000]
+    tolerance: {rel: 0.3, abs: 50}
+    radius_km: 10
+    window_min: 480
+
+  nitrate_mgl:
+    label: Nitrate-N
+    unit: mg/L
+    aliases: [nitrate, nitrate-n, no3, nitrates]
+    units: {"mg/l": 1, mgl: 1, ppm: 1}
+    default_unit: "mg/l"
+    range: [0, 150]
+    tolerance: {rel: 0.4, abs: 2}
+    radius_km: 15
+    window_min: 1440
+    # 10 mg/L is the drinking-water MCL
+    event: [[10, 0.5], [20, 0.8]]
+
+  well_depth_m:
+    label: Depth to water (well)
+    unit: m
+    aliases: [well depth, depth to water, water table, well level, static water level]
+    units: {m: 1, ft: 0.3048, feet: 0.3048}
+    default_unit: ft
+    range: [0, 400]
+    tolerance: {rel: 0.2, abs: 0.5}
+    radius_km: 15
+    window_min: 10080
+    display_unit: {unit: ft, expr: "x / 0.3048"}
+
+  # ── flags ──
+  ponding:
+    label: Ponding / field flooding
+    kind: flag
+    aliases: [ponding, ponded, standing water, water over the crop, field flooded, field under water]
+    radius_km: 15
+    window_min: 720
+    event: [[1, 0.5]]
+
+  tile_flow:
+    label: Tile lines running
+    kind: flag
+    aliases: [tile running, tile flow, tile flowing, tile lines running, tiles running]
+    radius_km: 15
+    window_min: 720
+
+  fish_kill:
+    label: Fish kill
+    kind: flag
+    aliases: [fish kill, dead fish, fishkill]
+    radius_km: 20
+    window_min: 1440
+    event: [[1, 0.7]]
+
+  algae_bloom:
+    label: Algal bloom
+    kind: flag
+    aliases: [algae bloom, algal bloom, blue-green algae, cyanobacteria, green scum, bloom on the lake]
+    radius_km: 20
+    window_min: 2880
+    event: [[1, 0.5]]
+
+  bank_erosion:
+    label: Bank erosion / slump
+    kind: flag
+    aliases: [bank erosion, bank slump, streambank collapse, bank collapse]
+    radius_km: 15
+    window_min: 1440
+
+alert_support:
+  ponding:   [flash_flood_warning, flood_warning, flood_advisory, flood_watch]
+  tile_flow: [flood_advisory, flood_watch]
+
+# USGS NWIS parameter codes → metric (+ reported unit)
+usgs_parameters:
+  "00065": {metric: stage_m, unit: ft}
+  "00060": {metric: discharge_cms, unit: cfs}
+  "00010": {metric: water_temp_c, unit: c}

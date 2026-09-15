@@ -195,18 +195,22 @@ def _attach_to_event(a: Assessment) -> None:
         return
     window_h = max(3.0, metric.window_min / 60.0 * 2)
     fips = signal.location.county_fips
-    row = db.find_open_event(metric.topic, metric.key, fips, window_h)
+    # Anchor on the reading's own time, not the wall clock: a reading sent late
+    # (or backfilled) joins the event that was live when it was observed.
+    when = iso(signal.observed_at) or iso(utcnow())
+    row = db.find_open_event(metric.topic, metric.key, fips, signal.observed_at, window_h)
     now = iso(utcnow())
     if row is None:
         event_id = db.insert_event(
             topic=metric.topic, metric=metric.key, county_fips=fips, zip5=signal.location.zip5,
-            lat=signal.location.lat, lon=signal.location.lon, opened_at=now, updated_at=now,
+            lat=signal.location.lat, lon=signal.location.lon, opened_at=when, updated_at=when,
             peak_value=signal.value, unit=metric.unit, status="open",
             title=_event_title(metric, signal.value, fips),
         )
         a.event_opened = True
     else:
         event_id = int(row["id"])
+        when = max(str(row["updated_at"] or ""), when or "")
     db.update_assessment(
         signal.id, quality=a.quality, corroboration_n=a.n_corroborating,
         contradiction_n=a.n_contradicting, reference_agreement=a.reference, event_id=event_id,
@@ -220,7 +224,7 @@ def _attach_to_event(a: Assessment) -> None:
     mean_trust = float(stats.get("mean_trust") or TRUST_PRIOR)
     score = score_event(severity, n_sensors, mean_trust, n_reference, a.reference)
     db.update_event(
-        event_id, updated_at=now, peak_value=peak, n_signals=int(stats.get("n_signals") or 1),
+        event_id, updated_at=when, peak_value=peak, n_signals=int(stats.get("n_signals") or 1),
         n_sensors=n_sensors, n_reference=n_reference, mean_trust=mean_trust, severity=severity,
         score=score, title=_event_title(metric, peak, fips),
     )
@@ -383,6 +387,7 @@ def mesh_rows(hours: float = 24, topic: str | None = None) -> list[dict[str, Any
         out.append({
             "county": c.label if c else r["county_fips"],
             "county_fips": r["county_fips"],
+            "topic": m.topic if m else None,
             "metric": m.label if m else r["metric"],
             "metric_key": r["metric"],
             "n": r["n"], "n_sensors": r["n_sensors"], "n_human": r["n_human"],

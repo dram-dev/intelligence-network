@@ -551,13 +551,17 @@ def prune_reference_signals(days: int) -> int:
 
 # ── events ────────────────────────────────────────────────────────────────
 
-def find_open_event(topic: str, metric: str, county_fips: str | None, within_hours: float) -> sqlite3.Row | None:
+def find_open_event(topic: str, metric: str, county_fips: str | None, around: datetime,
+                    within_hours: float) -> sqlite3.Row | None:
+    """The open event for (topic, metric, county) live within ±within_hours of `around`."""
+    lo = iso(around - timedelta(hours=within_hours))
+    hi = iso(around + timedelta(hours=within_hours))
     with get_conn() as conn:
         return conn.execute(
             """SELECT * FROM events WHERE topic = ? AND metric = ? AND status = 'open'
-               AND county_fips IS ? AND updated_at >= ?
+               AND county_fips IS ? AND updated_at >= ? AND opened_at <= ?
                ORDER BY updated_at DESC LIMIT 1""",
-            (topic, metric, county_fips, _since(within_hours)),
+            (topic, metric, county_fips, lo, hi),
         ).fetchone()
 
 

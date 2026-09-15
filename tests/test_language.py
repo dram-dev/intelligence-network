@@ -142,5 +142,6 @@ def test_metric_lookup_by_alias_and_display():
 
 def test_cheatsheet_and_examples_are_generated_from_the_pack():
     sheet = language.cheatsheet()
-    assert "rain" in sheet and "@62704" in sheet
+    assert "weather:" in sheet and "soil:" in sheet and "@62704" in sheet
+    assert "rain" in language.cheatsheet(find_metric("rain").__class__ and __import__("intelnet.topics", fromlist=["get_topic"]).get_topic("weather"))
     assert '"metric"' in language.as_json_example()

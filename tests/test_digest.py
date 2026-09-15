@@ -34,7 +34,7 @@ def test_build_and_render(make_sensor):
     assert "3 readings from 2 sensors" in m.headline and "top event: Hail size" in m.headline
 
     html = digest.render_html(m)
-    for needle in ("<h1>Intelligence Network — IL weather digest", "Network vitals", "Events (ranked by score)",
+    for needle in ("<h1>Intelligence Network — IL environmental digest", "Network vitals", "Events (ranked by score)",
                    "Official alerts (NWS)", "Contributions by county", "Contributors this week",
                    "Storms rake central Illinois", "Sensors wanted", "How to contribute", "Hail size"):
         assert needle in html

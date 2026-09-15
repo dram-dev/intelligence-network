@@ -23,7 +23,9 @@ from intelnet.feeds.nws_alerts import SEVERITY_RANK
 from intelnet.topics import find_metric
 
 EXTREME_METRICS = (("wind_gust_ms", "max"), ("rain_mm", "max"), ("temp_c", "max"),
-                   ("temp_c", "min"), ("visibility_km", "min"), ("snow_cm", "max"))
+                   ("temp_c", "min"), ("visibility_km", "min"), ("snow_cm", "max"),
+                   ("stage_m", "max"), ("discharge_cms", "max"), ("water_temp_c", "max"),
+                   ("soil_moisture_pct", "min"), ("soil_temp_c", "min"))
 
 
 @dataclass
@@ -150,7 +152,7 @@ def _table(headers: list[str], rows: list[list[Any]]) -> str:
 def render_html(m: DigestModel) -> str:
     v = m.vitals
     parts = [
-        f"<h1>{_e(m.network_name)} — {_e(m.state)} weather digest — {_e(m.date)}</h1>",
+        f"<h1>{_e(m.network_name)} — {_e(m.state)} environmental digest — {_e(m.date)}</h1>",
         f"<p><i>Generated {_e(m.generated_at)} · window {m.hours:g}h · "
         f"{_e(m.headline)}</i></p>",
     ]
@@ -173,8 +175,8 @@ def render_html(m: DigestModel) -> str:
 
     parts.append("<h2>Events (ranked by score)</h2>")
     parts.append(_table(
-        ["Score", "Event", "Peak", "Sensors", "Official", "Verified", "Updated"],
-        [[f"{e.get('score') or 0:.2f}", e["title"], e["peak_display"], e.get("n_sensors"),
+        ["Score", "Topic", "Event", "Peak", "Sensors", "Official", "Verified", "Updated"],
+        [[f"{e.get('score') or 0:.2f}", e.get("topic"), e["title"], e["peak_display"], e.get("n_sensors"),
           "yes" if e.get("n_reference") else "no", "yes" if e["verified"] else "no",
           e.get("updated_at")] for e in m.events],
     ))
@@ -188,12 +190,12 @@ def render_html(m: DigestModel) -> str:
 
     parts.append("<h2>Contributions by county (human sensors)</h2>")
     parts.append(_table(
-        ["County", "Metric", "Readings", "Sensors", "Mean", "Peak"],
-        [[r["county"], r["metric"], r["n_human"], r["n_sensors"], r["mean"], r["max"]]
+        ["County", "Topic", "Metric", "Readings", "Sensors", "Mean", "Peak"],
+        [[r["county"], r.get("topic"), r["metric"], r["n_human"], r["n_sensors"], r["mean"], r["max"]]
          for r in m.contributions],
     ))
 
-    parts.append("<h2>Station extremes (ASOS/AWOS)</h2>")
+    parts.append("<h2>Station extremes (weather, gauges, soil)</h2>")
     parts.append(_table(["Metric", "", "Value", "County"],
                         [[x["metric"], x["how"], x["value"], x["county"]] for x in m.extremes]))
 
@@ -235,7 +237,7 @@ def render_html(m: DigestModel) -> str:
 
 def render_text(m: DigestModel) -> str:
     v = m.vitals
-    lines = [f"{m.network_name} — {m.state} weather digest — {m.date}", m.headline, ""]
+    lines = [f"{m.network_name} — {m.state} environmental digest — {m.date}", m.headline, ""]
     if m.narrative:
         lines += [m.narrative, ""]
     lines.append(f"Vitals: sensors {v.get('sensors_total', 0)} (active 24h {v.get('sensors_active_24h', 0)}) · "

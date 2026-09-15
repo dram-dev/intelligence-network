@@ -72,6 +72,8 @@ notify (08:00) ──▶ subscriptions.fanout_digest
   window_min, event thresholds+severity, categories, alert_routing,
   alert_support (which active alerts back a metric), lsr_types,
   station_fields. `topics.py` loads all packs; `find_metric` resolves aliases.
+- **Personas**: contributor, grower/land manager, spotter/EM, subscriber,
+  researcher/analyst, steward — see README "Who it's for".
 - **LLM use** (all best-effort, `LLM_ENABLED=false` in tests): free-text
   parse (Ollama `local_qwen`), news triage (Ollama), digest narrative (MLX).
   Same shared servers as the other digests → the daily pipeline holds the
@@ -101,12 +103,37 @@ notify (08:00) ──▶ subscriptions.fanout_digest
 | `com.dr.intelnet.daily` | 01:10 — third in the queue: macro 01:00 → PC 01:05 → this |
 | `com.dr.intelnet.notify` | 08:00 digest ping |
 
+## Topic packs (2026-09-15, wave 2)
+
+Five packs: `weather`, `soil`, `water`, `agriculture`, `air`. `language.parse`
+reads ALL packs at once (scope `*`); aliases must be unique across packs
+(`tests/test_packs.py` enforces). Bare `events` = `weather.events`;
+`soil.events` explicit; `*.events` expands to every pack. Extra mapping
+sections in a pack (`usgs_parameters`, `awdb_elements`) land in
+`Topic.mappings`. New feeds: `usgs_water` (NWIS IV, hourly gate),
+`nrcs_scan` (AWDB, daily; IL has one station), `usdm` (Drought Monitor county
+API, daily; aoi = comma-separated county FIPS). Events anchor on the reading's
+observed time (`find_open_event(around=…)`), so backfills/late readings join
+the right event.
+
+## Site + snapshot
+
+`export.snapshot()` → 10 public JSON docs (anonymised: humans as `s-xxxxx` +
+county only). `site/index.fragment.html` (Fraunces / IBM Plex; light+dark
+tokens; D3 v7 from cdnjs) is wrapped into `docs/index.html` with the data
+inlined; the same fragment publishes as a Claude artifact. `intelnet
+demo-seed` builds the sample fortnight; `intelnet export --sample` rebuilds the
+site from it. Pipeline stage 5 re-exports after each run; `SITE_AUTO_PUSH`
+pushes `docs/`. Pages workflow in `.github/workflows/pages.yml` (needs a public
+repo on the free plan).
+
 ## Status (2026-09-15)
 
-Wave 1 built and tested (107 tests). Live-verified against the real feeds
-(30 IL alert rows, 56 stations, LSR) and Google News RSS. **Not yet live**:
-needs a BotFather token + admin chat id in `.env`, the Google OAuth client in
-`secrets/`, `intelnet drive init`, then `bash scripts/install_launchd.sh`.
+Waves 1–2 built and tested. Live-verified feeds: NWS alerts, IEM LSR/ASOS,
+USGS IV (278 IL sites), NRCS SCAN (Mason), USDM county stats, Google News.
+Bot handle `@intelligence_network_bot` exists. **Turn-on checklist** =
+`uv run intelnet setup`: token + admin chat id in `.env`, Google OAuth client
+in `secrets/`, `intelnet drive init`, `bash scripts/install_launchd.sh`.
 
 ## Next ideas
 

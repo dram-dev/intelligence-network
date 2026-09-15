@@ -1,0 +1,35 @@
+name: Pages
+
+# Publishes docs/ (the public site + JSON snapshot) to GitHub Pages whenever it
+# changes on master. Enable Pages once in Settings → Pages → Source: "GitHub
+# Actions". Pages needs a public repo on the free plan.
+
+on:
+  push:
+    branches: [master]
+    paths: ["docs/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,136 @@
+# Topic pack: soil — soil health as people can actually observe it.
+#
+# Illinois' state soil is Drummer silty clay loam; most of the ground here is
+# deep prairie Mollisol. What a grower or gardener can report from the field:
+# a probe reading, a thermometer at 4 in, a home test kit, a penetrometer,
+# an infiltration ring, a shovel-count of worms, erosion after a storm.
+
+topic: soil
+label: Soil
+description: Soil moisture, temperature, chemistry and structure from probes, kits and the shovel test.
+
+categories:
+  events:  Network-detected soil events near you — drought-dry profiles, root-limiting compaction, erosion
+  reports: Every accepted soil reading near you (raw)
+  digest:  The daily digest (Google Doc link) when it is published
+
+metrics:
+  soil_moisture_pct:
+    label: Soil moisture
+    unit: pct
+    aliases: [soil moisture, vwc, volumetric water content, soil water, moisture probe]
+    units: {"%": 1, pct: 1, percent: 1}
+    default_unit: "%"
+    range: [0, 70]
+    tolerance: {abs: 8}
+    radius_km: 12
+    window_min: 360
+    # drought stress in a silt loam sets in well below field capacity (~35%)
+    event: [[10, 0.4], [6, 0.7]]
+    event_direction: below
+
+  soil_temp_c:
+    label: Soil temperature
+    unit: degC
+    aliases: [soil temp, soil temperature, ground temp, ground temperature, 4-inch soil temp]
+    units: {c: 1, "°c": 1, f: {expr: "(x - 32) * 5 / 9"}, "°f": {expr: "(x - 32) * 5 / 9"}, degrees: {expr: "(x - 32) * 5 / 9"}}
+    default_unit: f
+    range: [-25, 55]
+    tolerance: {abs: 3}
+    radius_km: 15
+    window_min: 240
+    display_unit: {unit: "°F", expr: "x * 9 / 5 + 32"}
+
+  soil_ph:
+    label: Soil pH
+    unit: pH
+    aliases: [soil ph, ph]
+    units: {ph: 1}
+    range: [3, 10]
+    tolerance: {abs: 0.5}
+    radius_km: 10
+    window_min: 43200          # a month — lab/kit results, not weather
+    event: [[5.2, 0.4]]
+    event_direction: below
+
+  organic_matter_pct:
+    label: Organic matter
+    unit: pct
+    aliases: [organic matter, om, som, soil organic matter]
+    units: {"%": 1, pct: 1, percent: 1}
+    default_unit: "%"
+    range: [0, 25]
+    tolerance: {abs: 1}
+    radius_km: 10
+    window_min: 43200
+
+  infiltration_mmh:
+    label: Infiltration rate
+    unit: mm/h
+    aliases: [infiltration, infiltration rate, infiltration test]
+    units: {"mm/h": 1, mmh: 1, "mm/hr": 1, "in/hr": 25.4, "in/h": 25.4, iph: 25.4}
+    default_unit: "in/hr"
+    range: [0, 600]
+    tolerance: {rel: 0.5, abs: 5}
+    radius_km: 10
+    window_min: 1440
+    display_unit: {unit: "in/hr", expr: "x / 25.4"}
+    event: [[2.5, 0.4]]        # < 0.1 in/hr: sealed / compacted surface
+    event_direction: below
+
+  compaction_psi:
+    label: Penetration resistance
+    unit: psi
+    aliases: [compaction, penetrometer, penetration resistance, cone index]
+    units: {psi: 1, kpa: 0.145038, mpa: 145.038}
+    default_unit: psi
+    range: [0, 1200]
+    tolerance: {rel: 0.35, abs: 40}
+    radius_km: 10
+    window_min: 1440
+    # ~300 psi is the usual root-limiting threshold
+    event: [[300, 0.5], [450, 0.8]]
+
+  earthworms_count:
+    label: Earthworms per shovel
+    unit: count
+    aliases: [earthworms, worms, worm count, earthworm count]
+    units: {count: 1, per shovel: 1, "/shovel": 1}
+    default_unit: count
+    range: [0, 100]
+    tolerance: {rel: 0.6, abs: 4}
+    radius_km: 10
+    window_min: 1440
+
+  # ── flags ──
+  erosion:
+    label: Erosion
+    kind: flag
+    aliases: [erosion, gully, gullies, rills, rill erosion, soil loss, washout, ephemeral gully]
+    radius_km: 15
+    window_min: 720
+    event: [[1, 0.6]]
+
+  cover_crop:
+    label: Cover crop established
+    kind: flag
+    aliases: [cover crop, cover crop up, cover established, rye up, cover crop emerged]
+    radius_km: 15
+    window_min: 10080
+
+  crusting:
+    label: Surface crusting
+    kind: flag
+    aliases: [crusting, soil crust, crusted over, surface sealed]
+    radius_km: 15
+    window_min: 1440
+    event: [[1, 0.4]]
+
+# Which active NWS alerts count as official support for a soil report.
+alert_support:
+  erosion: [flash_flood_warning, flood_warning, flood_advisory]
+
+# NRCS SCAN / AWDB elements → metric (+ reported unit). Shallowest depth is used.
+awdb_elements:
+  SMS: {metric: soil_moisture_pct, unit: "%"}
+  STO: {metric: soil_temp_c, unit: f}

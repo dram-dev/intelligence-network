@@ -282,6 +282,62 @@ def events(hours: float) -> None:
 
 
 @main.command()
+@click.option("--out", "out_dir", type=click.Path(), default=None, help="Directory (default: docs/).")
+@click.option("--days", default=14, show_default=True)
+@click.option("--no-site", is_flag=True, help="Write the JSON snapshot only.")
+@click.option("--sample", is_flag=True, help="Mark the snapshot as sample data (demo seed).")
+@click.option("--push", is_flag=True, help="git commit + push docs/ afterwards.")
+def export(out_dir: str | None, days: int, no_site: bool, sample: bool, push: bool) -> None:
+    """Write the public JSON snapshot + rebuild docs/index.html (the site)."""
+    from pathlib import Path
+
+    from intelnet import export as _export
+
+    db.init_db()
+    res = _export.export_all(Path(out_dir) if out_dir else _export.DOCS_DIR, days, site=not no_site, sample=sample)
+    console.print(f"[green]✓[/green] {len(res['json'])} JSON files" + (f" · site → {res['site']}" if res.get("site") else ""))
+    if push:
+        console.print("[green]✓[/green] pushed" if _export.git_push_docs() else "[dim]nothing to push[/dim]")
+
+
+@main.command(name="demo-seed")
+@click.option("--days", default=14, show_default=True)
+@click.option("--reset", is_flag=True, help="Delete the DB first.")
+def demo_seed(days: int, reset: bool) -> None:
+    """Seed a plausible fortnight through the real engine (for previews/tests)."""
+    from intelnet import demo
+
+    if reset and settings.db_path.exists():
+        settings.db_path.unlink()
+    out = demo.seed(days)
+    console.print(escape(json.dumps(out)))
+
+
+@main.command()
+@click.option("--install", "do_install", is_flag=True, help="Also run scripts/install_launchd.sh.")
+@click.option("--offline", is_flag=True, help="Skip the Telegram/LLM reachability probes.")
+def setup(do_install: bool, offline: bool) -> None:
+    """The turn-on checklist: what's configured, what's missing, and the exact next step."""
+    from intelnet import setup_check
+
+    if do_install:
+        script = setup_check.PROJECT_ROOT / "scripts" / "install_launchd.sh"
+        subprocess.run(["bash", str(script)], check=False)
+    checks = setup_check.run_checks(online=not offline)
+    for c in checks:
+        glyph = "[green]✓[/green]" if c.ok else ("[dim]○[/dim]" if c.optional else "[red]✗[/red]")
+        line = f"{glyph} {escape(c.name)}: {escape(c.detail)}"
+        if c.fix and not c.ok or (c.ok and c.fix):
+            line += f"\n    [dim]→ {escape(c.fix)}[/dim]"
+        console.print(line)
+    ok, total = setup_check.summary(checks)
+    console.rule()
+    console.print(f"{ok}/{total} required checks pass" + (" — ready to turn on." if ok == total else ""))
+    if ok < total:
+        raise SystemExit(1)
+
+
+@main.command()
 def stats() -> None:
     """Network vitals as JSON."""
     db.init_db()

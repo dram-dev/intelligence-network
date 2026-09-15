@@ -5,6 +5,13 @@ difference is a fixed high trust and the `reference` quality. Import the
 modules so they self-register in `FEEDS`.
 """
 from intelnet.feeds.base import FEEDS, FeedResult, ReferenceFeed  # noqa: F401
-from intelnet.feeds import iem_asos, iem_lsr, nws_alerts  # noqa: F401  (registration)
+from intelnet.feeds import (  # noqa: F401  (registration)
+    iem_asos,
+    iem_lsr,
+    nrcs_scan,
+    nws_alerts,
+    usdm_drought,
+    usgs_water,
+)
 
 __all__ = ["FEEDS", "FeedResult", "ReferenceFeed"]

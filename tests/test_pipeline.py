@@ -21,10 +21,14 @@ def stubbed(monkeypatch, tmp_path, fresh_db):
     monkeypatch.setattr(watch, "run_once", lambda run_type="watch", only=None: calls.append("watch") or {"feeds": {}, "events_closed": 0})
     monkeypatch.setattr(pipeline, "discover_ingestors", lambda pkg: {"news": object})
     monkeypatch.setattr(pipeline, "run_ingest", lambda *a, **k: calls.append("news") or (3, 2))
+    from intelnet import export
+
+    monkeypatch.setattr(export, "DOCS_DIR", tmp_path / "docs")
+    monkeypatch.setattr(export, "FRAGMENT", tmp_path / "no-fragment.html")
     return calls
 
 
-def test_pipeline_runs_stages_and_records_digest(stubbed, monkeypatch):
+def test_pipeline_runs_stages_and_records_digest(stubbed, monkeypatch, tmp_path):
     from intelnet import llm
 
     monkeypatch.setattr(llm, "narrative", lambda payload: "The network was quiet.")
@@ -32,6 +36,7 @@ def test_pipeline_runs_stages_and_records_digest(stubbed, monkeypatch):
     assert stubbed == ["watch", "news"]
     assert summary["news"] == {"fetched": 3, "new": 2} and summary["digest"]["date"]
     assert summary["links"]["doc_url"] is None
+    assert summary["export"] == {"json": 10, "site": False} and (tmp_path / "docs" / "data" / "network.json").exists()
     row = db.latest_digest()
     assert row["date"] == summary["digest"]["date"] and row["drive_url"] is None
     with db.get_conn() as conn:

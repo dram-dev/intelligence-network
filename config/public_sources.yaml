@@ -1,0 +1,237 @@
+# Public data & research catalog — surfaced on the site ("Find public data").
+# domain: weather | water | soil | agriculture | air | research
+# access: keyless | api key (free) | download | login
+# used: true when the network already ingests it as a reference feed.
+sources:
+  # ── weather ──
+  - name: NWS API (api.weather.gov)
+    publisher: National Weather Service
+    domain: weather
+    access: keyless
+    url: https://www.weather.gov/documentation/services-web-api
+    notes: Alerts, forecasts, observations, zones. Needs a User-Agent header.
+    used: true
+  - name: Iowa Environmental Mesonet (IEM)
+    publisher: Iowa State University
+    domain: weather
+    access: keyless
+    url: https://mesonet.agron.iastate.edu/
+    notes: ASOS/AWOS currents, Local Storm Reports, NWS text products, archives.
+    used: true
+  - name: Storm Prediction Center
+    publisher: NOAA / NWS
+    domain: weather
+    access: keyless
+    url: https://www.spc.noaa.gov/
+    notes: Convective outlooks, watches, storm reports (CSV).
+  - name: NCEI Climate Data Online
+    publisher: NOAA
+    domain: weather
+    access: api key (free)
+    url: https://www.ncei.noaa.gov/cdo-web/
+    notes: Daily / monthly station climate records (GHCN).
+  - name: CoCoRaHS
+    publisher: Community Collaborative Rain, Hail and Snow Network
+    domain: weather
+    access: keyless
+    url: https://www.cocorahs.org/
+    notes: Volunteer daily precipitation; the model for a citizen network.
+  - name: mPING
+    publisher: NOAA NSSL
+    domain: weather
+    access: keyless
+    url: https://mping.nssl.noaa.gov/
+    notes: Crowd-sourced precipitation-type reports from phones.
+  - name: Illinois State Climatologist
+    publisher: Illinois State Water Survey (PRI)
+    domain: weather
+    access: download
+    url: https://stateclimatologist.web.illinois.edu/
+    notes: Illinois climate summaries, records, monthly narratives.
+  - name: Illinois Climate Network (WARM)
+    publisher: Illinois State Water Survey
+    domain: weather
+    access: download
+    url: https://warm.isws.illinois.edu/warm/
+    notes: 19 automated stations with soil temperature and moisture.
+  - name: SKYWARN
+    publisher: National Weather Service
+    domain: weather
+    access: keyless
+    url: https://www.weather.gov/skywarn/
+    notes: Volunteer storm-spotter training — what a good report contains.
+
+  # ── water ──
+  - name: USGS Water Services (NWIS)
+    publisher: U.S. Geological Survey
+    domain: water
+    access: keyless
+    url: https://waterservices.usgs.gov/
+    notes: Instantaneous stage, discharge and temperature for ~280 Illinois sites.
+    used: true
+  - name: USGS WaterData
+    publisher: U.S. Geological Survey
+    domain: water
+    access: keyless
+    url: https://waterdata.usgs.gov/
+    notes: Site pages, hydrographs, the modernised APIs.
+  - name: National Water Prediction Service
+    publisher: NOAA / NWS
+    domain: water
+    access: keyless
+    url: https://water.noaa.gov/
+    notes: River forecasts and flood categories per gauge.
+  - name: Water Quality Portal
+    publisher: USGS / EPA / USDA
+    domain: water
+    access: keyless
+    url: https://www.waterqualitydata.us/
+    notes: Nitrate, DO, conductivity and more from state and federal monitoring.
+  - name: Illinois State Water Survey
+    publisher: Prairie Research Institute
+    domain: water
+    access: download
+    url: https://www.isws.illinois.edu/
+    notes: Groundwater, streamflow, drought and water-supply research.
+  - name: Illinois RiverWatch
+    publisher: National Great Rivers Research and Education Center
+    domain: water
+    access: keyless
+    url: https://www.ngrrec.org/riverwatch/
+    notes: Citizen stream monitoring (macroinvertebrates, habitat).
+
+  # ── soil ──
+  - name: NRCS Soil Climate Analysis Network (SCAN)
+    publisher: USDA NRCS
+    domain: soil
+    access: keyless
+    url: https://www.nrcs.usda.gov/resources/data-and-reports/soil-climate-analysis-network
+    notes: Soil moisture and temperature by depth (AWDB REST API). One Illinois station (Mason).
+    used: true
+  - name: Web Soil Survey
+    publisher: USDA NRCS
+    domain: soil
+    access: keyless
+    url: https://websoilsurvey.sc.egov.usda.gov/
+    notes: Mapped soil series, properties and interpretations for any field.
+  - name: SSURGO / gSSURGO
+    publisher: USDA NRCS
+    domain: soil
+    access: download
+    url: https://www.nrcs.usda.gov/resources/data-and-reports/soil-survey-geographic-database-ssurgo
+    notes: The tabular + spatial soil survey database behind Web Soil Survey.
+  - name: NASA SMAP
+    publisher: NASA
+    domain: soil
+    access: login
+    url: https://smap.jpl.nasa.gov/
+    notes: Satellite surface soil moisture (9 km); Earthdata login.
+  - name: Soil Health Institute
+    publisher: Soil Health Institute
+    domain: soil
+    access: download
+    url: https://soilhealthinstitute.org/
+    notes: Measurement standards and the North American soil health project.
+
+  # ── agriculture ──
+  - name: USDA NASS Quick Stats
+    publisher: USDA National Agricultural Statistics Service
+    domain: agriculture
+    access: api key (free)
+    url: https://quickstats.nass.usda.gov/
+    notes: Crop progress, condition, yields and acreage down to county.
+  - name: U.S. Drought Monitor
+    publisher: National Drought Mitigation Center
+    domain: agriculture
+    access: keyless
+    url: https://droughtmonitor.unl.edu/
+    notes: Weekly D0–D4 drought categories; county statistics API.
+    used: true
+  - name: CropScape (Cropland Data Layer)
+    publisher: USDA NASS
+    domain: agriculture
+    access: keyless
+    url: https://nassgeodata.gmu.edu/CropScape/
+    notes: Field-level crop type raster, annual.
+  - name: farmdoc daily
+    publisher: University of Illinois
+    domain: agriculture
+    access: keyless
+    url: https://farmdocdaily.illinois.edu/
+    notes: Daily Illinois farm economics and agronomy analysis.
+  - name: The Bulletin (Illinois IPM)
+    publisher: University of Illinois Extension
+    domain: agriculture
+    access: keyless
+    url: https://bulletin.ipm.illinois.edu/
+    notes: Pest and crop development reports through the season.
+  - name: Illinois Department of Agriculture
+    publisher: State of Illinois
+    domain: agriculture
+    access: keyless
+    url: https://agr.illinois.gov/
+    notes: Programs, notices, and the weekly Illinois Weather & Crops release.
+
+  # ── air ──
+  - name: AirNow API
+    publisher: U.S. EPA
+    domain: air
+    access: api key (free)
+    url: https://docs.airnowapi.org/
+    notes: Current AQI and forecasts by ZIP or lat/lon.
+  - name: EPA Air Quality System (AQS)
+    publisher: U.S. EPA
+    domain: air
+    access: api key (free)
+    url: https://aqs.epa.gov/aqsweb/documents/data_api.html
+    notes: Regulatory monitor data, hourly and daily.
+  - name: PurpleAir
+    publisher: PurpleAir
+    domain: air
+    access: api key (free)
+    url: https://api.purpleair.com/
+    notes: Low-cost PM2.5 sensor network; the citizen air mesonet.
+  - name: OpenAQ
+    publisher: OpenAQ
+    domain: air
+    access: api key (free)
+    url: https://openaq.org/
+    notes: Aggregated open air-quality measurements worldwide.
+  - name: NOAA Hazard Mapping System (smoke)
+    publisher: NOAA OSPO
+    domain: air
+    access: keyless
+    url: https://www.ospo.noaa.gov/products/land/hms.html
+    notes: Satellite-analysed smoke plumes and fire detections.
+
+  # ── research ──
+  - name: "The Oklahoma Mesonet: A Technical Overview"
+    publisher: McPherson et al., J. Atmos. Oceanic Technol. (2007)
+    domain: research
+    access: download
+    url: https://journals.ametsoc.org/view/journals/atot/24/3/jtech1976_1.xml
+    notes: The reference design for a dense state mesonet.
+  - name: "CoCoRaHS: The Evolution and Accomplishments of a Volunteer Rain Gauge Network"
+    publisher: Reges et al., Bull. Amer. Meteor. Soc. (2016)
+    domain: research
+    access: download
+    url: https://journals.ametsoc.org/view/journals/bams/97/10/bams-d-14-00213.1.xml
+    notes: How a volunteer network earned scientific trust.
+  - name: "mPING: Crowd-Sourcing Weather Reports for Research"
+    publisher: Elmore et al., Bull. Amer. Meteor. Soc. (2014)
+    domain: research
+    access: download
+    url: https://journals.ametsoc.org/view/journals/bams/95/9/bams-d-13-00014.1.xml
+    notes: Phone reports as ground truth for radar algorithms.
+  - name: "Next Steps for Citizen Science"
+    publisher: Bonney et al., Science (2014)
+    domain: research
+    access: download
+    url: https://www.science.org/doi/10.1126/science.1251554
+    notes: Data quality, participation and credit in citizen science.
+  - name: Oklahoma Mesonet
+    publisher: University of Oklahoma / Oklahoma State University
+    domain: research
+    access: keyless
+    url: https://www.mesonet.org/
+    notes: The living example — 120 stations, one per county.

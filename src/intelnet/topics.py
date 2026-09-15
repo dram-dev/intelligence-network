@@ -130,6 +130,12 @@ class Topic:
     alert_support: dict[str, list[str]] = field(default_factory=dict)
     lsr_types: dict[str, dict[str, str]] = field(default_factory=dict)
     station_fields: dict[str, dict[str, str]] = field(default_factory=dict)
+    # Any other `<source>_<elements|parameters|types|fields|codes>` section: a
+    # reference feed's code → {metric, unit} map (usgs_parameters, awdb_elements…).
+    mappings: dict[str, dict[str, dict[str, str]]] = field(default_factory=dict)
+
+    def mapping(self, name: str) -> dict[str, dict[str, str]]:
+        return self.mappings.get(name, {})
 
     def category_key(self, category: str) -> str:
         return f"{self.name}.{category}"
@@ -186,6 +192,14 @@ def load_topic(path: Path) -> Topic:
     raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     name = str(raw.get("topic") or path.stem)
     metrics = {k: _load_metric(name, k, v or {}) for k, v in (raw.get("metrics") or {}).items()}
+    known = {"topic", "label", "description", "categories", "alert_routing", "alert_support",
+             "metrics", "lsr_types", "station_fields"}
+    mappings = {
+        str(k): {str(code): dict(v) for code, v in (val or {}).items()}
+        for k, val in raw.items()
+        if k not in known and isinstance(val, dict)
+        and str(k).rsplit("_", 1)[-1] in ("elements", "parameters", "types", "fields", "codes")
+    }
     return Topic(
         name=name,
         label=str(raw.get("label", name.title())),
@@ -196,6 +210,7 @@ def load_topic(path: Path) -> Topic:
         alert_support={str(k): [str(x) for x in v] for k, v in (raw.get("alert_support") or {}).items()},
         lsr_types={str(k): dict(v) for k, v in (raw.get("lsr_types") or {}).items()},
         station_fields={str(k): dict(v) for k, v in (raw.get("station_fields") or {}).items()},
+        mappings=mappings,
     )
 
 
@@ -251,10 +266,41 @@ def all_categories() -> dict[str, str]:
 
 
 def resolve_category(name: str) -> str | None:
-    """Accept `weather.alerts` or bare `alerts` (unique across packs)."""
+    """Accept `weather.alerts` or bare `alerts`.
+
+    A bare name that several packs share (`events`, `reports`, `digest`)
+    resolves to the default topic's; `soil.events` names another pack's.
+    """
     key = name.strip().lower()
     cats = all_categories()
     if key in cats:
         return key
     matches = [c for c in cats if c.endswith("." + key)]
-    return matches[0] if len(matches) == 1 else None
+    if not matches:
+        return None
+    preferred = default_topic().category_key(key)
+    return preferred if preferred in matches else matches[0]
+
+
+def expand_category(name: str) -> list[str]:
+    """`*.events` / `all.events` → every pack's `<topic>.events`; else [resolved]."""
+    key = name.strip().lower()
+    if key.startswith(("*.", "all.")):
+        suffix = key.split(".", 1)[1]
+        return [c for c in all_categories() if c.endswith("." + suffix)]
+    one = resolve_category(key)
+    return [one] if one else []
+
+
+def metric_by_key(key: str) -> Metric | None:
+    for t in topics().values():
+        if key in t.metrics:
+            return t.metrics[key]
+    return None
+
+
+def topic_of_metric(key: str) -> Topic | None:
+    for t in topics().values():
+        if key in t.metrics:
+            return t
+    return None

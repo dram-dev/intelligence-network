@@ -25,7 +25,7 @@ from intelnet import db, geo
 from intelnet.config import settings
 from intelnet.models import Signal
 from intelnet.telegram import bot, esc, href
-from intelnet.topics import all_categories, find_metric, get_topic, resolve_category
+from intelnet.topics import all_categories, expand_category, find_metric, get_topic
 
 logger = logging.getLogger(__name__)
 
@@ -62,25 +62,39 @@ def parse_area(text: str | None, default: geo.Location | None = None) -> tuple[s
     return None
 
 
-def parse_subscription(args: str, default: geo.Location | None = None) -> ParsedSubscription | str:
-    """'/subscribe <category> [area]' args → ParsedSubscription, or an error string."""
+def parse_subscriptions(args: str, default: geo.Location | None = None) -> list[ParsedSubscription] | str:
+    """'/subscribe <category> [area]' args → subscriptions, or an error string.
+
+    `events` means the default topic's events; `soil.events` another pack's;
+    `*.events` (or `all.events`) every pack's — one subscription each.
+    """
     parts = args.strip().split(maxsplit=1)
     if not parts:
         return "Usage: /subscribe <category> [area]\n" + categories_help()
-    cat = resolve_category(parts[0])
-    if cat is None:
+    cats = expand_category(parts[0])
+    if not cats:
         return f"Unknown category “{esc(parts[0])}”.\n" + categories_help()
     area = parse_area(parts[1] if len(parts) > 1 else None, default)
     if area is None:
         return (f"Unknown area “{esc(parts[1])}”. Use a county (cook), a ZIP (60601), "
                 f"a ZIP+4 (60601-1234) or “{settings.geo_state.lower()}” for the whole state.")
-    return ParsedSubscription(cat, area[0], area[1])
+    return [ParsedSubscription(c, area[0], area[1]) for c in cats]
+
+
+def parse_subscription(args: str, default: geo.Location | None = None) -> ParsedSubscription | str:
+    """Single-subscription form of `parse_subscriptions` (first expansion)."""
+    out = parse_subscriptions(args, default)
+    return out if isinstance(out, str) else out[0]
 
 
 def categories_help() -> str:
-    lines = ["<b>Categories</b>"]
-    for key, desc in all_categories().items():
-        lines.append(f"• <code>{esc(key)}</code> — {esc(desc)}")
+    from intelnet.topics import topics
+
+    lines = ["<b>Categories</b> (topic.category)"]
+    for t in topics().values():
+        lines.append(f"<b>{esc(t.label)}</b>: " + " · ".join(
+            f"<code>{esc(t.category_key(c))}</code>" for c in t.categories))
+    lines.append("Bare <code>events</code> = weather.events; <code>*.events</code> = every topic.")
     lines.append("\n<b>Areas</b>: cook · 60601 · 60601-1234 · il (whole state). "
                  "Default = your home county.")
     return "\n".join(lines)

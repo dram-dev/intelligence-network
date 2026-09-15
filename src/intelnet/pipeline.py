@@ -95,8 +95,10 @@ def _run(run_type: str, skip_publish: bool, console: Any) -> dict[str, Any]:
             publisher.sync_readers()
             console.print(f"  published → {links['doc_url']}")
         except DriveNotConfigured as exc:
+            # Not configured is a setup state, not a failed run: the digest is
+            # recorded locally and the run stays green until Drive is authorized.
             console.print(f"  [yellow]⚠[/yellow] not published: {exc}")
-            summary["publish_error"] = str(exc)
+            summary["publish_skipped"] = str(exc)
         except Exception as exc:  # noqa: BLE001
             logger.exception("pipeline: Drive publish failed")
             console.print(f"  [red]✗[/red] publish failed: {exc}")
@@ -109,6 +111,22 @@ def _run(run_type: str, skip_publish: bool, console: Any) -> dict[str, Any]:
     )
     summary["links"] = links
     summary["headline"] = model.headline
+
+    console.rule("[bold cyan]stage 5: site snapshot")
+    try:
+        from intelnet import export
+
+        exported = export.export_all(days=14)
+        summary["export"] = {"json": len(exported["json"]), "site": bool(exported.get("site"))}
+        console.print(f"  wrote {len(exported['json'])} JSON files" + (" + docs/index.html" if exported.get("site") else ""))
+        if settings.site_auto_push:
+            pushed = export.git_push_docs()
+            summary["export"]["pushed"] = pushed
+            console.print("  pushed docs/ to GitHub" if pushed else "  nothing to push")
+    except Exception as exc:  # noqa: BLE001 — the site is best-effort
+        logger.exception("pipeline: export failed")
+        console.print(f"  [yellow]⚠[/yellow] export skipped: {exc}")
+        summary["export_error"] = str(exc)
     db.log_run(run_type=run_type, source="pipeline", items_fetched=0,
                items_new=int(model.vitals.get("signals_24h_human", 0)),
                duration_ms=int((time.perf_counter() - t0) * 1000),

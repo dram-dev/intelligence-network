@@ -7,8 +7,16 @@ import pytest
 
 from conftest import load_fixture
 from intelnet import db, watch
-from intelnet.feeds import FEEDS, iem_asos, iem_lsr, nws_alerts
+from intelnet.feeds import FEEDS, iem_asos, iem_lsr, nrcs_scan, nws_alerts, usdm_drought, usgs_water
 from intelnet.models import utcnow
+
+
+@pytest.fixture(autouse=True)
+def _quiet_new_feeds(monkeypatch):
+    """The water/soil/drought feeds are covered in test_packs; keep them offline here."""
+    monkeypatch.setattr(usgs_water, "fetch", lambda *a, **k: {"value": {"timeSeries": []}})
+    monkeypatch.setattr(nrcs_scan, "fetch_stations", lambda *a, **k: {})
+    monkeypatch.setattr(usdm_drought, "fetch", lambda *a, **k: [])
 
 
 def test_alerts_parse_one_row_per_county_sharing_a_group():
@@ -80,7 +88,7 @@ def test_feed_errors_are_isolated_and_logged(fresh_db, monkeypatch):
     assert out["feeds"]["iem_lsr"]["status"] == "ok"
     with db.get_conn() as conn:
         rows = conn.execute("SELECT source, status FROM run_log ORDER BY id").fetchall()
-    assert [(r["source"], r["status"]) for r in rows] == [
+    assert [(r["source"], r["status"]) for r in rows][:3] == [
         ("nws_alerts", "error"), ("iem_lsr", "ok"), ("iem_asos", "ok")]
 
 

@@ -63,12 +63,13 @@ def help_text() -> str:
         f"👋 <b>{esc(settings.network_name)}</b> — a sensor network you can join from your phone.\n"
         f"Every reading you send is checked against neighbours and official sources; "
         f"corroborated readings become events and raise your trust.\n\n"
-        f"<b>Report</b> (just type it):\n<code>{esc(language.cheatsheet(topic))}</code>\n"
-        f"Plain sentences work too (“golf-ball hail here 5 min ago”).\n\n"
+        f"<b>Report</b> (just type it) — weather, soil, water, crops, air:\n"
+        f"<code>{esc(language.cheatsheet())}</code>\n"
+        f"Plain sentences work too (“golf-ball hail here 5 min ago”). /topics lists every metric.\n\n"
         f"<b>Set up</b>: /join · /home 62704-1234 (or share your location) · /me\n"
         f"<b>Pull</b>: /near [place] · /alerts [county] · /latest · /network\n"
         f"<b>Subscribe</b>: /subscribe warnings cook · /subscribe events 62704 · "
-        f"/subscribe digest · /subs · /unsubscribe all\n"
+        f"/subscribe soil.events · /subscribe *.events · /subscribe digest · /subs · /unsubscribe all\n"
         f"<b>Digest by email</b>: /digest you@example.com\n"
         f"<b>Automated sensors</b>: /signal {esc(language.as_json_example(topic))}"
     )
@@ -128,16 +129,19 @@ def cmd_me(message: dict, sensor: Sensor | None, args: str) -> str:
 
 
 def cmd_subscribe(message: dict, sensor: Sensor | None, args: str) -> str:
-    parsed = subscriptions.parse_subscription(args, sensor.location if sensor else None)
+    parsed = subscriptions.parse_subscriptions(args, sensor.location if sensor else None)
     if isinstance(parsed, str):
         return parsed
     chat_id = message["chat"]["id"]
-    if parsed.category.endswith(".digest"):
-        parsed.area = settings.geo_state.lower()   # digest is state-wide
-        parsed.area_label = settings.geo_state
-    added = db.add_subscription(chat_id, parsed.category, parsed.area)
-    verb = "Subscribed" if added else "Already subscribed"
-    return f"🔔 {verb}: <b>{esc(parsed.category)}</b> @ {esc(parsed.area_label)}"
+    lines = []
+    for p in parsed:
+        if p.category.endswith(".digest"):
+            p.area = settings.geo_state.lower()   # digest is state-wide
+            p.area_label = settings.geo_state
+        added = db.add_subscription(chat_id, p.category, p.area)
+        verb = "Subscribed" if added else "Already subscribed"
+        lines.append(f"🔔 {verb}: <b>{esc(p.category)}</b> @ {esc(p.area_label)}")
+    return "\n".join(lines)
 
 
 def cmd_unsubscribe(message: dict, sensor: Sensor | None, args: str) -> str:
@@ -146,12 +150,14 @@ def cmd_unsubscribe(message: dict, sensor: Sensor | None, args: str) -> str:
     if not a or a.lower() == "all":
         n = db.remove_subscription(chat_id)
         return f"🔕 Removed {n} subscription(s)."
-    parsed = subscriptions.parse_subscription(a, sensor.location if sensor else None)
+    parsed = subscriptions.parse_subscriptions(a, sensor.location if sensor else None)
     if isinstance(parsed, str):
         return parsed
     parts = a.split(maxsplit=1)
-    n = db.remove_subscription(chat_id, parsed.category, parsed.area if len(parts) > 1 else None)
-    return f"🔕 Removed {n} subscription(s) for {esc(parsed.category)}."
+    n = sum(db.remove_subscription(chat_id, p.category, p.area if len(parts) > 1 else None)
+            for p in parsed)
+    what = parsed[0].category if len(parsed) == 1 else f"{len(parsed)} categories"
+    return f"🔕 Removed {n} subscription(s) for {esc(what)}."
 
 
 def cmd_subs(message: dict, sensor: Sensor | None, args: str) -> str:
@@ -285,7 +291,20 @@ def cmd_network(message: dict, sensor: Sensor | None, args: str) -> str:
 
 
 def cmd_topics(message: dict, sensor: Sensor | None, args: str) -> str:
-    return "<b>Metrics</b>\n<code>" + esc(language.describe_metrics()) + "</code>"
+    """/topics [name] — every pack's categories, or one pack's full vocabulary."""
+    from intelnet.topics import topics
+
+    name = args.strip().lower()
+    if name and name in topics():
+        t = topics()[name]
+        return (f"<b>{esc(t.label)}</b> — {esc(t.description)}\n"
+                f"Categories: {esc(', '.join(t.category_keys))}\n<code>{esc(language.describe_metrics(t))}</code>")
+    lines = ["<b>Topics</b> (send /topics &lt;name&gt; for the full vocabulary)"]
+    for t in topics().values():
+        n_flag = sum(1 for m in t.metrics.values() if m.is_flag)
+        lines.append(f"• <b>{esc(t.name)}</b> — {esc(t.description)} "
+                     f"<i>({len(t.metrics) - n_flag} metrics, {n_flag} flags)</i>")
+    return join_within(lines, MAX_MSG)
 
 
 def cmd_admin(message: dict, sensor: Sensor | None, args: str) -> str:

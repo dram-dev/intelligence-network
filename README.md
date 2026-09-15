@@ -5,9 +5,16 @@ is a sensor: what they report is checked against their neighbours and against
 official sources, corroborated readings become events, contributors earn
 trust, and the whole thing rolls up into a Google Doc every morning.
 
-Weather is the first topic and **Illinois** is the ground — resolved to
-counties, ZIPs and ZIP+4, not more states. Any other topic is a YAML file
-away (see *Topic packs*).
+**Illinois** is the ground — resolved to counties, ZIPs and ZIP+4, not more
+states. Five topics ship: **weather, soil, water, agriculture, air** — each a
+YAML topic pack, and the same grammar reads all of them in one message
+(`hail quarter; soil temp 55; corn at dent`). A sixth topic is another file.
+
+The public face is a static site (`docs/`, GitHub Pages) with the join and
+subscription instructions, a live data explorer (network graph, county mesh,
+activity, events), the Drive digest links, collaboration entry points and a
+public-data catalog. It rebuilds from the network's own anonymised snapshot
+after every daily run.
 
 ```
    people on Telegram ─┐                                  ┌─▶ Telegram pushes (warnings, events,
@@ -115,6 +122,22 @@ The parser, corroboration engine, subscriptions and digest all read the pack.
 A second topic (air quality, river stages, road conditions…) is another YAML
 file — no code change (there's a test that proves it).
 
+## Topics (the data language, one YAML each)
+
+| pack | metrics | flags | reference feeds |
+|---|---|---|---|
+| **weather** | temp, dewpoint, RH, pressure, wind, gust, rain, snow, hail (NWS size words), visibility | tornado, funnel, flooding, wind damage, outage, lightning | NWS alerts · storm reports · ASOS stations |
+| **soil** | moisture (VWC), soil temp, pH, organic matter, infiltration, compaction (psi), earthworms | erosion, cover crop, crusting | NRCS SCAN |
+| **water** | stage, discharge, water temp, turbidity, dissolved O₂, pH, conductance, nitrate, well depth | ponding, tile running, fish kill, algal bloom, bank erosion | USGS gauges (~280 IL sites) |
+| **agriculture** | corn stage (V/R words), soy stage, condition (NASS scale), yield, planting/harvest %, drought category (D0–D4) | drought stress, crop damage, pests, disease, field work | U.S. Drought Monitor |
+| **air** | PM2.5, AQI, ozone | smoke, odor, open burning | — (AirNow/PurpleAir need keys) |
+
+Every pack declares aliases, typed units → canonical, named sizes/levels,
+sanity ranges, agreement tolerance, neighbour radius/window, event thresholds,
+subscription channels and how official products map onto metrics. Aliases
+are unique across packs (a test enforces it), so `temp`, `soil temp` and
+`water temp` never collide.
+
 ## Reference feeds (all keyless)
 
 | feed | sensor kind · trust | cadence | what |
@@ -122,7 +145,10 @@ file — no code change (there's a test that proves it).
 | `nws_alerts` | authority · 1.0 | 5 min | api.weather.gov active alerts for IL, one row per county (SAME codes) |
 | `iem_lsr` | official · 0.95 | 5 min | NWS Local Storm Reports (IEM), typed + magnitude + point |
 | `iem_asos` | station · 0.9 | 60 min | 56 IL ASOS/AWOS stations: temp, dewpoint, RH, wind, gust, rain, pressure, visibility |
-| `news` | — | daily | Google News / NWS-office RSS → LLM-triaged reading list |
+| `usgs_water` | station · 0.95 | 60 min | USGS NWIS instantaneous stage / discharge / water temp, ~280 IL sites |
+| `nrcs_scan` | station · 0.9 | daily | NRCS SCAN soil moisture + temperature by depth (Illinois has one station, Mason) |
+| `usdm` | authority · 1.0 | daily | U.S. Drought Monitor county D0–D4 coverage → drought category |
+| `news` | — | daily | Google News / NWS / farmdoc RSS → LLM-triaged reading list |
 
 Geo tables (`config/geo/`) are vendored from the Census gazetteer + ZCTA→county
 relationship file: 102 counties with centroids, 1,396 ZCTAs with centroid and
@@ -131,22 +157,52 @@ subscription key and located at its ZIP5 centroid unless the sensor shares a
 location. Point→county uses api.weather.gov (cached) with a nearest-centroid
 fallback.
 
+## Who it's for
+
+| person | what they do here | where they start |
+|---|---|---|
+| **Contributor** (anyone with a phone) | reports readings; earns trust as neighbours agree | `/join`, `/home`, type a reading |
+| **Grower / land manager** | soil, crop, tile and pond readings; subscribes to `soil.events`, `agriculture.events` for the county | `/subscribe *.events <county>` |
+| **Spotter / emergency manager** | hail, wind, flooding with photos; wants warnings and verified events fast | `/subscribe warnings`, `/subscribe events` |
+| **Subscriber** (reads, rarely reports) | the digest link each morning; alerts for the home county | `/subscribe digest`, `/digest you@…` |
+| **Researcher / analyst** | pulls the public JSON snapshot; proposes datasets and topic packs | the site's *Public data* section, `docs/data/*.json` |
+| **Steward** (admin) | vouches (`/admin trust`), suspends, broadcasts; runs `intelnet setup` | `.env`, `intelnet health` |
+
 ## Setup (Mac mini)
 
 ```bash
 cd ~/Projects/intelligence-network
 uv sync                                  # digest-core comes from ../pc-insurance-digest
 cp .env.example .env                     # fill in TELEGRAM_BOT_TOKEN + TELEGRAM_ADMIN_CHAT_ID
+uv run intelnet setup                    # the turn-on checklist, checked for real
 uv run intelnet init-db
 uv run intelnet watch                    # pull the reference feeds once
 uv run intelnet signal "rain 0.4in @62704"   # contribute from the terminal
 uv run intelnet near 62704
 uv run intelnet digest --html /tmp/d.html    # preview the digest
 uv run intelnet drive init               # Google OAuth (secrets/README.md) → folder + Latest doc
-uv run intelnet pipeline --run-type manual   # full run → Drive
+uv run intelnet pipeline --run-type manual   # full run → Drive → docs/ snapshot + site
+uv run intelnet demo-seed --reset && uv run intelnet export --sample   # preview the site on a seeded fortnight
 bash scripts/install_launchd.sh          # bot · watch (5 min) · daily 01:10 · notify 08:00
 uv run intelnet health
 ```
+
+## The site (docs/)
+
+`site/index.fragment.html` is the page; `intelnet export` inlines the
+anonymised snapshot (`docs/data/*.json`) into `docs/index.html`, which GitHub
+Pages serves (Settings → Pages → Source: GitHub Actions; `.github/workflows/
+pages.yml`). Set `SITE_AUTO_PUSH=true` and the daily run commits + pushes
+`docs/` itself. Pages needs a public repo on the free plan.
+
+The page carries: join + subscription builder (copies the exact `/subscribe`
+command), a browser-side port of the grammar to try readings, the network
+graph (topics · metrics · sensors · counties · events · feeds; corroboration
+links), a county mesh, readings-per-day by topic, events ranked by score, the
+Drive digest links, collaboration entry points (Telegram group, Discussions,
+"propose a dataset / topic pack" issue templates, contributor board, how trust
+works), and a filterable public-data + research catalog
+(`config/public_sources.yaml`).
 
 Telegram: make a **new** bot with @BotFather (one bot = one poll consumer),
 put its token in `.env`, and your own chat id (from @userinfobot) as the admin.
@@ -173,7 +229,10 @@ src/intelnet/
 ├── contrib.py      the contribution path: parse → store → assess → fan-out → ack
 ├── subscriptions.py  category × area matching; alert / event / report / digest pushes
 ├── bot.py          Telegram commands + listener
-├── feeds/          nws_alerts · iem_lsr · iem_asos (ReferenceFeed base)
+├── feeds/          nws_alerts · iem_lsr · iem_asos · usgs_water · nrcs_scan · usdm_drought
+├── export.py       public JSON snapshot (anonymised) + docs/index.html build
+├── demo.py         seeded fortnight through the real engine (sample data)
+├── setup_check.py  `intelnet setup` — the turn-on checklist
 ├── ingest/         news (digest-core IngestorBase)
 ├── watch.py        5-minute reference sweep
 ├── digest.py       DigestModel + HTML / text renderers
@@ -183,5 +242,5 @@ src/intelnet/
 └── cli.py          intelnet …
 ```
 
-Tests: `uv run pytest` — 107 hermetic tests (temp DB; Telegram, Drive, LLMs
-and online geo all forced off).
+Tests: `uv run pytest` — hermetic (temp DB; Telegram, Drive, LLMs and online
+geo all forced off).

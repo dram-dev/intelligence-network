@@ -18,7 +18,7 @@ from digest_core.summarize.runner import extract_json
 from intelnet import geo
 from intelnet.config import settings
 from intelnet.language import ParsedSignal, ParseResult, describe_metrics
-from intelnet.topics import Topic, default_topic, find_metric
+from intelnet.topics import Topic, find_metric
 
 logger = logging.getLogger(__name__)
 
@@ -67,12 +67,11 @@ Metric vocabulary:
 
 def parse_free_text(text: str, topic: Topic | None = None, *, online: bool | None = None) -> ParseResult:
     """Prose → ParseResult via the parser backend. Empty result when disabled/failed."""
-    topic = topic or default_topic()
     result = ParseResult()
     if not text.strip() or not settings.llm_enabled:
         return result
     raw = call(settings.parser_backend, _PARSE_SYSTEM + describe_metrics(topic), text,
-               max_tokens=400, temperature=0.0)
+               max_tokens=600, temperature=0.0)
     if not raw:
         return result
     data = extract_json(raw) or {}
@@ -111,11 +110,12 @@ def parse_free_text(text: str, topic: Topic | None = None, *, online: bool | Non
 
 # ── news triage ────────────────────────────────────────────────────────────
 
-_TRIAGE_SYSTEM = """You are the triage gate for a local-weather intelligence digest covering {state}.
-Keep items that report or explain actual weather impacts, hazards, warnings, outages, damage,
-records, or forecasts of high-impact weather in {state}. Drop generic national stories, lifestyle
-pieces, and anything not about {state}. Output ONLY JSON:
-{{"decision": "keep"|"drop", "relevance": 0-1, "topic": "weather", "reason": "<=25 words"}}"""
+_TRIAGE_SYSTEM = """You are the triage gate for an environmental intelligence digest covering {state}:
+weather, water (rivers, lakes, wells, water quality), soil health, agriculture (crops, pests,
+drought) and air quality. Keep items that report or explain actual conditions, hazards, warnings,
+damage, records, outbreaks or high-impact forecasts in {state}. Drop generic national stories,
+lifestyle pieces, and anything not about {state}. Output ONLY JSON:
+{{"decision": "keep"|"drop", "relevance": 0-1, "topic": one of {topics}, "reason": "<=25 words"}}"""
 
 
 def triage_item(item: dict[str, Any]) -> dict[str, Any] | None:
@@ -123,7 +123,10 @@ def triage_item(item: dict[str, Any]) -> dict[str, Any] | None:
         return None
     body = (item.get("content") or "")[:2500]
     prompt = f"Title: {item.get('title')}\nSource: {item.get('source')}\n\n{body}"
-    raw = call(settings.triage_backend, _TRIAGE_SYSTEM.format(state=settings.geo_state), prompt,
+    from intelnet.topics import topics as _topics
+
+    raw = call(settings.triage_backend,
+               _TRIAGE_SYSTEM.format(state=settings.geo_state, topics=list(_topics())), prompt,
                max_tokens=200, temperature=0.0)
     if not raw:
         return None
@@ -140,8 +143,8 @@ def triage_item(item: dict[str, Any]) -> dict[str, Any] | None:
 
 # ── digest narrative ──────────────────────────────────────────────────────
 
-_NARRATIVE_SYSTEM = """You write the two-paragraph opening of a daily digest for a citizen weather
-sensor network in {state}. Paragraph 1: what the network observed in the last 24 hours (events,
+_NARRATIVE_SYSTEM = """You write the two-paragraph opening of a daily digest for a citizen
+environmental sensor network in {state} (weather, water, soil, agriculture, air). Paragraph 1: what the network observed in the last 24 hours (events,
 official alerts, notable readings) — concrete places and numbers, no hype. Paragraph 2: the state of
 the network itself (coverage, corroboration, where sensors are needed) in one or two sentences.
 Plain text, no markdown, no headings, under 180 words. Only use facts from the data given."""

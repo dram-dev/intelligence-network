@@ -30,6 +30,16 @@ class Settings(BaseSettings):
     notify_quiet_start_hour: int = Field(default=22, alias="NOTIFY_QUIET_START_HOUR")
     notify_quiet_end_hour: int = Field(default=8, alias="NOTIFY_QUIET_END_HOUR")
 
+    # The bot's public @handle (from BotFather) — shown on the site + in the digest.
+    telegram_bot_handle: str = Field(default="", alias="TELEGRAM_BOT_HANDLE")
+    # Optional community links surfaced on the site.
+    telegram_group_url: str = Field(default="", alias="TELEGRAM_GROUP_URL")
+    github_repo: str = Field(default="dram-dev/intelligence-network", alias="GITHUB_REPO")
+    site_url: str = Field(default="", alias="SITE_URL")
+    # After each daily run, rebuild docs/ (the public site + JSON snapshot) and,
+    # when true, commit + push it so GitHub Pages stays current.
+    site_auto_push: bool = Field(default=False, alias="SITE_AUTO_PUSH")
+
     # ── Network policy ────────────────────────────────────────────────────
     network_name: str = Field(default="Intelligence Network", alias="NETWORK_NAME")
     network_join_code: str = Field(default="", alias="NETWORK_JOIN_CODE")

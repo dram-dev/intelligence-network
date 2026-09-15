@@ -34,7 +34,7 @@ from zoneinfo import ZoneInfo
 
 from intelnet import geo
 from intelnet.config import settings
-from intelnet.topics import Metric, Topic, default_topic, find_metric
+from intelnet.topics import Metric, Topic, default_topic, find_metric  # noqa: F401
 
 _NUM = r"[-+]?\d+(?:\.\d+)?"
 _TIME_CLOCK = re.compile(
@@ -86,15 +86,31 @@ def _alt(words: list[str]) -> str:
     return "|".join(re.escape(w) for w in sorted(set(words), key=len, reverse=True))
 
 
-@lru_cache(maxsize=8)
-def _patterns(topic_name: str) -> list[tuple[Metric, re.Pattern, re.Pattern | None, re.Pattern | None]]:
-    """Per metric: (metric, alias-then-value, value-then-alias, words) patterns."""
-    from intelnet.topics import get_topic
+ALL_TOPICS = "*"
 
-    topic = get_topic(topic_name)
+
+def _metrics_in_scope(scope: str) -> list[Metric]:
+    from intelnet.topics import get_topic, topics
+
+    if scope == ALL_TOPICS:
+        pool = [m for t in topics().values() for m in t.metrics.values()]
+    else:
+        pool = list(get_topic(scope).metrics.values())
+    # Longest aliases first so 'soil temp' wins over 'temp' and 'wind gust' over 'wind'.
+    return sorted(pool, key=lambda x: -max(len(a) for a in (x.key, *x.aliases)))
+
+
+@lru_cache(maxsize=8)
+def _patterns(scope: str) -> list[tuple[Metric, re.Pattern, re.Pattern | None, re.Pattern | None]]:
+    """Per metric: (metric, alias-then-value, value-then-alias, words) patterns.
+
+    `scope` is a topic name, or ALL_TOPICS to read every pack at once — the
+    normal case for a contribution, since a sensor may report soil and weather
+    in one message. Cross-pack alias collisions are a pack-authoring error
+    (tests enforce uniqueness).
+    """
     out = []
-    # Longest aliases first so 'wind gust' wins over 'wind'.
-    for m in sorted(topic.metrics.values(), key=lambda x: -max(len(a) for a in (x.key, *x.aliases))):
+    for m in _metrics_in_scope(scope):
         aliases = _alt([m.key, *m.aliases])
         units = _alt(list(m.units)) if m.units else None
         unit_part = rf"\s*(?P<unit>{units})?(?![A-Za-z])" if units else r"(?P<unit>)"
@@ -194,8 +210,8 @@ def parse_clause(
     now: datetime | None = None,
     online: bool | None = None,
 ) -> tuple[list[ParsedSignal], list[str], str]:
-    """Parse one clause → (signals, errors, leftover text)."""
-    topic = topic or default_topic()
+    """Parse one clause → (signals, errors, leftover text). No topic = every pack."""
+    scope = topic.name if topic else ALL_TOPICS
     text = clause.strip()
     if not text:
         return [], [], ""
@@ -215,7 +231,7 @@ def parse_clause(
     def _free(span: tuple[int, int]) -> bool:
         return all(span[1] <= s or span[0] >= e for s, e in consumed)
 
-    for metric, pat_a, pat_b, pat_w in _patterns(topic.name):
+    for metric, pat_a, pat_b, pat_w in _patterns(scope):
         if pat_w:
             for m in pat_w.finditer(text):
                 if not _free(m.span()):
@@ -252,7 +268,7 @@ def parse_clause(
                 consumed.append(m.span())
 
     # A bare alias with no value ("rain" alone) is a question, not a reading.
-    for metric, pat_a, _pb, _pw in _patterns(topic.name):
+    for metric, pat_a, _pb, _pw in _patterns(scope):
         if metric.is_flag or any(s.metric is metric for s in signals):
             continue
         bare = re.compile(rf"(?<![A-Za-z])(?:{_alt([metric.key, *metric.aliases])})(?![A-Za-z])",
@@ -301,7 +317,6 @@ def parse(text: str, topic: Topic | None = None, *, now: datetime | None = None,
 def parse_json(payload: str | dict | list, topic: Topic | None = None, *,
                online: bool | None = None) -> ParseResult:
     """`/signal {...}` or a list of them → ParseResult (strict: no guessing)."""
-    topic = topic or default_topic()
     result = ParseResult()
     try:
         data = json.loads(payload) if isinstance(payload, str) else payload
@@ -358,24 +373,52 @@ def parse_json(payload: str | dict | list, topic: Topic | None = None, *,
 
 
 def cheatsheet(topic: Topic | None = None) -> str:
-    """Compact grammar reference for /help — generated from the pack."""
-    topic = topic or default_topic()
-    numeric = [m for m in topic.metrics.values() if not m.is_flag]
-    flags = [m for m in topic.metrics.values() if m.is_flag]
-    lines = [f"{m.aliases[0]} <value>[{m.default_unit or m.unit}]" for m in numeric[:6]]
-    lines.append("…plus: " + ", ".join(m.aliases[0] for m in numeric[6:]))
-    lines.append("flags: " + ", ".join(m.aliases[0] for m in flags))
+    """Compact grammar reference for /help — generated from the packs.
+
+    One topic → its first metrics in full; no topic → a line per pack.
+    """
+    from intelnet.topics import topics
+
+    if topic is not None:
+        numeric = [m for m in topic.metrics.values() if not m.is_flag]
+        flags = [m for m in topic.metrics.values() if m.is_flag]
+        lines = [f"{m.aliases[0]} <value>[{m.default_unit or m.unit}]" for m in numeric[:6]]
+        if numeric[6:]:
+            lines.append("…plus: " + ", ".join(m.aliases[0] for m in numeric[6:]))
+        if flags:
+            lines.append("flags: " + ", ".join(m.aliases[0] for m in flags))
+    else:
+        lines = []
+        for t in topics().values():
+            numeric = [m for m in t.metrics.values() if not m.is_flag]
+            flags = [m for m in t.metrics.values() if m.is_flag]
+            ex = [f"{m.aliases[0]} {_example_value(m)}" for m in numeric[:3]]
+            ex += [m.aliases[0] for m in flags[:2]]
+            lines.append(f"{t.label.lower()}: " + " · ".join(ex))
     lines.append("location: @62704 · @62704-1234 · @cook · @39.8,-89.6")
     lines.append("time: at 3:15pm · 20 min ago    note: -- text")
     return "\n".join(lines)
 
 
+def _example_value(m: Metric) -> str:
+    if m.words:
+        return next(iter(m.words))
+    lo, hi = m.range or (0.0, 10.0)
+    mid = (lo + hi) / 2
+    return f"{mid:g}{m.default_unit or ''}"
+
+
 def describe_metrics(topic: Topic | None = None) -> str:
-    topic = topic or default_topic()
+    """One line per metric — the vocabulary the LLM parser and /topics show."""
+    from intelnet.topics import topics
+
+    packs = [topic] if topic else list(topics().values())
     out = []
-    for m in topic.metrics.values():
-        units = "flag" if m.is_flag else f"{m.unit}; typed: {', '.join(list(m.units)[:5])}"
-        out.append(f"{m.key} — {m.label} ({units}); aliases: {', '.join(m.aliases)}")
+    for t in packs:
+        for m in t.metrics.values():
+            units = "flag" if m.is_flag else f"{m.unit}; typed: {', '.join(list(m.units)[:5])}"
+            words = f"; words: {', '.join(list(m.words)[:6])}" if m.words else ""
+            out.append(f"{m.key} — {m.label} [{t.name}] ({units}); aliases: {', '.join(m.aliases)}{words}")
     return "\n".join(out)
 
 

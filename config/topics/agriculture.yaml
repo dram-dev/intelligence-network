@@ -1,0 +1,216 @@
+# Topic pack: agriculture — the crop in the field, as growers talk about it.
+#
+# Corn and soybeans dominate Illinois; growth stages follow the Iowa State
+# scale (V/R for corn, V/R for soy), condition follows the NASS five-step
+# scale, drought follows the U.S. Drought Monitor's D0–D4.
+
+topic: agriculture
+label: Agriculture
+description: Crop stage and condition, planting and harvest progress, pests, disease, damage and drought.
+
+categories:
+  events:  Network-detected agricultural events near you — drought stress, crop damage, pest or disease outbreaks
+  reports: Every accepted field report near you (raw)
+  digest:  The daily digest (Google Doc link) when it is published
+
+metrics:
+  corn_stage:
+    label: Corn growth stage
+    unit: stage
+    aliases: [corn stage, corn at, corn is at, corn]
+    units: {stage: 1}
+    words:
+      planted: 0
+      emerged: 1
+      ve: 1
+      v2: 2
+      v3: 3
+      v4: 4
+      v5: 5
+      v6: 6
+      v7: 7
+      v8: 8
+      v9: 9
+      v10: 10
+      v11: 11
+      v12: 12
+      v13: 13
+      v14: 14
+      vt: 15
+      tasseling: 15
+      tassel: 15
+      r1: 16
+      silking: 16
+      silk: 16
+      r2: 17
+      blister: 17
+      r3: 18
+      milk: 18
+      r4: 19
+      dough: 19
+      r5: 20
+      dent: 20
+      r6: 21
+      black layer: 21
+      mature: 21
+      harvested: 25
+    range: [0, 25]
+    tolerance: {abs: 2}
+    radius_km: 20
+    window_min: 10080
+
+  soy_stage:
+    label: Soybean growth stage
+    unit: stage
+    aliases: [soybean stage, soy stage, beans at, beans are at, soybeans at, soybeans, beans]
+    units: {stage: 1}
+    words:
+      planted: 0
+      emerged: 1
+      vc: 1
+      v1: 2
+      v2: 3
+      v3: 4
+      v4: 5
+      v5: 6
+      v6: 7
+      r1: 11
+      beginning bloom: 11
+      flowering: 11
+      r2: 12
+      full bloom: 12
+      r3: 13
+      beginning pod: 13
+      podding: 13
+      r4: 14
+      full pod: 14
+      r5: 15
+      beginning seed: 15
+      r6: 16
+      full seed: 16
+      r7: 17
+      beginning maturity: 17
+      r8: 18
+      full maturity: 18
+      dropping leaves: 17
+      harvested: 22
+    range: [0, 22]
+    tolerance: {abs: 2}
+    radius_km: 20
+    window_min: 10080
+
+  crop_condition:
+    label: Crop condition (NASS scale)
+    unit: score
+    aliases: [crop condition, condition, crop looks, crop rating, crops look]
+    units: {score: 1}
+    words:
+      very poor: 1
+      poor: 2
+      fair: 3
+      good: 4
+      excellent: 5
+    range: [1, 5]
+    tolerance: {abs: 1}
+    radius_km: 20
+    window_min: 10080
+
+  yield_bu_ac:
+    label: Yield
+    unit: bu/ac
+    aliases: [yield, yields, yielding, bushels per acre, bu/ac, bpa]
+    units: {"bu/ac": 1, bpa: 1, bu: 1, bushels: 1, "t/ha": 14.87}
+    default_unit: "bu/ac"
+    range: [0, 400]
+    tolerance: {rel: 0.25, abs: 10}
+    radius_km: 20
+    window_min: 20160
+
+  planting_progress_pct:
+    label: Planting progress
+    unit: pct
+    aliases: [planting progress, planted percent, percent planted, "% planted"]
+    units: {"%": 1, pct: 1, percent: 1}
+    default_unit: "%"
+    range: [0, 100]
+    tolerance: {abs: 20}
+    radius_km: 30
+    window_min: 10080
+
+  harvest_progress_pct:
+    label: Harvest progress
+    unit: pct
+    aliases: [harvest progress, harvested percent, percent harvested, "% harvested"]
+    units: {"%": 1, pct: 1, percent: 1}
+    default_unit: "%"
+    range: [0, 100]
+    tolerance: {abs: 20}
+    radius_km: 30
+    window_min: 10080
+
+  drought_category:
+    label: Drought category (USDM)
+    unit: D-level
+    aliases: [drought category, drought level, usdm, drought monitor]
+    units: {d-level: 1, level: 1}
+    words:
+      none: 0
+      d0: 1
+      abnormally dry: 1
+      d1: 2
+      moderate drought: 2
+      d2: 3
+      severe drought: 3
+      d3: 4
+      extreme drought: 4
+      d4: 5
+      exceptional drought: 5
+    range: [0, 5]
+    tolerance: {abs: 1}
+    radius_km: 40
+    window_min: 10080
+    event: [[3, 0.4], [4, 0.7], [5, 1.0]]
+
+  # ── flags ──
+  drought_stress:
+    label: Drought stress
+    kind: flag
+    aliases: [drought stress, leaves rolling, corn rolling, curling leaves, crops wilting, firing lower leaves]
+    radius_km: 25
+    window_min: 1440
+    event: [[1, 0.5]]
+
+  crop_damage:
+    label: Crop damage
+    kind: flag
+    aliases: [crop damage, hail damage, lodging, lodged corn, green snap, greensnap, flattened corn, frost damage, freeze damage]
+    radius_km: 20
+    window_min: 720
+    event: [[1, 0.6]]
+
+  pest_pressure:
+    label: Pest pressure
+    kind: flag
+    aliases: [pest pressure, aphids, soybean aphid, armyworm, armyworms, fall armyworm, rootworm, japanese beetles, corn borer, cutworm, stink bugs, grasshoppers, insect pressure]
+    radius_km: 25
+    window_min: 4320
+    event: [[1, 0.5]]
+
+  disease:
+    label: Crop disease
+    kind: flag
+    aliases: [tar spot, gray leaf spot, grey leaf spot, southern rust, common rust, northern corn leaf blight, sudden death syndrome, sds, white mold, frogeye, crop disease, blight]
+    radius_km: 25
+    window_min: 4320
+    event: [[1, 0.5]]
+
+  field_work:
+    label: Field work underway
+    kind: flag
+    aliases: [field work, planting underway, planters rolling, harvest underway, combines rolling, combining, in the field, tillage underway, spraying]
+    radius_km: 30
+    window_min: 1440
+
+alert_support:
+  crop_damage: [severe_thunderstorm_warning, tornado_warning, high_wind_warning, frost_advisory, freeze_warning]
+  drought_stress: [heat_advisory, excessive_heat_warning, extreme_heat_warning]
