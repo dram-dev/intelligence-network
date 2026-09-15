@@ -5,7 +5,7 @@
    "kind": "topic",
    "label": "Agriculture",
    "topic": "agriculture",
-   "n": 0
+   "n": 102
   },
   {
    "id": "metric:corn_stage",
@@ -60,7 +60,7 @@
    "kind": "metric",
    "label": "Drought category (USDM)",
    "topic": "agriculture",
-   "n": 0,
+   "n": 102,
    "flag": false
   },
   {
@@ -163,14 +163,14 @@
    "kind": "topic",
    "label": "Soil",
    "topic": "soil",
-   "n": 0
+   "n": 2
   },
   {
    "id": "metric:soil_moisture_pct",
    "kind": "metric",
    "label": "Soil moisture",
    "topic": "soil",
-   "n": 0,
+   "n": 1,
    "flag": false
   },
   {
@@ -178,7 +178,7 @@
    "kind": "metric",
    "label": "Soil temperature",
    "topic": "soil",
-   "n": 0,
+   "n": 1,
    "flag": false
   },
   {
@@ -250,14 +250,14 @@
    "kind": "topic",
    "label": "Water",
    "topic": "water",
-   "n": 0
+   "n": 1780
   },
   {
    "id": "metric:stage_m",
    "kind": "metric",
    "label": "Stage (gauge height)",
    "topic": "water",
-   "n": 0,
+   "n": 934,
    "flag": false
   },
   {
@@ -265,7 +265,7 @@
    "kind": "metric",
    "label": "Streamflow",
    "topic": "water",
-   "n": 0,
+   "n": 748,
    "flag": false
   },
   {
@@ -273,7 +273,7 @@
    "kind": "metric",
    "label": "Water temperature",
    "topic": "water",
-   "n": 0,
+   "n": 98,
    "flag": false
   },
   {
@@ -369,14 +369,14 @@
    "kind": "topic",
    "label": "Weather",
    "topic": "weather",
-   "n": 0
+   "n": 1566
   },
   {
    "id": "metric:temp_c",
    "kind": "metric",
    "label": "Temperature",
    "topic": "weather",
-   "n": 0,
+   "n": 222,
    "flag": false
   },
   {
@@ -384,7 +384,7 @@
    "kind": "metric",
    "label": "Dew point",
    "topic": "weather",
-   "n": 0,
+   "n": 222,
    "flag": false
   },
   {
@@ -392,7 +392,7 @@
    "kind": "metric",
    "label": "Relative humidity",
    "topic": "weather",
-   "n": 0,
+   "n": 222,
    "flag": false
   },
   {
@@ -400,7 +400,7 @@
    "kind": "metric",
    "label": "Pressure",
    "topic": "weather",
-   "n": 0,
+   "n": 223,
    "flag": false
   },
   {
@@ -408,7 +408,7 @@
    "kind": "metric",
    "label": "Sustained wind",
    "topic": "weather",
-   "n": 0,
+   "n": 218,
    "flag": false
   },
   {
@@ -416,7 +416,7 @@
    "kind": "metric",
    "label": "Wind gust",
    "topic": "weather",
-   "n": 0,
+   "n": 13,
    "flag": false
   },
   {
@@ -424,7 +424,7 @@
    "kind": "metric",
    "label": "Rainfall",
    "topic": "weather",
-   "n": 0,
+   "n": 223,
    "flag": false
   },
   {
@@ -448,7 +448,7 @@
    "kind": "metric",
    "label": "Visibility",
    "topic": "weather",
-   "n": 0,
+   "n": 223,
    "flag": false
   },
   {
@@ -498,6 +498,44 @@
    "topic": "weather",
    "n": 0,
    "flag": true
+  },
+  {
+   "id": "feed:iem_asos",
+   "kind": "feed",
+   "label": "iem_asos",
+   "n": 1566
+  },
+  {
+   "id": "feed:usgs_water",
+   "kind": "feed",
+   "label": "usgs_water",
+   "n": 1780
+  },
+  {
+   "id": "feed:nrcs_scan",
+   "kind": "feed",
+   "label": "nrcs_scan",
+   "n": 2
+  },
+  {
+   "id": "feed:usdm",
+   "kind": "feed",
+   "label": "usdm",
+   "n": 102
+  },
+  {
+   "id": "event:1",
+   "kind": "event",
+   "label": "Soil moisture 4.3 pct \u2014 Mason County",
+   "topic": "soil",
+   "n": 1,
+   "score": 1.575,
+   "verified": true
+  },
+  {
+   "id": "county:17125",
+   "kind": "county",
+   "label": "Mason"
   }
  ],
  "links": [
@@ -847,6 +885,102 @@
    "source": "metric:lightning",
    "target": "topic:weather",
    "kind": "belongs",
+   "weight": 1
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:temp_c",
+   "kind": "reports",
+   "weight": 222
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:dewpoint_c",
+   "kind": "reports",
+   "weight": 222
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:humidity_pct",
+   "kind": "reports",
+   "weight": 222
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:wind_ms",
+   "kind": "reports",
+   "weight": 218
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:rain_mm",
+   "kind": "reports",
+   "weight": 223
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:pressure_hpa",
+   "kind": "reports",
+   "weight": 223
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:visibility_km",
+   "kind": "reports",
+   "weight": 223
+  },
+  {
+   "source": "feed:usgs_water",
+   "target": "metric:discharge_cms",
+   "kind": "reports",
+   "weight": 748
+  },
+  {
+   "source": "feed:usgs_water",
+   "target": "metric:stage_m",
+   "kind": "reports",
+   "weight": 934
+  },
+  {
+   "source": "feed:usgs_water",
+   "target": "metric:water_temp_c",
+   "kind": "reports",
+   "weight": 98
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:wind_gust_ms",
+   "kind": "reports",
+   "weight": 13
+  },
+  {
+   "source": "feed:nrcs_scan",
+   "target": "metric:soil_moisture_pct",
+   "kind": "reports",
+   "weight": 1
+  },
+  {
+   "source": "feed:nrcs_scan",
+   "target": "metric:soil_temp_c",
+   "kind": "reports",
+   "weight": 1
+  },
+  {
+   "source": "feed:usdm",
+   "target": "metric:drought_category",
+   "kind": "reports",
+   "weight": 102
+  },
+  {
+   "source": "event:1",
+   "target": "metric:soil_moisture_pct",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:1",
+   "target": "county:17125",
+   "kind": "in",
    "weight": 1
   }
  ]

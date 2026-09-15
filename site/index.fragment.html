@@ -6,7 +6,7 @@
     --ground: #F1F3EF; --surface: #FFFFFF; --surface-2: #E6EAE5; --ink: #1A1F1C; --muted: #5B655F;
     --line: #D3DAD4; --line-strong: #B9C3BC; --accent: #1D6E7A; --accent-ink: #FFFFFF; --amber: #B7791F;
     --radar: #14201C; --radar-ink: #DCE6E0; --radar-line: #2A3A33;
-    --t-weather: #1D6E7A; --t-soil: #7A4E24; --t-water: #2B5FAD; --t-agriculture: #4F7F2F; --t-air: #6E5E9A;
+    --t-weather: #1D6E7A; --t-soil: #7A4E24; --t-water: #2B5FAD; --t-agriculture: #4F7F2F; --t-air: #6E5E9A; --t-reference: #9AA59F;
     --sev-extreme: #B3261E; --sev-severe: #C4501B; --sev-moderate: #B7791F; --sev-minor: #4B7B8A;
     --ok: #3B7A45; --shadow: 0 1px 2px rgba(20,32,28,.06);
     --display: "Fraunces", "Iowan Old Style", Georgia, serif;
@@ -19,7 +19,7 @@
       --ground: #0F1412; --surface: #161C19; --surface-2: #1E2622; --ink: #E6ECE7; --muted: #98A69E;
       --line: #2A3430; --line-strong: #3B4842; --accent: #5FB4C0; --accent-ink: #0F1412; --amber: #E0A83A;
       --radar: #0B100E; --radar-ink: #DCE6E0; --radar-line: #243029;
-      --t-weather: #5FB4C0; --t-soil: #C08A5A; --t-water: #7FA6E8; --t-agriculture: #8BBF63; --t-air: #B1A2E3;
+      --t-weather: #5FB4C0; --t-soil: #C08A5A; --t-water: #7FA6E8; --t-agriculture: #8BBF63; --t-air: #B1A2E3; --t-reference: #5F6B65;
       --sev-extreme: #E5655C; --sev-severe: #E4844F; --sev-moderate: #E0A83A; --sev-minor: #7FB0BF;
       --ok: #7CBF88; --shadow: none; color-scheme: dark;
     }
@@ -28,7 +28,7 @@
     --ground: #0F1412; --surface: #161C19; --surface-2: #1E2622; --ink: #E6ECE7; --muted: #98A69E;
     --line: #2A3430; --line-strong: #3B4842; --accent: #5FB4C0; --accent-ink: #0F1412; --amber: #E0A83A;
     --radar: #0B100E; --radar-ink: #DCE6E0; --radar-line: #243029;
-    --t-weather: #5FB4C0; --t-soil: #C08A5A; --t-water: #7FA6E8; --t-agriculture: #8BBF63; --t-air: #B1A2E3;
+    --t-weather: #5FB4C0; --t-soil: #C08A5A; --t-water: #7FA6E8; --t-agriculture: #8BBF63; --t-air: #B1A2E3; --t-reference: #5F6B65;
     --sev-extreme: #E5655C; --sev-severe: #E4844F; --sev-moderate: #E0A83A; --sev-minor: #7FB0BF;
     --ok: #7CBF88; --shadow: none; color-scheme: dark;
   }
@@ -60,7 +60,7 @@
   .chip.on { background: var(--ink); color: var(--ground); border-color: var(--ink); }
   .topic-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: middle; background: var(--muted); }
   .topic-weather { background: var(--t-weather); } .topic-soil { background: var(--t-soil); } .topic-water { background: var(--t-water); }
-  .topic-agriculture { background: var(--t-agriculture); } .topic-air { background: var(--t-air); }
+  .topic-agriculture { background: var(--t-agriculture); } .topic-air { background: var(--t-air); } .topic-reference { background: var(--t-reference); }
 
   /* masthead */
   .mast { padding-block: 40px 28px; border-bottom: 1px solid var(--line); }
@@ -333,7 +333,8 @@ K = 4 · prior = 0.5 · trusted ≥ 0.8</pre>
 <footer>
   <div class="wrap">
     <p id="foot-line">Snapshot · Illinois · counties, ZIPs and ZIP+4 · human readings are published by handle and county only.</p>
-    <p style="margin-top:6px">Built on <a id="repo-link" href="#">the open repository</a>. Reference data © NWS, IEM, USGS, NRCS, NDMC; used under their public terms.</p>
+    <p style="margin-top:6px"><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a> · <a id="repo-link" href="#">Source on GitHub</a><span id="contact-line"></span></p>
+    <p style="margin-top:6px">Not an official warning service — in an emergency, follow the National Weather Service and local officials. Reference data from NWS, IEM, USGS, NRCS and NDMC, used under their public terms.</p>
   </div>
 </footer>
 <div class="tip" id="tip"></div>
@@ -373,6 +374,7 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
   const repo = D.github_repo || 'dram-dev/intelligence-network';
   $('#repo-link').href = 'https://github.com/' + repo;
   $('#discussions-link').href = 'https://github.com/' + repo + '/discussions';
+  if (D.contact_email) { const c = $('#contact-line'); c.append(' · Contact: ', el('a', { href: 'mailto:' + D.contact_email }, D.contact_email)); }
   $('#share-link').href = 'https://github.com/' + repo + '/issues/new?title=' + encodeURIComponent('Dataset: ') + '&body=' + encodeURIComponent('**Dataset**: \n**Publisher / who collects it**: \n**Domain** (weather / water / soil / agriculture / air): \n**Coverage** (counties, years, cadence): \n**Access** (URL, format, license): \n**How it could join the network** (reference feed, automated sensor JSON, catalog entry): \n');
   $('#pack-link').href = 'https://github.com/' + repo + '/issues/new?title=' + encodeURIComponent('Topic pack: ') + '&body=' + encodeURIComponent('**Topic**: \n**Metrics people can observe** (name, unit, typical range): \n**Official reference sources**: \n**Subscription channels**: \n');
   if (D.group_url) { $('#group-link').href = D.group_url; } else { $('#group-link').textContent = 'Telegram group (coming)'; $('#group-link').setAttribute('aria-disabled', 'true'); }
@@ -577,7 +579,10 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
   function drawActivity() {
     const svg = d3.select('#activity'); svg.selectAll('*').remove();
     const rows = D.activity || []; if (!rows.length) return;
-    const keys = TOPICS.map(t => t.name).filter(k => rows.some(r => r[k]));
+    let keys = TOPICS.map(t => t.name).filter(k => rows.some(r => r[k]));
+    // No community readings yet: show the official network's daily volume instead of an empty chart.
+    const refOnly = !keys.length && rows.some(r => r.reference);
+    if (refOnly) keys = ['reference'];
     const W = svg.node().clientWidth || 520, H = 260, m = { t: 10, r: 10, b: 26, l: 34 };
     const x = d3.scaleBand().domain(rows.map(r => r.date)).range([m.l, W - m.r]).padding(.15);
     const stacked = d3.stack().keys(keys)(rows);
@@ -588,7 +593,7 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     svg.append('g').selectAll('g').data(stacked).join('g').attr('fill', s => topicColor(s.key)).selectAll('rect').data(s => s.map(d => ({ ...d, key: s.key }))).join('rect')
       .attr('x', d => x(d.data.date)).attr('y', d => y(d[1])).attr('height', d => Math.max(0, y(d[0]) - y(d[1]))).attr('width', x.bandwidth())
       .on('mousemove', (e, d) => showTip('<b>' + d.data.date + '</b><br>' + d.key + ': ' + (d[1] - d[0]) + ' · total ' + keys.reduce((a, k) => a + (d.data[k] || 0), 0) + (d.data.alerts ? '<br>' + d.data.alerts + ' NWS alert(s)' : ''), e.clientX, e.clientY)).on('mouseleave', hideTip);
-    const lg = $('#activity-legend'); lg.innerHTML = ''; keys.forEach(k => lg.append(el('span', { class: 'chip' }, el('span', { class: 'topic-dot topic-' + k }), k)));
+    const lg = $('#activity-legend'); lg.innerHTML = ''; keys.forEach(k => lg.append(el('span', { class: 'chip' }, el('span', { class: 'topic-dot topic-' + k }), refOnly ? 'official stations, gauges & feeds — no community readings yet' : k)));
   }
   drawActivity();
   addEventListener('resize', () => { drawGraph(); drawActivity(); });

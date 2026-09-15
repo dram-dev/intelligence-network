@@ -51,7 +51,17 @@ class FakePerms:
 
     def create(self, fileId=None, body=None, sendNotificationEmail=None, fields=None):
         self.svc.perms.append((fileId, body, sendNotificationEmail))
-        return _Call({"id": "p"})
+        return _Call({"id": f"p{len(self.svc.perms)}"})
+
+    def list(self, fileId=None, fields=None):
+        return _Call({"permissions": [
+            {"id": f"p{i + 1}", "emailAddress": body.get("emailAddress"), "role": body.get("role")}
+            for i, (fid, body, _n) in enumerate(self.svc.perms) if fid == fileId and body is not None]})
+
+    def delete(self, fileId=None, permissionId=None):
+        idx = int(permissionId[1:]) - 1
+        self.svc.perms[idx] = (self.svc.perms[idx][0], None, None)
+        return _Call({})
 
 
 class FakeService:
@@ -93,6 +103,8 @@ def test_publish_creates_folder_latest_and_daily_doc(fresh_db, monkeypatch):
     assert len(svc.files_created) == 3 and (daily["id"], "<h1>v2</h1>") in svc.updates
 
     assert pub.add_reader("a@b.co") and svc.perms[-1][1]["emailAddress"] == "a@b.co"
+    assert pub.remove_reader("A@B.co") and svc.perms[-1][1] is None           # case-insensitive
+    assert pub.remove_reader("nobody@b.co") is False
     db.add_email_subscriber("c@d.co", None)
     assert pub.sync_readers() == 1
     st = pub.status()
@@ -277,8 +289,8 @@ def test_account_pinning(tmp_path, monkeypatch):
     monkeypatch.setattr(settings, "gdrive_account", "ilintelligencenetwork@gmail.com")
     assert gdrive.verify_account(Svc("ILIntelligenceNetwork@gmail.com")) == "ILIntelligenceNetwork@gmail.com"
     with pytest.raises(gdrive.DriveWrongAccount) as exc:
-        gdrive.verify_account(Svc("david.j.ramsey@gmail.com"))
-    assert exc.value.actual == "david.j.ramsey@gmail.com" and "pick ilintelligencenetwork@gmail.com" in str(exc.value)
+        gdrive.verify_account(Svc("someone.else@gmail.com"))
+    assert exc.value.actual == "someone.else@gmail.com" and "pick ilintelligencenetwork@gmail.com" in str(exc.value)
     assert isinstance(exc.value, gdrive.DriveNotConfigured)                         # pipeline treats it as not configured
 
     # sign-in links pre-select the pinned account

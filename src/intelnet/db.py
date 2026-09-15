@@ -382,6 +382,23 @@ def list_sensors(kind: str | None = None, active_hours: int | None = None,
     return [_sensor_from_row(r) for r in rows]
 
 
+def forget_sensor(sensor_id: str, chat_id: str | int) -> dict[str, Any]:
+    """Delete a person's sensor record, readings, subscriptions, e-mail and push ledger."""
+    chat = str(chat_id)
+    with get_conn() as conn:
+        emails = [r["email"] for r in conn.execute(
+            "SELECT email FROM email_subscribers WHERE chat_id = ?", (chat,)).fetchall()]
+        out = {
+            "signals": conn.execute("DELETE FROM signals WHERE sensor_id = ?", (sensor_id,)).rowcount,
+            "subscriptions": conn.execute("DELETE FROM subscriptions WHERE chat_id = ?", (chat,)).rowcount,
+            "emails": emails,
+        }
+        conn.execute("DELETE FROM email_subscribers WHERE chat_id = ?", (chat,))
+        conn.execute("DELETE FROM notify_log WHERE chat_id = ?", (chat,))
+        out["sensor"] = conn.execute("DELETE FROM sensors WHERE id = ?", (sensor_id,)).rowcount
+    return out
+
+
 def contributions_since(sensor_id: str, minutes: int) -> int:
     with get_conn() as conn:
         row = conn.execute(

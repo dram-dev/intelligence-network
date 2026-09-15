@@ -256,7 +256,8 @@ def snapshot(days: int = 14, *, sample: bool = False) -> dict[str, Any]:
         "bot_handle": settings.telegram_bot_handle,
         "group_url": settings.telegram_group_url,
         "github_repo": settings.github_repo,
-        "site_url": settings.site_url,
+        "site_url": settings.public_site_url,
+        "contact_email": settings.network_contact_email,
         "links": {"folder": latest["folder_url"] if latest else None,
                   "latest": latest["latest_url"] if latest else None,
                   "digest": latest["drive_url"] if latest else None},
@@ -314,6 +315,34 @@ def build_site(snap: dict[str, Any], fragment: Path | None = None, out: Path | N
     return out
 
 
+STATIC_PAGES = ("privacy.html", "terms.html")
+
+
+def render_static_pages(snap: dict[str, Any], out_dir: Path, site_dir: Path | None = None) -> list[Path]:
+    """Copy the policy pages next to index.html, filling in the network's details."""
+    site_dir = site_dir or FRAGMENT.parent
+    values = {
+        "{{NETWORK_NAME}}": str(snap.get("network_name") or "Intelligence Network"),
+        "{{STATE}}": {"IL": "Illinois"}.get(str(snap.get("state")), str(snap.get("state") or "")),
+        "{{BOT_HANDLE}}": str(snap.get("bot_handle") or "intelligence_network_bot"),
+        "{{CONTACT_EMAIL}}": str(snap.get("contact_email") or ""),
+        "{{SITE_URL}}": str(snap.get("site_url") or "./"),
+    }
+    written = []
+    for name in STATIC_PAGES:
+        src = site_dir / name
+        if not src.exists():
+            continue
+        html = src.read_text(encoding="utf-8")
+        for key, val in values.items():
+            html = html.replace(key, val)
+        dest = out_dir / name
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(html, encoding="utf-8")
+        written.append(dest)
+    return written
+
+
 def artifact_fragment(snap: dict[str, Any], fragment: Path | None = None) -> str:
     """The fragment with data inlined (no html/head/body — the artifact skeleton adds them)."""
     html = (fragment or FRAGMENT).read_text(encoding="utf-8")
@@ -328,6 +357,7 @@ def export_all(out_dir: Path | None = None, days: int = 14, *, site: bool = True
     result: dict[str, Any] = {"json": [str(p) for p in files]}
     if site and FRAGMENT.exists():
         result["site"] = str(build_site(snap, out=out_dir / "index.html"))
+        result["pages"] = [str(p) for p in render_static_pages(snap, out_dir)]
     return result
 
 

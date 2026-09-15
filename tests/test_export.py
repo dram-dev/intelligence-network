@@ -50,3 +50,19 @@ def test_export_all_without_fragment(fresh_db, tmp_path: Path, monkeypatch):
     res = export.export_all(tmp_path / "docs", days=2, site=True)
     assert len(res["json"]) == 10 and "site" not in res
     assert db.vitals()["sensors_total"] == 0
+
+
+def test_policy_pages_are_filled_in(fresh_db, tmp_path: Path, monkeypatch):
+    from intelnet.config import settings
+
+    monkeypatch.setattr(settings, "network_contact_email", "network@example.org")
+    snap = export.snapshot(days=1)
+    written = export.render_static_pages(snap, tmp_path, site_dir=export.SITE_DIR)
+    assert {p.name for p in written} == {"privacy.html", "terms.html"}
+    for p in written:
+        html = p.read_text(encoding="utf-8")
+        assert "{{" not in html and "network@example.org" in html and "@intelligence_network_bot" in html
+    privacy = (tmp_path / "privacy.html").read_text(encoding="utf-8")
+    assert "Limited Use" in privacy and "drive.file" in privacy and "/forget confirm" in privacy
+    assert "Not an official warning service" in (tmp_path / "terms.html").read_text(encoding="utf-8")
+    assert snap["site_url"] == "https://dram-dev.github.io/intelligence-network/"

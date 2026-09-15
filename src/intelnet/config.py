@@ -36,6 +36,8 @@ class Settings(BaseSettings):
     telegram_group_url: str = Field(default="", alias="TELEGRAM_GROUP_URL")
     github_repo: str = Field(default="dram-dev/intelligence-network", alias="GITHUB_REPO")
     site_url: str = Field(default="", alias="SITE_URL")
+    # Public contact for the network (site footer, privacy policy, bot /privacy).
+    network_contact_email: str = Field(default="", alias="NETWORK_CONTACT_EMAIL")
     # After each daily run, rebuild docs/ (the public site + JSON snapshot) and,
     # when true, commit + push it so GitHub Pages stays current.
     site_auto_push: bool = Field(default=False, alias="SITE_AUTO_PUSH")
@@ -112,6 +114,15 @@ class Settings(BaseSettings):
     @classmethod
     def _upper_state(cls, v: str) -> str:
         return str(v).strip().upper()
+
+
+    @property
+    def public_site_url(self) -> str:
+        """SITE_URL, or the GitHub Pages address derived from GITHUB_REPO."""
+        if self.site_url:
+            return self.site_url.rstrip("/") + "/"
+        owner, _, repo = self.github_repo.partition("/")
+        return f"https://{owner}.github.io/{repo}/" if owner and repo else ""
 
 
 settings = Settings()

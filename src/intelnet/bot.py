@@ -71,7 +71,8 @@ def help_text() -> str:
         f"<b>Subscribe</b>: /subscribe warnings cook · /subscribe events 62704 · "
         f"/subscribe soil.events · /subscribe *.events · /subscribe digest · /subs · /unsubscribe all\n"
         f"<b>Digest by email</b>: /digest you@example.com\n"
-        f"<b>Automated sensors</b>: /signal {esc(language.as_json_example(topic))}"
+        f"<b>Automated sensors</b>: /signal {esc(language.as_json_example(topic))}\n"
+        f"<b>Privacy</b>: /privacy · delete everything about you: /forget"
     )
 
 
@@ -336,11 +337,50 @@ def cmd_admin(message: dict, sensor: Sensor | None, args: str) -> str:
     return "Usage: /admin stats | sensors | ban <id> | unban <id> | trust <id> <0..1> | broadcast <text>"
 
 
+def cmd_privacy(message: dict, sensor: Sensor | None, args: str) -> str:
+    base = settings.public_site_url
+    lines = ["🔒 <b>Privacy</b>",
+             "Other people only ever see you as a handle (like s-3f9a1) with a ZIP code and county — "
+             "never your name, username, ZIP+4 or exact location."]
+    if base:
+        lines.append(f'<a href="{href(base + "privacy.html")}">Privacy Policy</a> · '
+                     f'<a href="{href(base + "terms.html")}">Terms of Service</a>')
+    lines.append("Delete your sensor record, readings, subscriptions and e-mail: <code>/forget confirm</code>")
+    if settings.network_contact_email:
+        lines.append(f"Contact: {esc(settings.network_contact_email)}")
+    return "\n".join(lines)
+
+
+def cmd_forget(message: dict, sensor: Sensor | None, args: str) -> str:
+    user = message.get("from") or {}
+    chat_id = message["chat"]["id"]
+    if args.strip().lower() != "confirm":
+        return ("This permanently deletes your sensor record, every reading you've sent, your subscriptions "
+                "and any digest e-mail address.\nTo go ahead, send <code>/forget confirm</code>")
+    out = db.forget_sensor(_sensor_id(user["id"]), chat_id)
+    removed = 0
+    if out["emails"]:
+        try:
+            from intelnet.gdrive import publisher
+
+            removed = sum(1 for e in out["emails"] if publisher.remove_reader(e))
+        except Exception:  # noqa: BLE001 — deletion from our records already happened
+            logger.warning("bot: could not remove digest readers for a forgotten sensor")
+    parts = [f"{out['signals']} reading(s)", f"{out['subscriptions']} subscription(s)"]
+    if out["emails"]:
+        parts.append(f"{len(out['emails'])} e-mail address(es)"
+                     + (" (removed from the digest folder)" if removed else ""))
+    if not out["sensor"] and not any((out["signals"], out["subscriptions"], out["emails"])):
+        return "There's nothing stored about you."
+    return "🗑 Deleted " + ", ".join(parts) + " and your sensor record. Send /join any time to start again."
+
+
 COMMANDS: dict[str, Callable[[dict, Sensor | None, str], str]] = {
     "join": cmd_join, "home": cmd_home, "me": cmd_me,
     "subscribe": cmd_subscribe, "unsubscribe": cmd_unsubscribe, "subs": cmd_subs,
     "subscriptions": cmd_subs, "near": cmd_near, "alerts": cmd_alerts, "latest": cmd_latest,
     "digest": cmd_digest_email, "network": cmd_network, "topics": cmd_topics, "admin": cmd_admin,
+    "privacy": cmd_privacy, "forget": cmd_forget,
 }
 
 
@@ -376,9 +416,9 @@ def handle_message(message: dict) -> str | None:
     if not chat.get("id") or not user.get("id"):
         return None
     sensor = db.get_sensor(_sensor_id(user["id"]))
-    if sensor and sensor.status == "banned":
-        return None
     text = (message.get("text") or message.get("caption") or "").strip()
+    if sensor and sensor.status == "banned" and not re.match(r"^/(forget|privacy)\b", text):
+        return None     # suspended sensors can still read the policy and delete their data
 
     if message.get("location") and not text:
         return cmd_location(message, sensor)

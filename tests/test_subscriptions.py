@@ -64,15 +64,19 @@ def test_fanout_alert_pushes_once_per_chat_and_routes_by_severity(fresh_db, sent
     assert subscriptions.fanout_alert(sev[0], sev) == 0 and not sent
 
 
-def test_fanout_report_excludes_the_author(fresh_db, sent, make_sensor):
-    ann = make_sensor("tg:1", zip_code="62704", chat_id="1")
+def test_fanout_report_excludes_the_author_and_hides_identity(fresh_db, sent, make_sensor):
+    from intelnet.models import public_handle
+
+    make_sensor("tg:1", zip_code="62704", chat_id="1")
     db.add_subscription("1", "weather.reports", "il.sangamon")
     db.add_subscription("2", "weather.reports", "il.sangamon")
     sig = Signal(source="telegram", source_id="x", sensor_id="tg:1", sensor_kind="human", topic="weather",
-                 metric="rain_mm", value=25.4, unit="mm", location=ann.location)
+                 metric="rain_mm", value=25.4, unit="mm", location=geo.location_from_zip("62704-1234"))
     db.insert_signal(sig)
-    assert subscriptions.fanout_report(sig, "Ann") == 1 and sent[0][0] == "2"
-    assert "Rainfall" in sent[0][1] and "Ann" in sent[0][1]
+    assert subscriptions.fanout_report(sig) == 1 and sent[0][0] == "2"
+    text = sent[0][1]
+    assert "Rainfall" in text and public_handle("tg:1") in text and "62704, Sangamon County" in text
+    assert "Ann" not in text and "62704-1234" not in text and "tg:1" not in text
 
 
 def test_fanout_digest_is_statewide_and_deduped(fresh_db, sent):

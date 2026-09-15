@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Terms of Service · Intelligence Network</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400..600,0..100&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root { --ground:#F1F3EF; --surface:#FFFFFF; --ink:#1A1F1C; --muted:#5B655F; --line:#D3DAD4; --accent:#1D6E7A; --code:#E6EAE5; color-scheme: light; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ground:#0F1412; --surface:#161C19; --ink:#E6ECE7; --muted:#98A69E; --line:#2A3430; --accent:#5FB4C0; --code:#1E2622; color-scheme: dark; } }
+  :root[data-theme="dark"] { --ground:#0F1412; --surface:#161C19; --ink:#E6ECE7; --muted:#98A69E; --line:#2A3430; --accent:#5FB4C0; --code:#1E2622; color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 16.5px/1.65 "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif; padding: 40px 20px 64px; }
+  main { max-width: 700px; margin: 0 auto; }
+  a { color: var(--accent); text-underline-offset: 2px; }
+  .crumb { font: 500 12px "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  h1 { font: 500 clamp(32px, 5vw, 44px)/1.1 "Fraunces", Georgia, serif; margin: 10px 0 6px; text-wrap: balance; }
+  h2 { font: 500 22px/1.25 "Fraunces", Georgia, serif; margin: 34px 0 8px; padding-top: 18px; border-top: 1px solid var(--line); text-wrap: balance; }
+  p, li { max-width: 66ch; }
+  ul { padding-left: 20px; }
+  li { margin: 4px 0; }
+  code { font: .9em "IBM Plex Mono", ui-monospace, monospace; background: var(--code); padding: .1em .35em; border-radius: 3px; }
+  .meta { color: var(--muted); font-size: 14px; }
+  .notice { border-left: 4px solid #B3261E; padding: 10px 14px; background: var(--surface); margin: 18px 0; }
+  footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <div class="crumb"><a href="./">{{NETWORK_NAME}}</a> · Terms</div>
+  <h1>Terms of Service</h1>
+  <p class="meta">Effective September 15, 2026</p>
+
+  <p>These terms cover the {{NETWORK_NAME}} Telegram bot (<a href="https://t.me/{{BOT_HANDLE}}">@{{BOT_HANDLE}}</a>), the daily digest, and this website. By using them you agree to these terms.</p>
+
+  <div class="notice"><b>Not an official warning service.</b> In a weather or environmental emergency, follow the National Weather Service and your local officials. Readings, events and alerts on this network can be wrong, late or missing; don't rely on it for life-safety decisions.</div>
+
+  <h2>The service</h2>
+  <p>{{NETWORK_NAME}} combines readings contributed by volunteers with official public data for {{STATE}}. It is provided as is and as available, without warranties of any kind, and it may change or stop at any time.</p>
+
+  <h2>Your contributions</h2>
+  <ul>
+    <li>Send only what you observed or measured yourself, as accurately as you can.</li>
+    <li>Don't send false or misleading readings, or anyone else's personal information.</li>
+    <li>You keep ownership of your readings. You give {{NETWORK_NAME}} permission to store, analyze and publish them in the pseudonymous and aggregated forms described in the <a href="privacy.html">Privacy Policy</a>, including after you stop contributing, unless you delete them with <code>/forget confirm</code>.</li>
+  </ul>
+
+  <h2>Fair use</h2>
+  <ul>
+    <li>No spam, and no automated posting other than the documented <code>/signal</code> JSON format.</li>
+    <li>Don't try to manipulate trust scores or events, for example with several accounts.</li>
+    <li>The network may rate-limit, suspend or remove sensors that break these terms.</li>
+  </ul>
+
+  <h2>Reusing the network's data</h2>
+  <p>You may reuse the daily digest and the data files published on this website, with attribution to "{{NETWORK_NAME}}". Official data included in them remains subject to its publishers' terms (National Weather Service, Iowa Environmental Mesonet, U.S. Geological Survey, USDA NRCS, National Drought Mitigation Center).</p>
+
+  <h2>Liability</h2>
+  <p>To the fullest extent permitted by law, the operators of {{NETWORK_NAME}} are not liable for any loss or damage arising from use of, or reliance on, the service.</p>
+
+  <h2>Changes</h2>
+  <p>Changes to these terms will be posted on this page with a new effective date. Continuing to use the service after a change means you accept it.</p>
+
+  <footer>Questions: <a href="mailto:{{CONTACT_EMAIL}}">{{CONTACT_EMAIL}}</a> · <a href="privacy.html">Privacy Policy</a> · <a href="./">Home</a></footer>
+</main>
+</body>
+</html>

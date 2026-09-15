@@ -246,6 +246,16 @@ class Location:
             parts.append(self.label or self.state)
         return ", ".join(parts)
 
+    def describe_public(self) -> str:
+        """ZIP5 + county — never the +4 or coordinates. For anything other people see."""
+        parts = []
+        if self.zip5:
+            parts.append(self.zip5)
+        c = county(self.county_fips)
+        if c:
+            parts.append(c.label)
+        return ", ".join(parts) or self.state
+
     def to_dict(self) -> dict:
         return {
             "lat": self.lat, "lon": self.lon, "county_fips": self.county_fips,

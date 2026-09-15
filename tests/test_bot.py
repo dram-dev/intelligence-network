@@ -127,3 +127,30 @@ def test_unknown_command_and_empty(fresh_db):
     assert "Unknown command /bogus" in bot.handle_message(msg("/bogus"))
     assert bot.handle_message(msg()) is None
     assert bot.handle_message({"chat": {}, "from": {}}) is None
+
+
+def test_privacy_and_forget(fresh_db, monkeypatch):
+    from intelnet.config import settings
+
+    monkeypatch.setattr(settings, "network_contact_email", "network@example.org")
+    r = bot.handle_message(msg("/privacy"))
+    assert "privacy.html" in r and "terms.html" in r and "network@example.org" in r and "/forget confirm" in r
+    bot.handle_message(msg("/join"))
+    bot.handle_message(msg("/home 62704"))
+    bot.handle_message(msg("rain 1in", mid=7))
+    bot.handle_message(msg("/subscribe warnings"))
+    bot.handle_message(msg("/digest me@example.org"))
+    assert "/forget confirm" in bot.handle_message(msg("/forget"))
+    assert db.get_sensor("tg:42") is not None                           # nothing deleted without confirm
+    r = bot.handle_message(msg("/forget confirm"))
+    assert "Deleted 1 reading(s), 1 subscription(s), 1 e-mail address(es)" in r
+    assert db.get_sensor("tg:42") is None and db.recent_signals(1) == [] and db.email_subscribers() == []
+    assert db.subscriptions_for(42) == []
+    assert "nothing stored" in bot.handle_message(msg("/forget confirm"))
+
+
+def test_suspended_sensor_can_still_forget(fresh_db):
+    bot.handle_message(msg("/join"))
+    db.set_sensor_status("tg:42", "banned")
+    assert bot.handle_message(msg("rain 1in")) is None
+    assert "Deleted" in bot.handle_message(msg("/forget confirm"))

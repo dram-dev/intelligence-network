@@ -105,7 +105,7 @@ def contribute(sensor: Sensor, text: str, *, source: str = "telegram", source_id
         c.assessments.append(a)
         if a.push_event and a.event:
             c.pushes += subscriptions.fanout_event(a.event, a.push_reason, sig.location.area_keys())
-        c.pushes += subscriptions.fanout_report(sig, sensor.name or sensor.username or sensor.id)
+        c.pushes += subscriptions.fanout_report(sig)
     if c.signals:
         db.touch_sensor(sensor.id)
     return c

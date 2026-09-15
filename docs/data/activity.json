@@ -6,7 +6,7 @@
   "soil": 0,
   "water": 0,
   "weather": 0,
-  "reference": 0,
+  "reference": 1,
   "alerts": 0
  },
  {
@@ -66,7 +66,7 @@
   "soil": 0,
   "water": 0,
   "weather": 0,
-  "reference": 0,
+  "reference": 102,
   "alerts": 0
  },
  {
@@ -116,7 +116,7 @@
   "soil": 0,
   "water": 0,
   "weather": 0,
-  "reference": 0,
+  "reference": 2,
   "alerts": 0
  },
  {
@@ -126,7 +126,7 @@
   "soil": 0,
   "water": 0,
   "weather": 0,
-  "reference": 0,
+  "reference": 3,
   "alerts": 0
  },
  {
@@ -136,7 +136,7 @@
   "soil": 0,
   "water": 0,
   "weather": 0,
-  "reference": 0,
-  "alerts": 0
+  "reference": 3342,
+  "alerts": 3
  }
 ]

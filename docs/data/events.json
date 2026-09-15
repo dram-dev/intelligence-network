@@ -1,1 +1,21 @@
-[]
+[
+ {
+  "id": 1,
+  "topic": "soil",
+  "metric": "soil_moisture_pct",
+  "metric_label": "Soil moisture",
+  "title": "Soil moisture 4.3 pct \u2014 Mason County",
+  "county_fips": "17125",
+  "county_label": "Mason County",
+  "peak_display": "4.3 pct",
+  "n_signals": 1,
+  "n_sensors": 1,
+  "n_reference": 1,
+  "severity": 0.7,
+  "score": 1.575,
+  "status": "closed",
+  "opened_at": "2026-09-13T12:00:00+00:00",
+  "updated_at": "2026-09-13T12:00:00+00:00",
+  "verified": true
+ }
+]

@@ -151,11 +151,12 @@ def format_event(ev: dict[str, Any], reason: str = "new") -> str:
     return "\n".join(lines)
 
 
-def format_report(sig: Signal, sensor_name: str) -> str:
+def format_report(sig: Signal, handle: str) -> str:
+    """A raw report as other subscribers see it: pseudonymous handle, ZIP5 + county."""
     m = find_metric(sig.metric, get_topic(sig.topic))
     what = f"{m.label}: {m.display(sig.value)}" if m else f"{sig.metric}: {sig.value}"
-    lines = [f"📝 <b>{esc(what)}</b>", f"{esc(sig.location.describe())} · {_when(sig)} · "
-             f"{esc(sensor_name)} · {esc(sig.quality)}"]
+    lines = [f"📝 <b>{esc(what)}</b>", f"{esc(sig.location.describe_public())} · {_when(sig)} · "
+             f"{esc(handle)} · {esc(sig.quality)}"]
     if sig.text:
         lines.append(f"<i>{esc(sig.text[:200])}</i>")
     return "\n".join(lines)
@@ -200,10 +201,12 @@ def fanout_event(ev: dict[str, Any], reason: str, area_keys: list[str]) -> int:
     return push(topic.category_key("events"), area_keys, key, format_event(ev, reason))
 
 
-def fanout_report(sig: Signal, sensor_name: str) -> int:
+def fanout_report(sig: Signal) -> int:
+    from intelnet.models import public_handle
+
     topic = get_topic(sig.topic)
     return push(topic.category_key("reports"), sig.location.area_keys(), f"report:{sig.key}",
-                format_report(sig, sensor_name), exclude_chat=_chat_of(sig.sensor_id))
+                format_report(sig, public_handle(sig.sensor_id)), exclude_chat=_chat_of(sig.sensor_id))
 
 
 def _chat_of(sensor_id: str) -> str | None:

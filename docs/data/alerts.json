@@ -1,1 +1,49 @@
-[]
+[
+ {
+  "event": "Heat Advisory",
+  "severity": "Moderate",
+  "counties": [
+   "Jefferson",
+   "Wayne",
+   "Edwards",
+   "Wabash",
+   "Perry",
+   "Franklin",
+   "Hamilton",
+   "White",
+   "Jackson",
+   "Williamson",
+   "Saline",
+   "Gallatin",
+   "Union",
+   "Johnson",
+   "Pope",
+   "Hardin",
+   "Alexander",
+   "Pulaski",
+   "Massac"
+  ],
+  "sender": "NWS Paducah KY",
+  "headline": "HEAT ADVISORY REMAINS IN EFFECT FROM 11 AM CDT /NOON EDT/ TUESDAY TO 7 PM CDT /8 PM EDT/ WEDNESDAY",
+  "expires": "2026-09-17T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3a1d6564b326cb8601ff3cdb2671a17dce3f7033.002.1"
+ },
+ {
+  "event": "Heat Advisory",
+  "severity": "Moderate",
+  "counties": [
+   "Bond",
+   "Clinton",
+   "Marion",
+   "Washington",
+   "Randolph",
+   "Madison",
+   "St. Clair",
+   "Monroe"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "HEAT ADVISORY REMAINS IN EFFECT FROM 11 AM THIS MORNING TO 7 PM CDT THIS EVENING",
+  "expires": "2026-09-16T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.1382cb5a279f8b74020af5ffaa3c82f7467ab3b1.001.1"
+ }
+]

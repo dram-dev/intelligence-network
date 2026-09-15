@@ -329,6 +329,27 @@ class DrivePublisher:
             logger.warning("gdrive: share with %s failed: %s", email, exc)
             return False
 
+    def remove_reader(self, email: str) -> bool:
+        """Take an e-mail address off the digest folder (best-effort)."""
+        folder_id = db.kv_get(KV_FOLDER)
+        if not folder_id:
+            return False
+        try:
+            svc = self._svc()
+            perms = svc.permissions().list(
+                fileId=folder_id, fields="permissions(id,emailAddress,role)"
+            ).execute().get("permissions", [])
+            hits = [p for p in perms if (p.get("emailAddress") or "").lower() == email.strip().lower()
+                    and p.get("role") != "owner"]
+            for perm in hits:
+                svc.permissions().delete(fileId=folder_id, permissionId=perm["id"]).execute()
+            return bool(hits)
+        except DriveNotConfigured:
+            return False
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("gdrive: removing %s failed: %s", email, exc)
+            return False
+
     def sync_readers(self) -> int:
         """Share the folder with every recorded e-mail subscriber (idempotent-ish)."""
         n = 0

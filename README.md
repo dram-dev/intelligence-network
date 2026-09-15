@@ -1,5 +1,8 @@
 # intelligence-network
 
+**Live site:** https://dram-dev.github.io/intelligence-network/ · **Bot:** [@intelligence_network_bot](https://t.me/intelligence_network_bot) ·
+[Privacy](https://dram-dev.github.io/intelligence-network/privacy.html) · [Terms](https://dram-dev.github.io/intelligence-network/terms.html)
+
 A **decentralized sensor network** with a daily digest. Anyone with Telegram
 is a sensor: what they report is checked against their neighbours and against
 official sources, corroborated readings become events, contributors earn
@@ -72,7 +75,11 @@ tornado @sangamon -- on the ground west of town
 Commands: `/join [code]` · `/home` · `/me` · `/near [place] [6h]` ·
 `/alerts [county]` · `/latest` · `/network` · `/topics` ·
 `/subscribe <category> [area]` · `/unsubscribe …|all` · `/subs` ·
-`/digest you@example.com` · admin: `/admin stats|sensors|ban|unban|trust|broadcast`.
+`/digest you@example.com` · `/privacy` · `/forget confirm` (deletes your record, readings,
+subscriptions and e-mail) · admin: `/admin stats|sensors|ban|unban|trust|broadcast`.
+
+Other people only ever see a contributor as a pseudonymous handle (`s-3f9a1`) with a ZIP code and
+county — never a name, username, ZIP+4 or coordinates (report pushes, the digest, the site).
 
 The bot answers every reading with what it understood, how it compares with
 nearby sensors / official sources, and your trust.

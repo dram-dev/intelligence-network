@@ -27,6 +27,11 @@ def _offline(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(settings, "notify_enabled", False)
     monkeypatch.setattr(settings, "network_join_code", "")
     monkeypatch.setattr(settings, "telegram_admin_chat_id", "999")
+    # Deployment-specific values from the developer .env must not leak into assertions.
+    monkeypatch.setattr(settings, "gdrive_account", "")
+    monkeypatch.setattr(settings, "site_url", "")
+    monkeypatch.setattr(settings, "network_contact_email", "")
+    monkeypatch.setattr(settings, "site_auto_push", False)
     from intelnet import telegram
 
     monkeypatch.setattr(telegram.bot, "enabled", False)

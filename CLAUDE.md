@@ -127,6 +127,17 @@ site from it. Pipeline stage 5 re-exports after each run; `SITE_AUTO_PUSH`
 pushes `docs/`. Pages workflow in `.github/workflows/pages.yml` (needs a public
 repo on the free plan).
 
+## Public launch (2026-09-15)
+
+Repo is **public**; GitHub Pages serves `docs/` at https://dram-dev.github.io/intelligence-network/
+(+ `privacy.html`, `terms.html` rendered from `site/` with `{{PLACEHOLDERS}}` by
+`export.render_static_pages`). `SITE_AUTO_PUSH=true` → the nightly run commits + pushes `docs/`.
+Public identity = **ilintelligencenetwork@gmail.com** (`NETWORK_CONTACT_EMAIL`, Drive owner via
+`GDRIVE_ACCOUNT`). Privacy rules the code enforces: report pushes, digest and site show a contributor
+only as `public_handle()` + ZIP5/county (`Location.describe_public`); `/forget confirm` deletes a
+person's sensor, readings, subscriptions, e-mail (+ Drive folder share). Google OAuth app: Branding
+values in `secrets/README.md`; after "Publish app", re-run `drive init --remote` once.
+
 ## Status (2026-09-15)
 
 Waves 1–2 built and tested. Live-verified feeds: NWS alerts, IEM LSR/ASOS,

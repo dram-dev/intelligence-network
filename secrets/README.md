@@ -19,9 +19,16 @@ the digest:
 4. **Data Access** → Add or remove scopes → tick
    `https://www.googleapis.com/auth/drive.file` → Update → **Save**.
    (Non-sensitive: no verification needed.)
-5. **Audience** → Publishing status → **Publish app** → Confirm.
-   In *Testing*, Google expires refresh tokens after 7 days and the nightly
-   publish would break every week.
+5. **Branding** → fill in, then **Save**:
+   - Application home page: `https://dram-dev.github.io/intelligence-network/`
+   - Application privacy policy link: `https://dram-dev.github.io/intelligence-network/privacy.html`
+   - Application terms of service link: `https://dram-dev.github.io/intelligence-network/terms.html`
+   - Authorized domains: `dram-dev.github.io`
+   - Developer contact: the service account (`ilintelligencenetwork@gmail.com`)
+   Then **Audience** → Publishing status → **Publish app** → Confirm. Until it is
+   published ("Testing"), Google expires the Drive login every 7 days; the
+   nightly run DMs the admin when that happens. After publishing, sign in once
+   more (`drive init --remote`) so the new login doesn't carry the 7-day limit.
 6. **Clients** → **Create client** → type **Desktop app** → name
    *intelnet mac mini* → Create → **Download JSON** now (the secret is only
    shown at creation).
@@ -39,6 +46,9 @@ Switching Google accounts: delete this file and run `drive init` again — the
 app notices the old folder isn't reachable and creates a new one.
 
 ## Scope
+
+The publishing account is pinned with `GDRIVE_ACCOUNT` in `.env`: sign-in
+pre-selects it and publishing refuses any other account.
 
 `https://www.googleapis.com/auth/drive.file` — the app can only see and manage
 files **it created** (the Intelligence Network folder, the daily digest docs,
