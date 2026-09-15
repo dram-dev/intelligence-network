@@ -33,6 +33,11 @@ KIND_AUTHORITY = "authority"  # NWS alert issuer
 REFERENCE_KINDS = (KIND_STATION, KIND_OFFICIAL, KIND_AUTHORITY)
 
 
+def public_handle(sensor_id: str) -> str:
+    """Stable public handle for a sensor (`s-3f9a1`) — what anything public shows."""
+    return "s-" + hashlib.sha1(sensor_id.encode()).hexdigest()[:5]
+
+
 def utcnow() -> datetime:
     return datetime.now(timezone.utc)
 

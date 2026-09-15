@@ -20,6 +20,7 @@ from typing import Any
 from intelnet import db, geo, network
 from intelnet.config import settings
 from intelnet.feeds.nws_alerts import SEVERITY_RANK
+from intelnet.models import public_handle
 from intelnet.topics import find_metric
 
 EXTREME_METRICS = (("wind_gust_ms", "max"), ("rain_mm", "max"), ("temp_c", "max"),
@@ -113,8 +114,10 @@ def build(hours: float = 24.0, date: str | None = None) -> DigestModel:
     model.alerts = _alert_recap(hours)
     model.contributions = [r for r in network.mesh_rows(hours) if r["n_human"]][:25]
     model.extremes = _extremes(hours)
+    # The digest folder can be anyone-with-link, so people appear by handle only
+    # — the same rule as the public site.
     model.leaderboard = [
-        {"name": r["name"] or r["username"] or r["id"], "trust": r["trust"], "n": r["n"],
+        {"name": public_handle(r["id"]), "trust": r["trust"], "n": r["n"],
          "n_corr": r["n_corr"], "county": (geo.county(r["county_fips"]).name
                                            if geo.county(r["county_fips"]) else "—")}
         for r in db.leaderboard(7)

@@ -137,6 +137,7 @@ def drive_init() -> None:
 
     db.init_db()
     try:
+        publisher.authorize()
         fid = publisher.ensure_folder()
         lid = publisher.ensure_latest_doc(fid)
     except DriveNotConfigured as exc:

@@ -28,7 +28,8 @@ def test_build_and_render(make_sensor):
     assert m.events and m.events[0]["metric"] == "hail_mm" and m.events[0]["verified"]
     assert m.alerts and m.alerts[0]["counties"]
     assert m.contributions and m.contributions[0]["county"] == "Sangamon County"
-    assert m.leaderboard[0]["name"] in ("Ann", "Bob")
+    assert m.leaderboard[0]["name"].startswith("s-")          # handles, never names
+    assert "Ann" not in digest.render_html(m) and "Bob" not in digest.render_html(m)
     assert m.reading[0]["title"] == "Storms rake central Illinois" and m.reading[0]["feed"] == "Google News"
     assert m.gap_count == 101 and m.subscriptions == {"weather.digest": 1}
     assert "3 readings from 2 sensors" in m.headline and "top event: Hail size" in m.headline

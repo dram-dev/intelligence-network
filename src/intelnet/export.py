@@ -14,7 +14,6 @@ and as a Claude artifact without fetching anything.
 """
 from __future__ import annotations
 
-import hashlib
 import json
 import re
 from collections import Counter, defaultdict
@@ -26,7 +25,7 @@ import yaml
 
 from intelnet import db, geo, network
 from intelnet.config import CONFIG_DIR, PROJECT_ROOT, settings
-from intelnet.models import KIND_BOT, KIND_HUMAN, REFERENCE_KINDS, utcnow
+from intelnet.models import KIND_BOT, KIND_HUMAN, REFERENCE_KINDS, public_handle, utcnow
 from intelnet.topics import topics
 
 SITE_DIR = PROJECT_ROOT / "site"
@@ -38,7 +37,7 @@ HUMAN_KINDS = (KIND_HUMAN, KIND_BOT)
 
 def handle(sensor_id: str) -> str:
     """Stable public handle for a human sensor (no identity leaks)."""
-    return "s-" + hashlib.sha1(sensor_id.encode()).hexdigest()[:5]
+    return public_handle(sensor_id)
 
 
 # ── sections ──────────────────────────────────────────────────────────────

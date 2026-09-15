@@ -18,6 +18,7 @@ creates). All Drive calls go through `_svc()` so tests inject a fake.
 from __future__ import annotations
 
 import logging
+from pathlib import Path
 from typing import Any
 
 from intelnet import db
@@ -36,27 +37,49 @@ class DriveNotConfigured(RuntimeError):
     """No credentials / token available (or GDRIVE_ENABLED=false)."""
 
 
-def _get_credentials():
+def _get_credentials(interactive: bool = False):
+    """Load (and refresh) the saved token. Only `interactive` may open a browser.
+
+    The nightly pipeline and the bot call this non-interactively: a missing or
+    dead token raises DriveNotConfigured instead of starting a consent flow that
+    would block a headless process — and the shared cross-digest run lock — forever.
+    """
+    from google.auth.exceptions import RefreshError
     from google.auth.transport.requests import Request
     from google.oauth2.credentials import Credentials
     from google_auth_oauthlib.flow import InstalledAppFlow
 
-    token_path = settings.gdrive_token_path
-    creds_path = settings.gdrive_credentials_path
+    token_path = Path(settings.gdrive_token_path)
+    creds_path = Path(settings.gdrive_credentials_path)
     creds = None
     if token_path.exists():
-        creds = Credentials.from_authorized_user_file(str(token_path), SCOPES)
+        try:
+            creds = Credentials.from_authorized_user_file(str(token_path), SCOPES)
+        except ValueError:
+            creds = None          # unreadable token → treat as not authorized
     if creds and creds.valid:
         return creds
     if creds and creds.expired and creds.refresh_token:
-        creds.refresh(Request())
-    else:
+        try:
+            creds.refresh(Request())
+        except RefreshError as exc:
+            if not interactive:
+                raise DriveNotConfigured(
+                    "Google authorization expired or was revoked — run `uv run intelnet drive init`"
+                ) from exc
+            creds = None
+    if not (creds and creds.valid):
         if not creds_path.exists():
             raise DriveNotConfigured(
                 f"Google OAuth client not found at {creds_path} — see secrets/README.md"
             )
+        if not interactive:
+            raise DriveNotConfigured(
+                "Google Drive is not authorized yet — run `uv run intelnet drive init`"
+            )
         flow = InstalledAppFlow.from_client_secrets_file(str(creds_path), SCOPES)
-        creds = flow.run_local_server(port=0)
+        # prompt=consent guarantees a refresh token even on a re-authorization.
+        creds = flow.run_local_server(port=0, prompt="consent")
     token_path.parent.mkdir(parents=True, exist_ok=True)
     token_path.write_text(creds.to_json())
     token_path.chmod(0o600)
@@ -72,14 +95,29 @@ class DrivePublisher:
     def enabled(self) -> bool:
         return settings.gdrive_enabled
 
-    def _svc(self):
+    def _svc(self, interactive: bool = False):
         if self._service is None:
             if not self.enabled:
                 raise DriveNotConfigured("GDRIVE_ENABLED=false")
             from googleapiclient.discovery import build
 
-            self._service = build("drive", "v3", credentials=_get_credentials(), cache_discovery=False)
+            creds = _get_credentials(interactive)
+            self._service = build("drive", "v3", credentials=creds, cache_discovery=False)
         return self._service
+
+    def authorize(self) -> None:
+        """Browser consent on first use — only `intelnet drive init` calls this."""
+        self._svc(interactive=True)
+
+    def _exists(self, file_id: str) -> bool:
+        """Is a stored folder/doc id still usable (not deleted, trashed, or another account's)?"""
+        try:
+            meta = self._svc().files().get(fileId=file_id, fields="id,trashed").execute()
+        except Exception as exc:  # noqa: BLE001 — googleapiclient HttpError carries .resp.status
+            if getattr(getattr(exc, "resp", None), "status", None) in (403, 404):
+                return False
+            raise
+        return not meta.get("trashed")
 
     @property
     def configured(self) -> bool:
@@ -98,7 +136,7 @@ class DrivePublisher:
     # ── folder + latest doc ───────────────────────────────────────────────
     def ensure_folder(self) -> str:
         fid = db.kv_get(KV_FOLDER)
-        if fid:
+        if fid and self._exists(fid):
             return fid
         svc = self._svc()
         created = svc.files().create(
@@ -113,7 +151,7 @@ class DrivePublisher:
 
     def ensure_latest_doc(self, folder_id: str) -> str:
         lid = db.kv_get(KV_LATEST)
-        if lid:
+        if lid and self._exists(lid):
             return lid
         from googleapiclient.http import MediaInMemoryUpload
 
