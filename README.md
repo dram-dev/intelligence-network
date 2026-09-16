@@ -155,7 +155,8 @@ are unique across packs (a test enforces it), so `temp`, `soil temp` and
 | `usgs_water` | station · 0.95 | 60 min | USGS NWIS instantaneous stage / discharge / water temp, ~280 IL sites |
 | `nrcs_scan` | station · 0.9 | daily | NRCS SCAN soil moisture + temperature by depth (Illinois has one station, Mason) |
 | `usdm` | authority · 1.0 | daily | U.S. Drought Monitor county D0–D4 coverage → drought category |
-| `news` | — | daily | Google News / NWS / farmdoc RSS → LLM-triaged reading list |
+| `news` | — | daily | 51 reading-list feeds → LLM-triaged: state agencies (IEPA, IDOA, IDNR, IDPH, IEMA), Extension + farmdoc, the Illinois farm press, river and lake groups, Illinois EPA air-quality Action Days (14 areas), and Google News proxies |
+| `nws_statements` | — | daily | NWS Public Information Statements (damage surveys, storm totals) from LOT, ILX, DVN, LSX, PAH |
 
 Geo tables (`config/geo/`) are vendored from the Census gazetteer + ZCTA→county
 relationship file: 102 counties with centroids, 1,396 ZCTAs with centroid and

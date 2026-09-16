@@ -1,6 +1,23 @@
 # Reading-list feeds for the daily digest (the "classic curated" half).
-# Each entry: url, name, optional topic_hint + limit. Google News RSS search
-# proxies keep this keyless. Illinois-scoped on purpose — the network's ground.
+#
+# Each entry: url, name, optional topic_hint, limit, include, exclude.
+#   include / exclude — regexes matched against title + body by
+#   `intelnet.ingest.news.apply_filters`. Use `include` for a feed that is
+#   authoritative on a narrow slice of what it publishes (a state newsroom that
+#   mostly announces fairs), `exclude` for boilerplate (an alert feed that always
+#   carries a "currently no alerts" placeholder).
+#
+# Illinois-scoped on purpose — the network's ground. Feeds were checked live on
+# 2026-09-15; the NWS office pages (`weather.gov/rss_page.php`) were dropped
+# because they carry no items, replaced by the `nws_statements` ingestor
+# (damage surveys and storm totals from LOT, ILX, DVN, LSX and PAH).
+
+# Illinois EPA's air-quality feeds always publish an item, alert or not.
+_action_day: &action_day
+  topic_hint: air
+  limit: 2
+  exclude: "currently no .{0,40}alerts"   # wording varies by area: "no Air Pollution Action Day alerts", "no alerts"
+
 feeds:
   # ── weather ──
   - name: Google News · Illinois severe weather
@@ -15,24 +32,92 @@ feeds:
     url: "https://news.google.com/rss/search?q=Illinois+(%22winter+storm%22+OR+blizzard+OR+%22ice+storm%22+OR+%22river+flooding%22+OR+%22flood+warning%22)+when:2d&hl=en-US&gl=US&ceid=US:en"
     topic_hint: weather
     limit: 12
-  - name: NWS Chicago (LOT) news
-    url: "https://www.weather.gov/rss_page.php?site_name=lot"
+  - name: Illinois State Climatologist
+    url: "https://stateclimatologist.web.illinois.edu/feed/"
+    topic_hint: weather
+    limit: 5
+  - name: Illinois Emergency Management Agency
+    url: "https://webservices.illinois.gov/iisnewsrss/getfeed.aspx?AgencyID=28"
+    topic_hint: weather
+    limit: 6
+  - name: WGN-TV Weather Blog
+    url: "https://wgntv.com/weather/weather-blog/feed/"
+    topic_hint: weather
+    limit: 6
+  - name: Chicago Sun-Times · weather
+    url: "https://chicago.suntimes.com/rss/weather/index.xml"
     topic_hint: weather
     limit: 8
-  - name: NWS Lincoln (ILX) news
-    url: "https://www.weather.gov/rss_page.php?site_name=ilx"
+  - name: WBEZ · environment
+    url: "https://www.wbez.org/rss/environment/index.xml"
     topic_hint: weather
     limit: 8
+  - name: OurQuadCities · weather        # northwest Illinois / Quad Cities
+    url: "https://www.ourquadcities.com/weather/feed/"
+    topic_hint: weather
+    limit: 5
+
   # ── water ──
   - name: Google News · Illinois rivers + water quality
     url: "https://news.google.com/rss/search?q=Illinois+(%22river+levels%22+OR+%22water+quality%22+OR+nitrate+OR+%22fish+kill%22+OR+%22algae+bloom%22+OR+%22Illinois+River%22+OR+%22Mississippi+River%22+flood)+when:3d&hl=en-US&gl=US&ceid=US:en"
     topic_hint: water
     limit: 12
+  - name: Illinois EPA
+    url: "https://webservices.illinois.gov/iisnewsrss/getfeed.aspx?AgencyID=31"
+    topic_hint: water
+    limit: 8
+  - name: MWRD Greater Chicago          # no native feed — its own site, via Google News
+    url: "https://news.google.com/rss/search?q=site:mwrd.org&hl=en-US&gl=US&ceid=US:en"
+    topic_hint: water
+    limit: 6
+  - name: Prairie Rivers Network
+    url: "https://prairierivers.org/feed/"
+    topic_hint: water
+    limit: 5
+  - name: Alliance for the Great Lakes
+    url: "https://greatlakes.org/feed/"
+    topic_hint: water
+    limit: 5
+  - name: Great Lakes Now          # stand-in while greatlakes.org returns 403 to scripted fetches
+    url: "https://www.greatlakesnow.org/feed/"
+    topic_hint: water
+    limit: 5
+  - name: The Waterways Journal
+    url: "https://www.waterwaysjournal.net/feed/"
+    topic_hint: water
+    limit: 6
+  - name: Circle of Blue
+    url: "https://www.circleofblue.org/feed/"
+    topic_hint: water
+    limit: 5
+  - name: Illinois DNR                  # parks and historic sites dominate; keep the water work
+    url: "https://webservices.illinois.gov/iisnewsrss/getfeed.aspx?AgencyID=70"
+    topic_hint: water
+    limit: 8
+    include: "water quality|water resources|flood|drought|fish kill|fisheries|aquatic|wetland|watershed|dam safety|dam removal|levee|algal|invasive species|habitat restoration|river level|streamflow|boating advisory"
+
   # ── soil ──
   - name: Google News · Illinois soil health
     url: "https://news.google.com/rss/search?q=Illinois+(%22soil+health%22+OR+%22cover+crops%22+OR+%22soil+moisture%22+OR+erosion+OR+%22nutrient+loss%22)+when:7d&hl=en-US&gl=US&ceid=US:en"
     topic_hint: soil
     limit: 10
+  - name: Precision Conservation Management
+    url: "https://www.precisionconservation.org/feed/"
+    topic_hint: soil
+    limit: 5
+  - name: Illinois Nutrient Research & Education Council
+    url: "https://www.illinoisnrec.org/feed/"
+    topic_hint: soil
+    limit: 5
+  - name: Illinois Stewardship Alliance
+    url: "https://www.ilstewards.org/feed/"
+    topic_hint: soil
+    limit: 5
+  - name: Cover Crop Strategies
+    url: "https://www.covercropstrategies.com/rss/articles"
+    topic_hint: soil
+    limit: 5
+
   # ── agriculture ──
   - name: Google News · Illinois crops
     url: "https://news.google.com/rss/search?q=Illinois+(%22crop+progress%22+OR+harvest+OR+planting+OR+drought+OR+%22corn+yield%22+OR+%22soybean%22+OR+%22tar+spot%22+OR+%22crop+condition%22)+when:3d&hl=en-US&gl=US&ceid=US:en"
@@ -42,8 +127,107 @@ feeds:
     url: "https://farmdocdaily.illinois.edu/feed"
     topic_hint: agriculture
     limit: 8
+  - name: Illinois Crop Update (The Bulletin)
+    url: "https://farmdoc.illinois.edu/field-crop-production/feed"
+    topic_hint: agriculture
+    limit: 6
+  - name: FarmWeekNow
+    url: "https://www.farmweeknow.com/search/?f=rss&t=article&l=50&s=start_time&sd=desc"
+    topic_hint: agriculture
+    limit: 10
+  - name: AgriNews
+    url: "https://www.agrinews-pubs.com/arc/outboundfeeds/rss/?outputType=xml"
+    topic_hint: agriculture
+    limit: 10
+  - name: Brownfield Ag News · Illinois
+    url: "https://www.brownfieldagnews.com/tag/illinois/feed/"
+    topic_hint: agriculture
+    limit: 6
+  - name: Illinois Department of Agriculture   # fair notices dominate; keep the regulatory work
+    url: "https://webservices.illinois.gov/iisnewsrss/getfeed.aspx?AgencyID=2"
+    topic_hint: agriculture
+    limit: 8
+    include: "pesticide|drift|herbicide|dicamba|avian|influenza|disease|beetle|lanternfly|quarantine|pest|drought|disaster|grain|weights and measures|fertilizer"
+  - name: Investigate Midwest
+    url: "https://investigatemidwest.org/feed/"
+    topic_hint: agriculture
+    limit: 5
+  - name: Illinois Newsroom · agriculture
+    url: "https://illinoisnewsroom.org/category/agriculture/feed/"
+    topic_hint: agriculture
+    limit: 5
+
   # ── air ──
   - name: Google News · Illinois air quality
     url: "https://news.google.com/rss/search?q=Illinois+(%22air+quality%22+OR+%22wildfire+smoke%22+OR+%22ozone+action%22+OR+%22air+quality+alert%22)+when:3d&hl=en-US&gl=US&ceid=US:en"
     topic_hint: air
     limit: 8
+  - name: Environmental Law & Policy Center
+    url: "https://elpc.org/feed/"
+    topic_hint: air
+    limit: 5
+  - name: Illinois Department of Public Health   # keep the environmental-health releases
+    url: "https://webservices.illinois.gov/iisnewsrss/getfeed.aspx?AgencyID=76"
+    topic_hint: air
+    limit: 8
+    include: "heat|smoke|air quality|ozone|West Nile|mosquito|algal|algae|flood|drinking water|well water|Legionella|carbon monoxide|radon|tick"
+  - name: Inside Climate News              # national desk — keep the Midwest reporting
+    url: "https://insideclimatenews.org/feed/"
+    topic_hint: air
+    limit: 6
+    include: "Illinois|Chicago|Midwest|Great Lakes|Lake Michigan|Corn Belt|Mississippi River"
+
+  # Illinois EPA air-quality Action Days, one feed per forecast area (AirNow EnviroFlash).
+  - name: Air quality · Chicago
+    url: "https://feeds.enviroflash.info/rss/actionDay/23.xml"
+    <<: *action_day
+  - name: Air quality · Aurora and Elgin
+    url: "https://feeds.enviroflash.info/rss/actionDay/822.xml"
+    <<: *action_day
+  - name: Air quality · Joliet and Will County
+    url: "https://feeds.enviroflash.info/rss/actionDay/823.xml"
+    <<: *action_day
+  - name: Air quality · Lake County
+    url: "https://feeds.enviroflash.info/rss/actionDay/819.xml"
+    <<: *action_day
+  - name: Air quality · North and West Suburbs
+    url: "https://feeds.enviroflash.info/rss/actionDay/821.xml"
+    <<: *action_day
+  - name: Air quality · South and West Suburbs
+    url: "https://feeds.enviroflash.info/rss/actionDay/820.xml"
+    <<: *action_day
+  - name: Air quality · Rockford
+    url: "https://feeds.enviroflash.info/rss/actionDay/125.xml"
+    <<: *action_day
+  - name: Air quality · Rock Island and Moline
+    url: "https://feeds.enviroflash.info/rss/actionDay/448.xml"
+    <<: *action_day
+  - name: Air quality · Peoria
+    url: "https://feeds.enviroflash.info/rss/actionDay/108.xml"
+    <<: *action_day
+  - name: Air quality · Bloomington and Normal
+    url: "https://feeds.enviroflash.info/rss/actionDay/825.xml"
+    <<: *action_day
+  - name: Air quality · Champaign
+    url: "https://feeds.enviroflash.info/rss/actionDay/824.xml"
+    <<: *action_day
+  - name: Air quality · Decatur
+    url: "https://feeds.enviroflash.info/rss/actionDay/826.xml"
+    <<: *action_day
+  - name: Air quality · Springfield
+    url: "https://feeds.enviroflash.info/rss/actionDay/142.xml"
+    <<: *action_day
+  - name: Air quality · Metro East
+    url: "https://feeds.enviroflash.info/rss/actionDay/78.xml"
+    <<: *action_day
+
+  # ── cross-domain ──
+  - name: Illinois Newsroom · environment
+    url: "https://illinoisnewsroom.org/category/environment/feed/"
+    topic_hint: water
+    limit: 5
+  - name: Capitol News Illinois · environment    # site search feed, then trimmed to the packs
+    url: "https://capitolnewsillinois.com/?s=environment&feed=rss2"
+    topic_hint: water
+    limit: 8
+    include: "environment|EPA|water|flood|soil|farm|crop|air|pollution|climate|drought|forest|river|conservation|pesticide|nutrient|energy"
