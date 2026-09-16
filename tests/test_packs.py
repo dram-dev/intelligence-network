@@ -187,14 +187,15 @@ def test_ams_grain_bids_become_district_readings(fresh_db):
 
     sigs = ams_grain.parse_bids(load_fixture("ams_grain.json"))
     assert sigs and {s.topic for s in sigs} == {"markets"}
-    assert {s.metric for s in sigs} <= {"corn_basis", "soy_basis", "wheat_basis", "cash_bid"}
+    assert {s.metric for s in sigs} <= {"corn_basis", "soy_basis", "wheat_basis"}
     assert all(s.sensor_kind == "official" and s.quality == "reference" for s in sigs)
-    # cents on the wire, dollars in the pack
-    basis = [s for s in sigs if s.metric.endswith("_basis")]
-    assert basis and all(-2.5 <= s.value <= 2.5 for s in basis)
-    assert all(s.unit == "$/bu" for s in basis)
-    prices = [s for s in sigs if s.metric == "cash_bid"]
-    assert prices and all(1 <= s.value <= 40 for s in prices)
+    # one reading per market, not one per number on the page
+    assert len({s.group_key for s in sigs}) == len(sigs)
+    # cents on the wire, dollars in the pack; the cash bid rides along in evidence
+    assert all(-2.5 <= s.value <= 2.5 and s.unit == "$/bu" for s in sigs)
+    assert any(1 <= (s.evidence.get("cash_price") or 0) <= 40 for s in sigs)
+    assert all(str(round(s.evidence["cash_price"], 2)) in s.text for s in sigs
+               if s.evidence.get("cash_price"))
     # districts resolve to their representative county, and carry the futures month
     fips = {s.location.county_fips for s in sigs}
     assert fips <= {"17113", "17001", "17031", "17199"} and fips

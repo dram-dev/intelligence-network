@@ -6,6 +6,10 @@ report 3192, "Illinois Grain Bids", each afternoon — corn, soybean and wheat
 basis and cash price for twelve trading districts, from Chicago to Little
 Egypt. That is the number a member's "corn basis -0.35" gets checked against.
 
+One reading per market per publication: AMS runs the survey once a weekday
+afternoon, and basis is the number worth keeping — the cash bid is futures plus
+basis, so it rides along in evidence rather than doubling the rows.
+
 Basis arrives in cents against a futures month; the pack keeps dollars a
 bushel, so a -35Z quote is stored as -0.35 with the month in evidence. A
 district is quoted as a whole, so each reading sits on the county that stands
@@ -129,30 +133,30 @@ def parse_bids(payload: dict[str, Any], topic_name: str = "markets",
             "delivery_start": row.get("delivery_start"), "delivery_end": row.get("delivery_end"),
             "report": row.get("report_title"), "report_date": row.get("report_date"),
             "trans_mode": row.get("trans_mode"), "freight": row.get("freight"),
+            "cash_price": _number(row.get("avg_price") or row.get("price Max")),
+            "cash_price_year_ago": _number(row.get("avg_price_year_ago")),
+            "price_unit": row.get("price_unit"),
             "url": "https://mymarketnews.ams.usda.gov/viewReport/3192",
         }
-        # basis first (cents a bushel against the board), then the cash price
-        for metric_key, raw, unit in (
-            (spec.get("basis"), row.get("basis Max", row.get("basis Min")), "cents"),
-            (spec.get("price"), row.get("avg_price") or row.get("price Max"), "$/bu"),
-        ):
-            metric = topic.metrics.get(str(metric_key))
-            value = _number(raw)
-            if metric is None or value is None:
-                continue
-            try:
-                canon = metric.convert(value, unit)
-            except ValueError:
-                continue
-            if not metric.in_range(canon):
-                continue
-            out.append(Signal(
-                source="ams_grain", source_id=f"{group}|{metric.key}", sensor_id=SENSOR,
-                sensor_kind=KIND_OFFICIAL, topic=topic.name, metric=metric.key, value=canon,
-                unit=metric.unit, text=f"{row.get('commodity')} — {where}",
-                observed_at=observed, location=location, group_key=group, evidence=evidence,
-                confidence=1.0, quality="reference",
-            ))
+        metric = topic.metrics.get(str(spec.get("basis")))
+        value = _number(row.get("basis Max", row.get("basis Min")))
+        if metric is None or value is None:
+            continue
+        try:
+            canon = metric.convert(value, "cents")
+        except ValueError:
+            continue
+        if not metric.in_range(canon):
+            continue
+        cash = evidence["cash_price"]
+        out.append(Signal(
+            source="ams_grain", source_id=f"{group}|{metric.key}", sensor_id=SENSOR,
+            sensor_kind=KIND_OFFICIAL, topic=topic.name, metric=metric.key, value=canon,
+            unit=metric.unit,
+            text=f"{row.get('commodity')} — {where}" + (f" · cash {cash:.2f}" if cash else ""),
+            observed_at=observed, location=location, group_key=group, evidence=evidence,
+            confidence=1.0, quality="reference",
+        ))
     return out
 
 

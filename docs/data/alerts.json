@@ -218,18 +218,6 @@
   "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.83c3c15b48faa08053db6943dad6c1ba75f79bc1.002.1"
  },
  {
-  "event": "Special Weather Statement",
-  "severity": "Moderate",
-  "counties": [
-   "Henderson",
-   "Hancock"
-  ],
-  "sender": "NWS Quad Cities IA IL",
-  "headline": "Patchy Dense Fog",
-  "expires": "2026-09-16T19:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.2fa8c3551ba38fa909681f1fe685aa60426e31c3.001.1"
- },
- {
   "event": "Heat Advisory",
   "severity": "Moderate",
   "counties": [
