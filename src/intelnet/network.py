@@ -1,13 +1,13 @@
 """The network engine — what makes many sensors worth more than their sum.
 
-A mesonet's value is not any one station; it is that neighbouring readings
+A mesonet's value is not any one station; it is that neighboring readings
 check, sharpen and fill in for each other. This module does that for every
 contribution:
 
 * **Corroboration** — a new reading is compared with readings of the same
   metric from OTHER sensors nearby (the metric's `radius_km` / `window_min`)
   and judged compatible or not under the metric's tolerance. Compatible
-  neighbours corroborate it; it corroborates them back (a raw report becomes
+  neighbors corroborate it; it corroborates them back (a raw report becomes
   corroborated the moment a second sensor agrees). Reference sensors —
   ASOS stations, NWS storm reports, and active NWS alerts that support the
   metric — settle agreement outright.
@@ -99,7 +99,7 @@ def trust_from_record(n_corroborated: int, n_contradicted: int, prior: float = T
 # ── corroboration ─────────────────────────────────────────────────────────
 
 def _closest_per_sensor(signals: list[Signal], ref: Signal) -> dict[str, Signal]:
-    """One reading per neighbouring sensor: the one nearest in time to `ref`."""
+    """One reading per neighboring sensor: the one nearest in time to `ref`."""
     best: dict[str, Signal] = {}
     for s in signals:
         cur = best.get(s.sensor_id)
@@ -123,17 +123,17 @@ def _alert_supports(metric: Metric, signal: Signal) -> Signal | None:
 
 
 def corroborate(signal: Signal, metric: Metric) -> Assessment:
-    """Compare a reading with its neighbours; does not write anything."""
+    """Compare a reading with its neighbors; does not write anything."""
     a = Assessment(signal=signal, metric=metric)
     if not signal.location.has_point:
         return a
     window = timedelta(minutes=metric.window_min)
-    neighbours = db.signals_near(
+    neighbors = db.signals_near(
         metric.key, signal.location.lat, signal.location.lon, metric.radius_km,
         signal.observed_at - window, signal.observed_at + window,
         exclude_sensor=signal.sensor_id,
     )
-    for other in _closest_per_sensor(neighbours, signal).values():
+    for other in _closest_per_sensor(neighbors, signal).values():
         if other.value is None or signal.value is None:
             continue
         (a.corroborating if metric.compatible(signal.value, other.value) else a.contradicting).append(other)
@@ -290,7 +290,7 @@ def _update_trust(a: Assessment) -> None:
 
 
 def _corroborate_back(a: Assessment) -> None:
-    """A raw neighbour becomes corroborated when this reading agrees with it."""
+    """A raw neighbor becomes corroborated when this reading agrees with it."""
     for other in a.corroborating:
         if other.sensor_kind in REFERENCE_KINDS or other.id is None or other.quality != QUALITY_RAW:
             continue

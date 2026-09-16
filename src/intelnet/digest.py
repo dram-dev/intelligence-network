@@ -230,7 +230,7 @@ def render_html(m: DigestModel) -> str:
         "<code>trees down</code> — or a plain sentence. Set your home once with "
         "<code>/home 62704-1234</code> or share your location. Subscribe with "
         "<code>/subscribe warnings cook</code>, <code>/subscribe events 62704</code>, "
-        "<code>/subscribe digest</code>. Readings are checked against neighbours and official "
+        "<code>/subscribe digest</code>. Readings are checked against neighbors and official "
         "sources; corroborated readings raise your trust and become events.</p>"
     )
     if m.subscriptions:

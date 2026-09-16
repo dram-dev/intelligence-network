@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import json
 import re
+import shutil
 from collections import Counter, defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -30,6 +31,7 @@ from intelnet.topics import topics
 
 SITE_DIR = PROJECT_ROOT / "site"
 FRAGMENT = SITE_DIR / "index.fragment.html"
+ASSETS_DIR = SITE_DIR / "assets"
 DOCS_DIR = PROJECT_ROOT / "docs"
 DATA_MARK = "/*__NETWORK_DATA__*/null"
 HUMAN_KINDS = (KIND_HUMAN, KIND_BOT)
@@ -295,11 +297,39 @@ def write_json(snap: dict[str, Any], out_dir: Path) -> list[Path]:
     return written
 
 
+def _page_values(snap: dict[str, Any]) -> dict[str, str]:
+    """Placeholders every page shares — the link-preview tags need absolute URLs."""
+    return {
+        "{{NETWORK_NAME}}": str(snap.get("network_name") or "Intelligence Network"),
+        "{{STATE}}": {"IL": "Illinois"}.get(str(snap.get("state")), str(snap.get("state") or "")),
+        "{{BOT_HANDLE}}": str(snap.get("bot_handle") or "intelligence_network_bot"),
+        "{{CONTACT_EMAIL}}": str(snap.get("contact_email") or ""),
+        "{{SITE_URL}}": str(snap.get("site_url") or "./"),
+    }
+
+
+def copy_assets(out_dir: Path | None = None, site_dir: Path | None = None) -> list[Path]:
+    """Copy `site/assets/` (icons, web manifest, link-preview card) next to the page."""
+    src = (site_dir or SITE_DIR) / "assets"
+    if not src.is_dir():
+        return []
+    dest_dir = (out_dir or DOCS_DIR) / "assets"
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    written = []
+    for f in sorted(src.iterdir()):
+        if f.is_file() and not f.name.startswith("."):
+            shutil.copyfile(f, dest_dir / f.name)
+            written.append(dest_dir / f.name)
+    return written
+
+
 def build_site(snap: dict[str, Any], fragment: Path | None = None, out: Path | None = None) -> Path:
     """Wrap the fragment as a full HTML document with the snapshot inlined."""
     fragment = fragment or FRAGMENT
     out = out or (DOCS_DIR / "index.html")
     html = fragment.read_text(encoding="utf-8")
+    for key, val in _page_values(snap).items():
+        html = html.replace(key, val)
     data = json.dumps(snap, default=str).replace("</", "<\\/")
     if DATA_MARK not in html:
         raise ValueError(f"{fragment} has no {DATA_MARK} marker")
@@ -324,13 +354,7 @@ STATIC_PAGES = ("privacy.html", "terms.html")
 def render_static_pages(snap: dict[str, Any], out_dir: Path, site_dir: Path | None = None) -> list[Path]:
     """Copy the policy pages next to index.html, filling in the network's details."""
     site_dir = site_dir or FRAGMENT.parent
-    values = {
-        "{{NETWORK_NAME}}": str(snap.get("network_name") or "Intelligence Network"),
-        "{{STATE}}": {"IL": "Illinois"}.get(str(snap.get("state")), str(snap.get("state") or "")),
-        "{{BOT_HANDLE}}": str(snap.get("bot_handle") or "intelligence_network_bot"),
-        "{{CONTACT_EMAIL}}": str(snap.get("contact_email") or ""),
-        "{{SITE_URL}}": str(snap.get("site_url") or "./"),
-    }
+    values = _page_values(snap)
     written = []
     for name in STATIC_PAGES:
         src = site_dir / name
@@ -361,6 +385,7 @@ def export_all(out_dir: Path | None = None, days: int = 14, *, site: bool = True
     if site and FRAGMENT.exists():
         result["site"] = str(build_site(snap, out=out_dir / "index.html"))
         result["pages"] = [str(p) for p in render_static_pages(snap, out_dir)]
+        result["assets"] = [str(p) for p in copy_assets(out_dir)]
     return result
 
 

@@ -9,7 +9,7 @@ project after **pc-insurance-digest** ("PC Digest") and **macro-ai-digest**
 A **decentralized sensor network** (mesonet idea, scaled to people) plus the
 classic curated / score-based digest. Anyone on Telegram is a sensor; their
 readings are expressed in a **common data language** (topic packs), checked
-against neighbours and official feeds (corroboration → trust → events), and
+against neighbors and official feeds (corroboration → trust → events), and
 pushed to subscribers by category × area. The daily digest is a **Google Doc
 in a Drive folder** (not a local file / not Obsidian) that people subscribe
 to. Weather first; **Illinois** ground at county / ZIP / ZIP+4 grain — go

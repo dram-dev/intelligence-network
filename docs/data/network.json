@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-16T11:27:29+00:00",
+ "generated_at": "2026-09-16T12:13:46+00:00",
  "sample": false,
  "days": 14,
  "network_name": "Intelligence Network",
@@ -19,7 +19,7 @@
   "sensors_active_24h": 0,
   "sensors_active_7d": 0,
   "signals_24h_human": 0,
-  "signals_24h_reference": 20023,
+  "signals_24h_reference": 19413,
   "corroborated_7d": 0,
   "flagged_7d": 0,
   "human_7d": 0,

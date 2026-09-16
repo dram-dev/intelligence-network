@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Intelligence Network">
+  <rect width="64" height="64" rx="14" fill="#14201C"/>
+  <g stroke="#5FB4C0" fill="none" stroke-linecap="round">
+    <g opacity=".4" stroke-width="1.9"><path d="M32.0 15.0 L16.0 45.0"/><path d="M16.0 45.0 L48.0 45.0"/><path d="M48.0 45.0 L32.0 15.0"/></g>
+    <g opacity=".9" stroke-width="2.6"><path d="M32.0 33.0 L32.0 15.0"/><path d="M32.0 33.0 L16.0 45.0"/><path d="M32.0 33.0 L48.0 45.0"/></g>
+  </g>
+  <circle cx="32.0" cy="33.0" r="5.2" fill="#5FB4C0"/>
+  <circle cx="16.0" cy="45.0" r="4.2" fill="#5FB4C0"/>
+  <circle cx="48.0" cy="45.0" r="4.2" fill="#5FB4C0"/>
+  <circle cx="32.0" cy="15.0" r="7.4" fill="#E0A83A" opacity=".22"/>
+  <circle cx="32.0" cy="15.0" r="5.0" fill="#E0A83A"/>
+</svg>

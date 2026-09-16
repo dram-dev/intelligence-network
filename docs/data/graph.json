@@ -5,7 +5,7 @@
    "kind": "topic",
    "label": "Agriculture",
    "topic": "agriculture",
-   "n": 81
+   "n": 0
   },
   {
    "id": "metric:corn_stage",
@@ -60,7 +60,7 @@
    "kind": "metric",
    "label": "Drought category (USDM)",
    "topic": "agriculture",
-   "n": 81,
+   "n": 0,
    "flag": false
   },
   {
@@ -163,14 +163,14 @@
    "kind": "topic",
    "label": "Soil",
    "topic": "soil",
-   "n": 2
+   "n": 0
   },
   {
    "id": "metric:soil_moisture_pct",
    "kind": "metric",
    "label": "Soil moisture",
    "topic": "soil",
-   "n": 1,
+   "n": 0,
    "flag": false
   },
   {
@@ -178,7 +178,7 @@
    "kind": "metric",
    "label": "Soil temperature",
    "topic": "soil",
-   "n": 1,
+   "n": 0,
    "flag": false
   },
   {
@@ -250,14 +250,14 @@
    "kind": "topic",
    "label": "Water",
    "topic": "water",
-   "n": 10645
+   "n": 10518
   },
   {
    "id": "metric:stage_m",
    "kind": "metric",
    "label": "Stage (gauge height)",
    "topic": "water",
-   "n": 5581,
+   "n": 5518,
    "flag": false
   },
   {
@@ -265,7 +265,7 @@
    "kind": "metric",
    "label": "Streamflow",
    "topic": "water",
-   "n": 4480,
+   "n": 4425,
    "flag": false
   },
   {
@@ -273,7 +273,7 @@
    "kind": "metric",
    "label": "Water temperature",
    "topic": "water",
-   "n": 584,
+   "n": 575,
    "flag": false
   },
   {
@@ -369,14 +369,14 @@
    "kind": "topic",
    "label": "Weather",
    "topic": "weather",
-   "n": 9157
+   "n": 9394
   },
   {
    "id": "metric:temp_c",
    "kind": "metric",
    "label": "Temperature",
    "topic": "weather",
-   "n": 1295,
+   "n": 1329,
    "flag": false
   },
   {
@@ -384,7 +384,7 @@
    "kind": "metric",
    "label": "Dew point",
    "topic": "weather",
-   "n": 1294,
+   "n": 1328,
    "flag": false
   },
   {
@@ -392,7 +392,7 @@
    "kind": "metric",
    "label": "Relative humidity",
    "topic": "weather",
-   "n": 1294,
+   "n": 1328,
    "flag": false
   },
   {
@@ -400,7 +400,7 @@
    "kind": "metric",
    "label": "Pressure",
    "topic": "weather",
-   "n": 1296,
+   "n": 1330,
    "flag": false
   },
   {
@@ -408,7 +408,7 @@
    "kind": "metric",
    "label": "Sustained wind",
    "topic": "weather",
-   "n": 1267,
+   "n": 1300,
    "flag": false
   },
   {
@@ -424,7 +424,7 @@
    "kind": "metric",
    "label": "Rainfall",
    "topic": "weather",
-   "n": 1301,
+   "n": 1335,
    "flag": false
   },
   {
@@ -448,7 +448,7 @@
    "kind": "metric",
    "label": "Visibility",
    "topic": "weather",
-   "n": 1294,
+   "n": 1328,
    "flag": false
   },
   {
@@ -500,34 +500,22 @@
    "flag": true
   },
   {
-   "id": "feed:usgs_water",
-   "kind": "feed",
-   "label": "usgs_water",
-   "n": 10645
-  },
-  {
    "id": "feed:iem_asos",
    "kind": "feed",
    "label": "iem_asos",
-   "n": 9150
+   "n": 9387
+  },
+  {
+   "id": "feed:usgs_water",
+   "kind": "feed",
+   "label": "usgs_water",
+   "n": 10518
   },
   {
    "id": "feed:iem_lsr",
    "kind": "feed",
    "label": "iem_lsr",
    "n": 7
-  },
-  {
-   "id": "feed:nrcs_scan",
-   "kind": "feed",
-   "label": "nrcs_scan",
-   "n": 2
-  },
-  {
-   "id": "feed:usdm",
-   "kind": "feed",
-   "label": "usdm",
-   "n": 81
   },
   {
    "id": "event:1",
@@ -959,64 +947,64 @@
    "weight": 1
   },
   {
-   "source": "feed:usgs_water",
-   "target": "metric:discharge_cms",
-   "kind": "reports",
-   "weight": 4480
-  },
-  {
-   "source": "feed:usgs_water",
-   "target": "metric:stage_m",
-   "kind": "reports",
-   "weight": 5581
-  },
-  {
-   "source": "feed:usgs_water",
-   "target": "metric:water_temp_c",
-   "kind": "reports",
-   "weight": 584
-  },
-  {
    "source": "feed:iem_asos",
    "target": "metric:temp_c",
    "kind": "reports",
-   "weight": 1295
+   "weight": 1329
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:dewpoint_c",
    "kind": "reports",
-   "weight": 1294
+   "weight": 1328
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:humidity_pct",
    "kind": "reports",
-   "weight": 1294
+   "weight": 1328
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:wind_ms",
    "kind": "reports",
-   "weight": 1267
+   "weight": 1300
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:rain_mm",
    "kind": "reports",
-   "weight": 1299
+   "weight": 1333
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:pressure_hpa",
    "kind": "reports",
-   "weight": 1296
+   "weight": 1330
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:visibility_km",
    "kind": "reports",
-   "weight": 1294
+   "weight": 1328
+  },
+  {
+   "source": "feed:usgs_water",
+   "target": "metric:discharge_cms",
+   "kind": "reports",
+   "weight": 4425
+  },
+  {
+   "source": "feed:usgs_water",
+   "target": "metric:stage_m",
+   "kind": "reports",
+   "weight": 5518
+  },
+  {
+   "source": "feed:usgs_water",
+   "target": "metric:water_temp_c",
+   "kind": "reports",
+   "weight": 575
   },
   {
    "source": "feed:iem_asos",
@@ -1041,24 +1029,6 @@
    "target": "metric:rain_mm",
    "kind": "reports",
    "weight": 2
-  },
-  {
-   "source": "feed:nrcs_scan",
-   "target": "metric:soil_moisture_pct",
-   "kind": "reports",
-   "weight": 1
-  },
-  {
-   "source": "feed:nrcs_scan",
-   "target": "metric:soil_temp_c",
-   "kind": "reports",
-   "weight": 1
-  },
-  {
-   "source": "feed:usdm",
-   "target": "metric:drought_category",
-   "kind": "reports",
-   "weight": 81
   },
   {
    "source": "event:1",

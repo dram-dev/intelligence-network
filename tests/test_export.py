@@ -80,3 +80,29 @@ def test_drive_links_hidden_while_drive_is_off(fresh_db, monkeypatch):
     monkeypatch.setattr(settings, "gdrive_enabled", True)
     on = export.snapshot(days=1)
     assert on["links"]["latest"].endswith("/l/edit") and on["digests"][0]["drive_url"].endswith("/d/edit")
+
+
+def test_link_preview_tags_get_absolute_urls_and_assets_ship(fresh_db, tmp_path: Path, monkeypatch):
+    """Messaging apps need absolute og: URLs and the card sitting next to the page."""
+    from intelnet.config import settings
+
+    monkeypatch.setattr(settings, "site_url", "https://example.test/net/")
+    snap = export.snapshot(days=1)
+    out = export.build_site(snap, out=tmp_path / "index.html")
+    html = out.read_text(encoding="utf-8")
+    assert "{{SITE_URL}}" not in html
+    assert '<meta property="og:image" content="https://example.test/net/assets/og.png">' in html
+    assert '<meta property="og:url" content="https://example.test/net/">' in html
+    assert '<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">' in html
+    assert 'name="theme-color" media="(prefers-color-scheme: dark)"' in html
+    # every head tag has to be on its own line, or build_site can't hoist it
+    assert '<meta name="twitter:card" content="summary_large_image">' in html.split("</head>")[0]
+
+    copied = {p.name for p in export.copy_assets(tmp_path)}
+    assert {"icon.svg", "apple-touch-icon.png", "icon-192.png", "icon-512.png", "og.png",
+            "site.webmanifest"} <= copied
+    assert (tmp_path / "assets" / "og.png").stat().st_size > 10_000
+
+
+def test_copy_assets_is_a_no_op_without_an_assets_dir(tmp_path: Path):
+    assert export.copy_assets(tmp_path, site_dir=tmp_path / "empty-site") == []

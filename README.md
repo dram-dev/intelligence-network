@@ -4,7 +4,7 @@
 [Privacy](https://dram-dev.github.io/intelligence-network/privacy.html) · [Terms](https://dram-dev.github.io/intelligence-network/terms.html)
 
 A **decentralized sensor network** with a daily digest. Anyone with Telegram
-is a sensor: what they report is checked against their neighbours and against
+is a sensor: what they report is checked against their neighbors and against
 official sources, corroborated readings become events, contributors earn
 trust, and the whole thing rolls up into a Google Doc every morning.
 
@@ -42,7 +42,7 @@ network's assessment of it — so a phone report of "golf-ball hail @62704-1234"
 and an ASOS wind gust and an NWS Tornado Warning all land in one table and can
 be compared. Two independent sensors agreeing within the metric's tolerance,
 distance and time window corroborate each other (both ways — a first report
-is upgraded the moment a neighbour agrees). Agreement with a station, a storm
+is upgraded the moment a neighbor agrees). Agreement with a station, a storm
 report or an active warning settles it outright. Corroboration moves each
 sensor's trust (shrunk toward a prior, so nobody is condemned by one bad
 reading). Readings past a threshold open a county event whose score is
@@ -122,7 +122,7 @@ sensors wanted). An optional LLM narrative opens it.
 
 `config/topics/weather.yaml` declares every metric a sensor can report:
 aliases, typed units and their conversion to the canonical unit, named sizes,
-sanity range, agreement tolerance, neighbour radius / time window, event
+sanity range, agreement tolerance, neighbor radius / time window, event
 thresholds with severities, the subscription categories, and how official
 products (NWS alerts, storm-report types, station fields) map onto metrics.
 The parser, corroboration engine, subscriptions and digest all read the pack.
@@ -140,7 +140,7 @@ file — no code change (there's a test that proves it).
 | **air** | PM2.5, AQI, ozone | smoke, odor, open burning | — (AirNow/PurpleAir need keys) |
 
 Every pack declares aliases, typed units → canonical, named sizes/levels,
-sanity ranges, agreement tolerance, neighbour radius/window, event thresholds,
+sanity ranges, agreement tolerance, neighbor radius/window, event thresholds,
 subscription channels and how official products map onto metrics. Aliases
 are unique across packs (a test enforces it), so `temp`, `soil temp` and
 `water temp` never collide.
@@ -169,7 +169,7 @@ fallback.
 
 | person | what they do here | where they start |
 |---|---|---|
-| **Contributor** (anyone with a phone) | reports readings; earns trust as neighbours agree | `/join`, `/home`, type a reading |
+| **Contributor** (anyone with a phone) | reports readings; earns trust as neighbors agree | `/join`, `/home`, type a reading |
 | **Grower / land manager** | soil, crop, tile and pond readings; subscribes to `soil.events`, `agriculture.events` for the county | `/subscribe *.events <county>` |
 | **Spotter / emergency manager** | hail, wind, flooding with photos; wants warnings and verified events fast | `/subscribe warnings`, `/subscribe events` |
 | **Subscriber** (reads, rarely reports) | the digest link each morning; alerts for the home county | `/subscribe digest`, `/digest you@…` |

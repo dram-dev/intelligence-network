@@ -135,7 +135,7 @@ def _assessment_note(a: Assessment) -> str:
         return "✖ rejected (outside plausible range)"
     if a.n_contradicting:
         return (f"🕐 differs from {a.n_contradicting} nearby reading(s) — kept as unverified")
-    return "🕐 first report here — the network will watch for neighbours"
+    return "🕐 first report here — the network will watch for neighbors"
 
 
 def ack_text(c: Contribution, sensor: Sensor | None = None) -> str:
@@ -155,7 +155,7 @@ def ack_text(c: Contribution, sensor: Sensor | None = None) -> str:
                 lines.append(f"  📍 event {esc(a.push_reason)}: {esc(a.event.get('title') or '')} "
                              f"(score {a.event.get('score', 0):.2f}) — pushed to subscribers")
             elif a.event and a.event_opened:
-                lines.append("  📍 opened an event — unverified until a neighbour or an official "
+                lines.append("  📍 opened an event — unverified until a neighbor or an official "
                              "source agrees")
             elif a.event:
                 lines.append(f"  📍 joined event: {esc(a.event.get('title') or '')} "

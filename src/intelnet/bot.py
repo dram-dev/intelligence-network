@@ -61,7 +61,7 @@ def help_text() -> str:
     topic = default_topic()
     return (
         f"👋 <b>{esc(settings.network_name)}</b> — a sensor network you can join from your phone.\n"
-        f"Every reading you send is checked against neighbours and official sources; "
+        f"Every reading you send is checked against neighbors and official sources; "
         f"corroborated readings become events and raise your trust.\n\n"
         f"<b>Report</b> (just type it) — weather, soil, water, crops, air:\n"
         f"<code>{esc(language.cheatsheet())}</code>\n"
