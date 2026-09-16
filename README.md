@@ -164,6 +164,7 @@ are unique across packs (a test enforces it), so `temp`, `soil temp` and
 | `usgs_water` | station · 0.95 | 60 min | USGS NWIS instantaneous stage / discharge / water temp, ~280 IL sites |
 | `nrcs_scan` | station · 0.9 | daily | NRCS SCAN soil moisture + temperature by depth (Illinois has one station, Mason) |
 | `usdm` | authority · 1.0 | daily | U.S. Drought Monitor county D0–D4 coverage → drought category |
+| `ams_grain` | official · 0.95 | 6 h | USDA AMS Market News (report 3192): spot corn, soybean and wheat basis and cash bids for twelve Illinois trading districts, each on the county that stands for it. Needs a free `USDA_MARS_KEY`; without one the feed stays quiet |
 | `usgs_quake` | authority · 1.0 | 15 min | USGS earthquakes M2.0+ in and around Illinois (the box reaches the Wabash Valley and New Madrid zones), magnitude and community intensity, on the nearest county within 150 km |
 | `news` | — | daily | 63 reading-list feeds → LLM-triaged: state agencies (IEPA, IDOA, IDNR, IDPH, IEMA), Extension + farmdoc, the Illinois farm press, river and lake groups, Illinois EPA air-quality Action Days (14 areas), Google News proxies, and the reading-list-only categories: land use and siting (data centres, CO2 pipelines, solar and wind, the Commerce Commission), emergency response, and research |
 | `nws_statements` | — | daily | NWS Public Information Statements (damage surveys, storm totals) from LOT, ILX, DVN, LSX, PAH |

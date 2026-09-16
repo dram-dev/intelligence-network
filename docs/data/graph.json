@@ -179,14 +179,14 @@
    "kind": "topic",
    "label": "Farm markets",
    "topic": "markets",
-   "n": 0
+   "n": 50
   },
   {
    "id": "metric:corn_basis",
    "kind": "metric",
    "label": "Corn basis",
    "topic": "markets",
-   "n": 0,
+   "n": 12,
    "flag": false
   },
   {
@@ -194,7 +194,7 @@
    "kind": "metric",
    "label": "Soybean basis",
    "topic": "markets",
-   "n": 0,
+   "n": 12,
    "flag": false
   },
   {
@@ -202,7 +202,15 @@
    "kind": "metric",
    "label": "Cash bid",
    "topic": "markets",
-   "n": 0,
+   "n": 25,
+   "flag": false
+  },
+  {
+   "id": "metric:wheat_basis",
+   "kind": "metric",
+   "label": "Wheat basis",
+   "topic": "markets",
+   "n": 1,
    "flag": false
   },
   {
@@ -447,14 +455,14 @@
    "kind": "topic",
    "label": "Water",
    "topic": "water",
-   "n": 10671
+   "n": 10419
   },
   {
    "id": "metric:stage_m",
    "kind": "metric",
    "label": "Stage (gauge height)",
    "topic": "water",
-   "n": 5594,
+   "n": 5465,
    "flag": false
   },
   {
@@ -462,7 +470,7 @@
    "kind": "metric",
    "label": "Streamflow",
    "topic": "water",
-   "n": 4491,
+   "n": 4380,
    "flag": false
   },
   {
@@ -470,7 +478,7 @@
    "kind": "metric",
    "label": "Water temperature",
    "topic": "water",
-   "n": 586,
+   "n": 574,
    "flag": false
   },
   {
@@ -566,14 +574,14 @@
    "kind": "topic",
    "label": "Weather",
    "topic": "weather",
-   "n": 9210
+   "n": 9419
   },
   {
    "id": "metric:temp_c",
    "kind": "metric",
    "label": "Temperature",
    "topic": "weather",
-   "n": 1295,
+   "n": 1327,
    "flag": false
   },
   {
@@ -581,7 +589,7 @@
    "kind": "metric",
    "label": "Dew point",
    "topic": "weather",
-   "n": 1294,
+   "n": 1326,
    "flag": false
   },
   {
@@ -589,7 +597,7 @@
    "kind": "metric",
    "label": "Relative humidity",
    "topic": "weather",
-   "n": 1294,
+   "n": 1326,
    "flag": false
   },
   {
@@ -597,7 +605,7 @@
    "kind": "metric",
    "label": "Pressure",
    "topic": "weather",
-   "n": 1295,
+   "n": 1327,
    "flag": false
   },
   {
@@ -605,7 +613,7 @@
    "kind": "metric",
    "label": "Sustained wind",
    "topic": "weather",
-   "n": 1265,
+   "n": 1296,
    "flag": false
   },
   {
@@ -613,7 +621,7 @@
    "kind": "metric",
    "label": "Wind gust",
    "topic": "weather",
-   "n": 88,
+   "n": 74,
    "flag": false
   },
   {
@@ -621,7 +629,7 @@
    "kind": "metric",
    "label": "Rainfall",
    "topic": "weather",
-   "n": 1381,
+   "n": 1413,
    "flag": false
   },
   {
@@ -645,7 +653,7 @@
    "kind": "metric",
    "label": "Visibility",
    "topic": "weather",
-   "n": 1293,
+   "n": 1325,
    "flag": false
   },
   {
@@ -697,22 +705,28 @@
    "flag": true
   },
   {
-   "id": "feed:usgs_water",
-   "kind": "feed",
-   "label": "usgs_water",
-   "n": 10671
-  },
-  {
    "id": "feed:iem_asos",
    "kind": "feed",
    "label": "iem_asos",
-   "n": 9122
+   "n": 9331
+  },
+  {
+   "id": "feed:usgs_water",
+   "kind": "feed",
+   "label": "usgs_water",
+   "n": 10419
   },
   {
    "id": "feed:iem_lsr",
    "kind": "feed",
    "label": "iem_lsr",
    "n": 88
+  },
+  {
+   "id": "feed:ams_grain",
+   "kind": "feed",
+   "label": "ams_grain",
+   "n": 50
   },
   {
    "id": "event:17",
@@ -1148,6 +1162,12 @@
    "weight": 1
   },
   {
+   "source": "metric:wheat_basis",
+   "target": "topic:markets",
+   "kind": "belongs",
+   "weight": 1
+  },
+  {
    "source": "metric:propane_usd_gal",
    "target": "topic:markets",
    "kind": "belongs",
@@ -1490,76 +1510,76 @@
    "weight": 1
   },
   {
-   "source": "feed:usgs_water",
-   "target": "metric:discharge_cms",
-   "kind": "reports",
-   "weight": 4491
-  },
-  {
-   "source": "feed:usgs_water",
-   "target": "metric:stage_m",
-   "kind": "reports",
-   "weight": 5594
-  },
-  {
-   "source": "feed:usgs_water",
-   "target": "metric:water_temp_c",
-   "kind": "reports",
-   "weight": 586
-  },
-  {
    "source": "feed:iem_asos",
    "target": "metric:temp_c",
    "kind": "reports",
-   "weight": 1295
+   "weight": 1327
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:dewpoint_c",
    "kind": "reports",
-   "weight": 1294
+   "weight": 1326
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:humidity_pct",
    "kind": "reports",
-   "weight": 1294
+   "weight": 1326
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:wind_ms",
    "kind": "reports",
-   "weight": 1265
+   "weight": 1296
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:rain_mm",
    "kind": "reports",
-   "weight": 1298
+   "weight": 1330
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:pressure_hpa",
    "kind": "reports",
-   "weight": 1295
+   "weight": 1327
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:visibility_km",
    "kind": "reports",
-   "weight": 1293
+   "weight": 1325
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:wind_gust_ms",
+   "kind": "reports",
+   "weight": 74
+  },
+  {
+   "source": "feed:usgs_water",
+   "target": "metric:discharge_cms",
+   "kind": "reports",
+   "weight": 4380
+  },
+  {
+   "source": "feed:usgs_water",
+   "target": "metric:stage_m",
+   "kind": "reports",
+   "weight": 5465
+  },
+  {
+   "source": "feed:usgs_water",
+   "target": "metric:water_temp_c",
+   "kind": "reports",
+   "weight": 574
   },
   {
    "source": "feed:iem_lsr",
    "target": "metric:rain_mm",
    "kind": "reports",
    "weight": 83
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:wind_gust_ms",
-   "kind": "reports",
-   "weight": 88
   },
   {
    "source": "feed:iem_lsr",
@@ -1572,6 +1592,30 @@
    "target": "metric:wind_damage",
    "kind": "reports",
    "weight": 2
+  },
+  {
+   "source": "feed:ams_grain",
+   "target": "metric:soy_basis",
+   "kind": "reports",
+   "weight": 12
+  },
+  {
+   "source": "feed:ams_grain",
+   "target": "metric:cash_bid",
+   "kind": "reports",
+   "weight": 25
+  },
+  {
+   "source": "feed:ams_grain",
+   "target": "metric:wheat_basis",
+   "kind": "reports",
+   "weight": 1
+  },
+  {
+   "source": "feed:ams_grain",
+   "target": "metric:corn_basis",
+   "kind": "reports",
+   "weight": 12
   },
   {
    "source": "event:17",

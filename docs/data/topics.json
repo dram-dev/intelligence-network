@@ -890,6 +890,49 @@
     }
    },
    {
+    "key": "wheat_basis",
+    "label": "Wheat basis",
+    "unit": "$/bu",
+    "kind": "numeric",
+    "aliases": [
+     "wheat basis",
+     "wheat under",
+     "wheat over"
+    ],
+    "units": [
+     "$/bu",
+     "usd/bu",
+     "bu",
+     "cents",
+     "c"
+    ],
+    "default_unit": "$/bu",
+    "words": {},
+    "range": [
+     -3.0,
+     3.0
+    ],
+    "event": [
+     [
+      -0.8,
+      0.4
+     ],
+     [
+      -1.1,
+      0.7
+     ]
+    ],
+    "event_direction": "below",
+    "display": null,
+    "convert": {
+     "$/bu": 1.0,
+     "usd/bu": 1.0,
+     "bu": 1.0,
+     "cents": 0.01,
+     "c": 0.01
+    }
+   },
+   {
     "key": "propane_usd_gal",
     "label": "Propane",
     "unit": "$/gal",

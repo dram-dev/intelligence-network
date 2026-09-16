@@ -4,6 +4,13 @@
 # used: true when the network already ingests it as a reference feed.
 sources:
   # ── weather ──
+  - name: USGS Earthquake Catalog
+    publisher: U.S. Geological Survey
+    domain: weather
+    access: keyless
+    used: true
+    url: https://earthquake.usgs.gov/fdsnws/event/1/
+    notes: Magnitude and community intensity for quakes in and around Illinois; the network reads it.
   - name: NWS API (api.weather.gov)
     publisher: National Weather Service
     domain: weather
@@ -134,6 +141,13 @@ sources:
     notes: Measurement standards and the North American soil health project.
 
   # ── agriculture ──
+  - name: USDA AMS Market News
+    publisher: USDA Agricultural Marketing Service
+    domain: agriculture
+    access: free key
+    used: true
+    url: https://mymarketnews.ams.usda.gov/
+    notes: Daily Illinois grain bids and basis by trading district (report 3192); the network reads it.
   - name: USDA NASS Quick Stats
     publisher: USDA National Agricultural Statistics Service
     domain: agriculture

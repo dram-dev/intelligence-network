@@ -62,6 +62,10 @@ class Settings(BaseSettings):
     lsr_lookback_hours: int = Field(default=3, alias="LSR_LOOKBACK_HOURS")
     reference_retention_days: int = Field(default=30, alias="REFERENCE_RETENTION_DAYS")
     news_enabled: bool = Field(default=True, alias="NEWS_ENABLED")
+    # USDA AMS Market News (marsapi.ams.usda.gov) — free key, sent as the HTTP
+    # Basic username. Empty disables the grain-bid feed.
+    usda_mars_key: str = Field(default="", alias="USDA_MARS_KEY")
+    ams_report_slugs: str = Field(default="", alias="AMS_REPORT_SLUGS")
 
     # ── Local LLMs (shared Mac-mini servers; see digest_core.summarize) ───
     llm_enabled: bool = Field(default=True, alias="LLM_ENABLED")

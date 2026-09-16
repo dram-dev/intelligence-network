@@ -179,3 +179,36 @@ def test_reading_list_categories_extend_triage_without_becoming_packs():
     assert {"landuse", "emergency", "research"} <= set(labels)
     assert set(topics.news_topics()) & set(topics.topics()) == set()   # no pack shares the name
     assert all(labels[name] for name in topics.news_topics())          # each explains itself
+
+
+def test_ams_grain_bids_become_district_readings(fresh_db):
+    """A district quote lands on the county that stands for it, in dollars a bushel."""
+    from intelnet.feeds import ams_grain
+
+    sigs = ams_grain.parse_bids(load_fixture("ams_grain.json"))
+    assert sigs and {s.topic for s in sigs} == {"markets"}
+    assert {s.metric for s in sigs} <= {"corn_basis", "soy_basis", "wheat_basis", "cash_bid"}
+    assert all(s.sensor_kind == "official" and s.quality == "reference" for s in sigs)
+    # cents on the wire, dollars in the pack
+    basis = [s for s in sigs if s.metric.endswith("_basis")]
+    assert basis and all(-2.5 <= s.value <= 2.5 for s in basis)
+    assert all(s.unit == "$/bu" for s in basis)
+    prices = [s for s in sigs if s.metric == "cash_bid"]
+    assert prices and all(1 <= s.value <= 40 for s in prices)
+    # districts resolve to their representative county, and carry the futures month
+    fips = {s.location.county_fips for s in sigs}
+    assert fips <= {"17113", "17001", "17031", "17199"} and fips
+    assert any(s.evidence["futures_month"] for s in sigs)
+    assert all(s.evidence["district"] and s.evidence["delivery_point"] for s in sigs)
+    # forward delivery windows are left out unless asked for
+    assert len(ams_grain.parse_bids(load_fixture("ams_grain.json"), spot_only=False)) > len(sigs)
+
+
+def test_ams_feed_stays_quiet_without_a_key(fresh_db, monkeypatch):
+    from intelnet.config import settings
+    from intelnet.feeds import ams_grain
+
+    monkeypatch.setattr(settings, "usda_mars_key", "")
+    assert ams_grain.AMSGrainFeed().should_run() is False
+    monkeypatch.setattr(settings, "usda_mars_key", "a-key")
+    assert ams_grain.AMSGrainFeed().should_run() is True

@@ -24,7 +24,7 @@ metrics:
     default_unit: "$/bu"
     range: [-2.5, 2.5]
     tolerance: {abs: 0.06}
-    radius_km: 60
+    radius_km: 120          # AMS quotes a whole district, not a single elevator
     window_min: 1440
     event_direction: below
     event: [[-0.60, 0.4], [-0.85, 0.7]]
@@ -37,7 +37,7 @@ metrics:
     default_unit: "$/bu"
     range: [-3.5, 3.5]
     tolerance: {abs: 0.08}
-    radius_km: 60
+    radius_km: 120
     window_min: 1440
     event_direction: below
     event: [[-0.80, 0.4], [-1.10, 0.7]]
@@ -50,8 +50,21 @@ metrics:
     default_unit: "$/bu"
     range: [0, 40]
     tolerance: {rel: 0.04, abs: 0.05}
-    radius_km: 60
+    radius_km: 120
     window_min: 1440
+
+  wheat_basis:
+    label: Wheat basis
+    unit: $/bu
+    aliases: [wheat basis, wheat under, wheat over]
+    units: {"$/bu": 1, usd/bu: 1, bu: 1, cents: 0.01, c: 0.01}
+    default_unit: "$/bu"
+    range: [-3.0, 3.0]
+    tolerance: {abs: 0.08}
+    radius_km: 120
+    window_min: 1440
+    event_direction: below
+    event: [[-0.80, 0.4], [-1.10, 0.7]]
 
   propane_usd_gal:
     label: Propane
@@ -97,3 +110,25 @@ metrics:
     radius_km: 60
     window_min: 4320
     event: [[1, 0.5]]
+
+# USDA AMS Market News (report 3192, "Illinois Grain Bids") → metrics.
+ams_fields:
+  Corn:     {basis: corn_basis, price: cash_bid}
+  Soybeans: {basis: soy_basis, price: cash_bid}
+  Wheat:    {basis: wheat_basis, price: cash_bid}
+
+# AMS quotes by trading district; each one is placed on a county that stands for
+# it, and `radius_km` above is wide enough to reach the rest of the district.
+ams_region_codes:
+  North:                {county: DeKalb}
+  North Central:        {county: McLean}
+  Central:              {county: Sangamon}
+  South Central:        {county: Effingham}
+  West:                 {county: Knox}
+  Southwest:            {county: Madison}
+  Wabash:               {county: Wabash}
+  Little Egypt:         {county: Williamson}
+  Chicago:              {county: Cook}
+  Mississippi River:    {county: Adams}
+  North Illinois River: {county: Peoria}
+  South Illinois River: {county: Cass}
