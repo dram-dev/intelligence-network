@@ -197,12 +197,13 @@
   "notes": "Daily Illinois farm economics and agronomy analysis."
  },
  {
-  "name": "The Bulletin (Illinois IPM)",
+  "name": "The Bulletin (Illinois crop update)",
   "publisher": "University of Illinois Extension",
   "domain": "agriculture",
   "access": "keyless",
-  "url": "https://bulletin.ipm.illinois.edu/",
-  "notes": "Pest and crop development reports through the season."
+  "used": true,
+  "url": "https://farmdoc.illinois.edu/field-crop-production",
+  "notes": "Weekly pest and crop development reports from Extension educators, through the season."
  },
  {
   "name": "Illinois Department of Agriculture",
