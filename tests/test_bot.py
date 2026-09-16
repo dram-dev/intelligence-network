@@ -1,11 +1,15 @@
 """Telegram bot routing — every command through handle_message."""
 from __future__ import annotations
 
+import time
+
 from intelnet import bot, db
 
 
 def msg(text: str | None = None, uid: int = 42, chat: int | None = None, mid: int = 1, **extra) -> dict:
-    m = {"message_id": mid, "date": 1789531200, "chat": {"id": chat or uid, "type": "private"},
+    # `date` is now, not a fixed stamp: the bot times readings by it, so a frozen
+    # one ages out of the windows these tests query.
+    m = {"message_id": mid, "date": int(time.time()), "chat": {"id": chat or uid, "type": "private"},
          "from": {"id": uid, "first_name": "Cy", "last_name": "Q", "username": "cyq"}}
     if text is not None:
         m["text"] = text
