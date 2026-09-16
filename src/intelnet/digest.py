@@ -167,7 +167,13 @@ BROWSER_CSS = f"""
             box-shadow: 0 1px 3px rgba(20,32,28,.10); border-radius: 3px; }}
   a {{ color: {ACCENT}; }}
   table {{ width: 100%; }}
-  @media (max-width: 620px) {{ body {{ padding: 0; }} .sheet {{ padding: 22px 16px 30px; box-shadow: none; }} }}
+  .tw {{ overflow-x: auto; }}
+  @media (max-width: 620px) {{
+    body {{ padding: 0; }} .sheet {{ padding: 22px 16px 30px; box-shadow: none; }}
+    table.vitals, table.vitals tbody {{ display: block; }}
+    table.vitals tr {{ display: grid; grid-template-columns: 1fr 1fr; }}
+    table.vitals td {{ display: block; width: auto !important; }}
+  }}
   @media print {{ body {{ background: {PAPER}; padding: 0; }} .sheet {{ box-shadow: none; padding: 0; }} }}
 """
 
@@ -220,9 +226,9 @@ def _table(headers: list[str], rows: list[list[Any]], *, aligns: tuple[str, ...]
             f'border-bottom:1px solid {LINE};font:400 13.5px/1.45 {SANS};color:{INK};'
             f'vertical-align:top">{_cell(c)}</td>' for i, c in enumerate(row))
         body.append(f"<tr>{cells}</tr>")
-    return (f'<table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;'
-            f'margin:0 0 24px">\n<thead><tr>{head}</tr></thead>\n<tbody>'
-            + "".join(body) + "</tbody></table>")
+    return (f'<div class="tw"><table cellspacing="0" cellpadding="0" style="width:100%;'
+            f'border-collapse:collapse;margin:0 0 24px">\n<thead><tr>{head}</tr></thead>\n<tbody>'
+            + "".join(body) + "</tbody></table></div>")
 
 
 def _section(title: str, note: str = "") -> str:
@@ -249,8 +255,8 @@ def _vitals_strip(v: dict[str, Any]) -> str:
         f'<div style="font:600 25px/1.1 {SERIF};color:{INK}">{_e(big)}</div>'
         f'<div style="font:400 10.5px/1.35 {SANS};color:{MUTED};text-transform:uppercase;'
         f'letter-spacing:.05em;padding-top:4px">{_e(label)}</div></td>' for big, label in cells)
-    return (f'<table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;'
-            f'margin:22px 0 6px"><tr>{tds}</tr></table>')
+    return (f'<table class="vitals" cellspacing="0" cellpadding="0" style="width:100%;'
+            f'border-collapse:collapse;margin:22px 0 6px"><tr>{tds}</tr></table>')
 
 
 def _downloads_bar(downloads: dict[str, str] | None) -> str:

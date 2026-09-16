@@ -156,6 +156,13 @@
   .radar .detail { position: absolute; right: 14px; bottom: 14px; max-width: 320px; background: color-mix(in srgb, var(--radar) 85%, black); border: 1px solid var(--radar-line); padding: 10px 12px; font-size: 13px; border-radius: 3px; }
   .radar .detail b { font-family: var(--mono); }
   .mesh svg { width: 100%; height: auto; display: block; }
+  .filterbar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between;
+               gap: 12px; flex-wrap: wrap; background: var(--accent); color: var(--accent-ink);
+               padding: 9px 20px; font-size: 14px; }
+  .filterbar[hidden] { display: none; }
+  .filterbar b { font-family: var(--mono); }
+  .filterbar .muted { color: var(--accent-ink); opacity: .75; margin-left: 8px; font-size: 13px; }
+  .filterbar .btn { background: var(--accent-ink); color: var(--accent); border-color: transparent; padding: 4px 12px; }
   #graph, #mesh { touch-action: none; }
   .tools { display: flex; gap: 6px; flex-wrap: wrap; }
   .tools button { font: 12px var(--mono); padding: 3px 9px; border-radius: 999px; cursor: pointer;
@@ -222,6 +229,11 @@
     <button class="btn theme" id="theme-toggle" type="button" aria-label="Toggle theme">Theme</button>
   </div>
 </nav>
+
+<div class="filterbar" id="filter-bar" hidden>
+  <span>Showing <b id="filter-label"></b><span class="muted" id="filter-scope"></span></span>
+  <button class="btn" type="button" id="filter-clear">Clear</button>
+</div>
 
 <section class="block" id="join">
   <div class="wrap">
@@ -615,13 +627,71 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
   // ── tooltip ──
   const tip = $('#tip'); const showTip = (html, x, y) => { tip.innerHTML = html; tip.style.opacity = 1; tip.style.left = Math.min(x + 12, innerWidth - 270) + 'px'; tip.style.top = (y + 12) + 'px'; }; const hideTip = () => tip.style.opacity = 0;
 
+  // ── cross-filter ─────────────────────────────────────────────────────────
+  // A tap on the graph or the mesh is a question about one thing — so it filters
+  // the tables too, not just the picture. Tapping the same thing again clears it.
+  let filter = null;                      // { kind, value, label, nodeId }
+  const bare = (name) => (name || '').replace(/ County$/, '');
+  const FILTER_SCOPE = {
+    county: 'events, alerts and contributors',
+    topic: 'events and alerts',
+    metric: 'events',
+    event: 'events',
+    sensor: 'contributors',
+    feed: 'nothing below — feeds sit outside the tables',
+  };
+
+  function matchEvent(e) {
+    if (!filter) return true;
+    if (filter.kind === 'county') return e.county_fips === filter.value;
+    if (filter.kind === 'topic') return e.topic === filter.value;
+    if (filter.kind === 'metric') return e.metric === filter.value;
+    if (filter.kind === 'event') return String(e.id) === String(filter.value);
+    return true;
+  }
+  function matchAlert(a) {
+    if (!filter) return true;
+    if (filter.kind === 'county') return (a.counties || []).some(n => bare(n) === bare(filter.label));
+    if (filter.kind === 'topic') return filter.value === 'weather';   // NWS alerts are weather products
+    return true;
+  }
+  function matchContributor(r) {
+    if (!filter) return true;
+    if (filter.kind === 'county') return bare(r.county) === bare(filter.label);
+    if (filter.kind === 'sensor') return r.handle === filter.value;
+    return true;
+  }
+
+  function setFilter(next) {
+    const same = filter && next && filter.kind === next.kind && String(filter.value) === String(next.value);
+    filter = same ? null : next;
+    syncVisuals();
+    applyFilter();
+  }
+  function applyFilter() {
+    const bar = $('#filter-bar');
+    bar.hidden = !filter;
+    if (filter) {
+      $('#filter-label').textContent = filter.label;
+      $('#filter-scope').textContent = '· filtering ' + (FILTER_SCOPE[filter.kind] || 'the tables below');
+      const nav = document.querySelector('.nav');
+      bar.style.top = (nav ? nav.getBoundingClientRect().height : 0) + 'px';
+    }
+    renderEvents(); renderAlerts(); renderLeaderboard();
+  }
+  function syncVisuals() {
+    if (graphSync) graphSync(filter ? filter.nodeId : null);
+    if (meshSync) meshSync(filter && filter.kind === 'county' ? filter.value : null);
+  }
+  $('#filter-clear').addEventListener('click', () => setFilter(null));
+
   // ── graph ──
   const G = D.graph || { nodes: [], links: [] };
   const kinds = ['topic', 'metric', 'sensor', 'county', 'event', 'feed'];
   const kindOn = Object.fromEntries(kinds.map(k => [k, true]));
   const legend = $('#graph-legend');
   kinds.forEach(k => { const b = el('button', { type: 'button' }, k); b.addEventListener('click', () => { kindOn[k] = !kindOn[k]; b.classList.toggle('off', !kindOn[k]); drawGraph(); }); legend.append(b); });
-  let graphFocus = null, graphZoom = null, graphSvgSel = null, graphRedraw = null;
+  let graphFocus = null, graphZoom = null, graphSvgSel = null, graphRedraw = null, graphSync = null;
   function nodeColor(n) { const cs = getComputedStyle(document.documentElement); if (n.kind === 'topic' || n.kind === 'metric' || n.kind === 'event') return cs.getPropertyValue('--t-' + n.topic).trim() || '#999'; if (n.kind === 'sensor') return '#E8D9A8'; if (n.kind === 'county') return '#9FB3A8'; if (n.kind === 'feed') return '#7FB0BF'; return '#999'; }
   function nodeR(n) { const base = { topic: 14, metric: 6, sensor: 5, county: 8, event: 7, feed: 9 }[n.kind] || 5; return base + Math.sqrt(n.n || 1) * (n.kind === 'sensor' ? .9 : .6); }
   function drawGraph() {
@@ -662,15 +732,22 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     }
     const zoom = d3.zoom().scaleExtent([.35, 6]).on('zoom', (e) => g.attr('transform', e.transform));
     svg.call(zoom); graphZoom = zoom; graphSvgSel = svg;
+    const idle = 'Tap a node to zoom in and hide everything it doesn\'t touch — the tables below follow along. Pinch or scroll to zoom, drag to move.';
+    const focusOn = (id) => {
+      graphFocus = id && near.has(id) ? id : null;
+      const d = graphFocus ? nodes.find(n => n.id === graphFocus) : null;
+      detail.innerHTML = d ? describe(d) : idle;
+      applyFocus();
+      const k = d ? Math.min(2.2, Math.max(1.4, 700 / Math.max(240, near.get(d.id).size * 26))) : 1;
+      svg.transition().duration(450).call(zoom.transform, d
+        ? d3.zoomIdentity.translate(W / 2 - k * d.x, H / 2 - k * d.y).scale(k) : d3.zoomIdentity);
+    };
+    graphSync = focusOn;                      // the mesh and the Clear button drive this too
     node.on('mouseenter', (e, d) => { if (!graphFocus) detail.innerHTML = describe(d); })
-        .on('click', (e, d) => {
-          graphFocus = graphFocus === d.id ? null : d.id;
-          detail.innerHTML = graphFocus ? describe(d) : 'Tap a node to zoom in and hide everything it doesn\'t touch. Pinch or scroll to zoom, drag to move.';
-          applyFocus();
-          const k = graphFocus ? Math.min(2.2, Math.max(1.4, 700 / Math.max(240, near.get(d.id).size * 26))) : 1;
-          svg.transition().duration(450).call(zoom.transform, graphFocus
-            ? d3.zoomIdentity.translate(W / 2 - k * d.x, H / 2 - k * d.y).scale(k) : d3.zoomIdentity);
-        });
+        .on('click', (e, d) => setFilter({
+          kind: d.kind, value: d.id.slice(d.id.indexOf(':') + 1), nodeId: d.id,
+          label: d.kind === 'county' ? d.label + ' County' : d.label,
+        }));
     node.call(d3.drag().on('start', (e, d) => { d.fx = d.x; d.fy = d.y; }).on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; sim.alpha(.3).tick(); refresh(); }).on('end', (e, d) => { d.fx = null; d.fy = null; }));
     function refresh() { link.attr('x1', l => l.source.x).attr('y1', l => l.source.y).attr('x2', l => l.target.x).attr('y2', l => l.target.y); node.attr('transform', d => 'translate(' + d.x + ',' + d.y + ')'); }
     applyFocus();
@@ -688,15 +765,11 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
   drawGraph();
   $('#graph-zoom-in').addEventListener('click', () => graphSvgSel && graphSvgSel.transition().duration(250).call(graphZoom.scaleBy, 1.5));
   $('#graph-zoom-out').addEventListener('click', () => graphSvgSel && graphSvgSel.transition().duration(250).call(graphZoom.scaleBy, 1 / 1.5));
-  $('#graph-clear').addEventListener('click', () => {
-    graphFocus = null; drawGraph();
-    graphSvgSel.transition().duration(300).call(graphZoom.transform, d3.zoomIdentity);
-    $('#graph-detail').innerHTML = 'Tap a node to zoom in and hide everything it doesn\'t touch. Pinch or scroll to zoom, drag to move.';
-  });
+  $('#graph-clear').addEventListener('click', () => setFilter(null));
   let graphResize; addEventListener('resize', () => { clearTimeout(graphResize); graphResize = setTimeout(() => graphRedraw && graphRedraw(), 250); });
 
   // ── county mesh (Voronoi of centroids, clipped to their hull) ──
-  let meshSel = null, meshZoom = null, meshSvgSel = null, meshPaint = null;
+  let meshSel = null, meshZoom = null, meshSvgSel = null, meshPaint = null, meshSync = null;
   function drawMesh() {
     const svg = d3.select('#mesh'); svg.selectAll('*').remove();
     const W = 520, H = 620, pad = 14;
@@ -727,25 +800,27 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
            .attr('opacity', c => !meshSel || c.fips === meshSel ? 1 : .35);
       $('#mesh-clear').hidden = !meshSel;
       const c = counties.find(x => x.fips === meshSel);
-      detail.innerHTML = c ? tipHtml(c) : 'Tap a county to zoom in and read its numbers.';
+      detail.innerHTML = c ? tipHtml(c) : 'Tap a county to zoom in — its readings, alerts and contributors fill the tables below.';
     };
     const zoom = d3.zoom().scaleExtent([1, 8]).translateExtent([[0, 0], [W, H]]).on('zoom', (e) => zoomG.attr('transform', e.transform));
     svg.call(zoom); meshZoom = zoom; meshSvgSel = svg;
+    meshSync = (fips) => {                    // the graph and the Clear button drive this too
+      meshSel = fips || null;
+      meshPaint();
+      const c = counties.find(x => x.fips === meshSel);
+      const k = c ? 3.4 : 1;
+      const [x, y] = c ? proj([c.lon, c.lat]) : [W / 2, H / 2];
+      svg.transition().duration(450).call(zoom.transform, c
+        ? d3.zoomIdentity.translate(W / 2 - k * x, H / 2 - k * y).scale(k) : d3.zoomIdentity);
+    };
     cells.on('click', (e, c) => {
       hideTip();
-      meshSel = meshSel === c.fips ? null : c.fips;
-      meshPaint();
-      const [x, y] = proj([c.lon, c.lat]); const k = meshSel ? 3.4 : 1;
-      svg.transition().duration(450).call(zoom.transform, meshSel
-        ? d3.zoomIdentity.translate(W / 2 - k * x, H / 2 - k * y).scale(k) : d3.zoomIdentity);
+      setFilter({ kind: 'county', value: c.fips, nodeId: 'county:' + c.fips, label: c.name + ' County' });
     });
     meshPaint();
   }
   $('#mesh-days').textContent = D.days || 14; drawMesh();
-  $('#mesh-clear').addEventListener('click', () => {
-    meshSel = null; meshPaint();
-    meshSvgSel.transition().duration(300).call(meshZoom.transform, d3.zoomIdentity);
-  });
+  $('#mesh-clear').addEventListener('click', () => setFilter(null));
 
   // ── activity ──
   function drawActivity() {
@@ -768,18 +843,28 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     const lg = $('#activity-legend'); lg.innerHTML = ''; keys.forEach(k => lg.append(el('span', { class: 'chip' }, el('span', { class: 'topic-dot topic-' + k }), refOnly ? 'official stations, gauges & feeds — no community readings yet' : k)));
   }
   drawActivity();
-  addEventListener('resize', () => { drawGraph(); drawActivity(); });
+  addEventListener('resize', () => drawActivity());
 
   // ── alerts ──
   const al = $('#alerts'); const alerts = D.alerts || [];
-  if (!alerts.length) al.append(el('p', { class: 'muted', style: 'font-size:14px' }, 'None active for ' + state + ' in this snapshot.'));
-  alerts.slice(0, 8).forEach(a => al.append(el('div', { class: 'alert ' + (a.severity || '') }, el('i'), el('div', {}, el('div', {}, el('b', {}, a.event || ''), ' ', el('span', { class: 'badge', style: 'margin-left:6px' }, a.severity || '')), el('div', { class: 'muted', style: 'font-size:13px' }, (a.counties || []).slice(0, 8).join(', ') + ((a.counties || []).length > 8 ? '…' : '') + (a.expires ? ' · until ' + a.expires.slice(0, 16).replace('T', ' ') + 'Z' : ''))))));
+  function renderAlerts() {
+    al.innerHTML = '';
+    const rows = alerts.filter(matchAlert);
+    if (!rows.length) al.append(el('p', { class: 'muted', style: 'font-size:14px' },
+      filter ? 'No active alerts for ' + filter.label + '.' : 'None active for ' + state + ' in this snapshot.'));
+    rows.slice(0, 8).forEach(a => al.append(el('div', { class: 'alert ' + (a.severity || '') }, el('i'), el('div', {}, el('div', {}, el('b', {}, a.event || ''), ' ', el('span', { class: 'badge', style: 'margin-left:6px' }, a.severity || '')), el('div', { class: 'muted', style: 'font-size:13px' }, (a.counties || []).slice(0, 8).join(', ') + ((a.counties || []).length > 8 ? '…' : '') + (a.expires ? ' · until ' + a.expires.slice(0, 16).replace('T', ' ') + 'Z' : ''))))));
+  }
 
   // ── events ──
   const etb = $('#events tbody'); const events = D.events || [];
-  if (!events.length) etb.append(el('tr', {}, el('td', { colspan: '8', class: 'muted' }, 'No events in this window.')));
-  const maxScore = Math.max(1, ...events.map(e => e.score || 0));
-  events.slice(0, 20).forEach(e => etb.append(el('tr', {}, el('td', { class: 'num' }, el('div', {}, (e.score ?? 0).toFixed(2)), el('div', { class: 'bar' }, el('i', { style: 'width:' + Math.round(100 * (e.score || 0) / maxScore) + '%; background:' + topicColor(e.topic) }))), el('td', {}, el('span', { class: 'topic-dot topic-' + e.topic }), e.topic), el('td', {}, e.source_url ? el('a', { href: e.source_url, target: '_blank', rel: 'noopener', title: 'Open the source' }, e.title || '') : (e.title || '')), el('td', { class: 'num' }, e.peak_display || ''), el('td', { class: 'num' }, String(e.n_sensors ?? '')), el('td', {}, e.n_reference ? 'yes' : ''), el('td', {}, e.verified ? el('span', { class: 'badge ok' }, 'verified') : el('span', { class: 'badge warn' }, 'unverified')), el('td', { class: 'muted mono', style: 'font-size:12px' }, (e.updated_at || '').slice(0, 16).replace('T', ' ')))));
+  function renderEvents() {
+    etb.innerHTML = '';
+    const rows = events.filter(matchEvent);
+    if (!rows.length) etb.append(el('tr', {}, el('td', { colspan: '8', class: 'muted' },
+      filter ? 'No events for ' + filter.label + ' in this window.' : 'No events in this window.')));
+    const maxScore = Math.max(1, ...rows.map(e => e.score || 0));
+    rows.slice(0, 20).forEach(e => etb.append(el('tr', {}, el('td', { class: 'num' }, el('div', {}, (e.score ?? 0).toFixed(2)), el('div', { class: 'bar' }, el('i', { style: 'width:' + Math.round(100 * (e.score || 0) / maxScore) + '%; background:' + topicColor(e.topic) }))), el('td', {}, el('span', { class: 'topic-dot topic-' + e.topic }), e.topic), el('td', {}, e.source_url ? el('a', { href: e.source_url, target: '_blank', rel: 'noopener', title: 'Open the source' }, e.title || '') : (e.title || '')), el('td', { class: 'num' }, e.peak_display || ''), el('td', { class: 'num' }, String(e.n_sensors ?? '')), el('td', {}, e.n_reference ? 'yes' : ''), el('td', {}, e.verified ? el('span', { class: 'badge ok' }, 'verified') : el('span', { class: 'badge warn' }, 'unverified')), el('td', { class: 'muted mono', style: 'font-size:12px' }, (e.updated_at || '').slice(0, 16).replace('T', ' ')))));
+  }
 
   // ── digest ──
   const dl = $('#digest-links'); const L = D.links || {};
@@ -795,8 +880,15 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
   else { const t = el('table', {}, el('thead', {}, el('tr', {}, el('th', {}, 'Date'), el('th', { class: 'num' }, 'Events'), el('th', { class: 'num' }, 'Readings')))); const b = el('tbody'); digs.slice(0, 10).forEach(d => b.append(el('tr', {}, el('td', {}, d.drive_url ? el('a', { href: d.drive_url, target: '_blank', rel: 'noopener' }, d.date) : d.date), el('td', { class: 'num' }, String(d.n_events ?? '')), el('td', { class: 'num' }, String(d.n_signals ?? ''))))); t.append(b); da.append(t); }
 
   // ── leaderboard ──
-  const lb = $('#leaderboard tbody'); (D.leaderboard || []).forEach(r => lb.append(el('tr', {}, el('td', { class: 'mono' }, r.handle), el('td', {}, r.county || '—'), el('td', { class: 'num' }, String(r.n)), el('td', { class: 'num' }, String(r.n_corr)), el('td', {}, el('div', { class: 'bar' }, el('i', { style: 'width:' + Math.round(100 * r.trust) + '%' })), el('span', { class: 'mono muted', style: 'font-size:12px' }, ' ' + r.trust.toFixed(2))))));
-  if (!(D.leaderboard || []).length) lb.append(el('tr', {}, el('td', { colspan: '5', class: 'muted' }, 'No contributions yet — be the first.')));
+  const lb = $('#leaderboard tbody'); const board = D.leaderboard || [];
+  function renderLeaderboard() {
+    lb.innerHTML = '';
+    const rows = board.filter(matchContributor);
+    rows.forEach(r => lb.append(el('tr', {}, el('td', { class: 'mono' }, r.handle), el('td', {}, r.county || '—'), el('td', { class: 'num' }, String(r.n)), el('td', { class: 'num' }, String(r.n_corr)), el('td', {}, el('div', { class: 'bar' }, el('i', { style: 'width:' + Math.round(100 * r.trust) + '%' })), el('span', { class: 'mono muted', style: 'font-size:12px' }, ' ' + r.trust.toFixed(2))))));
+    if (!rows.length) lb.append(el('tr', {}, el('td', { colspan: '5', class: 'muted' },
+      filter ? 'No contributors for ' + filter.label + ' yet.' : 'No contributions yet — be the first.')));
+  }
+  applyFilter();                            // first paint, with nothing selected
 
   // ── sources ──
   const srcs = D.sources || []; const domains = ['weather', 'water', 'soil', 'agriculture', 'air', 'research'];
