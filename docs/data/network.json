@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-16T07:09:25+00:00",
+ "generated_at": "2026-09-16T11:27:29+00:00",
  "sample": false,
  "days": 14,
  "network_name": "Intelligence Network",
@@ -10,20 +10,20 @@
  "site_url": "https://dram-dev.github.io/intelligence-network/",
  "contact_email": "ilintelligencenetwork@gmail.com",
  "links": {
-  "folder": null,
-  "latest": null,
-  "digest": null
+  "folder": "https://drive.google.com/drive/folders/10LXhVLmbA6xekUOXLUgVO_JFM9BjCw6d",
+  "latest": "https://docs.google.com/document/d/1pU_qedEUjRd5C6kZpRF3w-_njpS6_zsmQIqwBUvN0kw/edit",
+  "digest": "https://docs.google.com/document/d/1QakCDheRvUiULBGUslXFe-3qRWpiICfKd6B3viPiLEg/edit"
  },
  "vitals": {
   "sensors_total": 0,
   "sensors_active_24h": 0,
   "sensors_active_7d": 0,
   "signals_24h_human": 0,
-  "signals_24h_reference": 16788,
+  "signals_24h_reference": 20023,
   "corroborated_7d": 0,
   "flagged_7d": 0,
   "human_7d": 0,
-  "events_open": 2,
+  "events_open": 0,
   "events_24h": 5,
   "alerts_active": 5,
   "subscriptions": 0,

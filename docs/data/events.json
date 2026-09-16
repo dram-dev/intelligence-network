@@ -32,7 +32,7 @@
   "n_reference": 1,
   "severity": 0.6,
   "score": 1.425,
-  "status": "open",
+  "status": "closed",
   "opened_at": "2026-09-16T01:57:00+00:00",
   "updated_at": "2026-09-16T01:57:00+00:00",
   "verified": true
@@ -70,7 +70,7 @@
   "n_reference": 2,
   "severity": 0.5,
   "score": 1.188,
-  "status": "open",
+  "status": "closed",
   "opened_at": "2026-09-16T02:15:00+00:00",
   "updated_at": "2026-09-16T02:22:00+00:00",
   "verified": true
