@@ -21,7 +21,7 @@ import json
 import logging
 import os
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 from urllib.parse import parse_qs, urlparse
 
 from intelnet import db
@@ -256,6 +256,10 @@ class DrivePublisher:
     def doc_url(file_id: str | None) -> str | None:
         return f"https://docs.google.com/document/d/{file_id}/edit" if file_id else None
 
+    @staticmethod
+    def file_url(file_id: str | None) -> str | None:
+        return f"https://drive.google.com/file/d/{file_id}/view" if file_id else None
+
     # ── folder + latest doc ───────────────────────────────────────────────
     def ensure_folder(self) -> str:
         fid = db.kv_get(KV_FOLDER)
@@ -345,12 +349,18 @@ class DrivePublisher:
         return fid
 
     # ── publishing ────────────────────────────────────────────────────────
-    def publish(self, date: str, html: str, tables: dict[str, str] | None = None) -> dict[str, str | None]:
+    def publish(self, date: str, html: str, tables: dict[str, str] | None = None,
+                rerender: Callable[[dict[str, str]], str] | None = None) -> dict[str, str | None]:
         """Publish the day's digest in every format, and refresh the Latest doc.
 
         The day gets a folder of its own holding the Google Doc, a PDF, a Word
         file, the page as HTML and one CSV per table: the document is for
         reading, the rest is for keeping, printing or loading into a spreadsheet.
+
+        A file can't link to itself before it exists, so the digest is written
+        twice when `rerender` is given: once to create the files, then again with
+        a "also available as" bar naming them. The second pass replaces contents
+        in place, so every link — including ones already sent out — still works.
         Returns the links the digest record and the Telegram ping use.
         """
         from googleapiclient.http import MediaInMemoryUpload
@@ -381,6 +391,24 @@ class DrivePublisher:
         for table, text in (tables or {}).items():
             written[table] = self._upload(f"{date} {table}.csv", day_id, text.encode("utf-8"), CSV_MIME)
 
+        downloads = {label: url for label, url in (
+            ("PDF", self.file_url(written.get("pdf"))),
+            ("Word", self.file_url(written.get("docx"))),
+            ("HTML", self.file_url(written.get("html"))),
+            ("CSV tables", self.folder_url(day_id) if tables else None),
+        ) if url}
+        if rerender is not None:
+            data = rerender(downloads).encode("utf-8")
+            svc.files().update(fileId=doc_id,
+                               media_body=MediaInMemoryUpload(data, mimetype=HTML_MIME)).execute()
+            self._upload(f"{name}.html", day_id, data, HTML_MIME)
+            for suffix, mime in (("pdf", PDF_MIME), ("docx", DOCX_MIME)):
+                if suffix in written:                  # re-export so the PDF carries the bar too
+                    try:
+                        self._upload(f"{name}.{suffix}", day_id, self._export(doc_id, mime), mime)
+                    except Exception as exc:  # noqa: BLE001
+                        logger.warning("gdrive: %s re-export failed for %s: %s", suffix, date, exc)
+
         svc.files().update(
             fileId=latest_id, media_body=MediaInMemoryUpload(data, mimetype=HTML_MIME),
         ).execute()
@@ -389,6 +417,7 @@ class DrivePublisher:
             "doc_id": doc_id, "doc_url": self.doc_url(doc_id),
             "latest_url": self.doc_url(latest_id), "folder_url": self.folder_url(folder_id),
             "day_url": self.folder_url(day_id), "formats": ", ".join(sorted(written)),
+            "downloads": downloads,
         }
 
     # ── subscribers ───────────────────────────────────────────────────────

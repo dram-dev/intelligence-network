@@ -42,17 +42,20 @@ def test_build_and_render(make_sensor):
     assert "3 readings from 2 sensors" in m.headline and "top event: Hail size" in m.headline
 
     html = digest.render_html(m)
-    for needle in ("<h1>Intelligence Network — IL environmental digest", "Network vitals", "Events (ranked by score)",
-                   "Official alerts (NWS)", "Contributions by county", "Contributors this week",
-                   "Storms rake central Illinois", "Sensors wanted", "How to contribute", "Hail size"):
-        assert needle in html
+    for needle in ("Illinois environmental digest", "Intelligence Network", "Events",
+                   "Official alerts", "Readings by county", "Contributors",
+                   "Storms rake central Illinois", "Sensors wanted", "Report something", "Hail size"):
+        assert needle in html, needle
     assert "<script" not in html
+    assert "Also available as" not in html                    # no links until the files exist
+    linked = digest.render_html(m, downloads={"PDF": "https://drive.google.com/file/d/x/view"})
+    assert "Also available as" in linked and "file/d/x/view" in linked
 
     text = digest.render_text(m)
     assert "Events:" in text and "Hail size" in text and "NWS alerts:" in text
 
     m.narrative = "Para one.\n\nPara two."
-    assert "<p>Para one.</p>" in digest.render_html(m)
+    assert "Para one." in digest.render_html(m) and "Para two." in digest.render_html(m)
     assert "Para one." in digest.render_text(m)
     assert '"vitals"' in m.to_json()
 
@@ -71,7 +74,7 @@ def test_empty_network_renders(fresh_db):
     m = digest.build(hours=24)
     assert m.events == [] and m.alerts == [] and m.reading == []
     html = digest.render_html(m)
-    assert "<i>none</i>" in html and "nothing kept" in html
+    assert "No events crossed a threshold" in html and "Nothing kept in this window" in html
     assert "Sensors wanted: 102 counties" in digest.render_text(m)
 
 

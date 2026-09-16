@@ -532,6 +532,25 @@ def active_alert_signals(county_fips: str | None = None, now: datetime | None = 
     return [Signal.from_row(r) for r in rows]
 
 
+def event_source_signal(event_id: int) -> sqlite3.Row | None:
+    """The signal that best stands for an event — the issuing authority first.
+
+    Authorities link straight to the alert; station feeds don't carry a URL, so
+    `network.source_link` builds one from the source and station.
+    """
+    with get_conn() as conn:
+        return conn.execute(
+            """SELECT source, sensor_id, evidence_json,
+                      json_extract(evidence_json, '$.url') AS url FROM signals
+               WHERE event_id = ?
+               ORDER BY CASE sensor_kind WHEN 'authority' THEN 0 WHEN 'official' THEN 1
+                                         WHEN 'station' THEN 2 ELSE 3 END,
+                        json_extract(evidence_json, '$.url') IS NULL, observed_at DESC
+               LIMIT 1""",
+            (event_id,),
+        ).fetchone()
+
+
 def signals_for_event(event_id: int) -> list[Signal]:
     with get_conn() as conn:
         rows = conn.execute(

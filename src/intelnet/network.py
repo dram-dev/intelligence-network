@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import logging
 import math
+import json
 import sqlite3
 from dataclasses import dataclass, field
 from datetime import timedelta
@@ -398,6 +399,28 @@ def mesh_rows(hours: float = 24, topic: str | None = None) -> list[dict[str, Any
     return out
 
 
+def source_link(row: sqlite3.Row | None) -> str | None:
+    """Where to read more about a signal — its own URL, or its station's page.
+
+    NWS alerts, the Drought Monitor and USGS gauges carry a URL. Storm reports and
+    airport stations don't, so we point at the Iowa State pages that show them.
+    """
+    if row is None:
+        return None
+    if row["url"]:
+        return str(row["url"])
+    evidence = json.loads(row["evidence_json"] or "{}")
+    if row["source"] == "iem_lsr" and evidence.get("wfo"):
+        return f"https://mesonet.agron.iastate.edu/lsr/#{evidence['wfo']}"
+    if row["source"] == "iem_asos" and evidence.get("station"):
+        return ("https://mesonet.agron.iastate.edu/sites/site.php?station="
+                f"{evidence['station']}&network={settings.geo_state}_ASOS")
+    if row["source"] == "nrcs_scan" and evidence.get("station"):
+        site = str(evidence["station"]).split(":")[0]      # station ids arrive as "2004:IL:SCAN"
+        return f"https://wcc.sc.egov.usda.gov/nwcc/site?sitenum={site}"
+    return None
+
+
 def event_summary(ev: sqlite3.Row | dict[str, Any]) -> dict[str, Any]:
     e = dict(ev)
     m = find_metric(e["metric"])
@@ -409,4 +432,5 @@ def event_summary(ev: sqlite3.Row | dict[str, Any]) -> dict[str, Any]:
         "county_label": c.label if c else "—",
         "verified": (e.get("n_sensors") or 0) >= 2 or (e.get("n_reference") or 0) >= 1
         or (e.get("mean_trust") or 0) >= TRUSTED_SENSOR,
+        "source_url": source_link(db.event_source_signal(e["id"])) if e.get("id") else None,
     }

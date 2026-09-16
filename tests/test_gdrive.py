@@ -404,3 +404,27 @@ def test_a_digest_written_before_day_folders_is_moved_into_one(fresh_db, monkeyp
     assert links["doc_id"] == "old-doc"                           # same file, same link
     day_id = _published(svc)["2026-09-15"]["id"]
     assert _published(svc)[name]["parents"] == [day_id]
+
+
+def test_the_digest_is_rewritten_with_links_to_its_own_downloads(fresh_db, monkeypatch):
+    from intelnet.config import settings
+
+    monkeypatch.setattr(settings, "gdrive_enabled", True)
+    svc = FakeService()
+    pub = DrivePublisher(service=svc)
+    seen = {}
+
+    def rerender(downloads):
+        seen.update(downloads)
+        return "<h1>digest</h1><p>PDF: " + downloads["PDF"] + "</p>"
+
+    links = pub.publish("2026-09-16", "<h1>digest</h1>", tables={"events": "a\n"}, rerender=rerender)
+    files = _published(svc)
+    name = f"2026-09-16 {settings.network_name} digest"
+    assert set(seen) == {"PDF", "Word", "HTML", "CSV tables"}
+    assert seen["PDF"].startswith("https://drive.google.com/file/d/")
+    assert seen["CSV tables"] == links["day_url"]
+    # the second pass replaced the document, the HTML file and both exports in place
+    assert "PDF: https://drive.google.com/file/d/" in files[f"{name}.html"]["content"]
+    assert links["downloads"] == seen
+    assert len([f for f, _m in svc.exports if f == links["doc_id"]]) == 4      # pdf+docx, twice

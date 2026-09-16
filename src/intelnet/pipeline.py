@@ -91,7 +91,10 @@ def _run(run_type: str, skip_publish: bool, console: Any) -> dict[str, Any]:
         from intelnet.gdrive import DriveNotConfigured, publisher
 
         try:
-            links = publisher.publish(model.date, html, tables=digest.render_csvs(model))
+            links = publisher.publish(
+                model.date, html, tables=digest.render_csvs(model),
+                rerender=lambda downloads: digest.render_html(model, downloads=downloads),
+            )
             publisher.sync_readers()
             console.print(f"  published → {links['doc_url']}")
             console.print(f"  formats: {links.get('formats', '')}")

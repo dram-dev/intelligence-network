@@ -156,6 +156,25 @@
   .radar .detail { position: absolute; right: 14px; bottom: 14px; max-width: 320px; background: color-mix(in srgb, var(--radar) 85%, black); border: 1px solid var(--radar-line); padding: 10px 12px; font-size: 13px; border-radius: 3px; }
   .radar .detail b { font-family: var(--mono); }
   .mesh svg { width: 100%; height: auto; display: block; }
+  #graph, #mesh { touch-action: none; }
+  .tools { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tools button { font: 12px var(--mono); padding: 3px 9px; border-radius: 999px; cursor: pointer;
+                  border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); }
+  .tools button[hidden] { display: none; }
+  .radar .tools { position: absolute; top: 14px; right: 14px; }
+  .radar .tools button { border-color: var(--radar-line); background: transparent; color: var(--radar-ink); }
+  .mesh-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+  .mesh-detail { font-size: 13px; margin-top: 8px; min-height: 36px; }
+  .mesh-detail b { font-family: var(--mono); }
+  .digest-embed { width: 100%; height: min(72vh, 780px); border: 1px solid var(--line); border-radius: 3px;
+                  background: var(--surface); display: block; }
+  @media (max-width: 720px) {
+    .radar svg { height: 400px; }
+    .radar .legend, .radar .tools, .radar .detail { position: static; max-width: none; }
+    .radar .legend { margin-bottom: 8px; } .radar .tools { margin-bottom: 10px; }
+    .radar .detail { margin-top: 10px; }
+    .digest-embed { height: 68vh; }
+  }
   .tip { position: fixed; pointer-events: none; background: var(--ink); color: var(--ground); font: 12.5px var(--body); padding: 6px 9px; border-radius: 3px; z-index: 50; opacity: 0; transition: opacity .1s; max-width: 260px; }
   .chart svg { width: 100%; height: 260px; display: block; }
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
@@ -294,13 +313,22 @@ corn at dent @sangamon -- looking good</textarea>
     </div>
     <div class="radar" id="graph-panel">
       <div class="legend" id="graph-legend"></div>
+      <div class="tools" id="graph-tools">
+        <button type="button" id="graph-zoom-in" aria-label="Zoom in">+</button>
+        <button type="button" id="graph-zoom-out" aria-label="Zoom out">−</button>
+        <button type="button" id="graph-clear" hidden>Clear</button>
+      </div>
       <svg id="graph" role="img" aria-label="Network graph of topics, metrics, sensors, counties and events"></svg>
-      <div class="detail" id="graph-detail">Hover or click a node. Drag to rearrange, scroll to zoom.</div>
+      <div class="detail" id="graph-detail">Tap a node to zoom in and hide everything it doesn't touch. Pinch or scroll to zoom, drag to move.</div>
     </div>
     <div class="grid-2" style="margin-top:20px">
       <div class="panel mesh">
-        <h3>County mesh · human readings, last <span id="mesh-days">14</span> days</h3>
+        <div class="mesh-head">
+          <h3>County mesh · human readings, last <span id="mesh-days">14</span> days</h3>
+          <div class="tools"><button type="button" id="mesh-clear" hidden>Clear</button></div>
+        </div>
         <svg id="mesh" viewBox="0 0 520 620" role="img" aria-label="Illinois counties as a Voronoi mesh coloured by contribution count"></svg>
+        <div class="mesh-detail muted" id="mesh-detail">Tap a county to zoom in and read its numbers.</div>
         <p class="muted" style="font-size:12.5px; margin-top:8px">Stylised: county centroids tessellated, not true boundaries. Darker = more human readings; dots = official stations reporting.</p>
       </div>
       <div class="panel chart">
@@ -338,6 +366,13 @@ corn at dent @sangamon -- looking good</textarea>
           county activity, station extremes, contributors and the reading list.</p>
       </div>
       <div class="panel"><h3>Recent digests</h3><div id="digest-archive" class="table-wrap"></div></div>
+    </div>
+    <div class="panel" style="margin-top:20px">
+      <div class="sec-head" style="margin-bottom:12px">
+        <div><h3>Today's digest, in full</h3><p class="muted" style="font-size:14px">The same document that lands in Drive every morning — readable here, no account needed.</p></div>
+        <a class="btn" href="digest.html" target="_blank" rel="noopener">Open as its own page</a>
+      </div>
+      <iframe class="digest-embed" id="digest-embed" src="digest.html" loading="lazy" title="Today's digest"></iframe>
     </div>
   </div>
 </section>
@@ -586,12 +621,12 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
   const kindOn = Object.fromEntries(kinds.map(k => [k, true]));
   const legend = $('#graph-legend');
   kinds.forEach(k => { const b = el('button', { type: 'button' }, k); b.addEventListener('click', () => { kindOn[k] = !kindOn[k]; b.classList.toggle('off', !kindOn[k]); drawGraph(); }); legend.append(b); });
-  let graphState = null;
+  let graphFocus = null, graphZoom = null, graphSvgSel = null, graphRedraw = null;
   function nodeColor(n) { const cs = getComputedStyle(document.documentElement); if (n.kind === 'topic' || n.kind === 'metric' || n.kind === 'event') return cs.getPropertyValue('--t-' + n.topic).trim() || '#999'; if (n.kind === 'sensor') return '#E8D9A8'; if (n.kind === 'county') return '#9FB3A8'; if (n.kind === 'feed') return '#7FB0BF'; return '#999'; }
   function nodeR(n) { const base = { topic: 14, metric: 6, sensor: 5, county: 8, event: 7, feed: 9 }[n.kind] || 5; return base + Math.sqrt(n.n || 1) * (n.kind === 'sensor' ? .9 : .6); }
   function drawGraph() {
     const svg = d3.select('#graph'); svg.selectAll('*').remove();
-    const W = svg.node().clientWidth || 1000, H = 560;
+    const W = svg.node().clientWidth || 1000, H = svg.node().clientHeight || 560;
     const nodes = G.nodes.filter(n => kindOn[n.kind]).map(n => ({ ...n }));
     const ids = new Set(nodes.map(n => n.id));
     const links = G.links.filter(l => ids.has(l.source) && ids.has(l.target)).map(l => ({ ...l }));
@@ -599,10 +634,14 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     const sim = d3.forceSimulation(nodes)
       .force('link', d3.forceLink(links).id(d => d.id).distance(l => l.kind === 'belongs' ? 40 : l.kind === 'corroborated' ? 30 : 55).strength(l => l.kind === 'corroborated' ? .9 : .4))
       .force('charge', d3.forceManyBody().strength(-70)).force('center', d3.forceCenter(W / 2, H / 2))
+      // topics that share no reading drift apart without this; a gentle pull keeps
+      // the whole network on screen instead of three islands in the corners
+      .force('x', d3.forceX(W / 2).strength(.05)).force('y', d3.forceY(H / 2).strength(.07))
       .force('collide', d3.forceCollide(d => nodeR(d) + 2)).stop();
     for (let i = 0; i < 260; i++) sim.tick();
+    const baseLinkOpacity = l => l.kind === 'corroborated' ? .9 : .6;
     const link = g.append('g').attr('stroke-linecap', 'round').selectAll('line').data(links).join('line')
-      .attr('stroke', l => l.kind === 'corroborated' ? '#E8D9A8' : l.kind === 'belongs' ? '#3D5A4F' : '#2F4A41').attr('stroke-width', l => l.kind === 'corroborated' ? 1.6 : Math.min(3, .6 + Math.sqrt(l.weight || 1) * .5)).attr('stroke-opacity', l => l.kind === 'corroborated' ? .9 : .6)
+      .attr('stroke', l => l.kind === 'corroborated' ? '#E8D9A8' : l.kind === 'belongs' ? '#3D5A4F' : '#2F4A41').attr('stroke-width', l => l.kind === 'corroborated' ? 1.6 : Math.min(3, .6 + Math.sqrt(l.weight || 1) * .5)).attr('stroke-opacity', baseLinkOpacity)
       .attr('x1', l => l.source.x).attr('y1', l => l.source.y).attr('x2', l => l.target.x).attr('y2', l => l.target.y);
     const node = g.append('g').selectAll('g').data(nodes).join('g').attr('transform', d => 'translate(' + d.x + ',' + d.y + ')').style('cursor', 'pointer');
     node.append('circle').attr('r', nodeR).attr('fill', nodeColor).attr('fill-opacity', d => d.kind === 'county' ? .55 : .95).attr('stroke', '#0B100E').attr('stroke-width', .8);
@@ -611,15 +650,53 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     const describe = (d) => { const deg = links.filter(l => l.source.id === d.id || l.target.id === d.id).length;
       const extra = d.kind === 'sensor' ? ' · trust ' + (d.trust ?? '—') + (d.county ? ' · ' + (counties.find(c => c.fips === d.county)?.name || '') + ' County' : '') : d.kind === 'event' ? ' · score ' + (d.score ?? '—') + (d.verified ? ' · verified' : ' · unverified') : '';
       return '<b>' + d.label + '</b><br>' + d.kind + (d.topic ? ' · ' + d.topic : '') + (d.n != null ? ' · ' + d.n + ' readings' : '') + extra + ' · ' + deg + ' link' + (deg === 1 ? '' : 's'); };
-    node.on('mouseenter', (e, d) => { detail.innerHTML = describe(d); }).on('click', (e, d) => { detail.innerHTML = describe(d); });
+
+    // what each node touches, so a tap can hide everything else
+    const near = new Map(nodes.map(n => [n.id, new Set([n.id])]));
+    links.forEach(l => { near.get(l.source.id).add(l.target.id); near.get(l.target.id).add(l.source.id); });
+    function applyFocus() {
+      const keep = graphFocus && near.has(graphFocus) ? near.get(graphFocus) : null;
+      node.attr('opacity', d => !keep || keep.has(d.id) ? 1 : .08);
+      link.attr('stroke-opacity', l => !keep ? baseLinkOpacity(l) : (keep.has(l.source.id) && keep.has(l.target.id) ? .95 : .04));
+      $('#graph-clear').hidden = !keep;
+    }
+    const zoom = d3.zoom().scaleExtent([.35, 6]).on('zoom', (e) => g.attr('transform', e.transform));
+    svg.call(zoom); graphZoom = zoom; graphSvgSel = svg;
+    node.on('mouseenter', (e, d) => { if (!graphFocus) detail.innerHTML = describe(d); })
+        .on('click', (e, d) => {
+          graphFocus = graphFocus === d.id ? null : d.id;
+          detail.innerHTML = graphFocus ? describe(d) : 'Tap a node to zoom in and hide everything it doesn\'t touch. Pinch or scroll to zoom, drag to move.';
+          applyFocus();
+          const k = graphFocus ? Math.min(2.2, Math.max(1.4, 700 / Math.max(240, near.get(d.id).size * 26))) : 1;
+          svg.transition().duration(450).call(zoom.transform, graphFocus
+            ? d3.zoomIdentity.translate(W / 2 - k * d.x, H / 2 - k * d.y).scale(k) : d3.zoomIdentity);
+        });
     node.call(d3.drag().on('start', (e, d) => { d.fx = d.x; d.fy = d.y; }).on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; sim.alpha(.3).tick(); refresh(); }).on('end', (e, d) => { d.fx = null; d.fy = null; }));
     function refresh() { link.attr('x1', l => l.source.x).attr('y1', l => l.source.y).attr('x2', l => l.target.x).attr('y2', l => l.target.y); node.attr('transform', d => 'translate(' + d.x + ',' + d.y + ')'); }
-    svg.call(d3.zoom().scaleExtent([.4, 3]).on('zoom', (e) => g.attr('transform', e.transform)));
-    graphState = { nodes, links };
+    applyFocus();
+    // open on a view that holds every node, whatever the screen width
+    const xs = nodes.map(n => n.x), ys = nodes.map(n => n.y);
+    if (xs.length) {
+      const pad = 30, x0 = Math.min(...xs) - pad, x1 = Math.max(...xs) + pad;
+      const y0 = Math.min(...ys) - pad, y1 = Math.max(...ys) + pad;
+      const k = Math.min(1.2, Math.min(W / (x1 - x0), H / (y1 - y0)));
+      svg.call(zoom.transform, d3.zoomIdentity
+        .translate(W / 2 - k * (x0 + x1) / 2, H / 2 - k * (y0 + y1) / 2).scale(k));
+    }
+    graphRedraw = () => { graphFocus = null; drawGraph(); };
   }
   drawGraph();
+  $('#graph-zoom-in').addEventListener('click', () => graphSvgSel && graphSvgSel.transition().duration(250).call(graphZoom.scaleBy, 1.5));
+  $('#graph-zoom-out').addEventListener('click', () => graphSvgSel && graphSvgSel.transition().duration(250).call(graphZoom.scaleBy, 1 / 1.5));
+  $('#graph-clear').addEventListener('click', () => {
+    graphFocus = null; drawGraph();
+    graphSvgSel.transition().duration(300).call(graphZoom.transform, d3.zoomIdentity);
+    $('#graph-detail').innerHTML = 'Tap a node to zoom in and hide everything it doesn\'t touch. Pinch or scroll to zoom, drag to move.';
+  });
+  let graphResize; addEventListener('resize', () => { clearTimeout(graphResize); graphResize = setTimeout(() => graphRedraw && graphRedraw(), 250); });
 
   // ── county mesh (Voronoi of centroids, clipped to their hull) ──
+  let meshSel = null, meshZoom = null, meshSvgSel = null, meshPaint = null;
   function drawMesh() {
     const svg = d3.select('#mesh'); svg.selectAll('*').remove();
     const W = 520, H = 620, pad = 14;
@@ -632,14 +709,43 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     const maxH = Math.max(1, ...counties.map(c => c.human));
     const color = d3.scaleSequential(d3.interpolateRgb(cs.getPropertyValue('--surface-2').trim() || '#e6eae5', cs.getPropertyValue('--accent').trim() || '#1d6e7a')).domain([0, Math.sqrt(maxH)]);
     svg.append('clipPath').attr('id', 'hull').append('path').attr('d', 'M' + hull.map(p => p.join(',')).join('L') + 'Z');
-    const g = svg.append('g').attr('clip-path', 'url(#hull)');
-    g.selectAll('path').data(counties).join('path').attr('d', (c, i) => vor.renderCell(i)).attr('fill', c => c.human ? color(Math.sqrt(c.human)) : (cs.getPropertyValue('--surface').trim() || '#fff')).attr('stroke', cs.getPropertyValue('--line').trim() || '#ccc').attr('stroke-width', .8)
-      .on('mousemove', (e, c) => showTip('<b>' + c.name + ' County</b><br>' + c.human + ' human · ' + c.reference + ' reference readings' + (c.top_metric ? '<br>most reported: ' + c.top_metric : '') + (c.alerts ? '<br>' + c.alerts + ' active alert(s)' : ''), e.clientX, e.clientY)).on('mouseleave', hideTip);
-    svg.append('path').attr('d', 'M' + hull.map(p => p.join(',')).join('L') + 'Z').attr('fill', 'none').attr('stroke', cs.getPropertyValue('--line-strong').trim() || '#999').attr('stroke-width', 1.2);
-    svg.append('g').selectAll('circle').data(counties.filter(c => c.reference)).join('circle').attr('cx', (c, i) => proj([c.lon, c.lat])[0]).attr('cy', (c) => proj([c.lon, c.lat])[1]).attr('r', 2.4).attr('fill', cs.getPropertyValue('--amber').trim() || '#b7791f').attr('pointer-events', 'none');
-    svg.append('g').selectAll('text').data(counties.filter(c => c.human >= Math.max(3, maxH * .35))).join('text').text(c => c.name).attr('x', c => proj([c.lon, c.lat])[0]).attr('y', c => proj([c.lon, c.lat])[1] + 3).attr('text-anchor', 'middle').attr('font-size', 9).attr('font-family', 'IBM Plex Mono, monospace').attr('fill', cs.getPropertyValue('--ink').trim()).attr('pointer-events', 'none');
+    const zoomG = svg.append('g');                      // everything zooms together
+    const g = zoomG.append('g').attr('clip-path', 'url(#hull)');
+    const cells = g.selectAll('path').data(counties).join('path').attr('d', (c, i) => vor.renderCell(i))
+      .attr('fill', c => c.human ? color(Math.sqrt(c.human)) : (cs.getPropertyValue('--surface').trim() || '#fff'))
+      .attr('stroke', cs.getPropertyValue('--line').trim() || '#ccc').attr('stroke-width', .8).style('cursor', 'pointer')
+      .on('mousemove', (e, c) => { if (!meshSel) showTip(tipHtml(c), e.clientX, e.clientY); }).on('mouseleave', hideTip);
+    zoomG.append('path').attr('d', 'M' + hull.map(p => p.join(',')).join('L') + 'Z').attr('fill', 'none').attr('stroke', cs.getPropertyValue('--line-strong').trim() || '#999').attr('stroke-width', 1.2).attr('pointer-events', 'none');
+    zoomG.append('g').selectAll('circle').data(counties.filter(c => c.reference)).join('circle').attr('cx', (c) => proj([c.lon, c.lat])[0]).attr('cy', (c) => proj([c.lon, c.lat])[1]).attr('r', 2.4).attr('fill', cs.getPropertyValue('--amber').trim() || '#b7791f').attr('pointer-events', 'none');
+    zoomG.append('g').selectAll('text').data(counties.filter(c => c.human >= Math.max(3, maxH * .35))).join('text').text(c => c.name).attr('x', c => proj([c.lon, c.lat])[0]).attr('y', c => proj([c.lon, c.lat])[1] + 3).attr('text-anchor', 'middle').attr('font-size', 9).attr('font-family', 'IBM Plex Mono, monospace').attr('fill', cs.getPropertyValue('--ink').trim()).attr('pointer-events', 'none');
+
+    function tipHtml(c) { return '<b>' + c.name + ' County</b><br>' + c.human + ' human · ' + c.reference + ' reference readings' + (c.top_metric ? '<br>most reported: ' + c.top_metric : '') + (c.alerts ? '<br>' + c.alerts + ' active alert(s)' : ''); }
+    const detail = $('#mesh-detail');
+    meshPaint = () => {
+      cells.attr('stroke', c => c.fips === meshSel ? (cs.getPropertyValue('--ink').trim() || '#000') : (cs.getPropertyValue('--line').trim() || '#ccc'))
+           .attr('stroke-width', c => c.fips === meshSel ? 2.2 : .8)
+           .attr('opacity', c => !meshSel || c.fips === meshSel ? 1 : .35);
+      $('#mesh-clear').hidden = !meshSel;
+      const c = counties.find(x => x.fips === meshSel);
+      detail.innerHTML = c ? tipHtml(c) : 'Tap a county to zoom in and read its numbers.';
+    };
+    const zoom = d3.zoom().scaleExtent([1, 8]).translateExtent([[0, 0], [W, H]]).on('zoom', (e) => zoomG.attr('transform', e.transform));
+    svg.call(zoom); meshZoom = zoom; meshSvgSel = svg;
+    cells.on('click', (e, c) => {
+      hideTip();
+      meshSel = meshSel === c.fips ? null : c.fips;
+      meshPaint();
+      const [x, y] = proj([c.lon, c.lat]); const k = meshSel ? 3.4 : 1;
+      svg.transition().duration(450).call(zoom.transform, meshSel
+        ? d3.zoomIdentity.translate(W / 2 - k * x, H / 2 - k * y).scale(k) : d3.zoomIdentity);
+    });
+    meshPaint();
   }
   $('#mesh-days').textContent = D.days || 14; drawMesh();
+  $('#mesh-clear').addEventListener('click', () => {
+    meshSel = null; meshPaint();
+    meshSvgSel.transition().duration(300).call(meshZoom.transform, d3.zoomIdentity);
+  });
 
   // ── activity ──
   function drawActivity() {
@@ -649,12 +755,12 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     // No community readings yet: show the official network's daily volume instead of an empty chart.
     const refOnly = !keys.length && rows.some(r => r.reference);
     if (refOnly) keys = ['reference'];
-    const W = svg.node().clientWidth || 520, H = 260, m = { t: 10, r: 10, b: 26, l: 34 };
+    const W = svg.node().clientWidth || 520, H = 260, m = { t: 10, r: 10, b: 26, l: 42 };
     const x = d3.scaleBand().domain(rows.map(r => r.date)).range([m.l, W - m.r]).padding(.15);
     const stacked = d3.stack().keys(keys)(rows);
     const y = d3.scaleLinear().domain([0, d3.max(stacked, s => d3.max(s, d => d[1])) || 1]).nice().range([H - m.b, m.t]);
     const cs = getComputedStyle(document.documentElement);
-    svg.append('g').attr('transform', 'translate(' + m.l + ',0)').call(d3.axisLeft(y).ticks(4).tickSize(-(W - m.l - m.r))).call(g => { g.select('.domain').remove(); g.selectAll('line').attr('stroke', cs.getPropertyValue('--line').trim()); g.selectAll('text').attr('fill', cs.getPropertyValue('--muted').trim()).attr('font-family', 'IBM Plex Mono, monospace').attr('font-size', 11); });
+    svg.append('g').attr('transform', 'translate(' + m.l + ',0)').call(d3.axisLeft(y).ticks(4).tickFormat(d3.format('~s')).tickSize(-(W - m.l - m.r))).call(g => { g.select('.domain').remove(); g.selectAll('line').attr('stroke', cs.getPropertyValue('--line').trim()); g.selectAll('text').attr('fill', cs.getPropertyValue('--muted').trim()).attr('font-family', 'IBM Plex Mono, monospace').attr('font-size', 11); });
     svg.append('g').attr('transform', 'translate(0,' + (H - m.b) + ')').call(d3.axisBottom(x).tickValues(rows.map(r => r.date).filter((d, i) => i % Math.ceil(rows.length / 7) === 0)).tickFormat(d => d.slice(5))).call(g => { g.select('.domain').attr('stroke', cs.getPropertyValue('--line-strong').trim()); g.selectAll('line').remove(); g.selectAll('text').attr('fill', cs.getPropertyValue('--muted').trim()).attr('font-family', 'IBM Plex Mono, monospace').attr('font-size', 11); });
     svg.append('g').selectAll('g').data(stacked).join('g').attr('fill', s => topicColor(s.key)).selectAll('rect').data(s => s.map(d => ({ ...d, key: s.key }))).join('rect')
       .attr('x', d => x(d.data.date)).attr('y', d => y(d[1])).attr('height', d => Math.max(0, y(d[0]) - y(d[1]))).attr('width', x.bandwidth())
@@ -673,11 +779,16 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
   const etb = $('#events tbody'); const events = D.events || [];
   if (!events.length) etb.append(el('tr', {}, el('td', { colspan: '8', class: 'muted' }, 'No events in this window.')));
   const maxScore = Math.max(1, ...events.map(e => e.score || 0));
-  events.slice(0, 20).forEach(e => etb.append(el('tr', {}, el('td', { class: 'num' }, el('div', {}, (e.score ?? 0).toFixed(2)), el('div', { class: 'bar' }, el('i', { style: 'width:' + Math.round(100 * (e.score || 0) / maxScore) + '%; background:' + topicColor(e.topic) }))), el('td', {}, el('span', { class: 'topic-dot topic-' + e.topic }), e.topic), el('td', {}, e.title || ''), el('td', { class: 'num' }, e.peak_display || ''), el('td', { class: 'num' }, String(e.n_sensors ?? '')), el('td', {}, e.n_reference ? 'yes' : ''), el('td', {}, e.verified ? el('span', { class: 'badge ok' }, 'verified') : el('span', { class: 'badge warn' }, 'unverified')), el('td', { class: 'muted mono', style: 'font-size:12px' }, (e.updated_at || '').slice(0, 16).replace('T', ' ')))));
+  events.slice(0, 20).forEach(e => etb.append(el('tr', {}, el('td', { class: 'num' }, el('div', {}, (e.score ?? 0).toFixed(2)), el('div', { class: 'bar' }, el('i', { style: 'width:' + Math.round(100 * (e.score || 0) / maxScore) + '%; background:' + topicColor(e.topic) }))), el('td', {}, el('span', { class: 'topic-dot topic-' + e.topic }), e.topic), el('td', {}, e.source_url ? el('a', { href: e.source_url, target: '_blank', rel: 'noopener', title: 'Open the source' }, e.title || '') : (e.title || '')), el('td', { class: 'num' }, e.peak_display || ''), el('td', { class: 'num' }, String(e.n_sensors ?? '')), el('td', {}, e.n_reference ? 'yes' : ''), el('td', {}, e.verified ? el('span', { class: 'badge ok' }, 'verified') : el('span', { class: 'badge warn' }, 'unverified')), el('td', { class: 'muted mono', style: 'font-size:12px' }, (e.updated_at || '').slice(0, 16).replace('T', ' ')))));
 
   // ── digest ──
   const dl = $('#digest-links'); const L = D.links || {};
-  if (L.latest || L.folder) { if (L.latest) dl.append(el('a', { class: 'btn primary', href: L.latest, target: '_blank', rel: 'noopener' }, 'Latest digest (Google Doc)')); if (L.folder) dl.append(el('div', { style: 'margin-top:8px' }, el('a', { class: 'btn', href: L.folder, target: '_blank', rel: 'noopener' }, 'All digests (Drive folder)'))); }
+  if (L.latest || L.folder) {
+    if (L.latest) dl.append(el('a', { class: 'btn primary', href: L.latest, target: '_blank', rel: 'noopener' }, 'Latest digest (Google Doc)'));
+    if (L.digest) dl.append(el('div', { style: 'margin-top:8px' }, el('a', { class: 'btn', href: L.digest, target: '_blank', rel: 'noopener' }, 'Today\u2019s digest')));
+    if (L.folder) dl.append(el('div', { style: 'margin-top:8px' }, el('a', { class: 'btn', href: L.folder, target: '_blank', rel: 'noopener' }, 'Every day, every format')));
+    dl.append(el('p', { class: 'muted', style: 'font-size:13px; margin-top:10px' }, 'Each day\u2019s folder holds the digest as a Google Doc, PDF, Word file and HTML page, plus CSV tables of the events, alerts, county activity, extremes, contributors and reading list.'));
+  }
   else dl.append(el('p', { style: 'font-size:14.5px' }, 'Google Drive publishing is not enabled yet. Once it is, the Latest doc and the folder links appear here and in the bot’s /latest.'));
   const da = $('#digest-archive'); const digs = D.digests || [];
   if (!digs.length) da.append(el('p', { class: 'muted', style: 'font-size:14px' }, 'No digests published yet.'));

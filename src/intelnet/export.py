@@ -132,7 +132,7 @@ def _events(days: int) -> list[dict[str, Any]]:
         out.append({k: s.get(k) for k in (
             "id", "topic", "metric", "metric_label", "title", "county_fips", "county_label",
             "peak_display", "n_signals", "n_sensors", "n_reference", "severity", "score",
-            "status", "opened_at", "updated_at",
+            "status", "opened_at", "updated_at", "source_url",
         )} | {"verified": bool(s["verified"])})
     return out
 
@@ -348,6 +348,33 @@ def build_site(snap: dict[str, Any], fragment: Path | None = None, out: Path | N
     return out
 
 
+DIGEST_PAGE = "digest.html"
+
+
+def write_digest_page(snap: dict[str, Any], out_dir: Path | None = None, hours: float = 24.0) -> Path:
+    """Today's digest as a standalone page, for the site to embed and anyone to print.
+
+    The document itself lives in Drive; this is the same rendering served next to
+    the site, so the page works even while Drive publishing is off.
+    """
+    from intelnet import digest as digest_module
+
+    model = digest_module.build(hours=hours)
+    links = snap.get("links") or {}
+    downloads = {label: url for label, url in (
+        ("Google Doc", links.get("latest")), ("All formats", links.get("folder"))) if url}
+    body = digest_module.render_html(model, downloads=downloads or None)
+    out = (out_dir or DOCS_DIR) / DIGEST_PAGE
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(
+        '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
+        '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
+        f'<title>{model.network_name} — digest {model.date}</title>\n'
+        '<link rel="icon" href="assets/icon.svg" type="image/svg+xml">\n'
+        '</head>\n<body>\n' + body + "\n</body>\n</html>\n", encoding="utf-8")
+    return out
+
+
 STATIC_PAGES = ("privacy.html", "terms.html")
 
 
@@ -386,6 +413,7 @@ def export_all(out_dir: Path | None = None, days: int = 14, *, site: bool = True
         result["site"] = str(build_site(snap, out=out_dir / "index.html"))
         result["pages"] = [str(p) for p in render_static_pages(snap, out_dir)]
         result["assets"] = [str(p) for p in copy_assets(out_dir)]
+        result["digest_page"] = str(write_digest_page(snap, out_dir))
     return result
 
 
