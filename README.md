@@ -106,8 +106,14 @@ digest ping honours `NOTIFY_QUIET_*`.
 ## The digest lives in Google Drive
 
 Not on disk. `intelnet drive init` (one-time, browser consent) creates a Drive
-folder with a fixed-link **Latest** doc; every daily run adds
-`YYYY-MM-DD <network> digest` and rewrites Latest. People subscribe by
+folder with a fixed-link **Latest** doc; every daily run opens a folder named
+for the date, writes `YYYY-MM-DD <network> digest` into it and rewrites Latest.
+That day folder carries the digest in four formats — the Google Doc, a **PDF**
+and **Word** file exported from it, and the raw **HTML** page — plus one
+**CSV** per table (events, official alerts, county activity, station extremes,
+contributors, reading list, network vitals), so the same numbers can be read,
+printed or loaded into a spreadsheet. Re-publishing a day replaces the files in
+place, so links keep working. People subscribe by
 having the folder — anyone-with-link (`GDRIVE_PUBLIC_LINK=true`), or
 `/digest you@example.com` which shares the folder with them (Google sends the
 invitation) — plus the Telegram `digest` category for the link. Scope is
@@ -244,7 +250,7 @@ src/intelnet/
 ├── ingest/         news (digest-core IngestorBase)
 ├── watch.py        5-minute reference sweep
 ├── digest.py       DigestModel + HTML / text renderers
-├── gdrive.py       Drive folder + Latest doc + daily docs + sharing
+├── gdrive.py       Drive folder + Latest doc + per-day folders (doc/pdf/docx/html/csv) + sharing
 ├── pipeline.py     daily run under the cross-digest lock; digest ping
 ├── llm.py          free-text parse, news triage, narrative (digest-core backends)
 └── cli.py          intelnet …

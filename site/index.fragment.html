@@ -116,12 +116,17 @@
   @media (max-width: 860px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } .sec-head { grid-template-columns: 1fr; } }
   .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 3px; padding: 18px; box-shadow: var(--shadow); }
   .panel h3 { margin-bottom: 10px; }
-  .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; counter-reset: step; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; }
   @media (max-width: 860px) { .steps { grid-template-columns: 1fr 1fr; } } @media (max-width: 480px) { .steps { grid-template-columns: 1fr; } }
   .step { border-top: 2px solid var(--ink); padding-top: 10px; }
   .step .k { font: 500 12px var(--mono); color: var(--muted); letter-spacing: .06em; }
   .step p { margin-top: 6px; font-size: 14.5px; }
-  .step code { display: inline-block; margin-top: 6px; }
+  .step code { display: inline-block; }
+  .step .hint { font-size: 13px; color: var(--muted); margin-top: 8px; }
+  .stores { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .stores .btn { font-size: 13px; padding: 7px 11px; }
+  .plain { margin-top: 14px; font-size: 15px; background: var(--surface-2); border-left: 3px solid var(--accent);
+           padding: 10px 12px; border-radius: 0 4px 4px 0; }
 
   /* sandbox */
   .sandbox { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
@@ -202,31 +207,58 @@
 <section class="block" id="join">
   <div class="wrap">
     <div class="sec-head">
-      <div><h2>Join in four messages</h2><p>Everything runs through one Telegram bot. No app, no account beyond Telegram.</p></div>
-      <a class="btn primary" id="bot-link" href="#" target="_blank" rel="noopener">Open the bot in Telegram</a>
+      <div><h2>Sign up, step by step</h2><p>The network lives inside a free messaging app. If you can send a text message, you can use it — nothing to pay, no account to create here.</p></div>
+      <a class="btn primary" id="bot-link" href="#" target="_blank" rel="noopener">Open the chat</a>
     </div>
     <div class="steps">
-      <div class="step"><div class="k">1 · OPEN</div><p>Search Telegram for <b id="bot-handle-1">@intelligence_network_bot</b> and press Start.</p></div>
-      <div class="step"><div class="k">2 · JOIN</div><p>Send <code>/join</code> (or the join code if the network asks for one).</p></div>
-      <div class="step"><div class="k">3 · HOME</div><p>Send <code>/home 62704-1234</code> — your ZIP+4, ZIP or county — or share your location once. Readings land there unless you say otherwise.</p></div>
-      <div class="step"><div class="k">4 · REPORT</div><p>Type what you see: <code>rain 1.2in</code> · <code>hail quarter</code> · <code>trees down</code>. The bot replies with what it understood and who agrees.</p></div>
+      <div class="step">
+        <div class="k">1 · GET TELEGRAM</div>
+        <p>Telegram is a free messaging app, like WhatsApp or iMessage. Install it and sign up with your phone number.</p>
+        <div class="stores">
+          <a class="btn" href="https://apps.apple.com/us/app/telegram-messenger/id686449807" target="_blank" rel="noopener">iPhone &amp; iPad</a>
+          <a class="btn" href="https://play.google.com/store/apps/details?id=org.telegram.messenger" target="_blank" rel="noopener">Android</a>
+          <a class="btn" href="https://desktop.telegram.org/" target="_blank" rel="noopener">Computer</a>
+        </div>
+        <p class="hint">Already have Telegram? Go straight to step 2.</p>
+      </div>
+      <div class="step">
+        <div class="k">2 · OPEN OUR CHAT</div>
+        <p>Press <b>Open the chat</b> above. A normal chat window opens with <b id="bot-handle-1">@intelligence_network_bot</b>.</p>
+        <p class="hint">Or open Telegram, tap the search box at the top, type that name and pick it from the list. You are writing to a program, not a person: it replies straight away, day or night.</p>
+      </div>
+      <div class="step">
+        <div class="k">3 · SAY HELLO</div>
+        <p>Press the blue <b>START</b> button at the bottom of the chat. If you don't see one, type <code>/join</code> and send it.</p>
+        <p class="hint">A message that starts with a slash is an instruction rather than a sentence. Send <code>/help</code> whenever you want the full list.</p>
+      </div>
+      <div class="step">
+        <div class="k">4 · SAY WHERE YOU ARE</div>
+        <p>Send your ZIP code like this: <code>/home 62704</code>. Your reports and your alerts both use it.</p>
+        <p class="hint">On a phone you can instead tap the paperclip, choose <b>Location</b>, then <b>Send My Current Location</b>. Once is enough — we keep the place, not a trail.</p>
+      </div>
+      <div class="step">
+        <div class="k">5 · REPORT WHAT YOU SEE</div>
+        <p>Write it the short way and send it: <code>rain 1.2in</code>, <code>hail quarter</code>, <code>trees down</code>. The bot repeats back what it understood.</p>
+        <p class="hint">Other people see a handle like <code>s-4f2a1</code> and your ZIP code — never your name, your number or your exact address.</p>
+      </div>
     </div>
 
     <div class="grid-2" style="margin-top:28px">
       <div class="panel">
-        <h3>Subscribe to what matters where you are</h3>
-        <p class="muted" style="font-size:14px">Build the command, copy it, send it to the bot. Each topic has its own channels; areas nest from the whole state down to your ZIP+4.</p>
+        <h3>Choose what gets sent to you</h3>
+        <p class="muted" style="font-size:14px">Answer three questions and we'll write the message for you. Copy it, paste it into the chat, press send. Do it again for anything else you want.</p>
         <div class="grid-2" style="margin-top:14px; gap:12px">
-          <div class="field"><label for="sub-topic">Topic</label><select id="sub-topic"></select></div>
-          <div class="field"><label for="sub-cat">Channel</label><select id="sub-cat"></select></div>
-          <div class="field"><label for="sub-area-kind">Area</label><select id="sub-area-kind"><option value="county">County</option><option value="zip">ZIP or ZIP+4</option><option value="state">Whole state</option></select></div>
-          <div class="field"><label for="sub-area">Which</label><select id="sub-area"></select><input type="text" id="sub-zip" placeholder="60601 or 60601-2001" hidden></div>
+          <div class="field"><label for="sub-topic">1. What are you interested in?</label><select id="sub-topic"></select></div>
+          <div class="field"><label for="sub-cat">2. How much do you want?</label><select id="sub-cat"></select></div>
+          <div class="field"><label for="sub-area-kind">3. Where?</label><select id="sub-area-kind"><option value="county">A county</option><option value="zip">A ZIP code</option><option value="state">All of Illinois</option></select></div>
+          <div class="field"><label for="sub-area">Which one?</label><select id="sub-area"></select><input type="text" id="sub-zip" placeholder="60601 or 60601-2001" hidden></div>
         </div>
+        <p class="plain" id="sub-plain"></p>
         <div class="cmd"><pre id="sub-cmd">/subscribe weather.warnings cook</pre><button class="btn" type="button" id="sub-copy">Copy</button></div>
-        <p class="muted" style="font-size:13px; margin-top:10px"><code>*.events</code> subscribes to events from every topic. <code>/subs</code> lists yours; <code>/unsubscribe all</code> clears them.</p>
+        <p class="hint" style="margin-top:10px">Later on, send <code>/subs</code> to see what you signed up for, or <code>/unsubscribe all</code> to stop everything. You can change your mind at any time.</p>
       </div>
       <div class="panel">
-        <h3>What each channel sends</h3>
+        <h3>What each kind of message is</h3>
         <div id="channels" class="table-wrap"></div>
       </div>
     </div>
@@ -295,12 +327,15 @@ corn at dent @sangamon -- looking good</textarea>
     <div class="grid-3">
       <div class="panel" id="digest-links"><h3>Open it</h3></div>
       <div class="panel"><h3>Subscribe</h3>
-        <p style="font-size:14.5px">Three ways, pick any:</p>
+        <p style="font-size:14.5px">Three ways — pick whichever suits you:</p>
         <ul style="margin:8px 0 0; padding-left:18px; font-size:14.5px; line-height:1.7">
-          <li>Telegram: <code>/subscribe digest</code> — a link each morning at 08:00</li>
-          <li>E-mail: <code>/digest you@example.com</code> — Google shares the folder with you</li>
-          <li>Keep the <b>Latest</b> doc bookmarked — same link every day</li>
+          <li>In the chat, send <code>/subscribe digest</code>. A link arrives every morning at 8am.</li>
+          <li>Prefer e-mail? Send <code>/digest you@example.com</code> and Google shares the folder with that address.</li>
+          <li>Or bookmark the <b>Latest</b> document below — it's the same link every day.</li>
         </ul>
+        <p class="hint" style="margin-top:12px">Every day also gets its own folder in Drive holding the same digest as a
+          <b>PDF</b>, a <b>Word</b> file and an <b>HTML</b> page, plus <b>CSV</b> tables of the events, official alerts,
+          county activity, station extremes, contributors and the reading list.</p>
       </div>
       <div class="panel"><h3>Recent digests</h3><div id="digest-archive" class="table-wrap"></div></div>
     </div>
@@ -434,7 +469,15 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     if (subKind.value === 'county') area = subArea.value; else if (subKind.value === 'zip') area = (subZip.value || '60601').trim(); else area = st;
     if (cat.endsWith('.digest')) area = '';
     subCmd.textContent = ('/subscribe ' + cat + ' ' + area).trim();
+    const desc = ((topicByName[subTopic.value]?.categories) || []).find(c => c.key === cat)?.description || '';
+    let where = 'all of Illinois';
+    if (cat.endsWith('.digest')) where = 'the whole network';
+    else if (subKind.value === 'county') { const c = counties.find(c => c.slug === subArea.value);
+      where = c ? (/\bCounty$/.test(c.name) ? c.name : c.name + ' County') : where; }
+    else if (subKind.value === 'zip') where = 'ZIP ' + ((subZip.value || '60601').trim());
+    $('#sub-plain').textContent = desc ? 'You get ' + desc.charAt(0).toLowerCase() + desc.slice(1) + ' — for ' + where + '.' : '';
   };
+  if ([...subTopic.options].some(o => o.value === 'weather')) subTopic.value = 'weather';
   fillCats(); const cookIdx = counties.findIndex(c => c.slug === 'cook'); if (cookIdx >= 0) subArea.selectedIndex = cookIdx; buildCmd();
   subTopic.addEventListener('change', () => { fillCats(); buildCmd(); });
   [subCat, subArea, subZip].forEach(x => x.addEventListener('input', buildCmd));

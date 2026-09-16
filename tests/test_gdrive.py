@@ -35,14 +35,26 @@ class FakeFiles:
             raise _NotFound()
         return _Call({"id": fileId, "trashed": hit.get("trashed", False)})
 
-    def update(self, fileId=None, media_body=None):
+    def update(self, fileId=None, media_body=None, addParents=None, removeParents=None, fields=None):
         self.svc.updates.append((fileId, _content(media_body)))
+        hit = next((f for f in self.svc.files_created if f["id"] == fileId), None)
+        if hit is not None:
+            if media_body is not None:
+                hit["content"] = _content(media_body)
+            if addParents:
+                hit["parents"] = [p for p in hit.get("parents", []) if p != removeParents] + [addParents]
         return _Call({"id": fileId})
 
     def list(self, q=None, fields=None, pageSize=None):
         name = q.split("'")[1]
-        hits = [{"id": f["id"]} for f in self.svc.files_created if f.get("name") == name]
+        parent = q.split("'")[3] if q.count("'") >= 4 else None
+        hits = [{"id": f["id"]} for f in self.svc.files_created
+                if f.get("name") == name and (parent is None or parent in (f.get("parents") or []))]
         return _Call({"files": hits})
+
+    def export_media(self, fileId=None, mimeType=None):
+        self.svc.exports.append((fileId, mimeType))
+        return _Call(f"{mimeType} bytes for {fileId}".encode())
 
 
 class FakePerms:
@@ -66,7 +78,7 @@ class FakePerms:
 
 class FakeService:
     def __init__(self):
-        self.files_created, self.updates, self.perms = [], [], []
+        self.files_created, self.updates, self.perms, self.exports = [], [], [], []
 
     def files(self):
         return FakeFiles(self)
@@ -89,18 +101,22 @@ def test_publish_creates_folder_latest_and_daily_doc(fresh_db, monkeypatch):
     svc = FakeService()
     pub = DrivePublisher(service=svc)
     links = pub.publish("2026-09-15", "<h1>hi</h1>")
-    folder, latest, daily = svc.files_created
-    assert folder["mimeType"] == FOLDER_MIME and folder["name"] == settings.gdrive_folder_name
+    by_name = {f["name"]: f for f in svc.files_created}
+    folder = by_name[settings.gdrive_folder_name]
+    latest = next(f for f in svc.files_created if f["name"].startswith("Latest"))
+    daily = by_name["2026-09-15 Intelligence Network digest"]
+    assert folder["mimeType"] == FOLDER_MIME
     assert latest["mimeType"] == DOC_MIME and latest["parents"] == [folder["id"]]
-    assert daily["name"] == "2026-09-15 Intelligence Network digest" and daily["content"] == "<h1>hi</h1>"
+    assert daily["content"] == "<h1>hi</h1>" and daily["parents"] == [by_name["2026-09-15"]["id"]]
     assert db.kv_get(KV_FOLDER) == folder["id"] and db.kv_get(KV_LATEST) == latest["id"]
     assert svc.perms[0][1] == {"type": "anyone", "role": "reader"}          # public link
-    assert svc.updates == [(latest["id"], "<h1>hi</h1>")]                    # Latest refreshed
+    assert (latest["id"], "<h1>hi</h1>") in svc.updates                      # Latest refreshed
     assert links["doc_url"].endswith(f"/{daily['id']}/edit") and links["folder_url"].endswith(folder["id"])
 
-    # re-publishing the same day updates the doc in place
+    # re-publishing the same day updates the files in place
+    count = len(svc.files_created)
     pub.publish("2026-09-15", "<h1>v2</h1>")
-    assert len(svc.files_created) == 3 and (daily["id"], "<h1>v2</h1>") in svc.updates
+    assert len(svc.files_created) == count and (daily["id"], "<h1>v2</h1>") in svc.updates
 
     assert pub.add_reader("a@b.co") and svc.perms[-1][1]["emailAddress"] == "a@b.co"
     assert pub.remove_reader("A@B.co") and svc.perms[-1][1] is None           # case-insensitive
@@ -328,3 +344,63 @@ def test_disabled_client_is_reported_as_such(tmp_path, monkeypatch):
     for interactive in (False, True):
         with pytest.raises(gdrive.DriveNotConfigured, match="has disabled this app"):
             gdrive._get_credentials(interactive=interactive)
+
+
+def _published(svc):
+    return {f["name"]: f for f in svc.files_created}
+
+
+def test_publish_writes_every_format_into_a_folder_for_the_day(fresh_db, monkeypatch):
+    from intelnet.config import settings
+
+    monkeypatch.setattr(settings, "gdrive_enabled", True)
+    monkeypatch.setattr(settings, "network_name", "Intelligence Network")
+    svc = FakeService()
+    pub = DrivePublisher(service=svc)
+    links = pub.publish("2026-09-16", "<h1>digest</h1>",
+                        tables={"events": "a,b\n1,2\n", "network-vitals": "metric,value\n"})
+
+    files = _published(svc)
+    day = files["2026-09-16"]
+    assert day["mimeType"] == FOLDER_MIME                       # a folder per day
+    name = "2026-09-16 Intelligence Network digest"
+    for expected, mime in ((name, DOC_MIME), (f"{name}.pdf", None), (f"{name}.docx", None),
+                           (f"{name}.html", None), ("2026-09-16 events.csv", None),
+                           ("2026-09-16 network-vitals.csv", None)):
+        assert expected in files, expected
+        assert files[expected]["parents"] == [day["id"]]
+        if mime:
+            assert files[expected]["mimeType"] == mime
+    assert files[f"{name}.pdf"]["content"].startswith("application/pdf bytes")
+    assert [m for _f, m in svc.exports] == ["application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"]
+    assert links["day_url"].endswith(day["id"])
+    assert "pdf" in links["formats"] and "events" in links["formats"]
+
+
+def test_republishing_a_day_updates_the_same_files(fresh_db, monkeypatch):
+    from intelnet.config import settings
+
+    monkeypatch.setattr(settings, "gdrive_enabled", True)
+    svc = FakeService()
+    pub = DrivePublisher(service=svc)
+    pub.publish("2026-09-16", "<h1>one</h1>", tables={"events": "a\n"})
+    before = len(svc.files_created)
+    pub.publish("2026-09-16", "<h1>two</h1>", tables={"events": "b\n"})
+    assert len(svc.files_created) == before                      # nothing duplicated
+    assert _published(svc)[f"2026-09-16 {settings.network_name} digest.html"]["content"] == "<h1>two</h1>"
+
+
+def test_a_digest_written_before_day_folders_is_moved_into_one(fresh_db, monkeypatch):
+    from intelnet.config import settings
+
+    monkeypatch.setattr(settings, "gdrive_enabled", True)
+    svc = FakeService()
+    pub = DrivePublisher(service=svc)
+    folder_id = pub.ensure_folder()
+    name = f"2026-09-15 {settings.network_name} digest"
+    svc.files_created.append({"id": "old-doc", "name": name, "mimeType": DOC_MIME,
+                              "parents": [folder_id], "content": "<h1>old</h1>"})
+    links = pub.publish("2026-09-15", "<h1>new</h1>")
+    assert links["doc_id"] == "old-doc"                           # same file, same link
+    day_id = _published(svc)["2026-09-15"]["id"]
+    assert _published(svc)[name]["parents"] == [day_id]

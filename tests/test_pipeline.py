@@ -51,8 +51,8 @@ def test_pipeline_publishes_when_drive_enabled(stubbed, monkeypatch):
     published = {}
 
     class Pub:
-        def publish(self, date, html):
-            published["date"], published["html"] = date, html
+        def publish(self, date, html, tables=None):
+            published["date"], published["html"], published["tables"] = date, html, tables or {}
             return {"doc_id": "d", "doc_url": "https://docs.google.com/document/d/d/edit",
                     "latest_url": "https://docs.google.com/document/d/l/edit",
                     "folder_url": "https://drive.google.com/drive/folders/f"}
@@ -63,6 +63,7 @@ def test_pipeline_publishes_when_drive_enabled(stubbed, monkeypatch):
     monkeypatch.setattr(gdrive, "publisher", Pub())
     summary = pipeline.run("daily")
     assert published["date"] == summary["digest"]["date"] and "<h1>" in published["html"]
+    assert "events" in published["tables"] and published["tables"]["events"].startswith("opened_at,")
     assert db.latest_digest()["drive_url"].endswith("/d/edit")
 
 
@@ -76,7 +77,7 @@ def test_expired_drive_login_dms_the_admin_once_a_day(stubbed, sent, monkeypatch
     monkeypatch.setattr(settings, "gdrive_credentials_path", client)
 
     class Expired:
-        def publish(self, date, html):
+        def publish(self, date, html, tables=None):
             raise gdrive.DriveNotConfigured("Google authorization expired or was revoked — run `uv run intelnet drive init`")
 
         def sync_readers(self):

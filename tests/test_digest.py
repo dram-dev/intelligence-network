@@ -73,3 +73,25 @@ def test_empty_network_renders(fresh_db):
     html = digest.render_html(m)
     assert "<i>none</i>" in html and "nothing kept" in html
     assert "Sensors wanted: 102 counties" in digest.render_text(m)
+
+
+def test_csv_tables_carry_the_same_numbers_as_the_document(make_sensor):
+    _seed(make_sensor)
+    m = digest.build(hours=24)
+    csvs = digest.render_csvs(m)
+    assert set(csvs) == {"events", "official-alerts", "county-activity", "station-extremes",
+                         "contributors", "reading-list", "network-vitals"}
+    events = csvs["events"].splitlines()
+    assert events[0].startswith("opened_at,updated_at,topic,metric,metric_label")
+    assert any("hail_mm" in line for line in events[1:])
+    alerts = csvs["official-alerts"].splitlines()
+    assert alerts[0] == "event,severity,counties,sent,expires,sender,headline,url"
+    assert any("; " in line for line in alerts[1:])            # a multi-county alert joins with ;
+    assert "Ann" not in csvs["contributors"] and "s-" in csvs["contributors"]
+    assert "Storms rake central Illinois" in csvs["reading-list"]
+
+
+def test_an_empty_table_still_has_its_header(fresh_db):
+    quiet = digest.DigestModel(date="2026-09-16", generated_at="2026-09-16 03:00Z", hours=24,
+                               network_name="Intelligence Network", state="IL")
+    assert digest.render_csvs(quiet)["events"].strip() == ",".join(digest.EVENT_COLUMNS)

@@ -76,6 +76,25 @@
   "verified": true
  },
  {
+  "id": 7,
+  "topic": "weather",
+  "metric": "rain_mm",
+  "metric_label": "Rainfall",
+  "title": "Rainfall 1.8 in (45.72 mm) \u2014 McLean County",
+  "county_fips": "17113",
+  "county_label": "McLean County",
+  "peak_display": "1.8 in (45.72 mm)",
+  "n_signals": 1,
+  "n_sensors": 1,
+  "n_reference": 1,
+  "severity": 0.4,
+  "score": 0.95,
+  "status": "open",
+  "opened_at": "2026-09-16T11:30:00+00:00",
+  "updated_at": "2026-09-16T11:30:00+00:00",
+  "verified": true
+ },
+ {
   "id": 4,
   "topic": "weather",
   "metric": "rain_mm",

@@ -32,6 +32,10 @@ logger = logging.getLogger(__name__)
 SCOPES = ["https://www.googleapis.com/auth/drive.file"]
 DOC_MIME = "application/vnd.google-apps.document"
 FOLDER_MIME = "application/vnd.google-apps.folder"
+HTML_MIME = "text/html"
+PDF_MIME = "application/pdf"
+DOCX_MIME = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+CSV_MIME = "text/csv"
 KV_FOLDER = "gdrive_folder_id"
 KV_LATEST = "gdrive_latest_id"
 
@@ -288,35 +292,103 @@ class DrivePublisher:
             fileId=file_id, body={"type": "anyone", "role": "reader"}, fields="id"
         ).execute()
 
+    # ── files ─────────────────────────────────────────────────────────────
+    def _find(self, name: str, parent_id: str) -> str | None:
+        """Id of a file with this exact name in this folder, if there is one."""
+        safe = name.replace("\\", "\\\\").replace("'", "\\'")
+        found = self._svc().files().list(
+            q=f"name = '{safe}' and '{parent_id}' in parents and trashed = false",
+            fields="files(id)", pageSize=1,
+        ).execute().get("files") or []
+        return found[0]["id"] if found else None
+
+    def ensure_day_folder(self, folder_id: str, date: str) -> str:
+        """One folder per day, holding every format of that day's digest."""
+        fid = self._find(date, folder_id)
+        if fid:
+            return fid
+        return self._svc().files().create(
+            body={"name": date, "mimeType": FOLDER_MIME, "parents": [folder_id]}, fields="id",
+        ).execute()["id"]
+
+    def _upload(self, name: str, parent_id: str, data: bytes, mimetype: str,
+                *, convert_to: str | None = None) -> str:
+        """Write a file by name, replacing its contents if it is already there.
+
+        Re-publishing a day therefore refreshes files in place, so links people
+        already have keep working.
+        """
+        from googleapiclient.http import MediaInMemoryUpload
+
+        svc = self._svc()
+        media = MediaInMemoryUpload(data, mimetype=mimetype)
+        fid = self._find(name, parent_id)
+        if fid:
+            svc.files().update(fileId=fid, media_body=media).execute()
+            return fid
+        body: dict[str, Any] = {"name": name, "parents": [parent_id]}
+        if convert_to:                      # ask Drive to convert on the way in (HTML → Google Doc)
+            body["mimeType"] = convert_to
+        return svc.files().create(body=body, media_body=media, fields="id").execute()["id"]
+
+    def _export(self, doc_id: str, mimetype: str) -> bytes:
+        """Google's own rendering of a Doc — PDF and Word come from here."""
+        return self._svc().files().export_media(fileId=doc_id, mimeType=mimetype).execute()
+
+    def _adopt(self, name: str, from_id: str, to_id: str) -> str | None:
+        """Move a digest written before day folders existed into its day folder."""
+        fid = self._find(name, from_id)
+        if fid:
+            self._svc().files().update(
+                fileId=fid, addParents=to_id, removeParents=from_id, fields="id",
+            ).execute()
+        return fid
+
     # ── publishing ────────────────────────────────────────────────────────
-    def publish(self, date: str, html: str) -> dict[str, str | None]:
-        """Create the day's doc and refresh the Latest doc. Returns links."""
+    def publish(self, date: str, html: str, tables: dict[str, str] | None = None) -> dict[str, str | None]:
+        """Publish the day's digest in every format, and refresh the Latest doc.
+
+        The day gets a folder of its own holding the Google Doc, a PDF, a Word
+        file, the page as HTML and one CSV per table: the document is for
+        reading, the rest is for keeping, printing or loading into a spreadsheet.
+        Returns the links the digest record and the Telegram ping use.
+        """
         from googleapiclient.http import MediaInMemoryUpload
 
         svc = self._svc()
         folder_id = self.ensure_folder()
         latest_id = self.ensure_latest_doc(folder_id)
+        day_id = self.ensure_day_folder(folder_id, date)
         name = f"{date} {settings.network_name} digest"
-        media = MediaInMemoryUpload(html.encode("utf-8"), mimetype="text/html")
-        existing = svc.files().list(
-            q=f"name = '{name}' and '{folder_id}' in parents and trashed = false",
-            fields="files(id)", pageSize=1,
-        ).execute().get("files") or []
-        if existing:
-            doc_id = existing[0]["id"]
-            svc.files().update(fileId=doc_id, media_body=media).execute()
+        data = html.encode("utf-8")
+
+        doc_id = self._find(name, day_id) or self._adopt(name, folder_id, day_id)
+        if doc_id:
+            svc.files().update(fileId=doc_id, media_body=MediaInMemoryUpload(data, mimetype=HTML_MIME)).execute()
         else:
             doc_id = svc.files().create(
-                body={"name": name, "mimeType": DOC_MIME, "parents": [folder_id]},
-                media_body=media, fields="id",
+                body={"name": name, "mimeType": DOC_MIME, "parents": [day_id]},
+                media_body=MediaInMemoryUpload(data, mimetype=HTML_MIME), fields="id",
             ).execute()["id"]
+
+        written = {"doc": doc_id}
+        for suffix, mime in (("pdf", PDF_MIME), ("docx", DOCX_MIME)):
+            try:
+                written[suffix] = self._upload(f"{name}.{suffix}", day_id, self._export(doc_id, mime), mime)
+            except Exception as exc:  # noqa: BLE001 — a missing format must not lose the digest
+                logger.warning("gdrive: %s export failed for %s: %s", suffix, date, exc)
+        written["html"] = self._upload(f"{name}.html", day_id, data, HTML_MIME)
+        for table, text in (tables or {}).items():
+            written[table] = self._upload(f"{date} {table}.csv", day_id, text.encode("utf-8"), CSV_MIME)
+
         svc.files().update(
-            fileId=latest_id,
-            media_body=MediaInMemoryUpload(html.encode("utf-8"), mimetype="text/html"),
+            fileId=latest_id, media_body=MediaInMemoryUpload(data, mimetype=HTML_MIME),
         ).execute()
+        logger.info("gdrive: published %s in %d files", date, len(written))
         return {
             "doc_id": doc_id, "doc_url": self.doc_url(doc_id),
             "latest_url": self.doc_url(latest_id), "folder_url": self.folder_url(folder_id),
+            "day_url": self.folder_url(day_id), "formats": ", ".join(sorted(written)),
         }
 
     # ── subscribers ───────────────────────────────────────────────────────

@@ -11,6 +11,9 @@ Telegram-preview form. No file is written here.
 """
 from __future__ import annotations
 
+import csv
+import io
+
 import html
 import json
 from dataclasses import asdict, dataclass, field
@@ -265,3 +268,53 @@ def render_text(m: DigestModel) -> str:
     lines.append("")
     lines.append(f"Sensors wanted: {m.gap_count} counties without a human reading this week.")
     return "\n".join(lines)
+
+
+# ── CSV ────────────────────────────────────────────────────────────────────
+
+EVENT_COLUMNS = ("opened_at", "updated_at", "topic", "metric", "metric_label", "title", "county_label",
+                 "county_fips", "zip5", "lat", "lon", "peak_value", "unit", "peak_display", "score",
+                 "severity", "n_signals", "n_sensors", "n_reference", "mean_trust", "verified", "status")
+ALERT_COLUMNS = ("event", "severity", "counties", "sent", "expires", "sender", "headline", "url")
+COUNTY_COLUMNS = ("county", "county_fips", "topic", "metric", "metric_key", "n", "n_human", "n_sensors",
+                  "mean", "max", "latest")
+EXTREME_COLUMNS = ("metric", "how", "value", "county", "n")
+CONTRIBUTOR_COLUMNS = ("name", "county", "trust", "n", "n_corr")
+READING_COLUMNS = ("published_at", "feed", "title", "relevance", "reason", "url")
+
+
+def _cell(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, bool):
+        return "yes" if value else "no"
+    if isinstance(value, (list, tuple)):
+        return "; ".join(str(v) for v in value)
+    return str(value)
+
+
+def _csv(columns: tuple[str, ...], rows: list[dict[str, Any]]) -> str:
+    buf = io.StringIO()
+    writer = csv.writer(buf, lineterminator="\n")
+    writer.writerow(columns)
+    for row in rows:
+        writer.writerow([_cell(row.get(c)) for c in columns])
+    return buf.getvalue()
+
+
+def render_csvs(m: DigestModel) -> dict[str, str]:
+    """The digest's tables as CSV, one per table — {name: text}.
+
+    The document is for reading; these are for working. Headers stay put even on
+    a quiet day, so a spreadsheet or script pointed at a file keeps working.
+    """
+    return {
+        "events": _csv(EVENT_COLUMNS, m.events),
+        "official-alerts": _csv(ALERT_COLUMNS, m.alerts),
+        "county-activity": _csv(COUNTY_COLUMNS, m.contributions),
+        "station-extremes": _csv(EXTREME_COLUMNS, m.extremes),
+        "contributors": _csv(CONTRIBUTOR_COLUMNS, m.leaderboard),
+        "reading-list": _csv(READING_COLUMNS, m.reading),
+        "network-vitals": _csv(("metric", "value"),
+                               [{"metric": k, "value": v} for k, v in sorted(m.vitals.items())]),
+    }
