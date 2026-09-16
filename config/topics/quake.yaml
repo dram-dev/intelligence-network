@@ -1,0 +1,78 @@
+# Topic pack: quake — felt shaking, magnitude and damage.
+#
+# Southern Illinois sits between the Wabash Valley and New Madrid seismic
+# zones, and a quake there is felt far wider than it is measured: USGS runs
+# "Did You Feel It?" for exactly this reason. Intensity follows the Modified
+# Mercalli scale (I–XII), which is what a person can actually report — the
+# magnitude comes from the instruments.
+
+topic: quake
+label: Earthquakes
+description: Felt shaking, magnitude and damage across the Wabash Valley and New Madrid zones.
+
+categories:
+  events:  Quakes near you — USGS locations, and shaking several people felt
+  reports: Every accepted shaking report near you (raw)
+  digest:  The daily digest (Google Doc link) when it is published
+
+metrics:
+  felt_intensity:
+    label: Felt intensity
+    unit: MMI
+    # A graded reading needs the metric named — "felt intensity 5", or
+    # "felt it, windows rattled". The bare phrases belong to the `shaking`
+    # flag below, which is how most people will report one.
+    aliases: [felt intensity, shaking intensity, mmi, intensity, felt]
+    units: {mmi: 1}
+    # The MMI wordings people actually use, mapped onto the scale's own steps.
+    words:
+      barely felt: 2
+      weak shaking: 3
+      felt it: 4
+      windows rattled: 5
+      dishes rattled: 5
+      moderate shaking: 5
+      things fell: 6
+      strong shaking: 6
+      hard to stand: 7
+      violent shaking: 8
+    range: [1, 12]
+    tolerance: {abs: 1.5}
+    radius_km: 80
+    window_min: 30
+    event: [[4, 0.4], [6, 0.8], [7, 1.0]]
+
+  magnitude:
+    label: Magnitude
+    unit: M
+    aliases: [magnitude, richter]
+    units: {m: 1, mw: 1, ml: 1}
+    range: [0, 9]
+    tolerance: {abs: 0.4}
+    radius_km: 200
+    window_min: 60
+    event: [[3.0, 0.4], [4.0, 0.7], [5.0, 1.0]]
+
+  # ── flags ──
+  shaking:
+    label: Shaking felt
+    kind: flag
+    aliases: [felt shaking, earthquake, quake, tremor, aftershock, house shook, ground shook,
+              whole house shook, windows rattled, dishes rattled, things fell, felt a jolt]
+    radius_km: 80
+    window_min: 30
+    event: [[1, 0.4]]
+
+  quake_damage:
+    label: Quake damage
+    kind: flag
+    aliases: [quake damage, earthquake damage, cracked plaster, cracked wall, chimney down, items off shelves]
+    radius_km: 80
+    window_min: 1440
+    event: [[1, 0.8]]
+
+# USGS event properties → metrics, for the reference feed.
+usgs_quake_fields:
+  mag: {metric: magnitude, unit: m}
+  cdi: {metric: felt_intensity, unit: mmi}   # community-reported ("Did You Feel It?")
+  mmi: {metric: felt_intensity, unit: mmi}   # instrumental, once ShakeMap has run

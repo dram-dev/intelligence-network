@@ -16,7 +16,8 @@ from intelnet.feeds import FEEDS
 logger = logging.getLogger(__name__)
 
 # Fast products first (alerts, storm reports), then the gated station networks.
-FEED_ORDER = ("nws_alerts", "iem_lsr", "iem_asos", "usgs_water", "nrcs_scan", "usdm")
+FEED_ORDER = ("nws_alerts", "iem_lsr", "usgs_quake", "iem_asos", "usgs_water",
+              "nrcs_scan", "usdm")
 
 
 def run_once(run_type: str = "watch", only: list[str] | None = None) -> dict[str, Any]:

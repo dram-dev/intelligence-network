@@ -236,6 +236,25 @@ def get_topic(name: str) -> Topic:
         raise KeyError(f"unknown topic {name!r}; known: {sorted(topics())}") from None
 
 
+@lru_cache(maxsize=1)
+def news_topics() -> dict[str, str]:
+    """Reading-list categories that carry no metrics — {name: description}.
+
+    They widen what triage can file an article under (land use, emergency
+    response, research) without pretending anyone can report a permit hearing.
+    """
+    path = CONFIG_DIR / "news_topics.yaml"
+    if not path.exists():
+        return {}
+    raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return {str(k): " ".join(str(v).split()) for k, v in (raw.get("topics") or {}).items()}
+
+
+def triage_labels() -> dict[str, str]:
+    """Everything triage may file an item under: the packs, then the news-only ones."""
+    return {t.name: t.description for t in topics().values()} | news_topics()
+
+
 def default_topic() -> Topic:
     """The topic used when a sensor doesn't name one (the only one, or 'weather')."""
     all_topics = topics()

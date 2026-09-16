@@ -29,7 +29,8 @@
     --ground: #F1F3EF; --surface: #FFFFFF; --surface-2: #E6EAE5; --ink: #1A1F1C; --muted: #5B655F;
     --line: #D3DAD4; --line-strong: #B9C3BC; --accent: #1D6E7A; --accent-ink: #FFFFFF; --amber: #B7791F;
     --radar: #14201C; --radar-ink: #DCE6E0; --radar-line: #2A3A33;
-    --t-weather: #1D6E7A; --t-soil: #7A4E24; --t-water: #2B5FAD; --t-agriculture: #4F7F2F; --t-air: #6E5E9A; --t-reference: #9AA59F;
+    --t-weather: #1D6E7A; --t-soil: #7A4E24; --t-water: #2B5FAD; --t-agriculture: #4F7F2F; --t-air: #6E5E9A;
+    --t-quake: #B33A2B; --t-nature: #8A7A1F; --t-markets: #8E4585; --t-reference: #9AA59F;
     --sev-extreme: #B3261E; --sev-severe: #C4501B; --sev-moderate: #B7791F; --sev-minor: #4B7B8A;
     --ok: #3B7A45; --shadow: 0 1px 2px rgba(20,32,28,.06);
     --display: "Fraunces", "Iowan Old Style", Georgia, serif;
@@ -42,7 +43,8 @@
       --ground: #0F1412; --surface: #161C19; --surface-2: #1E2622; --ink: #E6ECE7; --muted: #98A69E;
       --line: #2A3430; --line-strong: #3B4842; --accent: #5FB4C0; --accent-ink: #0F1412; --amber: #E0A83A;
       --radar: #0B100E; --radar-ink: #DCE6E0; --radar-line: #243029;
-      --t-weather: #5FB4C0; --t-soil: #C08A5A; --t-water: #7FA6E8; --t-agriculture: #8BBF63; --t-air: #B1A2E3; --t-reference: #5F6B65;
+      --t-weather: #5FB4C0; --t-soil: #C08A5A; --t-water: #7FA6E8; --t-agriculture: #8BBF63; --t-air: #B1A2E3;
+      --t-quake: #E5786A; --t-nature: #D9C45A; --t-markets: #D28CC8; --t-reference: #5F6B65;
       --sev-extreme: #E5655C; --sev-severe: #E4844F; --sev-moderate: #E0A83A; --sev-minor: #7FB0BF;
       --ok: #7CBF88; --shadow: none; color-scheme: dark;
     }
@@ -51,7 +53,8 @@
     --ground: #0F1412; --surface: #161C19; --surface-2: #1E2622; --ink: #E6ECE7; --muted: #98A69E;
     --line: #2A3430; --line-strong: #3B4842; --accent: #5FB4C0; --accent-ink: #0F1412; --amber: #E0A83A;
     --radar: #0B100E; --radar-ink: #DCE6E0; --radar-line: #243029;
-    --t-weather: #5FB4C0; --t-soil: #C08A5A; --t-water: #7FA6E8; --t-agriculture: #8BBF63; --t-air: #B1A2E3; --t-reference: #5F6B65;
+    --t-weather: #5FB4C0; --t-soil: #C08A5A; --t-water: #7FA6E8; --t-agriculture: #8BBF63; --t-air: #B1A2E3;
+      --t-quake: #E5786A; --t-nature: #D9C45A; --t-markets: #D28CC8; --t-reference: #5F6B65;
     --sev-extreme: #E5655C; --sev-severe: #E4844F; --sev-moderate: #E0A83A; --sev-minor: #7FB0BF;
     --ok: #7CBF88; --shadow: none; color-scheme: dark;
   }
@@ -83,7 +86,9 @@
   .chip.on { background: var(--ink); color: var(--ground); border-color: var(--ink); }
   .topic-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: middle; background: var(--muted); }
   .topic-weather { background: var(--t-weather); } .topic-soil { background: var(--t-soil); } .topic-water { background: var(--t-water); }
-  .topic-agriculture { background: var(--t-agriculture); } .topic-air { background: var(--t-air); } .topic-reference { background: var(--t-reference); }
+  .topic-agriculture { background: var(--t-agriculture); } .topic-air { background: var(--t-air); }
+  .topic-quake { background: var(--t-quake); } .topic-nature { background: var(--t-nature); }
+  .topic-markets { background: var(--t-markets); } .topic-reference { background: var(--t-reference); }
 
   /* masthead */
   .mast { padding-block: 40px 28px; border-bottom: 1px solid var(--line); }

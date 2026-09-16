@@ -231,7 +231,19 @@ def parse_clause(
     def _free(span: tuple[int, int]) -> bool:
         return all(span[1] <= s or span[0] >= e for s, e in consumed)
 
-    for metric, pat_a, pat_b, pat_w in _patterns(scope):
+    def _reach(entry: tuple[Metric, Any, Any, Any]) -> int:
+        """How much of *this* text the metric's longest matching alias covers.
+
+        Packs share words — weather claims a bare "damage", agriculture "crop
+        damage", quake "quake damage" — so the metric that matches the most
+        words here goes first, whatever alias lengths the packs happen to have.
+        """
+        metric = entry[0]
+        return max((len(a) for a in (metric.key, *metric.aliases)
+                    if re.search(rf"(?<![A-Za-z]){re.escape(a)}(?![A-Za-z])", text, re.IGNORECASE)),
+                   default=0)
+
+    for metric, pat_a, pat_b, pat_w in sorted(_patterns(scope), key=lambda e: -_reach(e)):
         if pat_w:
             for m in pat_w.finditer(text):
                 if not _free(m.span()):
@@ -268,7 +280,7 @@ def parse_clause(
                 consumed.append(m.span())
 
     # A bare alias with no value ("rain" alone) is a question, not a reading.
-    for metric, pat_a, _pb, _pw in _patterns(scope):
+    for metric, pat_a, _pb, _pw in sorted(_patterns(scope), key=lambda e: -_reach(e)):
         if metric.is_flag or any(s.metric is metric for s in signals):
             continue
         bare = re.compile(rf"(?<![A-Za-z])(?:{_alt([metric.key, *metric.aliases])})(?![A-Za-z])",

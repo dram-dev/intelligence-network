@@ -84,9 +84,9 @@ def test_subscribe_flow(fresh_db):
     assert "No subscriptions" in bot.handle_message(msg("/subs"))
     assert "Unknown category" in bot.handle_message(msg("/subscribe nope"))
     r = bot.handle_message(msg("/subscribe *.events 62704"))
-    assert r.count("Subscribed") == 5 and "soil.events" in r and "air.events" in r
+    assert r.count("Subscribed") == 8 and "soil.events" in r and "quake.events" in r
     assert "@ Sangamon County" in bot.handle_message(msg("/subscribe soil.reports"))
-    assert "Removed 5" in bot.handle_message(msg("/unsubscribe *.events 62704"))
+    assert "Removed 8" in bot.handle_message(msg("/unsubscribe *.events 62704"))
     assert "Topics" in bot.handle_message(msg("/topics")) and "corn_stage" in bot.handle_message(msg("/topics agriculture"))
 
 

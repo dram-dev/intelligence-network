@@ -9,9 +9,12 @@ official sources, corroborated readings become events, contributors earn
 trust, and the whole thing rolls up into a Google Doc every morning.
 
 **Illinois** is the ground — resolved to counties, ZIPs and ZIP+4, not more
-states. Five topics ship: **weather, soil, water, agriculture, air** — each a
-YAML topic pack, and the same grammar reads all of them in one message
-(`hail quarter; soil temp 55; corn at dent`). A sixth topic is another file.
+states. Eight topics ship: **weather, soil, water, agriculture, air, quake,
+nature, markets** — each a YAML topic pack, and the same grammar reads all of
+them in one message (`hail quarter; soil temp 55; corn at dent`). A ninth topic
+is another file. Three further categories — **landuse, emergency, research** —
+exist only in the reading list (`config/news_topics.yaml`): nobody reports a
+permit hearing, but triage needs somewhere to file one.
 
 The public face is a static site (`docs/`, GitHub Pages) with the join and
 subscription instructions, a live data explorer (network graph, county mesh,
@@ -161,7 +164,8 @@ are unique across packs (a test enforces it), so `temp`, `soil temp` and
 | `usgs_water` | station · 0.95 | 60 min | USGS NWIS instantaneous stage / discharge / water temp, ~280 IL sites |
 | `nrcs_scan` | station · 0.9 | daily | NRCS SCAN soil moisture + temperature by depth (Illinois has one station, Mason) |
 | `usdm` | authority · 1.0 | daily | U.S. Drought Monitor county D0–D4 coverage → drought category |
-| `news` | — | daily | 51 reading-list feeds → LLM-triaged: state agencies (IEPA, IDOA, IDNR, IDPH, IEMA), Extension + farmdoc, the Illinois farm press, river and lake groups, Illinois EPA air-quality Action Days (14 areas), and Google News proxies |
+| `usgs_quake` | authority · 1.0 | 15 min | USGS earthquakes M2.0+ in and around Illinois (the box reaches the Wabash Valley and New Madrid zones), magnitude and community intensity, on the nearest county within 150 km |
+| `news` | — | daily | 63 reading-list feeds → LLM-triaged: state agencies (IEPA, IDOA, IDNR, IDPH, IEMA), Extension + farmdoc, the Illinois farm press, river and lake groups, Illinois EPA air-quality Action Days (14 areas), Google News proxies, and the reading-list-only categories: land use and siting (data centres, CO2 pipelines, solar and wind, the Commerce Commission), emergency response, and research |
 | `nws_statements` | — | daily | NWS Public Information Statements (damage surveys, storm totals) from LOT, ILX, DVN, LSX, PAH |
 
 Geo tables (`config/geo/`) are vendored from the Census gazetteer + ZCTA→county

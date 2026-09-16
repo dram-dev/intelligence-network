@@ -1,0 +1,100 @@
+# Topic pack: nature — the calendar the land keeps.
+#
+# Phenology is the oldest citizen science there is: first frost, leaf-out, peak
+# colour, the morel flush, the night the geese move. None of it needs
+# equipment, all of it varies by a week or two across Illinois, and the
+# national networks (USA-NPN, BirdCast, Journey North) exist because nobody can
+# observe it from a satellite.
+
+topic: nature
+label: Seasons & nature
+description: First frost and leaf-out, fall colour, morels, monarchs, migration and wildlife health.
+
+categories:
+  events:  Network-detected seasonal events near you — first frost, peak colour, a migration wave
+  reports: Every accepted seasonal report near you (raw)
+  digest:  The daily digest (Google Doc link) when it is published
+
+metrics:
+  fall_color_pct:
+    label: Fall colour
+    unit: "%"
+    aliases: [fall color, fall colour, leaf color, leaf colour, colour change, color change]
+    units: {"%": 1, pct: 1, percent: 1}
+    words:
+      just starting: 10
+      patchy: 30
+      half turned: 50
+      near peak: 80
+      at peak: 95
+    range: [0, 100]
+    tolerance: {abs: 20}
+    radius_km: 50
+    window_min: 10080
+    event: [[80, 0.4]]
+
+  monarch_count:
+    label: Monarchs counted
+    unit: count
+    aliases: [monarchs counted, monarch count, monarchs]
+    units: {count: 1}
+    range: [0, 10000]
+    tolerance: {rel: 0.6, abs: 3}
+    radius_km: 40
+    window_min: 1440
+    event: [[25, 0.4], [100, 0.7]]
+
+  # ── flags ──
+  frost:
+    label: Frost
+    kind: flag
+    aliases: [frost, first frost, killing frost, hard frost, frost on the grass, frost on the windshield]
+    radius_km: 40
+    window_min: 720
+    event: [[1, 0.5]]
+
+  leaf_out:
+    label: Leaf-out or bloom
+    kind: flag
+    aliases: [leaf out, leafing out, bud break, budburst, first bloom, in bloom, blooming, first green]
+    radius_km: 50
+    window_min: 10080
+    event: [[1, 0.3]]
+
+  morels:
+    label: Morels
+    kind: flag
+    aliases: [morels, morel, morels up, mushrooms up]
+    radius_km: 50
+    window_min: 4320
+    event: [[1, 0.4]]
+
+  migration_wave:
+    label: Migration wave
+    kind: flag
+    aliases: [migration wave, warbler wave, big flight, sandhill cranes, snow geese, geese moving, birds moving]
+    radius_km: 60
+    window_min: 720
+    event: [[1, 0.4]]
+
+  ice_cover:
+    label: Ice cover
+    kind: flag
+    aliases: [ice on, iced over, ice cover, pond froze, lake froze, ice out]
+    radius_km: 40
+    window_min: 1440
+
+  wildlife_disease:
+    label: Wildlife disease or die-off
+    kind: flag
+    aliases: [chronic wasting, cwd, bird die-off, deer die-off, dead birds, dead deer, sick wildlife, avian botulism]
+    radius_km: 40
+    window_min: 10080
+    event: [[1, 0.6]]
+
+  tick_pressure:
+    label: Tick pressure
+    kind: flag
+    aliases: [ticks, tick pressure, lone star ticks, deer ticks, covered in ticks]
+    radius_km: 40
+    window_min: 10080

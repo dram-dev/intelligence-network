@@ -10,7 +10,8 @@ from intelnet.feeds import FEEDS, nrcs_scan, usdm_drought, usgs_water
 
 def test_all_packs_load_with_unique_aliases():
     packs = topics.topics()
-    assert set(packs) == {"weather", "soil", "water", "agriculture", "air"}
+    assert set(packs) == {"weather", "soil", "water", "agriculture", "air",
+                          "quake", "nature", "markets"}
     seen: dict[str, tuple[str, str]] = {}
     for t in packs.values():
         assert t.category_keys and all(k.startswith(t.name + ".") for k in t.category_keys)
@@ -62,7 +63,8 @@ def test_category_resolution_across_packs():
     assert topics.resolve_category("events") == "weather.events"
     assert topics.resolve_category("soil.events") == "soil.events"
     assert sorted(topics.expand_category("*.events")) == [
-        "agriculture.events", "air.events", "soil.events", "water.events", "weather.events"]
+        "agriculture.events", "air.events", "markets.events", "nature.events", "quake.events",
+        "soil.events", "water.events", "weather.events"]
     assert topics.expand_category("all.digest")[0].endswith(".digest")
     assert topics.expand_category("nope") == []
 
@@ -130,3 +132,50 @@ def test_new_feeds_run_through_watch(fresh_db, monkeypatch):
     out2 = watch.run_once()
     assert all(out2["feeds"][n]["skipped"] for n in ("usgs_water", "nrcs_scan", "usdm"))
     assert set(FEEDS) >= {"usgs_water", "nrcs_scan", "usdm"}
+
+
+def test_the_new_packs_speak_their_own_vocabulary(fresh_db):
+    """Quake, nature and markets phrases land on the right metric and pack."""
+    from intelnet import language
+
+    cases = {
+        "felt shaking @62901": ("shaking", "quake", 1.0),
+        "magnitude 3.2 @62901": ("magnitude", "quake", 3.2),
+        "windows rattled @62901": ("shaking", "quake", 1.0),        # the bare phrase is a flag
+        "felt intensity 5 @62901": ("felt_intensity", "quake", 5.0),
+        "fall color 60% @62704": ("fall_color_pct", "nature", 60.0),
+        "first frost @61801": ("frost", "nature", 1.0),
+        "morels @62704": ("morels", "nature", 1.0),
+        "monarchs 40 @61820": ("monarch_count", "nature", 40.0),
+        "corn basis -0.35 @62521": ("corn_basis", "markets", -0.35),
+        "propane 2.75 @62704": ("propane_usd_gal", "markets", 2.75),
+        "elevator wait 90 min @61801": ("elevator_wait_min", "markets", 90.0),
+        "spotted lanternfly @60601": ("invasive_pest", "agriculture", 1.0),
+        "avian flu @61053": ("livestock_disease", "agriculture", 1.0),
+    }
+    for text, (metric, topic, value) in cases.items():
+        parsed = language.parse(text).signals
+        assert len(parsed) == 1, (text, [s.metric.key for s in parsed])
+        assert (parsed[0].metric.key, parsed[0].metric.topic) == (metric, topic), text
+        assert parsed[0].value == value, text
+
+
+def test_the_longest_phrase_present_wins_across_packs(fresh_db):
+    """Packs share words: weather claims a bare "damage", and it must not eat
+    "crop damage" or "quake damage" out from under the packs that own them."""
+    from intelnet import language
+
+    for text, expected in (("wind damage @60601", ("wind_damage", "weather")),
+                           ("crop damage @62704", ("crop_damage", "agriculture")),
+                           ("quake damage @62901", ("quake_damage", "quake")),
+                           ("soil temp 55 @61801", ("soil_temp_c", "soil")),
+                           ("water temp 18 c @62704", ("water_temp_c", "water"))):
+        got = language.parse(text).signals
+        assert len(got) == 1 and (got[0].metric.key, got[0].metric.topic) == expected, text
+
+
+def test_reading_list_categories_extend_triage_without_becoming_packs():
+    labels = topics.triage_labels()
+    assert {"landuse", "emergency", "research"} <= set(labels)
+    assert set(topics.news_topics()) & set(topics.topics()) == set()   # no pack shares the name
+    assert all(labels[name] for name in topics.news_topics())          # each explains itself

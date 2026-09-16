@@ -38,7 +38,7 @@ feeds:
     limit: 5
   - name: Illinois Emergency Management Agency
     url: "https://webservices.illinois.gov/iisnewsrss/getfeed.aspx?AgencyID=28"
-    topic_hint: weather
+    topic_hint: emergency
     limit: 6
   - name: WGN-TV Weather Blog
     url: "https://wgntv.com/weather/weather-blog/feed/"
@@ -220,6 +220,59 @@ feeds:
   - name: Air quality · Metro East
     url: "https://feeds.enviroflash.info/rss/actionDay/78.xml"
     <<: *action_day
+
+  # ── earthquakes ──
+  - name: Google News · Illinois earthquakes
+    url: "https://news.google.com/rss/search?q=(Illinois+OR+%22New+Madrid%22+OR+%22Wabash+Valley%22)+earthquake+when:14d&hl=en-US&gl=US&ceid=US:en"
+    topic_hint: quake
+    limit: 6
+
+  # ── seasons & nature ──
+  - name: Google News · Illinois seasons and wildlife
+    url: "https://news.google.com/rss/search?q=Illinois+(%22fall+color%22+OR+morels+OR+monarch+OR+%22bird+migration%22+OR+%22first+frost%22+OR+%22chronic+wasting%22+OR+%22emerald+ash+borer%22+OR+%22spotted+lanternfly%22)+when:7d&hl=en-US&gl=US&ceid=US:en"
+    topic_hint: nature
+    limit: 8
+  - name: Illinois Extension · Naturalist notes
+    url: "https://extension.illinois.edu/blogs/naturalist-news/rss"
+    topic_hint: nature
+    limit: 5
+
+  # ── farm markets ──
+  - name: Google News · Illinois grain markets
+    url: "https://news.google.com/rss/search?q=Illinois+(%22corn+basis%22+OR+%22soybean+basis%22+OR+%22cash+grain%22+OR+%22grain+elevator%22+OR+%22propane+supply%22+OR+%22grain+storage%22)+when:7d&hl=en-US&gl=US&ceid=US:en"
+    topic_hint: markets
+    limit: 8
+
+  # ── land use, siting and permits ──
+  - name: Google News · Illinois data centers and siting
+    url: "https://news.google.com/rss/search?q=Illinois+(%22data+center%22+OR+%22carbon+pipeline%22+OR+%22CO2+pipeline%22+OR+%22solar+farm%22+OR+%22wind+farm%22+OR+%22quarry%22+OR+%22rezoning%22)+(water+OR+permit+OR+county+OR+farmland+OR+aquifer)+when:7d&hl=en-US&gl=US&ceid=US:en"
+    topic_hint: landuse
+    limit: 12
+  - name: Illinois Commerce Commission              # siting for pipelines and transmission
+    url: "https://webservices.illinois.gov/iisnewsrss/getfeed.aspx?AgencyID=15"
+    topic_hint: landuse
+    limit: 8
+    include: "pipeline|transmission|siting|solar|wind|carbon|CO2|data center|utility|water"
+  - name: Capitol News Illinois · land and energy
+    url: "https://capitolnewsillinois.com/?s=data+center&feed=rss2"
+    topic_hint: landuse
+    limit: 6
+
+  # ── emergency response ──
+  - name: Google News · Illinois disaster response
+    url: "https://news.google.com/rss/search?q=Illinois+(%22disaster+declaration%22+OR+%22state+of+emergency%22+OR+evacuation+OR+shelter+OR+sandbag+OR+%22damage+assessment%22+OR+FEMA)+when:7d&hl=en-US&gl=US&ceid=US:en"
+    topic_hint: emergency
+    limit: 10
+
+  # ── research and public data ──
+  - name: Google News · Illinois environmental research
+    url: "https://news.google.com/rss/search?q=(%22University+of+Illinois%22+OR+%22Illinois+State+Water+Survey%22+OR+%22Prairie+Research+Institute%22+OR+%22Illinois+Natural+History+Survey%22)+(study+OR+research+OR+survey+OR+report)+(climate+OR+water+OR+soil+OR+crop+OR+air+OR+river)+when:14d&hl=en-US&gl=US&ceid=US:en"
+    topic_hint: research
+    limit: 8
+  - name: Prairie Research Institute
+    url: "https://prairie.illinois.edu/feed/"
+    topic_hint: research
+    limit: 5
 
   # ── cross-domain ──
   - name: Illinois Newsroom · environment

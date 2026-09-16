@@ -1,0 +1,19 @@
+# Reading-list categories that aren't sensor packs.
+#
+# A topic pack exists so people can report something: it carries metrics, units
+# and thresholds. Nobody reports a permit hearing or a research paper, but the
+# network's readers want them, and triage needs somewhere to file them. These
+# labels extend the triage vocabulary only — they take no readings, open no
+# events and have no subscription channels of their own.
+
+topics:
+  landuse: >
+    Projects that change how Illinois land, water and power are used — data centres,
+    CO2 and carbon pipelines, solar and wind siting, quarries, pipelines, ethanol and
+    processing plants, zoning fights and the permits behind them.
+  emergency: >
+    Disaster declarations and response — state and federal declarations, shelters,
+    sandbagging, evacuations, damage assessments, outages and recovery assistance.
+  research: >
+    New findings and public data about the Illinois environment — studies, state
+    climate summaries, survey and monitoring reports, and datasets people can reuse.

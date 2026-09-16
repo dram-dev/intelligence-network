@@ -1,0 +1,181 @@
+{
+ "type": "FeatureCollection",
+ "metadata": {
+  "generated": 1789575881000,
+  "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2025-12-20T16%3A24%3A41&minmagnitude=2.0&orderby=time&minlatitude=35.5&maxlatitude=43.5&minlongitude=-93.0&maxlongitude=-85.5",
+  "title": "USGS Earthquakes",
+  "status": 200,
+  "api": "2.7.0",
+  "count": 60
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 2.42,
+    "place": "4 km NNE of Valier, Illinois",
+    "time": 1789386478450,
+    "updated": 1789388419040,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/nm60627916",
+    "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=nm60627916&format=geojson",
+    "felt": null,
+    "cdi": null,
+    "mmi": null,
+    "alert": null,
+    "status": "reviewed",
+    "tsunami": 0,
+    "sig": 90,
+    "net": "nm",
+    "code": "60627916",
+    "ids": ",us7000thd3,nm60627916,",
+    "sources": ",us,nm,",
+    "types": ",origin,phase-data,",
+    "nst": 24,
+    "dmin": 0.3693,
+    "rms": 0.27,
+    "gap": 68,
+    "magType": "md",
+    "type": "earthquake",
+    "title": "M 2.4 - 4 km NNE of Valier, Illinois"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.0155,
+     38.0483333333333,
+     17.91
+    ]
+   },
+   "id": "nm60627916"
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 2.47,
+    "place": "6 km NW of Massac, Kentucky",
+    "time": 1787200516530,
+    "updated": 1789014991444,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/nm60627091",
+    "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=nm60627091&format=geojson",
+    "felt": 66,
+    "cdi": 3.6,
+    "mmi": null,
+    "alert": null,
+    "status": "reviewed",
+    "tsunami": 0,
+    "sig": 118,
+    "net": "nm",
+    "code": "60627091",
+    "ids": ",us6000tm21,nm60627091,",
+    "sources": ",us,nm,",
+    "types": ",dyfi,origin,phase-data,",
+    "nst": 46,
+    "dmin": 0.01284,
+    "rms": 0.13,
+    "gap": 57,
+    "magType": "md",
+    "type": "earthquake",
+    "title": "M 2.5 - 6 km NW of Massac, Kentucky"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -88.7798333333333,
+     37.0568333333333,
+     13.86
+    ]
+   },
+   "id": "nm60627091"
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 2.18,
+    "place": "7 km SSW of Catron, Missouri",
+    "time": 1786777602150,
+    "updated": 1787225111480,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/nm60626801",
+    "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=nm60626801&format=geojson",
+    "felt": 17,
+    "cdi": 2.7,
+    "mmi": null,
+    "alert": null,
+    "status": "reviewed",
+    "tsunami": 0,
+    "sig": 78,
+    "net": "nm",
+    "code": "60626801",
+    "ids": ",nm60626801,",
+    "sources": ",nm,",
+    "types": ",dyfi,origin,phase-data,",
+    "nst": 43,
+    "dmin": 0.05267,
+    "rms": 0.08,
+    "gap": 49,
+    "magType": "md",
+    "type": "earthquake",
+    "title": "M 2.2 - 7 km SSW of Catron, Missouri"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.729,
+     36.551,
+     7.25
+    ]
+   },
+   "id": "nm60626801"
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "mag": 2.1,
+    "place": "6 km NW of Tiptonville, Tennessee",
+    "time": 1786579843720,
+    "updated": 1786635866420,
+    "tz": null,
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/nm60626686",
+    "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=nm60626686&format=geojson",
+    "felt": null,
+    "cdi": null,
+    "mmi": null,
+    "alert": null,
+    "status": "reviewed",
+    "tsunami": 0,
+    "sig": 68,
+    "net": "nm",
+    "code": "60626686",
+    "ids": ",nm60626686,",
+    "sources": ",nm,",
+    "types": ",origin,phase-data,",
+    "nst": 28,
+    "dmin": 0.04731,
+    "rms": 0.06,
+    "gap": 39,
+    "magType": "md",
+    "type": "earthquake",
+    "title": "M 2.1 - 6 km NW of Tiptonville, Tennessee"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.5163333333333,
+     36.426,
+     8.07
+    ]
+   },
+   "id": "nm60626686"
+  }
+ ],
+ "bbox": [
+  -92.866666666667,
+  35.508666666667,
+  0.98,
+  -87.4862,
+  42.1744,
+  18.96
+ ]
+}

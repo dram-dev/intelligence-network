@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import re
 
-from intelnet import db
+from intelnet import db, topics
 from intelnet.ingest import news, nws_statements
 from intelnet.ingest.base import IngestedItem
 
@@ -69,7 +69,7 @@ def test_shipped_feed_config_is_wellformed():
     assert len(names) == len(set(names))
     for f in feeds:
         assert f["url"].startswith("https://"), f
-        assert f.get("topic_hint") in {"weather", "water", "soil", "agriculture", "air"}, f
+        assert f.get("topic_hint") in set(topics.triage_labels()), f
         for key in ("include", "exclude"):
             if f.get(key):
                 re.compile(f[key])

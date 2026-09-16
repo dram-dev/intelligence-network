@@ -121,5 +121,68 @@
   "headline": "HEAT ADVISORY REMAINS IN EFFECT UNTIL 8 PM CDT FRIDAY",
   "expires": "2026-09-19T01:00:00+00:00",
   "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.fcdde70e7d8ed65e156ae9fb4bad5a91e6e498c3.001.1"
+ },
+ {
+  "event": "Heat Advisory",
+  "severity": "Moderate",
+  "counties": [
+   "Jefferson",
+   "Wayne",
+   "Edwards",
+   "Wabash",
+   "Perry",
+   "Franklin",
+   "Hamilton",
+   "White",
+   "Jackson",
+   "Williamson",
+   "Saline",
+   "Gallatin",
+   "Union",
+   "Johnson",
+   "Pope",
+   "Hardin",
+   "Alexander",
+   "Pulaski",
+   "Massac"
+  ],
+  "sender": "NWS Paducah KY",
+  "headline": "HEAT ADVISORY NOW IN EFFECT UNTIL 7 PM CDT /8 PM EDT/ SUNDAY",
+  "expires": "2026-09-21T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.c9d1ce8302e32b3a778d4c025efb9a3e529d07b8.001.1"
+ },
+ {
+  "event": "Heat Advisory",
+  "severity": "Moderate",
+  "counties": [
+   "Greene",
+   "Macoupin",
+   "Montgomery",
+   "Fayette",
+   "Calhoun",
+   "Jersey"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "HEAT ADVISORY IN EFFECT UNTIL 8 PM CDT FRIDAY",
+  "expires": "2026-09-19T01:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.83c3c15b48faa08053db6943dad6c1ba75f79bc1.001.1"
+ },
+ {
+  "event": "Heat Advisory",
+  "severity": "Moderate",
+  "counties": [
+   "Bond",
+   "Clinton",
+   "Marion",
+   "Washington",
+   "Randolph",
+   "Madison",
+   "St. Clair",
+   "Monroe"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "HEAT ADVISORY NOW IN EFFECT UNTIL 8 PM CDT SATURDAY",
+  "expires": "2026-09-20T01:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.83c3c15b48faa08053db6943dad6c1ba75f79bc1.002.1"
  }
 ]

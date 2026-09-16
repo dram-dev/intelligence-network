@@ -204,6 +204,22 @@ metrics:
     window_min: 4320
     event: [[1, 0.5]]
 
+  invasive_pest:
+    label: Invasive pest
+    kind: flag
+    aliases: [spotted lanternfly, lanternfly, emerald ash borer, japanese beetle swarm, invasive pest, new pest, asian longhorned beetle, spongy moth]
+    radius_km: 40
+    window_min: 10080
+    event: [[1, 0.7]]
+
+  livestock_disease:
+    label: Livestock disease
+    kind: flag
+    aliases: [avian flu, avian influenza, bird flu, hpai, hogs sick, cattle sick, livestock disease, herd quarantine, flock depopulated]
+    radius_km: 50
+    window_min: 10080
+    event: [[1, 0.8]]
+
   field_work:
     label: Field work underway
     kind: flag

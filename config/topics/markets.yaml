@@ -1,0 +1,99 @@
+# Topic pack: markets — what the elevator is paying, and what harvest costs.
+#
+# Futures are public; basis is not. It moves by elevator and by day, it decides
+# what a load is actually worth, and the only people who see it are the ones
+# standing at the scale. Same for propane through drying season and for how
+# long the line is. Basis is quoted against the board, so it is usually
+# negative: -0.35 means 35 cents under.
+
+topic: markets
+label: Farm markets
+description: Cash bids and basis at the elevator, drying fuel, and how the harvest is moving.
+
+categories:
+  events:  Network-detected market moves near you — basis swings, fuel spikes, no space
+  reports: Every accepted market report near you (raw)
+  digest:  The daily digest (Google Doc link) when it is published
+
+metrics:
+  corn_basis:
+    label: Corn basis
+    unit: $/bu
+    aliases: [corn basis, basis on corn, corn under, corn over]
+    units: {"$/bu": 1, usd/bu: 1, bu: 1, cents: 0.01, c: 0.01}
+    default_unit: "$/bu"
+    range: [-2.5, 2.5]
+    tolerance: {abs: 0.06}
+    radius_km: 60
+    window_min: 1440
+    event_direction: below
+    event: [[-0.60, 0.4], [-0.85, 0.7]]
+
+  soy_basis:
+    label: Soybean basis
+    unit: $/bu
+    aliases: [soybean basis, soy basis, bean basis, beans under, beans over]
+    units: {"$/bu": 1, usd/bu: 1, bu: 1, cents: 0.01, c: 0.01}
+    default_unit: "$/bu"
+    range: [-3.5, 3.5]
+    tolerance: {abs: 0.08}
+    radius_km: 60
+    window_min: 1440
+    event_direction: below
+    event: [[-0.80, 0.4], [-1.10, 0.7]]
+
+  cash_bid:
+    label: Cash bid
+    unit: $/bu
+    aliases: [cash bid, cash price, elevator bid, bid at the elevator, posted bid]
+    units: {"$/bu": 1, usd/bu: 1, bu: 1}
+    default_unit: "$/bu"
+    range: [0, 40]
+    tolerance: {rel: 0.04, abs: 0.05}
+    radius_km: 60
+    window_min: 1440
+
+  propane_usd_gal:
+    label: Propane
+    unit: $/gal
+    aliases: [propane, lp gas, lp price]
+    units: {"$/gal": 1, usd/gal: 1, gal: 1, cents: 0.01}
+    default_unit: "$/gal"
+    range: [0, 10]
+    tolerance: {rel: 0.12, abs: 0.05}
+    radius_km: 80
+    window_min: 4320
+    event: [[2.50, 0.4], [3.50, 0.7]]
+
+  diesel_usd_gal:
+    label: Farm diesel
+    unit: $/gal
+    aliases: [farm diesel, off-road diesel, dyed diesel, diesel]
+    units: {"$/gal": 1, usd/gal: 1, gal: 1, cents: 0.01}
+    default_unit: "$/gal"
+    range: [0, 12]
+    tolerance: {rel: 0.10, abs: 0.05}
+    radius_km: 80
+    window_min: 4320
+    event: [[4.50, 0.4], [5.50, 0.7]]
+
+  elevator_wait_min:
+    label: Elevator wait
+    unit: min
+    aliases: [elevator wait, wait at the elevator, line at the elevator, dump time]
+    units: {min: 1, minutes: 1, hr: 60, hrs: 60, hours: 60}
+    default_unit: min
+    range: [0, 600]
+    tolerance: {rel: 0.4, abs: 10}
+    radius_km: 40
+    window_min: 720
+    event: [[90, 0.4], [180, 0.7]]
+
+  # ── flags ──
+  grain_space:
+    label: No grain space
+    kind: flag
+    aliases: [no space, elevator full, space is tight, piling on the ground, pile is out, ground pile]
+    radius_km: 60
+    window_min: 4320
+    event: [[1, 0.5]]

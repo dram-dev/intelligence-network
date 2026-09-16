@@ -452,6 +452,65 @@
     "convert": {}
    },
    {
+    "key": "invasive_pest",
+    "label": "Invasive pest",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "spotted lanternfly",
+     "lanternfly",
+     "emerald ash borer",
+     "japanese beetle swarm",
+     "invasive pest",
+     "new pest",
+     "asian longhorned beetle",
+     "spongy moth"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.7
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "livestock_disease",
+    "label": "Livestock disease",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "avian flu",
+     "avian influenza",
+     "bird flu",
+     "hpai",
+     "hogs sick",
+     "cattle sick",
+     "livestock disease",
+     "herd quarantine",
+     "flock depopulated"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.8
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
     "key": "field_work",
     "label": "Field work underway",
     "unit": "",
@@ -684,6 +743,758 @@
     "words": {},
     "range": null,
     "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   }
+  ]
+ },
+ {
+  "name": "markets",
+  "label": "Farm markets",
+  "description": "Cash bids and basis at the elevator, drying fuel, and how the harvest is moving.",
+  "categories": [
+   {
+    "key": "markets.events",
+    "description": "Network-detected market moves near you \u2014 basis swings, fuel spikes, no space"
+   },
+   {
+    "key": "markets.reports",
+    "description": "Every accepted market report near you (raw)"
+   },
+   {
+    "key": "markets.digest",
+    "description": "The daily digest (Google Doc link) when it is published"
+   }
+  ],
+  "metrics": [
+   {
+    "key": "corn_basis",
+    "label": "Corn basis",
+    "unit": "$/bu",
+    "kind": "numeric",
+    "aliases": [
+     "corn basis",
+     "basis on corn",
+     "corn under",
+     "corn over"
+    ],
+    "units": [
+     "$/bu",
+     "usd/bu",
+     "bu",
+     "cents",
+     "c"
+    ],
+    "default_unit": "$/bu",
+    "words": {},
+    "range": [
+     -2.5,
+     2.5
+    ],
+    "event": [
+     [
+      -0.6,
+      0.4
+     ],
+     [
+      -0.85,
+      0.7
+     ]
+    ],
+    "event_direction": "below",
+    "display": null,
+    "convert": {
+     "$/bu": 1.0,
+     "usd/bu": 1.0,
+     "bu": 1.0,
+     "cents": 0.01,
+     "c": 0.01
+    }
+   },
+   {
+    "key": "soy_basis",
+    "label": "Soybean basis",
+    "unit": "$/bu",
+    "kind": "numeric",
+    "aliases": [
+     "soybean basis",
+     "soy basis",
+     "bean basis",
+     "beans under",
+     "beans over"
+    ],
+    "units": [
+     "$/bu",
+     "usd/bu",
+     "bu",
+     "cents",
+     "c"
+    ],
+    "default_unit": "$/bu",
+    "words": {},
+    "range": [
+     -3.5,
+     3.5
+    ],
+    "event": [
+     [
+      -0.8,
+      0.4
+     ],
+     [
+      -1.1,
+      0.7
+     ]
+    ],
+    "event_direction": "below",
+    "display": null,
+    "convert": {
+     "$/bu": 1.0,
+     "usd/bu": 1.0,
+     "bu": 1.0,
+     "cents": 0.01,
+     "c": 0.01
+    }
+   },
+   {
+    "key": "cash_bid",
+    "label": "Cash bid",
+    "unit": "$/bu",
+    "kind": "numeric",
+    "aliases": [
+     "cash bid",
+     "cash price",
+     "elevator bid",
+     "bid at the elevator",
+     "posted bid"
+    ],
+    "units": [
+     "$/bu",
+     "usd/bu",
+     "bu"
+    ],
+    "default_unit": "$/bu",
+    "words": {},
+    "range": [
+     0.0,
+     40.0
+    ],
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "$/bu": 1.0,
+     "usd/bu": 1.0,
+     "bu": 1.0
+    }
+   },
+   {
+    "key": "propane_usd_gal",
+    "label": "Propane",
+    "unit": "$/gal",
+    "kind": "numeric",
+    "aliases": [
+     "propane",
+     "lp gas",
+     "lp price"
+    ],
+    "units": [
+     "$/gal",
+     "usd/gal",
+     "gal",
+     "cents"
+    ],
+    "default_unit": "$/gal",
+    "words": {},
+    "range": [
+     0.0,
+     10.0
+    ],
+    "event": [
+     [
+      2.5,
+      0.4
+     ],
+     [
+      3.5,
+      0.7
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "$/gal": 1.0,
+     "usd/gal": 1.0,
+     "gal": 1.0,
+     "cents": 0.01
+    }
+   },
+   {
+    "key": "diesel_usd_gal",
+    "label": "Farm diesel",
+    "unit": "$/gal",
+    "kind": "numeric",
+    "aliases": [
+     "farm diesel",
+     "off-road diesel",
+     "dyed diesel",
+     "diesel"
+    ],
+    "units": [
+     "$/gal",
+     "usd/gal",
+     "gal",
+     "cents"
+    ],
+    "default_unit": "$/gal",
+    "words": {},
+    "range": [
+     0.0,
+     12.0
+    ],
+    "event": [
+     [
+      4.5,
+      0.4
+     ],
+     [
+      5.5,
+      0.7
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "$/gal": 1.0,
+     "usd/gal": 1.0,
+     "gal": 1.0,
+     "cents": 0.01
+    }
+   },
+   {
+    "key": "elevator_wait_min",
+    "label": "Elevator wait",
+    "unit": "min",
+    "kind": "numeric",
+    "aliases": [
+     "elevator wait",
+     "wait at the elevator",
+     "line at the elevator",
+     "dump time"
+    ],
+    "units": [
+     "min",
+     "minutes",
+     "hr",
+     "hrs",
+     "hours"
+    ],
+    "default_unit": "min",
+    "words": {},
+    "range": [
+     0.0,
+     600.0
+    ],
+    "event": [
+     [
+      90.0,
+      0.4
+     ],
+     [
+      180.0,
+      0.7
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "min": 1.0,
+     "minutes": 1.0,
+     "hr": 60.0,
+     "hrs": 60.0,
+     "hours": 60.0
+    }
+   },
+   {
+    "key": "grain_space",
+    "label": "No grain space",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "no space",
+     "elevator full",
+     "space is tight",
+     "piling on the ground",
+     "pile is out",
+     "ground pile"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.5
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   }
+  ]
+ },
+ {
+  "name": "nature",
+  "label": "Seasons & nature",
+  "description": "First frost and leaf-out, fall colour, morels, monarchs, migration and wildlife health.",
+  "categories": [
+   {
+    "key": "nature.events",
+    "description": "Network-detected seasonal events near you \u2014 first frost, peak colour, a migration wave"
+   },
+   {
+    "key": "nature.reports",
+    "description": "Every accepted seasonal report near you (raw)"
+   },
+   {
+    "key": "nature.digest",
+    "description": "The daily digest (Google Doc link) when it is published"
+   }
+  ],
+  "metrics": [
+   {
+    "key": "fall_color_pct",
+    "label": "Fall colour",
+    "unit": "%",
+    "kind": "numeric",
+    "aliases": [
+     "fall color",
+     "fall colour",
+     "leaf color",
+     "leaf colour",
+     "colour change",
+     "color change"
+    ],
+    "units": [
+     "%",
+     "pct",
+     "percent"
+    ],
+    "default_unit": "",
+    "words": {
+     "just starting": 10.0,
+     "patchy": 30.0,
+     "half turned": 50.0,
+     "near peak": 80.0,
+     "at peak": 95.0
+    },
+    "range": [
+     0.0,
+     100.0
+    ],
+    "event": [
+     [
+      80.0,
+      0.4
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "%": 1.0,
+     "pct": 1.0,
+     "percent": 1.0
+    }
+   },
+   {
+    "key": "monarch_count",
+    "label": "Monarchs counted",
+    "unit": "count",
+    "kind": "numeric",
+    "aliases": [
+     "monarchs counted",
+     "monarch count",
+     "monarchs"
+    ],
+    "units": [
+     "count"
+    ],
+    "default_unit": "",
+    "words": {},
+    "range": [
+     0.0,
+     10000.0
+    ],
+    "event": [
+     [
+      25.0,
+      0.4
+     ],
+     [
+      100.0,
+      0.7
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "count": 1.0
+    }
+   },
+   {
+    "key": "frost",
+    "label": "Frost",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "frost",
+     "first frost",
+     "killing frost",
+     "hard frost",
+     "frost on the grass",
+     "frost on the windshield"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.5
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "leaf_out",
+    "label": "Leaf-out or bloom",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "leaf out",
+     "leafing out",
+     "bud break",
+     "budburst",
+     "first bloom",
+     "in bloom",
+     "blooming",
+     "first green"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.3
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "morels",
+    "label": "Morels",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "morels",
+     "morel",
+     "morels up",
+     "mushrooms up"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.4
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "migration_wave",
+    "label": "Migration wave",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "migration wave",
+     "warbler wave",
+     "big flight",
+     "sandhill cranes",
+     "snow geese",
+     "geese moving",
+     "birds moving"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.4
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "ice_cover",
+    "label": "Ice cover",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "ice on",
+     "iced over",
+     "ice cover",
+     "pond froze",
+     "lake froze",
+     "ice out"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "wildlife_disease",
+    "label": "Wildlife disease or die-off",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "chronic wasting",
+     "cwd",
+     "bird die-off",
+     "deer die-off",
+     "dead birds",
+     "dead deer",
+     "sick wildlife",
+     "avian botulism"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.6
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "tick_pressure",
+    "label": "Tick pressure",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "ticks",
+     "tick pressure",
+     "lone star ticks",
+     "deer ticks",
+     "covered in ticks"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   }
+  ]
+ },
+ {
+  "name": "quake",
+  "label": "Earthquakes",
+  "description": "Felt shaking, magnitude and damage across the Wabash Valley and New Madrid zones.",
+  "categories": [
+   {
+    "key": "quake.events",
+    "description": "Quakes near you \u2014 USGS locations, and shaking several people felt"
+   },
+   {
+    "key": "quake.reports",
+    "description": "Every accepted shaking report near you (raw)"
+   },
+   {
+    "key": "quake.digest",
+    "description": "The daily digest (Google Doc link) when it is published"
+   }
+  ],
+  "metrics": [
+   {
+    "key": "felt_intensity",
+    "label": "Felt intensity",
+    "unit": "MMI",
+    "kind": "numeric",
+    "aliases": [
+     "felt intensity",
+     "shaking intensity",
+     "mmi",
+     "intensity",
+     "felt"
+    ],
+    "units": [
+     "mmi"
+    ],
+    "default_unit": "",
+    "words": {
+     "barely felt": 2.0,
+     "weak shaking": 3.0,
+     "felt it": 4.0,
+     "windows rattled": 5.0,
+     "dishes rattled": 5.0,
+     "moderate shaking": 5.0,
+     "things fell": 6.0,
+     "strong shaking": 6.0,
+     "hard to stand": 7.0,
+     "violent shaking": 8.0
+    },
+    "range": [
+     1.0,
+     12.0
+    ],
+    "event": [
+     [
+      4.0,
+      0.4
+     ],
+     [
+      6.0,
+      0.8
+     ],
+     [
+      7.0,
+      1.0
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "mmi": 1.0
+    }
+   },
+   {
+    "key": "magnitude",
+    "label": "Magnitude",
+    "unit": "M",
+    "kind": "numeric",
+    "aliases": [
+     "magnitude",
+     "richter"
+    ],
+    "units": [
+     "m",
+     "mw",
+     "ml"
+    ],
+    "default_unit": "",
+    "words": {},
+    "range": [
+     0.0,
+     9.0
+    ],
+    "event": [
+     [
+      3.0,
+      0.4
+     ],
+     [
+      4.0,
+      0.7
+     ],
+     [
+      5.0,
+      1.0
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {
+     "m": 1.0,
+     "mw": 1.0,
+     "ml": 1.0
+    }
+   },
+   {
+    "key": "shaking",
+    "label": "Shaking felt",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "felt shaking",
+     "earthquake",
+     "quake",
+     "tremor",
+     "aftershock",
+     "house shook",
+     "ground shook",
+     "whole house shook",
+     "windows rattled",
+     "dishes rattled",
+     "things fell",
+     "felt a jolt"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.4
+     ]
+    ],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
+   },
+   {
+    "key": "quake_damage",
+    "label": "Quake damage",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "quake damage",
+     "earthquake damage",
+     "cracked plaster",
+     "cracked wall",
+     "chimney down",
+     "items off shelves"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [
+     [
+      1.0,
+      0.8
+     ]
+    ],
     "event_direction": "above",
     "display": null,
     "convert": {}

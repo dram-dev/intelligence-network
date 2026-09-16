@@ -7,13 +7,16 @@ import pytest
 
 from conftest import load_fixture
 from intelnet import db, watch
-from intelnet.feeds import FEEDS, iem_asos, iem_lsr, nrcs_scan, nws_alerts, usdm_drought, usgs_water
+from intelnet.feeds import (
+    FEEDS, iem_asos, iem_lsr, nrcs_scan, nws_alerts, usdm_drought, usgs_quake, usgs_water,
+)
 from intelnet.models import utcnow
 
 
 @pytest.fixture(autouse=True)
 def _quiet_new_feeds(monkeypatch):
-    """The water/soil/drought feeds are covered in test_packs; keep them offline here."""
+    """The water/soil/drought/quake feeds have their own tests; keep them offline here."""
+    monkeypatch.setattr(usgs_quake, "fetch", lambda *a, **k: {"features": []})
     monkeypatch.setattr(usgs_water, "fetch", lambda *a, **k: {"value": {"timeSeries": []}})
     monkeypatch.setattr(nrcs_scan, "fetch_stations", lambda *a, **k: {})
     monkeypatch.setattr(usdm_drought, "fetch", lambda *a, **k: [])
@@ -89,7 +92,7 @@ def test_feed_errors_are_isolated_and_logged(fresh_db, monkeypatch):
     with db.get_conn() as conn:
         rows = conn.execute("SELECT source, status FROM run_log ORDER BY id").fetchall()
     assert [(r["source"], r["status"]) for r in rows][:3] == [
-        ("nws_alerts", "error"), ("iem_lsr", "ok"), ("iem_asos", "ok")]
+        ("nws_alerts", "error"), ("iem_lsr", "ok"), ("usgs_quake", "ok")]
 
 
 def test_station_cadence_gate(fresh_db, monkeypatch):
@@ -112,3 +115,26 @@ def test_active_alert_groups_and_prune(fresh_db, monkeypatch):
     cook = nws_alerts.active_alert_groups("17031")
     assert all("Cook" in g["counties"] for g in cook)
     assert db.prune_reference_signals(days=30) == 0          # nothing that old
+
+
+def test_quake_parse_places_each_shock_on_the_nearest_county():
+    sigs = usgs_quake.parse_quakes(load_fixture("usgs_quake.json"))
+    assert sigs and {s.topic for s in sigs} == {"quake"}
+    mags = [s for s in sigs if s.metric == "magnitude"]
+    assert mags and all(2.0 <= s.value <= 6 for s in mags)
+    one = mags[0]
+    assert one.sensor_kind == "authority" and one.quality == "reference"
+    assert one.location.county_fips.startswith("17") and one.location.has_point
+    assert one.evidence["url"].startswith("https://earthquake.usgs.gov/")
+    assert one.evidence["km_to_county"] <= usgs_quake.MAX_COUNTY_KM
+    # magnitude and community intensity for the same shock share a group
+    groups = {s.group_key for s in sigs}
+    assert len(groups) < len(sigs) or len(sigs) == len(mags)
+    felt = [s for s in sigs if s.metric == "felt_intensity"]
+    assert all(s.group_key in groups for s in felt)
+
+
+def test_quake_feed_survives_a_quiet_week(fresh_db, monkeypatch):
+    monkeypatch.setattr(usgs_quake, "fetch", lambda *a, **k: {"features": []})
+    res = usgs_quake.USGSQuakeFeed().run(run_type="test")
+    assert res.status == "ok" and res.fetched == 0 and res.new == 0

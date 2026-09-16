@@ -149,7 +149,8 @@ def _e(x: Any) -> str:
 INK, MUTED, ACCENT = "#1A1F1C", "#5B655F", "#1D6E7A"
 LINE, SURFACE, PAPER = "#D3DAD4", "#E9EDE8", "#FFFFFF"
 TOPIC_COLORS = {"weather": "#1D6E7A", "water": "#2B5FAD", "soil": "#7A4E24",
-                "agriculture": "#4F7F2F", "air": "#6E5E9A"}
+                "agriculture": "#4F7F2F", "air": "#6E5E9A", "quake": "#B33A2B",
+                "nature": "#8A7A1F", "markets": "#8E4585"}
 SEVERITY_COLORS = {"Extreme": "#B3261E", "Severe": "#C4501B", "Moderate": "#B7791F",
                    "Minor": "#4B7B8A", "Unknown": MUTED}
 STATE_NAMES = {"IL": "Illinois"}

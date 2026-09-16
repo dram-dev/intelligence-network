@@ -14,7 +14,8 @@ def test_snapshot_is_public_by_construction(fresh_db):
     assert snap["sample"] and snap["state"] == "IL" and snap["vitals"]["sensors_total"] == 36
     assert len(snap["counties"]) == 102 and sum(c["human"] for c in snap["counties"]) > 0
     assert len(snap["activity"]) == 5 and set(snap["activity"][0]) >= {"date", "weather", "soil", "reference", "alerts"}
-    assert {t["name"] for t in snap["topics"]} == {"weather", "soil", "water", "agriculture", "air"}
+    assert {t["name"] for t in snap["topics"]} == {"weather", "soil", "water", "agriculture",
+                                                   "air", "quake", "nature", "markets"}
     assert snap["sources"] and all("url" in s for s in snap["sources"])
     # no identity leaks: handles only, no names / ZIP+4 / coordinates for humans
     text = json.dumps(snap)

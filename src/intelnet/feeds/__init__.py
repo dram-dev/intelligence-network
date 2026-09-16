@@ -10,6 +10,7 @@ from intelnet.feeds import (  # noqa: F401  (registration)
     iem_lsr,
     nrcs_scan,
     nws_alerts,
+    usgs_quake,
     usdm_drought,
     usgs_water,
 )

@@ -115,7 +115,10 @@ weather, water (rivers, lakes, wells, water quality), soil health, agriculture (
 drought) and air quality. Keep items that report or explain actual conditions, hazards, warnings,
 damage, records, outbreaks or high-impact forecasts in {state}. Drop generic national stories,
 lifestyle pieces, and anything not about {state}. Output ONLY JSON:
-{{"decision": "keep"|"drop", "relevance": 0-1, "topic": one of {topics}, "reason": "<=25 words"}}"""
+{{"decision": "keep"|"drop", "relevance": 0-1, "topic": one of the keys below, "reason": "<=25 words"}}
+
+Topics:
+{topics}"""
 
 
 def triage_item(item: dict[str, Any]) -> dict[str, Any] | None:
@@ -123,10 +126,11 @@ def triage_item(item: dict[str, Any]) -> dict[str, Any] | None:
         return None
     body = (item.get("content") or "")[:2500]
     prompt = f"Title: {item.get('title')}\nSource: {item.get('source')}\n\n{body}"
-    from intelnet.topics import topics as _topics
+    from intelnet.topics import triage_labels
 
+    labels = "\n".join(f"- {name}: {desc}" for name, desc in triage_labels().items())
     raw = call(settings.triage_backend,
-               _TRIAGE_SYSTEM.format(state=settings.geo_state, topics=list(_topics())), prompt,
+               _TRIAGE_SYSTEM.format(state=settings.geo_state, topics=labels), prompt,
                max_tokens=200, temperature=0.0)
     if not raw:
         return None
