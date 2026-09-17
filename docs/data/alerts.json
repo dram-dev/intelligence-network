@@ -32,33 +32,36 @@
   "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.8e7b8c382e8edd4e7b11d30fb01c92e6e12238bf.001.1"
  },
  {
-  "event": "Heat Advisory",
-  "severity": "Moderate",
+  "event": "Flood Watch",
+  "severity": "Severe",
   "counties": [
-   "Jefferson",
-   "Wayne",
-   "Edwards",
-   "Wabash",
-   "Perry",
-   "Franklin",
-   "Hamilton",
-   "White",
-   "Jackson",
-   "Williamson",
-   "Saline",
-   "Gallatin",
-   "Union",
-   "Johnson",
-   "Pope",
-   "Hardin",
-   "Alexander",
-   "Pulaski",
-   "Massac"
+   "Carroll",
+   "Whiteside",
+   "Rock Island",
+   "Henry",
+   "Bureau",
+   "Putnam",
+   "Mercer",
+   "Henderson",
+   "Warren"
   ],
-  "sender": "NWS Paducah KY",
-  "headline": "HEAT ADVISORY REMAINS IN EFFECT FROM 11 AM CDT /NOON EDT/ TUESDAY TO 7 PM CDT /8 PM EDT/ WEDNESDAY",
-  "expires": "2026-09-17T00:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3a1d6564b326cb8601ff3cdb2671a17dce3f7033.002.1"
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WATCH REMAINS IN EFFECT FROM 10 PM CDT THIS EVENING THROUGH THURSDAY MORNING",
+  "expires": "2026-09-17T15:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.64a94b61b4e699ae5e09950b33544b26ad04ac0b.001.1"
+ },
+ {
+  "event": "Flood Watch",
+  "severity": "Severe",
+  "counties": [
+   "Knox",
+   "Stark",
+   "Marshall"
+  ],
+  "sender": "NWS Lincoln IL",
+  "headline": "FLOOD WATCH REMAINS IN EFFECT THROUGH THURSDAY MORNING",
+  "expires": "2026-09-17T15:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.6692662f4dbede046fbad2ff57dea73b262403d6.001.1"
  },
  {
   "event": "Heat Advisory",
@@ -232,5 +235,87 @@
   "headline": "HEAT ADVISORY IN EFFECT UNTIL 7 PM CDT THURSDAY",
   "expires": "2026-09-18T00:00:00+00:00",
   "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b497000e8349b1c5bdf44ff983db9a51a266a04f.001.1"
+ },
+ {
+  "event": "Heat Advisory",
+  "severity": "Moderate",
+  "counties": [
+   "Effingham",
+   "Jasper",
+   "Crawford",
+   "Clay",
+   "Richland",
+   "Lawrence"
+  ],
+  "sender": "NWS Lincoln IL",
+  "headline": "HEAT ADVISORY REMAINS IN EFFECT UNTIL 7 PM CDT THURSDAY",
+  "expires": "2026-09-18T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.d334bc411aec8756989e68a2b522b7d8fc6b17b2.001.1"
+ },
+ {
+  "event": "Heat Advisory",
+  "severity": "Moderate",
+  "counties": [
+   "Effingham",
+   "Jasper",
+   "Crawford",
+   "Clay",
+   "Richland",
+   "Lawrence"
+  ],
+  "sender": "NWS Lincoln IL",
+  "headline": "HEAT ADVISORY REMAINS IN EFFECT UNTIL 7 PM CDT THIS EVENING",
+  "expires": "2026-09-18T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.94e23e00eefa502a0394eadc1000883052b6e434.002.1"
+ },
+ {
+  "event": "Heat Advisory",
+  "severity": "Moderate",
+  "counties": [
+   "Scott",
+   "Morgan",
+   "Sangamon",
+   "Christian",
+   "Shelby",
+   "Cumberland"
+  ],
+  "sender": "NWS Lincoln IL",
+  "headline": "HEAT ADVISORY IN EFFECT UNTIL 7 PM CDT THIS EVENING",
+  "expires": "2026-09-18T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.94e23e00eefa502a0394eadc1000883052b6e434.001.1"
+ },
+ {
+  "event": "Heat Advisory",
+  "severity": "Moderate",
+  "counties": [
+   "Greene",
+   "Macoupin",
+   "Montgomery",
+   "Fayette",
+   "Calhoun",
+   "Jersey"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "HEAT ADVISORY REMAINS IN EFFECT UNTIL 8 PM CDT FRIDAY",
+  "expires": "2026-09-19T01:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.5647f1ca48e3d56caf082ad16a36eb2d821020a0.001.1"
+ },
+ {
+  "event": "Heat Advisory",
+  "severity": "Moderate",
+  "counties": [
+   "Bond",
+   "Clinton",
+   "Marion",
+   "Washington",
+   "Randolph",
+   "Madison",
+   "St. Clair",
+   "Monroe"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "HEAT ADVISORY REMAINS IN EFFECT UNTIL 8 PM CDT SATURDAY",
+  "expires": "2026-09-20T01:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.5647f1ca48e3d56caf082ad16a36eb2d821020a0.002.1"
  }
 ]
