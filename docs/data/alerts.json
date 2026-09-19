@@ -13,51 +13,130 @@
   "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.fa0cfc4b23f808118c061987e380d435866f1695.001.1"
  },
  {
-  "event": "Heat Advisory",
-  "severity": "Moderate",
+  "event": "Flood Watch",
+  "severity": "Severe",
   "counties": [
-   "Jefferson",
-   "Wayne",
-   "Edwards",
-   "Wabash",
-   "Perry",
-   "Franklin",
-   "Hamilton",
-   "White",
-   "Jackson",
-   "Williamson",
-   "Saline",
-   "Gallatin",
-   "Union",
-   "Johnson",
-   "Pope",
-   "Hardin",
-   "Alexander",
-   "Pulaski",
-   "Massac"
+   "Jo Daviess",
+   "Stephenson",
+   "Carroll"
   ],
-  "sender": "NWS Paducah KY",
-  "headline": "HEAT ADVISORY NOW IN EFFECT UNTIL 7 PM CDT /8 PM EDT/ FRIDAY",
-  "expires": "2026-09-19T00:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.7c437079c00b02455fc671b29ff70b871bd6cb3e.001.1"
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WATCH REMAINS IN EFFECT FROM LATE TONIGHT THROUGH SATURDAY EVENING",
+  "expires": "2026-09-20T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.aef94b7767caec2597f778f5616bb9ab78e49491.002.1"
  },
  {
-  "event": "Heat Advisory",
-  "severity": "Moderate",
+  "event": "Flood Watch",
+  "severity": "Severe",
   "counties": [
-   "Bond",
-   "Clinton",
-   "Marion",
-   "Washington",
-   "Randolph",
-   "Madison",
-   "St. Clair",
-   "Monroe"
+   "Winnebago",
+   "Boone",
+   "McHenry",
+   "Ogle"
   ],
-  "sender": "NWS St Louis MO",
-  "headline": "HEAT ADVISORY NOW IN EFFECT UNTIL 8 PM CDT FRIDAY",
-  "expires": "2026-09-19T01:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.875cdbf9b5b58cfdbfe2e0a933cdff19d4d8d486.001.1"
+  "sender": "NWS Chicago IL",
+  "headline": "FLOOD WATCH IN EFFECT FROM 1 AM CDT SATURDAY THROUGH SATURDAY MORNING",
+  "expires": "2026-09-19T18:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.645564b2ad5278c50a8b5452c909e42c2ebbc27c.001.1"
+ },
+ {
+  "event": "Flood Watch",
+  "severity": "Severe",
+  "counties": [
+   "Lake",
+   "Lee",
+   "DeKalb",
+   "Kane",
+   "DuPage",
+   "Kendall",
+   "Cook",
+   "Will"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "FLOOD WATCH IN EFFECT FROM LATE TONIGHT THROUGH SATURDAY MORNING",
+  "expires": "2026-09-19T18:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.645564b2ad5278c50a8b5452c909e42c2ebbc27c.002.1"
+ },
+ {
+  "event": "Flood Watch",
+  "severity": "Severe",
+  "counties": [
+   "Jo Daviess",
+   "Stephenson",
+   "Carroll"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WATCH REMAINS IN EFFECT FROM 1 AM CDT SATURDAY THROUGH SATURDAY EVENING",
+  "expires": "2026-09-20T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3f2321049fc759fd10ce334fc65afd6a4bba82bb.002.1"
+ },
+ {
+  "event": "Flood Watch",
+  "severity": "Severe",
+  "counties": [
+   "Whiteside"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WATCH IN EFFECT FROM 1 AM CDT SATURDAY THROUGH SATURDAY EVENING",
+  "expires": "2026-09-20T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3f2321049fc759fd10ce334fc65afd6a4bba82bb.001.1"
+ },
+ {
+  "event": "Flood Watch",
+  "severity": "Severe",
+  "counties": [
+   "Winnebago",
+   "Boone",
+   "McHenry",
+   "Ogle"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "FLOOD WATCH REMAINS IN EFFECT FROM 1 AM CDT SATURDAY THROUGH SATURDAY AFTERNOON",
+  "expires": "2026-09-19T18:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.93311e257cfccf9da891a3445204312069e25e8d.001.1"
+ },
+ {
+  "event": "Flood Watch",
+  "severity": "Severe",
+  "counties": [
+   "Lake",
+   "Lee",
+   "DeKalb",
+   "Kane",
+   "DuPage",
+   "Kendall",
+   "Cook",
+   "Will"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "FLOOD WATCH REMAINS IN EFFECT FROM 4 AM CDT SATURDAY THROUGH SATURDAY AFTERNOON",
+  "expires": "2026-09-19T18:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.93311e257cfccf9da891a3445204312069e25e8d.002.1"
+ },
+ {
+  "event": "Flood Watch",
+  "severity": "Severe",
+  "counties": [
+   "Rock Island"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WATCH IN EFFECT THROUGH SUNDAY MORNING",
+  "expires": "2026-09-20T12:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.62ca7bd1b32bba9d7f1009e49d658dd45bd305bb.001.1"
+ },
+ {
+  "event": "Flood Watch",
+  "severity": "Severe",
+  "counties": [
+   "Jo Daviess",
+   "Stephenson",
+   "Carroll",
+   "Whiteside"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WATCH NOW IN EFFECT THROUGH SUNDAY MORNING",
+  "expires": "2026-09-20T12:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.62ca7bd1b32bba9d7f1009e49d658dd45bd305bb.002.1"
  },
  {
   "event": "Heat Advisory",
@@ -92,24 +171,6 @@
   "event": "Heat Advisory",
   "severity": "Moderate",
   "counties": [
-   "Bond",
-   "Clinton",
-   "Marion",
-   "Washington",
-   "Randolph",
-   "Madison",
-   "St. Clair",
-   "Monroe"
-  ],
-  "sender": "NWS St Louis MO",
-  "headline": "HEAT ADVISORY REMAINS IN EFFECT UNTIL 8 PM CDT FRIDAY",
-  "expires": "2026-09-19T01:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.fcdde70e7d8ed65e156ae9fb4bad5a91e6e498c3.001.1"
- },
- {
-  "event": "Heat Advisory",
-  "severity": "Moderate",
-  "counties": [
    "Jefferson",
    "Wayne",
    "Edwards",
@@ -139,22 +200,6 @@
   "event": "Heat Advisory",
   "severity": "Moderate",
   "counties": [
-   "Greene",
-   "Macoupin",
-   "Montgomery",
-   "Fayette",
-   "Calhoun",
-   "Jersey"
-  ],
-  "sender": "NWS St Louis MO",
-  "headline": "HEAT ADVISORY IN EFFECT UNTIL 8 PM CDT FRIDAY",
-  "expires": "2026-09-19T01:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.83c3c15b48faa08053db6943dad6c1ba75f79bc1.001.1"
- },
- {
-  "event": "Heat Advisory",
-  "severity": "Moderate",
-  "counties": [
    "Bond",
    "Clinton",
    "Marion",
@@ -168,22 +213,6 @@
   "headline": "HEAT ADVISORY NOW IN EFFECT UNTIL 8 PM CDT SATURDAY",
   "expires": "2026-09-20T01:00:00+00:00",
   "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.83c3c15b48faa08053db6943dad6c1ba75f79bc1.002.1"
- },
- {
-  "event": "Heat Advisory",
-  "severity": "Moderate",
-  "counties": [
-   "Greene",
-   "Macoupin",
-   "Montgomery",
-   "Fayette",
-   "Calhoun",
-   "Jersey"
-  ],
-  "sender": "NWS St Louis MO",
-  "headline": "HEAT ADVISORY REMAINS IN EFFECT UNTIL 8 PM CDT FRIDAY",
-  "expires": "2026-09-19T01:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.5647f1ca48e3d56caf082ad16a36eb2d821020a0.001.1"
  },
  {
   "event": "Heat Advisory",
@@ -262,34 +291,6 @@
   "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.45eb8975d0d91c4646ef32f0cdddd29c446814dc.001.1"
  },
  {
-  "event": "Beach Hazards Statement",
-  "severity": "Moderate",
-  "counties": [
-   "Lake",
-   "Cook"
-  ],
-  "sender": "NWS Chicago IL",
-  "headline": "BEACH HAZARDS STATEMENT IN EFFECT FROM LATE TONIGHT THROUGH FRIDAY AFTERNOON",
-  "expires": "2026-09-18T20:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.e1d84d7286193cc78a2067a30f43e8a9d6b2aae8.001.1"
- },
- {
-  "event": "Heat Advisory",
-  "severity": "Moderate",
-  "counties": [
-   "Greene",
-   "Macoupin",
-   "Montgomery",
-   "Fayette",
-   "Calhoun",
-   "Jersey"
-  ],
-  "sender": "NWS St Louis MO",
-  "headline": "HEAT ADVISORY REMAINS IN EFFECT UNTIL 8 PM CDT FRIDAY",
-  "expires": "2026-09-19T01:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.02723a0bc382da4b03865a3982466e2de580af2b.001.1"
- },
- {
   "event": "Heat Advisory",
   "severity": "Moderate",
   "counties": [
@@ -308,28 +309,170 @@
   "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.02723a0bc382da4b03865a3982466e2de580af2b.002.1"
  },
  {
-  "event": "Beach Hazards Statement",
+  "event": "Heat Advisory",
   "severity": "Moderate",
   "counties": [
-   "Lake",
-   "Cook"
-  ],
-  "sender": "NWS Chicago IL",
-  "headline": "BEACH HAZARDS STATEMENT REMAINS IN EFFECT FROM 5 AM CDT FRIDAY THROUGH FRIDAY AFTERNOON",
-  "expires": "2026-09-18T20:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.10a5b2132be695eb29db1c895de4711bd00a9342.001.1"
- },
- {
-  "event": "Air Quality Alert",
-  "severity": "Unknown",
-  "counties": [
+   "Bond",
+   "Clinton",
+   "Marion",
+   "Washington",
+   "Randolph",
    "Madison",
    "St. Clair",
    "Monroe"
   ],
   "sender": "NWS St Louis MO",
-  "headline": "AIR QUALITY ALERT IN EFFECT FROM 10 AM TO 8 PM CDT FRIDAY",
-  "expires": "2026-09-19T01:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.04f34938ed2bd1d8c929780635c3f4bd569b9d90.001.1"
+  "headline": "HEAT ADVISORY REMAINS IN EFFECT UNTIL 8 PM CDT SATURDAY",
+  "expires": "2026-09-20T01:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.0c689efab567ec2df619893289d76dc1c8146e0a.002.1"
+ },
+ {
+  "event": "Heat Advisory",
+  "severity": "Moderate",
+  "counties": [
+   "Jefferson",
+   "Wayne",
+   "Edwards",
+   "Wabash",
+   "Perry",
+   "Franklin",
+   "Hamilton",
+   "White",
+   "Jackson",
+   "Williamson",
+   "Saline",
+   "Gallatin",
+   "Union",
+   "Johnson",
+   "Pope",
+   "Hardin",
+   "Alexander",
+   "Pulaski",
+   "Massac"
+  ],
+  "sender": "NWS Paducah KY",
+  "headline": "HEAT ADVISORY REMAINS IN EFFECT UNTIL 7 PM CDT /8 PM EDT/ SUNDAY",
+  "expires": "2026-09-21T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.8820ced33bee8c9634237e526b5922b3c7ec84a2.001.1"
+ },
+ {
+  "event": "Heat Advisory",
+  "severity": "Moderate",
+  "counties": [
+   "Bond",
+   "Clinton",
+   "Marion",
+   "Washington",
+   "Randolph",
+   "Madison",
+   "St. Clair",
+   "Monroe"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "HEAT ADVISORY REMAINS IN EFFECT UNTIL 8 PM CDT SATURDAY",
+  "expires": "2026-09-20T01:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.6a14db25b9252b3576a3f1faedb67b5d6c28c5c5.002.1"
+ },
+ {
+  "event": "Heat Advisory",
+  "severity": "Moderate",
+  "counties": [
+   "Jefferson",
+   "Wayne",
+   "Edwards",
+   "Wabash",
+   "Perry",
+   "Franklin",
+   "Hamilton",
+   "White",
+   "Jackson",
+   "Williamson",
+   "Saline",
+   "Gallatin",
+   "Union",
+   "Johnson",
+   "Pope",
+   "Hardin",
+   "Alexander",
+   "Pulaski",
+   "Massac"
+  ],
+  "sender": "NWS Paducah KY",
+  "headline": "HEAT ADVISORY REMAINS IN EFFECT UNTIL 7 PM CDT /8 PM EDT/ SUNDAY",
+  "expires": "2026-09-21T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.5db85f9e9e22b7764ffbdc14079fabf26fb4ed6d.001.1"
+ },
+ {
+  "event": "Beach Hazards Statement",
+  "severity": "Moderate",
+  "counties": [
+   "Cook"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "BEACH HAZARDS STATEMENT IN EFFECT FROM 10 PM CDT THIS EVENING THROUGH SATURDAY AFTERNOON... ...PREVIOUS BEACH HAZARDS STATEMENT HAS EXPIRED",
+  "expires": "2026-09-19T20:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3e4b00f1b35304fb458c1b9ad0370da34224955c.002.2"
+ },
+ {
+  "event": "Beach Hazards Statement",
+  "severity": "Moderate",
+  "counties": [
+   "Lake"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "BEACH HAZARDS STATEMENT IN EFFECT FROM 10 PM CDT THIS EVENING THROUGH SATURDAY EVENING... ...PREVIOUS BEACH HAZARDS STATEMENT HAS EXPIRED",
+  "expires": "2026-09-20T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3e4b00f1b35304fb458c1b9ad0370da34224955c.001.2"
+ },
+ {
+  "event": "Beach Hazards Statement",
+  "severity": "Moderate",
+  "counties": [
+   "Cook"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "BEACH HAZARDS STATEMENT REMAINS IN EFFECT THROUGH SATURDAY AFTERNOON",
+  "expires": "2026-09-19T20:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.207dd2ad8c9dd89a02ab677caf9f046104604c44.002.1"
+ },
+ {
+  "event": "Beach Hazards Statement",
+  "severity": "Moderate",
+  "counties": [
+   "Lake"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "BEACH HAZARDS STATEMENT REMAINS IN EFFECT THROUGH SATURDAY EVENING",
+  "expires": "2026-09-20T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.207dd2ad8c9dd89a02ab677caf9f046104604c44.001.1"
+ },
+ {
+  "event": "Heat Advisory",
+  "severity": "Moderate",
+  "counties": [
+   "Jefferson",
+   "Wayne",
+   "Edwards",
+   "Wabash",
+   "Perry",
+   "Franklin",
+   "Hamilton",
+   "White",
+   "Jackson",
+   "Williamson",
+   "Saline",
+   "Gallatin",
+   "Union",
+   "Johnson",
+   "Pope",
+   "Hardin",
+   "Alexander",
+   "Pulaski",
+   "Massac"
+  ],
+  "sender": "NWS Paducah KY",
+  "headline": "HEAT ADVISORY REMAINS IN EFFECT UNTIL 7 PM CDT /8 PM EDT/ SUNDAY",
+  "expires": "2026-09-21T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ce780a9a76726304f15df2a94a366c37fc5dcbd7.001.1"
  }
 ]
