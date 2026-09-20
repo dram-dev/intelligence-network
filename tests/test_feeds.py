@@ -108,7 +108,8 @@ def test_station_cadence_gate(fresh_db, monkeypatch):
 
 
 def test_active_alert_groups_and_prune(fresh_db, monkeypatch):
-    monkeypatch.setattr(nws_alerts, "fetch", lambda *a, **k: load_fixture("nws_alerts.json"))
+    # re-dated to now: these assertions are about alerts that have not expired
+    monkeypatch.setattr(nws_alerts, "fetch", lambda *a, **k: load_fixture("nws_alerts.json", fresh=True))
     FEEDS["nws_alerts"]().run()
     groups = nws_alerts.active_alert_groups()
     assert groups and all(g["counties"] for g in groups)

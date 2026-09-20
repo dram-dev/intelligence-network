@@ -7,6 +7,7 @@ when the developer `.env` is fully configured.
 from __future__ import annotations
 
 import json
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -76,8 +77,36 @@ def sent(monkeypatch: pytest.MonkeyPatch) -> list[tuple[str, str]]:
     return log
 
 
-def load_fixture(name: str) -> dict:
-    return json.loads((FIXTURES / name).read_text(encoding="utf-8"))
+_ISO = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})")
+
+
+def shift_to_now(text: str, anchor: str = "newest") -> str:
+    """Slide a fixture's clock so one of its timestamps is this moment.
+
+    Fixtures hold real timestamps, so anything that asks "is this still active"
+    — live alerts, retention windows, a digest's 24-hour recap — goes quiet once
+    they age out, and the suite starts failing on a date nobody chose. The gaps
+    between stamps are kept exactly as recorded; only the whole set moves.
+
+    `anchor="newest"` reads the payload as just fetched, so its latest element
+    is now and the rest is history. `anchor="oldest"` reads it as just issued,
+    so the earliest element is now and the rest is still to come — which is what
+    a test about alerts currently in force wants.
+    """
+    stamps = [datetime.fromisoformat(s.replace("Z", "+00:00")) for s in _ISO.findall(text)]
+    if not stamps:
+        return text
+    delta = datetime.now(timezone.utc) - (min(stamps) if anchor == "oldest" else max(stamps))
+    return _ISO.sub(
+        lambda m: (datetime.fromisoformat(m.group(0).replace("Z", "+00:00")) + delta).isoformat(),
+        text,
+    )
+
+
+def load_fixture(name: str, *, fresh: bool = False, anchor: str = "newest") -> dict:
+    """Read a recorded payload. `fresh` re-dates it to now (see `shift_to_now`)."""
+    text = (FIXTURES / name).read_text(encoding="utf-8")
+    return json.loads(shift_to_now(text, anchor) if fresh else text)
 
 
 @pytest.fixture

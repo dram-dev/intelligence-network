@@ -1,12 +1,10 @@
 """Digest model + renderers on a seeded network."""
 from __future__ import annotations
 
-from datetime import timedelta
 
 from conftest import load_fixture
 from intelnet import contrib, db, digest
 from intelnet.feeds import nws_alerts
-from intelnet.models import utcnow
 
 
 def _seed(make_sensor):
@@ -14,11 +12,9 @@ def _seed(make_sensor):
     bob = make_sensor("tg:2", name="Bob", zip_code="62711")
     contrib.contribute(ann, "hail golf ball; gust 65", source_id_base="m1", online=False, use_llm=False)
     contrib.contribute(bob, "hail 1.75in", source_id_base="m2", online=False, use_llm=False)
-    alerts = nws_alerts.parse_alerts(load_fixture("nws_alerts.json"))
-    now = utcnow()
-    for s in alerts:          # the fixture's own times age out of the digest's 24h window
-        s.observed_at, s.expires_at = now - timedelta(minutes=30), now + timedelta(hours=2)
-    db.insert_signals(alerts)
+    # as if issued just now, so they sit inside the digest's 24-hour recap
+    db.insert_signals(nws_alerts.parse_alerts(
+        load_fixture("nws_alerts.json", fresh=True, anchor="oldest")))
     db.upsert_items([__import__("intelnet.ingest.base", fromlist=["IngestedItem"]).IngestedItem(
         source="news", source_id="n1", title="Storms rake central Illinois", url="https://ex.test/1",
         content="...", metadata={"feed": "Google News"})])
