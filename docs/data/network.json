@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-19T06:47:59+00:00",
+ "generated_at": "2026-09-20T07:09:12+00:00",
  "sample": false,
  "days": 14,
  "network_name": "Intelligence Network",
@@ -12,20 +12,20 @@
  "links": {
   "folder": "https://drive.google.com/drive/folders/10LXhVLmbA6xekUOXLUgVO_JFM9BjCw6d",
   "latest": "https://docs.google.com/document/d/1pU_qedEUjRd5C6kZpRF3w-_njpS6_zsmQIqwBUvN0kw/edit",
-  "digest": "https://docs.google.com/document/d/1TeedG1qF8VoeHXHRP_w1b0LXCYyOFGBo1Eivz3Mt6a8/edit"
+  "digest": "https://docs.google.com/document/d/1PC3t-P4PbEFFNmiZnLAM3cgrvedO2he2g78aOZ5D618/edit"
  },
  "vitals": {
   "sensors_total": 0,
   "sensors_active_24h": 0,
   "sensors_active_7d": 0,
   "signals_24h_human": 0,
-  "signals_24h_reference": 20198,
+  "signals_24h_reference": 19937,
   "corroborated_7d": 0,
   "flagged_7d": 0,
   "human_7d": 0,
   "events_open": 0,
-  "events_24h": 2,
-  "alerts_active": 26,
+  "events_24h": 4,
+  "alerts_active": 60,
   "subscriptions": 0,
   "subscribers": 0,
   "counties_total": 102,
