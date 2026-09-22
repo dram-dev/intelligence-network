@@ -69,17 +69,6 @@
   "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.507dfb6c56cdb9f07181bfec38b107cec7d7418e.001.1"
  },
  {
-  "event": "Flood Warning",
-  "severity": "Severe",
-  "counties": [
-   "Cook"
-  ],
-  "sender": "NWS Chicago IL",
-  "headline": "FLOOD WARNING IN EFFECT FROM EARLY SUNDAY MORNING TO LATE SUNDAY NIGHT",
-  "expires": "2026-09-21T08:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.c9ee179fe7eea40ca0b5ebfbe70617485e1247ea.001.1"
- },
- {
   "event": "Flood Watch",
   "severity": "Severe",
   "counties": [
@@ -229,17 +218,6 @@
   "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.29c8040e59b8823d26681aad9c672dd99231e453.001.1"
  },
  {
-  "event": "Flood Warning",
-  "severity": "Severe",
-  "counties": [
-   "Lake"
-  ],
-  "sender": "NWS Chicago IL",
-  "headline": "FLOOD WARNING IN EFFECT FROM THIS AFTERNOON UNTIL FURTHER NOTICE... ...REPLACES RIVER FLOOD WATCH",
-  "expires": "2026-09-21T08:15:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.023d56d87685b261f608048266eb5ead72063253.001.1"
- },
- {
   "event": "Flood Watch",
   "severity": "Severe",
   "counties": [
@@ -274,17 +252,6 @@
   "headline": "FLOOD WARNING IN EFFECT FROM MONDAY AFTERNOON TO LATE WEDNESDAY NIGHT",
   "expires": "2026-09-24T07:00:00+00:00",
   "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a99ab54c5361fe31c1179d88dbfea1a85034cfad.001.1"
- },
- {
-  "event": "Flood Watch",
-  "severity": "Severe",
-  "counties": [
-   "Will"
-  ],
-  "sender": "NWS Chicago IL",
-  "headline": "FLOOD WATCH NOW IN EFFECT FROM LATE THIS AFTERNOON TO MONDAY EVENING",
-  "expires": "2026-09-22T00:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.8fbad13d091c48f5b8e253596a6738490a8f6c56.001.1"
  },
  {
   "event": "Flood Warning",
@@ -393,17 +360,6 @@
   "event": "Flood Warning",
   "severity": "Severe",
   "counties": [
-   "Calhoun"
-  ],
-  "sender": "NWS St Louis MO",
-  "headline": "FLOOD WARNING IN EFFECT FROM WEDNESDAY AFTERNOON UNTIL FURTHER NOTICE",
-  "expires": "2026-09-22T05:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.69f21065f710f8bae810d299e7ce775146e3c0f9.002.1"
- },
- {
-  "event": "Flood Warning",
-  "severity": "Severe",
-  "counties": [
    "Adams"
   ],
   "sender": "NWS St Louis MO",
@@ -426,17 +382,6 @@
   "event": "Flood Warning",
   "severity": "Severe",
   "counties": [
-   "Calhoun"
-  ],
-  "sender": "NWS St Louis MO",
-  "headline": "FLOOD WARNING IN EFFECT FROM THURSDAY AFTERNOON UNTIL FURTHER NOTICE",
-  "expires": "2026-09-22T05:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.69f21065f710f8bae810d299e7ce775146e3c0f9.006.1"
- },
- {
-  "event": "Flood Warning",
-  "severity": "Severe",
-  "counties": [
    "Pike"
   ],
   "sender": "NWS St Louis MO",
@@ -454,17 +399,6 @@
   "headline": "FLOOD WARNING REMAINS IN EFFECT FROM THIS EVENING TO WEDNESDAY AFTERNOON",
   "expires": "2026-09-23T20:00:00+00:00",
   "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ba5468cad89bb448c63c8b92f42ded5067564e42.002.1"
- },
- {
-  "event": "Flood Warning",
-  "severity": "Severe",
-  "counties": [
-   "Lee"
-  ],
-  "sender": "NWS Chicago IL",
-  "headline": "FLOOD WARNING NOW IN EFFECT UNTIL 11 AM CDT MONDAY",
-  "expires": "2026-09-21T16:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b7169c37789138a85156d5b571a2e61bf3f1859f.001.1"
  },
  {
   "event": "Flood Warning",
@@ -650,6 +584,357 @@
   "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.aeb8dec89c07f9265e97c8958184fce325e13ad7.002.1"
  },
  {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Lake"
+  ],
+  "sender": "NWS Milwaukee/Sullivan WI",
+  "headline": "FLOOD WARNING REMAINS IN EFFECT UNTIL LATE WEDNESDAY NIGHT",
+  "expires": "2026-09-24T10:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.cab109e795556dcd0cd8a9dd0f967588941bedf2.002.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Lake"
+  ],
+  "sender": "NWS Milwaukee/Sullivan WI",
+  "headline": "FLOOD WARNING NOW IN EFFECT UNTIL FRIDAY MORNING",
+  "expires": "2026-09-25T16:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.c976c2275e72d1d9b03ea83b02d2ffd6980de77d.001.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Lake"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "FLOOD WARNING IN EFFECT FROM TUESDAY MORNING TO LATE FRIDAY NIGHT... ...REPLACES RIVER FLOOD WATCH",
+  "expires": "2026-09-26T06:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.af6829903fe8a567861900148e8290e89cf15326.001.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Lake"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "FLOOD WARNING REMAINS IN EFFECT UNTIL LATE SATURDAY NIGHT",
+  "expires": "2026-09-27T06:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3c967b0cce947e852b0796714f78d0aff5cffabd.001.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Henry",
+   "Rock Island",
+   "Whiteside"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WARNING NOW IN EFFECT FROM THIS AFTERNOON TO THURSDAY AFTERNOON",
+  "expires": "2026-09-24T20:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.c91dbbb5d5ca78f3e4de4bfcb2a588b945ba2a82.001.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Henry",
+   "Rock Island"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WARNING NOW IN EFFECT FROM THIS EVENING TO FRIDAY MORNING",
+  "expires": "2026-09-25T11:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.c91dbbb5d5ca78f3e4de4bfcb2a588b945ba2a82.002.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Henderson",
+   "Mercer"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WARNING IN EFFECT FROM TUESDAY EVENING TO FRIDAY AFTERNOON... ...REPLACES RIVER FLOOD WATCH",
+  "expires": "2026-09-25T22:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.d210340ea192127be7321c503468af3276db047e.001.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Hancock",
+   "Henderson"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WARNING IN EFFECT FROM WEDNESDAY MORNING TO LATE FRIDAY NIGHT... ...REPLACES RIVER FLOOD WATCH",
+  "expires": "2026-09-26T10:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.d210340ea192127be7321c503468af3276db047e.003.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Henderson"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WARNING IN EFFECT FROM LATE TUESDAY NIGHT TO SATURDAY MORNING... ...REPLACES RIVER FLOOD WATCH",
+  "expires": "2026-09-26T15:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.d210340ea192127be7321c503468af3276db047e.002.1"
+ },
+ {
+  "event": "Flood Watch",
+  "severity": "Severe",
+  "counties": [
+   "Hancock"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WATCH NOW IN EFFECT FROM LATE WEDNESDAY NIGHT TO SATURDAY MORNING",
+  "expires": "2026-09-26T14:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.193b467ecccad5ecd16cbc6bf83475597be10493.001.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Calhoun"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "FLOOD WARNING NOW IN EFFECT FROM THURSDAY MORNING TO MONDAY EVENING",
+  "expires": "2026-09-29T01:42:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.fc8a11ba326c79f672df73360dba31f069465968.002.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Calhoun"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "FLOOD WARNING NOW IN EFFECT FROM THURSDAY AFTERNOON TO MONDAY AFTERNOON",
+  "expires": "2026-09-28T21:36:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.fc8a11ba326c79f672df73360dba31f069465968.004.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Pike"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "FLOOD WARNING NOW IN EFFECT FROM THURSDAY MORNING TO LATE SUNDAY NIGHT",
+  "expires": "2026-09-28T07:12:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.fc8a11ba326c79f672df73360dba31f069465968.003.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Adams"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "FLOOD WARNING NOW IN EFFECT FROM THURSDAY MORNING TO SUNDAY AFTERNOON",
+  "expires": "2026-09-27T21:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.fc8a11ba326c79f672df73360dba31f069465968.001.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Pike"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "FLOOD WARNING NOW IN EFFECT FROM THURSDAY EVENING TO SUNDAY AFTERNOON",
+  "expires": "2026-09-27T18:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.fc8a11ba326c79f672df73360dba31f069465968.005.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "LaSalle"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "FLOOD WARNING REMAINS IN EFFECT UNTIL TUESDAY MORNING",
+  "expires": "2026-09-22T12:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.c4da5c00c21fcc60982ff087b27b64a6fcaeaeb1.001.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Lake"
+  ],
+  "sender": "NWS Milwaukee/Sullivan WI",
+  "headline": "FLOOD WARNING REMAINS IN EFFECT UNTIL FRIDAY MORNING",
+  "expires": "2026-09-25T16:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a4964a7b411580b5d52b38cac5d212c1bfc696ea.002.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Lake"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "FLOOD WARNING REMAINS IN EFFECT FROM TUESDAY MORNING TO LATE FRIDAY NIGHT",
+  "expires": "2026-09-26T06:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a133a67c6499ba6d06c3732ce9bb35361ba299fd.002.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Lake"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "FLOOD WARNING REMAINS IN EFFECT UNTIL LATE SATURDAY NIGHT",
+  "expires": "2026-09-27T06:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a133a67c6499ba6d06c3732ce9bb35361ba299fd.001.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Henry",
+   "Rock Island",
+   "Whiteside"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WARNING NOW IN EFFECT UNTIL TUESDAY EVENING",
+  "expires": "2026-09-23T02:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ca09fbd4870eae8fe1a0bc0d3c6014f76a7f8b32.002.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Henry",
+   "Rock Island"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WARNING NOW IN EFFECT UNTIL THURSDAY AFTERNOON",
+  "expires": "2026-09-24T20:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ca09fbd4870eae8fe1a0bc0d3c6014f76a7f8b32.001.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Henderson",
+   "Mercer"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WARNING NOW IN EFFECT FROM WEDNESDAY AFTERNOON TO FRIDAY EVENING",
+  "expires": "2026-09-26T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3ed01defc641d77d7fa593c1e7abf9598913a661.002.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Hancock",
+   "Henderson"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WARNING NOW IN EFFECT FROM WEDNESDAY EVENING TO LATE FRIDAY NIGHT",
+  "expires": "2026-09-26T06:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3ed01defc641d77d7fa593c1e7abf9598913a661.003.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Henderson"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WARNING NOW IN EFFECT FROM WEDNESDAY MORNING TO SATURDAY MORNING",
+  "expires": "2026-09-26T14:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3ed01defc641d77d7fa593c1e7abf9598913a661.001.1"
+ },
+ {
+  "event": "Flood Watch",
+  "severity": "Severe",
+  "counties": [
+   "Hancock"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FLOOD WATCH NOW IN EFFECT FROM LATE WEDNESDAY NIGHT TO SATURDAY AFTERNOON",
+  "expires": "2026-09-26T21:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.2a1f3f01ed6d87c10ad8a9bcac193ac47c222bb2.001.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Lake"
+  ],
+  "sender": "NWS Milwaukee/Sullivan WI",
+  "headline": "FLOOD WARNING REMAINS IN EFFECT UNTIL FRIDAY MORNING",
+  "expires": "2026-09-25T16:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.f533d47365928c60a1f8f1885482e52e22fce2b5.002.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Pike"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "FLOOD WARNING NOW IN EFFECT FROM FRIDAY MORNING TO SATURDAY EVENING",
+  "expires": "2026-09-27T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.05e7edfc5f88abfad026f7bceca55b91d6c46d80.005.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Adams"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "FLOOD WARNING NOW IN EFFECT FROM LATE THURSDAY NIGHT TO SATURDAY EVENING",
+  "expires": "2026-09-27T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.05e7edfc5f88abfad026f7bceca55b91d6c46d80.003.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Pike"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "FLOOD WARNING NOW IN EFFECT FROM THURSDAY EVENING TO SUNDAY MORNING",
+  "expires": "2026-09-27T14:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.05e7edfc5f88abfad026f7bceca55b91d6c46d80.002.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Calhoun"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "FLOOD WARNING NOW IN EFFECT FROM LATE THURSDAY NIGHT TO LATE SUNDAY NIGHT",
+  "expires": "2026-09-28T07:30:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.05e7edfc5f88abfad026f7bceca55b91d6c46d80.004.1"
+ },
+ {
+  "event": "Flood Warning",
+  "severity": "Severe",
+  "counties": [
+   "Calhoun"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "FLOOD WARNING NOW IN EFFECT FROM WEDNESDAY AFTERNOON TO MONDAY AFTERNOON",
+  "expires": "2026-09-28T17:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.05e7edfc5f88abfad026f7bceca55b91d6c46d80.001.1"
+ },
+ {
   "event": "Beach Hazards Statement",
   "severity": "Moderate",
   "counties": [
@@ -730,5 +1015,53 @@
   "headline": "BEACH HAZARDS STATEMENT REMAINS IN EFFECT THROUGH WEDNESDAY EVENING",
   "expires": "2026-09-24T00:00:00+00:00",
   "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.addd328dc64574db3e04d93fe5f483b664beb3ab.001.1"
+ },
+ {
+  "event": "Beach Hazards Statement",
+  "severity": "Moderate",
+  "counties": [
+   "Lake",
+   "Cook"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "BEACH HAZARDS STATEMENT REMAINS IN EFFECT THROUGH WEDNESDAY EVENING",
+  "expires": "2026-09-24T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.c8d53b23261b30e300c0db3e9fe833927c95b0f9.002.1"
+ },
+ {
+  "event": "Beach Hazards Statement",
+  "severity": "Moderate",
+  "counties": [
+   "Lake",
+   "Cook"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "BEACH HAZARDS STATEMENT REMAINS IN EFFECT THROUGH WEDNESDAY EVENING",
+  "expires": "2026-09-24T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b5456d2e1d810377b826879aefc8199e44351b33.002.1"
+ },
+ {
+  "event": "Beach Hazards Statement",
+  "severity": "Moderate",
+  "counties": [
+   "Lake",
+   "Cook"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "BEACH HAZARDS STATEMENT REMAINS IN EFFECT THROUGH WEDNESDAY EVENING",
+  "expires": "2026-09-24T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.9b7c11ce9585db62481d1522fbb56691cc848967.001.1"
+ },
+ {
+  "event": "Beach Hazards Statement",
+  "severity": "Moderate",
+  "counties": [
+   "Lake",
+   "Cook"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "BEACH HAZARDS STATEMENT REMAINS IN EFFECT THROUGH WEDNESDAY EVENING",
+  "expires": "2026-09-24T00:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.dbda416fbb9dd500c81eb8c894d64bc75fcf6eb2.001.1"
  }
 ]

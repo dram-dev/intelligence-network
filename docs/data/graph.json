@@ -179,14 +179,14 @@
    "kind": "topic",
    "label": "Farm markets",
    "topic": "markets",
-   "n": 0
+   "n": 25
   },
   {
    "id": "metric:corn_basis",
    "kind": "metric",
    "label": "Corn basis",
    "topic": "markets",
-   "n": 0,
+   "n": 12,
    "flag": false
   },
   {
@@ -194,7 +194,7 @@
    "kind": "metric",
    "label": "Soybean basis",
    "topic": "markets",
-   "n": 0,
+   "n": 12,
    "flag": false
   },
   {
@@ -210,7 +210,7 @@
    "kind": "metric",
    "label": "Wheat basis",
    "topic": "markets",
-   "n": 0,
+   "n": 1,
    "flag": false
   },
   {
@@ -455,14 +455,14 @@
    "kind": "topic",
    "label": "Water",
    "topic": "water",
-   "n": 10619
+   "n": 10401
   },
   {
    "id": "metric:stage_m",
    "kind": "metric",
    "label": "Stage (gauge height)",
    "topic": "water",
-   "n": 5581,
+   "n": 5477,
    "flag": false
   },
   {
@@ -470,7 +470,7 @@
    "kind": "metric",
    "label": "Streamflow",
    "topic": "water",
-   "n": 4455,
+   "n": 4350,
    "flag": false
   },
   {
@@ -478,7 +478,7 @@
    "kind": "metric",
    "label": "Water temperature",
    "topic": "water",
-   "n": 583,
+   "n": 574,
    "flag": false
   },
   {
@@ -574,14 +574,14 @@
    "kind": "topic",
    "label": "Weather",
    "topic": "weather",
-   "n": 9148
+   "n": 9524
   },
   {
    "id": "metric:temp_c",
    "kind": "metric",
    "label": "Temperature",
    "topic": "weather",
-   "n": 1272,
+   "n": 1331,
    "flag": false
   },
   {
@@ -589,7 +589,7 @@
    "kind": "metric",
    "label": "Dew point",
    "topic": "weather",
-   "n": 1272,
+   "n": 1323,
    "flag": false
   },
   {
@@ -597,7 +597,7 @@
    "kind": "metric",
    "label": "Relative humidity",
    "topic": "weather",
-   "n": 1272,
+   "n": 1323,
    "flag": false
   },
   {
@@ -605,7 +605,7 @@
    "kind": "metric",
    "label": "Pressure",
    "topic": "weather",
-   "n": 1276,
+   "n": 1332,
    "flag": false
   },
   {
@@ -613,7 +613,7 @@
    "kind": "metric",
    "label": "Sustained wind",
    "topic": "weather",
-   "n": 1252,
+   "n": 1301,
    "flag": false
   },
   {
@@ -621,7 +621,7 @@
    "kind": "metric",
    "label": "Wind gust",
    "topic": "weather",
-   "n": 239,
+   "n": 244,
    "flag": false
   },
   {
@@ -629,7 +629,7 @@
    "kind": "metric",
    "label": "Rainfall",
    "topic": "weather",
-   "n": 1281,
+   "n": 1341,
    "flag": false
   },
   {
@@ -653,7 +653,7 @@
    "kind": "metric",
    "label": "Visibility",
    "topic": "weather",
-   "n": 1274,
+   "n": 1329,
    "flag": false
   },
   {
@@ -669,7 +669,7 @@
    "kind": "metric",
    "label": "Funnel cloud",
    "topic": "weather",
-   "n": 2,
+   "n": 0,
    "flag": true
   },
   {
@@ -685,7 +685,7 @@
    "kind": "metric",
    "label": "Wind damage",
    "topic": "weather",
-   "n": 8,
+   "n": 0,
    "flag": true
   },
   {
@@ -708,19 +708,25 @@
    "id": "feed:usgs_water",
    "kind": "feed",
    "label": "usgs_water",
-   "n": 10619
+   "n": 10401
   },
   {
    "id": "feed:iem_asos",
    "kind": "feed",
    "label": "iem_asos",
-   "n": 9133
+   "n": 9515
+  },
+  {
+   "id": "feed:ams_grain",
+   "kind": "feed",
+   "label": "ams_grain",
+   "n": 25
   },
   {
    "id": "feed:iem_lsr",
    "kind": "feed",
    "label": "iem_lsr",
-   "n": 15
+   "n": 9
   },
   {
    "id": "event:36",
@@ -1164,11 +1170,20 @@
    "verified": true
   },
   {
-   "id": "event:34",
+   "id": "event:51",
    "kind": "event",
-   "label": "Rainfall 1.27 in (32.26 mm) \u2014 Champaign County",
+   "label": "Rainfall 1.45 in (36.83 mm) \u2014 Effingham County",
    "topic": "weather",
-   "n": 1,
+   "n": 2,
+   "score": 0.95,
+   "verified": true
+  },
+  {
+   "id": "event:49",
+   "kind": "event",
+   "label": "Rainfall 1.36 in (34.54 mm) \u2014 Champaign County",
+   "topic": "weather",
+   "n": 3,
    "score": 0.95,
    "verified": true
   },
@@ -1176,6 +1191,57 @@
    "id": "county:17019",
    "kind": "county",
    "label": "Champaign"
+  },
+  {
+   "id": "event:50",
+   "kind": "event",
+   "label": "Rainfall 1.17 in (29.72 mm) \u2014 Clark County",
+   "topic": "weather",
+   "n": 1,
+   "score": 0.95,
+   "verified": true
+  },
+  {
+   "id": "county:17023",
+   "kind": "county",
+   "label": "Clark"
+  },
+  {
+   "id": "event:48",
+   "kind": "event",
+   "label": "Rainfall 1.26 in (32 mm) \u2014 Douglas County",
+   "topic": "weather",
+   "n": 2,
+   "score": 0.95,
+   "verified": true
+  },
+  {
+   "id": "county:17041",
+   "kind": "county",
+   "label": "Douglas"
+  },
+  {
+   "id": "event:52",
+   "kind": "event",
+   "label": "Rainfall 1.33 in (33.78 mm) \u2014 Piatt County",
+   "topic": "weather",
+   "n": 1,
+   "score": 0.95,
+   "verified": true
+  },
+  {
+   "id": "county:17147",
+   "kind": "county",
+   "label": "Piatt"
+  },
+  {
+   "id": "event:34",
+   "kind": "event",
+   "label": "Rainfall 1.27 in (32.26 mm) \u2014 Champaign County",
+   "topic": "weather",
+   "n": 1,
+   "score": 0.95,
+   "verified": true
   },
   {
    "id": "event:33",
@@ -1284,11 +1350,6 @@
    "verified": true
   },
   {
-   "id": "county:17147",
-   "kind": "county",
-   "label": "Piatt"
-  },
-  {
    "id": "event:8",
    "kind": "event",
    "label": "Rainfall 1.57 in (39.88 mm) \u2014 Hancock County",
@@ -1319,6 +1380,20 @@
    "n": 1,
    "score": 0.95,
    "verified": true
+  },
+  {
+   "id": "event:53",
+   "kind": "event",
+   "label": "Sustained wind 57.5 mph (25.72 m/s) \u2014 Williamson County",
+   "topic": "weather",
+   "n": 1,
+   "score": 0.9,
+   "verified": true
+  },
+  {
+   "id": "county:17199",
+   "kind": "county",
+   "label": "Williamson"
   }
  ],
  "links": [
@@ -1812,91 +1887,91 @@
    "source": "feed:usgs_water",
    "target": "metric:discharge_cms",
    "kind": "reports",
-   "weight": 4455
+   "weight": 4350
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:stage_m",
    "kind": "reports",
-   "weight": 5581
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:temp_c",
-   "kind": "reports",
-   "weight": 1272
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:dewpoint_c",
-   "kind": "reports",
-   "weight": 1272
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:humidity_pct",
-   "kind": "reports",
-   "weight": 1272
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:wind_ms",
-   "kind": "reports",
-   "weight": 1252
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:rain_mm",
-   "kind": "reports",
-   "weight": 1278
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:pressure_hpa",
-   "kind": "reports",
-   "weight": 1276
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:visibility_km",
-   "kind": "reports",
-   "weight": 1274
+   "weight": 5477
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:water_temp_c",
    "kind": "reports",
-   "weight": 583
+   "weight": 574
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:temp_c",
+   "kind": "reports",
+   "weight": 1331
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:dewpoint_c",
+   "kind": "reports",
+   "weight": 1323
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:humidity_pct",
+   "kind": "reports",
+   "weight": 1323
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:wind_ms",
+   "kind": "reports",
+   "weight": 1301
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:rain_mm",
+   "kind": "reports",
+   "weight": 1332
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:pressure_hpa",
+   "kind": "reports",
+   "weight": 1332
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:visibility_km",
+   "kind": "reports",
+   "weight": 1329
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:wind_gust_ms",
    "kind": "reports",
-   "weight": 237
+   "weight": 244
   },
   {
-   "source": "feed:iem_lsr",
-   "target": "metric:wind_gust_ms",
+   "source": "feed:ams_grain",
+   "target": "metric:soy_basis",
    "kind": "reports",
-   "weight": 2
+   "weight": 12
   },
   {
-   "source": "feed:iem_lsr",
-   "target": "metric:wind_damage",
+   "source": "feed:ams_grain",
+   "target": "metric:wheat_basis",
    "kind": "reports",
-   "weight": 8
+   "weight": 1
   },
   {
-   "source": "feed:iem_lsr",
-   "target": "metric:funnel_cloud",
+   "source": "feed:ams_grain",
+   "target": "metric:corn_basis",
    "kind": "reports",
-   "weight": 2
+   "weight": 12
   },
   {
    "source": "feed:iem_lsr",
    "target": "metric:rain_mm",
    "kind": "reports",
-   "weight": 3
+   "weight": 9
   },
   {
    "source": "event:36",
@@ -2307,6 +2382,66 @@
    "weight": 1
   },
   {
+   "source": "event:51",
+   "target": "metric:rain_mm",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:51",
+   "target": "county:17049",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:49",
+   "target": "metric:rain_mm",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:49",
+   "target": "county:17019",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:50",
+   "target": "metric:rain_mm",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:50",
+   "target": "county:17023",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:48",
+   "target": "metric:rain_mm",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:48",
+   "target": "county:17041",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:52",
+   "target": "metric:rain_mm",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:52",
+   "target": "county:17147",
+   "kind": "in",
+   "weight": 1
+  },
+  {
    "source": "event:34",
    "target": "metric:rain_mm",
    "kind": "about",
@@ -2459,6 +2594,18 @@
   {
    "source": "event:2",
    "target": "county:17195",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:53",
+   "target": "metric:wind_ms",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:53",
+   "target": "county:17199",
    "kind": "in",
    "weight": 1
   }
