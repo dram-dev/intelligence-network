@@ -455,14 +455,14 @@
    "kind": "topic",
    "label": "Water",
    "topic": "water",
-   "n": 10399
+   "n": 10731
   },
   {
    "id": "metric:stage_m",
    "kind": "metric",
    "label": "Stage (gauge height)",
    "topic": "water",
-   "n": 5475,
+   "n": 5649,
    "flag": false
   },
   {
@@ -470,7 +470,7 @@
    "kind": "metric",
    "label": "Streamflow",
    "topic": "water",
-   "n": 4359,
+   "n": 4511,
    "flag": false
   },
   {
@@ -478,7 +478,7 @@
    "kind": "metric",
    "label": "Water temperature",
    "topic": "water",
-   "n": 565,
+   "n": 571,
    "flag": false
   },
   {
@@ -574,14 +574,14 @@
    "kind": "topic",
    "label": "Weather",
    "topic": "weather",
-   "n": 9593
+   "n": 9238
   },
   {
    "id": "metric:temp_c",
    "kind": "metric",
    "label": "Temperature",
    "topic": "weather",
-   "n": 1372,
+   "n": 1324,
    "flag": false
   },
   {
@@ -589,7 +589,7 @@
    "kind": "metric",
    "label": "Dew point",
    "topic": "weather",
-   "n": 1372,
+   "n": 1323,
    "flag": false
   },
   {
@@ -597,7 +597,7 @@
    "kind": "metric",
    "label": "Relative humidity",
    "topic": "weather",
-   "n": 1372,
+   "n": 1323,
    "flag": false
   },
   {
@@ -605,7 +605,7 @@
    "kind": "metric",
    "label": "Pressure",
    "topic": "weather",
-   "n": 1375,
+   "n": 1324,
    "flag": false
   },
   {
@@ -613,7 +613,7 @@
    "kind": "metric",
    "label": "Sustained wind",
    "topic": "weather",
-   "n": 1350,
+   "n": 1298,
    "flag": false
   },
   {
@@ -629,7 +629,7 @@
    "kind": "metric",
    "label": "Rainfall",
    "topic": "weather",
-   "n": 1376,
+   "n": 1324,
    "flag": false
   },
   {
@@ -653,7 +653,7 @@
    "kind": "metric",
    "label": "Visibility",
    "topic": "weather",
-   "n": 1374,
+   "n": 1320,
    "flag": false
   },
   {
@@ -705,16 +705,16 @@
    "flag": true
   },
   {
-   "id": "feed:iem_asos",
-   "kind": "feed",
-   "label": "iem_asos",
-   "n": 9593
-  },
-  {
    "id": "feed:usgs_water",
    "kind": "feed",
    "label": "usgs_water",
-   "n": 10399
+   "n": 10731
+  },
+  {
+   "id": "feed:iem_asos",
+   "kind": "feed",
+   "label": "iem_asos",
+   "n": 9238
   },
   {
    "id": "event:36",
@@ -1038,20 +1038,6 @@
    "label": "McDonough"
   },
   {
-   "id": "event:1",
-   "kind": "event",
-   "label": "Soil moisture 4.3 pct \u2014 Mason County",
-   "topic": "soil",
-   "n": 1,
-   "score": 1.575,
-   "verified": true
-  },
-  {
-   "id": "county:17125",
-   "kind": "county",
-   "label": "Mason"
-  },
-  {
    "id": "event:46",
    "kind": "event",
    "label": "Wind gust 64.4 mph (28.81 m/s) \u2014 Richland County",
@@ -1367,6 +1353,15 @@
    "topic": "weather",
    "n": 1,
    "score": 0.95,
+   "verified": true
+  },
+  {
+   "id": "event:54",
+   "kind": "event",
+   "label": "Visibility 0.125 mi (0.2012 km) \u2014 DuPage County",
+   "topic": "weather",
+   "n": 2,
+   "score": 0.9,
    "verified": true
   },
   {
@@ -1872,64 +1867,64 @@
    "weight": 1
   },
   {
-   "source": "feed:iem_asos",
-   "target": "metric:temp_c",
-   "kind": "reports",
-   "weight": 1372
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:dewpoint_c",
-   "kind": "reports",
-   "weight": 1372
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:humidity_pct",
-   "kind": "reports",
-   "weight": 1372
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:wind_ms",
-   "kind": "reports",
-   "weight": 1350
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:rain_mm",
-   "kind": "reports",
-   "weight": 1376
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:pressure_hpa",
-   "kind": "reports",
-   "weight": 1375
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:visibility_km",
-   "kind": "reports",
-   "weight": 1374
-  },
-  {
    "source": "feed:usgs_water",
    "target": "metric:stage_m",
    "kind": "reports",
-   "weight": 5475
-  },
-  {
-   "source": "feed:usgs_water",
-   "target": "metric:discharge_cms",
-   "kind": "reports",
-   "weight": 4359
+   "weight": 5649
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:water_temp_c",
    "kind": "reports",
-   "weight": 565
+   "weight": 571
+  },
+  {
+   "source": "feed:usgs_water",
+   "target": "metric:discharge_cms",
+   "kind": "reports",
+   "weight": 4511
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:temp_c",
+   "kind": "reports",
+   "weight": 1324
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:dewpoint_c",
+   "kind": "reports",
+   "weight": 1323
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:humidity_pct",
+   "kind": "reports",
+   "weight": 1323
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:wind_ms",
+   "kind": "reports",
+   "weight": 1298
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:rain_mm",
+   "kind": "reports",
+   "weight": 1324
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:pressure_hpa",
+   "kind": "reports",
+   "weight": 1324
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:visibility_km",
+   "kind": "reports",
+   "weight": 1320
   },
   {
    "source": "feed:iem_asos",
@@ -2222,18 +2217,6 @@
   {
    "source": "event:9",
    "target": "county:17109",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:1",
-   "target": "metric:soil_moisture_pct",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:1",
-   "target": "county:17125",
    "kind": "in",
    "weight": 1
   },
@@ -2558,6 +2541,18 @@
   {
    "source": "event:2",
    "target": "county:17195",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:54",
+   "target": "metric:visibility_km",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:54",
+   "target": "county:17043",
    "kind": "in",
    "weight": 1
   },

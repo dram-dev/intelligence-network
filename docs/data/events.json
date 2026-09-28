@@ -480,26 +480,6 @@
   "verified": true
  },
  {
-  "id": 1,
-  "topic": "soil",
-  "metric": "soil_moisture_pct",
-  "metric_label": "Soil moisture",
-  "title": "Soil moisture 4.3 pct \u2014 Mason County",
-  "county_fips": "17125",
-  "county_label": "Mason County",
-  "peak_display": "4.3 pct",
-  "n_signals": 1,
-  "n_sensors": 1,
-  "n_reference": 1,
-  "severity": 0.7,
-  "score": 1.575,
-  "status": "closed",
-  "opened_at": "2026-09-13T12:00:00+00:00",
-  "updated_at": "2026-09-13T12:00:00+00:00",
-  "source_url": "https://wcc.sc.egov.usda.gov/nwcc/site?sitenum=2004",
-  "verified": true
- },
- {
   "id": 46,
   "topic": "weather",
   "metric": "wind_gust_ms",
@@ -1037,6 +1017,26 @@
   "opened_at": "2026-09-15T19:57:00+00:00",
   "updated_at": "2026-09-15T19:57:00+00:00",
   "source_url": "https://mesonet.agron.iastate.edu/lsr/#DVN",
+  "verified": true
+ },
+ {
+  "id": 54,
+  "topic": "weather",
+  "metric": "visibility_km",
+  "metric_label": "Visibility",
+  "title": "Visibility 0.125 mi (0.2012 km) \u2014 DuPage County",
+  "county_fips": "17043",
+  "county_label": "DuPage County",
+  "peak_display": "0.125 mi (0.2012 km)",
+  "n_signals": 2,
+  "n_sensors": 1,
+  "n_reference": 2,
+  "severity": 0.4,
+  "score": 0.9,
+  "status": "closed",
+  "opened_at": "2026-09-27T12:33:00+00:00",
+  "updated_at": "2026-09-27T13:17:00+00:00",
+  "source_url": "https://mesonet.agron.iastate.edu/sites/site.php?station=DPA&network=IL_ASOS",
   "verified": true
  },
  {
