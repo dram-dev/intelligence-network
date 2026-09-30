@@ -63,6 +63,9 @@ class Settings(BaseSettings):
     alert_poll_seconds: int = Field(default=30, alias="ALERT_POLL_SECONDS")
     station_poll_minutes: int = Field(default=60, alias="STATION_POLL_MINUTES")
     lsr_lookback_hours: int = Field(default=3, alias="LSR_LOOKBACK_HOURS")
+    # Radar grids (pack `reference_grids`: MRMS rain, hail) check people's readings
+    # each watch pass; off, readings wait for stations, storm reports and neighbors.
+    grid_checks_enabled: bool = Field(default=True, alias="GRID_CHECKS_ENABLED")
     reference_retention_days: int = Field(default=30, alias="REFERENCE_RETENTION_DAYS")
     news_enabled: bool = Field(default=True, alias="NEWS_ENABLED")
     # USDA AMS Market News (marsapi.ams.usda.gov) — free key, sent as the HTTP

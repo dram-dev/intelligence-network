@@ -229,8 +229,10 @@
   td { padding: 8px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
   tr:last-child td { border-bottom: 0; }
   .table-wrap { overflow-x: auto; }
-  .bar { height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; min-width: 80px; }
+  .bar { height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; min-width: 80px; position: relative; }
   .bar i { display: block; height: 100%; background: var(--accent); }
+  .bar b { position: absolute; top: 0; bottom: 0; background: var(--accent); opacity: .28; }   /* the 80% range */
+  .bar b + i { position: relative; }
   .badge { font: 500 11.5px var(--mono); padding: 2px 6px; border-radius: 3px; border: 1px solid currentColor; }
   .ok { color: var(--ok); } .warn { color: var(--amber); }
   .alert { display: grid; grid-template-columns: 4px minmax(0, 1fr); gap: 12px; padding: 8px 0; }
@@ -473,10 +475,10 @@ corn at dent @sangamon -- looking good</textarea>
         <pre style="margin-top:12px" id="json-example"></pre>
       </div>
       <div class="panel"><h3>How trust works</h3>
-        <p style="font-size:14.5px">Every reading is compared with readings of the same metric from other sensors nearby, inside the metric's distance and time window. Agreement corroborates both readings. A sensor's trust is</p>
+        <p style="font-size:14.5px">Every reading is compared with readings of the same metric nearby, inside the metric's distance and time window: other people, weather stations, NWS storm reports and warnings, and NOAA's radar estimates of rain and hail (MRMS). Agreement corroborates both readings. A sensor's trust, kept separately for each topic, is</p>
         <pre style="margin-top:10px">trust = (K·prior + agreements) / (K + agreements + disagreements)
-K = 4 · prior = 0.5 · trusted ≥ 0.8</pre>
-        <p style="font-size:14.5px; margin-top:10px">Nobody starts trusted; nobody is condemned by one odd reading.</p>
+K = 4 · prior = 0.5 · trusted ≥ 0.8 · half-life 180 days</pre>
+        <p style="font-size:14.5px; margin-top:10px">Old outcomes fade. Radar counts half as much as an official report. Two people under one roof, or two who always agree, count as one witness. New sensors show "new" instead of a number that looks exact; after that, the board shades an 80% range. Nobody starts trusted; nobody is condemned by one odd reading.</p>
       </div>
     </div>
     <div class="panel" style="margin-top:20px">
@@ -1168,7 +1170,15 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
   function renderLeaderboard() {
     lb.innerHTML = '';
     const rows = board.filter(matchContributor);
-    rows.forEach(r => lb.append(el('tr', {}, el('td', { class: 'mono' }, r.handle), el('td', {}, r.county || '—'), el('td', { class: 'num' }, String(r.n)), el('td', { class: 'num' }, String(r.n_corr)), el('td', {}, el('div', { class: 'bar' }, el('i', { style: 'width:' + Math.round(100 * r.trust) + '%' })), el('span', { class: 'mono muted', style: 'font-size:12px' }, ' ' + r.trust.toFixed(2))))));
+    // Trust v2: a new record reads "new", not a number that looks exact; otherwise the
+    // bar is the trust, with its 80% range shaded behind it
+    const trustCell = (r) => r.new
+      ? el('td', { class: 'mono muted', style: 'font-size:12px' }, 'new · ' + (r.checks || 0) + ' check' + (r.checks === 1 ? '' : 's'))
+      : el('td', { title: '80% range ' + (r.trust_low ?? r.trust).toFixed(2) + '–' + (r.trust_high ?? r.trust).toFixed(2) },
+          el('div', { class: 'bar' }, el('b', { style: 'left:' + Math.round(100 * (r.trust_low ?? r.trust)) + '%;width:' + Math.max(1, Math.round(100 * ((r.trust_high ?? r.trust) - (r.trust_low ?? r.trust)))) + '%' }),
+            el('i', { style: 'width:' + Math.round(100 * r.trust) + '%' })),
+          el('span', { class: 'mono muted', style: 'font-size:12px' }, ' ' + r.trust.toFixed(2)));
+    rows.forEach(r => lb.append(el('tr', {}, el('td', { class: 'mono' }, r.handle), el('td', {}, r.county || '—'), el('td', { class: 'num' }, String(r.n)), el('td', { class: 'num' }, String(r.n_corr)), trustCell(r))));
     if (!rows.length) lb.append(el('tr', {}, el('td', { colspan: '5', class: 'muted' },
       filter ? 'No contributors for ' + filter.label + ' yet.' : 'No contributions yet — be the first.')));
   }

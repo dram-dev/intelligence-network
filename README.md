@@ -46,9 +46,13 @@ and an ASOS wind gust and an NWS Tornado Warning all land in one table and can
 be compared. Two independent sensors agreeing within the metric's tolerance,
 distance and time window corroborate each other (both ways — a first report
 is upgraded the moment a neighbor agrees). Agreement with a station, a storm
-report or an active warning settles it outright. Corroboration moves each
-sensor's trust (shrunk toward a prior, so nobody is condemned by one bad
-reading). Readings past a threshold open a county event whose score is
+report or an active warning settles it outright. Where no station is near,
+NOAA's MRMS radar grids (rainfall, and the largest hail radar thinks fell) check
+rain and hail readings, as half a reference. Corroboration moves each sensor's
+trust, kept per topic (shrunk toward a prior, so nobody is condemned by one bad
+reading; old outcomes fade with a 180-day half-life; two people under one roof,
+or two who always agree, count as one witness; a new sensor reads "new" rather
+than a number that looks exact). Readings past a threshold open a county event whose score is
 `severity × corroboration × trust × official-agreement`; only verified events
 are pushed. The digest reports the events and the official picture — and the
 network's own vitals: coverage, corroboration rate, who contributed, and which
@@ -206,6 +210,17 @@ are unique across packs (a test enforces it), so `temp`, `soil temp` and
 | `news` | — | daily | 63 reading-list feeds → LLM-triaged: state agencies (IEPA, IDOA, IDNR, IDPH, IEMA), Extension + farmdoc, the Illinois farm press, river and lake groups, Illinois EPA air-quality Action Days (14 areas), Google News proxies, and the reading-list-only categories: land use and siting (data centres, CO2 pipelines, solar and wind, the Commerce Commission), emergency response, and research |
 | `nws_statements` | — | daily | NWS Public Information Statements (damage surveys, storm totals) from LOT, ILX, DVN, LSX, PAH |
 
+Radar grids (pack `reference_grids`, checked every watch pass, `GRID_CHECKS_ENABLED`):
+
+| grid | reader | windows | checks |
+|---|---|---|---|
+| MRMS radar-only QPE (NOAA mapservices ImageServer, raw pixel = mm) | `arcgis_image` point query | 1–72 h | rain totals (24 h unless a period is given) |
+| MRMS MESH (NCEP GRIB2, PNG-packed; decoded with Pillow, cropped to Illinois) | `mrms_grib2` | 30 min – 24 h | hail size: the largest estimate within 5 km |
+
+A reading is judged once, when a grid window spans it: **agree** corroborates it (and
+can verify its event), a mild miss nudges the record by half, a wide miss (3× off)
+flags it, and the verdict is kept in the reading's evidence.
+
 Geo tables (`config/geo/`) are vendored from the Census gazetteer + ZCTA→county
 relationship file: 102 counties with centroids, 1,396 ZCTAs with centroid and
 county. ZIP+4 has no free geocode, so the +4 is kept as the finest grouping /
@@ -294,7 +309,9 @@ src/intelnet/
 ├── geo.py          counties / ZCTA / ZIP+4, geohash, area keys, NWS point lookup
 ├── models.py       Signal, Sensor
 ├── db.py           SQLite (sensors, signals, events, subscriptions, notify ledger, digests)
-├── network.py      corroboration (both ways), trust, events + score, mesh, gaps
+├── network.py      corroboration (both ways), events + score, mesh, gaps
+├── trust.py        Trust v2: per topic, fading, 80% range / "new", independence
+├── grids.py        radar grids (MRMS QPE, MESH) that judge people's rain and hail
 ├── contrib.py      the contribution path: parse → store → assess → fan-out → ack
 ├── subscriptions.py  category × area matching; alert cards / event / report / digest pushes
 ├── delivery.py     the outbox: send now, retry with backoff, pace to Telegram's limits

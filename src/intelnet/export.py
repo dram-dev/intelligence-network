@@ -25,7 +25,7 @@ from typing import Any
 
 import yaml
 
-from intelnet import db, geo, network
+from intelnet import db, geo, network, trust
 from intelnet.config import CONFIG_DIR, PROJECT_ROOT, settings
 from intelnet.models import KIND_BOT, KIND_HUMAN, REFERENCE_KINDS, local_time, public_handle, utcnow
 from intelnet.topics import find_metric, topics
@@ -232,7 +232,15 @@ def _leaderboard(days: int) -> list[dict[str, Any]]:
         "handle": handle(r["id"]), "county": (geo.county(r["county_fips"]).name
                                               if geo.county(r["county_fips"]) else None),
         "n": r["n"], "n_corr": r["n_corr"], "trust": round(r["trust"], 2),
+        **_standing(r["id"]),
     } for r in db.leaderboard(days, limit=15)]
+
+
+def _standing(sensor_id: str) -> dict[str, Any]:
+    """Trust v2 for the board: the 80% interval, and "new" until there's a record."""
+    st = trust.overall(sensor_id)
+    return {"trust_low": round(st.low, 2), "trust_high": round(st.high, 2), "checks": st.checks,
+            "new": st.is_new}
 
 
 def _digests() -> list[dict[str, Any]]:

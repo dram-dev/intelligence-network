@@ -18,6 +18,7 @@ dependencies = [
     "google-auth-oauthlib>=1.2",
     "google-auth-httplib2>=0.2",
     "digest-core",
+    "pillow>=11",
 ]
 
 [project.scripts]

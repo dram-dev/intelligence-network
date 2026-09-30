@@ -19,7 +19,7 @@ import time
 from datetime import timedelta
 from typing import Any
 
-from intelnet import db, delivery, network
+from intelnet import db, delivery, feedback, grids, network, subscriptions
 from intelnet.config import settings
 from intelnet.feeds import FEEDS
 from intelnet.models import iso, parse_iso, utcnow
@@ -58,9 +58,34 @@ def run_once(run_type: str = "watch", only: list[str] | None = None) -> dict[str
                                   "status": "ok", "error": None, "skipped": True}
             continue
         out["feeds"][name] = _summary(FEEDS[name]().run(run_type=run_type))
+    out["grids"] = grid_pass()
     out["events_closed"] = network.close_stale_events()
     out["retries"] = delivery.retry_due()
     return out
+
+
+def grid_pass() -> dict[str, Any]:
+    """Check people's unsettled readings against radar grids (grids.py); push any event a
+    confirmation verified, and tell people what the radar said about their reports."""
+    try:
+        checked = grids.check_pending()
+    except Exception:  # noqa: BLE001 — a grid outage can't stop the watch
+        logger.exception("watch: grid pass failed")
+        return {"checked": 0, "error": True}
+    verified = []
+    for c in checked:
+        a = c.assessment
+        if a is not None and a.push_event and a.event:
+            n = subscriptions.fanout_event(a.event, a.push_reason, c.signal.location.area_keys())
+            verified.append((a, n))
+    feedback.confirmed([(c.signal, c.witness) for c in checked if c.verdict == "agree" and c.witness])
+    for a, n in verified:
+        if a.push_reason == "new":
+            feedback.helped(a.event, n)
+    counts: dict[str, Any] = {"checked": len(checked), "events_pushed": sum(n for _a, n in verified)}
+    for c in checked:
+        counts[c.verdict] = counts.get(c.verdict, 0) + 1
+    return counts
 
 
 def alert_pass(run_type: str = "alerts") -> dict[str, Any]:

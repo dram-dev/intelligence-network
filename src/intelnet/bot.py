@@ -21,11 +21,22 @@ from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 from typing import Callable, Self
 
-from intelnet import asks, contrib, db, feedback, geo, language, metrics, network, subscriptions
+from intelnet import (
+    asks,
+    contrib,
+    db,
+    feedback,
+    geo,
+    language,
+    metrics,
+    network,
+    subscriptions,
+    trust,
+)
 from intelnet.config import settings
 from intelnet.models import KIND_HUMAN, Sensor
 from intelnet.telegram import MAX_MSG, bot, esc, href, join_within, tg_time
-from intelnet.topics import all_categories, default_topic, find_metric, topics
+from intelnet.topics import all_categories, default_topic, find_metric, get_topic, topics
 
 logger = logging.getLogger(__name__)
 
@@ -308,8 +319,11 @@ def cmd_me(message: dict, sensor: Sensor | None, args: str) -> str:
         f"<b>{esc(sensor.name)}</b> · <code>{esc(sensor.id)}</code>",
         f"Home: {esc(sensor.location.describe())}"
         + (f" · live location on ({esc(live.describe())})" if live else ""),
-        f"Trust {sensor.trust:.2f} · {sensor.n_corroborated} corroborated / "
-        f"{sensor.n_contradicted} conflicting · {sensor.n_signals} readings",
+        f"{sensor.n_corroborated} corroborated / {sensor.n_contradicted} conflicting · "
+        f"{sensor.n_signals} readings",
+        "Trust by topic: " + (" · ".join(f"{esc(get_topic(st.topic).label)} {esc(st.label)}"
+                                         for st in trust.standings(sensor.id))
+                              or "new: nothing checked yet"),
         "Subscriptions: " + (", ".join(f"{r['category']}@{subscriptions.area_label(r['area'])}"
                                        for r in subs) if subs else "none"),
     ]

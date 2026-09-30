@@ -55,7 +55,24 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   but settle nearby human readings (forward) and drive events.
 - **Trust** = `(K·prior + agreements)/(K + agreements + disagreements)`, K=4,
   prior 0.5 unless `/admin trust` set `trust_prior`. Trusted ≥ 0.8 can push
-  an event alone.
+  an event alone. **Trust v2** (`trust.py`): the record is per (sensor, topic) in
+  `sensor_trust` (agree/disagree as floats, faded by a 180-day half-life to
+  `updated_at`); `sensors.trust` is the pooled figure; `standing()` gives an 80%
+  interval and reads "new · n checks" under 3 outcomes. Weights: reference 1, radar
+  grid 0.5, a neighbor `independence()` = 0.3 at the same exact point (< 200 m, GPS
+  points only; ZIP centers don't count), ÷(1 + n/3) for a pair that agreed n times
+  before (`sensor_pairs`). Events verify on `witnesses()` (one per roof), and
+  `event_attach_stats.mean_trust` uses the event topic's record.
+- **Gridded truth** (`grids.py`, pack `reference_grids`): MRMS QPE via the NOAA
+  mapservices ImageServer identify (mosaicRule picks the product by catalog name,
+  renderingRule None → raw mm; with a raster function you get a colour class) and
+  MRMS MESH via NCEP GRIB2 (template 3.0 grid, 5.41 PNG packing; Pillow decodes;
+  cropped to the state; value = (R + X·2^E)/10^D; −3 = no radar, −1 = none). Each
+  window is judged on its own valid time (the 24-h MESH refreshes every 30 min, the
+  30-min one every 2). Verdicts agree / disagree / far (3× off and > 2× abs tol) /
+  quiet, stored in `evidence.grid`; `network.settle_by_grid` applies them and may
+  verify the event. `watch.grid_pass` runs each 5-min watch (off in tests:
+  `GRID_CHECKS_ENABLED`) and sends "checked out" notes citing the radar.
 - **Event score** = `severity × (1 + 0.5·ln(n_sensors)) × clamp(trust/0.5,
   0.4..2) × {1.25 official agree, 0.7 disagree, 1.0}`; push when score ≥
   `EVENT_PUSH_MIN_SCORE` (1.0) AND verified (≥2 sensors | official | trusted);

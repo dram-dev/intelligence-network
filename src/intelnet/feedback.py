@@ -74,6 +74,10 @@ def _distance(a: Signal, b: Signal) -> str:
 
 
 def _source(ref: Signal) -> str:
+    if ref.sensor_kind == "grid":                      # a radar grid (grids.py), never stored
+        m = find_metric(ref.metric, get_topic(ref.topic))
+        value = f" of {m.display(ref.value).split(' (')[0]}" if m and ref.value is not None else ""
+        return f"the {esc(str(ref.evidence.get('label') or 'radar estimate'))}{esc(value)}"
     if ref.sensor_kind == KIND_OFFICIAL:
         return "an NWS storm report"
     if ref.sensor_kind == KIND_STATION:

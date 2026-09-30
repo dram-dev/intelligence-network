@@ -14,12 +14,13 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any
 
-from intelnet import db, feedback, language, llm, network, subscriptions
+from intelnet import db, feedback, language, llm, network, subscriptions, trust
 from intelnet.config import settings
 from intelnet.language import ParsedSignal
 from intelnet.models import Sensor, Signal, utcnow
 from intelnet.network import Assessment
 from intelnet.telegram import esc
+from intelnet.topics import get_topic
 
 logger = logging.getLogger(__name__)
 
@@ -175,8 +176,11 @@ def ack_text(c: Contribution, sensor: Sensor | None = None) -> str:
                      f"Try the short form, e.g. <code>rain 1.2in @62704</code> — /help lists the rest.")
     if sensor is not None and c.signals:
         s = db.get_sensor(sensor.id) or sensor
-        lines.append(f"<i>Your trust {s.trust:.2f} · {s.n_corroborated} corroborated / "
-                     f"{s.n_contradicted} conflicting · {s.n_signals} total</i>")
+        topic = get_topic(c.signals[0].topic)
+        st = trust.standing(sensor.id, topic.name)
+        lines.append(f"<i>Your {esc(topic.label.lower())} record: {esc(st.label)} · "
+                     f"{s.n_corroborated} corroborated / {s.n_contradicted} conflicting · "
+                     f"{s.n_signals} readings in all</i>")
     if c.pushes:
         lines.append(f"<i>Pushed to {c.pushes} subscriber message(s).</i>")
     return "\n".join(lines) if lines else "Nothing to record."

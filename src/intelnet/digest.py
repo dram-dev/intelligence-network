@@ -19,7 +19,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from typing import Any
 
-from intelnet import db, geo, network
+from intelnet import db, geo, network, trust
 from intelnet.config import settings
 from intelnet.feeds.nws_alerts import SEVERITY_RANK
 from intelnet.models import iso, local_time, parse_iso, public_handle
@@ -121,6 +121,7 @@ def build(hours: float = 24.0, date: str | None = None) -> DigestModel:
     # — the same rule as the public site.
     model.leaderboard = [
         {"name": public_handle(r["id"]), "trust": r["trust"], "n": r["n"],
+         "trust_label": trust.overall(r["id"]).label,
          "n_corr": r["n_corr"], "county": (geo.county(r["county_fips"]).name
                                            if geo.county(r["county_fips"]) else "—")}
         for r in db.leaderboard(7)
@@ -356,7 +357,7 @@ def render_html(m: DigestModel, downloads: dict[str, str] | None = None) -> str:
     p.append(_section("Contributors", "this week, by handle"))
     p.append(_table(["Sensor", "County", "Readings", "Corroborated", "Trust"],
                     [[_Raw(f'<span style="font:400 13px {MONO}">{_e(r["name"])}</span>'), r["county"],
-                      r["n"], r["n_corr"], f"{r['trust']:.2f}"] for r in m.leaderboard],
+                      r["n"], r["n_corr"], r.get("trust_label") or f"{r['trust']:.2f}"] for r in m.leaderboard],
                     aligns=("left", "left", "right", "right", "right"),
                     empty="No contributors yet — the first reading could be yours."))
 

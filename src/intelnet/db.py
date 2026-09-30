@@ -36,6 +36,8 @@ from intelnet.models import (
 
 logger = logging.getLogger(__name__)
 
+TRUST_K = 4.0          # trust.K, repeated here for the event query (trust imports db)
+
 MIGRATIONS = [
     """CREATE TABLE IF NOT EXISTS kv (
         key        TEXT PRIMARY KEY,
@@ -251,6 +253,24 @@ MIGRATIONS = [
         UNIQUE(thread, chat_id)
     )""",
     "CREATE INDEX IF NOT EXISTS idx_questions_chat ON questions(chat_id, asked_at)",
+    # Trust v2 (trust.py): a record per sensor per topic, faded to `updated_at`
+    """CREATE TABLE IF NOT EXISTS sensor_trust (
+        sensor_id  TEXT NOT NULL,
+        topic      TEXT NOT NULL,
+        agree      REAL NOT NULL DEFAULT 0,
+        disagree   REAL NOT NULL DEFAULT 0,
+        checks     INTEGER NOT NULL DEFAULT 0,
+        updated_at TEXT NOT NULL,
+        PRIMARY KEY (sensor_id, topic)
+    )""",
+    # how often two people have agreed: a pair that always agrees is one voice
+    """CREATE TABLE IF NOT EXISTS sensor_pairs (
+        a          TEXT NOT NULL,
+        b          TEXT NOT NULL,
+        agreements INTEGER NOT NULL DEFAULT 0,
+        updated_at TEXT NOT NULL,
+        PRIMARY KEY (a, b)
+    )""",
 ]
 
 
@@ -516,6 +536,8 @@ def forget_sensor(sensor_id: str, chat_id: str | int) -> dict[str, Any]:
         conn.execute("DELETE FROM sent_messages WHERE chat_id = ?", (chat,))
         conn.execute("DELETE FROM places WHERE chat_id = ?", (chat,))
         conn.execute("DELETE FROM questions WHERE chat_id = ?", (chat,))
+        conn.execute("DELETE FROM sensor_trust WHERE sensor_id = ?", (sensor_id,))
+        conn.execute("DELETE FROM sensor_pairs WHERE a = ? OR b = ?", (sensor_id, sensor_id))
         conn.execute("DELETE FROM kv WHERE key = ?", (f"followups:off:{chat}",))
         out["sensor"] = conn.execute("DELETE FROM sensors WHERE id = ?", (sensor_id,)).rowcount
     return out
@@ -835,17 +857,21 @@ def close_stale_events(idle_hours: float) -> int:
 
 
 def event_attach_stats(event_id: int) -> dict[str, Any]:
-    """Recompute n_signals / n_sensors / n_reference / mean_trust / peak from rows."""
+    """Recompute n_signals / n_sensors / n_reference / mean_trust / peak from rows.
+    mean_trust uses each person's record on the event's topic (Trust v2)."""
     with get_conn() as conn:
         row = conn.execute(
             f"""SELECT COUNT(*) AS n_signals, COUNT(DISTINCT s.sensor_id) AS n_sensors,
                        SUM(CASE WHEN s.sensor_kind IN ({','.join('?' * len(REFERENCE_KINDS))})
                            THEN 1 ELSE 0 END) AS n_reference,
-                       AVG(COALESCE(se.trust, 0.5)) AS mean_trust,
+                       AVG(CASE WHEN st.sensor_id IS NULL THEN COALESCE(se.trust, 0.5)
+                                ELSE (? * COALESCE(se.trust_prior, 0.5) + st.agree)
+                                     / (? + st.agree + st.disagree) END) AS mean_trust,
                        MAX(s.value) AS peak_value, MIN(s.value) AS min_value
                 FROM signals s LEFT JOIN sensors se ON se.id = s.sensor_id
+                LEFT JOIN sensor_trust st ON st.sensor_id = s.sensor_id AND st.topic = s.topic
                 WHERE s.event_id = ?""",
-            (*REFERENCE_KINDS, event_id),
+            (*REFERENCE_KINDS, TRUST_K, TRUST_K, event_id),
         ).fetchone()
     return dict(row) if row else {}
 
@@ -1439,3 +1465,72 @@ def measure_rows(sql: str, params: Iterable[Any] = ()) -> list[sqlite3.Row]:
     """A read-only query for metrics.py, which keeps its SQL next to what it measures."""
     with get_conn() as conn:
         return conn.execute(sql, tuple(params)).fetchall()
+
+
+# ── Trust v2 records (trust.py) ───────────────────────────────────────────
+
+def trust_row(sensor_id: str, topic: str) -> sqlite3.Row | None:
+    with get_conn() as conn:
+        return conn.execute("SELECT * FROM sensor_trust WHERE sensor_id = ? AND topic = ?",
+                            (sensor_id, topic)).fetchone()
+
+
+def trust_rows(sensor_id: str) -> list[sqlite3.Row]:
+    with get_conn() as conn:
+        return conn.execute("SELECT * FROM sensor_trust WHERE sensor_id = ?", (sensor_id,)).fetchall()
+
+
+def save_trust_row(sensor_id: str, topic: str, agree: float, disagree: float, checks: int,
+                   updated_at: str) -> None:
+    with get_conn() as conn:
+        conn.execute(
+            """INSERT INTO sensor_trust (sensor_id, topic, agree, disagree, checks, updated_at)
+               VALUES (?, ?, ?, ?, ?, ?)
+               ON CONFLICT(sensor_id, topic) DO UPDATE SET agree = excluded.agree,
+                   disagree = excluded.disagree, checks = excluded.checks,
+                   updated_at = excluded.updated_at""",
+            (sensor_id, topic, agree, disagree, checks, updated_at),
+        )
+
+
+def pair_agreements(a: str, b: str) -> int:
+    a, b = sorted((a, b))
+    with get_conn() as conn:
+        row = conn.execute("SELECT agreements FROM sensor_pairs WHERE a = ? AND b = ?", (a, b)).fetchone()
+    return int(row["agreements"]) if row else 0
+
+
+def bump_pair(a: str, b: str) -> None:
+    a, b = sorted((a, b))
+    with get_conn() as conn:
+        conn.execute(
+            """INSERT INTO sensor_pairs (a, b, agreements, updated_at) VALUES (?, ?, 1, ?)
+               ON CONFLICT(a, b) DO UPDATE SET agreements = agreements + 1,
+                   updated_at = excluded.updated_at""",
+            (a, b, utcnow_iso()),
+        )
+
+
+# ── gridded truth (grids.py) ─────────────────────────────────────────────
+
+def grid_candidates(metrics: Iterable[str], since: datetime, limit: int = 200) -> list[Signal]:
+    """People's (and bots') unsettled readings a radar grid hasn't judged yet."""
+    keys = list(metrics)
+    if not keys:
+        return []
+    with get_conn() as conn:
+        rows = conn.execute(
+            f"""SELECT * FROM signals WHERE metric IN ({','.join('?' * len(keys))})
+                  AND sensor_kind IN ('human', 'bot') AND quality = 'raw'
+                  AND lat IS NOT NULL AND lon IS NOT NULL AND observed_at >= ?
+                  AND json_extract(evidence_json, '$.grid') IS NULL
+                ORDER BY observed_at LIMIT ?""",
+            (*keys, iso(since), limit),
+        ).fetchall()
+    return [Signal.from_row(r) for r in rows]
+
+
+def set_evidence(signal_id: int, evidence: dict[str, Any]) -> None:
+    with get_conn() as conn:
+        conn.execute("UPDATE signals SET evidence_json = ? WHERE id = ?",
+                     (json.dumps(evidence, default=str), signal_id))

@@ -146,6 +146,8 @@ class Topic:
     # What to ask the people an alert reached: {events, when: ended|issued, ask,
     # reports: [quick report ids]}.
     alert_questions: list[dict[str, Any]] = field(default_factory=list)
+    # Radar grids that check readings where no station is near (grids.py), by metric.
+    reference_grids: dict[str, dict[str, Any]] = field(default_factory=dict)
 
     def mapping(self, name: str) -> dict[str, dict[str, str]]:
         return self.mappings.get(name, {})
@@ -212,7 +214,8 @@ def load_topic(path: Path) -> Topic:
     name = str(raw.get("topic") or path.stem)
     metrics = {k: _load_metric(name, k, v or {}) for k, v in (raw.get("metrics") or {}).items()}
     known = {"topic", "label", "description", "categories", "alert_routing", "alert_support",
-             "metrics", "lsr_types", "station_fields", "quick_reports", "alert_questions"}
+             "metrics", "lsr_types", "station_fields", "quick_reports", "alert_questions",
+             "reference_grids"}
     mappings = {
         str(k): {str(code): dict(v) for code, v in (val or {}).items()}
         for k, val in raw.items()
@@ -232,6 +235,7 @@ def load_topic(path: Path) -> Topic:
         mappings=mappings,
         quick_reports=[dict(q) for q in raw.get("quick_reports") or []],
         alert_questions=[dict(q) for q in raw.get("alert_questions") or []],
+        reference_grids={str(k): dict(v) for k, v in (raw.get("reference_grids") or {}).items()},
     )
 
 

@@ -35,7 +35,7 @@ from dataclasses import dataclass, field
 from datetime import timedelta
 from typing import Any
 
-from intelnet import db, geo
+from intelnet import db, geo, trust
 from intelnet.config import settings
 from intelnet.models import (
     KIND_HUMAN,
@@ -53,9 +53,9 @@ from intelnet.topics import Metric, find_metric, get_topic, topics
 
 logger = logging.getLogger(__name__)
 
-TRUST_PRIOR = 0.5
-TRUST_PRIOR_WEIGHT = 4.0          # K: how many outcomes it takes to move off the prior
-TRUSTED_SENSOR = 0.8              # a sensor this trusted can push an event alone
+TRUST_PRIOR = trust.PRIOR
+TRUST_PRIOR_WEIGHT = trust.K      # K: how many outcomes it takes to move off the prior
+TRUSTED_SENSOR = trust.TRUSTED    # a sensor this trusted can push an event alone
 EVENT_IDLE_CLOSE_HOURS = 6.0      # an event with no new signal this long is closed
 ESCALATION_FACTOR = 1.4           # re-push when the score grows this much
 
@@ -94,9 +94,7 @@ def trust_from_record(n_corroborated: int, n_contradicted: int, prior: float = T
     `prior` is 0.5 for everyone unless the admin vouched (`/admin trust`), in
     which case the record shrinks toward that instead.
     """
-    return (TRUST_PRIOR_WEIGHT * prior + n_corroborated) / (
-        TRUST_PRIOR_WEIGHT + n_corroborated + n_contradicted
-    )
+    return trust.shrunk(n_corroborated, n_contradicted, prior)
 
 
 # ── corroboration ─────────────────────────────────────────────────────────
@@ -224,14 +222,16 @@ def _attach_to_event(a: Assessment) -> None:
         event_id = int(row["id"])
         when = max(str(row["updated_at"] or ""), when or "")
     db.update_assessment(
-        signal.id, quality=a.quality, corroboration_n=a.n_corroborating,
-        contradiction_n=a.n_contradicting, reference_agreement=a.reference, event_id=event_id,
+        signal.id, quality=a.quality, corroboration_n=max(a.n_corroborating, signal.corroboration_n),
+        contradiction_n=max(a.n_contradicting, signal.contradiction_n), reference_agreement=a.reference,
+        event_id=event_id,
     )
     stats = db.event_attach_stats(event_id)
     peak = stats.get("peak_value") if metric.event_direction == "above" else stats.get("min_value")
     peak = signal.value if peak is None else peak
     severity = metric.severity(peak)
-    n_sensors = int(stats.get("n_sensors") or 1)
+    # two people under one roof are one witness (trust.witnesses)
+    n_sensors = max(1, trust.witnesses(db.signals_for_event(event_id)))
     n_reference = int(stats.get("n_reference") or 0)
     mean_trust = float(stats.get("mean_trust") or TRUST_PRIOR)
     score = score_event(severity, n_sensors, mean_trust, n_reference, a.reference)
@@ -301,15 +301,20 @@ def assess(signal: Signal) -> Assessment:
 
 
 def _update_trust(a: Assessment) -> None:
+    """The reading's outcome goes on its sender's record for this topic. Agreement is
+    worth what its witnesses are worth: an official source 1, a neighbor up to 1 (less
+    under the same roof, or when the two always agree), several neighbors capped at 1."""
     sensor = db.get_sensor(a.signal.sensor_id)
     if sensor is None:
         return
     corr = 1 if a.quality == QUALITY_CORROBORATED else 0
     contra = 1 if a.quality in (QUALITY_FLAGGED, QUALITY_REJECTED) else 0
-    trust = trust_from_record(sensor.n_corroborated + corr, sensor.n_contradicted + contra,
-                              sensor.trust_prior)
-    db.bump_sensor(sensor.id, signals=1, corroborated=corr, contradicted=contra, trust=trust)
-    a.trust_after = trust
+    db.bump_sensor(sensor.id, signals=1, corroborated=corr, contradicted=contra)
+    agree = 0.0
+    if corr:
+        agree = 1.0 if a.reference == "agree" else min(
+            1.0, sum(trust.independence(a.signal, o) for o in _closest_per_sensor(a.corroborating, a.signal).values()))
+    a.trust_after = trust.record(sensor.id, a.signal.topic, agree=agree, disagree=float(contra))
 
 
 def _corroborate_back(a: Assessment) -> None:
@@ -323,9 +328,12 @@ def _corroborate_back(a: Assessment) -> None:
         )
         s = db.get_sensor(other.sensor_id)
         if s and s.kind == KIND_HUMAN:
-            db.bump_sensor(s.id, corroborated=1,
-                           trust=trust_from_record(s.n_corroborated + 1, s.n_contradicted, s.trust_prior))
+            db.bump_sensor(s.id, corroborated=1)
+            trust.record(s.id, other.topic, agree=trust.independence(other, a.signal))
         a.settled.append((other, a.signal))
+    # only now: this agreement mustn't discount itself (trust.independence)
+    for sid in {o.sensor_id for o in a.corroborating if o.sensor_kind not in REFERENCE_KINDS}:
+        db.bump_pair(a.signal.sensor_id, sid)
 
 
 def _corroborate_forward(ref: Signal, metric: Metric) -> list[tuple[Signal, Signal]]:
@@ -351,11 +359,8 @@ def _corroborate_forward(ref: Signal, metric: Metric) -> list[tuple[Signal, Sign
         )
         s = db.get_sensor(other.sensor_id)
         if s and s.kind == KIND_HUMAN:
-            db.bump_sensor(
-                s.id, corroborated=1 if agree else 0, contradicted=0 if agree else 1,
-                trust=trust_from_record(s.n_corroborated + (1 if agree else 0),
-                                        s.n_contradicted + (0 if agree else 1), s.trust_prior),
-            )
+            db.bump_sensor(s.id, corroborated=1 if agree else 0, contradicted=0 if agree else 1)
+            trust.record(s.id, other.topic, agree=1.0 if agree else 0.0, disagree=0.0 if agree else 1.0)
         if agree:
             confirmed.append((other, ref))
     return confirmed
@@ -390,10 +395,43 @@ def settle_by_alert(rows: list[Signal]) -> list[tuple[Signal, Signal]]:
                                      contradiction_n=other.contradiction_n, reference_agreement="agree")
                 s = db.get_sensor(other.sensor_id)
                 if s and s.kind == KIND_HUMAN:
-                    db.bump_sensor(s.id, corroborated=1, trust=trust_from_record(
-                        s.n_corroborated + 1, s.n_contradicted, s.trust_prior))
+                    db.bump_sensor(s.id, corroborated=1)
+                    trust.record(s.id, other.topic, agree=1.0)
                 out.append((other, by_county[other.location.county_fips]))
     return out
+
+
+def settle_by_grid(sig: Signal, verdict: str) -> Assessment | None:
+    """Apply a radar grid's verdict on a raw reading (grids.py).
+
+    agree: corroborated (the grid is half a reference: GRID_WEIGHT on the record) and
+    the reading's event is rescored, since a confirmed reading can verify it; disagree:
+    a mild miss only nudges the record; far: flagged. Returns the assessment when the
+    reading was confirmed (its event may now be pushed)."""
+    metric = find_metric(sig.metric, get_topic(sig.topic))
+    if metric is None or sig.id is None:
+        return None
+    s = db.get_sensor(sig.sensor_id)
+    person = s is not None and s.kind == KIND_HUMAN
+    if verdict == "agree":
+        db.update_assessment(sig.id, quality=QUALITY_CORROBORATED, corroboration_n=sig.corroboration_n,
+                             contradiction_n=sig.contradiction_n, reference_agreement="agree")
+        if person:
+            db.bump_sensor(s.id, corroborated=1)
+            trust.record(s.id, sig.topic, agree=trust.GRID_WEIGHT)
+        sig.quality, sig.reference_agreement = QUALITY_CORROBORATED, "agree"
+        a = Assessment(signal=sig, metric=metric, reference="agree", quality=QUALITY_CORROBORATED)
+        _attach_to_event(a)
+        return a
+    if verdict == "far":
+        db.update_assessment(sig.id, quality=QUALITY_FLAGGED, corroboration_n=sig.corroboration_n,
+                             contradiction_n=sig.contradiction_n + 1, reference_agreement="disagree")
+        if person:
+            db.bump_sensor(s.id, contradicted=1)
+            trust.record(s.id, sig.topic, disagree=1.0)
+    elif verdict == "disagree" and person:
+        trust.record(s.id, sig.topic, disagree=trust.GRID_WEIGHT)
+    return None
 
 
 def process(signal: Signal) -> Assessment | None:

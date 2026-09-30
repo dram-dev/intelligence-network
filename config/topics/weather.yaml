@@ -324,6 +324,36 @@ quick_reports:
       - ["12 in or more", "snow 12in"]
       - ["None", "nothing here -- no snow"]
 
+# Radar grids that check people's readings where no station is near (grids.py).
+# Read at the reading's point once the grid covers its time; radar is rough, so
+# the tolerance is wider than a neighbor's, a mild miss only nudges trust, and a
+# match counts as half a reference. `reader`: arcgis_image (an ArcGIS ImageServer
+# point query; the product is a catalog item name) or mrms_grib2 (an NCEP MRMS
+# GRIB2 file; the URL takes {product}). Tolerances and min_signal are canonical (mm).
+reference_grids:
+  rain_mm:
+    label: radar rainfall estimate (MRMS)
+    reader: arcgis_image
+    url: https://mapservices.weather.noaa.gov/raster/rest/services/obs/mrms_qpe/ImageServer
+    windows: {1h: conus_QPE_01H, 3h: conus_QPE_03H, 6h: conus_QPE_06H, 12h: conus_QPE_12H,
+              24h: conus_QPE_24H, 48h: conus_QPE_48H, 72h: conus_QPE_72H}
+    unit: mm                      # raw pixels are mm (the service's legend says inches)
+    default_window: 24h           # a storm total "so far" with no period
+    max_age: 6h                   # only the latest grid is served; later rain would pile on
+    min_signal: 1
+    tolerance: {rel: 0.5, abs: 6}
+  hail_mm:
+    label: radar hail estimate (MRMS MESH)
+    reader: mrms_grib2
+    url: https://mrms.ncep.noaa.gov/2D/{product}/MRMS_{product}.latest.grib2.gz
+    windows: {30m: MESH_Max_30min, 1h: MESH_Max_60min, 2h: MESH_Max_120min, 4h: MESH_Max_240min,
+              6h: MESH_Max_360min, 24h: MESH_Max_1440min}
+    unit: mm
+    max_age: 24h
+    neighborhood_km: 5            # the largest estimate within 5 km: swaths are narrow
+    min_signal: 13
+    tolerance: {rel: 0.6, abs: 13}
+
 # What to ask the people an alert reached, one tap to answer: the answer is a
 # reading at their place (live location, else home), timed to when the storm was
 # there. `when: ended` asks once it's over; `when: issued` asks while it's in

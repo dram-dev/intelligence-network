@@ -37,6 +37,7 @@ class _NoTelegram:
 def _offline(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.setattr(settings, "geo_online_lookup", False)
     monkeypatch.setattr(settings, "llm_enabled", False)
+    monkeypatch.setattr(settings, "grid_checks_enabled", False)
     monkeypatch.setattr(settings, "gdrive_enabled", False)
     monkeypatch.setattr(settings, "notify_enabled", False)
     monkeypatch.setattr(settings, "network_join_code", "")
