@@ -26,10 +26,10 @@ import json
 import logging
 import math
 import re
-from itertools import pairwise
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from functools import lru_cache
+from itertools import pairwise
 
 from intelnet.config import CONFIG_DIR, settings
 

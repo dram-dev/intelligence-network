@@ -88,6 +88,8 @@ class Outbound(list):
         self.edits: list[tuple[str, int, str]] = []
         self.replies: list[tuple[str, int | None, bool]] = []    # (chat, replied-to id, silent)
         self.markups: list[dict | None] = []                     # keyboards sent, per message
+        self.edit_markups: list[dict | None] = []                # keyboards on edits
+        self.answers: list[tuple[str, str]] = []                 # (callback id, toast)
 
 
 @pytest.fixture
@@ -104,13 +106,19 @@ def sent(monkeypatch: pytest.MonkeyPatch) -> Outbound:
         log.markups.append(markup)
         return telegram.Sent(True, message_id=next(ids))
 
-    def _edit(chat_id, message_id, text):
+    def _edit(chat_id, message_id, text, markup=None):
         log.edits.append((str(chat_id), message_id, text))
+        log.edit_markups.append(markup)
         return telegram.Sent(True, message_id=message_id)
+
+    def _answer(query_id, text=""):
+        log.answers.append((str(query_id), text))
+        return telegram.Sent(True)
 
     monkeypatch.setattr(telegram.bot, "enabled", True)
     monkeypatch.setattr(telegram.bot, "deliver", _deliver)
     monkeypatch.setattr(telegram.bot, "edit", _edit)
+    monkeypatch.setattr(telegram.bot, "answer_callback", _answer)
     monkeypatch.setattr(telegram.bot, "typing", lambda *a, **k: None)
     monkeypatch.setattr(delivery, "PER_CHAT_SECONDS", 0.0)
     monkeypatch.setattr(delivery, "GLOBAL_SECONDS", 0.0)

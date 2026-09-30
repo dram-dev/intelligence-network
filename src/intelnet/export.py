@@ -268,6 +268,8 @@ def snapshot(days: int = 14, *, sample: bool = False) -> dict[str, Any]:
         "links": ({"folder": latest["folder_url"], "latest": latest["latest_url"], "digest": latest["drive_url"]}
                   if latest and settings.gdrive_enabled else {"folder": None, "latest": None, "digest": None}),
         "vitals": db.vitals(),
+        "feeds": db.feed_freshness(),                   # each source's last good run
+        "reference_sizes": db.reference_network_sizes(),
         "subscriptions": db.subscription_counts(),
         "topics": _topics_doc(),
         "counties": _counties(days),
@@ -324,6 +326,21 @@ def copy_assets(out_dir: Path | None = None, site_dir: Path | None = None) -> li
     return written
 
 
+def _page_geography() -> dict[str, Any]:
+    """Static geography the page draws with: county shapes (site/assets/<st>-counties.geojson,
+    Census TIGERweb) and ZIP → [county FIPS, lat, lon]. Inlined, not fetched, so the map
+    and "Near you" also work offline and as an artifact."""
+    shapes = ASSETS_DIR / f"{settings.geo_state.lower()}-counties.geojson"
+    return {
+        "boundaries": json.loads(shapes.read_text(encoding="utf-8")) if shapes.exists() else None,
+        "zips": {z.zip5: [z.county_fips, round(z.lat, 3), round(z.lon, 3)] for z in geo.zctas().values()},
+    }
+
+
+def _page_data(snap: dict[str, Any]) -> str:
+    return json.dumps({**snap, **_page_geography()}, default=str).replace("</", "<\\/")
+
+
 def build_site(snap: dict[str, Any], fragment: Path | None = None, out: Path | None = None) -> Path:
     """Wrap the fragment as a full HTML document with the snapshot inlined."""
     fragment = fragment or FRAGMENT
@@ -331,7 +348,7 @@ def build_site(snap: dict[str, Any], fragment: Path | None = None, out: Path | N
     html = fragment.read_text(encoding="utf-8")
     for key, val in _page_values(snap).items():
         html = html.replace(key, val)
-    data = json.dumps(snap, default=str).replace("</", "<\\/")
+    data = _page_data(snap)
     if DATA_MARK not in html:
         raise ValueError(f"{fragment} has no {DATA_MARK} marker")
     html = html.replace(DATA_MARK, data, 1)
@@ -401,7 +418,7 @@ def render_static_pages(snap: dict[str, Any], out_dir: Path, site_dir: Path | No
 def artifact_fragment(snap: dict[str, Any], fragment: Path | None = None) -> str:
     """The fragment with data inlined (no html/head/body — the artifact skeleton adds them)."""
     html = (fragment or FRAGMENT).read_text(encoding="utf-8")
-    return html.replace(DATA_MARK, json.dumps(snap, default=str).replace("</", "<\\/"), 1)
+    return html.replace(DATA_MARK, _page_data(snap), 1)
 
 
 def export_all(out_dir: Path | None = None, days: int = 14, *, site: bool = True,

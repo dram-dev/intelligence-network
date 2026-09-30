@@ -33,6 +33,7 @@
     --t-quake: #B33A2B; --t-nature: #8A7A1F; --t-markets: #8E4585; --t-reference: #9AA59F;
     --sev-extreme: #B3261E; --sev-severe: #C4501B; --sev-moderate: #B7791F; --sev-minor: #4B7B8A;
     --ok: #3B7A45; --shadow: 0 1px 2px rgba(20,32,28,.06);
+    --grid-fine: rgba(29,110,122,.07); --grid-bold: rgba(29,110,122,.16);
     --display: "Fraunces", "Iowan Old Style", Georgia, serif;
     --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
     --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -47,6 +48,7 @@
       --t-quake: #E5786A; --t-nature: #D9C45A; --t-markets: #D28CC8; --t-reference: #5F6B65;
       --sev-extreme: #E5655C; --sev-severe: #E4844F; --sev-moderate: #E0A83A; --sev-minor: #7FB0BF;
       --ok: #7CBF88; --shadow: none; color-scheme: dark;
+    --grid-fine: rgba(95,180,192,.05); --grid-bold: rgba(95,180,192,.12);
     }
   }
   :root[data-theme="dark"] {
@@ -57,6 +59,7 @@
       --t-quake: #E5786A; --t-nature: #D9C45A; --t-markets: #D28CC8; --t-reference: #5F6B65;
     --sev-extreme: #E5655C; --sev-severe: #E4844F; --sev-moderate: #E0A83A; --sev-minor: #7FB0BF;
     --ok: #7CBF88; --shadow: none; color-scheme: dark;
+    --grid-fine: rgba(95,180,192,.05); --grid-bold: rgba(95,180,192,.12);
   }
   * { box-sizing: border-box; }
   html { height: 100%; }
@@ -91,12 +94,42 @@
   .topic-markets { background: var(--t-markets); } .topic-reference { background: var(--t-reference); }
 
   /* masthead */
-  .mast { padding-block: 40px 28px; border-bottom: 1px solid var(--line); }
-  .mast .lede { margin-top: 14px; font-size: 18px; max-width: 58ch; }
+  /* masthead: the state right now, on the Public Land Survey grid (a line a mile,
+     heavier every six-mile township: how most of Illinois is laid out) */
+  .mast { padding-block: 26px 24px; border-bottom: 1px solid var(--line);
+          background-image: linear-gradient(var(--grid-bold) 1px, transparent 1px), linear-gradient(90deg, var(--grid-bold) 1px, transparent 1px),
+                            linear-gradient(var(--grid-fine) 1px, transparent 1px), linear-gradient(90deg, var(--grid-fine) 1px, transparent 1px);
+          background-size: 144px 144px, 144px 144px, 24px 24px, 24px 24px; background-position: -1px -1px; }
+  .mast-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 14px 20px; flex-wrap: wrap; }
+  .status { margin-top: 12px; font: 500 clamp(21px, 2.6vw, 28px) var(--display); font-variation-settings: "SOFT" 40, "opsz" 48;
+            line-height: 1.2; max-width: 36ch; text-wrap: balance; }
+  .status-sub { margin-top: 4px; font-size: 13px; color: var(--muted); }
+  .now { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px; margin-top: 18px; align-items: start; }
+  .now-map { margin: 0; background: var(--surface); border: 1px solid var(--line-strong); border-radius: 3px; box-shadow: var(--shadow); }
+  .now-map svg { display: block; width: 100%; height: auto; touch-action: manipulation; }
+  .map-key { display: flex; flex-wrap: wrap; gap: 4px 14px; padding: 8px 12px; border-top: 1px solid var(--line); font: 12px var(--mono); color: var(--muted); }
+  .map-key span { white-space: nowrap; }
+  .map-key i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+  .now-side { display: grid; gap: 16px; align-content: start; }
+  .now-side > section { background: var(--surface); border: 1px solid var(--line); border-radius: 3px; padding: 14px 16px; box-shadow: var(--shadow); }
+  .now-side h2 { font: 500 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .near form { display: flex; gap: 8px; }
+  .near input { max-width: 190px; font-size: 15px; padding: 8px 10px; }
+  .near-out { margin-top: 12px; font-size: 14px; display: grid; gap: 8px; }
+  .near-out .near-head { font: 500 17px var(--display); }
+  .near-links { display: flex; flex-wrap: wrap; gap: 8px; }
+  .near-links .btn { font-size: 13px; padding: 7px 11px; }
+  .sources { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 14px; font: 12px var(--mono); color: var(--muted); }
+  .sources b { font-weight: 500; color: var(--ink); }
+  .sources span::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--ok); margin-right: 6px; vertical-align: 1px; }
+  .sources span.stale::before { background: var(--amber); }
+  .sources span.live::before { box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 25%, transparent); }
+  .mast .lede { margin-top: 16px; font-size: 16.5px; max-width: 70ch; color: var(--muted); }
+  @media (max-width: 860px) { .now { grid-template-columns: minmax(0, 1fr); } }
   .mast .sample { margin-top: 18px; display: inline-flex; gap: 8px; align-items: center; font-size: 13px; color: var(--muted); }
   .sample b { color: var(--amber); font-weight: 600; }
   .readouts { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; border: 1px solid var(--line); border-radius: 3px;
-              background: var(--surface); margin-top: 26px; box-shadow: var(--shadow); }
+              background: var(--surface); margin-bottom: 20px; box-shadow: var(--shadow); }
   .readout { padding: 14px 16px 12px; border-right: 1px solid var(--line); }
   .readout:last-child { border-right: 0; }
   .readout .v { font: 500 28px var(--mono); letter-spacing: -.02em; }
@@ -118,11 +151,11 @@
   .sec-head p { margin-top: 8px; color: var(--muted); }
   .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
   .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-  @media (max-width: 860px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } .sec-head { grid-template-columns: 1fr; } }
+  @media (max-width: 860px) { .grid-2, .grid-3 { grid-template-columns: minmax(0, 1fr); } .sec-head { grid-template-columns: minmax(0, 1fr); } }
   .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 3px; padding: 18px; box-shadow: var(--shadow); }
   .panel h3 { margin-bottom: 10px; }
   .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; }
-  @media (max-width: 860px) { .steps { grid-template-columns: 1fr 1fr; } } @media (max-width: 480px) { .steps { grid-template-columns: 1fr; } }
+  @media (max-width: 860px) { .steps { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } } @media (max-width: 480px) { .steps { grid-template-columns: minmax(0, 1fr); } }
   .step { border-top: 2px solid var(--ink); padding-top: 10px; }
   .step .k { font: 500 12px var(--mono); color: var(--muted); letter-spacing: .06em; }
   .step p { margin-top: 6px; font-size: 14.5px; }
@@ -135,7 +168,7 @@
 
   /* sandbox */
   .sandbox { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
-  @media (max-width: 860px) { .sandbox { grid-template-columns: 1fr; } }
+  @media (max-width: 860px) { .sandbox { grid-template-columns: minmax(0, 1fr); } }
   .field { display: grid; gap: 6px; }
   .field label { font-size: 13px; color: var(--muted); }
   input[type=text], select, textarea { font: 15px var(--mono); padding: 10px 12px; border: 1px solid var(--line-strong); border-radius: 3px;
@@ -219,11 +252,40 @@
 
 <header class="mast">
   <div class="wrap">
-    <div class="eyebrow" id="eyebrow">Illinois · citizen mesonet · counties + ZIP+4</div>
-    <h1 id="title">Intelligence Network</h1>
+    <div class="mast-top">
+      <div>
+        <div class="eyebrow" id="eyebrow">Illinois · right now · counties + ZIP+4</div>
+        <h1 id="title">Intelligence Network</h1>
+      </div>
+      <a class="btn primary" href="#join">Get alerts in Telegram</a>
+    </div>
+    <p class="status" id="status-line">Checking the National Weather Service…</p>
+    <p class="status-sub" id="status-sub"></p>
+    <div class="now">
+      <figure class="now-map">
+        <svg id="now-map" viewBox="0 0 460 720" role="img" aria-label="Illinois right now: county lines, NWS alerts in effect, weather radar, and where the network has readings"></svg>
+        <figcaption class="map-key" id="map-key"></figcaption>
+      </figure>
+      <aside class="now-side">
+        <section aria-labelledby="now-h">
+          <h2 id="now-h">In effect now</h2>
+          <p class="muted" id="alerts-source" style="font-size:12.5px; margin-bottom:6px">From the nightly snapshot.</p>
+          <div id="alerts"></div>
+        </section>
+        <section class="near" aria-labelledby="near-h">
+          <h2 id="near-h">Near you</h2>
+          <form id="near-form"><input type="text" id="near-zip" inputmode="numeric" autocomplete="postal-code" maxlength="10" placeholder="ZIP, e.g. 62704" aria-label="Your ZIP code"><button class="btn" type="submit">Show</button></form>
+          <div class="near-out" id="near-out"><p class="muted">Alerts, readings and a one-tap Telegram link for any Illinois ZIP.</p></div>
+        </section>
+        <section aria-labelledby="net-h">
+          <h2 id="net-h">The network</h2>
+          <div class="near-out" id="net-now" style="margin-top:0"></div>
+        </section>
+      </aside>
+    </div>
+    <div class="sources" id="sources-strip"></div>
     <p class="lede">A sensor network you join from your phone. Report what you see — a rain gauge, hail on the deck, a creek level, a corn stage, smoke — in a short common language. Neighbors and official stations check every reading; corroborated readings become events, raise your trust, and roll into a daily digest.</p>
     <div class="sample" id="sample-note"></div>
-    <div class="readouts" id="readouts"></div>
   </div>
 </header>
 
@@ -328,6 +390,7 @@ corn at dent @sangamon -- looking good</textarea>
     <div class="sec-head">
       <div><h2>Explore the network</h2><p id="explore-lede">Who reports what, where it corroborates, and how the fortnight moved.</p></div>
     </div>
+    <div class="readouts" id="readouts"></div>
     <div class="radar" id="graph-panel">
       <div class="legend" id="graph-legend"></div>
       <div class="tools" id="graph-tools">
@@ -341,20 +404,17 @@ corn at dent @sangamon -- looking good</textarea>
     <div class="grid-2" style="margin-top:20px">
       <div class="panel mesh">
         <div class="mesh-head">
-          <h3>County mesh · human readings, last <span id="mesh-days">14</span> days</h3>
+          <h3>Counties · human readings, last <span id="mesh-days">14</span> days</h3>
           <div class="tools"><button type="button" id="mesh-clear" hidden>Clear</button></div>
         </div>
-        <svg id="mesh" viewBox="0 0 520 620" role="img" aria-label="Illinois counties as a Voronoi mesh coloured by contribution count"></svg>
+        <svg id="mesh" viewBox="0 0 520 620" role="img" aria-label="Illinois counties shaded by how many human readings each has"></svg>
         <div class="mesh-detail muted" id="mesh-detail">Tap a county to zoom in and read its numbers.</div>
-        <p class="muted" style="font-size:12.5px; margin-top:8px">Stylised: county centroids tessellated, not true boundaries. Darker = more human readings; dots = official stations reporting.</p>
+        <p class="muted" style="font-size:12.5px; margin-top:8px">County lines from the Census Bureau. Darker = more human readings; dots = official stations reporting.</p>
       </div>
       <div class="panel chart">
         <h3>Readings per day, by topic</h3>
         <svg id="activity" role="img" aria-label="Stacked area chart of readings per day by topic"></svg>
         <div id="activity-legend" class="examples" style="margin-top:8px"></div>
-        <h3 style="margin-top:22px">Active NWS alerts</h3>
-        <p class="muted" id="alerts-source" style="font-size:12.5px; margin-bottom:6px">From the nightly snapshot.</p>
-        <div id="alerts"></div>
       </div>
     </div>
     <div class="panel" style="margin-top:20px">
@@ -478,7 +538,7 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     const cur = root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     const next = cur === 'dark' ? 'light' : 'dark'; root.dataset.theme = next;
     try { localStorage.setItem('in-theme', next); } catch (e) {}
-    drawGraph(); drawMesh(); drawActivity();
+    drawGraph(); drawMesh(); drawActivity(); drawNowMap();
   });
 
   // ── masthead ──
@@ -787,22 +847,19 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
   function drawMesh() {
     const svg = d3.select('#mesh'); svg.selectAll('*').remove();
     const W = 520, H = 620, pad = 14;
-    const pts = counties.map(c => [c.lon, c.lat]);
-    const proj = d3.geoMercator().fitExtent([[pad, pad], [W - pad, H - pad]], { type: 'MultiPoint', coordinates: pts });
-    const xy = pts.map(p => proj(p));
-    const hull = d3.polygonHull(xy);
-    const del = d3.Delaunay.from(xy); const vor = del.voronoi([0, 0, W, H]);
+    if (!D.boundaries) return;
+    const shapeOf = Object.fromEntries(D.boundaries.features.map(f => [f.properties.fips, f]));
+    const proj = d3.geoMercator().fitExtent([[pad, pad], [W - pad, H - pad]], D.boundaries);
+    const geoPath = d3.geoPath(proj);
     const cs = getComputedStyle(document.documentElement);
     const maxH = Math.max(1, ...counties.map(c => c.human));
     const color = d3.scaleSequential(d3.interpolateRgb(cs.getPropertyValue('--surface-2').trim() || '#e6eae5', cs.getPropertyValue('--accent').trim() || '#1d6e7a')).domain([0, Math.sqrt(maxH)]);
-    svg.append('clipPath').attr('id', 'hull').append('path').attr('d', 'M' + hull.map(p => p.join(',')).join('L') + 'Z');
     const zoomG = svg.append('g');                      // everything zooms together
-    const g = zoomG.append('g').attr('clip-path', 'url(#hull)');
-    const cells = g.selectAll('path').data(counties).join('path').attr('d', (c, i) => vor.renderCell(i))
+    const g = zoomG.append('g');
+    const cells = g.selectAll('path').data(counties.filter(c => shapeOf[c.fips])).join('path').attr('d', c => geoPath(shapeOf[c.fips]))
       .attr('fill', c => c.human ? color(Math.sqrt(c.human)) : (cs.getPropertyValue('--surface').trim() || '#fff'))
       .attr('stroke', cs.getPropertyValue('--line').trim() || '#ccc').attr('stroke-width', .8).style('cursor', 'pointer')
       .on('mousemove', (e, c) => { if (!meshSel) showTip(tipHtml(c), e.clientX, e.clientY); }).on('mouseleave', hideTip);
-    zoomG.append('path').attr('d', 'M' + hull.map(p => p.join(',')).join('L') + 'Z').attr('fill', 'none').attr('stroke', cs.getPropertyValue('--line-strong').trim() || '#999').attr('stroke-width', 1.2).attr('pointer-events', 'none');
     zoomG.append('g').selectAll('circle').data(counties.filter(c => c.reference)).join('circle').attr('cx', (c) => proj([c.lon, c.lat])[0]).attr('cy', (c) => proj([c.lon, c.lat])[1]).attr('r', 2.4).attr('fill', cs.getPropertyValue('--amber').trim() || '#b7791f').attr('pointer-events', 'none');
     zoomG.append('g').selectAll('text').data(counties.filter(c => c.human >= Math.max(3, maxH * .35))).join('text').text(c => c.name).attr('x', c => proj([c.lon, c.lat])[0]).attr('y', c => proj([c.lon, c.lat])[1] + 3).attr('text-anchor', 'middle').attr('font-size', 9).attr('font-family', 'IBM Plex Mono, monospace').attr('fill', cs.getPropertyValue('--ink').trim()).attr('pointer-events', 'none');
 
@@ -878,8 +935,10 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
       const r = await fetch('https://api.weather.gov/alerts/active?area=' + state + '&status=actual&message_type=alert,update', { headers: { Accept: 'application/geo+json' } });
       if (!r.ok) throw new Error('HTTP ' + r.status);
       const j = await r.json();
-      alerts = (j.features || []).map(f => f.properties || {})
-        .map(p => ({ event: p.event, severity: p.severity, counties: countyNames(p.areaDesc), expires: p.ends || p.expires, url: p['@id'] }))
+      alerts = (j.features || []).map(f => Object.assign({}, f.properties || {}, { _geometry: f.geometry }))
+        .map(p => { const fips = ((p.geocode || {}).SAME || []).map(x => String(x).slice(1)).filter(f => countyByFips[f]);
+                    return { event: p.event, severity: p.severity, expires: p.ends || p.expires, url: p['@id'], fips, polygon: p._geometry,
+                             counties: fips.length ? fips.map(f => countyByFips[f].name) : countyNames(p.areaDesc) }; })
         .sort((a, b) => (SEV[b.severity] || 0) - (SEV[a.severity] || 0));
       alertsLive = new Date();
       alertSrc.textContent = 'Live from the National Weather Service · checked ' + checked(alertsLive);
@@ -889,8 +948,189 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
       alertSrc.textContent = alertsLive ? 'Live feed unreachable just now · last checked ' + checked(alertsLive)
         : 'From the nightly snapshot: the live NWS feed is unreachable right now.';
     }
-    renderAlerts();
+    renderAlerts(); statusLine(); paintNowAlerts(); drawSources();
+    if (nearZip) showNear(nearZip);
   }
+  // Snapshot alerts name counties; give them FIPS too, so the map can shade them.
+  const fipsByName = Object.fromEntries(counties.map(c => [c.name.toLowerCase().replace(/[^a-z]/g, ''), c.fips]));
+  alerts.forEach(a => { a.fips = (a.counties || []).map(n => fipsByName[bare(n).toLowerCase().replace(/[^a-z]/g, '')]).filter(Boolean); });
+
+  // ── the masthead: one sentence, a live map, "near you", and where the data comes from ──
+  const countyByFips = Object.fromEntries(counties.map(c => [c.fips, c]));
+  const kindOf = (ev) => /Warning$/.test(ev || '') ? 'warning' : /Watch$/.test(ev || '') ? 'watch' : /Advisory$/.test(ev || '') ? 'advisory' : 'statement';
+  const plural = (n, one, many) => n + ' ' + (n === 1 ? one : many);
+  function statusLine() {
+    const n = { warning: 0, watch: 0, advisory: 0, statement: 0 };
+    const where = new Set();
+    alerts.forEach(a => { n[kindOf(a.event)]++; (a.fips || []).forEach(f => where.add(f)); });
+    const parts = [n.warning && plural(n.warning, 'warning', 'warnings'), n.watch && plural(n.watch, 'watch', 'watches'),
+                   n.advisory && plural(n.advisory, 'advisory', 'advisories')].filter(Boolean);
+    let text;
+    if (!alerts.length) text = 'No NWS alerts for Illinois right now.';
+    else if (!parts.length) text = plural(alerts.length, 'NWS statement', 'NWS statements') + ' in effect, no warnings.';
+    else {
+      const list = parts.length > 1 ? parts.slice(0, -1).join(', ') + ' and ' + parts[parts.length - 1] : parts[0];
+      text = list.charAt(0).toUpperCase() + list.slice(1) + ' in effect' + (where.size ? ' across ' + plural(where.size, 'county', 'counties') : '') + '.';
+    }
+    $('#status-line').textContent = text;
+    $('#status-sub').textContent = alertsLive ? 'Live from the National Weather Service · checked ' + checked(alertsLive)
+      : 'From the network snapshot of ' + fmtWhen(D.generated_at) + '. The live feed will fill in when it answers.';
+  }
+
+  const NW = 460, NH = 720;
+  let nowProj = null, nowAlertsG = null, nowPinG = null, nearZip = null, radarImg = null;
+  const nowSvg = d3.select('#now-map');
+  const radarSrc = () => {                  // IEM's NEXRAD mosaic, cut to exactly this map's frame (web Mercator)
+    const [w, n] = nowProj.invert([0, 0]), [e, s] = nowProj.invert([NW, NH]);
+    const R = 6378137, x = (lon) => lon * Math.PI / 180 * R, y = (lat) => Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)) * R;
+    return 'https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-900913&STYLES='
+      + '&SRS=EPSG:3857&BBOX=' + [x(w), y(s), x(e), y(n)].map(v => v.toFixed(0)).join(',') + '&WIDTH=' + NW + '&HEIGHT=' + NH
+      + '&FORMAT=image/png&TRANSPARENT=true&t=' + Math.floor(Date.now() / 300000);
+  };
+  function drawNowMap() {
+    nowSvg.selectAll('*').remove();
+    if (!D.boundaries) { document.querySelector('.now-map').hidden = true; return; }
+    const cs = getComputedStyle(document.documentElement); const tok = (k, f) => cs.getPropertyValue(k).trim() || f;
+    nowProj = d3.geoMercator().fitExtent([[12, 12], [NW - 12, NH - 12]], D.boundaries);
+    const path = d3.geoPath(nowProj);
+    const state = { type: 'FeatureCollection', features: D.boundaries.features };
+    nowSvg.append('defs').append('clipPath').attr('id', 'il-clip').append('path').attr('d', path(state));
+    // land, and the survey grid on it (a line every six miles: the townships)
+    nowSvg.append('path').attr('d', path(state)).attr('fill', tok('--ground', '#f1f3ef'));
+    const [w, n] = nowProj.invert([0, 0]), [e, s] = nowProj.invert([NW, NH]);
+    const lines = [];
+    for (let lat = Math.floor(s * 11.5) / 11.5; lat <= n; lat += 1 / 11.5) {  // parallels, densified so they stay straight
+      const row = []; for (let lon = w; lon <= e + .05; lon += .05) row.push([lon, lat]); lines.push(row); }
+    for (let lon = Math.floor(w * 8.85) / 8.85; lon <= e; lon += 1 / 8.85) lines.push([[lon, s], [lon, n]]);
+    nowSvg.append('path').attr('clip-path', 'url(#il-clip)').attr('d', path({ type: 'MultiLineString', coordinates: lines }))
+      .attr('fill', 'none').attr('stroke', tok('--grid-bold', 'rgba(29,110,122,.16)')).attr('stroke-width', .7);
+    // network readings shade the counties that have them
+    const maxH = Math.max(1, ...counties.map(c => c.human));
+    const shade = d3.scaleLinear().domain([0, Math.sqrt(maxH)]).range([0, .55]);
+    const shapes = nowSvg.append('g').selectAll('path').data(D.boundaries.features).join('path').attr('d', path)
+      .attr('fill', tok('--accent', '#1d6e7a')).attr('fill-opacity', f => shade(Math.sqrt((countyByFips[f.properties.fips] || {}).human || 0)))
+      .attr('stroke', 'none').style('cursor', 'pointer');
+    // radar under the lines and alerts; gone quietly where images are blocked
+    radarImg = nowSvg.append('image').attr('href', radarSrc()).attr('x', 0).attr('y', 0).attr('width', NW).attr('height', NH)
+      .attr('opacity', .62).attr('preserveAspectRatio', 'none').attr('pointer-events', 'none')
+      .on('error', function () { d3.select(this).remove(); radarImg = null; drawKey(); });
+    nowAlertsG = nowSvg.append('g').attr('pointer-events', 'none');
+    nowSvg.append('path').attr('d', path(state)).attr('fill', 'none').attr('stroke', tok('--line-strong', '#b9c3bc'))
+      .attr('stroke-width', .8).attr('pointer-events', 'none');                        // county lines
+    const labels = nowSvg.append('g').attr('pointer-events', 'none');
+    [['17031', 'Chicago'], ['17167', 'Springfield'], ['17143', 'Peoria'], ['17019', 'Champaign'], ['17163', 'Metro East'], ['17201', 'Rockford'], ['17077', 'Carbondale']]
+      .forEach(([f, name]) => { const c = countyByFips[f]; if (!c) return; const [x, y] = nowProj([c.lon, c.lat]);
+        labels.append('text').text(name).attr('x', x).attr('y', y + 3).attr('text-anchor', 'middle').attr('font-size', 10.5)
+          .attr('font-family', 'IBM Plex Mono, monospace').attr('fill', tok('--muted', '#5b655f')).attr('paint-order', 'stroke')
+          .attr('stroke', tok('--surface', '#fff')).attr('stroke-width', 3).attr('stroke-opacity', .8); });
+    nowPinG = nowSvg.append('g').attr('pointer-events', 'none');
+    shapes.on('mousemove', (ev, f) => { const c = countyByFips[f.properties.fips]; if (!c) return;
+        const here = alerts.filter(a => (a.fips || []).includes(c.fips));
+        showTip('<b>' + c.name + ' County</b><br>' + (here.length ? here.map(a => a.event).slice(0, 4).join('<br>') : 'No NWS alerts') + '<br>' + c.human + ' human readings, ' + (D.days || 14) + ' days', ev.clientX, ev.clientY); })
+      .on('mouseleave', hideTip)
+      .on('click', (ev, f) => { hideTip(); const c = countyByFips[f.properties.fips];
+        if (c) setFilter({ kind: 'county', value: c.fips, nodeId: 'county:' + c.fips, label: c.name + ' County' }); });
+    paintNowAlerts(); drawKey();
+    if (nearZip) pinNear(nearZip);
+  }
+  const sevColor = (a) => { const cs = getComputedStyle(document.documentElement);
+    return cs.getPropertyValue(a.severity === 'Extreme' ? '--sev-extreme' : a.severity === 'Severe' ? '--sev-severe' : a.severity === 'Moderate' ? '--sev-moderate' : '--sev-minor').trim() || '#c4501b'; };
+  function paintNowAlerts() {
+    if (!nowAlertsG || !nowProj) return;
+    nowAlertsG.selectAll('*').remove();
+    const path = d3.geoPath(nowProj);
+    const shapeOf = Object.fromEntries(D.boundaries.features.map(f => [f.properties.fips, f]));
+    // least severe first, so the worst sits on top
+    alerts.slice().reverse().forEach(a => {
+      const color = sevColor(a);
+      if (a.polygon) {                      // storm-based: the warned polygon itself
+        nowAlertsG.append('path').attr('d', path(a.polygon)).attr('fill', color).attr('fill-opacity', .18)
+          .attr('stroke', color).attr('stroke-width', 2).attr('stroke-linejoin', 'round');
+      } else {                              // county-based: shade the counties it names
+        (a.fips || []).forEach(f => { if (shapeOf[f]) nowAlertsG.append('path').attr('d', path(shapeOf[f]))
+          .attr('fill', color).attr('fill-opacity', kindOf(a.event) === 'warning' ? .32 : .16); });
+      }
+    });
+  }
+  function drawKey() {
+    const cs = getComputedStyle(document.documentElement); const tok = (k) => cs.getPropertyValue(k).trim();
+    const key = $('#map-key'); key.innerHTML = '';
+    const item = (color, label, opacity) => key.append(el('span', {}, el('i', { style: 'background:' + color + ';opacity:' + (opacity || 1) }), label));
+    item(tok('--sev-severe'), 'warning'); item(tok('--sev-moderate'), 'watch or advisory', .7);
+    if (radarImg) item('linear-gradient(90deg,#4fa84a,#e3c43a,#c9302c)', 'radar (IEM NEXRAD)');
+    item(tok('--accent'), 'network readings', .5);
+  }
+  function pinNear(zip) {
+    if (!nowPinG || !nowProj) return;
+    nowPinG.selectAll('*').remove();
+    const z = (D.zips || {})[zip]; if (!z) return;
+    const [x, y] = nowProj([z[2], z[1]]);
+    const cs = getComputedStyle(document.documentElement);
+    nowPinG.append('circle').attr('cx', x).attr('cy', y).attr('r', 11).attr('fill', 'none').attr('stroke', cs.getPropertyValue('--ink').trim()).attr('stroke-width', 1.5);
+    nowPinG.append('circle').attr('cx', x).attr('cy', y).attr('r', 4).attr('fill', cs.getPropertyValue('--ink').trim());
+    nowPinG.append('text').text(zip).attr('x', x + 15).attr('y', y + 4).attr('font-size', 11).attr('font-family', 'IBM Plex Mono, monospace')
+      .attr('fill', cs.getPropertyValue('--ink').trim()).attr('paint-order', 'stroke').attr('stroke', cs.getPropertyValue('--surface').trim()).attr('stroke-width', 3);
+  }
+
+  // Near you: a ZIP → its county's alerts and readings, a pin, and a one-tap Telegram link
+  const nearOut = $('#near-out');
+  const tgLink = (cat, area) => 'https://t.me/' + handle + '?start=sub_' + cat + '_' + area;
+  function showNear(zip) {
+    const z = (D.zips || {})[zip];
+    nearOut.innerHTML = '';
+    if (!z) { nearOut.append(el('p', { class: 'muted' }, zip ? 'ZIP ' + zip + " isn't one we know in Illinois. Try another, like 62704." : 'Type a five-digit Illinois ZIP.')); return; }
+    nearZip = zip;
+    const c = countyByFips[z[0]];
+    nearOut.append(el('div', { class: 'near-head' }, 'ZIP ' + zip + ' · ' + (c ? c.name + ' County' : '')));
+    const here = alerts.filter(a => (a.fips || []).includes(z[0]));
+    if (here.length) here.slice(0, 4).forEach(a => nearOut.append(el('div', { class: 'alert ' + (a.severity || '') }, el('i'),
+      el('div', {}, a.url ? el('a', { href: a.url, target: '_blank', rel: 'noopener' }, el('b', {}, a.event || '')) : el('b', {}, a.event || ''),
+        el('div', { class: 'muted', style: 'font-size:12.5px' }, a.expires ? 'until ' + fmtWhen(a.expires) : '')))));
+    else nearOut.append(el('p', {}, 'No NWS alerts for ' + (c ? c.name + ' County' : 'this ZIP') + (alertsLive ? ' right now.' : ' in the snapshot.')));
+    if (c) nearOut.append(el('p', { class: 'muted' }, c.human ? plural(c.human, 'reading', 'readings') + ' from people in ' + c.name + ' County in the last ' + (D.days || 14) + ' days.'
+      : 'No one reports from ' + c.name + ' County yet. You could be the first.'));
+    const links = el('div', { class: 'near-links' },
+      el('a', { class: 'btn primary', href: tgLink('weather_warnings', zip), target: '_blank', rel: 'noopener' }, 'Get warnings for ' + zip));
+    if (c) links.append(el('a', { class: 'btn', href: tgLink('weather_events', c.slug), target: '_blank', rel: 'noopener' }, 'Network events, ' + c.name));
+    nearOut.append(links);
+    pinNear(zip);
+    try { localStorage.setItem('in-zip', zip); } catch (e) {}
+  }
+  $('#near-form').addEventListener('submit', (ev) => { ev.preventDefault(); showNear((($('#near-zip').value || '').match(/\d{5}/) || [''])[0]); });
+
+  // where the data comes from, and how fresh it was at the snapshot
+  function drawSources() {
+    const box = $('#sources-strip'); box.innerHTML = '';
+    const f = D.feeds || {}, size = D.reference_sizes || {}, snapAt = Date.parse(D.generated_at || '') || Date.now();
+    box.append(el('b', {}, 'Sources'));
+    const at = (iso) => { const hrs = (snapAt - Date.parse(iso)) / 3600000;       // today: a time; this week: a day
+      return fmtWhen(iso, hrs < 12 ? { weekday: undefined, timeZoneName: undefined }
+        : hrs < 24 * 6 ? { timeZoneName: undefined } : { hour: undefined, minute: undefined, timeZoneName: undefined, month: 'short', day: 'numeric' }); };
+    if (alertsLive) box.append(el('span', { class: 'live' }, 'NWS alerts live, ' + fmtWhen(alertsLive.toISOString(), { weekday: undefined, timeZoneName: undefined })));
+    else if (f.nws_alerts) box.append(el('span', {}, 'NWS alerts ' + at(f.nws_alerts)));
+    [['iem_lsr', 'storm reports'], ['iem_asos', (size.station ? size.station + ' ' : '') + 'airport stations'],
+     ['usgs_water', (size.gauge ? size.gauge + ' ' : '') + 'river gauges'], ['usgs_quake', 'earthquakes'],
+     ['nrcs_scan', 'soil station'], ['usdm', 'Drought Monitor'], ['ams_grain', 'grain bids']].forEach(([k, label]) => {
+      if (!f[k]) return;
+      const hrs = (snapAt - Date.parse(f[k])) / 3600000;
+      box.append(el('span', { class: hrs > (k === 'usdm' || k === 'nrcs_scan' ? 8 * 24 : 30) ? 'stale' : '' }, label + ' ' + at(f[k])));
+    });
+  }
+
+  function drawNetNow() {
+    const v = D.vitals || {}, box = $('#net-now'); box.innerHTML = '';
+    box.append(el('p', {}, fmtInt(v.signals_24h_reference) + ' official readings in the last day, from ' + (v.counties_reference_7d ?? '—')
+      + ' of ' + (v.counties_total ?? 102) + ' counties: airport stations, river gauges, storm reports.'));
+    box.append(el('p', { class: 'muted' }, v.sensors_total
+      ? plural(v.sensors_total, 'person reports', 'people report') + ' readings; ' + plural(v.counties_covered_7d || 0, 'county', 'counties') + ' had one this week.'
+      : 'No one reports yet. Your readings would be the first, checked against those stations and NWS reports.'));
+    box.append(el('div', { class: 'near-links' }, el('a', { class: 'btn primary', href: '#join' }, 'Join from your phone'),
+      el('a', { class: 'btn', href: '#report' }, 'How reporting works')));
+  }
+
+  drawNowMap(); statusLine(); drawSources(); drawNetNow();
+  try { const saved = localStorage.getItem('in-zip'); if (saved) { $('#near-zip').value = saved; showNear(saved); } } catch (e) {}
+  setInterval(() => { if (document.visibilityState === 'visible' && radarImg) radarImg.attr('href', radarSrc()); }, 300000);
   refreshAlerts();
   setInterval(() => { if (document.visibilityState === 'visible') refreshAlerts(); }, 120000);
 

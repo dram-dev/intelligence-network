@@ -253,6 +253,59 @@ metrics:
     radius_km: 20
     window_min: 60
 
+  # An absence report: "nothing here" during a storm marks where it didn't reach.
+  nothing_here:
+    label: All quiet
+    kind: flag
+    aliases: [nothing here, all quiet, all quiet here, nothing to report]
+    scored: false          # kept for the map; never corroborated, trusted or an event
+    radius_km: 10
+    window_min: 60
+
+# The report keyboard in the chat. A button with `choices` opens a picker; each
+# choice is a reading in this data language, recorded where the person is. A
+# button with `send` records its reading at once, with an Undo button.
+quick_reports:
+  - button: "🌧 Rain"
+    ask: How much rain so far? Pick the closest total.
+    choices:
+      - ["0.1 in", "rain 0.1in"]
+      - ["¼ in", "rain 0.25in"]
+      - ["½ in", "rain 0.5in"]
+      - ["1 in", "rain 1in"]
+      - ["1½ in", "rain 1.5in"]
+      - ["2 in", "rain 2in"]
+      - ["3 in or more", "rain 3in"]
+      - ["None", "nothing here -- no rain"]
+  - button: "🧊 Hail"
+    ask: How big? Pick the closest match.
+    choices:
+      - ["Pea ¼″", "hail pea"]
+      - ["Penny ¾″", "hail penny"]
+      - ["Quarter 1″", "hail quarter"]
+      - ["Ping-pong 1½″", "hail ping pong"]
+      - ["Golf ball 1¾″", "hail golf ball"]
+      - ["Tennis ball 2½″", "hail tennis ball"]
+      - ["Baseball 2¾″", "hail baseball"]
+      - ["Softball 4½″", "hail softball"]
+      - ["None", "nothing here -- no hail"]
+  - button: "💨 Wind"
+    ask: How strong was the strongest gust, roughly?
+    choices:
+      - ["30 mph", "gust 30 mph"]
+      - ["40 mph", "gust 40 mph"]
+      - ["50 mph", "gust 50 mph"]
+      - ["60 mph", "gust 60 mph"]
+      - ["70 mph", "gust 70 mph"]
+      - ["80+ mph", "gust 80 mph"]
+      - ["Trees down", "trees down"]
+  - button: "🌊 Flooding"
+    send: flooding
+  - button: "🌳 Damage"
+    send: trees down
+  - button: "✅ Nothing here"
+    send: nothing here
+
 # Which active NWS alerts count as official support for a human report of a
 # metric (a tornado report under a Tornado Warning is reference-corroborated).
 alert_support:

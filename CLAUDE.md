@@ -124,6 +124,20 @@ notify (08:00) ──▶ subscriptions.fanout_digest
 - **Deep links**: `/start sub_<topic>_<category>_<area>` (county slug, ZIP, ZIP+4,
   `il`) joins, subscribes, and shows a `request_location` keyboard. The site's
   subscription builder emits these links.
+- **Report keyboard**: each pack's `quick_reports` ({button, ask, choices:
+  [[label, reading]]} or {button, send}) — readings are data-language text run
+  through `_contribute`. Picks arrive as `callback_query` (`q:<topic>:<i>:<j>`),
+  the picker message is the reading's message; `u:<msg>` undoes (withdraws).
+  `nothing_here` has `scored: false`: an absence report, kept and counted, never
+  corroborated, trusted, evented or pushed.
+- **Site hero**: `site/assets/il-counties.geojson` (Census TIGERweb generalized
+  500K counties, shoreline-clipped, D3 winding) and a ZIP → [fips, lat, lon] table
+  are inlined into the page data by `export._page_geography` (not written as public
+  JSON). The map is D3/SVG in Mercator; radar is IEM's NEXRAD WMS in EPSG:3857 cut
+  to the same frame; alerts come live from api.weather.gov (snapshot fallback).
+  The snapshot carries `feeds` (last good run per source) and `reference_sizes`.
+  Grids that collapse to one column use `minmax(0, 1fr)` (plain `1fr` let a long
+  code line push the phone layout to 1,240 px).
 - **Accumulating metrics** (`accumulates: true`: rain, snow) compare only readings
   over the same period (`evidence.period`; ASOS `phour` is `1h`), so an hourly
   station amount never flags a storm total. MRMS QPE as a rain reference: not yet.

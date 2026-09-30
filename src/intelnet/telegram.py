@@ -75,15 +75,23 @@ class Bot(TelegramNotifier):
             payload["reply_markup"] = markup
         return self._call("sendMessage", payload)
 
-    def edit(self, chat_id: str | int, message_id: int, text: str) -> Sent:
+    def edit(self, chat_id: str | int, message_id: int, text: str, *,
+             markup: dict[str, Any] | None = None) -> Sent:
         """Rewrite a message the bot sent earlier (editing never makes a sound)."""
-        return self._call("editMessageText", {
+        payload: dict[str, Any] = {
             "chat_id": str(chat_id),
             "message_id": message_id,
             "text": text,
             "parse_mode": "HTML",
             "disable_web_page_preview": True,
-        })
+        }
+        if markup:
+            payload["reply_markup"] = markup
+        return self._call("editMessageText", payload)
+
+    def answer_callback(self, query_id: str, text: str = "") -> Sent:
+        """Stop a tapped button's spinner, with an optional one-line toast."""
+        return self._call("answerCallbackQuery", {"callback_query_id": query_id, "text": text[:190]})
 
     def send_to(self, chat_id: str | int, text: str, *, silent: bool = False,
                 markup: dict[str, Any] | None = None) -> bool:

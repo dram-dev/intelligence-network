@@ -283,6 +283,27 @@ def log_run(*, run_type: str, source: str, items_fetched: int, items_new: int,
         core_db.log_run(conn, run_type, source, items_fetched, items_new, duration_ms, status, error)
 
 
+def feed_freshness() -> dict[str, str]:
+    """Each source's last good run, as UTC ISO (run_log keeps SQLite's UTC datetime text)."""
+    with get_conn() as conn:
+        rows = conn.execute(
+            "SELECT source, MAX(run_at) AS at FROM run_log WHERE status = 'ok' GROUP BY source"
+        ).fetchall()
+    return {r["source"]: str(r["at"]).replace(" ", "T") + "+00:00" for r in rows if r["at"]}
+
+
+def reference_network_sizes() -> dict[str, int]:
+    """How many official sensors of each family (station, gauge, lsr, nws, scan…)."""
+    with get_conn() as conn:
+        rows = conn.execute(
+            f"""SELECT substr(id, 1, instr(id, ':') - 1) AS family, COUNT(*) AS n FROM sensors
+                WHERE kind IN ({','.join('?' * len(REFERENCE_KINDS))}) AND instr(id, ':') > 0
+                GROUP BY family""",
+            REFERENCE_KINDS,
+        ).fetchall()
+    return {r["family"]: r["n"] for r in rows}
+
+
 def prune_run_log(days: int) -> int:
     """Drop run_log rows older than `days` (the alert loop adds one every ~30 s)."""
     with get_conn() as conn:

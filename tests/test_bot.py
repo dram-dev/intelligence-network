@@ -208,10 +208,46 @@ def test_a_site_link_joins_subscribes_and_offers_the_location_button(fresh_db, s
     assert [(r["category"], r["area"]) for r in db.subscriptions_for("11")] == [("weather.warnings", "il.cook")]
     assert "Subscribed" in sent[0][1] and sent.markups[0]["keyboard"][0][0]["request_location"] is True
     r = bot.handle_message(msg(uid=11, location={"latitude": 41.88, "longitude": -87.63}))
-    assert "Home set" in r and r.markup == {"remove_keyboard": True}
+    assert "Home set" in r and r.markup["keyboard"][0][0]["text"] == "🌧 Rain"   # location button → report buttons
     assert "Intelligence Network" in bot.handle_message(msg("/start sub_bogus", uid=11))
 
 
 def test_sharing_a_location_first_joins_you(fresh_db):
     r = bot.handle_message(msg(uid=12, location={"latitude": 39.7817, "longitude": -89.6501}))
     assert "Home set" in r and db.get_sensor("tg:12").location.county_fips == "17167"
+
+
+def _tap(uid: int, chat: int, message_id: int, data: str, cid: str) -> dict:
+    return {"update_id": 900 + message_id, "callback_query": {
+        "id": cid, "from": {"id": uid, "first_name": "Q"}, "data": data,
+        "message": {"message_id": message_id, "chat": {"id": chat, "type": "private"}}}}
+
+
+def test_the_report_keyboard_records_hail_in_two_taps_and_undoes_it(fresh_db, sent):
+    bot.handle_message(msg("/join", uid=13))
+    home = bot.handle_message(msg("/home 62704", uid=13))
+    kb = home.markup
+    assert [b["text"] for b in kb["keyboard"][0]] == ["🌧 Rain", "🧊 Hail", "💨 Wind"] and kb["is_persistent"]
+    assert bot.handle_message(msg("/report", uid=13)).markup == kb
+    picker = bot.handle_message(msg("🧊 Hail", uid=13, mid=40))
+    quarter = next(b for row in picker.markup["inline_keyboard"] for b in row if b["text"].startswith("Quarter"))
+    bot.handle_updates([_tap(13, 13, 41, quarter["callback_data"], "cb1")])
+    assert [round(s.value) for s in db.recent_signals(1, kinds=("human",), metric="hail_mm")] == [25]
+    assert sent.answers == [("cb1", "Quarter 1″")] and "Hail size" in sent.edits[-1][2]
+    undo = sent.edit_markups[-1]["inline_keyboard"][0][0]["callback_data"]
+    assert undo == "u:41"
+    bot.handle_updates([_tap(13, 13, 41, undo, "cb2")])
+    assert db.recent_signals(1, kinds=("human",), metric="hail_mm") == []
+    assert sent.answers[-1] == ("cb2", "Removed") and "Removed" in sent.edits[-1][2]
+
+
+def test_nothing_here_is_kept_and_counted_but_never_judged_or_pushed(fresh_db, sent):
+    db.add_subscription("77", "weather.reports", "il.sangamon")
+    bot.handle_message(msg("/join", uid=14))
+    bot.handle_message(msg("/home 62704", uid=14))
+    r = bot.handle_message(msg("✅ Nothing here", uid=14, mid=50))
+    assert "All quiet" in r and "quiet reports show where" in r
+    assert r.markup["inline_keyboard"][0][0]["callback_data"] == "u:50"
+    s = db.get_sensor("tg:14")
+    assert (s.trust, s.n_signals) == (0.5, 1)
+    assert not sent                                        # not pushed to report subscribers

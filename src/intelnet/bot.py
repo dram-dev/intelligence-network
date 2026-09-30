@@ -25,7 +25,7 @@ from intelnet import contrib, db, geo, language, network, subscriptions
 from intelnet.config import settings
 from intelnet.models import KIND_HUMAN, Sensor
 from intelnet.telegram import MAX_MSG, bot, esc, href, join_within, tg_time
-from intelnet.topics import all_categories, default_topic, find_metric
+from intelnet.topics import all_categories, default_topic, find_metric, topics
 
 logger = logging.getLogger(__name__)
 
@@ -55,6 +55,84 @@ class Reply(str):
         obj = super().__new__(cls, text)
         obj.markup = markup
         return obj
+
+
+# ── the report keyboard (each pack's `quick_reports`) ─────────────────────
+
+def _quick_reports() -> list[dict]:
+    """Every pack's report buttons, in pack order, tagged with where they came from."""
+    return [dict(q, topic=t.name, index=i) for t in topics().values() for i, q in enumerate(t.quick_reports)]
+
+
+def report_keyboard() -> dict | None:
+    """The persistent report keyboard: three buttons a row."""
+    buttons = [{"text": q["button"]} for q in _quick_reports()]
+    if not buttons:
+        return None
+    return {"keyboard": [buttons[i:i + 3] for i in range(0, len(buttons), 3)],
+            "resize_keyboard": True, "is_persistent": True,
+            "input_field_placeholder": "Tap a button, or type a reading: rain 1.2in"}
+
+
+def _undo(message_id: int | str) -> dict:
+    return {"inline_keyboard": [[{"text": "↩️ Undo", "callback_data": f"u:{message_id}"}]]}
+
+
+def cmd_report(message: dict, sensor: Sensor | None, args: str) -> str:
+    kb = report_keyboard()
+    if not args.strip() and kb:
+        return Reply("Tap what you see. It's recorded where you are: your live location if "
+                     "you're sharing one, else your home. Typing works too: <code>rain 1.2in</code>.", kb)
+    return _contribute(message, sensor, args)                  # /report rain 1in, as before
+
+
+def _quick(message: dict, sensor: Sensor | None, q: dict) -> str:
+    """A report-keyboard button: open its picker, or record its reading now (with Undo)."""
+    if q.get("choices"):
+        buttons = [{"text": label, "callback_data": f"q:{q['topic']}:{q['index']}:{j}"}
+                   for j, (label, _reading) in enumerate(q["choices"])]
+        return Reply(esc(str(q.get("ask") or "Pick one:")),
+                     {"inline_keyboard": [buttons[i:i + 3] for i in range(0, len(buttons), 3)]})
+    reply = _contribute(message, sensor, str(q["send"]))
+    user_id = (message.get("from") or {}).get("id")
+    base = f"{message['chat']['id']}:{message.get('message_id')}"
+    recorded = db.message_signals("telegram", _sensor_id(user_id), base) if user_id else []
+    return Reply(reply, _undo(message.get("message_id"))) if recorded else reply
+
+
+def handle_callback(cq: dict) -> None:
+    """A tap on an inline button: record the picked reading, or undo one, in place."""
+    data = str(cq.get("data") or "")
+    user = cq.get("from") or {}
+    msg = cq.get("message") or {}
+    chat = (msg.get("chat") or {}).get("id")
+    mid = msg.get("message_id")
+    if not user.get("id") or chat is None or mid is None:
+        bot.answer_callback(str(cq.get("id")))
+        return
+    sensor = db.get_sensor(_sensor_id(user["id"]))
+    if data.startswith("q:"):
+        try:
+            _, topic, i, j = data.split(":")
+            label, reading = topics()[topic].quick_reports[int(i)]["choices"][int(j)]
+        except (ValueError, KeyError, IndexError):
+            bot.answer_callback(str(cq["id"]), "That button has expired.")
+            return
+        # The picker is this reading's message: its readings are the ones Undo removes.
+        pick = {"chat": msg["chat"], "from": user, "message_id": mid, "date": int(time.time()),
+                "text": reading}
+        text = _contribute(pick, sensor, reading)
+        recorded = db.message_signals("telegram", _sensor_id(user["id"]), f"{chat}:{mid}")
+        bot.answer_callback(str(cq["id"]), str(label))
+        bot.edit(chat, mid, text, markup=_undo(mid) if recorded else None)
+    elif data.startswith("u:") and sensor is not None:
+        gone = db.message_signals("telegram", sensor.id, f"{chat}:{data[2:]}")
+        network.withdraw(gone)
+        bot.answer_callback(str(cq["id"]), "Removed" if gone else "Nothing to undo")
+        if gone:
+            bot.edit(chat, mid, "↩️ Removed. Tap a button to report again.")
+    else:
+        bot.answer_callback(str(cq["id"]))
 
 
 # ── helpers ───────────────────────────────────────────────────────────────
@@ -89,7 +167,7 @@ def help_text() -> str:
         f"👋 <b>{esc(settings.network_name)}</b> — a sensor network you can join from your phone.\n"
         f"Every reading you send is checked against neighbors and official sources; "
         f"corroborated readings become events and raise your trust.\n\n"
-        f"<b>Report</b> (just type it) — weather, soil, water, crops, air:\n"
+        f"<b>Report</b> with buttons: /report · or just type it — weather, soil, water, crops, air:\n"
         f"<code>{esc(language.cheatsheet())}</code>\n"
         f"Plain sentences work too (“golf-ball hail here 5 min ago”). /topics lists every metric.\n\n"
         f"<b>Set up</b>: /join · /home 62704-1234 (or share your location) · /me\n"
@@ -128,7 +206,8 @@ def cmd_home(message: dict, sensor: Sensor | None, args: str) -> str:
     if loc is None or not loc.has_point:
         return f"Couldn't place “{esc(args)}”. Try a ZIP (62704), ZIP+4 (62704-1234) or a county."
     db.set_sensor_location(sensor.id, loc)
-    return f"🏠 Home set: <b>{esc(loc.describe())}</b> (precision: {esc(loc.precision)})"
+    return Reply(f"🏠 Home set: <b>{esc(loc.describe())}</b> (precision: {esc(loc.precision)})",
+                 report_keyboard())
 
 
 def _live_until(message: dict, p: dict) -> datetime:
@@ -151,11 +230,13 @@ def cmd_location(message: dict, sensor: Sensor | None) -> str:
         home = (f"Home stays {esc(sensor.location.describe())}." if sensor.location.has_point
                 else "Set a home any time with <code>/home 62704</code>.")
         return Reply(f"📡 Following your live location until {tg_time(until, 't')}. Readings you send "
-                     f"land where you are, and alerts check it. {home}", REMOVE_KEYBOARD)
+                     f"land where you are, and alerts check it. {home}",
+                     report_keyboard() or REMOVE_KEYBOARD)
     loc = geo.location_from_point(float(p["latitude"]), float(p["longitude"]))
     db.set_sensor_location(sensor.id, loc)
     return Reply(f"🏠 Home set from your location: <b>{esc(loc.describe())}</b>\n"
-                 f"Now type what you see, e.g. <code>rain 1.2in</code>.", REMOVE_KEYBOARD)
+                 f"Now tap a button below when you see something, or type it: <code>rain 1.2in</code>.",
+                 report_keyboard() or REMOVE_KEYBOARD)
 
 
 def cmd_start(message: dict, sensor: Sensor | None, args: str) -> str:
@@ -451,7 +532,7 @@ COMMANDS: dict[str, Callable[[dict, Sensor | None, str], str]] = {
     "subscribe": cmd_subscribe, "unsubscribe": cmd_unsubscribe, "subs": cmd_subs,
     "subscriptions": cmd_subs, "near": cmd_near, "alerts": cmd_alerts, "latest": cmd_latest,
     "digest": cmd_digest_email, "network": cmd_network, "topics": cmd_topics, "admin": cmd_admin,
-    "privacy": cmd_privacy, "forget": cmd_forget,
+    "privacy": cmd_privacy, "forget": cmd_forget, "report": cmd_report,
 }
 
 
@@ -513,7 +594,7 @@ def handle_message(message: dict) -> str | None:
             return cmd_start(message, sensor, args)
         if cmd == "help":
             return help_text()
-        if cmd in ("obs", "report", "r"):
+        if cmd in ("obs", "r"):
             return _contribute(message, sensor, args)
         if cmd == "signal":
             return _contribute(message, sensor, args, json_mode=True)
@@ -524,6 +605,9 @@ def handle_message(message: dict) -> str | None:
 
     if not text:
         return None
+    quick = next((q for q in _quick_reports() if q["button"] == text), None)
+    if quick is not None:
+        return _quick(message, sensor, quick)
     return _contribute(message, sensor, text)
 
 
@@ -558,6 +642,12 @@ def handle_updates(updates: list[dict]) -> int | None:
     offset = None
     for u in updates:
         offset = u["update_id"] + 1
+        if u.get("callback_query"):
+            try:
+                handle_callback(u["callback_query"])
+            except Exception:  # noqa: BLE001
+                logger.exception("bot: button handler failed")
+            continue
         message = u.get("message") or u.get("edited_message")
         if not message:
             continue

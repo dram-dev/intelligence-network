@@ -44,6 +44,18 @@ def test_write_json_and_build_site(fresh_db, tmp_path: Path):
     assert "<\\/" in html or "</" not in json.dumps(snap)      # script-safe escaping
     body = export.artifact_fragment(snap, fragment=frag)
     assert body.startswith("<title>") and "window.NETWORK_DATA = {" in body
+    # the page draws its map from inlined geography: 102 county shapes and every ZIP
+    data = json.loads(html.split("window.NETWORK_DATA = ", 1)[1].split(";</script>", 1)[0].replace("<\\/", "</"))
+    assert len(data["boundaries"]["features"]) == 102 and data["zips"]["62704"][0] == "17167"
+    assert "boundaries" not in {p.stem for p in files}                   # page furniture, not public data
+
+
+def test_snapshot_says_when_each_feed_last_worked(fresh_db):
+    db.log_run(run_type="watch", source="nws_alerts", items_fetched=3, items_new=1, duration_ms=5, status="ok")
+    db.log_run(run_type="watch", source="iem_lsr", items_fetched=0, items_new=0, duration_ms=5,
+               status="error", error="timeout")
+    snap = export.snapshot(days=1)
+    assert set(snap["feeds"]) == {"nws_alerts"} and snap["feeds"]["nws_alerts"].endswith("+00:00")
 
 
 def test_export_all_without_fragment(fresh_db, tmp_path: Path, monkeypatch):

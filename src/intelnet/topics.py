@@ -58,6 +58,9 @@ class Metric:
     # An amount that builds over time (rain, snow): only readings over the same
     # period (evidence "period", e.g. a station's 1h) are compared with each other.
     accumulates: bool = False
+    # False for an absence report ("nothing here"): kept for the map, never
+    # corroborated, contradicted, trusted or turned into an event.
+    scored: bool = True
 
     @property
     def is_flag(self) -> bool:
@@ -136,6 +139,9 @@ class Topic:
     # Any other `<source>_<elements|parameters|types|fields|codes>` section: a
     # reference feed's code → {metric, unit} map (usgs_parameters, awdb_elements…).
     mappings: dict[str, dict[str, dict[str, str]]] = field(default_factory=dict)
+    # The chat's report keyboard: {button, ask, choices: [[label, reading]…]} opens
+    # a picker; {button, send: reading} records at once. Readings are in this language.
+    quick_reports: list[dict[str, Any]] = field(default_factory=list)
 
     def mapping(self, name: str) -> dict[str, dict[str, str]]:
         return self.mappings.get(name, {})
@@ -189,6 +195,7 @@ def _load_metric(topic: str, key: str, raw: dict[str, Any]) -> Metric:
         event_direction=str(raw.get("event_direction", "above")),
         display_unit=display,
         accumulates=bool(raw.get("accumulates", False)),
+        scored=bool(raw.get("scored", True)),
     )
 
 
@@ -197,7 +204,7 @@ def load_topic(path: Path) -> Topic:
     name = str(raw.get("topic") or path.stem)
     metrics = {k: _load_metric(name, k, v or {}) for k, v in (raw.get("metrics") or {}).items()}
     known = {"topic", "label", "description", "categories", "alert_routing", "alert_support",
-             "metrics", "lsr_types", "station_fields"}
+             "metrics", "lsr_types", "station_fields", "quick_reports"}
     mappings = {
         str(k): {str(code): dict(v) for code, v in (val or {}).items()}
         for k, val in raw.items()
@@ -215,6 +222,7 @@ def load_topic(path: Path) -> Topic:
         lsr_types={str(k): dict(v) for k, v in (raw.get("lsr_types") or {}).items()},
         station_fields={str(k): dict(v) for k, v in (raw.get("station_fields") or {}).items()},
         mappings=mappings,
+        quick_reports=[dict(q) for q in raw.get("quick_reports") or []],
     )
 
 

@@ -105,7 +105,8 @@ def contribute(sensor: Sensor, text: str, *, source: str = "telegram", source_id
         c.assessments.append(a)
         if a.push_event and a.event:
             c.pushes += subscriptions.fanout_event(a.event, a.push_reason, sig.location.area_keys())
-        c.pushes += subscriptions.fanout_report(sig)
+        if a.metric is None or a.metric.scored:       # "nothing here" isn't news to push
+            c.pushes += subscriptions.fanout_report(sig)
     if c.signals:
         db.touch_sensor(sensor.id)
     return c
@@ -118,6 +119,8 @@ def contribute_json(sensor: Sensor, payload: str, **kw: Any) -> Contribution:
 # ── acknowledgement ──────────────────────────────────────────────────────
 
 def _assessment_note(a: Assessment) -> str:
+    if a.metric is not None and not a.metric.scored:
+        return "✅ noted: quiet reports show where a storm didn't reach"
     if a.quality == "corroborated":
         bits = []
         if a.n_corroborating:
@@ -148,7 +151,7 @@ def ack_text(c: Contribution, sensor: Sensor | None = None) -> str:
                      + (" <i>(parsed from prose)</i>" if c.used_llm else ""))
         for sig, a in zip(c.signals, c.assessments):
             m = a.metric
-            what = f"{m.label}: {m.display(sig.value)}" if m else f"{sig.metric}: {sig.value}"
+            what = (m.label if m.is_flag else f"{m.label}: {m.display(sig.value)}") if m else f"{sig.metric}: {sig.value}"
             lines.append(f"• <b>{esc(what)}</b> @ {esc(sig.location.describe())}")
             lines.append(f"  {esc(_assessment_note(a))}")
             if a.event and a.push_event:

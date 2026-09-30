@@ -238,7 +238,7 @@ def format_event(ev: dict[str, Any], reason: str = "new") -> str:
 def format_report(sig: Signal, handle: str) -> str:
     """A raw report as other subscribers see it: pseudonymous handle, ZIP5 + county."""
     m = find_metric(sig.metric, get_topic(sig.topic))
-    what = f"{m.label}: {m.display(sig.value)}" if m else f"{sig.metric}: {sig.value}"
+    what = (m.label if m.is_flag else f"{m.label}: {m.display(sig.value)}") if m else f"{sig.metric}: {sig.value}"
     lines = [f"📝 <b>{esc(what)}</b>", f"{esc(sig.location.describe_public())} · "
              f"{tg_time(sig.observed_at, 't')} · {esc(handle)} · {esc(sig.quality)}"]
     if sig.text:

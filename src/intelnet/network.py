@@ -271,6 +271,17 @@ def assess(signal: Signal) -> Assessment:
                                  reference_agreement="none")
         return a
 
+    if not metric.scored:
+        # An absence report ("nothing here"): kept for the map, counted as a reading,
+        # never corroborated, contradicted, trusted or turned into an event.
+        a = Assessment(signal=signal, metric=metric)
+        if signal.id is not None:
+            db.update_assessment(signal.id, quality=QUALITY_RAW, corroboration_n=0, contradiction_n=0,
+                                 reference_agreement="none")
+        if signal.sensor_kind not in REFERENCE_KINDS:
+            db.bump_sensor(signal.sensor_id, signals=1)
+        return a
+
     a = corroborate(signal, metric) if signal.sensor_kind not in REFERENCE_KINDS else Assessment(signal, metric)
     a.quality = judge_quality(a)
     if signal.id is not None:

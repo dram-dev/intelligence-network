@@ -74,6 +74,11 @@ tornado @sangamon -- on the ground west of town
   with no `@`, your home applies (`/home 62704-1234` or share your location)
 * plain sentences ("golf-ball hail here 5 min ago") go through the local LLM
 * automated sensors post JSON: `/signal {"metric":"rain_mm","value":1.2,"unit":"in","location":"62704"}`
+* or tap it: `/report` (and every `/home`) brings up a report keyboard. **Rain**,
+  **Hail** and **Wind** open a picker (hail sizes from the NWS chart); **Flooding**,
+  **Damage** and **Nothing here** record at once, each with an **Undo** button
+* **Nothing here** is an absence report: kept for the map (it shows where a storm
+  didn't reach), never corroborated, trusted or pushed
 * made a mistake? edit the message: the corrected reading replaces the old one
 * sharing your **live location** doesn't move your home: readings you send land
   where you are, and alert cards check it, until the share ends
@@ -234,7 +239,12 @@ Pages serves (Settings → Pages → Source: GitHub Actions; `.github/workflows/
 pages.yml`). Set `SITE_AUTO_PUSH=true` and the daily run commits + pushes
 `docs/` itself. Pages needs a public repo on the free plan.
 
-The page carries: join + subscription builder (an **Open in Telegram** link that
+It opens on **Illinois right now**: a live map (Census county lines on the survey
+grid, NWS warning polygons and county-based alerts from api.weather.gov, IEM's
+NEXRAD radar, the network's readings by county), one sentence on what's in
+effect, **Near you** (a ZIP → its county's alerts, readings, a pin, and one-tap
+Telegram links), and a sources strip saying when each feed last worked. Below
+that, the page carries: join + subscription builder (an **Open in Telegram** link that
 joins and subscribes in one tap, or the exact `/subscribe` command to copy), live
 NWS alerts fetched in the browser (the snapshot is the fallback), a browser-side
 port of the grammar to try readings, the network
