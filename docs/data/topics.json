@@ -3058,6 +3058,26 @@
     "event_direction": "above",
     "display": null,
     "convert": {}
+   },
+   {
+    "key": "nothing_here",
+    "label": "All quiet",
+    "unit": "",
+    "kind": "flag",
+    "aliases": [
+     "nothing here",
+     "all quiet",
+     "all quiet here",
+     "nothing to report"
+    ],
+    "units": [],
+    "default_unit": "",
+    "words": {},
+    "range": null,
+    "event": [],
+    "event_direction": "above",
+    "display": null,
+    "convert": {}
    }
   ]
  }
