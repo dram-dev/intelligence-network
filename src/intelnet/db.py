@@ -162,6 +162,64 @@ MIGRATIONS = [
     "ALTER TABLE items ADD COLUMN triage_reason TEXT",
     "ALTER TABLE items ADD COLUMN relevance REAL",
     "CREATE INDEX IF NOT EXISTS idx_items_triage ON items(triage_decision, ingested_at)",
+    # delivery: every push is queued here first, sent, and retried until it lands
+    # or goes stale. One row per (message key, chat) is also the dedup.
+    """CREATE TABLE IF NOT EXISTS outbox (
+        id              INTEGER PRIMARY KEY AUTOINCREMENT,
+        key             TEXT NOT NULL,
+        chat_id         TEXT NOT NULL,
+        action          TEXT NOT NULL DEFAULT 'send',     -- send | card | edit | reply
+        thread          TEXT,                             -- the card a card/edit/reply belongs to
+        text            TEXT NOT NULL,
+        priority        INTEGER NOT NULL DEFAULT 5,       -- lower goes first
+        silent          INTEGER NOT NULL DEFAULT 0,
+        status          TEXT NOT NULL DEFAULT 'pending',  -- pending | sent | dropped | stale | superseded
+        attempts        INTEGER NOT NULL DEFAULT 0,
+        next_attempt_at TEXT NOT NULL,
+        stale_at        TEXT,
+        claimed_at      TEXT,
+        last_error      TEXT,
+        message_id      INTEGER,
+        created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+        sent_at         TEXT,
+        UNIQUE(key, chat_id)
+    )""",
+    "CREATE INDEX IF NOT EXISTS idx_outbox_due ON outbox(status, next_attempt_at)",
+    "CREATE INDEX IF NOT EXISTS idx_outbox_thread ON outbox(thread, chat_id, status)",
+    # the Telegram message each chat got for a thread (an alert card), so later
+    # versions can edit it in place
+    """CREATE TABLE IF NOT EXISTS sent_messages (
+        thread     TEXT NOT NULL,
+        chat_id    TEXT NOT NULL,
+        message_id INTEGER NOT NULL,
+        state      TEXT NOT NULL DEFAULT 'active',        -- active | ended
+        text       TEXT,
+        sent_at    TEXT NOT NULL,
+        PRIMARY KEY (thread, chat_id)
+    )""",
+    # NWS alert threads: every CAP message (alert, its updates) linked by
+    # `references` to the first one we saw
+    """CREATE TABLE IF NOT EXISTS alert_threads (
+        id            TEXT PRIMARY KEY,
+        current_id    TEXT NOT NULL,
+        event         TEXT,
+        severity      TEXT,
+        impact_json   TEXT,
+        counties_json TEXT,
+        expires_at    TEXT,
+        status        TEXT NOT NULL DEFAULT 'active',     -- active | ended
+        opened_at     TEXT NOT NULL,
+        updated_at    TEXT NOT NULL,
+        missing_since TEXT,
+        ended_at      TEXT,
+        ended_reason  TEXT
+    )""",
+    "CREATE INDEX IF NOT EXISTS idx_alert_threads_status ON alert_threads(status)",
+    """CREATE TABLE IF NOT EXISTS alert_ids (
+        alert_id  TEXT PRIMARY KEY,
+        thread_id TEXT NOT NULL
+    )""",
+    "CREATE INDEX IF NOT EXISTS idx_alert_ids_thread ON alert_ids(thread_id)",
 ]
 
 
@@ -211,6 +269,13 @@ def log_run(*, run_type: str, source: str, items_fetched: int, items_new: int,
             duration_ms: int, status: str, error: str | None = None) -> None:
     with get_conn() as conn:
         core_db.log_run(conn, run_type, source, items_fetched, items_new, duration_ms, status, error)
+
+
+def prune_run_log(days: int) -> int:
+    """Drop run_log rows older than `days` (the alert loop adds one every ~30 s)."""
+    with get_conn() as conn:
+        return conn.execute("DELETE FROM run_log WHERE run_at < datetime('now', ?)",
+                            (f"-{int(days)} days",)).rowcount
 
 
 def existing_source_ids(source: str) -> set[str]:
@@ -395,6 +460,8 @@ def forget_sensor(sensor_id: str, chat_id: str | int) -> dict[str, Any]:
         }
         conn.execute("DELETE FROM email_subscribers WHERE chat_id = ?", (chat,))
         conn.execute("DELETE FROM notify_log WHERE chat_id = ?", (chat,))
+        conn.execute("DELETE FROM outbox WHERE chat_id = ?", (chat,))
+        conn.execute("DELETE FROM sent_messages WHERE chat_id = ?", (chat,))
         out["sensor"] = conn.execute("DELETE FROM sensors WHERE id = ?", (sensor_id,)).rowcount
     return out
 
@@ -521,7 +588,7 @@ def active_alert_signals(county_fips: str | None = None, now: datetime | None = 
     """Alert rows (metric 'alert.*') that haven't expired, one per (alert, county)."""
     now_iso = iso(now or utcnow())
     sql = """SELECT * FROM signals WHERE metric LIKE 'alert.%'
-             AND (expires_at IS NULL OR expires_at >= ?)"""
+             AND (expires_at IS NULL OR expires_at > ?)"""
     params: list[Any] = [now_iso]
     if county_fips:
         sql += " AND county_fips = ?"
@@ -696,18 +763,35 @@ def subscriptions_for(chat_id: str | int) -> list[sqlite3.Row]:
         ).fetchall()
 
 
-def matching_chat_ids(category: str, area_keys: Iterable[str]) -> list[str]:
-    """Distinct chats subscribed to `category` at any of the area keys, not banned."""
+def matching_chat_ids(category: str, area_keys: Iterable[str], *,
+                      zip5s: Iterable[str] = ()) -> list[str]:
+    """Distinct chats subscribed to `category` at any of the area keys, not banned.
+
+    `zip5s` also matches every ZIP-level subscription inside those ZIP codes,
+    ZIP+4s included: how a county-wide NWS alert reaches people who subscribed
+    by ZIP.
+    """
     keys = list(area_keys)
-    if not keys:
+    zips = sorted(set(zip5s))
+    if not keys and not zips:
         return []
+    match: list[str] = []
+    params: list[Any] = [category]
+    if keys:
+        match.append(f"su.area IN ({','.join('?' * len(keys))})")
+        params += keys
+    if zips:
+        # 'il.zip.62704' and 'il.zip.62704-1234' both carry the ZIP5 right after the prefix
+        prefix = f"{settings.geo_state.lower()}.zip."
+        match.append(f"(su.area LIKE ? AND substr(su.area, ?, 5) IN ({','.join('?' * len(zips))}))")
+        params += [prefix + "%", len(prefix) + 1, *zips]
     with get_conn() as conn:
         rows = conn.execute(
             f"""SELECT DISTINCT su.chat_id FROM subscriptions su
                 LEFT JOIN sensors se ON se.chat_id = su.chat_id
-                WHERE su.category = ? AND su.area IN ({','.join('?' * len(keys))})
+                WHERE su.category = ? AND ({' OR '.join(match)})
                   AND COALESCE(se.status, 'active') != 'banned'""",
-            (category, *keys),
+            params,
         ).fetchall()
     return [r["chat_id"] for r in rows]
 
@@ -735,6 +819,280 @@ def record_notification(key: str, chat_id: str | int) -> None:
         conn.execute(
             "INSERT OR IGNORE INTO notify_log (key, chat_id) VALUES (?, ?)", (key, str(chat_id))
         )
+
+
+# ── outbox (see delivery.py) ──────────────────────────────────────────────
+
+def enqueue(key: str, chat_id: str | int, text: str, *, action: str = "send",
+            thread: str | None = None, priority: int = 5, silent: bool = False,
+            stale_at: datetime | None = None) -> int | None:
+    """Queue one message for one chat. None when this (key, chat) was queued before."""
+    with get_conn() as conn:
+        cur = conn.execute(
+            """INSERT OR IGNORE INTO outbox (key, chat_id, action, thread, text, priority, silent,
+                                             next_attempt_at, stale_at)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (key, str(chat_id), action, thread, text, priority, int(silent), utcnow_iso(),
+             iso(stale_at)),
+        )
+        return cur.lastrowid if cur.rowcount else None
+
+
+def pending_outbox(ids: Iterable[int]) -> list[sqlite3.Row]:
+    """These rows, if still pending, in the order they should go out."""
+    ids = list(ids)
+    if not ids:
+        return []
+    with get_conn() as conn:
+        return conn.execute(
+            f"""SELECT * FROM outbox WHERE id IN ({','.join('?' * len(ids))}) AND status = 'pending'
+                ORDER BY priority, id""",
+            ids,
+        ).fetchall()
+
+
+def due_outbox(limit: int = 200) -> list[sqlite3.Row]:
+    """Pending rows whose next attempt is due. Rows past their stale time are retired first."""
+    now = utcnow_iso()
+    with get_conn() as conn:
+        conn.execute(
+            """UPDATE outbox SET status = 'stale', claimed_at = NULL
+               WHERE status = 'pending' AND stale_at IS NOT NULL AND stale_at < ?""",
+            (now,),
+        )
+        return conn.execute(
+            """SELECT * FROM outbox WHERE status = 'pending' AND next_attempt_at <= ?
+               ORDER BY priority, id LIMIT ?""",
+            (now, limit),
+        ).fetchall()
+
+
+def claim_outbox(outbox_id: int, stale_claim_minutes: float = 2.0) -> bool:
+    """Take a pending row for one attempt. False if it's settled or another process holds it."""
+    now = utcnow()
+    with get_conn() as conn:
+        cur = conn.execute(
+            """UPDATE outbox SET claimed_at = ?, attempts = attempts + 1
+               WHERE id = ? AND status = 'pending'
+                 AND (claimed_at IS NULL OR claimed_at < ?)""",
+            (iso(now), outbox_id, iso(now - timedelta(minutes=stale_claim_minutes))),
+        )
+        return cur.rowcount == 1
+
+
+def settle_outbox(outbox_id: int, status: str, *, message_id: int | None = None,
+                  error: str | None = None, retry_at: datetime | None = None) -> None:
+    """Record an attempt: sent, dropped (never retried), or pending again from `retry_at`."""
+    now = utcnow_iso()
+    with get_conn() as conn:
+        conn.execute(
+            """UPDATE outbox SET status = ?, claimed_at = NULL, last_error = ?,
+                   message_id = COALESCE(?, message_id),
+                   next_attempt_at = COALESCE(?, next_attempt_at),
+                   sent_at = CASE WHEN ? = 'sent' THEN ? ELSE sent_at END
+               WHERE id = ?""",
+            (status, error, message_id, iso(retry_at), status, now, outbox_id),
+        )
+
+
+def pending_in_thread(thread: str, chat_id: str | int, action: str) -> sqlite3.Row | None:
+    with get_conn() as conn:
+        return conn.execute(
+            """SELECT * FROM outbox WHERE thread = ? AND chat_id = ? AND action = ?
+               AND status = 'pending' ORDER BY id DESC LIMIT 1""",
+            (thread, str(chat_id), action),
+        ).fetchone()
+
+
+def retext_outbox(outbox_id: int, text: str) -> None:
+    """Swap the text of a message that hasn't gone out yet, so it leaves up to date."""
+    with get_conn() as conn:
+        conn.execute("UPDATE outbox SET text = ? WHERE id = ? AND status = 'pending'", (text, outbox_id))
+
+
+def supersede_outbox(thread: str, chat_id: str | int | None = None,
+                     actions: Iterable[str] = ("edit",), *,
+                     keep_chats: Iterable[str] = ()) -> int:
+    """Retire a thread's pending rows that a newer message makes pointless."""
+    acts = list(actions)
+    sql = (f"UPDATE outbox SET status = 'superseded' WHERE thread = ? AND status = 'pending' "
+           f"AND action IN ({','.join('?' * len(acts))})")
+    params: list[Any] = [thread, *acts]
+    if chat_id is not None:
+        sql += " AND chat_id = ?"
+        params.append(str(chat_id))
+    keep = [str(c) for c in keep_chats]
+    if keep:
+        sql += f" AND chat_id NOT IN ({','.join('?' * len(keep))})"
+        params += keep
+    with get_conn() as conn:
+        return conn.execute(sql, params).rowcount
+
+
+def outbox_counts() -> dict[str, int]:
+    with get_conn() as conn:
+        rows = conn.execute("SELECT status, COUNT(*) AS n FROM outbox GROUP BY status").fetchall()
+    return {r["status"]: r["n"] for r in rows}
+
+
+def prune_outbox(days: int) -> int:
+    """Forget delivery rows that settled more than `days` ago (pending rows are kept)."""
+    with get_conn() as conn:
+        return conn.execute(
+            "DELETE FROM outbox WHERE status != 'pending' AND created_at < datetime('now', ?)",
+            (f"-{int(days)} days",),
+        ).rowcount
+
+
+# ── cards: the message each chat got for a thread, edited as it changes ───
+
+def remember_card(thread: str, chat_id: str | int, message_id: int, text: str) -> None:
+    with get_conn() as conn:
+        conn.execute(
+            """INSERT INTO sent_messages (thread, chat_id, message_id, state, text, sent_at)
+               VALUES (?, ?, ?, 'active', ?, ?)
+               ON CONFLICT(thread, chat_id) DO UPDATE SET message_id = excluded.message_id,
+                   state = 'active', text = excluded.text, sent_at = excluded.sent_at""",
+            (thread, str(chat_id), message_id, text, utcnow_iso()),
+        )
+
+
+def card(thread: str, chat_id: str | int) -> sqlite3.Row | None:
+    with get_conn() as conn:
+        return conn.execute(
+            "SELECT * FROM sent_messages WHERE thread = ? AND chat_id = ?", (thread, str(chat_id))
+        ).fetchone()
+
+
+def cards(thread: str) -> dict[str, sqlite3.Row]:
+    """chat → its card for this thread."""
+    with get_conn() as conn:
+        rows = conn.execute("SELECT * FROM sent_messages WHERE thread = ?", (thread,)).fetchall()
+    return {r["chat_id"]: r for r in rows}
+
+
+def update_card(thread: str, chat_id: str | int, *, state: str | None = None,
+                text: str | None = None) -> None:
+    with get_conn() as conn:
+        conn.execute(
+            """UPDATE sent_messages SET state = COALESCE(?, state), text = COALESCE(?, text)
+               WHERE thread = ? AND chat_id = ?""",
+            (state, text, thread, str(chat_id)),
+        )
+
+
+def move_thread(old: str, new: str) -> None:
+    """Hand a thread's cards and pending rows to another thread (a chat with both keeps `new`)."""
+    with get_conn() as conn:
+        conn.execute("UPDATE OR IGNORE sent_messages SET thread = ? WHERE thread = ?", (new, old))
+        conn.execute("DELETE FROM sent_messages WHERE thread = ?", (old,))
+        conn.execute("UPDATE outbox SET thread = ? WHERE thread = ? AND status = 'pending'", (new, old))
+
+
+def prune_cards(days: int) -> int:
+    with get_conn() as conn:
+        return conn.execute("DELETE FROM sent_messages WHERE sent_at < ?", (_since(days * 24),)).rowcount
+
+
+# ── NWS alert threads (see feeds/nws_alerts.py) ───────────────────────────
+
+def alert_threads_for(alert_ids: Iterable[str]) -> list[str]:
+    """The threads these CAP ids already belong to, oldest thread first."""
+    ids = [a for a in alert_ids if a]
+    if not ids:
+        return []
+    with get_conn() as conn:
+        rows = conn.execute(
+            f"""SELECT i.thread_id, MIN(COALESCE(t.opened_at, '')) AS opened FROM alert_ids i
+                LEFT JOIN alert_threads t ON t.id = i.thread_id
+                WHERE i.alert_id IN ({','.join('?' * len(ids))})
+                GROUP BY i.thread_id ORDER BY opened, i.thread_id""",
+            ids,
+        ).fetchall()
+    return [r["thread_id"] for r in rows]
+
+
+def link_alert_ids(thread_id: str, alert_ids: Iterable[str]) -> None:
+    """Map CAP ids to a thread. An id already mapped keeps its thread."""
+    with get_conn() as conn:
+        conn.executemany(
+            "INSERT OR IGNORE INTO alert_ids (alert_id, thread_id) VALUES (?, ?)",
+            [(a, thread_id) for a in dict.fromkeys(alert_ids) if a],
+        )
+
+
+def alert_thread(thread_id: str) -> sqlite3.Row | None:
+    with get_conn() as conn:
+        return conn.execute("SELECT * FROM alert_threads WHERE id = ?", (thread_id,)).fetchone()
+
+
+def active_alert_threads() -> list[sqlite3.Row]:
+    with get_conn() as conn:
+        return conn.execute(
+            "SELECT * FROM alert_threads WHERE status = 'active' ORDER BY opened_at"
+        ).fetchall()
+
+
+def save_alert_thread(thread_id: str, **fields: Any) -> None:
+    """Insert or update one thread row."""
+    with get_conn() as conn:
+        if conn.execute("SELECT 1 FROM alert_threads WHERE id = ?", (thread_id,)).fetchone():
+            sets = ", ".join(f"{k} = ?" for k in fields)
+            conn.execute(f"UPDATE alert_threads SET {sets} WHERE id = ?", (*fields.values(), thread_id))
+        else:
+            cols = ["id", *fields]
+            conn.execute(
+                f"INSERT INTO alert_threads ({', '.join(cols)}) VALUES ({', '.join('?' * len(cols))})",
+                (thread_id, *fields.values()),
+            )
+
+
+def merge_alert_threads(into: str, other: str) -> None:
+    """Fold `other` into `into` when a newer CAP message references both."""
+    with get_conn() as conn:
+        conn.execute("UPDATE alert_ids SET thread_id = ? WHERE thread_id = ?", (into, other))
+        conn.execute(
+            "UPDATE signals SET group_key = ? WHERE group_key = ? AND metric LIKE 'alert.%'",
+            (into, other),
+        )
+        conn.execute("DELETE FROM alert_threads WHERE id = ?", (other,))
+
+
+def alert_rows(thread_id: str, alert_id: str) -> list[Signal]:
+    """The county rows of one CAP message in a thread."""
+    prefix = f"{alert_id}|"
+    with get_conn() as conn:
+        rows = conn.execute(
+            """SELECT * FROM signals WHERE group_key = ? AND metric LIKE 'alert.%'
+               AND substr(source_id, 1, ?) = ? ORDER BY county_fips""",
+            (thread_id, len(prefix), prefix),
+        ).fetchall()
+    return [Signal.from_row(r) for r in rows]
+
+
+def expire_alert_rows(thread_id: str, at: datetime, *, keep_alert_id: str | None = None) -> int:
+    """Stop a thread's alert rows counting as active from `at` (all but `keep_alert_id`'s)."""
+    sql = """UPDATE signals SET expires_at = ? WHERE group_key = ? AND metric LIKE 'alert.%'
+             AND (expires_at IS NULL OR expires_at > ?)"""
+    params: list[Any] = [iso(at), thread_id, iso(at)]
+    if keep_alert_id:
+        prefix = f"{keep_alert_id}|"
+        sql += " AND substr(source_id, 1, ?) != ?"
+        params += [len(prefix), prefix]
+    with get_conn() as conn:
+        return conn.execute(sql, params).rowcount
+
+
+def prune_alert_threads(days: int) -> int:
+    """Forget threads that ended more than `days` ago, and their CAP ids."""
+    cutoff = _since(days * 24)
+    with get_conn() as conn:
+        old = [r["id"] for r in conn.execute(
+            "SELECT id FROM alert_threads WHERE status = 'ended' AND ended_at < ?", (cutoff,)).fetchall()]
+        for tid in old:
+            conn.execute("DELETE FROM alert_ids WHERE thread_id = ?", (tid,))
+            conn.execute("DELETE FROM alert_threads WHERE id = ?", (tid,))
+    return len(old)
 
 
 # ── digests ───────────────────────────────────────────────────────────────

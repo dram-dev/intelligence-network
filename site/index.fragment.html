@@ -460,6 +460,10 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
   const el = (tag, attrs, ...kids) => { const e = document.createElement(tag); for (const k in (attrs || {})) { if (k === 'class') e.className = attrs[k]; else if (k === 'html') e.innerHTML = attrs[k]; else e.setAttribute(k, attrs[k]); } for (const c of kids) e.append(c); return e; };
   const fmtInt = (n) => (n == null ? '—' : Number(n).toLocaleString());
   const pct = (x) => (x == null ? '—' : Math.round(x * 100) + '%');
+  // Times are UTC in the data; people read them as Illinois wall-clock time.
+  const TZ = D.local_tz || 'America/Chicago';
+  const fmtWhen = (iso, opts) => { if (!iso) return ''; const d = new Date(iso); if (isNaN(d)) return String(iso);
+    try { return new Intl.DateTimeFormat('en-US', Object.assign({ timeZone: TZ, weekday: 'short', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' }, opts || {})).format(d); } catch (e) { return String(iso); } };
   const topicColor = (t) => getComputedStyle(document.documentElement).getPropertyValue('--t-' + t).trim() || '#888';
   const TOPICS = D.topics || [];
   const topicByName = Object.fromEntries(TOPICS.map(t => [t.name, t]));
@@ -490,7 +494,7 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
   if (D.group_url) { $('#group-link').href = D.group_url; } else { $('#group-link').textContent = 'Telegram group (coming)'; $('#group-link').setAttribute('aria-disabled', 'true'); }
   const sampleNote = $('#sample-note');
   if (D.sample) sampleNote.innerHTML = '<b>Sample data</b> — a seeded fortnight run through the real engine (' + (D.generated_at || '').slice(0, 10) + '). Live figures replace it once the network publishes.';
-  else sampleNote.innerHTML = 'Snapshot ' + (D.generated_at || '') + ' · last ' + (D.days || 14) + ' days';
+  else sampleNote.textContent = 'Snapshot ' + fmtWhen(D.generated_at, { month: 'short', day: 'numeric' }) + ' · last ' + (D.days || 14) + ' days';
   const v = D.vitals || {};
   const readouts = [
     [fmtInt(v.sensors_total), 'sensors joined'],
@@ -501,7 +505,7 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     [fmtInt(v.alerts_active), 'NWS alerts active'],
   ];
   const ro = $('#readouts'); readouts.forEach(([val, lab]) => ro.append(el('div', { class: 'readout' }, el('div', { class: 'v num' }, val), el('div', { class: 'l' }, lab))));
-  $('#foot-line').textContent = (D.sample ? 'Sample snapshot' : 'Snapshot ' + (D.generated_at || '')) + ' · ' + state + ' · counties, ZIPs and ZIP+4 · people appear by handle and county only.';
+  $('#foot-line').textContent = (D.sample ? 'Sample snapshot' : 'Snapshot ' + fmtWhen(D.generated_at, { month: 'short', day: 'numeric' })) + ' · ' + state + ' · counties, ZIPs and ZIP+4 · people appear by handle and county only.';
 
   // ── nav highlight ──
   const navLinks = [...document.querySelectorAll('.nav a')];
@@ -857,7 +861,7 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     const rows = alerts.filter(matchAlert);
     if (!rows.length) al.append(el('p', { class: 'muted', style: 'font-size:14px' },
       filter ? 'No active alerts for ' + filter.label + '.' : 'None active for ' + state + ' in this snapshot.'));
-    rows.slice(0, 8).forEach(a => al.append(el('div', { class: 'alert ' + (a.severity || '') }, el('i'), el('div', {}, el('div', {}, el('b', {}, a.event || ''), ' ', el('span', { class: 'badge', style: 'margin-left:6px' }, a.severity || '')), el('div', { class: 'muted', style: 'font-size:13px' }, (a.counties || []).slice(0, 8).join(', ') + ((a.counties || []).length > 8 ? '…' : '') + (a.expires ? ' · until ' + a.expires.slice(0, 16).replace('T', ' ') + 'Z' : ''))))));
+    rows.slice(0, 8).forEach(a => al.append(el('div', { class: 'alert ' + (a.severity || '') }, el('i'), el('div', {}, el('div', {}, el('b', {}, a.event || ''), ' ', el('span', { class: 'badge', style: 'margin-left:6px' }, a.severity || '')), el('div', { class: 'muted', style: 'font-size:13px' }, (a.counties || []).slice(0, 8).join(', ') + ((a.counties || []).length > 8 ? '…' : '') + (a.expires ? ' · until ' + fmtWhen(a.expires) : ''))))));
   }
 
   // ── events ──
@@ -868,7 +872,7 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     if (!rows.length) etb.append(el('tr', {}, el('td', { colspan: '8', class: 'muted' },
       filter ? 'No events for ' + filter.label + ' in this window.' : 'No events in this window.')));
     const maxScore = Math.max(1, ...rows.map(e => e.score || 0));
-    rows.slice(0, 20).forEach(e => etb.append(el('tr', {}, el('td', { class: 'num' }, el('div', {}, (e.score ?? 0).toFixed(2)), el('div', { class: 'bar' }, el('i', { style: 'width:' + Math.round(100 * (e.score || 0) / maxScore) + '%; background:' + topicColor(e.topic) }))), el('td', {}, el('span', { class: 'topic-dot topic-' + e.topic }), e.topic), el('td', {}, e.source_url ? el('a', { href: e.source_url, target: '_blank', rel: 'noopener', title: 'Open the source' }, e.title || '') : (e.title || '')), el('td', { class: 'num' }, e.peak_display || ''), el('td', { class: 'num' }, String(e.n_sensors ?? '')), el('td', {}, e.n_reference ? 'yes' : ''), el('td', {}, e.verified ? el('span', { class: 'badge ok' }, 'verified') : el('span', { class: 'badge warn' }, 'unverified')), el('td', { class: 'muted mono', style: 'font-size:12px' }, (e.updated_at || '').slice(0, 16).replace('T', ' ')))));
+    rows.slice(0, 20).forEach(e => etb.append(el('tr', {}, el('td', { class: 'num' }, el('div', {}, (e.score ?? 0).toFixed(2)), el('div', { class: 'bar' }, el('i', { style: 'width:' + Math.round(100 * (e.score || 0) / maxScore) + '%; background:' + topicColor(e.topic) }))), el('td', {}, el('span', { class: 'topic-dot topic-' + e.topic }), e.topic), el('td', {}, e.source_url ? el('a', { href: e.source_url, target: '_blank', rel: 'noopener', title: 'Open the source' }, e.title || '') : (e.title || '')), el('td', { class: 'num' }, e.peak_display || ''), el('td', { class: 'num' }, String(e.n_sensors ?? '')), el('td', {}, e.n_reference ? 'yes' : ''), el('td', {}, e.verified ? el('span', { class: 'badge ok' }, 'verified') : el('span', { class: 'badge warn' }, 'unverified')), el('td', { class: 'muted mono', style: 'font-size:12px' }, fmtWhen(e.updated_at, { weekday: undefined, month: 'short', day: 'numeric' })))));
   }
 
   // ── digest ──

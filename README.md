@@ -102,9 +102,18 @@ nearby sensors / official sources, and your trust.
 Areas form a hierarchy — `il` ⊃ `il.cook` ⊃ `il.zip.60601` ⊃
 `il.zip.60601-2001` — type them as `il`, `cook`, `60601`, `60601-2001`.
 Default is your home county. Each push is delivered once per chat.
+NWS alerts are issued for whole counties, so a ZIP or ZIP+4 subscription gets
+every alert for the county its ZIP is in; events and reports stay local to
+the ZIP.
 
 Warnings and events are never quiet-hour suppressed (you opted in); the
 digest ping honours `NOTIFY_QUIET_*`.
+
+An NWS alert arrives as one message per chat. When NWS updates it, that message
+is edited in place, silently; you hear from it again only if the threat grows
+(bigger hail, stronger wind, a tornado observed). When it ends, the message is
+marked ended, and severe warnings get a quiet all-clear. Times show in your own
+time zone. A push Telegram can't take right away is queued and retried.
 
 ## The digest lives in Google Drive
 
@@ -231,7 +240,8 @@ put its token in `.env`, and your own chat id (from @userinfobot) as the admin.
 | job | when | notes |
 |---|---|---|
 | `com.dr.intelnet.bot` | always (KeepAlive) | Telegram long-poll listener |
-| `com.dr.intelnet.watch` | every 5 min | alerts + storm reports; stations hourly; pushes |
+| `com.dr.intelnet.alerts` | always (KeepAlive) | NWS alerts every 30 s; retries of undelivered pushes |
+| `com.dr.intelnet.watch` | every 5 min | storm reports; stations hourly; alerts too if the alert loop is down |
 | `com.dr.intelnet.daily` | 01:10 | queued behind macro 01:00 and PC 01:05 on the shared run lock |
 | `com.dr.intelnet.notify` | 08:00 | digest ping to `digest` subscribers |
 
@@ -246,14 +256,15 @@ src/intelnet/
 ├── db.py           SQLite (sensors, signals, events, subscriptions, notify ledger, digests)
 ├── network.py      corroboration (both ways), trust, events + score, mesh, gaps
 ├── contrib.py      the contribution path: parse → store → assess → fan-out → ack
-├── subscriptions.py  category × area matching; alert / event / report / digest pushes
+├── subscriptions.py  category × area matching; alert cards / event / report / digest pushes
+├── delivery.py     the outbox: send now, retry with backoff, pace to Telegram's limits
 ├── bot.py          Telegram commands + listener
 ├── feeds/          nws_alerts · iem_lsr · iem_asos · usgs_water · nrcs_scan · usdm_drought
 ├── export.py       public JSON snapshot (anonymised) + docs/index.html build
 ├── demo.py         seeded fortnight through the real engine (sample data)
 ├── setup_check.py  `intelnet setup` — the turn-on checklist
 ├── ingest/         news (digest-core IngestorBase)
-├── watch.py        5-minute reference sweep
+├── watch.py        5-minute reference sweep + the 30-second alert loop
 ├── digest.py       DigestModel + HTML / text renderers
 ├── gdrive.py       Drive folder + Latest doc + per-day folders (doc/pdf/docx/html/csv) + sharing
 ├── pipeline.py     daily run under the cross-digest lock; digest ping

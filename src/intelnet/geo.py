@@ -14,7 +14,9 @@ resolution needs no network. Two things are worth knowing:
 
 Area keys form the subscription hierarchy: `il` ⊃ `il.cook` ⊃
 `il.zip.60601` ⊃ `il.zip.60601-1234`. A subscription to a key matches any
-signal whose area keys include it.
+signal whose area keys include it. A product that covers whole counties (an
+NWS alert) also matches the ZIP-level subscriptions inside them;
+`zip5s_in_county` names those ZIPs.
 """
 from __future__ import annotations
 
@@ -169,6 +171,19 @@ def county_by_name(name: str) -> County | None:
 
 def zcta(zip5: str) -> Zcta | None:
     return zctas().get(zip5)
+
+
+@lru_cache(maxsize=1)
+def _zips_by_county() -> dict[str, tuple[str, ...]]:
+    idx: dict[str, list[str]] = {}
+    for z in zctas().values():
+        idx.setdefault(z.county_fips, []).append(z.zip5)
+    return {fips: tuple(sorted(zips)) for fips, zips in idx.items()}
+
+
+def zip5s_in_county(fips: str | None) -> tuple[str, ...]:
+    """The ZIP5s whose ZCTA the vendored table places in this county (one county each)."""
+    return _zips_by_county().get(fips or "", ())
 
 
 def nearest_county(lat: float, lon: float) -> County | None:

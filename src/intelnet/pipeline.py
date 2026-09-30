@@ -73,7 +73,13 @@ def _run(run_type: str, skip_publish: bool, console: Any) -> dict[str, Any]:
     console.rule("[bold cyan]stage 3: housekeeping")
     summary["events_closed"] = network.close_stale_events()
     summary["pruned"] = db.prune_reference_signals(settings.reference_retention_days)
-    console.print(f"  closed {summary['events_closed']} idle event(s), pruned {summary['pruned']} old reference rows")
+    # delivery ledgers: settled outbox rows after two weeks; cards and ended alert
+    # threads on the same clock as the reference rows they point at
+    summary["pruned_delivery"] = (db.prune_outbox(14) + db.prune_cards(settings.reference_retention_days)
+                                  + db.prune_alert_threads(settings.reference_retention_days)
+                                  + db.prune_run_log(settings.reference_retention_days))
+    console.print(f"  closed {summary['events_closed']} idle event(s), pruned {summary['pruned']} old reference rows"
+                  f" and {summary['pruned_delivery']} delivery, thread and run-log rows")
 
     console.rule("[bold cyan]stage 4: digest")
     model = digest.build(hours=max(24.0, float(hours)))

@@ -10,6 +10,15 @@ def test_vendored_tables_cover_the_state():
     assert geo.county("17031").name == "Cook"
 
 
+def test_every_zip_belongs_to_exactly_one_county():
+    cook = geo.zip5s_in_county("17031")
+    assert "60601" in cook and "62704" not in cook
+    assert all(geo.zcta(z).county_fips == "17031" for z in cook)
+    assert "62704" in geo.zip5s_in_county("17167")
+    assert sum(len(geo.zip5s_in_county(f)) for f in geo.counties()) == len(geo.zctas())
+    assert geo.zip5s_in_county(None) == () and geo.zip5s_in_county("99999") == ()
+
+
 def test_county_lookup_tolerates_case_punctuation_and_typos():
     assert geo.county_by_name("cook").fips == "17031"
     assert geo.county_by_name("St. Clair County").fips == "17163"

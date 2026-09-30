@@ -16,8 +16,8 @@ from intelnet.config import settings
 
 console = Console()
 
-LAUNCHD_LABELS = ("com.dr.intelnet.bot", "com.dr.intelnet.watch", "com.dr.intelnet.daily",
-                  "com.dr.intelnet.notify")
+LAUNCHD_LABELS = ("com.dr.intelnet.bot", "com.dr.intelnet.alerts", "com.dr.intelnet.watch",
+                  "com.dr.intelnet.daily", "com.dr.intelnet.notify")
 
 
 def _setup_logging() -> None:
@@ -67,11 +67,22 @@ def watch(loop: bool, interval: int, only: tuple[str, ...]) -> None:
     out = _watch.run_once(only=list(only) or None)
     for name, r in out["feeds"].items():
         glyph = "[dim]–[/dim]" if r["skipped"] else ("[green]✓[/green]" if r["status"] == "ok" else "[red]✗[/red]")
-        detail = "skipped (cadence)" if r["skipped"] else (
+        skipped = "skipped (the alert loop has it)" if name == "nws_alerts" else "skipped (cadence)"
+        detail = skipped if r["skipped"] else (
             f"fetched={r['fetched']} new={r['new']} alerts_pushed={r['alerts_pushed']} "
             f"events_pushed={r['events_pushed']}" + (f" error={r['error']}" if r["error"] else ""))
         console.print(f"{glyph} {name}: {escape(detail)}")
-    console.print(f"[dim]events closed: {out['events_closed']}[/dim]")
+    console.print(f"[dim]events closed: {out['events_closed']} · retries: {out['retries']}[/dim]")
+
+
+@main.command(name="alert-loop")
+@click.option("--interval", type=int, default=None,
+              help="Seconds between polls (default ALERT_POLL_SECONDS, 30).")
+def alert_loop(interval: int | None) -> None:
+    """Poll NWS alerts every ~30 s and retry undelivered pushes (launchd KeepAlive job)."""
+    from intelnet import watch as _watch
+
+    _watch.alert_loop(interval)
 
 
 @main.command()

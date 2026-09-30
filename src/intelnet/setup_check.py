@@ -14,8 +14,8 @@ from typing import Any
 from intelnet import db
 from intelnet.config import PROJECT_ROOT, settings
 
-LAUNCHD_LABELS = ("com.dr.intelnet.bot", "com.dr.intelnet.watch", "com.dr.intelnet.daily",
-                  "com.dr.intelnet.notify")
+LAUNCHD_LABELS = ("com.dr.intelnet.bot", "com.dr.intelnet.alerts", "com.dr.intelnet.watch",
+                  "com.dr.intelnet.daily", "com.dr.intelnet.notify")
 
 
 @dataclass

@@ -2,9 +2,9 @@
 # Install launchd jobs for intelligence-network on the Mac mini.
 # Run from the project root: bash scripts/install_launchd.sh
 #
-# Jobs: bot (KeepAlive Telegram listener) · watch (every 5 min) ·
-#       daily (01:10, queued behind macro 01:00 + PC 01:05 on the run lock) ·
-#       notify (08:00 digest ping).
+# Jobs: bot (KeepAlive Telegram listener) · alerts (KeepAlive: NWS alerts every
+#       ~30 s + push retries) · watch (every 5 min) · daily (01:10, queued behind
+#       macro 01:00 + PC 01:05 on the run lock) · notify (08:00 digest ping).
 
 set -euo pipefail
 
@@ -24,7 +24,7 @@ echo "Target:  $LAUNCH_AGENTS"
 mkdir -p "$LAUNCH_AGENTS"
 mkdir -p "$PROJECT_PATH/logs"
 
-for label in bot watch daily notify; do
+for label in bot alerts watch daily notify; do
     src="$PROJECT_PATH/launchd/com.dr.intelnet.${label}.plist"
     dst="$LAUNCH_AGENTS/com.dr.intelnet.${label}.plist"
 

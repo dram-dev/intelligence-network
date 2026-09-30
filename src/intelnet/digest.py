@@ -22,7 +22,7 @@ from typing import Any
 from intelnet import db, geo, network
 from intelnet.config import settings
 from intelnet.feeds.nws_alerts import SEVERITY_RANK
-from intelnet.models import public_handle
+from intelnet.models import iso, local_time, parse_iso, public_handle
 from intelnet.topics import find_metric
 
 EXTREME_METRICS = (("wind_gust_ms", "max"), ("rain_mm", "max"), ("temp_c", "max"),
@@ -83,8 +83,9 @@ def _alert_recap(hours: float) -> list[dict[str, Any]]:
             g["counties"].append(c.name)
     out = sorted(groups.values(), key=lambda g: (-g["rank"], g["sent"]))
     for g in out:
-        g["sent"] = g["sent"].strftime("%Y-%m-%d %H:%MZ")
-        g["expires"] = g["expires"].strftime("%Y-%m-%d %H:%MZ") if g["expires"] else "—"
+        # UTC ISO in the data (and the CSVs); rendered as local time by `_when`
+        g["sent"] = iso(g["sent"])
+        g["expires"] = iso(g["expires"]) if g["expires"] else "—"
     return out
 
 
@@ -108,7 +109,7 @@ def _extremes(hours: float) -> list[dict[str, Any]]:
 def build(hours: float = 24.0, date: str | None = None) -> DigestModel:
     now = datetime.now(timezone.utc)
     model = DigestModel(
-        date=date or now.strftime("%Y-%m-%d"), generated_at=now.strftime("%Y-%m-%d %H:%MZ"),
+        date=date or now.strftime("%Y-%m-%d"), generated_at=local_time(now, "%Y-%m-%d %-I:%M %p %Z"),
         hours=hours, network_name=settings.network_name, state=settings.geo_state,
     )
     model.vitals = db.vitals()
@@ -202,12 +203,12 @@ def _dot(topic: str | None) -> str:
 
 
 def _when(stamp: Any) -> str:
-    """2026-09-16T13:00:02Z → 16 Sep 13:00."""
-    text = str(stamp or "").replace("T", " ")[:16]
+    """2026-09-16T13:00:02Z → 16 Sep 8:00 AM, in the network's local time (LOCAL_TZ)."""
     try:
-        return datetime.strptime(text, "%Y-%m-%d %H:%M").strftime("%-d %b %H:%M")
+        dt = parse_iso(str(stamp or ""))
     except ValueError:
-        return text
+        dt = None
+    return local_time(dt, "%-d %b %-I:%M %p") if dt else str(stamp or "")
 
 
 def _table(headers: list[str], rows: list[list[Any]], *, aligns: tuple[str, ...] = (),
@@ -434,7 +435,7 @@ def render_text(m: DigestModel) -> str:
               for e in m.events] or ["  none"]
     lines.append("")
     lines.append("NWS alerts:")
-    lines += [f"  [{a['severity']}] {a['event']} — {', '.join(a['counties'][:5])} (until {a['expires']})"
+    lines += [f"  [{a['severity']}] {a['event']} — {', '.join(a['counties'][:5])} (until {_when(a['expires'])})"
               for a in m.alerts[:15]] or ["  none"]
     lines.append("")
     lines.append("Station extremes: " + "; ".join(f"{x['metric']} {x['how']} {x['value']} ({x['county']})"

@@ -259,6 +259,7 @@ def snapshot(days: int = 14, *, sample: bool = False) -> dict[str, Any]:
         "days": days,
         "network_name": settings.network_name,
         "state": settings.geo_state,
+        "local_tz": settings.local_tz,
         "bot_handle": settings.telegram_bot_handle,
         "group_url": settings.telegram_group_url,
         "github_repo": settings.github_repo,

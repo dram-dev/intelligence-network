@@ -20,8 +20,19 @@ from intelnet.models import KIND_HUMAN, Sensor
 FIXTURES = Path(__file__).parent / "fixtures"
 
 
+class _NoTelegram:
+    """Stands in for `requests` inside intelnet.telegram: records, never connects."""
+
+    def __init__(self) -> None:
+        self.calls: list[str] = []
+
+    def post(self, url: str, *a, **k):
+        self.calls.append(url.rsplit("/", 1)[-1])
+        raise ConnectionError("tests are offline")
+
+
 @pytest.fixture(autouse=True)
-def _offline(monkeypatch: pytest.MonkeyPatch) -> None:
+def _offline(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.setattr(settings, "geo_online_lookup", False)
     monkeypatch.setattr(settings, "llm_enabled", False)
     monkeypatch.setattr(settings, "gdrive_enabled", False)
@@ -36,6 +47,12 @@ def _offline(monkeypatch: pytest.MonkeyPatch) -> None:
     from intelnet import telegram
 
     monkeypatch.setattr(telegram.bot, "enabled", False)
+    # Belt and braces: even with the bot enabled, nothing reaches api.telegram.org —
+    # and a test that tries fails here rather than being swallowed as a failed send.
+    guard = _NoTelegram()
+    monkeypatch.setattr(telegram, "requests", guard)
+    yield
+    assert not guard.calls, f"a test tried to reach the Telegram API: {guard.calls}"
 
 
 @pytest.fixture
@@ -61,19 +78,38 @@ def make_sensor(fresh_db):
     return _make
 
 
+class Outbound(list):
+    """(chat_id, text) per message sent; `.edits` holds (chat_id, message_id, text)."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.edits: list[tuple[str, int, str]] = []
+        self.replies: list[tuple[str, int | None, bool]] = []    # (chat, replied-to id, silent)
+
+
 @pytest.fixture
-def sent(monkeypatch: pytest.MonkeyPatch) -> list[tuple[str, str]]:
-    """Capture outbound Telegram sends as (chat_id, text) instead of posting."""
-    from intelnet import telegram
+def sent(monkeypatch: pytest.MonkeyPatch) -> Outbound:
+    """Capture outbound Telegram messages and edits instead of posting them."""
+    from intelnet import delivery, telegram
 
-    log: list[tuple[str, str]] = []
+    log = Outbound()
+    ids = iter(range(1000, 1_000_000))
 
-    def _send_to(chat_id, text, **_kw):
+    def _deliver(chat_id, text, *, silent=False, reply_to=None):
         log.append((str(chat_id), text))
-        return True
+        log.replies.append((str(chat_id), reply_to, silent))
+        return telegram.Sent(True, message_id=next(ids))
+
+    def _edit(chat_id, message_id, text):
+        log.edits.append((str(chat_id), message_id, text))
+        return telegram.Sent(True, message_id=message_id)
 
     monkeypatch.setattr(telegram.bot, "enabled", True)
-    monkeypatch.setattr(telegram.bot, "send_to", _send_to)
+    monkeypatch.setattr(telegram.bot, "deliver", _deliver)
+    monkeypatch.setattr(telegram.bot, "edit", _edit)
+    monkeypatch.setattr(telegram.bot, "typing", lambda *a, **k: None)
+    monkeypatch.setattr(delivery, "PER_CHAT_SECONDS", 0.0)
+    monkeypatch.setattr(delivery, "GLOBAL_SECONDS", 0.0)
     return log
 
 

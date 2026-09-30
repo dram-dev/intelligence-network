@@ -262,6 +262,19 @@ alert_support:
   visibility_km: [dense_fog_advisory, blizzard_warning]
   power_outage:  [severe_thunderstorm_warning, high_wind_warning, ice_storm_warning]
 
+# NWS alert impact tags: CAP parameters on warnings (maxHailSize "1.75",
+# maxWindGust "70 MPH", tornadoDetection "RADAR INDICATED"…). The alert card
+# shows them, and when an update raises one, people who already have the card
+# are notified again. Numbers rise by value; `levels` rise left to right.
+alert_parameters:
+  maxHailSize:              {label: Hail up to, unit: in}
+  maxWindGust:              {label: Wind, unit: mph}
+  tornadoDetection:         {label: Tornado, levels: [POSSIBLE, RADAR INDICATED, OBSERVED]}
+  tornadoDamageThreat:      {label: Tornado damage threat, levels: [CONSIDERABLE, CATASTROPHIC]}
+  thunderstormDamageThreat: {label: Damage threat, levels: [CONSIDERABLE, DESTRUCTIVE]}
+  flashFloodDetection:      {label: Flash flood, levels: [RADAR INDICATED, OBSERVED]}
+  flashFloodDamageThreat:   {label: Flash flood damage threat, levels: [CONSIDERABLE, CATASTROPHIC]}
+
 # ── Official product mappings ─────────────────────────────────────────────
 # IEM Local Storm Report types → metric (+ unit the magnitude is reported in).
 lsr_types:

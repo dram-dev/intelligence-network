@@ -58,6 +58,9 @@ class Settings(BaseSettings):
     )
 
     # ── Reference feeds ───────────────────────────────────────────────────
+    # `intelnet alert-loop` polls NWS alerts this often; the 5-minute watch covers
+    # alerts whenever the loop isn't up.
+    alert_poll_seconds: int = Field(default=30, alias="ALERT_POLL_SECONDS")
     station_poll_minutes: int = Field(default=60, alias="STATION_POLL_MINUTES")
     lsr_lookback_hours: int = Field(default=3, alias="LSR_LOOKBACK_HOURS")
     reference_retention_days: int = Field(default=30, alias="REFERENCE_RETENTION_DAYS")

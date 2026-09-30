@@ -31,10 +31,12 @@ Telegram / CLI / JSON ──▶ language.parse (grammar; LLM fallback for prose)
   contrib.contribute ──▶ network.process: store → corroborate (both ways) → trust
         │                      → judge quality → open/join county event → score
         ▼
-  subscriptions.fanout_{report,event}   (dedup per chat via notify_log)
+  subscriptions.fanout_{report,event} ──▶ delivery (outbox: send now, retry later)
 
-feeds (nws_alerts · iem_lsr · iem_asos) ──▶ same Signal table as reference sensors
-        └─▶ subscriptions.fanout_alert (per county, routed by severity)
+alert-loop (~30 s) ─▶ nws_alerts: CAP threads ─▶ subscriptions.fanout_alert
+        (county + ZIP subs, routed by severity; card per chat, edited in place;
+         re-notify only when impact rises; closed when the alert ends)
+feeds (iem_lsr · iem_asos · …, watch every 5 min) ──▶ same Signal table
 
 pipeline (01:10, under digest_core.runlock) ──▶ digest.build → gdrive.publish
 notify (08:00) ──▶ subscriptions.fanout_digest
@@ -60,7 +62,10 @@ notify (08:00) ──▶ subscriptions.fanout_digest
   re-push when score grows ×1.4. Idle 6h → closed.
 - **Areas**: `il` ⊃ `il.<countyslug>` ⊃ `il.zip.<zip5>` ⊃ `il.zip.<zip9>`.
   County slug = lowercase alnum (`stclair`, `jodaviess`). Digest subscriptions
-  are state-wide by construction.
+  are state-wide by construction. NWS alerts match by county containment: they
+  also reach ZIP / ZIP+4 subscriptions whose ZCTA sits in an alerted county
+  (`geo.zip5s_in_county`, one county per ZCTA). Events and reports match the
+  reading's own keys.
 - **ZIP+4** has no free geocode: kept as the finest key, located at the ZCTA5
   centroid unless the sensor shares a Telegram location. Vendored Census
   tables in `config/geo/` (102 counties, 1,396 ZCTAs). Point→county via
@@ -86,10 +91,27 @@ notify (08:00) ──▶ subscriptions.fanout_digest
   tests.
 - **Quiet hours** apply only to the digest ping (`notify` 08:00). Warnings /
   events / reports are opt-in and never suppressed.
-- **Telegram**: `telegram.Bot(TelegramNotifier)` adds `send_to(chat_id)`.
-  New bot token (do not reuse the PC/macro bots). Admin = `TELEGRAM_ADMIN_CHAT_ID`.
-  Open registration unless `NETWORK_JOIN_CODE`; auto-join on first reading.
-  Rate limit `NETWORK_RATE_LIMIT` per 10 min; `/admin ban`.
+- **Telegram**: `telegram.Bot(TelegramNotifier)` adds `deliver` / `edit` (return a
+  `Sent`: message id, retry_after, permanent) and `send_to` (bool, for replies).
+  Times shown to people go through `tg_time()` (Bot API 9.5 `<tg-time>`: each
+  reader's own zone; Illinois fallback text). Never log a request exception's text:
+  its URL carries the token. New bot token (do not reuse the PC/macro bots). Admin =
+  `TELEGRAM_ADMIN_CHAT_ID`. Open registration unless `NETWORK_JOIN_CODE`; auto-join
+  on first reading. Rate limit `NETWORK_RATE_LIMIT` per 10 min; `/admin ban`. The
+  listener answers the backlog queued while it was down (no skipping).
+- **Delivery** (`delivery.py`): every push is an `outbox` row first (UNIQUE key ×
+  chat = the dedup), sent at once, retried with backoff (429 → `retry_after`) until
+  sent or stale; 400/403 → dropped. Rows are claimed before each attempt, so the
+  bot, watch and alert loop never double-send. Paced ~1/s per chat, ≤ ~25/s overall.
+  Actions: send · card (message id kept in `sent_messages`) · edit · reply.
+- **NWS alert threads** (`feeds/nws_alerts.py`): CAP messages linked by
+  `references` → `alert_threads` / `alert_ids`; rows' `group_key` = thread id, so an
+  alert is listed, counted and carded once. A new version retires older rows. Impact
+  tags come from the pack's `alert_parameters`; a rise (or severity/event up)
+  re-notifies as a reply to the card. `/alerts/active` never lists cancels, so a
+  thread ends at expiry or after `ABSENT_CONFIRM` (90 s) missing from the feed; an
+  empty feed with ≥ 3 alerts in force is treated as a glitch. Severe/Extreme ends
+  get a silent all-clear reply.
 - **digest-core** is consumed as an editable path dep from
   `../pc-insurance-digest/packages/digest-core` (like macro). CI checks out
   both repos side by side.
@@ -99,7 +121,8 @@ notify (08:00) ──▶ subscriptions.fanout_digest
 | job | when |
 |---|---|
 | `com.dr.intelnet.bot` | KeepAlive (SuccessfulExit=false) |
-| `com.dr.intelnet.watch` | every 300 s (alerts + LSR; stations gated to 60 min) |
+| `com.dr.intelnet.alerts` | KeepAlive: NWS alerts every `ALERT_POLL_SECONDS` (30) + outbox retries |
+| `com.dr.intelnet.watch` | every 300 s (LSR + gated stations; alerts only if the alert loop's heartbeat is stale) |
 | `com.dr.intelnet.daily` | 01:10 — third in the queue: macro 01:00 → PC 01:05 → this |
 | `com.dr.intelnet.notify` | 08:00 digest ping |
 

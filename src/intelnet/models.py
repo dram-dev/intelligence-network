@@ -13,7 +13,9 @@ import json
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from typing import Any
+from zoneinfo import ZoneInfo
 
+from intelnet.config import settings
 from intelnet.geo import Location
 
 # quality lifecycle: raw → corroborated | flagged | rejected ; reference = official feed
@@ -57,6 +59,13 @@ def parse_iso(s: str | None) -> datetime | None:
     if dt.tzinfo is None:
         dt = dt.replace(tzinfo=timezone.utc)
     return dt.astimezone(timezone.utc)
+
+
+def local_time(dt: datetime, fmt: str = "%a %-I:%M %p %Z") -> str:
+    """A moment as wall-clock text where the network is (LOCAL_TZ): 'Tue 5:15 PM CDT'."""
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(ZoneInfo(settings.local_tz)).strftime(fmt)
 
 
 @dataclass

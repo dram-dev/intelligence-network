@@ -165,3 +165,15 @@ def test_suspended_sensor_can_still_forget(fresh_db):
     db.set_sensor_status("tg:42", "banned")
     assert bot.handle_message(msg("rain 1in")) is None
     assert "Deleted" in bot.handle_message(msg("/forget confirm"))
+
+
+def test_backlog_is_answered_in_order_and_a_late_reading_says_so(fresh_db, sent):
+    assert not hasattr(bot, "_drain_backlog")          # nothing sent while the bot was down is skipped
+    late = msg("rain 0.5in @62704", uid=7, mid=11, date=int(time.time()) - 20 * 60)
+    offset = bot.handle_updates([{"update_id": 501, "message": late},
+                                 {"update_id": 502, "message": msg("/help", uid=7, mid=12)}])
+    assert offset == 503 and [c for c, _ in sent] == ["7", "7"]
+    assert "20 min after you sent it" in sent[0][1] and "<tg-time" in sent[0][1]
+    sig = db.recent_signals(1)[0]
+    assert sig.evidence["received_late_min"] == 20
+    assert 19 * 60 <= (sig.received_at - sig.observed_at).total_seconds() <= 21 * 60

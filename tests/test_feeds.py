@@ -6,7 +6,7 @@ from datetime import timedelta
 import pytest
 
 from conftest import load_fixture
-from intelnet import db, watch
+from intelnet import db, geo, watch
 from intelnet.feeds import (
     FEEDS, iem_asos, iem_lsr, nrcs_scan, nws_alerts, usdm_drought, usgs_quake, usgs_water,
 )
@@ -61,7 +61,9 @@ def test_asos_parse_one_signal_per_metric_per_station():
 
 
 def test_feed_run_stores_assesses_and_pushes(fresh_db, sent, monkeypatch):
-    monkeypatch.setattr(nws_alerts, "fetch", lambda *a, **k: load_fixture("nws_alerts.json"))
+    # re-dated so the two alerts are in force now (cards aren't sent for alerts already over)
+    monkeypatch.setattr(nws_alerts, "fetch",
+                        lambda *a, **k: (load_fixture("nws_alerts.json", fresh=True, anchor="oldest"), None))
     monkeypatch.setattr(iem_lsr, "fetch", lambda *a, **k: load_fixture("iem_lsr.json"))
     monkeypatch.setattr(iem_asos, "fetch", lambda *a, **k: load_fixture("iem_asos.json"))
     db.add_subscription("77", "weather.alerts", "il")
@@ -77,6 +79,15 @@ def test_feed_run_stores_assesses_and_pushes(fresh_db, sent, monkeypatch):
     assert out2["feeds"]["nws_alerts"]["new"] == 0 and out2["feeds"]["iem_asos"]["skipped"]
     assert db.get_sensor("nws:nws_chicago_il") or db.list_sensors(kind="authority")
     assert db.list_sensors(kind="station")[0].trust == 0.9
+
+
+def test_alert_run_reaches_a_subscriber_who_gave_a_zip(fresh_db, sent, monkeypatch):
+    payload = load_fixture("nws_alerts.json", fresh=True, anchor="oldest")
+    monkeypatch.setattr(nws_alerts, "fetch", lambda *a, **k: (payload, None))
+    fips = nws_alerts.parse_alerts(payload)[0].location.county_fips
+    db.add_subscription("80", "weather.alerts", f"il.zip.{geo.zip5s_in_county(fips)[0]}")
+    out = watch.run_once(only=["nws_alerts"])
+    assert out["feeds"]["nws_alerts"]["alerts_pushed"] >= 1 and {c for c, _ in sent} == {"80"}
 
 
 def test_feed_errors_are_isolated_and_logged(fresh_db, monkeypatch):
@@ -109,7 +120,8 @@ def test_station_cadence_gate(fresh_db, monkeypatch):
 
 def test_active_alert_groups_and_prune(fresh_db, monkeypatch):
     # re-dated to now: these assertions are about alerts that have not expired
-    monkeypatch.setattr(nws_alerts, "fetch", lambda *a, **k: load_fixture("nws_alerts.json", fresh=True))
+    monkeypatch.setattr(nws_alerts, "fetch",
+                        lambda *a, **k: (load_fixture("nws_alerts.json", fresh=True, anchor="oldest"), None))
     FEEDS["nws_alerts"]().run()
     groups = nws_alerts.active_alert_groups()
     assert groups and all(g["counties"] for g in groups)

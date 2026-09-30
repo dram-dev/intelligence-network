@@ -17,18 +17,20 @@ from __future__ import annotations
 import logging
 import re
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Callable
 
 from intelnet import contrib, db, geo, language, network, subscriptions
 from intelnet.config import settings
 from intelnet.models import KIND_HUMAN, Sensor
-from intelnet.telegram import MAX_MSG, bot, esc, href, join_within
+from intelnet.telegram import MAX_MSG, bot, esc, href, join_within, tg_time
 from intelnet.topics import all_categories, default_topic, find_metric
 
 logger = logging.getLogger(__name__)
 
 _MAX_BACKOFF = 300
+# A reading that reaches us this long after it was sent says so in the reply.
+LATE_AFTER = timedelta(minutes=2)
 
 
 # ── helpers ───────────────────────────────────────────────────────────────
@@ -234,7 +236,7 @@ def cmd_alerts(message: dict, sensor: Sensor | None, args: str) -> str:
     lines = [f"<b>Active NWS alerts — {esc(where)}</b>"]
     for g in groups[:12]:
         s = g["signal"]
-        until = s.expires_at.astimezone(timezone.utc).strftime("%a %H:%MZ") if s.expires_at else "—"
+        until = tg_time(s.expires_at) if s.expires_at else "—"
         counties = ", ".join(g["counties"][:6]) + ("…" if len(g["counties"]) > 6 else "")
         link = href(s.evidence.get("url"))
         title = f"<a href=\"{link}\">{esc(s.evidence.get('event'))}</a>" if link else esc(s.evidence.get("event"))
@@ -402,11 +404,18 @@ def _contribute(message: dict, sensor: Sensor | None, text: str, *, json_mode: b
     photos = message.get("photo") or []
     if photos:
         evidence["photo_file_id"] = photos[-1].get("file_id")
+    sent = _message_time(message)
+    late = datetime.now(timezone.utc) - sent if sent else timedelta(0)
+    if late > LATE_AFTER:
+        evidence["received_late_min"] = int(late.total_seconds() // 60)
     source_id = f"{message['chat']['id']}:{message.get('message_id')}"
     fn = contrib.contribute_json if json_mode else contrib.contribute
-    c = fn(sensor, text, source_id_base=source_id, message_time=_message_time(message),
+    c = fn(sensor, text, source_id_base=source_id, message_time=sent,
            extra_evidence=evidence or None)
     reply = contrib.ack_text(c, sensor)
+    if sent and late > LATE_AFTER and c.signals:
+        reply += (f"\n🕰 This reached the network {evidence['received_late_min']} min after you sent "
+                  f"it (the bot was offline). It counts from when you sent it, {tg_time(sent, 't')}.")
     if not sensor.location.has_point and c.errors:
         reply += "\n\nTip: share your location once, or <code>/home 62704-1234</code>."
     return prefix + reply
@@ -449,21 +458,37 @@ def handle_message(message: dict) -> str | None:
 
 # ── listener ──────────────────────────────────────────────────────────────
 
-def _drain_backlog() -> int | None:
-    updates = bot.get_updates(timeout=0)
-    if not updates:
-        return None
-    logger.info("bot: skipped %d backlog update(s)", len(updates))
-    return updates[-1]["update_id"] + 1
+def handle_updates(updates: list[dict]) -> int | None:
+    """Answer each update in order. Returns the offset that confirms them to Telegram."""
+    offset = None
+    for u in updates:
+        offset = u["update_id"] + 1
+        message = u.get("message") or u.get("edited_message")
+        if not message:
+            continue
+        try:
+            bot.typing(message["chat"]["id"])
+            reply = handle_message(message)
+        except Exception as exc:  # noqa: BLE001
+            logger.exception("bot: handler failed")
+            reply = f"⚠️ Something went wrong: {esc(str(exc))}"
+        if reply:
+            bot.send_to(message["chat"]["id"], reply)
+    return offset
 
 
 def run_listener(poll_timeout: int = 30) -> None:
-    """Block forever answering messages. Intended for a launchd KeepAlive job."""
+    """Block forever answering messages. Intended for a launchd KeepAlive job.
+
+    Messages sent while the bot was down wait on Telegram's side (up to 24 h) and
+    are answered first, in order: a reading sent during an outage still counts,
+    at the time it was sent.
+    """
     if not bot.enabled:
         raise RuntimeError("Telegram not configured — set TELEGRAM_BOT_TOKEN + TELEGRAM_ADMIN_CHAT_ID.")
     db.init_db()
     logger.info("bot: listening as the %s", settings.network_name)
-    offset = _drain_backlog()
+    offset: int | None = None
     backoff = 1
     while True:
         updates = bot.get_updates(offset=offset, timeout=poll_timeout)
@@ -472,20 +497,9 @@ def run_listener(poll_timeout: int = 30) -> None:
             backoff = min(backoff * 2, _MAX_BACKOFF)
             continue
         backoff = 1
-        for u in updates:
-            offset = u["update_id"] + 1
-            message = u.get("message") or u.get("edited_message")
-            if not message:
-                continue
-            try:
-                bot.typing(message["chat"]["id"])
-                reply = handle_message(message)
-            except Exception as exc:  # noqa: BLE001
-                logger.exception("bot: handler failed")
-                reply = f"⚠️ Something went wrong: {esc(str(exc))}"
-            if reply:
-                bot.send_to(message["chat"]["id"], reply)
-        if not updates:
+        if updates:
+            offset = handle_updates(updates)
+        else:
             time.sleep(1)
 
 
