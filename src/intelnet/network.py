@@ -74,6 +74,8 @@ class Assessment:
     push_event: bool = False
     push_reason: str = ""
     trust_after: float | None = None
+    # (earlier reading, what settled it): people's readings this one confirmed
+    settled: list[tuple[Signal, Signal]] = field(default_factory=list)
 
     @property
     def n_corroborating(self) -> int:
@@ -292,7 +294,7 @@ def assess(signal: Signal) -> Assessment:
         _update_trust(a)
         _corroborate_back(a)
     else:
-        _corroborate_forward(signal, metric)
+        a.settled = _corroborate_forward(signal, metric)
 
     _attach_to_event(a)
     return a
@@ -323,12 +325,15 @@ def _corroborate_back(a: Assessment) -> None:
         if s and s.kind == KIND_HUMAN:
             db.bump_sensor(s.id, corroborated=1,
                            trust=trust_from_record(s.n_corroborated + 1, s.n_contradicted, s.trust_prior))
+        a.settled.append((other, a.signal))
 
 
-def _corroborate_forward(ref: Signal, metric: Metric) -> None:
-    """A fresh reference reading settles nearby raw human readings it agrees with."""
+def _corroborate_forward(ref: Signal, metric: Metric) -> list[tuple[Signal, Signal]]:
+    """A fresh reference reading settles nearby raw human readings it agrees with.
+    Returns the ones it confirmed."""
+    confirmed: list[tuple[Signal, Signal]] = []
     if not ref.location.has_point or ref.value is None:
-        return
+        return confirmed
     window = timedelta(minutes=metric.window_min)
     for other in _same_period(metric, ref, db.signals_near(
         metric.key, ref.location.lat, ref.location.lon, metric.radius_km,
@@ -351,6 +356,44 @@ def _corroborate_forward(ref: Signal, metric: Metric) -> None:
                 trust=trust_from_record(s.n_corroborated + (1 if agree else 0),
                                         s.n_contradicted + (0 if agree else 1), s.trust_prior),
             )
+        if agree:
+            confirmed.append((other, ref))
+    return confirmed
+
+
+def settle_by_alert(rows: list[Signal]) -> list[tuple[Signal, Signal]]:
+    """A new NWS alert confirms the raw readings people sent just before it: same
+    county (inside the polygon when it has one), a metric the pack says the alert
+    supports, observed within the metric's window before the alert went out.
+    Returns (reading, alert row) for each one it settled."""
+    if not rows:
+        return []
+    first = rows[0]
+    slug = first.metric.removeprefix("alert.")
+    rings = first.evidence.get("polygon")
+    by_county = {r.location.county_fips: r for r in rows if r.location.county_fips}
+    out: list[tuple[Signal, Signal]] = []
+    for t in topics().values():
+        for key, slugs in t.alert_support.items():
+            metric = t.metrics.get(key)
+            if metric is None or slug not in slugs or not metric.scored:
+                continue
+            start = first.observed_at - timedelta(minutes=metric.window_min)
+            for other in db.raw_readings_in(key, by_county, start, first.observed_at):
+                if other.id is None or other.value is None or not metric.is_event(other.value):
+                    continue
+                if rings and not (other.location.has_point
+                                  and geo.point_in_polygon(other.location.lat, other.location.lon, rings)):
+                    continue
+                db.update_assessment(other.id, quality=QUALITY_CORROBORATED,
+                                     corroboration_n=other.corroboration_n,
+                                     contradiction_n=other.contradiction_n, reference_agreement="agree")
+                s = db.get_sensor(other.sensor_id)
+                if s and s.kind == KIND_HUMAN:
+                    db.bump_sensor(s.id, corroborated=1, trust=trust_from_record(
+                        s.n_corroborated + 1, s.n_contradicted, s.trust_prior))
+                out.append((other, by_county[other.location.county_fips]))
+    return out
 
 
 def process(signal: Signal) -> Assessment | None:

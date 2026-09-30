@@ -130,6 +130,9 @@ def test_every_county_gets_a_page_and_the_sitemap_lists_them(fresh_db, tmp_path:
     assert "start=sub_weather_warnings_sangamon" in html and "start=sub_weather_digest_il" in html
     assert "--accent:" in html                                         # the front page's tokens
     assert 'href="menard.html"' in html                               # a neighbor
+    # one QR (scan box and flyer) straight to the county's warnings, and a flyer for paper
+    assert html.count('data-qr="https://t.me/intelligence_network_bot?start=sub_weather_warnings_sangamon"') == 2
+    assert 'class="flyer"' in html and "/subscribe warnings sangamon" in html and "qrcode-generator" in html
     data = json.loads(html.split("window.COUNTY_DATA = ", 1)[1].split(";</script>", 1)[0].replace("<\\/", "</"))
     assert data["fips"] == "17167" and data["shapes"]["features"][0]["properties"]["fips"] == "17167"
     sitemap = export.write_sitemap(snap, tmp_path, pages).read_text(encoding="utf-8")

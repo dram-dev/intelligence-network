@@ -550,6 +550,11 @@ def render_county_pages(snap: dict[str, Any], out_dir: Path, template: Path | No
             "{{READINGS}}": _readings(c, rows.get(c.fips, {}), mesh.get(c.fips, []), snap.get("events") or [],
                                       int(snap.get("days") or 14)),
             "{{NEIGHBORS}}": "".join(f'<a href="{x.slug}.html">{e(x.name)}</a>' for x in near),
+            # the flyer and the scan box: one QR, straight to this county's warnings
+            "{{JOIN_URL}}": e(f"https://t.me/{handle}?start=sub_weather_warnings_{c.slug}"),
+            "{{BOT_HANDLE}}": e(handle), "{{COUNTY_SLUG}}": e(c.slug),
+            "{{PAGE_URL}}": e(f"{site}county/{c.slug}.html".split("://", 1)[-1] if site else ""),
+            "{{TEAR_TABS}}": f"<span><b>{e(c.name)} Co. warnings</b><br>t.me/{e(handle)}</span>" * 8,
         }
         doc = page
         for key, val in values.items():

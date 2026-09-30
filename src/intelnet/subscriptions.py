@@ -24,7 +24,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Any
 
-from intelnet import db, delivery, geo
+from intelnet import asks, db, delivery, geo
 from intelnet.config import settings
 from intelnet.models import Signal, iso, parse_iso, utcnow
 from intelnet.telegram import bot, esc, href, tg_time
@@ -344,6 +344,9 @@ def fanout_alert(sig: Signal, siblings: list[Signal], changes: list[str] | None 
             else:
                 ids.append(db.enqueue(thread, chat, text, action="card", thread=thread,
                                       priority=priority, stale_at=stale))
+                # slow hazards ask while they're in effect (the pack says which)
+                ids.append(asks.queue(sig, chat, thread, when="issued",
+                                      priority=_PRIORITY["reports"], stale_at=stale))
             continue
         ids.append(_edit_card(thread, chat, card, text, version))
         back = card["state"] == "ended"
@@ -368,7 +371,8 @@ def fanout_alert_ended(sig: Signal, siblings: list[Signal], reason: str, ended_a
     """Close every card for an alert that ended ('expired' or 'cancelled').
 
     Severe and Extreme alerts also get a quiet all-clear reply under the card: the
-    message most alert services never send.
+    message most alert services never send. Where the pack has a question for this
+    kind of alert, the reply asks it too (asks.py): what did it bring to your place?
     """
     if not bot.enabled:
         return 0
@@ -385,9 +389,13 @@ def fanout_alert_ended(sig: Signal, siblings: list[Signal], reason: str, ended_a
             continue
         db.update_card(thread, chat, state="ended")
         ids.append(_edit_card(thread, chat, card, closed, f"end:{stamp}"))
-        if severe:
-            ids.append(db.enqueue(f"{thread}:ended:{stamp}", chat,
-                                  format_all_clear(sig, labels, ended_at), action="reply",
+        clear = format_all_clear(sig, labels, ended_at) if severe else None
+        asked = asks.queue(sig, chat, thread, when="ended", head=clear, ended_at=ended_at,
+                           priority=_PRIORITY["reports"], stale_at=ended_at + timedelta(hours=6))
+        if asked is not None:
+            ids.append(asked)
+        elif clear:
+            ids.append(db.enqueue(f"{thread}:ended:{stamp}", chat, clear, action="reply",
                                   thread=thread, silent=True, priority=_PRIORITY["reports"],
                                   stale_at=ended_at + timedelta(hours=2)))
     return delivery.send_now(ids)

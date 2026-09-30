@@ -382,6 +382,23 @@ def stats() -> None:
     console.print(escape(json.dumps(db.vitals(), indent=2, default=str)))
 
 
+@main.command("metrics")
+@click.option("--days", default=7, show_default=True)
+@click.option("--json", "as_json", is_flag=True, help="Print the raw numbers.")
+def metrics_cmd(days: int, as_json: bool) -> None:
+    """The weekly measures: activation, ask rate, confirmation time, coverage, alert speed, fatigue."""
+    from intelnet import metrics
+
+    db.init_db()
+    m = metrics.weekly(days)
+    if as_json:
+        console.print(escape(json.dumps(m, indent=2, default=str)))
+        return
+    console.rule(f"[bold]the last {days} days")
+    for line in metrics.lines(m):
+        console.print(escape(line))
+
+
 @main.command()
 def health() -> None:
     """Launchd jobs, DB, LLM reachability, Drive + Telegram status."""

@@ -220,3 +220,20 @@ def test_ams_feed_stays_quiet_without_a_key(fresh_db, monkeypatch):
     assert ams_grain.AMSGrainFeed().should_run() is False
     monkeypatch.setattr(settings, "usda_mars_key", "a-key")
     assert ams_grain.AMSGrainFeed().should_run() is True
+
+
+def test_every_quick_report_and_alert_question_speaks_the_language():
+    """Buttons send data-language text, so each must parse; questions name real buttons."""
+    for t in topics.topics().values():
+        for q in t.quick_reports:
+            readings = [r for _label, r in q.get("choices") or []] + ([q["send"]] if "send" in q else [])
+            for text in readings:
+                parsed = language.parse(text)
+                assert parsed.signals and not parsed.errors, (t.name, q["button"], text)
+        for ask in t.alert_questions:
+            assert ask.get("when", "ended") in ("ended", "issued") and ask.get("events")
+            for report_id in ask["reports"]:
+                assert t.quick_report(report_id) is not None, (t.name, report_id)
+    assert topics.alert_question("Severe Thunderstorm Warning", "ended")[1]["reports"][0] == "hail"
+    assert topics.alert_question("Flood Warning", "issued") is not None
+    assert topics.alert_question("Severe Thunderstorm Warning", "issued") is None

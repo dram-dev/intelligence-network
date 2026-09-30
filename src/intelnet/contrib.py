@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any
 
-from intelnet import db, language, llm, network, subscriptions
+from intelnet import db, feedback, language, llm, network, subscriptions
 from intelnet.config import settings
 from intelnet.language import ParsedSignal
 from intelnet.models import Sensor, Signal, utcnow
@@ -103,10 +103,15 @@ def contribute(sensor: Sensor, text: str, *, source: str = "telegram", source_id
             continue
         c.signals.append(sig)
         c.assessments.append(a)
+        n = 0
         if a.push_event and a.event:
-            c.pushes += subscriptions.fanout_event(a.event, a.push_reason, sig.location.area_keys())
+            n = subscriptions.fanout_event(a.event, a.push_reason, sig.location.area_keys())
+            c.pushes += n
         if a.metric is None or a.metric.scored:       # "nothing here" isn't news to push
             c.pushes += subscriptions.fanout_report(sig)
+        feedback.confirmed(a.settled)                  # neighbors this reading agreed with
+        if a.push_event and a.event and a.push_reason == "new":
+            feedback.helped(a.event, n, exclude_sensor=sensor.id)
     if c.signals:
         db.touch_sensor(sensor.id)
     return c

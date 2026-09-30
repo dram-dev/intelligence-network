@@ -185,14 +185,19 @@ def run(run_type: str = "daily", skip_publish: bool = False, console: Any = None
 def notify_digest(force: bool = False) -> dict[str, Any]:
     """The 08:00 morning brief: each digest subscriber's own county, in the chat, with
     today's Drive links when the digest made it there (quiet-hours aware unless forced)."""
-    from intelnet import brief
+    from intelnet import brief, metrics
     from intelnet.models import utcnow
 
     today = utcnow().strftime("%Y-%m-%d")      # the digest's own date (digest.build)
     if not force and not subscriptions_allowed_now():
         return {"sent": 0, "reason": "quiet hours", "date": today}
     links = brief.links_for(today)
-    return {"sent": brief.fanout_brief(today, links), "date": today, "links": bool(links)}
+    out = {"sent": brief.fanout_brief(today, links), "date": today, "links": bool(links)}
+    try:
+        out["metrics_sent"] = metrics.send_weekly()          # Mondays, to the admin chat
+    except Exception:  # noqa: BLE001 — the measures never stand in the way of the brief
+        logger.exception("notify: weekly metrics failed")
+    return out
 
 
 def subscriptions_allowed_now() -> bool:

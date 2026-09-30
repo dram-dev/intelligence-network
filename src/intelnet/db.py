@@ -30,6 +30,7 @@ from intelnet.models import (
     Sensor,
     Signal,
     iso,
+    parse_iso,
     utcnow,
 )
 
@@ -232,6 +233,24 @@ MIGRATIONS = [
         expires_at  TEXT,
         PRIMARY KEY (chat_id, kind)
     )""",
+    # an inline keyboard sent with an outbox message (a question's buttons)
+    "ALTER TABLE outbox ADD COLUMN markup_json TEXT",
+    # when a reading was first settled (corroborated or flagged): the network's reply time
+    "ALTER TABLE signals ADD COLUMN settled_at TEXT",
+    # a question asked after an alert: one per alert per chat; picks become readings
+    """CREATE TABLE IF NOT EXISTS questions (
+        id          INTEGER PRIMARY KEY AUTOINCREMENT,
+        chat_id     TEXT NOT NULL,
+        thread      TEXT NOT NULL,                        -- the alert card it follows
+        topic       TEXT NOT NULL,
+        reports     TEXT NOT NULL,                        -- JSON: quick report ids offered
+        ask         TEXT NOT NULL,
+        observed_at TEXT,                                 -- when an answer counts as observed
+        asked_at    TEXT NOT NULL,
+        answered_at TEXT,
+        UNIQUE(thread, chat_id)
+    )""",
+    "CREATE INDEX IF NOT EXISTS idx_questions_chat ON questions(chat_id, asked_at)",
 ]
 
 
@@ -496,6 +515,8 @@ def forget_sensor(sensor_id: str, chat_id: str | int) -> dict[str, Any]:
         conn.execute("DELETE FROM outbox WHERE chat_id = ?", (chat,))
         conn.execute("DELETE FROM sent_messages WHERE chat_id = ?", (chat,))
         conn.execute("DELETE FROM places WHERE chat_id = ?", (chat,))
+        conn.execute("DELETE FROM questions WHERE chat_id = ?", (chat,))
+        conn.execute("DELETE FROM kv WHERE key = ?", (f"followups:off:{chat}",))
         out["sensor"] = conn.execute("DELETE FROM sensors WHERE id = ?", (sensor_id,)).rowcount
     return out
 
@@ -573,12 +594,30 @@ def signal_by_id(signal_id: int) -> Signal | None:
 
 def update_assessment(signal_id: int, *, quality: str, corroboration_n: int, contradiction_n: int,
                       reference_agreement: str, event_id: int | None = None) -> None:
+    settled = utcnow_iso() if quality in ("corroborated", "flagged") else None
     with get_conn() as conn:
         conn.execute(
             """UPDATE signals SET quality = ?, corroboration_n = ?, contradiction_n = ?,
-               reference_agreement = ?, event_id = COALESCE(?, event_id) WHERE id = ?""",
-            (quality, corroboration_n, contradiction_n, reference_agreement, event_id, signal_id),
+               reference_agreement = ?, event_id = COALESCE(?, event_id),
+               settled_at = COALESCE(settled_at, ?) WHERE id = ?""",
+            (quality, corroboration_n, contradiction_n, reference_agreement, event_id, settled,
+             signal_id),
         )
+
+
+def raw_readings_in(metric: str, county_fips: Iterable[str], start: datetime, end: datetime) -> list[Signal]:
+    """People's (and bots') still-unsettled readings of a metric in these counties and times."""
+    fips = [str(f) for f in county_fips]
+    if not fips:
+        return []
+    with get_conn() as conn:
+        rows = conn.execute(
+            f"""SELECT * FROM signals WHERE metric = ? AND quality = 'raw'
+                  AND sensor_kind IN ('human', 'bot') AND observed_at BETWEEN ? AND ?
+                  AND county_fips IN ({','.join('?' * len(fips))}) ORDER BY observed_at""",
+            (metric, iso(start), iso(end), *fips),
+        ).fetchall()
+    return [Signal.from_row(r) for r in rows]
 
 
 def signals_near(metric: str, lat: float, lon: float, radius_km: float, start: datetime,
@@ -907,17 +946,27 @@ def record_notification(key: str, chat_id: str | int) -> None:
 
 def enqueue(key: str, chat_id: str | int, text: str, *, action: str = "send",
             thread: str | None = None, priority: int = 5, silent: bool = False,
-            stale_at: datetime | None = None) -> int | None:
+            stale_at: datetime | None = None, markup: dict | None = None) -> int | None:
     """Queue one message for one chat. None when this (key, chat) was queued before."""
     with get_conn() as conn:
         cur = conn.execute(
             """INSERT OR IGNORE INTO outbox (key, chat_id, action, thread, text, priority, silent,
-                                             next_attempt_at, stale_at)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                                             next_attempt_at, stale_at, markup_json)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (key, str(chat_id), action, thread, text, priority, int(silent), utcnow_iso(),
-             iso(stale_at)),
+             iso(stale_at), json.dumps(markup) if markup else None),
         )
         return cur.lastrowid if cur.rowcount else None
+
+
+def sent_since(chat_id: str | int, key_prefix: str, since: datetime) -> int:
+    """Messages of one kind (key prefix) queued for a chat since then, sent or on the way."""
+    with get_conn() as conn:
+        return int(conn.execute(
+            """SELECT COUNT(*) FROM outbox WHERE chat_id = ? AND key LIKE ? AND created_at >= ?
+                 AND status IN ('pending', 'sent')""",
+            (str(chat_id), f"{key_prefix}%", iso(since).replace("T", " ")[:19]),
+        ).fetchone()[0])
 
 
 def pending_outbox(ids: Iterable[int]) -> list[sqlite3.Row]:
@@ -1344,3 +1393,49 @@ def window(hours: float) -> tuple[datetime, datetime]:
 
 
 __all__ = [name for name in dir() if not name.startswith("_")]
+
+
+# ── questions after an alert ─────────────────────────────────────────────
+
+def add_question(chat_id: str | int, thread: str, topic: str, reports: list[str], ask: str,
+                 observed_at: datetime | None) -> int | None:
+    """Record a question for a chat. None when it was already asked about this alert."""
+    with get_conn() as conn:
+        cur = conn.execute(
+            """INSERT OR IGNORE INTO questions (chat_id, thread, topic, reports, ask, observed_at, asked_at)
+               VALUES (?, ?, ?, ?, ?, ?, ?)""",
+            (str(chat_id), thread, topic, json.dumps(reports), ask, iso(observed_at), utcnow_iso()),
+        )
+        return cur.lastrowid if cur.rowcount else None
+
+
+def question(question_id: int | str) -> sqlite3.Row | None:
+    with get_conn() as conn:
+        return conn.execute("SELECT * FROM questions WHERE id = ?", (int(question_id),)).fetchone()
+
+
+def answer_question(question_id: int | str) -> None:
+    with get_conn() as conn:
+        conn.execute("UPDATE questions SET answered_at = COALESCE(answered_at, ?) WHERE id = ?",
+                     (utcnow_iso(), int(question_id)))
+
+
+def last_question_at(chat_id: str | int) -> datetime | None:
+    with get_conn() as conn:
+        row = conn.execute("SELECT MAX(asked_at) AS at FROM questions WHERE chat_id = ?",
+                           (str(chat_id),)).fetchone()
+    return parse_iso(row["at"]) if row and row["at"] else None
+
+
+def drop_question(question_id: int | str) -> None:
+    """Forget a question that never went out (so the chat can be asked again)."""
+    with get_conn() as conn:
+        conn.execute("DELETE FROM questions WHERE id = ? AND answered_at IS NULL", (int(question_id),))
+
+
+# ── weekly measures (metrics.py) ──────────────────────────────────────────
+
+def measure_rows(sql: str, params: Iterable[Any] = ()) -> list[sqlite3.Row]:
+    """A read-only query for metrics.py, which keeps its SQL next to what it measures."""
+    with get_conn() as conn:
+        return conn.execute(sql, tuple(params)).fetchall()

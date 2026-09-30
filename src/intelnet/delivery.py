@@ -20,6 +20,7 @@ chat and at most ~25 a second overall.
 """
 from __future__ import annotations
 
+import json
 import logging
 import time
 from datetime import timedelta
@@ -87,14 +88,16 @@ def _attempt(row: Any) -> bool:
 def _dispatch(row: Any) -> Sent:
     chat, action, text = row["chat_id"], row["action"], row["text"]
     silent = bool(row["silent"])
+    markup = json.loads(row["markup_json"]) if row["markup_json"] else None
     if action in ("edit", "reply"):
         card = db.card(row["thread"], chat) if row["thread"] else None
         if action == "edit":
             if card is None:
                 return Sent(False, permanent=True, error="no card to edit")
             return bot.edit(chat, card["message_id"], text)
-        return bot.deliver(chat, text, silent=silent, reply_to=card["message_id"] if card else None)
-    return bot.deliver(chat, text, silent=silent)
+        return bot.deliver(chat, text, silent=silent, reply_to=card["message_id"] if card else None,
+                           markup=markup)
+    return bot.deliver(chat, text, silent=silent, markup=markup)
 
 
 def _pace(chat_id: str) -> None:

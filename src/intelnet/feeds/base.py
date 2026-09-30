@@ -5,7 +5,7 @@ import logging
 import time
 from dataclasses import dataclass, field
 
-from intelnet import db, network, subscriptions
+from intelnet import db, feedback, network, subscriptions
 from intelnet.models import Signal
 
 logger = logging.getLogger(__name__)
@@ -71,7 +71,10 @@ class ReferenceFeed:
         """Default: assess each new signal, push events that qualify."""
         for sig in new:
             a = network.assess(sig)
+            n = 0
             if a.push_event and a.event:
-                res.events_pushed += subscriptions.fanout_event(
-                    a.event, a.push_reason, sig.location.area_keys()
-                )
+                n = subscriptions.fanout_event(a.event, a.push_reason, sig.location.area_keys())
+                res.events_pushed += n
+            feedback.confirmed(a.settled)
+            if a.push_event and a.event and a.push_reason == "new":
+                feedback.helped(a.event, n)

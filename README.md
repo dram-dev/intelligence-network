@@ -79,6 +79,12 @@ tornado @sangamon -- on the ground west of town
   **Damage** and **Nothing here** record at once, each with an **Undo** button
 * **Nothing here** is an absence report: kept for the map (it shows where a storm
   didn't reach), never corroborated, trusted or pushed
+* when a warning that covered your place ends, the bot asks (quietly, under the
+  alert) what it brought: one tap for hail, wind, rain, damage or nothing. The
+  answer is a reading at your place, timed to when the storm was there
+* when a report of yours is confirmed later (a station, an NWS storm report,
+  another person nearby, or a warning NWS issued after you reported), or helps
+  verify an event, you get a quiet note saying so. `/followups off` stops both
 * made a mistake? edit the message: the corrected reading replaces the old one
 * sharing your **live location** doesn't move your home: readings you send land
   where you are, and alert cards check it, until the share ends
@@ -88,8 +94,14 @@ tornado @sangamon -- on the ground west of town
 Commands: `/join [code]` · `/home` · `/me` · `/near [place] [6h]` ·
 `/alerts [county]` · `/latest` · `/network` · `/topics` ·
 `/subscribe <category> [area]` · `/unsubscribe …|all` · `/subs` ·
-`/digest you@example.com` · `/privacy` · `/forget confirm` (deletes your record, readings,
-subscriptions and e-mail) · admin: `/admin stats|sensors|ban|unban|trust|broadcast`.
+`/digest you@example.com` · `/followups on|off` · `/privacy` · `/forget confirm` (deletes your
+record, readings, subscriptions and e-mail) · admin:
+`/admin stats|metrics|sensors|ban|unban|trust|broadcast`.
+
+`intelnet metrics` (and `/admin metrics`, and a Monday note to the admin) reports the
+weekly measures: activation, the share of post-alert questions answered, minutes to
+corroboration, counties with an active sensor, NWS-to-chat alert latency (p50 / p95),
+and messages per subscriber.
 
 Other people only ever see a contributor as a pseudonymous handle (`s-3f9a1`) with a ZIP code and
 county — never a name, username, ZIP+4 or coordinates (report pushes, the digest, the site).
@@ -245,7 +257,10 @@ NEXRAD radar, the network's readings by county), one sentence on what's in
 effect, **Near you** (a ZIP → its county's alerts, readings, a pin, and one-tap
 Telegram links), and a sources strip saying when each feed last worked. Every county also gets its own page (`county/<slug>.html`: live alerts, a map of
 the county and its neighbors with radar, one-tap subscribe links, the day's
-readings, nearby counties), listed in `sitemap.xml` for search. Below
+readings, nearby counties), listed in `sitemap.xml` for search. On a computer
+the county page shows a QR code to subscribe from your phone, and printing it gives
+a one-page flyer (QR, three steps, tear-off tabs) for Extension offices, co-op
+elevators and county fairs. Below
 that, the page carries: join + subscription builder (an **Open in Telegram** link that
 joins and subscribes in one tap, or the exact `/subscribe` command to copy), live
 NWS alerts fetched in the browser (the snapshot is the fallback), a browser-side

@@ -74,6 +74,41 @@
   .neighbors a:hover { border-color: var(--accent); }
   footer { padding-block: 24px 44px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); }
   footer p + p { margin-top: 6px; }
+  .linkish { font: inherit; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  /* scan to subscribe: for people reading on a computer */
+  .join-grid { display: grid; grid-template-columns: minmax(0, 1fr) 176px; gap: 22px; align-items: start; }
+  .scan { display: grid; gap: 8px; justify-items: center; text-align: center; font-size: 13px; color: var(--muted); padding-left: 22px; border-left: 1px solid var(--line); }
+  .scan .qr { width: 150px; aspect-ratio: 1; background: #fff; border-radius: 3px; border: 1px solid var(--line); }
+  .scan .qr svg { display: block; width: 100%; height: 100%; }
+  .scan b { color: var(--ink); font-weight: 600; }
+  .scan button { font: 500 12.5px var(--mono); color: var(--ink); background: var(--ground); border: 1px solid var(--line-strong); border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+  .scan button:hover { border-color: var(--accent); }
+  @media (max-width: 820px), (pointer: coarse) { .join-grid { grid-template-columns: minmax(0, 1fr); } .scan { display: none; } }
+  /* the flyer: only on paper */
+  .flyer { display: none; }
+  @media print {
+    @page { size: letter; margin: .45in; }
+    html, body { background: #fff !important; color: #111 !important; }
+    body > :not(.flyer) { display: none !important; }
+    .flyer { display: grid; gap: .22in; color: #111; font-family: var(--body); }
+    .f-kicker { font: 500 10pt var(--mono); letter-spacing: .12em; text-transform: uppercase; color: #555; border-bottom: 1.5pt solid #111; padding-bottom: .08in; max-width: none; }
+    .f-title { font: 500 38pt/1.02 var(--display); font-variation-settings: "SOFT" 40, "WONK" 1, "opsz" 144; letter-spacing: -.01em; margin: 0; }
+    .f-lede { font-size: 14pt; line-height: 1.4; max-width: 6.6in; }
+    .f-body { display: grid; grid-template-columns: 2.6in minmax(0, 1fr); gap: .35in; align-items: center; }
+    .f-qr { width: 2.6in; height: 2.6in; }
+    .f-qr svg { width: 100%; height: 100%; display: block; }
+    .f-steps { margin: 0; padding-left: 1.2em; font-size: 15pt; line-height: 1.5; }
+    .f-steps li + li { margin-top: .1in; }
+    .f-url { font-size: 11pt; color: #333; max-width: none; }
+    .f-url b, .f-steps b { color: #111; }
+    .f-foot { font-size: 9pt; color: #555; max-width: none; }
+    .f-link { font-family: var(--mono); white-space: nowrap; }
+    .f-tabs { display: grid; grid-template-columns: repeat(8, 1fr); border-top: 1.2pt dashed #777; margin-top: .1in; }
+    .f-tabs span { writing-mode: vertical-rl; transform: rotate(180deg); height: 2in; padding: .1in .04in; border-left: 1pt dashed #999;
+                   font: 500 7.5pt/1.5 var(--mono); color: #111; text-align: center; white-space: nowrap; overflow: hidden; }
+    .f-tabs b { font-weight: 600; }
+    .f-tabs span:last-child { border-right: 1pt dashed #999; }
+  }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
 </head>
@@ -98,10 +133,19 @@
     </section>
   </div>
   <section class="card" aria-labelledby="subs-h">
-    <h2 id="subs-h">Get {{COUNTY}} County alerts in Telegram</h2>
-    <p class="muted">Tap one. Telegram opens; press Start and you're subscribed. Stop any time with /unsubscribe.</p>
-    <div class="subs">{{SUBSCRIBE}}</div>
-    <p class="more"><span class="muted">More topics:</span> {{SUBSCRIBE_MORE}}</p>
+    <div class="join-grid">
+      <div>
+        <h2 id="subs-h">Get {{COUNTY}} County alerts in Telegram</h2>
+        <p class="muted">Tap one. Telegram opens; press Start and you're subscribed. Stop any time with /unsubscribe.</p>
+        <div class="subs">{{SUBSCRIBE}}</div>
+        <p class="more"><span class="muted">More topics:</span> {{SUBSCRIBE_MORE}}</p>
+      </div>
+      <aside class="scan" aria-label="Subscribe from your phone">
+        <div class="qr" data-qr="{{JOIN_URL}}"></div>
+        <p><b>On a computer?</b> Scan with your phone's camera for {{COUNTY}} County warnings.</p>
+        <button type="button" data-print>Print a flyer</button>
+      </aside>
+    </div>
   </section>
   <section class="card" aria-labelledby="readings-h">
     <h2 id="readings-h">Readings here</h2>
@@ -114,11 +158,28 @@
 </main>
 <footer>
   <div class="wrap">
-    <p><a href="../index.html">{{NETWORK_NAME}}</a> · <a href="../privacy.html">Privacy</a> · <a href="../terms.html">Terms</a></p>
+    <p><a href="../index.html">{{NETWORK_NAME}}</a> · <a href="../privacy.html">Privacy</a> · <a href="../terms.html">Terms</a> · <button type="button" class="linkish" data-print>Print a flyer for a notice board</button></p>
     <p>Not an official warning service: in an emergency, follow the National Weather Service and local officials. Radar from the Iowa Environmental Mesonet; county lines from the Census Bureau.</p>
   </div>
 </footer>
+<section class="flyer" aria-hidden="true">
+  <p class="f-kicker">{{NETWORK_NAME}} · {{COUNTY}} County, Illinois</p>
+  <h2 class="f-title">Severe weather warnings for {{COUNTY}} County, on your phone.</h2>
+  <p class="f-lede">Free, in Telegram. Each warning says whether it covers your place, when the storm gets there, and when it's over. Afterwards, one tap tells your neighbors what you saw.</p>
+  <div class="f-body">
+    <div class="f-qr" data-qr="{{JOIN_URL}}"></div>
+    <ol class="f-steps">
+      <li><b>Scan</b> this with your phone's camera.</li>
+      <li><b>Press Start</b> when Telegram opens.</li>
+      <li><b>Share your location</b>, or send your ZIP code, so warnings can say whether they cover you.</li>
+    </ol>
+  </div>
+  <p class="f-url">No camera? In Telegram, open <b>@{{BOT_HANDLE}}</b> and send <b>/subscribe warnings {{COUNTY_SLUG}}</b>.</p>
+  <p class="f-foot">Not an official warning service: in an emergency, follow the National Weather Service and local officials.<br><span class="f-link">{{PAGE_URL}}</span></p>
+  <div class="f-tabs">{{TEAR_TABS}}</div>
+</section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script>window.COUNTY_DATA = /*__COUNTY_DATA__*/null;</script>
 <script>
 (function () {
@@ -205,7 +266,19 @@
     } catch (e) { /* the snapshot stands */ }
     list(); status(); paint();
   }
-  draw(); list(); status(); refresh();
+  // QR codes (the scan box and the flyer): always dark on white, with a quiet zone, for any camera
+  function qrs() {
+    if (!window.qrcode) return;
+    document.querySelectorAll('[data-qr]').forEach(box => {
+      const q = qrcode(0, 'M'); q.addData(box.dataset.qr); q.make();
+      const n = q.getModuleCount(), m = 4, s = n + 2 * m; let d = '';
+      for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (q.isDark(r, c)) d += 'M' + (c + m) + ' ' + (r + m) + 'h1v1h-1z';
+      box.innerHTML = '<svg viewBox="0 0 ' + s + ' ' + s + '" shape-rendering="crispEdges" role="img" aria-label="QR code that opens the Telegram bot">'
+        + '<rect width="' + s + '" height="' + s + '" fill="#fff"/><path d="' + d + '" fill="#111"/></svg>';
+    });
+  }
+  document.querySelectorAll('[data-print]').forEach(b => b.addEventListener('click', () => window.print()));
+  qrs(); draw(); list(); status(); refresh();
   setInterval(() => { if (document.visibilityState === 'visible') refresh(); }, 120000);
 })();
 </script>

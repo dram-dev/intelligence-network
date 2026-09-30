@@ -21,7 +21,7 @@ from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 from typing import Callable, Self
 
-from intelnet import contrib, db, geo, language, network, subscriptions
+from intelnet import asks, contrib, db, feedback, geo, language, metrics, network, subscriptions
 from intelnet.config import settings
 from intelnet.models import KIND_HUMAN, Sensor
 from intelnet.telegram import MAX_MSG, bot, esc, href, join_within, tg_time
@@ -66,7 +66,7 @@ def _quick_reports() -> list[dict]:
 
 def report_keyboard() -> dict | None:
     """The persistent report keyboard: three buttons a row."""
-    buttons = [{"text": q["button"]} for q in _quick_reports()]
+    buttons = [{"text": q["button"]} for q in _quick_reports() if q.get("keyboard", True)]
     if not buttons:
         return None
     return {"keyboard": [buttons[i:i + 3] for i in range(0, len(buttons), 3)],
@@ -74,8 +74,11 @@ def report_keyboard() -> dict | None:
             "input_field_placeholder": "Tap a button, or type a reading: rain 1.2in"}
 
 
-def _undo(message_id: int | str) -> dict:
-    return {"inline_keyboard": [[{"text": "↩️ Undo", "callback_data": f"u:{message_id}"}]]}
+def _undo(message_id: int | str, question: int | None = None) -> dict:
+    if question is None:
+        return {"inline_keyboard": [[{"text": "↩️ Undo", "callback_data": f"u:{message_id}"}]]}
+    return {"inline_keyboard": [[{"text": "↩️ Undo", "callback_data": f"u:{message_id}:{question}"},
+                                 {"text": "➕ Add another", "callback_data": f"a:{question}"}]]}
 
 
 def cmd_report(message: dict, sensor: Sensor | None, args: str) -> str:
@@ -125,14 +128,47 @@ def handle_callback(cq: dict) -> None:
         recorded = db.message_signals("telegram", _sensor_id(user["id"]), f"{chat}:{mid}")
         bot.answer_callback(str(cq["id"]), str(label))
         bot.edit(chat, mid, text, markup=_undo(mid) if recorded else None)
+    elif data.startswith("a:"):
+        _answer(cq, data, user, msg, sensor)
     elif data.startswith("u:") and sensor is not None:
-        gone = db.message_signals("telegram", sensor.id, f"{chat}:{data[2:]}")
+        target, _, question = data[2:].partition(":")
+        gone = db.message_signals("telegram", sensor.id, f"{chat}:{target}")
         network.withdraw(gone)
         bot.answer_callback(str(cq["id"]), "Removed" if gone else "Nothing to undo")
-        if gone:
+        q = asks.resolve(f"a:{question}", chat) if question else None
+        if q is not None:                                  # back to the question, to answer again
+            text, markup = q["show"]
+            bot.edit(chat, mid, "↩️ Removed.\n\n" + text, markup=markup)
+        elif gone:
             bot.edit(chat, mid, "↩️ Removed. Tap a button to report again.")
     else:
         bot.answer_callback(str(cq["id"]))
+
+
+def _answer(cq: dict, data: str, user: dict, msg: dict, sensor: Sensor | None) -> None:
+    """A button under a question after an alert: open a report, go back, or record the pick."""
+    chat, mid = msg["chat"]["id"], msg["message_id"]
+    q = asks.resolve(data, chat)
+    if q is None:
+        bot.answer_callback(str(cq["id"]), "That question has expired.")
+        return
+    if "show" in q or "pick" in q:
+        text, markup = q.get("show") or q["pick"]
+        bot.answer_callback(str(cq["id"]))
+        bot.edit(chat, mid, text, markup=markup)
+        return
+    qid = int(q["question"]["id"])
+    # Each pick is its own reading under this message, so "Add another" can follow and
+    # Undo (which takes back everything from the message) still reaches them all.
+    n = len(db.message_signals("telegram", _sensor_id(user["id"]), f"{chat}:{mid}"))
+    pick = {"chat": msg["chat"], "from": user, "message_id": f"{mid}:a{n}", "date": int(time.time()),
+            "text": q["reading"]}
+    text = _contribute(pick, sensor, q["reading"], observed=q["observed"])
+    recorded = db.message_signals("telegram", _sensor_id(user["id"]), f"{chat}:{mid}")
+    if len(recorded) > n:
+        db.answer_question(qid)
+    bot.answer_callback(str(cq["id"]), str(q["label"]))
+    bot.edit(chat, mid, text, markup=_undo(mid, qid) if recorded else None)
 
 
 # ── helpers ───────────────────────────────────────────────────────────────
@@ -176,6 +212,8 @@ def help_text() -> str:
         f"/subscribe soil.events · /subscribe *.events · /subscribe digest · /subs · /unsubscribe all\n"
         f"<b>Digest by email</b>: /digest you@example.com\n"
         f"<b>Automated sensors</b>: /signal {esc(language.as_json_example(topic))}\n"
+        f"<b>Follow-ups</b> (a question after an alert, a note when a report is confirmed): "
+        f"/followups off\n"
         f"<b>Privacy</b>: /privacy · delete everything about you: /forget"
     )
 
@@ -481,12 +519,32 @@ def cmd_admin(message: dict, sensor: Sensor | None, args: str) -> str:
         except ValueError:
             return "Usage: /admin trust <sensor_id> <0..1>"
         return f"{'✅' if ok else '✗'} trust {esc(parts[1])} = {parts[2]}"
+    if sub == "metrics":
+        days = int(parts[1]) if len(parts) >= 2 and parts[1].isdigit() else 7
+        return metrics.format_html(metrics.weekly(days))
     if sub == "broadcast" and len(parts) >= 2:
         text = args.strip()[len("broadcast"):].strip()
         chats = {s.chat_id for s in db.list_sensors(kind=KIND_HUMAN, limit=10000) if s.chat_id}
         n = bot.broadcast(sorted(chats), f"📣 <b>{esc(settings.network_name)}</b>\n{esc(text)}")
         return f"Broadcast to {n} chat(s)."
-    return "Usage: /admin stats | sensors | ban <id> | unban <id> | trust <id> <0..1> | broadcast <text>"
+    return ("Usage: /admin stats | metrics [days] | sensors | ban <id> | unban <id> | "
+            "trust <id> <0..1> | broadcast <text>")
+
+
+def cmd_followups(message: dict, sensor: Sensor | None, args: str) -> str:
+    chat = message["chat"]["id"]
+    arg = args.strip().lower()
+    if arg in ("off", "stop", "no"):
+        feedback.set_enabled(chat, False)
+        return ("🔕 Follow-ups off: no questions after alerts, and no notes when your reports are "
+                "confirmed. Alerts you subscribed to still arrive. /followups on to undo.")
+    if arg in ("on", "start", "yes"):
+        feedback.set_enabled(chat, True)
+    on = feedback.enabled_for(chat)
+    return (f"Follow-ups are <b>{'on' if on else 'off'}</b>: a question after an alert that reached "
+            f"you (one tap to say what you saw), and a quiet note when one of your reports is "
+            f"confirmed. At most {feedback.DAILY_MAX} notes a day. "
+            f"{'/followups off' if on else '/followups on'} to change it.")
 
 
 def cmd_privacy(message: dict, sensor: Sensor | None, args: str) -> str:
@@ -532,13 +590,16 @@ COMMANDS: dict[str, Callable[[dict, Sensor | None, str], str]] = {
     "subscribe": cmd_subscribe, "unsubscribe": cmd_unsubscribe, "subs": cmd_subs,
     "subscriptions": cmd_subs, "near": cmd_near, "alerts": cmd_alerts, "latest": cmd_latest,
     "digest": cmd_digest_email, "network": cmd_network, "topics": cmd_topics, "admin": cmd_admin,
-    "privacy": cmd_privacy, "forget": cmd_forget, "report": cmd_report,
+    "privacy": cmd_privacy, "forget": cmd_forget, "report": cmd_report, "followups": cmd_followups,
 }
 
 
 # ── contributions ─────────────────────────────────────────────────────────
 
-def _contribute(message: dict, sensor: Sensor | None, text: str, *, json_mode: bool = False) -> str:
+def _contribute(message: dict, sensor: Sensor | None, text: str, *, json_mode: bool = False,
+                observed: datetime | None = None) -> str:
+    """Record a message's readings. `observed` dates them (an answer about a storm that
+    already passed) instead of the message's own time."""
     user = message.get("from") or {}
     if sensor is None:
         if settings.network_join_code:
@@ -560,7 +621,7 @@ def _contribute(message: dict, sensor: Sensor | None, text: str, *, json_mode: b
         sensor = replace(sensor, location=live)
     source_id = f"{message['chat']['id']}:{message.get('message_id')}"
     fn = contrib.contribute_json if json_mode else contrib.contribute
-    c = fn(sensor, text, source_id_base=source_id, message_time=sent,
+    c = fn(sensor, text, source_id_base=source_id, message_time=observed or sent,
            extra_evidence=evidence or None)
     reply = contrib.ack_text(c, sensor)
     if sent and late > LATE_AFTER and c.signals:

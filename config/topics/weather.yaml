@@ -266,7 +266,8 @@ metrics:
 # choice is a reading in this data language, recorded where the person is. A
 # button with `send` records its reading at once, with an Undo button.
 quick_reports:
-  - button: "🌧 Rain"
+  - id: rain
+    button: "🌧 Rain"
     ask: How much rain so far? Pick the closest total.
     choices:
       - ["0.1 in", "rain 0.1in"]
@@ -277,7 +278,8 @@ quick_reports:
       - ["2 in", "rain 2in"]
       - ["3 in or more", "rain 3in"]
       - ["None", "nothing here -- no rain"]
-  - button: "🧊 Hail"
+  - id: hail
+    button: "🧊 Hail"
     ask: How big? Pick the closest match.
     choices:
       - ["Pea ¼″", "hail pea"]
@@ -289,7 +291,8 @@ quick_reports:
       - ["Baseball 2¾″", "hail baseball"]
       - ["Softball 4½″", "hail softball"]
       - ["None", "nothing here -- no hail"]
-  - button: "💨 Wind"
+  - id: wind
+    button: "💨 Wind"
     ask: How strong was the strongest gust, roughly?
     choices:
       - ["30 mph", "gust 30 mph"]
@@ -299,12 +302,50 @@ quick_reports:
       - ["70 mph", "gust 70 mph"]
       - ["80+ mph", "gust 80 mph"]
       - ["Trees down", "trees down"]
-  - button: "🌊 Flooding"
+  - id: flooding
+    button: "🌊 Flooding"
     send: flooding
-  - button: "🌳 Damage"
+  - id: damage
+    button: "🌳 Damage"
     send: trees down
-  - button: "✅ Nothing here"
+  - id: nothing
+    button: "✅ Nothing here"
     send: nothing here
+  - id: snow                      # asked after winter alerts; not on the keyboard
+    keyboard: false
+    button: "❄️ Snow"
+    ask: How much snow fell? Pick the closest total.
+    choices:
+      - ["1 in", "snow 1in"]
+      - ["2 in", "snow 2in"]
+      - ["4 in", "snow 4in"]
+      - ["6 in", "snow 6in"]
+      - ["8 in", "snow 8in"]
+      - ["12 in or more", "snow 12in"]
+      - ["None", "nothing here -- no snow"]
+
+# What to ask the people an alert reached, one tap to answer: the answer is a
+# reading at their place (live location, else home), timed to when the storm was
+# there. `when: ended` asks once it's over; `when: issued` asks while it's in
+# effect, so it is only for slow hazards where looking around is safe. A chat is
+# asked at most once per alert and once every few hours; /followups off stops it.
+alert_questions:
+  - events: [Severe Thunderstorm Warning, Tornado Warning]
+    when: ended
+    ask: What did the storm bring to your place?
+    reports: [hail, wind, rain, damage, nothing]
+  - events: [Flash Flood Warning]
+    when: ended
+    ask: Was there flooding near you?
+    reports: [flooding, rain, nothing]
+  - events: [Flood Warning, Flood Advisory]
+    when: issued
+    ask: Is there water where it shouldn't be near you? Only look from somewhere safe.
+    reports: [flooding, nothing]
+  - events: [Winter Storm Warning, Winter Weather Advisory, Blizzard Warning]
+    when: ended
+    ask: How much snow did you get?
+    reports: [snow, nothing]
 
 # Which active NWS alerts count as official support for a human report of a
 # metric (a tornado report under a Tornado Warning is reference-corroborated).

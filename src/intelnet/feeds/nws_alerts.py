@@ -27,7 +27,7 @@ from typing import Any
 
 import requests
 
-from intelnet import db, geo, network, subscriptions
+from intelnet import db, feedback, geo, network, subscriptions
 from intelnet.config import settings
 from intelnet.feeds.base import FeedResult, ReferenceFeed
 from intelnet.models import KIND_AUTHORITY, Signal, iso, parse_iso, utcnow
@@ -353,6 +353,9 @@ class NWSAlertsFeed(ReferenceFeed):
                 res.alerts_pushed += _close(v.thread, "expired", now)
             else:
                 res.alerts_pushed += subscriptions.fanout_alert(rows[0], rows, v.changes)
+            if v.new:
+                # people who reported it before NWS warned: confirmed now, and told so
+                feedback.ahead(network.settle_by_alert(rows))
         for thread, reason in settle_threads(self.present, now):
             res.alerts_pushed += _close(thread, reason, now)
         if self.present is not None:

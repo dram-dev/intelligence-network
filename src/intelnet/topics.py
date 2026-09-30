@@ -141,10 +141,18 @@ class Topic:
     mappings: dict[str, dict[str, dict[str, str]]] = field(default_factory=dict)
     # The chat's report keyboard: {button, ask, choices: [[label, reading]…]} opens
     # a picker; {button, send: reading} records at once. Readings are in this language.
+    # `id` names one for alert_questions; `keyboard: false` keeps it off the keyboard.
     quick_reports: list[dict[str, Any]] = field(default_factory=list)
+    # What to ask the people an alert reached: {events, when: ended|issued, ask,
+    # reports: [quick report ids]}.
+    alert_questions: list[dict[str, Any]] = field(default_factory=list)
 
     def mapping(self, name: str) -> dict[str, dict[str, str]]:
         return self.mappings.get(name, {})
+
+    def quick_report(self, report_id: str) -> tuple[int, dict[str, Any]] | None:
+        """A quick report by its `id`, with its index (what callback data carries)."""
+        return next(((i, q) for i, q in enumerate(self.quick_reports) if q.get("id") == report_id), None)
 
     def category_key(self, category: str) -> str:
         return f"{self.name}.{category}"
@@ -204,7 +212,7 @@ def load_topic(path: Path) -> Topic:
     name = str(raw.get("topic") or path.stem)
     metrics = {k: _load_metric(name, k, v or {}) for k, v in (raw.get("metrics") or {}).items()}
     known = {"topic", "label", "description", "categories", "alert_routing", "alert_support",
-             "metrics", "lsr_types", "station_fields", "quick_reports"}
+             "metrics", "lsr_types", "station_fields", "quick_reports", "alert_questions"}
     mappings = {
         str(k): {str(code): dict(v) for code, v in (val or {}).items()}
         for k, val in raw.items()
@@ -223,7 +231,18 @@ def load_topic(path: Path) -> Topic:
         station_fields={str(k): dict(v) for k, v in (raw.get("station_fields") or {}).items()},
         mappings=mappings,
         quick_reports=[dict(q) for q in raw.get("quick_reports") or []],
+        alert_questions=[dict(q) for q in raw.get("alert_questions") or []],
     )
+
+
+def alert_question(event: str | None, when: str) -> tuple[Topic, dict[str, Any]] | None:
+    """The question a pack asks about an alert of this kind ('Severe Thunderstorm
+    Warning'), at this moment ('ended' or 'issued'), if any."""
+    for t in topics().values():
+        for q in t.alert_questions:
+            if event in (q.get("events") or []) and (q.get("when") or "ended") == when:
+                return t, q
+    return None
 
 
 @lru_cache(maxsize=1)

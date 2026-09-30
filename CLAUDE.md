@@ -148,6 +148,33 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   `docs/county/<slug>.html` ×102 + `sitemap.xml` + `robots.txt`. Static HTML for
   search (subscribe links, readings, neighbors), a small script for live alerts
   and the map. Tokens come from the front page between `/* tokens … */` markers.
+- **Questions after alerts** (`asks.py`, pack `alert_questions`: events, `when:
+  ended|issued`, ask, reports = quick_report ids): when a card's alert ends, a chat
+  inside the polygon (or county, with no polygon) and with a place gets one silent
+  reply under the card (the Severe all-clear on top) with those report buttons.
+  `questions` row per alert × chat; `COOLDOWN` 6 h per chat. Answers are readings at
+  the chat's place dated to the storm (arrival from motion, else mid-alert).
+  Callbacks `a:<q>` / `a:<q>:<i>` / `a:<q>:<i>:<j>`; picks use source ids
+  `<chat>:<msg>:a<n>:<k>` so "Add another" and Undo (`u:<msg>:<q>`) both work.
+  `when: issued` (river floods) asks with the first card. Outbox rows carry
+  `markup_json` for these buttons.
+- **Follow-ups** (`feedback.py`): silent notes, once per reading, ≤ `DAILY_MAX` (5) a
+  day per chat. `confirmed` (a later reading settled yours: `Assessment.settled`
+  from `_corroborate_back` / `_corroborate_forward`), `helped` (an event you're in
+  was verified and pushed, reason new; the tipping sender excluded), `ahead` (a new
+  NWS alert confirms raw readings in its counties/polygon from the metric's window
+  before it: `network.settle_by_alert`, pack `alert_support`, event-level values
+  only). Called from `contrib`, `feeds/base.after_store`, `nws_alerts.after_store`.
+  `/followups off` (kv `followups:off:<chat>`) stops notes and questions.
+- **Weekly measures** (`metrics.py`): activation, ask rate, median minutes to
+  corroboration (`signals.settled_at`, set on first corroborated/flagged), counties
+  with an active human sensor, alert card latency p50/p95 (outbox sent − thread
+  opened, first fan-out only), messages per subscriber by kind. `intelnet metrics`,
+  `/admin metrics [days]`, and Monday's notify sends them to the admin chat.
+- **County flyer**: each county page has a scan-to-subscribe QR (desktop only) and a
+  print-only flyer (`@media print`, one letter page, tear-off tabs). QR via
+  qrcode-generator (cdnjs), drawn as dark-on-white SVG; it encodes
+  `t.me/<bot>?start=sub_weather_warnings_<slug>`.
 - **Pre-threading alert rows** (group_key = own CAP id, no thread) retire when their
   id leaves a full feed (`retire_unthreaded_alert_rows`), so old versions stop
   counting as active.
@@ -216,8 +243,6 @@ in `secrets/`, `intelnet drive init`, `bash scripts/install_launchd.sh`.
 - A second topic pack (air quality / river gauges) to prove the language.
 - Photo evidence: download + attach to the Drive doc (currently file_id only).
 - A per-ZIP+4 mesh view once there are enough human sensors to matter.
-- Sensor "beats": prompt quiet counties' sensors for a reading when a warning
-  is issued for their county (pull-to-push).
 - Public read-only web view of the mesh (stdlib server, like PC's `digest web`).
 
 ## How to run
