@@ -14,6 +14,8 @@ Anyone can /join (optionally gated by NETWORK_JOIN_CODE). The admin chat
 """
 from __future__ import annotations
 
+import base64
+import json
 import logging
 import re
 import time
@@ -75,14 +77,107 @@ def _quick_reports() -> list[dict]:
     return [dict(q, topic=t.name, index=i) for t in topics().values() for i, q in enumerate(t.quick_reports)]
 
 
-def report_keyboard() -> dict | None:
-    """The persistent report keyboard: three buttons a row."""
+APP_BUTTON = "🗺 Map · report · settings"
+APP_REPORTS = 6
+
+
+def app_state(chat_id: str | int) -> dict:
+    """What the Mini App shows about this chat: home, subscriptions, recent reports and
+    how each was checked, trust by topic. It rides in the app URL's #fragment, which the
+    browser never sends to the site's server."""
+    sensor = db.sensor_by_chat(chat_id)
+    home = None
+    if sensor and sensor.location.has_point:
+        c = geo.county(sensor.location.county_fips)
+        home = {"zip": sensor.location.zip5, "fips": sensor.location.county_fips,
+                "slug": c.slug if c else None, "label": sensor.location.describe()}
+    reports = []
+    for s in db.sensor_signals(sensor.id, APP_REPORTS) if sensor else []:
+        m = find_metric(s.metric, get_topic(s.topic))
+        reports.append({"m": m.label if m else s.metric,
+                        "v": "" if m is None or m.is_flag or s.value is None
+                        else m.display(s.value).split(" (")[0].replace(" pct", "%"),
+                        "t": s.observed_at.isoformat(timespec="minutes"), "q": s.quality,
+                        "r": s.reference_agreement, "n": s.corroboration_n,
+                        "g": (s.evidence.get("grid") or {}).get("verdict")})
+    return {"v": 1, "home": home,
+            "subs": [[r["category"], r["area"], subscriptions.area_label(r["area"])]
+                     for r in db.subscriptions_for(str(chat_id))],
+            "reports": reports,
+            "trust": [[get_topic(st.topic).label, st.label] for st in trust.standings(sensor.id)] if sensor else [],
+            "followups": feedback.enabled_for(chat_id)}
+
+
+def app_url(chat_id: str | int) -> str | None:
+    """The Mini App's address for this chat (https only: Telegram requires it)."""
+    site = settings.public_site_url
+    if not site.startswith("https://"):
+        return None
+    blob = json.dumps(app_state(chat_id), separators=(",", ":"), ensure_ascii=False).encode()
+    return f"{site}app/#s={base64.urlsafe_b64encode(blob).decode().rstrip('=')}"
+
+
+def report_keyboard(chat_id: str | int | None = None) -> dict | None:
+    """The persistent report keyboard: three buttons a row, and the Mini App under them."""
     buttons = [{"text": q["button"]} for q in _quick_reports() if q.get("keyboard", True)]
     if not buttons:
         return None
-    return {"keyboard": [buttons[i:i + 3] for i in range(0, len(buttons), 3)],
-            "resize_keyboard": True, "is_persistent": True,
+    rows = [buttons[i:i + 3] for i in range(0, len(buttons), 3)]
+    url = app_url(chat_id) if chat_id is not None else None
+    if url:
+        rows.append([{"text": APP_BUTTON, "web_app": {"url": url}}])
+    return {"keyboard": rows, "resize_keyboard": True, "is_persistent": True,
             "input_field_placeholder": "Tap a button, or type a reading: rain 1.2in"}
+
+
+def handle_web_app(message: dict, sensor: Sensor | None) -> str:
+    """What the Mini App sent (WebApp.sendData, from the keyboard button): a report, a
+    change of subscriptions, a new home, follow-ups on or off. Validated like typing."""
+    chat = message["chat"]["id"]
+    try:
+        d = json.loads((message.get("web_app_data") or {}).get("data") or "")
+    except ValueError:
+        return "That didn't come through from the app. Try again?"
+    if not isinstance(d, dict):
+        return "That didn't come through from the app. Try again?"
+    action = d.get("a")
+    if action == "report":
+        text = str(d.get("text") or "").strip()[:300]
+        if not text:
+            return "Nothing to report."
+        place = None
+        try:
+            lat, lon = float(d["lat"]), float(d["lon"])
+            if -90 <= lat <= 90 and -180 <= lon <= 180:
+                place = geo.location_from_point(lat, lon)
+        except (KeyError, TypeError, ValueError):
+            pass
+        return Reply(_contribute(message, sensor, text, place=place), report_keyboard(chat))
+    if action == "subs":
+        lines = []
+        cats = set(all_categories())
+        home = sensor.location if sensor else None
+        for verb, pairs in (("add", d.get("add") or []), ("remove", d.get("remove") or [])):
+            for pair in pairs[:20]:
+                if not (isinstance(pair, list) and len(pair) == 2 and str(pair[0]) in cats):
+                    continue
+                cat = str(pair[0])
+                area = (settings.geo_state.lower(), settings.geo_state) if cat.endswith(".digest") \
+                    else subscriptions.parse_area(str(pair[1]), home)
+                if area is None:
+                    continue
+                if verb == "add":
+                    done = db.add_subscription(chat, cat, area[0])
+                    lines.append(f"🔔 {'Subscribed' if done else 'Already subscribed'}: <b>{esc(cat)}</b> @ {esc(area[1])}")
+                else:
+                    n = db.remove_subscription(chat, cat, area[0])
+                    lines.append(f"🔕 {'Removed' if n else 'Not subscribed'}: <b>{esc(cat)}</b> @ {esc(area[1])}")
+        return Reply("\n".join(lines) or "No changes.", report_keyboard(chat))
+    if action == "home":
+        return cmd_home(message, sensor, str(d.get("place") or ""))
+    if action == "followups":
+        return Reply(cmd_followups(message, sensor, "on" if d.get("on") else "off"), report_keyboard(chat))
+    return "The app asked for something this bot doesn't know yet."
 
 
 def _undo(message_id: int | str, question: int | None = None) -> dict:
@@ -93,7 +188,7 @@ def _undo(message_id: int | str, question: int | None = None) -> dict:
 
 
 def cmd_report(message: dict, sensor: Sensor | None, args: str) -> str:
-    kb = report_keyboard()
+    kb = report_keyboard(message["chat"]["id"])
     if not args.strip() and kb:
         return Reply("Tap what you see. It's recorded where you are: your live location if "
                      "you're sharing one, else your home. Typing works too: <code>rain 1.2in</code>.", kb)
@@ -256,7 +351,7 @@ def cmd_home(message: dict, sensor: Sensor | None, args: str) -> str:
         return f"Couldn't place “{esc(args)}”. Try a ZIP (62704), ZIP+4 (62704-1234) or a county."
     db.set_sensor_location(sensor.id, loc)
     return Reply(f"🏠 Home set: <b>{esc(loc.describe())}</b> (precision: {esc(loc.precision)})",
-                 report_keyboard())
+                 report_keyboard(message["chat"]["id"]))
 
 
 def _live_until(message: dict, p: dict) -> datetime:
@@ -280,12 +375,12 @@ def cmd_location(message: dict, sensor: Sensor | None) -> str:
                 else "Set a home any time with <code>/home 62704</code>.")
         return Reply(f"📡 Following your live location until {tg_time(until, 't')}. Readings you send "
                      f"land where you are, and alerts check it. {home}",
-                     report_keyboard() or REMOVE_KEYBOARD)
+                     report_keyboard(message["chat"]["id"]) or REMOVE_KEYBOARD)
     loc = geo.location_from_point(float(p["latitude"]), float(p["longitude"]))
     db.set_sensor_location(sensor.id, loc)
     return Reply(f"🏠 Home set from your location: <b>{esc(loc.describe())}</b>\n"
                  f"Now tap a button below when you see something, or type it: <code>rain 1.2in</code>.",
-                 report_keyboard() or REMOVE_KEYBOARD)
+                 report_keyboard(message["chat"]["id"]) or REMOVE_KEYBOARD)
 
 
 def cmd_start(message: dict, sensor: Sensor | None, args: str) -> str:
@@ -611,7 +706,7 @@ COMMANDS: dict[str, Callable[[dict, Sensor | None, str], str]] = {
 # ── contributions ─────────────────────────────────────────────────────────
 
 def _contribute(message: dict, sensor: Sensor | None, text: str, *, json_mode: bool = False,
-                observed: datetime | None = None) -> str:
+                observed: datetime | None = None, place: geo.Location | None = None) -> str:
     """Record a message's readings. `observed` dates them (an answer about a storm that
     already passed) instead of the message's own time."""
     user = message.get("from") or {}
@@ -633,6 +728,8 @@ def _contribute(message: dict, sensor: Sensor | None, text: str, *, json_mode: b
     live = db.live_location(message["chat"]["id"])
     if live is not None:          # out and about: readings land where they're sent from
         sensor = replace(sensor, location=live)
+    if place is not None:         # the Mini App sent where the reading is from
+        sensor = replace(sensor, location=place)
     source_id = f"{message['chat']['id']}:{message.get('message_id')}"
     fn = contrib.contribute_json if json_mode else contrib.contribute
     c = fn(sensor, text, source_id_base=source_id, message_time=observed or sent,
@@ -659,6 +756,8 @@ def handle_message(message: dict) -> str | None:
 
     if message.get("location") and not text:
         return cmd_location(message, sensor)
+    if message.get("web_app_data"):
+        return handle_web_app(message, sensor)
 
     if text.startswith("/"):
         m = re.match(r"^/([A-Za-z_]+)(?:@\w+)?\s*(.*)$", text, re.DOTALL)

@@ -1640,3 +1640,11 @@ def close_idle_stories(idle_hours: float) -> int:
         return conn.execute(
             "UPDATE stories SET status = 'closed', closed_at = ? WHERE status = 'open' AND updated_at < ?",
             (utcnow_iso(), _since(idle_hours))).rowcount
+
+
+def sensor_signals(sensor_id: str, limit: int = 6) -> list[Signal]:
+    """A sensor's latest readings, newest first (the Mini App's "your reports")."""
+    with get_conn() as conn:
+        rows = conn.execute("SELECT * FROM signals WHERE sensor_id = ? ORDER BY received_at DESC, id DESC LIMIT ?",
+                            (sensor_id, limit)).fetchall()
+    return [Signal.from_row(r) for r in rows]

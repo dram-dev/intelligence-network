@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>{{NETWORK_NAME}} · app</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..700,0..100,0..1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+{{TOKENS}}
+  /* Inside Telegram, the chat's own theme wins; outside, the site's tokens. */
+  :root {
+    --a-bg: var(--tg-theme-secondary-bg-color, var(--ground));
+    --a-card: var(--tg-theme-section-bg-color, var(--surface));
+    --a-ink: var(--tg-theme-text-color, var(--ink));
+    --a-muted: var(--tg-theme-hint-color, var(--muted));
+    --a-accent: var(--tg-theme-button-color, var(--accent));
+    --a-accent-ink: var(--tg-theme-button-text-color, var(--accent-ink));
+    --a-link: var(--tg-theme-link-color, var(--accent));
+    --a-line: color-mix(in srgb, var(--a-ink) 12%, transparent);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--a-bg); color: var(--a-ink); font: 15px/1.5 var(--body); -webkit-font-smoothing: antialiased; }
+  button { font: inherit; color: inherit; }
+  a { color: var(--a-link); }
+  .tabs { position: sticky; top: 0; z-index: 5; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 8px 12px; background: var(--a-bg); border-bottom: 1px solid var(--a-line); }
+  .tabs button { border: 0; border-radius: 8px; padding: 8px 0; background: transparent; font-weight: 600; color: var(--a-muted); cursor: pointer; }
+  .tabs button[aria-selected="true"] { background: var(--a-card); color: var(--a-ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+  main { padding: 12px 12px calc(24px + env(safe-area-inset-bottom)); display: grid; gap: 12px; max-width: 640px; margin: 0 auto; }
+  [hidden] { display: none !important; }
+  .card { background: var(--a-card); border-radius: 12px; padding: 12px 14px; }
+  h1, h2 { margin: 0; font-family: var(--display); font-weight: 500; line-height: 1.2; }
+  h1 { font-size: 21px; font-variation-settings: "SOFT" 40, "opsz" 48; }
+  h2 { font-size: 13px; font-family: var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--a-muted); margin-bottom: 8px; }
+  .muted { color: var(--a-muted); font-size: 13px; }
+  .map svg { display: block; width: 100%; height: auto; }
+  .row { display: grid; grid-template-columns: 4px minmax(0, 1fr); gap: 10px; padding: 7px 0; }
+  .row + .row { border-top: 1px solid var(--a-line); }
+  .row i { border-radius: 2px; background: var(--sev-minor); }
+  .row.Extreme i { background: var(--sev-extreme); } .row.Severe i { background: var(--sev-severe); } .row.Moderate i { background: var(--sev-moderate); }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .pick { border: 1px solid var(--a-line); background: var(--a-bg); border-radius: 10px; padding: 12px 6px; font-weight: 500; cursor: pointer; min-height: 52px; }
+  .pick[aria-pressed="true"] { background: var(--a-accent); color: var(--a-accent-ink); border-color: var(--a-accent); }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .seg button { border: 1px solid var(--a-line); background: var(--a-bg); border-radius: 8px; padding: 9px 6px; cursor: pointer; font-size: 14px; }
+  .seg button[aria-pressed="true"] { border-color: var(--a-accent); box-shadow: inset 0 0 0 1px var(--a-accent); font-weight: 600; }
+  input[type=text] { width: 100%; font: inherit; color: var(--a-ink); background: var(--a-bg); border: 1px solid var(--a-line); border-radius: 8px; padding: 10px 12px; }
+  .pending { font-weight: 600; }
+  .chip { display: inline-block; font: 500 11.5px var(--mono); padding: 1px 7px; border-radius: 999px; border: 1px solid currentColor; margin-left: 6px; white-space: nowrap; }
+  .ok { color: #3B7A45; } .bad { color: var(--sev-severe); } .wait { color: var(--a-muted); }
+  label.sub { display: flex; gap: 10px; align-items: center; padding: 7px 0; }
+  label.sub + label.sub { border-top: 1px solid var(--a-line); }
+  select { font: inherit; color: var(--a-ink); background: var(--a-bg); border: 1px solid var(--a-line); border-radius: 8px; padding: 8px; width: 100%; }
+  .two { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto; gap: 6px; margin-top: 8px; }
+  .btn { border: 1px solid var(--a-line); background: var(--a-bg); border-radius: 8px; padding: 8px 12px; cursor: pointer; }
+  .note { font-size: 13px; background: color-mix(in srgb, var(--a-accent) 12%, transparent); border-radius: 10px; padding: 10px 12px; }
+  .fallback-send { width: 100%; margin-top: 10px; border: 0; border-radius: 10px; padding: 12px; background: var(--a-accent); color: var(--a-accent-ink); font-weight: 600; }
+</style>
+</head>
+<body>
+<nav class="tabs" role="tablist" aria-label="App sections">
+  <button role="tab" aria-selected="true" data-tab="now">Now</button>
+  <button role="tab" aria-selected="false" data-tab="report">Report</button>
+  <button role="tab" aria-selected="false" data-tab="me">Me</button>
+</nav>
+<main>
+  <p class="note" id="outside" hidden>This is the {{NETWORK_NAME}} app for Telegram. Open it from the <b>🗺 Map · report · settings</b> button in <a href="https://t.me/{{BOT_HANDLE}}">@{{BOT_HANDLE}}</a> to send reports and change settings; here you can look around.</p>
+
+  <!-- NOW -->
+  <section data-panel="now" role="tabpanel">
+    <div class="card"><h1 id="status">Checking the National Weather Service…</h1><p class="muted" id="status-sub"></p></div>
+    <div class="card map"><svg id="map" viewBox="0 0 320 470" role="img" aria-label="Illinois: NWS alerts in effect, storms the network is following, and your home county"></svg></div>
+    <div class="card"><h2 id="alerts-h">Alerts</h2><div id="alerts"></div></div>
+    <div class="card" id="storms-card" hidden><h2>Storms today</h2><div id="storms"></div></div>
+    <div class="card" id="county-link" hidden></div>
+  </section>
+
+  <!-- REPORT -->
+  <section data-panel="report" role="tabpanel" hidden>
+    <div class="card">
+      <h2>Where</h2>
+      <div class="seg"><button id="at-home" aria-pressed="true">At home</button><button id="at-here" aria-pressed="false">Where I am now</button></div>
+      <p class="muted" id="where-note" style="margin-top:6px"></p>
+    </div>
+    <div class="card"><h2>What do you see?</h2><div class="grid" id="reports"></div></div>
+    <div class="card" id="choices-card" hidden><h2 id="choices-h"></h2><div class="grid" id="choices"></div></div>
+    <div class="card">
+      <h2>Or type it</h2>
+      <input type="text" id="free" placeholder="rain 1.2in · hail quarter · gust 60 mph" autocomplete="off" aria-label="Type a reading">
+    </div>
+    <div class="card" id="pending-card" hidden><span class="muted">Ready to send:</span> <span class="pending" id="pending"></span><button class="fallback-send" id="send-fallback" hidden>Send report</button></div>
+  </section>
+
+  <!-- ME -->
+  <section data-panel="me" role="tabpanel" hidden>
+    <div class="card">
+      <h2>Home</h2>
+      <p id="home-label">Not set yet.</p>
+      <div class="two" style="grid-template-columns:minmax(0,1fr) auto"><input type="text" id="home-input" inputmode="numeric" placeholder="ZIP, ZIP+4 or county" aria-label="New home"><button class="btn" id="home-set">Set</button></div>
+    </div>
+    <div class="card">
+      <h2>Subscriptions</h2>
+      <div id="subs"></div>
+      <div class="two"><select id="add-cat" aria-label="What"></select><select id="add-area" aria-label="Where"></select><button class="btn" id="add-btn">Add</button></div>
+    </div>
+    <div class="card">
+      <h2>Follow-ups</h2>
+      <label class="sub"><input type="checkbox" id="followups"> A question after an alert that reached you, and a note when your report is confirmed</label>
+    </div>
+    <div class="card"><h2>Your reports</h2><div id="mine"><p class="muted">None yet. Send one from the Report tab.</p></div></div>
+    <div class="card" id="trust-card" hidden><h2>Your record</h2><div id="trust"></div></div>
+    <p class="muted" style="text-align:center"><a href="../privacy.html" id="privacy">Privacy</a> · <a href="../index.html" id="site">The whole network</a></p>
+  </section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+(function () {
+  const tg = window.Telegram && window.Telegram.WebApp;
+  const inTelegram = !!(tg && tg.platform && tg.platform !== 'unknown');
+  const $ = (s) => document.querySelector(s);
+  const el = (tag, attrs, ...kids) => { const e = document.createElement(tag); for (const k in (attrs || {})) { if (k === 'class') e.className = attrs[k]; else if (k.startsWith('on')) e.addEventListener(k.slice(2), attrs[k]); else e.setAttribute(k, attrs[k]); } for (const x of kids) if (x != null) e.append(x); return e; };
+  const TZ = 'America/Chicago';
+  const fmt = (iso, o) => { const d = new Date(iso); if (isNaN(d)) return ''; try { return new Intl.DateTimeFormat('en-US', Object.assign({ timeZone: TZ, weekday: 'short', hour: 'numeric', minute: '2-digit' }, o || {})).format(d); } catch (e) { return ''; } };
+  const tok = (k, f) => getComputedStyle(document.documentElement).getPropertyValue(k).trim() || f;
+  const haptic = (k) => { try { k === 'tap' ? tg.HapticFeedback.selectionChanged() : tg.HapticFeedback.notificationOccurred(k); } catch (e) {} };
+  if (inTelegram) { tg.ready(); tg.expand(); } else { $('#outside').hidden = false; }
+
+  // The chat's own state, from the bot: #s=<base64url JSON> (never sent to the server).
+  function readState() {
+    const m = /(?:^#|&)s=([A-Za-z0-9_-]+)/.exec(location.hash || '');
+    const raw = m ? m[1] : (window.Telegram && Telegram.WebView && Telegram.WebView.initParams && Telegram.WebView.initParams.s) || '';
+    if (!raw) return {};
+    try {
+      const b = atob(raw.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((raw.length + 3) % 4));
+      return JSON.parse(new TextDecoder().decode(Uint8Array.from(b, c => c.charCodeAt(0))));
+    } catch (e) { return {}; }
+  }
+  const S = readState();
+  const home = S.home || null;
+
+  // ── one action at a time goes back to the chat, through Telegram's main button ──
+  let action = null;
+  function setAction(label, payload) {
+    action = payload ? { label, payload } : null;
+    if (inTelegram) {
+      if (action) { tg.MainButton.setText(label); tg.MainButton.show(); } else tg.MainButton.hide();
+    }
+    const fb = $('#send-fallback'); fb.hidden = true;
+  }
+  function send() {
+    if (!action || !inTelegram) return;
+    haptic('success');
+    tg.sendData(JSON.stringify(action.payload));        // closes the app; the bot answers in the chat
+  }
+  if (inTelegram) tg.MainButton.onClick(send);
+
+  // ── tabs ──
+  let current = 'now';
+  function show(tab) {
+    current = tab;
+    document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === tab)));
+    document.querySelectorAll('[data-panel]').forEach(p => p.hidden = p.dataset.panel !== tab);
+    setAction(null);
+    if (tab === 'report') refreshReportAction();
+    if (tab === 'me') refreshMeAction();
+    haptic('tap');
+  }
+  document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => show(b.dataset.tab)));
+
+  // ── NOW: status, map, alerts, storms ──
+  const SEV = { Extreme: 4, Severe: 3, Moderate: 2, Minor: 1 };
+  const kindOf = (ev) => /Warning$/.test(ev || '') ? 'warning' : /Watch$/.test(ev || '') ? 'watch' : /Advisory$/.test(ev || '') ? 'advisory' : 'statement';
+  let shapes = null, alerts = [], storms = [];
+  async function load() {
+    const get = (u) => fetch(u).then(r => r.ok ? r.json() : null).catch(() => null);
+    const [geoj, st, topicsDoc] = await Promise.all([get('../assets/il-counties.geojson'), get('../data/storms.json'), get('../data/topics.json')]);
+    shapes = geoj; storms = st || []; buildReports(topicsDoc || []); buildCategories(topicsDoc || []);
+    try {
+      const r = await fetch('https://api.weather.gov/alerts/active?area=IL&status=actual&message_type=alert,update', { headers: { Accept: 'application/geo+json' } });
+      const j = r.ok ? await r.json() : { features: [] };
+      alerts = (j.features || []).map(f => { const p = f.properties || {}; return { event: p.event, severity: p.severity, expires: p.ends || p.expires, url: p['@id'], polygon: f.geometry, fips: ((p.geocode || {}).SAME || []).map(s => String(s).slice(1)) }; })
+        .sort((a, b) => (SEV[b.severity] || 0) - (SEV[a.severity] || 0));
+      $('#status-sub').textContent = 'Live from the National Weather Service · ' + fmt(new Date().toISOString(), { weekday: undefined });
+    } catch (e) { $('#status-sub').textContent = 'The National Weather Service didn’t answer; try again in a minute.'; }
+    renderNow();
+  }
+  function renderNow() {
+    const mine = home && home.fips ? alerts.filter(a => a.fips.includes(home.fips)) : alerts;
+    const where = home && home.fips ? (home.label || '').split(', ').pop() : 'Illinois';
+    const warn = mine.filter(a => kindOf(a.event) === 'warning').length;
+    $('#status').textContent = !mine.length ? 'No NWS alerts for ' + where + ' right now.'
+      : (warn ? warn + ' warning' + (warn === 1 ? '' : 's') + ' and ' : '') + (mine.length - warn) + ' other alert' + (mine.length - warn === 1 ? '' : 's') + ' for ' + where + '.';
+    $('#alerts-h').textContent = home && home.fips ? 'Alerts for ' + where : 'Alerts in Illinois';
+    const box = $('#alerts'); box.innerHTML = '';
+    if (!mine.length) box.append(el('p', { class: 'muted' }, 'None in effect.'));
+    mine.slice(0, 8).forEach(a => box.append(el('div', { class: 'row ' + (a.severity || '') }, el('i'), el('div', {},
+      el('b', {}, a.event || ''), el('div', { class: 'muted' }, a.expires ? 'until ' + fmt(a.expires) : '')))));
+    const near = home && home.fips ? storms.filter(s => (s.fips || []).includes(home.fips)) : storms;
+    const sb = $('#storms'); sb.innerHTML = ''; $('#storms-card').hidden = !near.length;
+    near.slice(0, 3).forEach(s => sb.append(el('div', { class: 'row ' + (s.severity >= 0.8 ? 'Severe' : s.severity >= 0.5 ? 'Moderate' : 'Minor') }, el('i'),
+      el('div', {}, el('b', {}, s.title || 'Storm'), el('div', { class: 'muted' }, (s.counties || []).join(', ')), el('div', { style: 'font-size:14px' }, s.brief || '')))));
+    if (home && home.slug) {
+      const c = $('#county-link'); c.hidden = false; c.innerHTML = '';
+      const a = el('a', { href: '../county/' + home.slug + '.html' }, 'Your county page: radar, readings, neighbors →');
+      a.addEventListener('click', (e) => { if (inTelegram) { e.preventDefault(); tg.openLink(a.href); } });
+      c.append(a);
+    }
+    drawMap(mine);
+  }
+  function drawMap(mine) {
+    if (!shapes || !window.d3) return;
+    const W = 320, H = 470, svg = d3.select('#map'); svg.selectAll('*').remove();
+    const proj = d3.geoMercator().fitExtent([[8, 8], [W - 8, H - 8]], shapes), path = d3.geoPath(proj);
+    const sev = (s) => tok(s === 'Extreme' ? '--sev-extreme' : s === 'Severe' ? '--sev-severe' : s === 'Moderate' ? '--sev-moderate' : '--sev-minor', '#c4501b');
+    const byFips = Object.fromEntries(shapes.features.map(f => [f.properties.fips, f]));
+    svg.append('g').selectAll('path').data(shapes.features).join('path').attr('d', path)
+      .style('fill', f => home && f.properties.fips === home.fips ? 'color-mix(in srgb, var(--a-accent) 22%, transparent)' : 'transparent')
+      .style('stroke', 'var(--a-line)').attr('stroke-width', .7);
+    const g = svg.append('g');
+    alerts.slice().reverse().forEach(a => {
+      if (a.polygon) g.append('path').attr('d', path(a.polygon)).attr('fill', sev(a.severity)).attr('fill-opacity', .25).attr('stroke', sev(a.severity)).attr('stroke-width', 1.5);
+      else a.fips.forEach(f => { if (byFips[f]) g.append('path').attr('d', path(byFips[f])).attr('fill', sev(a.severity)).attr('fill-opacity', kindOf(a.event) === 'warning' ? .3 : .14); });
+    });
+    storms.forEach(s => { const p = proj([s.lon, s.lat]); if (p) svg.append('circle').attr('cx', p[0]).attr('cy', p[1]).attr('r', 7).attr('fill', 'none').style('stroke', 'var(--a-ink)').attr('stroke-width', 2); });
+    if (home && byFips[home.fips]) svg.append('path').attr('d', path(byFips[home.fips])).attr('fill', 'none').style('stroke', 'var(--a-accent)').attr('stroke-width', 2);
+  }
+
+  // ── REPORT: where, what, send ──
+  let where = 'home', here = null, picked = null;
+  function setWhere(w) {
+    where = w; $('#at-home').setAttribute('aria-pressed', String(w === 'home')); $('#at-here').setAttribute('aria-pressed', String(w === 'here'));
+    $('#where-note').textContent = w === 'home' ? (home ? 'Recorded at ' + home.label + '.' : 'No home yet: set one in the Me tab, or use where you are now.')
+      : here ? 'Recorded where you are (' + here.lat.toFixed(3) + ', ' + here.lon.toFixed(3) + ').' : 'Finding you…';
+    refreshReportAction();
+  }
+  $('#at-home').addEventListener('click', () => setWhere('home'));
+  $('#at-here').addEventListener('click', () => {
+    setWhere('here');
+    const got = (lat, lon) => { here = { lat, lon }; setWhere('here'); };
+    const fail = () => { $('#where-note').textContent = 'Couldn’t get your location; allow it, or report at home.'; };
+    const lm = inTelegram && tg.LocationManager;
+    if (lm && tg.isVersionAtLeast && tg.isVersionAtLeast('8.0')) {
+      lm.init(() => lm.getLocation(loc => loc ? got(loc.latitude, loc.longitude) : (lm.isAccessRequested && !lm.isAccessGranted ? lm.openSettings() : fail())));
+    } else if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(p => got(p.coords.latitude, p.coords.longitude), fail, { enableHighAccuracy: true, timeout: 10000 });
+    } else fail();
+  });
+  function buildReports(topicsDoc) {
+    const box = $('#reports'); box.innerHTML = '';
+    topicsDoc.forEach(t => (t.quick_reports || []).forEach(q => box.append(el('button', { class: 'pick', 'aria-pressed': 'false', onclick: () => chooseReport(q) }, q.button))));
+  }
+  function chooseReport(q) {
+    haptic('tap');
+    document.querySelectorAll('#reports .pick').forEach(b => b.setAttribute('aria-pressed', String(b.textContent === q.button)));
+    const card = $('#choices-card'), box = $('#choices'); box.innerHTML = '';
+    if (q.choices) {
+      card.hidden = false; $('#choices-h').textContent = q.ask || 'Pick one';
+      q.choices.forEach(([label, reading]) => box.append(el('button', { class: 'pick', 'aria-pressed': 'false', onclick: (e) => {
+        document.querySelectorAll('#choices .pick').forEach(b => b.setAttribute('aria-pressed', 'false')); e.currentTarget.setAttribute('aria-pressed', 'true');
+        pick(q.button + ' · ' + label, reading); } }, label)));
+      picked = null; refreshReportAction();
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else { card.hidden = true; pick(q.button, q.send); }
+  }
+  function pick(label, reading) { picked = { label, reading }; $('#free').value = ''; refreshReportAction(); }
+  $('#free').addEventListener('input', (e) => { const v = e.target.value.trim(); picked = v ? { label: v, reading: v } : null;
+    if (v) { document.querySelectorAll('.pick').forEach(b => b.setAttribute('aria-pressed', 'false')); $('#choices-card').hidden = true; } refreshReportAction(); });
+  function refreshReportAction() {
+    if (current !== 'report') return;
+    const place = where === 'here' ? here : home;
+    $('#pending-card').hidden = !picked;
+    if (!picked) return setAction(null);
+    $('#pending').textContent = picked.label + (where === 'here' ? ' · where I am' : home ? ' · at home' : '');
+    if (!place) return setAction(null);                   // nowhere to record it yet
+    const payload = { a: 'report', text: picked.reading };
+    if (where === 'here' && here) { payload.lat = +here.lat.toFixed(5); payload.lon = +here.lon.toFixed(5); }
+    setAction('Send report', payload);
+    if (!inTelegram) { const fb = $('#send-fallback'); fb.hidden = false; fb.disabled = true; fb.textContent = 'Open from Telegram to send'; }
+  }
+
+  // ── ME: home, subscriptions, follow-ups, your reports, your record ──
+  $('#home-label').textContent = home ? home.label : 'Not set yet.';
+  $('#home-set').addEventListener('click', () => { const v = $('#home-input').value.trim(); if (!v) return; subChanges = { add: [], remove: [] }; setAction('Set home to ' + v, { a: 'home', place: v }); if (inTelegram) send(); });
+  let subChanges = { add: [], remove: [] };
+  const catLabel = {};
+  function buildCategories(topicsDoc) {
+    const sel = $('#add-cat'); sel.innerHTML = '';
+    topicsDoc.forEach(t => { const og = el('optgroup', { label: t.label }); (t.categories || []).forEach(c => { catLabel[c.key] = c.description; og.append(el('option', { value: c.key }, c.key.split('.').pop() + ' · ' + t.label.toLowerCase())); }); sel.append(og); });
+    const area = $('#add-area'); area.innerHTML = '';
+    if (home && home.slug) area.append(el('option', { value: 'il.' + home.slug }, (home.label || '').split(', ').pop()));
+    if (home && home.zip) area.append(el('option', { value: home.zip }, 'ZIP ' + home.zip));
+    area.append(el('option', { value: 'il' }, 'All of Illinois'));
+    renderSubs();
+  }
+  function renderSubs() {
+    const box = $('#subs'); box.innerHTML = '';
+    const rows = (S.subs || []).map(([cat, area, label]) => ({ cat, area, label, have: true }))
+      .concat(subChanges.add.map(([cat, area, label]) => ({ cat, area, label, have: false })));
+    if (!rows.length) box.append(el('p', { class: 'muted' }, 'None yet. Warnings for your county is a good start.'));
+    rows.forEach(r => {
+      const off = r.have && subChanges.remove.some(([c, a]) => c === r.cat && a === r.area);
+      const cb = el('input', { type: 'checkbox' }); cb.checked = !off;
+      cb.addEventListener('change', () => {
+        if (r.have) { subChanges.remove = subChanges.remove.filter(([c, a]) => !(c === r.cat && a === r.area)); if (!cb.checked) subChanges.remove.push([r.cat, r.area]); }
+        else subChanges.add = subChanges.add.filter(([c, a]) => !(c === r.cat && a === r.area));
+        renderSubs(); refreshMeAction();
+      });
+      box.append(el('label', { class: 'sub' }, cb, el('span', {}, el('b', {}, r.cat), ' · ' + (r.label || r.area) + (r.have ? '' : ' (new)'))));
+    });
+  }
+  $('#add-btn').addEventListener('click', () => {
+    const cat = $('#add-cat').value, area = $('#add-area').value, label = $('#add-area').selectedOptions[0]?.textContent || area;
+    if (!cat || (S.subs || []).some(([c, a]) => c === cat && a === area) || subChanges.add.some(([c, a]) => c === cat && a === area)) return;
+    subChanges.add.push([cat, area, label]); haptic('tap'); renderSubs(); refreshMeAction();
+  });
+  const fu = $('#followups'); fu.checked = S.followups !== false;
+  fu.addEventListener('change', () => { subChanges = { add: [], remove: [] }; renderSubs(); setAction(fu.checked ? 'Turn follow-ups on' : 'Turn follow-ups off', { a: 'followups', on: fu.checked }); });
+  function refreshMeAction() {
+    if (current !== 'me') return;
+    const n = subChanges.add.length + subChanges.remove.length;
+    setAction(n ? 'Save ' + n + ' change' + (n === 1 ? '' : 's') : null,
+      n ? { a: 'subs', add: subChanges.add.map(([c, a]) => [c, a]), remove: subChanges.remove } : null);
+  }
+  function checked(r) {
+    if (r.q === 'corroborated') return el('span', { class: 'chip ok' }, r.g === 'agree' ? 'radar agrees' : r.r === 'agree' ? 'official agrees' : 'confirmed');
+    if (r.q === 'flagged' || r.q === 'rejected') return el('span', { class: 'chip bad' }, r.q);
+    if (r.g === 'disagree') return el('span', { class: 'chip wait' }, 'radar saw less');
+    return el('span', { class: 'chip wait' }, 'waiting for a neighbor');
+  }
+  if ((S.reports || []).length) {
+    const box = $('#mine'); box.innerHTML = '';
+    S.reports.forEach(r => box.append(el('div', { class: 'row' }, el('i'), el('div', {}, el('b', {}, r.m + (r.v ? ' ' + r.v : '')), checked(r), el('div', { class: 'muted' }, fmt(r.t))))));
+  }
+  if ((S.trust || []).length) { $('#trust-card').hidden = false; S.trust.forEach(([topic, label]) => $('#trust').append(el('div', {}, el('b', {}, topic), ' ' + label))); }
+  ['privacy', 'site'].forEach(id => $('#' + id).addEventListener('click', (e) => { if (inTelegram) { e.preventDefault(); tg.openLink(e.currentTarget.href); } }));
+
+  setWhere('home');
+  load();
+})();
+</script>
+</body>
+</html>

@@ -83,6 +83,11 @@ tornado @sangamon -- on the ground west of town
   **Damage** and **Nothing here** record at once, each with an **Undo** button
 * **Nothing here** is an absence report: kept for the map (it shows where a storm
   didn't reach), never corroborated, trusted or pushed
+* the report keyboard has a **🗺 Map · report · settings** button: a Telegram Mini App
+  with a live map of alerts and storms near your home, a two-tap report composer (at
+  home or where you are), and your home, subscriptions, follow-ups, recent reports (and
+  how each was checked) and trust in one place. It runs from GitHub Pages; changes go
+  back through Telegram, so there is still no server
 * event subscribers get **one card per storm**: the storm's counties, its warnings,
   its events and a short brief citing them, edited in place as the storm grows (a
   new message with sound only when it escalates)
@@ -316,6 +321,7 @@ src/intelnet/
 ├── trust.py        Trust v2: per topic, fading, 80% range / "new", independence
 ├── stories.py      storms as stories: events + storm-based warnings clustered per storm
 ├── story_brief.py  a storm's cited brief (local LLM, checked) or its template
+site/app.fragment.html  the Telegram Mini App (→ docs/app/index.html)
 ├── grids.py        radar grids (MRMS QPE, MESH) that judge people's rain and hail
 ├── contrib.py      the contribution path: parse → store → assess → fan-out → ack
 ├── subscriptions.py  category × area matching; alert cards / event / report / digest pushes

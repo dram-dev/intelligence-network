@@ -79,6 +79,18 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   numbers (`valid()`), else the template from the same facts. `summaries()` feeds the
   digest "Storms" section, the morning brief, and `storms.json` / the site's "Storms
   today" panel (11 public JSON docs now).
+- **Telegram Mini App** (`site/app.fragment.html` → `docs/app/index.html` via
+  `export.render_app_page`): tabs Now (live NWS alerts for home, statewide map with
+  storms, county-page link), Report (every pack's `quick_reports` from topics.json; at
+  home or "where I am" via Telegram LocationManager / browser geolocation), Me (home,
+  subscriptions, follow-ups, recent reports + how each was checked, trust by topic).
+  Opened only from the report keyboard's `web_app` button (`bot.APP_BUTTON`; https
+  `public_site_url` only), because `sendData` works only from keyboard buttons. The chat's
+  state (`bot.app_state`) rides in the URL `#s=` fragment (base64url JSON; never sent to
+  the server); changes return as `message.web_app_data` JSON handled by
+  `bot.handle_web_app`: `{a: report, text, lat?, lon?}` · `{a: subs, add, remove}` ·
+  `{a: home, place}` · `{a: followups, on}`, validated like typed input. No BotFather
+  setup needed; the page exists once the nightly export pushes `docs/app/`.
 - **Gridded truth** (`grids.py`, pack `reference_grids`): MRMS QPE via the NOAA
   mapservices ImageServer identify (mosaicRule picks the product by catalog name,
   renderingRule None → raw mm; with a raster function you get a colour class) and

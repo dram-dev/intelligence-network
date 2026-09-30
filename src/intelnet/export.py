@@ -62,6 +62,9 @@ def _topics_doc() -> list[dict[str, Any]]:
                             if m.display_unit else None),
                 "convert": _convert_table(m),
             } for m in t.metrics.values()],
+            # the report buttons (the chat keyboard and the Mini App's composer)
+            "quick_reports": [{k: q[k] for k in ("id", "button", "ask", "choices", "send", "keyboard") if k in q}
+                              for q in t.quick_reports],
         })
     return out
 
@@ -449,6 +452,8 @@ def export_all(out_dir: Path | None = None, days: int = 14, *, site: bool = True
         result["digest_page"] = str(write_digest_page(snap, out_dir))
         counties = render_county_pages(snap, out_dir)
         result["county_pages"] = len(counties)
+        app = render_app_page(snap, out_dir)
+        result["app"] = str(app) if app else None
         result["sitemap"] = str(write_sitemap(snap, out_dir, counties))
     return result
 
@@ -575,6 +580,25 @@ def render_county_pages(snap: dict[str, Any], out_dir: Path, template: Path | No
         dest.write_text(doc, encoding="utf-8")
         written.append(dest)
     return written
+
+
+APP_TEMPLATE = SITE_DIR / "app.fragment.html"
+
+
+def render_app_page(snap: dict[str, Any], out_dir: Path, template: Path | None = None) -> Path | None:
+    """docs/app/index.html: the Telegram Mini App (map, report composer, settings). It
+    reads ../data/*.json and the NWS live; the chat's own state arrives in the URL's
+    #fragment from the bot, and changes go back through Telegram (WebApp.sendData)."""
+    template = template or APP_TEMPLATE
+    if not template.exists():
+        return None
+    page = template.read_text(encoding="utf-8").replace("{{TOKENS}}", _tokens())
+    for key, val in _page_values(snap).items():
+        page = page.replace(key, html.escape(val) if key != "{{COUNTY_LINKS}}" else "")
+    dest = out_dir / "app" / "index.html"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(page, encoding="utf-8")
+    return dest
 
 
 def write_sitemap(snap: dict[str, Any], out_dir: Path, county_pages: list[Path]) -> Path | None:
