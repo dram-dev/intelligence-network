@@ -1103,6 +1103,14 @@ def link_alert_ids(thread_id: str, alert_ids: Iterable[str]) -> None:
         )
 
 
+def alert_threads_ended_since(hours: float) -> list[sqlite3.Row]:
+    with get_conn() as conn:
+        return conn.execute(
+            "SELECT * FROM alert_threads WHERE status = 'ended' AND ended_at >= ? ORDER BY ended_at",
+            (_since(hours),),
+        ).fetchall()
+
+
 def alert_thread(thread_id: str) -> sqlite3.Row | None:
     with get_conn() as conn:
         return conn.execute("SELECT * FROM alert_threads WHERE id = ?", (thread_id,)).fetchone()
@@ -1161,6 +1169,21 @@ def expire_alert_rows(thread_id: str, at: datetime, *, keep_alert_id: str | None
         prefix = f"{keep_alert_id}|"
         sql += " AND substr(source_id, 1, ?) != ?"
         params += [len(prefix), prefix]
+    with get_conn() as conn:
+        return conn.execute(sql, params).rowcount
+
+
+def retire_unthreaded_alert_rows(present: Iterable[str], at: datetime) -> int:
+    """Alert rows stored before threading existed stop counting as active once their CAP
+    id has left the live feed (threads settle their own rows)."""
+    ids = list(present)
+    sql = """UPDATE signals SET expires_at = ? WHERE source = 'nws_alerts'
+             AND (expires_at IS NULL OR expires_at > ?)
+             AND group_key NOT IN (SELECT id FROM alert_threads)"""
+    params: list[Any] = [iso(at), iso(at)]
+    if ids:
+        sql += f" AND substr(source_id, 1, instr(source_id, '|') - 1) NOT IN ({','.join('?' * len(ids))})"
+        params += ids
     with get_conn() as conn:
         return conn.execute(sql, params).rowcount
 

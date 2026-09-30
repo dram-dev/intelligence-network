@@ -12,7 +12,7 @@ description: Stream stage and flow, lakes and wells, water quality, ponding and 
 categories:
   events:  Network-detected water events near you — low oxygen, nitrate spikes, fish kills, blooms
   reports: Every accepted water reading near you (raw)
-  digest:  The daily digest (Google Doc link) when it is published
+  digest:  Your county's morning brief at 8:00, with the full digest in Drive
 
 metrics:
   stage_m:

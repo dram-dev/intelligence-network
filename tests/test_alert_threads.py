@@ -209,3 +209,12 @@ def test_an_update_that_newly_covers_you_rings_again(fresh_db, sent, monkeypatch
     run_feed(monkeypatch, feature("H2", refs=("H1",), polygon=wider, sent_ago=2, message_type="Update"))
     assert len(sent) == 2 and "now covers your location" in sent[1][1] and sent.replies[1][2] is False
     assert "inside the warned area" in sent.edits[-1][2]
+
+
+def test_rows_from_before_threading_retire_when_their_alert_leaves_the_feed(fresh_db, monkeypatch):
+    old = nws_alerts.parse_alerts({"features": [feature("L1", sent_ago=60), feature("L2", sent_ago=30)]})
+    db.insert_signals(old)                                   # stored as they were before threading
+    assert len(nws_alerts.active_alert_groups()) == 2
+    run_feed(monkeypatch, feature("L2", sent_ago=30))        # L1 was superseded; only L2 is live
+    groups = nws_alerts.active_alert_groups()
+    assert [g["signal"].evidence["alert_id"] for g in groups] == ["L2"]

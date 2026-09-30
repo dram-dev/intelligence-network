@@ -12,7 +12,7 @@ description: Soil moisture, temperature, chemistry and structure from probes, ki
 categories:
   events:  Network-detected soil events near you — drought-dry profiles, root-limiting compaction, erosion
   reports: Every accepted soil reading near you (raw)
-  digest:  The daily digest (Google Doc link) when it is published
+  digest:  Your county's morning brief at 8:00, with the full digest in Drive
 
 metrics:
   soil_moisture_pct:

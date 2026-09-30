@@ -125,25 +125,6 @@ def test_pipeline_waits_for_the_lock_and_gives_up_when_wedged(stubbed, monkeypat
     assert os.path.exists(str(tmp_path / "lock"))
 
 
-def test_notify_digest_respects_quiet_hours(fresh_db, sent, monkeypatch):
-    from intelnet.config import settings
-
-    assert pipeline.notify_digest()["reason"].startswith("Drive publishing is off")
-    monkeypatch.setattr(settings, "gdrive_enabled", True)
-    assert pipeline.notify_digest()["reason"] == "no digest"
-    db.record_digest("2026-09-14", drive_file_id=None, drive_url=None, latest_url=None, folder_url=None,
-                     n_events=0, n_signals=0, n_sensors=0)
-    assert pipeline.notify_digest(force=True)["reason"].startswith("no link")     # Drive not set up: no ping
-    db.record_digest("2026-09-15", drive_file_id="d", drive_url="https://docs.google.com/document/d/d/edit",
-                     latest_url=None, folder_url=None, n_events=1, n_signals=2, n_sensors=1)
-    db.add_subscription("5", "weather.digest", "il")
-    monkeypatch.setattr(pipeline, "subscriptions_allowed_now", lambda: False)
-    assert pipeline.notify_digest()["reason"] == "quiet hours"
-    assert pipeline.notify_digest(force=True)["sent"] == 1 and sent[0][0] == "5"
-    monkeypatch.setattr(pipeline, "subscriptions_allowed_now", lambda: True)
-    assert pipeline.notify_digest()["sent"] == 0             # already delivered (notify_log)
-
-
 def test_triage_without_llm_keeps_items_unranked(fresh_db):
     from intelnet.ingest.base import IngestedItem
 

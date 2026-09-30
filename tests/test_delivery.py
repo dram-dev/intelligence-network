@@ -23,7 +23,7 @@ def test_a_failed_push_stays_queued_and_lands_on_retry(fresh_db, sent, monkeypat
     db.add_subscription("5", "weather.digest", "il")
     answers = iter([telegram.Sent(False, error="HTTP 502"), telegram.Sent(True, message_id=77)])
     monkeypatch.setattr(telegram.bot, "deliver", lambda *a, **k: next(answers))
-    assert subscriptions.fanout_digest("2026-09-29", "https://docs.google.com/d", None) == 0
+    assert subscriptions.push("weather.digest", ["il"], "digest:2026-09-29", "brief") == 0
     row = _row("digest:2026-09-29", "5")
     assert (row["status"], row["attempts"], row["last_error"]) == ("pending", 1, "HTTP 502")
     assert parse_iso(row["next_attempt_at"]) > utcnow()                 # backing off
@@ -33,7 +33,7 @@ def test_a_failed_push_stays_queued_and_lands_on_retry(fresh_db, sent, monkeypat
     row = _row("digest:2026-09-29", "5")
     assert (row["status"], row["message_id"]) == ("sent", 77)
     assert db.already_notified("digest:2026-09-29", "5")
-    assert subscriptions.fanout_digest("2026-09-29", "https://docs.google.com/d", None) == 0
+    assert subscriptions.push("weather.digest", ["il"], "digest:2026-09-29", "brief") == 0
 
 
 def test_429_waits_as_asked_and_a_blocked_chat_is_dropped(fresh_db, sent, monkeypatch):
@@ -42,7 +42,7 @@ def test_429_waits_as_asked_and_a_blocked_chat_is_dropped(fresh_db, sent, monkey
     answers = {"6": telegram.Sent(False, retry_after=17, error="Too Many Requests"),
                "7": telegram.Sent(False, permanent=True, error="Forbidden: bot was blocked by the user")}
     monkeypatch.setattr(telegram.bot, "deliver", lambda chat, *a, **k: answers[str(chat)])
-    subscriptions.fanout_digest("2026-09-30", "https://docs.google.com/d", None)
+    subscriptions.push("weather.digest", ["il"], "digest:2026-09-30", "brief")
     wait = parse_iso(_row("digest:2026-09-30", "6")["next_attempt_at"]) - utcnow()
     assert timedelta(seconds=14) < wait <= timedelta(seconds=17)
     assert _row("digest:2026-09-30", "7")["status"] == "dropped"

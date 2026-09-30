@@ -10,7 +10,7 @@ description: PM2.5, AQI, ozone, wildfire smoke, odor and open burning.
 categories:
   events:  Network-detected air events near you — unhealthy PM2.5 / AQI, ozone, smoke
   reports: Every accepted air reading near you (raw)
-  digest:  The daily digest (Google Doc link) when it is published
+  digest:  Your county's morning brief at 8:00, with the full digest in Drive
 
 metrics:
   pm25_ugm3:

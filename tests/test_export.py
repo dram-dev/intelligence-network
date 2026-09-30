@@ -119,3 +119,19 @@ def test_link_preview_tags_get_absolute_urls_and_assets_ship(fresh_db, tmp_path:
 
 def test_copy_assets_is_a_no_op_without_an_assets_dir(tmp_path: Path):
     assert export.copy_assets(tmp_path, site_dir=tmp_path / "empty-site") == []
+
+
+def test_every_county_gets_a_page_and_the_sitemap_lists_them(fresh_db, tmp_path: Path):
+    snap = export.snapshot(days=1)
+    pages = export.render_county_pages(snap, tmp_path)
+    assert len(pages) == 102
+    html = (tmp_path / "county" / "sangamon.html").read_text(encoding="utf-8")
+    assert "<title>Sangamon County, Illinois" in html and "{{" not in html
+    assert "start=sub_weather_warnings_sangamon" in html and "start=sub_weather_digest_il" in html
+    assert "--accent:" in html                                         # the front page's tokens
+    assert 'href="menard.html"' in html                               # a neighbor
+    data = json.loads(html.split("window.COUNTY_DATA = ", 1)[1].split(";</script>", 1)[0].replace("<\\/", "</"))
+    assert data["fips"] == "17167" and data["shapes"]["features"][0]["properties"]["fips"] == "17167"
+    sitemap = export.write_sitemap(snap, tmp_path, pages).read_text(encoding="utf-8")
+    assert sitemap.count("<url>") == 1 + len(export.STATIC_PAGES) + 102 and "county/sangamon.html" in sitemap
+    assert "Sitemap:" in (tmp_path / "robots.txt").read_text(encoding="utf-8")

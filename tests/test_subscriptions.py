@@ -102,15 +102,6 @@ def test_fanout_report_excludes_the_author_and_hides_identity(fresh_db, sent, ma
     assert "Ann" not in text and "62704-1234" not in text and "tg:1" not in text
 
 
-def test_fanout_digest_is_statewide_and_deduped(fresh_db, sent):
-    db.add_subscription("1", "weather.digest", "il")
-    db.add_subscription("2", "weather.digest", "il")
-    n = subscriptions.fanout_digest("2026-09-15", "https://docs.google.com/document/d/abc/edit",
-                                    "https://drive.google.com/drive/folders/f", "3 events")
-    assert n == 2 and all("docs.google.com" in t for _, t in sent)
-    assert subscriptions.fanout_digest("2026-09-15", "https://x", None) == 0
-
-
 def test_banned_sensor_chat_is_skipped(fresh_db, make_sensor):
     make_sensor("tg:5", zip_code="62704", chat_id="5")
     db.add_subscription("5", "weather.alerts", "il")

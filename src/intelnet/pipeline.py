@@ -17,7 +17,7 @@ from typing import Any, Callable
 from digest_core.cli.base import discover_ingestors, run_ingest
 from digest_core.runlock import PipelineLockTimeout, pipeline_serialize
 
-from intelnet import db, digest, llm, network, subscriptions, watch
+from intelnet import db, digest, llm, network, watch
 from intelnet.config import settings
 
 logger = logging.getLogger(__name__)
@@ -183,21 +183,16 @@ def run(run_type: str = "daily", skip_publish: bool = False, console: Any = None
 
 
 def notify_digest(force: bool = False) -> dict[str, Any]:
-    """Telegram ping for the latest digest (quiet-hours aware unless forced)."""
-    if not settings.gdrive_enabled:
-        return {"sent": 0, "reason": "Drive publishing is off (GDRIVE_ENABLED=false)"}
-    row = db.latest_digest()
-    if row is None:
-        return {"sent": 0, "reason": "no digest"}
-    if not (row["drive_url"] or row["latest_url"]):
-        # A digest with nothing to open (Drive not authorized yet) — a ping
-        # without a link would just be noise.
-        return {"sent": 0, "reason": "no link (Drive not configured)", "date": row["date"]}
+    """The 08:00 morning brief: each digest subscriber's own county, in the chat, with
+    today's Drive links when the digest made it there (quiet-hours aware unless forced)."""
+    from intelnet import brief
+    from intelnet.models import utcnow
+
+    today = utcnow().strftime("%Y-%m-%d")      # the digest's own date (digest.build)
     if not force and not subscriptions_allowed_now():
-        return {"sent": 0, "reason": "quiet hours", "date": row["date"]}
-    sent = subscriptions.fanout_digest(row["date"], row["drive_url"] or row["latest_url"],
-                                       row["folder_url"])
-    return {"sent": sent, "date": row["date"]}
+        return {"sent": 0, "reason": "quiet hours", "date": today}
+    links = brief.links_for(today)
+    return {"sent": brief.fanout_brief(today, links), "date": today, "links": bool(links)}
 
 
 def subscriptions_allowed_now() -> bool:

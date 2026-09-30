@@ -286,6 +286,7 @@ def settle_threads(present: set[str] | None, now: datetime) -> list[tuple[str, s
             logger.warning("nws_alerts: empty feed while %d alerts are in force; "
                            "not treating it as an all-clear", len(in_force))
         else:
+            db.retire_unthreaded_alert_rows(present, now)
             for t in active:
                 if t["current_id"] in present:
                     if t["missing_since"]:

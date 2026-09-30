@@ -13,7 +13,7 @@ description: Cash bids and basis at the elevator, drying fuel, and how the harve
 categories:
   events:  Network-detected market moves near you — basis swings, fuel spikes, no space
   reports: Every accepted market report near you (raw)
-  digest:  The daily digest (Google Doc link) when it is published
+  digest:  Your county's morning brief at 8:00, with the full digest in Drive
 
 metrics:
   corn_basis:

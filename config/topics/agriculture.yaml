@@ -11,7 +11,7 @@ description: Crop stage and condition, planting and harvest progress, pests, dis
 categories:
   events:  Network-detected agricultural events near you — drought stress, crop damage, pest or disease outbreaks
   reports: Every accepted field report near you (raw)
-  digest:  The daily digest (Google Doc link) when it is published
+  digest:  Your county's morning brief at 8:00, with the full digest in Drive
 
 metrics:
   corn_stage:

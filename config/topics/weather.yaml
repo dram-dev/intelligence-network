@@ -38,7 +38,7 @@ categories:
   alerts:   Every NWS alert for your area (watches, advisories, statements)
   events:   Network-detected events — corroborated readings that crossed a threshold near you
   reports:  Every accepted contribution near you (raw, unfiltered)
-  digest:   The daily digest (Google Doc link) when it is published
+  digest:   Your county's morning brief at 8:00, with the full digest in Drive
 
 # NWS alert severity → subscription categories that receive it.
 alert_routing:

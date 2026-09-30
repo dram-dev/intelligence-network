@@ -13,7 +13,7 @@ description: First frost and leaf-out, fall colour, morels, monarchs, migration 
 categories:
   events:  Network-detected seasonal events near you — first frost, peak colour, a migration wave
   reports: Every accepted seasonal report near you (raw)
-  digest:  The daily digest (Google Doc link) when it is published
+  digest:  Your county's morning brief at 8:00, with the full digest in Drive
 
 metrics:
   fall_color_pct:

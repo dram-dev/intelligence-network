@@ -39,7 +39,7 @@ alert-loop (~30 s) ─▶ nws_alerts: CAP threads ─▶ subscriptions.fanout_al
 feeds (iem_lsr · iem_asos · …, watch every 5 min) ──▶ same Signal table
 
 pipeline (01:10, under digest_core.runlock) ──▶ digest.build → gdrive.publish
-notify (08:00) ──▶ subscriptions.fanout_digest
+notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's county)
 ```
 
 ## Key facts / decisions
@@ -138,6 +138,19 @@ notify (08:00) ──▶ subscriptions.fanout_digest
   The snapshot carries `feeds` (last good run per source) and `reference_sizes`.
   Grids that collapse to one column use `minmax(0, 1fr)` (plain `1fr` let a long
   code line push the phone layout to 1,240 px).
+- **Morning brief** (`brief.py`): replaces the digest-link ping. Per digest
+  subscriber: county from live location, else home, else the state. Lines: alerts
+  in effect (one per event, ×n), alerts ended in 24 h (alert_threads), every metric
+  people reported or whose reading crossed its event threshold (no weather code),
+  network events, a `<blockquote expandable>` statewide summary, Drive + county-page
+  links. Works without Drive. Key `digest:<local date>` = once a day.
+- **County pages** (`export.render_county_pages`, `site/county.fragment.html`):
+  `docs/county/<slug>.html` ×102 + `sitemap.xml` + `robots.txt`. Static HTML for
+  search (subscribe links, readings, neighbors), a small script for live alerts
+  and the map. Tokens come from the front page between `/* tokens … */` markers.
+- **Pre-threading alert rows** (group_key = own CAP id, no thread) retire when their
+  id leaves a full feed (`retire_unthreaded_alert_rows`), so old versions stop
+  counting as active.
 - **Accumulating metrics** (`accumulates: true`: rain, snow) compare only readings
   over the same period (`evidence.period`; ASOS `phour` is `1h`), so an hourly
   station amount never flags a storm total. MRMS QPE as a rain reference: not yet.
@@ -153,7 +166,7 @@ notify (08:00) ──▶ subscriptions.fanout_digest
 | `com.dr.intelnet.alerts` | KeepAlive: NWS alerts every `ALERT_POLL_SECONDS` (30) + outbox retries |
 | `com.dr.intelnet.watch` | every 300 s (LSR + gated stations; alerts only if the alert loop's heartbeat is stale) |
 | `com.dr.intelnet.daily` | 01:10 — third in the queue: macro 01:00 → PC 01:05 → this |
-| `com.dr.intelnet.notify` | 08:00 digest ping |
+| `com.dr.intelnet.notify` | 08:00 morning brief (per county; Drive links when today's digest is up) |
 
 ## Topic packs (2026-09-15, wave 2)
 

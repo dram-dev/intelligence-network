@@ -25,6 +25,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
+  /* tokens: shared with the county pages (export._tokens) */
   :root {
     --ground: #F1F3EF; --surface: #FFFFFF; --surface-2: #E6EAE5; --ink: #1A1F1C; --muted: #5B655F;
     --line: #D3DAD4; --line-strong: #B9C3BC; --accent: #1D6E7A; --accent-ink: #FFFFFF; --amber: #B7791F;
@@ -61,6 +62,7 @@
     --ok: #7CBF88; --shadow: none; color-scheme: dark;
     --grid-fine: rgba(95,180,192,.05); --grid-bold: rgba(95,180,192,.12);
   }
+  /* end tokens */
   * { box-sizing: border-box; }
   html { height: 100%; }
   body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--body); font-size: 16px;
@@ -298,7 +300,7 @@
 </nav>
 
 <div class="filterbar" id="filter-bar" hidden>
-  <span>Showing <b id="filter-label"></b><span class="muted" id="filter-scope"></span></span>
+  <span>Showing <b id="filter-label"></b><span class="muted" id="filter-scope"></span> <a id="filter-page" href="#" hidden style="color:inherit">County page</a></span>
   <button class="btn" type="button" id="filter-clear">Clear</button>
 </div>
 
@@ -505,6 +507,7 @@ K = 4 · prior = 0.5 · trusted ≥ 0.8</pre>
   <div class="wrap">
     <p id="foot-line">Snapshot · Illinois · counties, ZIPs and ZIP+4 · human readings are published by handle and county only.</p>
     <p style="margin-top:6px"><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a> · <a id="repo-link" href="#">Source on GitHub</a><span id="contact-line"></span></p>
+    <details style="margin-top:10px"><summary>County pages</summary><p style="margin-top:8px; line-height:1.9">{{COUNTY_LINKS}}</p></details>
     <p style="margin-top:6px">Not an official warning service — in an emergency, follow the National Weather Service and local officials. Reference data from NWS, IEM, USGS, NRCS and NDMC, used under their public terms.</p>
   </div>
 </footer>
@@ -748,6 +751,8 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     if (filter) {
       $('#filter-label').textContent = filter.label;
       $('#filter-scope').textContent = '· filtering ' + (FILTER_SCOPE[filter.kind] || 'the tables below');
+      const page = $('#filter-page'), fc = filter.kind === 'county' ? counties.find(x => x.fips === filter.value) : null;
+      page.hidden = !fc; if (fc) { page.href = 'county/' + fc.slug + '.html'; page.textContent = '· ' + fc.name + ' County page'; }
       const nav = document.querySelector('.nav');
       bar.style.top = (nav ? nav.getBoundingClientRect().height : 0) + 'px';
     }
@@ -1091,7 +1096,7 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
       : 'No one reports from ' + c.name + ' County yet. You could be the first.'));
     const links = el('div', { class: 'near-links' },
       el('a', { class: 'btn primary', href: tgLink('weather_warnings', zip), target: '_blank', rel: 'noopener' }, 'Get warnings for ' + zip));
-    if (c) links.append(el('a', { class: 'btn', href: tgLink('weather_events', c.slug), target: '_blank', rel: 'noopener' }, 'Network events, ' + c.name));
+    if (c) links.append(el('a', { class: 'btn', href: 'county/' + c.slug + '.html' }, c.name + ' County page'));
     nearOut.append(links);
     pinNear(zip);
     try { localStorage.setItem('in-zip', zip); } catch (e) {}

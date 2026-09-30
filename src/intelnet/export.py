@@ -14,6 +14,7 @@ and as a Claude artifact without fetching anything.
 """
 from __future__ import annotations
 
+import html
 import json
 import re
 import shutil
@@ -26,14 +27,16 @@ import yaml
 
 from intelnet import db, geo, network
 from intelnet.config import CONFIG_DIR, PROJECT_ROOT, settings
-from intelnet.models import KIND_BOT, KIND_HUMAN, REFERENCE_KINDS, public_handle, utcnow
-from intelnet.topics import topics
+from intelnet.models import KIND_BOT, KIND_HUMAN, REFERENCE_KINDS, local_time, public_handle, utcnow
+from intelnet.topics import find_metric, topics
 
 SITE_DIR = PROJECT_ROOT / "site"
 FRAGMENT = SITE_DIR / "index.fragment.html"
 ASSETS_DIR = SITE_DIR / "assets"
 DOCS_DIR = PROJECT_ROOT / "docs"
 DATA_MARK = "/*__NETWORK_DATA__*/null"
+COUNTY_TEMPLATE = SITE_DIR / "county.fragment.html"
+COUNTY_MARK = "/*__COUNTY_DATA__*/null"
 HUMAN_KINDS = (KIND_HUMAN, KIND_BOT)
 
 
@@ -308,6 +311,8 @@ def _page_values(snap: dict[str, Any]) -> dict[str, str]:
         "{{BOT_HANDLE}}": str(snap.get("bot_handle") or "intelligence_network_bot"),
         "{{CONTACT_EMAIL}}": str(snap.get("contact_email") or ""),
         "{{SITE_URL}}": str(snap.get("site_url") or "./"),
+        "{{COUNTY_LINKS}}": " · ".join(
+            f'<a href="county/{c["slug"]}.html">{html.escape(c["name"])}</a>' for c in snap.get("counties") or []),
     }
 
 
@@ -432,7 +437,144 @@ def export_all(out_dir: Path | None = None, days: int = 14, *, site: bool = True
         result["pages"] = [str(p) for p in render_static_pages(snap, out_dir)]
         result["assets"] = [str(p) for p in copy_assets(out_dir)]
         result["digest_page"] = str(write_digest_page(snap, out_dir))
+        counties = render_county_pages(snap, out_dir)
+        result["county_pages"] = len(counties)
+        result["sitemap"] = str(write_sitemap(snap, out_dir, counties))
     return result
+
+
+# ── county pages: one per county, for the people who live there and for search ──
+
+def _tokens(fragment: Path | None = None) -> str:
+    """The front page's color and type tokens (between its token markers), so every page matches."""
+    m = re.search(r"/\* tokens:.*?\*/(.*?)/\* end tokens \*/", (fragment or FRAGMENT).read_text(encoding="utf-8"), re.DOTALL)
+    return m.group(1) if m else ""
+
+
+def _neighbors(c: geo.County, n: int = 6, within_km: float = 90.0) -> list[geo.County]:
+    near = sorted((o for o in geo.counties().values() if o.fips != c.fips),
+                  key=lambda o: geo.haversine_km(c.lat, c.lon, o.lat, o.lon))
+    return [o for o in near[:n] if geo.haversine_km(c.lat, c.lon, o.lat, o.lon) <= within_km]
+
+
+def _short(metric: Any, value: float) -> str:
+    """'71.1 °F' out of '71.1 °F (21.7 degC)'; '96 %' rather than '96 pct'."""
+    return metric.display(value).split(" (")[0].replace(" pct", "%")
+
+
+def _readings(c: geo.County, row: dict[str, Any], mesh: list[Any], events: list[dict[str, Any]], days: int) -> str:
+    e = html.escape
+    parts = [(f'<p class="muted">{row.get("human", 0):,} readings from people and {row.get("reference", 0):,} '
+              f'official readings here in the last {days} days.</p>')]
+    trs = []
+    for r in mesh:
+        m = find_metric(r["metric"])
+        if m is None:
+            continue
+        if m.is_flag:
+            value = f'{r["n"]} report{"s" if r["n"] != 1 else ""}'
+        else:
+            lo, hi = _short(m, r["min_value"]), _short(m, r["max_value"])
+            value = hi if lo == hi else f"{lo} to {hi}"
+        who = f' · {r["n_human"]} from people' if r["n_human"] else ""
+        trs.append(f"<tr><td>{e(m.label)}{e(who)}</td><td>{e(value)}</td></tr>")
+    if trs:
+        parts.append('<p style="margin:10px 0 4px"><b>The last day</b></p><table class="facts">' + "".join(trs[:12]) + "</table>")
+    mine = [x for x in events if x.get("county_fips") == c.fips]
+    if mine:
+        parts.append('<p style="margin:12px 0 4px"><b>Network events</b></p><ul style="margin:0;padding-left:18px">' + "".join(
+            f'<li>{e(x.get("title") or "")}{" · verified" if x.get("verified") else ""}</li>' for x in mine[:8]) + "</ul>")
+    return "".join(parts)
+
+
+def _subscribe(c: geo.County, handle: str) -> tuple[str, str]:
+    """The four subscriptions most people want, as cards; every other topic as a chip."""
+    e = html.escape
+    packs = topics()
+
+    def link(topic: str, cat: str) -> str:
+        return e(f"https://t.me/{handle}?start=sub_{topic}_{cat}_{'il' if cat == 'digest' else c.slug}")
+
+    main = [("weather", "warnings", "Warnings", True), ("weather", "alerts", "Every NWS alert", False),
+            ("weather", "events", "Weather events", False), ("weather", "digest", "Morning brief", False)]
+    cards = "".join(
+        f'<a class="sub{" primary" if primary else ""}" href="{link(t, cat)}" target="_blank" rel="noopener">'
+        f'<b>{e(label)}</b><span>{e(packs[t].categories[cat])}</span></a>'
+        for t, cat, label, primary in main if t in packs and cat in packs[t].categories)
+    more = [("weather", "reports", "Every report")] + [
+        (t.name, "events", t.label) for t in packs.values() if t.name != "weather" and "events" in t.categories]
+    chips = "".join(f'<a href="{link(t, cat)}" target="_blank" rel="noopener" title="{e(packs[t].categories[cat])}">{e(label)}</a>'
+                    for t, cat, label in more if t in packs and cat in packs[t].categories)
+    return cards, chips
+
+
+def render_county_pages(snap: dict[str, Any], out_dir: Path, template: Path | None = None) -> list[Path]:
+    """docs/county/<slug>.html for every county: live alerts, a map of the county and its
+    neighbors with radar, one-tap subscribe links, its readings, and nearby counties."""
+    template = template or COUNTY_TEMPLATE
+    if not template.exists():
+        return []
+    page = template.read_text(encoding="utf-8").replace("{{TOKENS}}", _tokens())
+    geography = _page_geography()
+    shapes = {f["properties"]["fips"]: f for f in ((geography.get("boundaries") or {}).get("features") or [])}
+    rows = {r["fips"]: r for r in snap.get("counties") or []}
+    mesh: dict[str, list[Any]] = defaultdict(list)
+    for r in db.mesh(24):
+        mesh[r["county_fips"]].append(r)
+    handle = str(snap.get("bot_handle") or "intelligence_network_bot")
+    site = str(snap.get("site_url") or "")
+    at = datetime.fromisoformat(str(snap.get("generated_at"))) if snap.get("generated_at") else utcnow()
+    snapshot_at = local_time(at, "%a %-d %b, %-I:%M %p %Z")
+    e = html.escape
+    written = []
+    for c in sorted(geo.counties().values(), key=lambda x: x.name):
+        near = _neighbors(c)
+        cards, chips = _subscribe(c, handle)
+        mine = [a for a in snap.get("alerts") or [] if c.name in (a.get("counties") or [])]
+        status = (f"No NWS alerts for {c.name} County at the last snapshot." if not mine else
+                  f"{len(mine)} NWS alert{'s' if len(mine) != 1 else ''} in effect for {c.name} County at the last snapshot.")
+        static_alerts = ("".join(f'<div class="alert {e(str(a.get("severity") or ""))}"><i></i><div><b>{e(str(a.get("event") or ""))}</b></div></div>'
+                                 for a in mine) or '<p class="muted">None in effect at the last snapshot.</p>')
+        data = {"fips": c.fips, "name": c.name, "slug": c.slug, "local_tz": snap.get("local_tz"),
+                "generated_at": snap.get("generated_at"),
+                "alerts": [{**a, "fips": [c.fips]} for a in mine],
+                "shapes": {"type": "FeatureCollection",
+                           "features": [shapes[x.fips] for x in [c, *near] if x.fips in shapes]}}
+        values = {
+            "{{COUNTY}}": e(c.name), "{{NETWORK_NAME}}": e(str(snap.get("network_name") or "Intelligence Network")),
+            "{{DESCRIPTION}}": e(f"Live NWS alerts, weather radar and neighbors' readings for {c.name} County, "
+                                 f"Illinois. Get {c.name} County warnings in Telegram with one tap."),
+            "{{CANONICAL}}": e(f"{site}county/{c.slug}.html"), "{{SITE_URL}}": e(site),
+            "{{STATIC_STATUS}}": e(status), "{{SNAPSHOT_AT}}": e(snapshot_at), "{{STATIC_ALERTS}}": static_alerts,
+            "{{SUBSCRIBE}}": cards, "{{SUBSCRIBE_MORE}}": chips,
+            "{{READINGS}}": _readings(c, rows.get(c.fips, {}), mesh.get(c.fips, []), snap.get("events") or [],
+                                      int(snap.get("days") or 14)),
+            "{{NEIGHBORS}}": "".join(f'<a href="{x.slug}.html">{e(x.name)}</a>' for x in near),
+        }
+        doc = page
+        for key, val in values.items():
+            doc = doc.replace(key, val)
+        doc = doc.replace(COUNTY_MARK, json.dumps(data, default=str).replace("</", "<\\/"), 1)
+        dest = out_dir / "county" / f"{c.slug}.html"
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(doc, encoding="utf-8")
+        written.append(dest)
+    return written
+
+
+def write_sitemap(snap: dict[str, Any], out_dir: Path, county_pages: list[Path]) -> Path | None:
+    """sitemap.xml + robots.txt, so search finds the front page and every county page."""
+    site = str(snap.get("site_url") or "")
+    if not site.startswith("http"):
+        return None
+    today = utcnow().strftime("%Y-%m-%d")
+    paths = ["", *STATIC_PAGES, *(f"county/{p.name}" for p in county_pages)]
+    body = "".join(f"<url><loc>{html.escape(site + p)}</loc><lastmod>{today}</lastmod></url>" for p in paths)
+    dest = out_dir / "sitemap.xml"
+    dest.write_text('<?xml version="1.0" encoding="UTF-8"?>\n'
+                    f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{body}</urlset>\n', encoding="utf-8")
+    (out_dir / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {site}sitemap.xml\n", encoding="utf-8")
+    return dest
 
 
 def git_push_docs(message: str | None = None) -> bool:

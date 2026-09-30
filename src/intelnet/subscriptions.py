@@ -28,7 +28,7 @@ from intelnet import db, delivery, geo
 from intelnet.config import settings
 from intelnet.models import Signal, iso, parse_iso, utcnow
 from intelnet.telegram import bot, esc, href, tg_time
-from intelnet.topics import all_categories, expand_category, find_metric, get_topic
+from intelnet.topics import expand_category, find_metric, get_topic
 
 logger = logging.getLogger(__name__)
 
@@ -410,24 +410,3 @@ def fanout_report(sig: Signal) -> int:
 def _chat_of(sensor_id: str) -> str | None:
     m = re.match(r"^tg:(-?\d+)$", sensor_id)
     return m.group(1) if m else None
-
-
-def fanout_digest(date: str, url: str | None, folder_url: str | None, headline: str | None = None) -> int:
-    key = f"digest:{date}"
-    topics_with_digest = [t for t in all_categories() if t.endswith(".digest")]
-    lines = [f"📰 <b>{esc(settings.network_name)} digest</b> · {esc(date)}"]
-    if headline:
-        lines.append(esc(headline[:300]))
-    link = href(url)
-    if link:
-        lines.append(f'<a href="{link}">Open today’s digest</a>')
-    flink = href(folder_url)
-    if flink:
-        lines.append(f'<a href="{flink}">All digests (Drive folder)</a>')
-    text = "\n".join(lines)
-    st = settings.geo_state.lower()
-    total = 0
-    for cat in topics_with_digest:
-        # digest subscriptions are state-wide by construction (area = state key)
-        total += push(cat, [st], key, text)
-    return total

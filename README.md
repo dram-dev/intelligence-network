@@ -107,7 +107,7 @@ nearby sensors / official sources, and your trust.
 | `weather.alerts` | every NWS alert (watches, advisories, statements) |
 | `weather.events` | network-detected, *verified* events near you |
 | `weather.reports` | every accepted contribution near you (raw) |
-| `weather.digest` | the daily digest link when it lands (08:00) |
+| `weather.digest` | your county's **morning brief** at 08:00 (the night's readings, alerts in effect and ended, events), with the Drive links |
 
 Areas form a hierarchy — `il` ⊃ `il.cook` ⊃ `il.zip.60601` ⊃
 `il.zip.60601-2001` — type them as `il`, `cook`, `60601`, `60601-2001`.
@@ -243,7 +243,9 @@ It opens on **Illinois right now**: a live map (Census county lines on the surve
 grid, NWS warning polygons and county-based alerts from api.weather.gov, IEM's
 NEXRAD radar, the network's readings by county), one sentence on what's in
 effect, **Near you** (a ZIP → its county's alerts, readings, a pin, and one-tap
-Telegram links), and a sources strip saying when each feed last worked. Below
+Telegram links), and a sources strip saying when each feed last worked. Every county also gets its own page (`county/<slug>.html`: live alerts, a map of
+the county and its neighbors with radar, one-tap subscribe links, the day's
+readings, nearby counties), listed in `sitemap.xml` for search. Below
 that, the page carries: join + subscription builder (an **Open in Telegram** link that
 joins and subscribes in one tap, or the exact `/subscribe` command to copy), live
 NWS alerts fetched in the browser (the snapshot is the fallback), a browser-side
@@ -266,7 +268,7 @@ put its token in `.env`, and your own chat id (from @userinfobot) as the admin.
 | `com.dr.intelnet.alerts` | always (KeepAlive) | NWS alerts every 30 s; retries of undelivered pushes |
 | `com.dr.intelnet.watch` | every 5 min | storm reports; stations hourly; alerts too if the alert loop is down |
 | `com.dr.intelnet.daily` | 01:10 | queued behind macro 01:00 and PC 01:05 on the shared run lock |
-| `com.dr.intelnet.notify` | 08:00 | digest ping to `digest` subscribers |
+| `com.dr.intelnet.notify` | 08:00 | the morning brief to `digest` subscribers, one per county |
 
 ## Layout
 
