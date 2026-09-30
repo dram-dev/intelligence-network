@@ -6,6 +6,7 @@
 
 topic: agriculture
 label: Agriculture
+cap_category: Env          # CAP 1.2 <category> for the network's published events
 description: Crop stage and condition, planting and harvest progress, pests, disease, damage and drought.
 
 categories:

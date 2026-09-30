@@ -8,6 +8,7 @@
 
 topic: quake
 label: Earthquakes
+cap_category: Geo          # CAP 1.2 <category> for the network's published events
 description: Felt shaking, magnitude and damage across the Wabash Valley and New Madrid zones.
 
 categories:

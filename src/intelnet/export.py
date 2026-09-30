@@ -25,7 +25,7 @@ from typing import Any
 
 import yaml
 
-from intelnet import db, geo, network, story_brief, trust
+from intelnet import db, geo, network, opendata, story_brief, trust
 from intelnet.config import CONFIG_DIR, PROJECT_ROOT, settings
 from intelnet.models import KIND_BOT, KIND_HUMAN, REFERENCE_KINDS, local_time, public_handle, utcnow
 from intelnet.topics import find_metric, topics
@@ -324,6 +324,7 @@ def _page_values(snap: dict[str, Any]) -> dict[str, str]:
         "{{BOT_HANDLE}}": str(snap.get("bot_handle") or "intelligence_network_bot"),
         "{{CONTACT_EMAIL}}": str(snap.get("contact_email") or ""),
         "{{SITE_URL}}": str(snap.get("site_url") or "./"),
+        "{{DATASETTE_URL}}": opendata.datasette_url() or "data/network.sqlite",
         "{{COUNTY_LINKS}}": " · ".join(
             f'<a href="county/{c["slug"]}.html">{html.escape(c["name"])}</a>' for c in snap.get("counties") or []),
     }
@@ -454,6 +455,7 @@ def export_all(out_dir: Path | None = None, days: int = 14, *, site: bool = True
         result["county_pages"] = len(counties)
         app = render_app_page(snap, out_dir)
         result["app"] = str(app) if app else None
+        result["opendata"] = opendata.write_all(out_dir)
         result["sitemap"] = str(write_sitemap(snap, out_dir, counties))
     return result
 

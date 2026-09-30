@@ -66,6 +66,10 @@ class Settings(BaseSettings):
     # Radar grids (pack `reference_grids`: MRMS rain, hail) check people's readings
     # each watch pass; off, readings wait for stations, storm reports and neighbors.
     grid_checks_enabled: bool = Field(default=True, alias="GRID_CHECKS_ENABLED")
+    # Nightly copies of the live database (backup.py); point BACKUP_DIR at a synced
+    # folder (iCloud Drive, Dropbox) for a copy off this machine.
+    backup_dir: Path = Field(default=Path("./backups"), alias="BACKUP_DIR")
+    backup_keep: int = Field(default=7, alias="BACKUP_KEEP")
     reference_retention_days: int = Field(default=30, alias="REFERENCE_RETENTION_DAYS")
     news_enabled: bool = Field(default=True, alias="NEWS_ENABLED")
     # USDA AMS Market News (marsapi.ams.usda.gov) — free key, sent as the HTTP

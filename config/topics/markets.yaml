@@ -8,6 +8,7 @@
 
 topic: markets
 label: Farm markets
+cap_category: Other          # CAP 1.2 <category> for the network's published events
 description: Cash bids and basis at the elevator, drying fuel, and how the harvest is moving.
 
 categories:

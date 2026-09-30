@@ -80,6 +80,14 @@ def _run(run_type: str, skip_publish: bool, console: Any) -> dict[str, Any]:
                                   + db.prune_run_log(settings.reference_retention_days))
     console.print(f"  closed {summary['events_closed']} idle event(s), pruned {summary['pruned']} old reference rows"
                   f" and {summary['pruned_delivery']} delivery, thread and run-log rows")
+    try:
+        from intelnet import backup
+
+        summary["backup"] = str(backup.run())
+        console.print(f"  backed up the database to {summary['backup']}")
+    except Exception as exc:  # noqa: BLE001 — a failed copy never stops the digest
+        summary["backup"] = f"failed: {type(exc).__name__}"
+        console.print(f"  [yellow]backup failed: {type(exc).__name__}[/yellow]")
 
     console.rule("[bold cyan]stage 4: digest")
     model = digest.build(hours=max(24.0, float(hours)))

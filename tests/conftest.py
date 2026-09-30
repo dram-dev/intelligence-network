@@ -34,10 +34,11 @@ class _NoTelegram:
 
 
 @pytest.fixture(autouse=True)
-def _offline(monkeypatch: pytest.MonkeyPatch):
+def _offline(monkeypatch: pytest.MonkeyPatch, tmp_path_factory: pytest.TempPathFactory):
     monkeypatch.setattr(settings, "geo_online_lookup", False)
     monkeypatch.setattr(settings, "llm_enabled", False)
     monkeypatch.setattr(settings, "grid_checks_enabled", False)
+    monkeypatch.setattr(settings, "backup_dir", tmp_path_factory.mktemp("backups"))
     monkeypatch.setattr(settings, "gdrive_enabled", False)
     monkeypatch.setattr(settings, "notify_enabled", False)
     monkeypatch.setattr(settings, "network_join_code", "")

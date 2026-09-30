@@ -7,6 +7,7 @@
 
 topic: soil
 label: Soil
+cap_category: Env          # CAP 1.2 <category> for the network's published events
 description: Soil moisture, temperature, chemistry and structure from probes, kits and the shovel test.
 
 categories:

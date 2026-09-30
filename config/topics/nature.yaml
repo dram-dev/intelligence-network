@@ -8,6 +8,7 @@
 
 topic: nature
 label: Seasons & nature
+cap_category: Env          # CAP 1.2 <category> for the network's published events
 description: First frost and leaf-out, fall colour, morels, monarchs, migration and wildlife health.
 
 categories:

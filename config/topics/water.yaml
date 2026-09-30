@@ -7,6 +7,7 @@
 
 topic: water
 label: Water
+cap_category: Env          # CAP 1.2 <category> for the network's published events
 description: Stream stage and flow, lakes and wells, water quality, ponding and tile drainage.
 
 categories:

@@ -218,6 +218,14 @@ are unique across packs (a test enforces it), so `temp`, `soil temp` and
 | `news` | — | daily | 63 reading-list feeds → LLM-triaged: state agencies (IEPA, IDOA, IDNR, IDPH, IEMA), Extension + farmdoc, the Illinois farm press, river and lake groups, Illinois EPA air-quality Action Days (14 areas), Google News proxies, and the reading-list-only categories: land use and siting (data centres, CO2 pipelines, solar and wind, the Commerce Commission), emergency response, and research |
 | `nws_statements` | — | daily | NWS Public Information Statements (damage surveys, storm totals) from LOT, ILX, DVN, LSX, PAH |
 
+Open data, rebuilt every night next to the site: `feeds/events.geojson` and
+`feeds/storms.geojson` (the week's verified events and storms), `feeds/cap.atom` (the same
+events as CAP 1.2 messages, the format emergency managers' and IEM's tools read), and
+`data/network.sqlite`, a research database of people's readings, NWS storm reports, events,
+storms and alerts (90 days), which opens in the browser with
+[Datasette Lite](https://lite.datasette.io/). People appear only as handles with a ZIP and
+county, and anything a person located is published at its ZIP or county centre.
+
 Radar grids (pack `reference_grids`, checked every watch pass, `GRID_CHECKS_ENABLED`):
 
 | grid | reader | windows | checks |
@@ -321,6 +329,8 @@ src/intelnet/
 ├── trust.py        Trust v2: per topic, fading, 80% range / "new", independence
 ├── stories.py      storms as stories: events + storm-based warnings clustered per storm
 ├── story_brief.py  a storm's cited brief (local LLM, checked) or its template
+├── opendata.py     GeoJSON + CAP 1.2 feeds of verified events, the researcher's SQLite
+├── backup.py       nightly gzipped copies of the live database (BACKUP_DIR, 7 kept)
 site/app.fragment.html  the Telegram Mini App (→ docs/app/index.html)
 ├── grids.py        radar grids (MRMS QPE, MESH) that judge people's rain and hail
 ├── contrib.py      the contribution path: parse → store → assess → fan-out → ack

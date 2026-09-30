@@ -31,6 +31,7 @@
 
 topic: weather
 label: Weather
+cap_category: Met          # CAP 1.2 <category> for the network's published events
 description: Ground-truth weather observations and official hazard products.
 
 categories:

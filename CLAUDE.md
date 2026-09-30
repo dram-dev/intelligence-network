@@ -91,6 +91,19 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   `bot.handle_web_app`: `{a: report, text, lat?, lon?}` · `{a: subs, add, remove}` ·
   `{a: home, place}` · `{a: followups, on}`, validated like typed input. No BotFather
   setup needed; the page exists once the nightly export pushes `docs/app/`.
+- **Open data out** (`opendata.py`, written by `export_all` into docs/): `feeds/events.geojson`
+  and `feeds/storms.geojson` (the week's verified events / storms), `feeds/cap.atom` (CAP 1.2
+  messages in Atom; `incidents` ties an event's versions; category from each pack's
+  `cap_category`; times as `-00:00`, never `Z`), `data/network.sqlite` (built fresh: people's
+  readings + NWS storm reports + events + storms + alerts + sensors, 90 days; stations and
+  gauges left to IEM/USGS so it stays small; dropped if > 20 MB) and `data/metadata.json`
+  for Datasette Lite (`opendata.datasette_url()`, linked from the site). Privacy: people as
+  `public_handle` + ZIP5/county; any place a person gave → its ZIP or county centre
+  (`public_point`); no notes, photos, names, chat ids or ZIP+4. GitHub Pages sends
+  `Access-Control-Allow-Origin: *`, which Datasette Lite needs.
+- **Backups** (`backup.py`): the nightly pipeline's housekeeping copies the live DB with
+  SQLite's online backup API to `BACKUP_DIR/network-YYYY-MM-DD.db.gz`, keeping `BACKUP_KEEP`
+  (7). Point `BACKUP_DIR` at a synced folder for an off-machine copy. `/backups/` is gitignored.
 - **Gridded truth** (`grids.py`, pack `reference_grids`): MRMS QPE via the NOAA
   mapservices ImageServer identify (mosaicRule picks the product by catalog name,
   renderingRule None → raw mm; with a raster function you get a colour class) and

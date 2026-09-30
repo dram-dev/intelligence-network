@@ -5,6 +5,7 @@
 
 topic: air
 label: Air
+cap_category: Health          # CAP 1.2 <category> for the network's published events
 description: PM2.5, AQI, ozone, wildfire smoke, odor and open burning.
 
 categories:
