@@ -36,7 +36,7 @@ def test_pipeline_runs_stages_and_records_digest(stubbed, monkeypatch, tmp_path)
     assert stubbed == ["watch", "news"]
     assert summary["news"] == {"fetched": 3, "new": 2} and summary["digest"]["date"]
     assert summary["links"]["doc_url"] is None
-    assert summary["export"] == {"json": 10, "site": False} and (tmp_path / "docs" / "data" / "network.json").exists()
+    assert summary["export"] == {"json": 11, "site": False} and (tmp_path / "docs" / "data" / "network.json").exists()
     row = db.latest_digest()
     assert row["date"] == summary["digest"]["date"] and row["drive_url"] is None
     with db.get_conn() as conn:

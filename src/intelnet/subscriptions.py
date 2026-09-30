@@ -18,13 +18,15 @@ alert is one card per chat, edited as the alert changes.
 """
 from __future__ import annotations
 
+import hashlib
+import json
 import logging
 import re
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Any
 
-from intelnet import asks, db, delivery, geo
+from intelnet import asks, db, delivery, geo, stories
 from intelnet.config import settings
 from intelnet.models import Signal, iso, parse_iso, utcnow
 from intelnet.telegram import bot, esc, href, tg_time
@@ -402,9 +404,114 @@ def fanout_alert_ended(sig: Signal, siblings: list[Signal], reason: str, ended_a
 
 
 def fanout_event(ev: dict[str, Any], reason: str, area_keys: list[str]) -> int:
+    """A verified event goes out as its storm's card (stories.py) when it has one: one
+    message per storm, edited as it grows. An event outside any story is its own push."""
     topic = get_topic(ev["topic"])
+    story_id = db.story_of("event", str(ev["id"]))
+    if story_id is not None:
+        return fanout_story(stories.current(story_id), reason, area_keys, topic.category_key("events"), ev)
     key = f"event:{ev['id']}:{'esc' if reason == 'escalated' else 'new'}:{ev.get('pushed_score')}"
     return push(topic.category_key("events"), area_keys, key, format_event(ev, reason))
+
+
+# ── storm cards (one per story per chat, edited as the storm grows) ──────
+
+def _severity_mark(severity: float) -> str:
+    return "🟥" if severity >= 0.8 else "🟧" if severity >= 0.5 else "🟨"
+
+
+def _names(names: list[str]) -> str:
+    return names[0] if len(names) == 1 else ", ".join(names[:-1]) + " and " + names[-1]
+
+
+def format_story(story_id: int) -> str:
+    """A storm card: what it is, where, since when, its brief, and its numbered facts
+    (warnings, then events by severity) that the brief cites."""
+    from intelnet import story_brief
+
+    s = db.story(story_id)
+    if s is None:
+        return ""
+    members = db.story_members(story_id)
+    names = [c.name for c in (geo.county(f) for f in json.loads(s["counties_json"] or "[]")) if c]
+    opened, updated = parse_iso(s["opened_at"]), parse_iso(s["updated_at"])
+    lines = [f"{_severity_mark(s['severity'])} <b>{esc(s['title'] or 'Storm')}</b>"]
+    fresh = updated and (not opened or (updated - opened).total_seconds() >= 60)
+    when = [f"since {tg_time(opened, 't')}" if opened else "", f"updated {tg_time(updated, 't')}" if fresh else ""]
+    where = f"{_names(names)} {'County' if len(names) == 1 else 'counties'}" if names else ""
+    lines.append(" · ".join(x for x in [esc(where), *when] if x))
+    fs = story_brief.facts(story_id)
+    brief = story_brief.current(story_id)
+    if brief:
+        lines.append(f"<i>{esc(brief)}</i>")
+    for n, f in enumerate(fs, 1):
+        if f.kind == "alert":
+            event = esc(f.row["event"])
+            lines.append(f"✅ <s>{event}</s> ended [{n}]" if f.row["ended"] else f"⚠️ {event} [{n}]")
+        else:
+            e = f.row
+            k = e.get("n_sensors") or 0
+            lines.append(f"• {esc(e['title'] or '')} · {k} sensor{'s' if k != 1 else ''}"
+                         + (" · verified" if e["verified"] else "") + f" [{n}]")
+    more = sum(1 for m in members if m["kind"] == "event") - story_brief.MAX_EVENTS
+    if more > 0:
+        lines.append(f"• and {more} more")
+    return "\n".join(lines)
+
+
+def _story_version(text: str) -> str:
+    return hashlib.sha1(text.encode()).hexdigest()[:10]
+
+
+def fanout_story(story_id: int, reason: str, area_keys: list[str], category: str,
+                 ev: dict[str, Any] | None = None) -> int:
+    """Bring a storm's cards up to date: a new card for each subscriber of `category` in
+    the event's area, a silent edit for everyone who has one, and a reply with sound when
+    the event `ev` escalated. Returns messages sent (edits don't count)."""
+    if not bot.enabled:
+        return 0
+    thread = f"story:{story_id}"
+    text = format_story(story_id)
+    version = _story_version(text)
+    have = db.cards(thread)
+    ids: list[int | None] = []
+    audience = set(db.matching_chat_ids(category, area_keys))
+    for chat in audience:
+        card = have.get(chat)
+        if card is None:
+            pending = db.pending_in_thread(thread, chat, "card")
+            if pending is not None:
+                db.retext_outbox(pending["id"], text)
+            else:
+                ids.append(db.enqueue(thread, chat, text, action="card", thread=thread,
+                                      priority=_PRIORITY["events"], stale_at=utcnow() + timedelta(hours=6)))
+            continue
+        ids.append(_edit_card(thread, chat, card, text, version))
+        if reason == "escalated" and ev:
+            ids.append(db.enqueue(f"{thread}:esc:{ev.get('id')}:{ev.get('pushed_score')}", chat,
+                                  f"📈 <b>Escalating</b>: {esc(ev.get('title') or '')}", action="reply",
+                                  thread=thread, priority=_PRIORITY["events"],
+                                  stale_at=utcnow() + timedelta(hours=6)))
+    for chat, card in have.items():
+        if chat not in audience:
+            ids.append(_edit_card(thread, chat, card, text, version))
+    return delivery.send_now(ids)
+
+
+def story_changed(joined: Any) -> int:
+    """A story grew (or swallowed another): hand merged stories' cards to it, then edit
+    every card it has, silently. New cards only ever come from a verified event."""
+    if joined is None or not bot.enabled:
+        return 0
+    for gone in joined.merged or []:
+        db.move_thread(f"story:{gone}", f"story:{joined.story_id}")
+    thread = f"story:{joined.story_id}"
+    have = db.cards(thread)
+    if not have:
+        return 0
+    text = format_story(joined.story_id)
+    version = _story_version(text)
+    return delivery.send_now([_edit_card(thread, chat, card, text, version) for chat, card in have.items()])
 
 
 def fanout_report(sig: Signal) -> int:

@@ -16,7 +16,7 @@ import json
 from datetime import datetime, timedelta
 from typing import Any
 
-from intelnet import db, delivery, geo, network
+from intelnet import db, delivery, geo, network, story_brief
 from intelnet.config import settings
 from intelnet.feeds.nws_alerts import active_alert_groups
 from intelnet.models import local_time, parse_iso, utcnow
@@ -102,10 +102,12 @@ def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | N
         lines += _ended(c.fips)[:3]
         night = _night(c.fips)
         lines += [f"• {esc(x)}" for x in night[:6]]
+        storms = [s for s in story_brief.summaries(HOURS) if c.fips in s["fips"]]
+        lines += [f"⛈ <b>{esc(s['title'] or 'Storm')}</b>: {esc(s['brief'])}" for s in storms[:2]]
         events = [network.event_summary(e) for e in db.events_since(HOURS) if e["county_fips"] == c.fips]
         lines += [f"📍 {esc(e['title'] or '')} · {_n(e.get('n_sensors') or 0, 'sensor', 'sensors')}"
                   + (" · verified" if e["verified"] else "") for e in events[:3]]
-        if not (groups or night or events):
+        if not (groups or night or events or storms):
             lines.append(f"A quiet night in {esc(where)}: no NWS alerts, and nothing notable reported.")
     v = db.vitals()
     state = [f"{_n(v.get('alerts_active', 0), 'NWS alert', 'NWS alerts')} in effect across {esc(_state())}",

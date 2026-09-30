@@ -27,7 +27,7 @@ from typing import Any
 
 import requests
 
-from intelnet import db, feedback, geo, network, subscriptions
+from intelnet import db, feedback, geo, network, stories, subscriptions
 from intelnet.config import settings
 from intelnet.feeds.base import FeedResult, ReferenceFeed
 from intelnet.models import KIND_AUTHORITY, Signal, iso, parse_iso, utcnow
@@ -314,7 +314,11 @@ def _close(thread: str, reason: str, now: datetime) -> int:
     """Close subscribers' cards for a thread that ended."""
     t = db.alert_thread(thread)
     rows = db.alert_rows(thread, t["current_id"]) if t else []
-    return subscriptions.fanout_alert_ended(rows[0], rows, reason, now) if rows else 0
+    sent = subscriptions.fanout_alert_ended(rows[0], rows, reason, now) if rows else 0
+    story = db.story_of("alert", thread)
+    if story is not None:                              # its storm card now says it ended
+        subscriptions.story_changed(stories.Joined(stories.current(story)))
+    return sent
 
 
 class NWSAlertsFeed(ReferenceFeed):
@@ -356,11 +360,27 @@ class NWSAlertsFeed(ReferenceFeed):
             if v.new:
                 # people who reported it before NWS warned: confirmed now, and told so
                 feedback.ahead(network.settle_by_alert(rows))
+                subscriptions.story_changed(join_story(rows))
         for thread, reason in settle_threads(self.present, now):
             res.alerts_pushed += _close(thread, reason, now)
         if self.present is not None:
             # Saved only now: a run that dies before this point sees the same feed again.
             db.kv_set(ETAG_KEY, self.etag or "")
+
+
+def join_story(rows: list[Signal]) -> stories.Joined | None:
+    """A storm-based warning (one with a polygon) joins the storm it's about. County-wide
+    alerts (a heat advisory, a week-long river flood warning) aren't storms and don't."""
+    first = rows[0] if rows else None
+    rings = first.evidence.get("polygon") if first else None
+    points = [p for ring in rings or [] for p in ring]
+    if first is None or not points or not first.group_key:
+        return None
+    lon = sum(p[0] for p in points) / len(points)
+    lat = sum(p[1] for p in points) / len(points)
+    return stories.attach(first.topic, "alert", first.group_key, lat, lon, first.observed_at,
+                          severity=min(1.0, (first.value or 0) / max(SEVERITY_RANK.values())),
+                          title=str(first.evidence.get("event") or first.metric))
 
 
 def active_alert_groups(county_fips: str | None = None) -> list[dict[str, Any]]:

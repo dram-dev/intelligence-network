@@ -25,7 +25,7 @@ from typing import Any
 
 import yaml
 
-from intelnet import db, geo, network, trust
+from intelnet import db, geo, network, story_brief, trust
 from intelnet.config import CONFIG_DIR, PROJECT_ROOT, settings
 from intelnet.models import KIND_BOT, KIND_HUMAN, REFERENCE_KINDS, local_time, public_handle, utcnow
 from intelnet.topics import find_metric, topics
@@ -286,6 +286,7 @@ def snapshot(days: int = 14, *, sample: bool = False) -> dict[str, Any]:
         "counties": _counties(days),
         "events": _events(days),
         "alerts": _alerts(),
+        "storms": story_brief.summaries(24),
         "activity": _activity(days),
         "graph": _graph(days),
         "leaderboard": _leaderboard(days),
@@ -299,10 +300,11 @@ def snapshot(days: int = 14, *, sample: bool = False) -> dict[str, Any]:
 def write_json(snap: dict[str, Any], out_dir: Path) -> list[Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     written = []
-    core = {k: v for k, v in snap.items() if k not in ("counties", "events", "alerts", "activity",
+    core = {k: v for k, v in snap.items() if k not in ("counties", "events", "alerts", "storms", "activity",
                                                         "graph", "leaderboard", "digests", "sources", "topics")}
     for name, payload in (("network", core), ("topics", snap["topics"]), ("counties", snap["counties"]),
-                          ("events", snap["events"]), ("alerts", snap["alerts"]), ("activity", snap["activity"]),
+                          ("events", snap["events"]), ("alerts", snap["alerts"]),
+                          ("storms", snap.get("storms") or []), ("activity", snap["activity"]),
                           ("graph", snap["graph"]), ("leaderboard", snap["leaderboard"]),
                           ("digests", snap["digests"]), ("sources", snap["sources"])):
         p = out_dir / f"{name}.json"

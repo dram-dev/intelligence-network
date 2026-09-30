@@ -83,6 +83,9 @@ tornado @sangamon -- on the ground west of town
   **Damage** and **Nothing here** record at once, each with an **Undo** button
 * **Nothing here** is an absence report: kept for the map (it shows where a storm
   didn't reach), never corroborated, trusted or pushed
+* event subscribers get **one card per storm**: the storm's counties, its warnings,
+  its events and a short brief citing them, edited in place as the storm grows (a
+  new message with sound only when it escalates)
 * when a warning that covered your place ends, the bot asks (quietly, under the
   alert) what it brought: one tap for hail, wind, rain, damage or nothing. The
   answer is a reading at your place, timed to when the storm was there
@@ -311,6 +314,8 @@ src/intelnet/
 ├── db.py           SQLite (sensors, signals, events, subscriptions, notify ledger, digests)
 ├── network.py      corroboration (both ways), events + score, mesh, gaps
 ├── trust.py        Trust v2: per topic, fading, 80% range / "new", independence
+├── stories.py      storms as stories: events + storm-based warnings clustered per storm
+├── story_brief.py  a storm's cited brief (local LLM, checked) or its template
 ├── grids.py        radar grids (MRMS QPE, MESH) that judge people's rain and hail
 ├── contrib.py      the contribution path: parse → store → assess → fan-out → ack
 ├── subscriptions.py  category × area matching; alert cards / event / report / digest pushes

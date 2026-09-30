@@ -263,6 +263,38 @@ MIGRATIONS = [
         updated_at TEXT NOT NULL,
         PRIMARY KEY (sensor_id, topic)
     )""",
+    # Storms as stories (stories.py): one cluster in space and time per storm, across
+    # counties, gathering its events, NWS alerts and storm reports
+    """CREATE TABLE IF NOT EXISTS stories (
+        id            INTEGER PRIMARY KEY AUTOINCREMENT,
+        topic         TEXT NOT NULL,
+        status        TEXT NOT NULL DEFAULT 'open',       -- open | closed
+        opened_at     TEXT NOT NULL,
+        updated_at    TEXT NOT NULL,
+        closed_at     TEXT,
+        lat           REAL NOT NULL,                      -- centroid of its members
+        lon           REAL NOT NULL,
+        n_members     INTEGER NOT NULL DEFAULT 0,
+        counties_json TEXT NOT NULL DEFAULT '[]',
+        severity      REAL NOT NULL DEFAULT 0,
+        title         TEXT,
+        brief         TEXT,
+        brief_at      TEXT,
+        merged_into   INTEGER
+    )""",
+    "CREATE INDEX IF NOT EXISTS idx_stories_status ON stories(status, topic, updated_at)",
+    """CREATE TABLE IF NOT EXISTS story_members (
+        story_id  INTEGER NOT NULL,
+        kind      TEXT NOT NULL,                          -- event | alert | signal
+        ref       TEXT NOT NULL,
+        lat       REAL NOT NULL,
+        lon       REAL NOT NULL,
+        at        TEXT NOT NULL,
+        severity  REAL NOT NULL DEFAULT 0,
+        title     TEXT,
+        PRIMARY KEY (kind, ref)
+    )""",
+    "CREATE INDEX IF NOT EXISTS idx_story_members_story ON story_members(story_id)",
     # how often two people have agreed: a pair that always agrees is one voice
     """CREATE TABLE IF NOT EXISTS sensor_pairs (
         a          TEXT NOT NULL,
@@ -1534,3 +1566,77 @@ def set_evidence(signal_id: int, evidence: dict[str, Any]) -> None:
     with get_conn() as conn:
         conn.execute("UPDATE signals SET evidence_json = ? WHERE id = ?",
                      (json.dumps(evidence, default=str), signal_id))
+
+
+# ── stories (stories.py) ──────────────────────────────────────────────────
+
+def open_stories(topic: str, since: datetime) -> list[sqlite3.Row]:
+    with get_conn() as conn:
+        return conn.execute(
+            "SELECT * FROM stories WHERE status = 'open' AND topic = ? AND updated_at >= ? ORDER BY id",
+            (topic, iso(since))).fetchall()
+
+
+def story(story_id: int) -> sqlite3.Row | None:
+    with get_conn() as conn:
+        return conn.execute("SELECT * FROM stories WHERE id = ?", (story_id,)).fetchone()
+
+
+def story_of(kind: str, ref: str) -> int | None:
+    with get_conn() as conn:
+        row = conn.execute("SELECT story_id FROM story_members WHERE kind = ? AND ref = ?",
+                           (kind, str(ref))).fetchone()
+    return int(row["story_id"]) if row else None
+
+
+def story_members(story_id: int) -> list[sqlite3.Row]:
+    with get_conn() as conn:
+        return conn.execute("SELECT * FROM story_members WHERE story_id = ? ORDER BY at",
+                            (story_id,)).fetchall()
+
+
+def insert_story(topic: str, lat: float, lon: float, at: str) -> int:
+    with get_conn() as conn:
+        cur = conn.execute("INSERT INTO stories (topic, opened_at, updated_at, lat, lon) VALUES (?, ?, ?, ?, ?)",
+                           (topic, at, at, lat, lon))
+        return int(cur.lastrowid or 0)
+
+
+def upsert_story_member(story_id: int, kind: str, ref: str, lat: float, lon: float, at: str,
+                        severity: float, title: str | None) -> None:
+    with get_conn() as conn:
+        conn.execute(
+            """INSERT INTO story_members (story_id, kind, ref, lat, lon, at, severity, title)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+               ON CONFLICT(kind, ref) DO UPDATE SET lat = excluded.lat, lon = excluded.lon,
+                   at = MAX(story_members.at, excluded.at), severity = excluded.severity,
+                   title = excluded.title""",
+            (story_id, kind, str(ref), lat, lon, at, severity, title))
+
+
+def update_story(story_id: int, **fields: Any) -> None:
+    if not fields:
+        return
+    cols = ", ".join(f"{k} = ?" for k in fields)
+    with get_conn() as conn:
+        conn.execute(f"UPDATE stories SET {cols} WHERE id = ?", (*fields.values(), story_id))
+
+
+def move_story_members(src: int, dst: int) -> None:
+    with get_conn() as conn:
+        conn.execute("UPDATE story_members SET story_id = ? WHERE story_id = ?", (dst, src))
+
+
+def stories_since(hours: float, limit: int = 20) -> list[sqlite3.Row]:
+    """Stories active in the window (merged-away ones left out), most severe first."""
+    with get_conn() as conn:
+        return conn.execute(
+            """SELECT * FROM stories WHERE updated_at >= ? AND merged_into IS NULL
+               ORDER BY severity DESC, updated_at DESC LIMIT ?""", (_since(hours), limit)).fetchall()
+
+
+def close_idle_stories(idle_hours: float) -> int:
+    with get_conn() as conn:
+        return conn.execute(
+            "UPDATE stories SET status = 'closed', closed_at = ? WHERE status = 'open' AND updated_at < ?",
+            (utcnow_iso(), _since(idle_hours))).rowcount

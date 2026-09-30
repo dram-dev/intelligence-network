@@ -61,7 +61,7 @@ def test_snapshot_says_when_each_feed_last_worked(fresh_db):
 def test_export_all_without_fragment(fresh_db, tmp_path: Path, monkeypatch):
     monkeypatch.setattr(export, "FRAGMENT", tmp_path / "missing.html")
     res = export.export_all(tmp_path / "docs", days=2, site=True)
-    assert len(res["json"]) == 10 and "site" not in res
+    assert len(res["json"]) == 11 and "site" not in res
     assert db.vitals()["sensors_total"] == 0
 
 

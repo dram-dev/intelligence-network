@@ -19,7 +19,7 @@ import time
 from datetime import timedelta
 from typing import Any
 
-from intelnet import db, delivery, feedback, grids, network, subscriptions
+from intelnet import db, delivery, feedback, grids, network, stories, story_brief, subscriptions
 from intelnet.config import settings
 from intelnet.feeds import FEEDS
 from intelnet.models import iso, parse_iso, utcnow
@@ -59,7 +59,9 @@ def run_once(run_type: str = "watch", only: list[str] | None = None) -> dict[str
             continue
         out["feeds"][name] = _summary(FEEDS[name]().run(run_type=run_type))
     out["grids"] = grid_pass()
+    out["briefs"] = story_brief.cards_changed(story_brief.write_briefs())
     out["events_closed"] = network.close_stale_events()
+    out["stories_closed"] = stories.close_idle()
     out["retries"] = delivery.retry_due()
     return out
 
@@ -78,6 +80,9 @@ def grid_pass() -> dict[str, Any]:
         if a is not None and a.push_event and a.event:
             n = subscriptions.fanout_event(a.event, a.push_reason, c.signal.location.area_keys())
             verified.append((a, n))
+    for c in checked:
+        if c.assessment is not None:
+            subscriptions.story_changed(c.assessment.story)
     feedback.confirmed([(c.signal, c.witness) for c in checked if c.verdict == "agree" and c.witness])
     for a, n in verified:
         if a.push_reason == "new":

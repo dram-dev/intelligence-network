@@ -276,6 +276,10 @@
           <p class="muted" id="alerts-source" style="font-size:12.5px; margin-bottom:6px">From the nightly snapshot.</p>
           <div id="alerts"></div>
         </section>
+        <section aria-labelledby="storms-h" id="storms-box" hidden>
+          <h2 id="storms-h">Storms today</h2>
+          <div id="storms"></div>
+        </section>
         <section class="near" aria-labelledby="near-h">
           <h2 id="near-h">Near you</h2>
           <form id="near-form"><input type="text" id="near-zip" inputmode="numeric" autocomplete="postal-code" maxlength="10" placeholder="ZIP, e.g. 62704" aria-label="Your ZIP code"><button class="btn" type="submit">Show</button></form>
@@ -500,7 +504,7 @@ K = 4 · prior = 0.5 · trusted ≥ 0.8 · half-life 180 days</pre>
     </div>
     <div class="panel" style="margin-top:20px">
       <h3>Pull the network's own snapshot</h3>
-      <p style="font-size:14.5px">The page is built from ten JSON files that anyone may fetch and reuse: <code>data/network.json</code>, <code>counties.json</code>, <code>events.json</code>, <code>alerts.json</code>, <code>activity.json</code>, <code>graph.json</code>, <code>leaderboard.json</code>, <code>digests.json</code>, <code>topics.json</code>, <code>sources.json</code>. Same anonymisation as the page.</p>
+      <p style="font-size:14.5px">The page is built from eleven JSON files that anyone may fetch and reuse: <code>data/network.json</code>, <code>counties.json</code>, <code>events.json</code>, <code>alerts.json</code>, <code>storms.json</code>, <code>activity.json</code>, <code>graph.json</code>, <code>leaderboard.json</code>, <code>digests.json</code>, <code>topics.json</code>, <code>sources.json</code>. Same anonymisation as the page.</p>
     </div>
   </div>
 </section>
@@ -932,6 +936,23 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
       filter ? 'No active alerts for ' + filter.label + '.' : 'None active for ' + state + (alertsLive ? ' right now.' : ' in this snapshot.')));
     rows.slice(0, 8).forEach(a => al.append(el('div', { class: 'alert ' + (a.severity || '') }, el('i'), el('div', {}, el('div', {}, a.url ? el('a', { href: a.url, target: '_blank', rel: 'noopener' }, el('b', {}, a.event || '')) : el('b', {}, a.event || ''), ' ', el('span', { class: 'badge', style: 'margin-left:6px' }, a.severity || '')), el('div', { class: 'muted', style: 'font-size:13px' }, (a.counties || []).slice(0, 8).join(', ') + ((a.counties || []).length > 8 ? '…' : '') + (a.expires ? ' · until ' + fmtWhen(a.expires) : ''))))));
   }
+  // Storms (stories.py): warnings, storm reports and readings gathered per storm, with a
+  // brief whose [n] marks point at the numbered facts under it.
+  (function renderStorms() {
+    const box = $('#storms'), storms = D.storms || [];
+    if (!storms.length) return;
+    $('#storms-box').hidden = false;
+    const sev = (s) => s >= 0.8 ? 'Severe' : s >= 0.5 ? 'Moderate' : 'Minor';
+    storms.slice(0, 4).forEach(st => {
+      const facts = el('ol', { class: 'muted', style: 'font-size:12.5px; margin:4px 0 0; padding-left:20px' });
+      (st.facts || []).forEach(f => facts.append(el('li', {}, f)));
+      box.append(el('div', { class: 'alert ' + sev(st.severity) }, el('i'), el('div', {},
+        el('b', {}, st.title || 'Storm'),
+        el('div', { class: 'muted', style: 'font-size:13px' }, (st.counties || []).join(', ') + ' · ' + fmtWhen(st.opened_at) + (st.status === 'open' ? ' · ongoing' : '')),
+        el('p', { style: 'font-size:14px; margin:4px 0 0' }, st.brief || ''),
+        el('details', { style: 'font-size:12.5px; margin-top:2px' }, el('summary', { class: 'muted' }, 'What the brief cites'), facts))));
+    });
+  })();
   // Live from the NWS: the snapshot can be a day old, and warnings can't wait for it.
   const SEV = { Extreme: 4, Severe: 3, Moderate: 2, Minor: 1 };
   const alertSrc = $('#alerts-source');

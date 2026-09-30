@@ -35,7 +35,7 @@ from dataclasses import dataclass, field
 from datetime import timedelta
 from typing import Any
 
-from intelnet import db, geo, trust
+from intelnet import db, geo, stories, trust
 from intelnet.config import settings
 from intelnet.models import (
     KIND_HUMAN,
@@ -47,6 +47,7 @@ from intelnet.models import (
     REFERENCE_KINDS,
     Signal,
     iso,
+    parse_iso,
     utcnow,
 )
 from intelnet.topics import Metric, find_metric, get_topic, topics
@@ -76,6 +77,7 @@ class Assessment:
     trust_after: float | None = None
     # (earlier reading, what settled it): people's readings this one confirmed
     settled: list[tuple[Signal, Signal]] = field(default_factory=list)
+    story: stories.Joined | None = None      # the storm this reading's event belongs to
 
     @property
     def n_corroborating(self) -> int:
@@ -242,6 +244,7 @@ def _attach_to_event(a: Assessment) -> None:
     )
     ev = dict(db.event_by_id(event_id) or {})
     a.event = ev
+    a.story = _story_for(metric, ev)
 
     verified = n_sensors >= 2 or n_reference >= 1 or mean_trust >= TRUSTED_SENSOR or a.reference == "agree"
     pushed_score = ev.get("pushed_score")
@@ -253,6 +256,20 @@ def _attach_to_event(a: Assessment) -> None:
     if a.push_event:
         db.update_event(event_id, pushed_at=now, pushed_score=score)
         a.event = dict(db.event_by_id(event_id) or {})
+
+
+def _story_for(metric: Metric, ev: dict[str, Any]) -> stories.Joined | None:
+    """Put an event in its storm (stories.py): where it is (its first reading, else its
+    county), when it last grew, how severe."""
+    lat, lon = ev.get("lat"), ev.get("lon")
+    if lat is None or lon is None:
+        c = geo.county(ev.get("county_fips"))
+        if c is None:
+            return None
+        lat, lon = c.lat, c.lon
+    at = parse_iso(ev.get("updated_at")) or utcnow()
+    return stories.attach(metric.topic, "event", ev["id"], lat, lon, at,
+                          severity=float(ev.get("severity") or 0), title=ev.get("title"))
 
 
 # ── the entry point ───────────────────────────────────────────────────────

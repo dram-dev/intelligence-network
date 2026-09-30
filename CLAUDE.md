@@ -63,6 +63,22 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   points only; ZIP centers don't count), ÷(1 + n/3) for a pair that agreed n times
   before (`sensor_pairs`). Events verify on `witnesses()` (one per roof), and
   `event_attach_stats.mean_trust` uses the event topic's record.
+- **Storms as stories** (`stories.py`, `story_brief.py`): a story clusters one storm across
+  counties. Members (`story_members`, PK kind+ref): events (joined in
+  `network._attach_to_event`, `Assessment.story`) and storm-based NWS warnings (only
+  alerts with a polygon: `nws_alerts.join_story`; county-wide ones aren't storms);
+  storm reports arrive through their events. Join rule: same topic, centroid within
+  `STORY_KM` 60, active within `STORY_HOURS` 3; stories that meet merge into the older
+  (`merged_into`, `current()`); idle 6 h → closed in the watch. Cards: a storied event's
+  push goes to `subscriptions.fanout_story` (thread `story:<id>`, one card per storm per
+  events subscriber, edits keyed by text hash, sounded reply only on escalation);
+  `story_changed()` edits cards quietly as a story grows, merges or a warning ends.
+  Brief: numbered facts (warnings in order, then events by severity, top 5) shared by
+  card and brief; the LLM (summarizer backend, watch pass only, once per story version:
+  `brief_at` = the `updated_at` it was written for) must cite existing facts and invent no
+  numbers (`valid()`), else the template from the same facts. `summaries()` feeds the
+  digest "Storms" section, the morning brief, and `storms.json` / the site's "Storms
+  today" panel (11 public JSON docs now).
 - **Gridded truth** (`grids.py`, pack `reference_grids`): MRMS QPE via the NOAA
   mapservices ImageServer identify (mosaicRule picks the product by catalog name,
   renderingRule None → raw mm; with a raster function you get a colour class) and
@@ -227,7 +243,7 @@ the right event.
 
 ## Site + snapshot
 
-`export.snapshot()` → 10 public JSON docs (anonymised: humans as `s-xxxxx` +
+`export.snapshot()` → 11 public JSON docs (anonymised: humans as `s-xxxxx` +
 county only). `site/index.fragment.html` (Fraunces / IBM Plex; light+dark
 tokens; D3 v7 from cdnjs) is wrapped into `docs/index.html` with the data
 inlined; the same fragment publishes as a Claude artifact. `intelnet

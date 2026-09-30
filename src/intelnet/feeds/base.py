@@ -75,6 +75,7 @@ class ReferenceFeed:
             if a.push_event and a.event:
                 n = subscriptions.fanout_event(a.event, a.push_reason, sig.location.area_keys())
                 res.events_pushed += n
+            subscriptions.story_changed(a.story)
             feedback.confirmed(a.settled)
             if a.push_event and a.event and a.push_reason == "new":
                 feedback.helped(a.event, n)

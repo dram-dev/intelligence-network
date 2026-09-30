@@ -110,6 +110,7 @@ def contribute(sensor: Sensor, text: str, *, source: str = "telegram", source_id
             c.pushes += n
         if a.metric is None or a.metric.scored:       # "nothing here" isn't news to push
             c.pushes += subscriptions.fanout_report(sig)
+        subscriptions.story_changed(a.story)           # its storm's cards, edited quietly
         feedback.confirmed(a.settled)                  # neighbors this reading agreed with
         if a.push_event and a.event and a.push_reason == "new":
             feedback.helped(a.event, n, exclude_sensor=sensor.id)

@@ -19,7 +19,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from typing import Any
 
-from intelnet import db, geo, network, trust
+from intelnet import db, geo, network, story_brief, trust
 from intelnet.config import settings
 from intelnet.feeds.nws_alerts import SEVERITY_RANK
 from intelnet.models import iso, local_time, parse_iso, public_handle
@@ -42,6 +42,7 @@ class DigestModel:
     narrative: str | None = None
     events: list[dict[str, Any]] = field(default_factory=list)
     alerts: list[dict[str, Any]] = field(default_factory=list)
+    storms: list[dict[str, Any]] = field(default_factory=list)          # stories.py, with briefs
     contributions: list[dict[str, Any]] = field(default_factory=list)   # county × metric (human)
     extremes: list[dict[str, Any]] = field(default_factory=list)        # station extremes
     leaderboard: list[dict[str, Any]] = field(default_factory=list)
@@ -115,6 +116,7 @@ def build(hours: float = 24.0, date: str | None = None) -> DigestModel:
     model.vitals = db.vitals()
     model.events = [network.event_summary(e) for e in db.events_since(hours, limit=15)]
     model.alerts = _alert_recap(hours)
+    model.storms = story_brief.summaries(hours)
     model.contributions = [r for r in network.mesh_rows(hours) if r["n_human"]][:25]
     model.extremes = _extremes(hours)
     # The digest folder can be anyone-with-link, so people appear by handle only
@@ -307,6 +309,17 @@ def render_html(m: DigestModel, downloads: dict[str, str] | None = None) -> str:
              f'{v.get("counties_total", 0)} · with any data: {v.get("counties_reference_7d", 0)} · '
              f'subscribers: {v.get("subscribers", 0)}</div>')
 
+    # ── storms ──
+    if m.storms:
+        p.append(_section("Storms", "warnings, storm reports and readings, one storm at a time"))
+        for st in m.storms:
+            facts = "".join(f'<li>{_e(f)}</li>' for f in st["facts"])
+            p.append(f'<div style="margin:0 0 14px"><div style="font:600 15px {SANS}">{_e(st["title"] or "Storm")}</div>'
+                     f'<div style="font:400 12px {MONO};color:{MUTED}">{_e(", ".join(st["counties"]))} · '
+                     f'{_e(_when(st["opened_at"]))} – {_e(_when(st["updated_at"]))}</div>'
+                     f'<p style="font:400 14px/1.5 {SANS};margin:6px 0">{_e(st["brief"])}</p>'
+                     f'<ol style="font:400 12.5px/1.45 {SANS};color:{MUTED};margin:0;padding-left:20px">{facts}</ol></div>')
+
     # ── events ──
     p.append(_section("Events", "readings the network corroborated and scored"))
     p.append(_table(
@@ -430,6 +443,13 @@ def render_text(m: DigestModel) -> str:
                  f"corroboration 7d {v.get('corroboration_rate_7d', 0):.0%} · "
                  f"coverage {v.get('counties_covered_7d', 0)}/{v.get('counties_total', 0)} counties")
     lines.append("")
+    if m.storms:
+        lines.append("Storms:")
+        for st in m.storms:
+            lines.append(f"  {st['title']} — {', '.join(st['counties'])}")
+            lines.append(f"    {st['brief']}")
+            lines += [f"    [{i}] {f}" for i, f in enumerate(st["facts"], 1)]
+        lines.append("")
     lines.append("Events:")
     lines += [f"  {e.get('score') or 0:.2f}  {e['title']}  ({e.get('n_sensors')} sensors"
               f"{', official' if e.get('n_reference') else ''}{', verified' if e['verified'] else ''})"
