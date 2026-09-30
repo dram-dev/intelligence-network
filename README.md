@@ -83,10 +83,23 @@ tornado @sangamon -- on the ground west of town
   **Damage** and **Nothing here** record at once, each with an **Undo** button
 * **Nothing here** is an absence report: kept for the map (it shows where a storm
   didn't reach), never corroborated, trusted or pushed
+* alert cards arrive as Telegram **rich messages**: the event and damage threat, "Your
+  home is inside the warning.", when the storm arrives, the impact (Hail 1.75 in golf
+  ball · Wind 70 mph), what to do, a map of your place, and three buttons: **🗺 Map**
+  (the app, on that warning), **📍 Report what I see** and **🔕 Mute 1 hr** (alerts keep
+  arriving, silently; `/mute 30`, `/unmute`). If Telegram ever refuses a rich message,
+  the plain card goes out instead
+* after a report the bot says what it recorded, where, and how it stands: "Corroborated:
+  Severe Thunderstorm Warning in effect; radar estimates 1.1 in here (last hour)".
+  Every picker has **⌨️ Type it**
+* with topic mode on in @BotFather, the chat splits into sections: **⚠️ Alerts**, **📍 My
+  reports** and **☀️ Morning brief** (`TELEGRAM_TOPICS=auto` notices within an hour)
 * the report keyboard has a **🗺 Map · report · settings** button: a Telegram Mini App
-  with a live map of alerts and storms near your home, a two-tap report composer (at
-  home or where you are), and your home, subscriptions, follow-ups, recent reports (and
-  how each was checked) and trust in one place. It runs from GitHub Pages; changes go
+  with four tabs: **Now** (a map around your home with radar, warnings and their storm
+  motion, reports and river gauges, towns and rivers, and a list of what is near),
+  **Report** (where, when, sizes drawn to scale, an optional photo), **Alerts** (each
+  warning as a card: inside or not, arrival, impact, what to do) and **Me** (home,
+  subscriptions, follow-ups, your reports and how each was checked, trust). It runs from GitHub Pages; changes go
   back through Telegram, so there is still no server
 * event subscribers get **one card per storm**: the storm's counties, its warnings,
   its events and a short brief citing them, edited in place as the storm grows (a

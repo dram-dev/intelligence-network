@@ -92,6 +92,10 @@ class Outbound(list):
         self.markups: list[dict | None] = []                     # keyboards sent, per message
         self.edit_markups: list[dict | None] = []                # keyboards on edits
         self.answers: list[tuple[str, str]] = []                 # (callback id, toast)
+        self.rich: list[str | None] = []                          # rich-message versions sent
+        self.threads: list[int | None] = []                       # chat sections sent to
+        self.edit_rich: list[str | None] = []
+        self.markup_edits: list[tuple[str, int, dict | None]] = []
 
 
 @pytest.fixture
@@ -102,15 +106,22 @@ def sent(monkeypatch: pytest.MonkeyPatch) -> Outbound:
     log = Outbound()
     ids = iter(range(1000, 1_000_000))
 
-    def _deliver(chat_id, text, *, silent=False, reply_to=None, markup=None):
+    def _deliver(chat_id, text, *, silent=False, reply_to=None, markup=None, rich=None, thread_id=None):
         log.append((str(chat_id), text))
         log.replies.append((str(chat_id), reply_to, silent))
         log.markups.append(markup)
+        log.rich.append(rich)
+        log.threads.append(thread_id)
         return telegram.Sent(True, message_id=next(ids))
 
-    def _edit(chat_id, message_id, text, markup=None):
+    def _edit(chat_id, message_id, text, markup=None, rich=None):
         log.edits.append((str(chat_id), message_id, text))
         log.edit_markups.append(markup)
+        log.edit_rich.append(rich)
+        return telegram.Sent(True, message_id=message_id)
+
+    def _edit_markup(chat_id, message_id, markup):
+        log.markup_edits.append((str(chat_id), message_id, markup))
         return telegram.Sent(True, message_id=message_id)
 
     def _answer(query_id, text=""):
@@ -121,6 +132,9 @@ def sent(monkeypatch: pytest.MonkeyPatch) -> Outbound:
     monkeypatch.setattr(telegram.bot, "deliver", _deliver)
     monkeypatch.setattr(telegram.bot, "edit", _edit)
     monkeypatch.setattr(telegram.bot, "answer_callback", _answer)
+    monkeypatch.setattr(telegram.bot, "edit_markup", _edit_markup)
+    monkeypatch.setattr(telegram.bot, "get_me", lambda: {"has_topics_enabled": False})
+    monkeypatch.setattr(telegram.bot, "create_topic", lambda chat, name, color=None: None)
     monkeypatch.setattr(telegram.bot, "typing", lambda *a, **k: None)
     monkeypatch.setattr(delivery, "PER_CHAT_SECONDS", 0.0)
     monkeypatch.setattr(delivery, "GLOBAL_SECONDS", 0.0)

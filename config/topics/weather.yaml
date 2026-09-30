@@ -282,6 +282,8 @@ quick_reports:
   - id: hail
     button: "🧊 Hail"
     ask: How big? Pick the closest match.
+    visual: size                  # the Mini App draws each choice to scale
+    example: hail 1.25in          # what "Type it" suggests
     choices:
       - ["Pea ¼″", "hail pea"]
       - ["Penny ¾″", "hail penny"]
@@ -396,14 +398,17 @@ alert_support:
 # maxWindGust "70 MPH", tornadoDetection "RADAR INDICATED"…). The alert card
 # shows them, and when an update raises one, people who already have the card
 # are notified again. Numbers rise by value; `levels` rise left to right.
+# `show` places a tag on the alert card and in the app: header (beside the event
+# name), chip (the impact line, the default) or tag (a plain note). `chip` is the
+# short label there; `metric` names the size in words (1.75 in → golf ball).
 alert_parameters:
-  maxHailSize:              {label: Hail up to, unit: in}
-  maxWindGust:              {label: Wind, unit: mph}
-  tornadoDetection:         {label: Tornado, levels: [POSSIBLE, RADAR INDICATED, OBSERVED]}
-  tornadoDamageThreat:      {label: Tornado damage threat, levels: [CONSIDERABLE, CATASTROPHIC]}
-  thunderstormDamageThreat: {label: Damage threat, levels: [CONSIDERABLE, DESTRUCTIVE]}
-  flashFloodDetection:      {label: Flash flood, levels: [RADAR INDICATED, OBSERVED]}
-  flashFloodDamageThreat:   {label: Flash flood damage threat, levels: [CONSIDERABLE, CATASTROPHIC]}
+  maxHailSize:              {label: Hail up to, unit: in, chip: Hail, metric: hail_mm}
+  maxWindGust:              {label: Wind, unit: mph, chip: Wind}
+  tornadoDetection:         {label: Tornado, levels: [POSSIBLE, RADAR INDICATED, OBSERVED], show: tag}
+  tornadoDamageThreat:      {label: Tornado damage threat, levels: [CONSIDERABLE, CATASTROPHIC], show: header}
+  thunderstormDamageThreat: {label: Damage threat, levels: [CONSIDERABLE, DESTRUCTIVE], show: header}
+  flashFloodDetection:      {label: Flash flood, levels: [RADAR INDICATED, OBSERVED], show: tag}
+  flashFloodDamageThreat:   {label: Flash flood damage threat, levels: [CONSIDERABLE, CATASTROPHIC], show: header}
 
 # ── Official product mappings ─────────────────────────────────────────────
 # IEM Local Storm Report types → metric (+ unit the magnitude is reported in).

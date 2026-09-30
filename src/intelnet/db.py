@@ -295,6 +295,15 @@ MIGRATIONS = [
         PRIMARY KEY (kind, ref)
     )""",
     "CREATE INDEX IF NOT EXISTS idx_story_members_story ON story_members(story_id)",
+    # the rich-message version of an outbox message (Telegram Bot API 10.1); `text` stays the fallback
+    "ALTER TABLE outbox ADD COLUMN rich TEXT",
+    # a chat's sections (topics in a private chat): alerts, reports, brief
+    """CREATE TABLE IF NOT EXISTS chat_topics (
+        chat_id   TEXT NOT NULL,
+        kind      TEXT NOT NULL,
+        thread_id INTEGER NOT NULL,
+        PRIMARY KEY (chat_id, kind)
+    )""",
     # how often two people have agreed: a pair that always agrees is one voice
     """CREATE TABLE IF NOT EXISTS sensor_pairs (
         a          TEXT NOT NULL,
@@ -568,6 +577,8 @@ def forget_sensor(sensor_id: str, chat_id: str | int) -> dict[str, Any]:
         conn.execute("DELETE FROM sent_messages WHERE chat_id = ?", (chat,))
         conn.execute("DELETE FROM places WHERE chat_id = ?", (chat,))
         conn.execute("DELETE FROM questions WHERE chat_id = ?", (chat,))
+        conn.execute("DELETE FROM chat_topics WHERE chat_id = ?", (chat,))
+        conn.execute("DELETE FROM kv WHERE key IN (?, ?, ?)", (f"mute:{chat}", f"photo:{chat}", f"followups:off:{chat}"))
         conn.execute("DELETE FROM sensor_trust WHERE sensor_id = ?", (sensor_id,))
         conn.execute("DELETE FROM sensor_pairs WHERE a = ? OR b = ?", (sensor_id, sensor_id))
         conn.execute("DELETE FROM kv WHERE key = ?", (f"followups:off:{chat}",))
@@ -1004,15 +1015,17 @@ def record_notification(key: str, chat_id: str | int) -> None:
 
 def enqueue(key: str, chat_id: str | int, text: str, *, action: str = "send",
             thread: str | None = None, priority: int = 5, silent: bool = False,
-            stale_at: datetime | None = None, markup: dict | None = None) -> int | None:
-    """Queue one message for one chat. None when this (key, chat) was queued before."""
+            stale_at: datetime | None = None, markup: dict | None = None,
+            rich: str | None = None) -> int | None:
+    """Queue one message for one chat. None when this (key, chat) was queued before.
+    `rich` is its rich-message version; `text` is always the plain fallback."""
     with get_conn() as conn:
         cur = conn.execute(
             """INSERT OR IGNORE INTO outbox (key, chat_id, action, thread, text, priority, silent,
-                                             next_attempt_at, stale_at, markup_json)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                                             next_attempt_at, stale_at, markup_json, rich)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (key, str(chat_id), action, thread, text, priority, int(silent), utcnow_iso(),
-             iso(stale_at), json.dumps(markup) if markup else None),
+             iso(stale_at), json.dumps(markup) if markup else None, rich),
         )
         return cur.lastrowid if cur.rowcount else None
 
@@ -1093,10 +1106,12 @@ def pending_in_thread(thread: str, chat_id: str | int, action: str) -> sqlite3.R
         ).fetchone()
 
 
-def retext_outbox(outbox_id: int, text: str) -> None:
+def retext_outbox(outbox_id: int, text: str, rich: str | None = None, markup: dict | None = None) -> None:
     """Swap the text of a message that hasn't gone out yet, so it leaves up to date."""
     with get_conn() as conn:
-        conn.execute("UPDATE outbox SET text = ? WHERE id = ? AND status = 'pending'", (text, outbox_id))
+        conn.execute("""UPDATE outbox SET text = ?, rich = COALESCE(?, rich), markup_json = COALESCE(?, markup_json)
+                        WHERE id = ? AND status = 'pending'""",
+                     (text, rich, json.dumps(markup) if markup else None, outbox_id))
 
 
 def supersede_outbox(thread: str, chat_id: str | int | None = None,
@@ -1647,4 +1662,33 @@ def sensor_signals(sensor_id: str, limit: int = 6) -> list[Signal]:
     with get_conn() as conn:
         rows = conn.execute("SELECT * FROM signals WHERE sensor_id = ? ORDER BY received_at DESC, id DESC LIMIT ?",
                             (sensor_id, limit)).fetchall()
+    return [Signal.from_row(r) for r in rows]
+
+
+# ── chat sections (topics in a private chat) ─────────────────────────────
+
+def chat_topic(chat_id: str | int, kind: str) -> int | None:
+    with get_conn() as conn:
+        row = conn.execute("SELECT thread_id FROM chat_topics WHERE chat_id = ? AND kind = ?",
+                           (str(chat_id), kind)).fetchone()
+    return int(row["thread_id"]) if row else None
+
+
+def save_chat_topic(chat_id: str | int, kind: str, thread_id: int) -> None:
+    with get_conn() as conn:
+        conn.execute("INSERT OR REPLACE INTO chat_topics (chat_id, kind, thread_id) VALUES (?, ?, ?)",
+                     (str(chat_id), kind, int(thread_id)))
+
+
+def kv_delete(key: str) -> None:
+    with get_conn() as conn:
+        conn.execute("DELETE FROM kv WHERE key = ?", (key,))
+
+
+def signals_by_ids(ids: Iterable[int]) -> list[Signal]:
+    ids = [int(i) for i in ids]
+    if not ids:
+        return []
+    with get_conn() as conn:
+        rows = conn.execute(f"SELECT * FROM signals WHERE id IN ({','.join('?' * len(ids))})", ids).fetchall()
     return [Signal.from_row(r) for r in rows]

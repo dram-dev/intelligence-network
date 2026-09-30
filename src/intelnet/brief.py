@@ -19,7 +19,7 @@ from typing import Any
 from intelnet import db, delivery, geo, network, story_brief
 from intelnet.config import settings
 from intelnet.feeds.nws_alerts import active_alert_groups
-from intelnet.models import local_time, parse_iso, utcnow
+from intelnet.models import local_time, parse_iso, public_handle, utcnow
 from intelnet.telegram import MAX_MSG, bot, esc, href, join_within, tg_time
 from intelnet.topics import all_categories, find_metric
 
@@ -132,6 +132,76 @@ def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | N
     return join_within(lines, MAX_MSG)
 
 
+def _readings_table(fips: str) -> str:
+    """The most-reported measurement in the county overnight, reading by reading: who (a
+    handle, or the official station), where (ZIP), how it stands, and the value."""
+    people = [r for r in db.mesh(HOURS, human_only=True) if r["county_fips"] == fips]
+    if not people:
+        return ""
+    key = max(people, key=lambda r: r["n"])["metric"]
+    m = find_metric(key)
+    if m is None or m.is_flag:
+        return ""
+    rows = sorted((s for s in db.recent_signals(HOURS, county_fips=fips, metric=key, limit=200)
+                   if s.value is not None and s.sensor_kind in ("human", "bot", "station", "official")),
+                  key=lambda s: -(s.value or 0))[:5]
+    if not rows:
+        return ""
+    cells = []
+    for s in rows:
+        official = s.sensor_kind in ("station", "official")
+        if official:
+            sensor = db.get_sensor(s.sensor_id)
+            who = f"{sensor.name if sensor and sensor.name else s.sensor_id.split(':', 1)[-1].upper()} · official"
+        else:
+            who = f"{public_handle(s.sensor_id)} · {s.location.zip5 or ''} · " + (
+                "corroborated" if s.quality == "corroborated" else "unverified")
+        cells.append(f"<tr><td>{esc(who)}</td><td align=\"right\">{esc(m.display(s.value).split(' (')[0])}</td></tr>")
+    return (f"<table compact><caption>{esc(m.label)}, last 24 hours</caption>" + "".join(cells) + "</table>")
+
+
+def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetime | None = None) -> str:
+    """The brief as a Telegram rich message: a heading, the night's items as a list, the
+    most-reported readings as a table, the statewide picture folded away, and the links.
+    `compose` stays the plain fallback."""
+    now = now or utcnow()
+    c = geo.county(fips)
+    where = c.label if c else _state()
+    parts = ["<h3>☀️ Morning brief</h3>", f"<p>{esc(local_time(now, '%a %-d %b'))} · {esc(where)}</p>"]
+    items: list[str] = []
+    table = ""
+    if c:
+        items += _in_effect(c.fips)[:4] + _ended(c.fips)[:3]
+        storms = [s for s in story_brief.summaries(HOURS) if c.fips in s["fips"]]
+        items += [f"⛈ <b>{esc(s['title'] or 'Storm')}</b>: {esc(s['brief'])}" for s in storms[:2]]
+        items += [esc(x) for x in _night(c.fips)[:6]]
+        items += [f"📍 {esc(e['title'] or '')} · {_n(e.get('n_sensors') or 0, 'sensor', 'sensors')}"
+                  + (" · verified" if e["verified"] else "")
+                  for e in (network.event_summary(e) for e in db.events_since(HOURS) if e["county_fips"] == c.fips)][:3]
+        table = _readings_table(c.fips)
+        if not items:
+            items.append(f"A quiet night in {esc(where)}: no NWS alerts, and nothing notable reported.")
+    if items:
+        parts.append("<ul>" + "".join(f"<li>{x}</li>" for x in items) + "</ul>")
+    if table:
+        parts.append(table)
+    v = db.vitals()
+    state = [f"{_n(v.get('alerts_active', 0), 'NWS alert', 'NWS alerts')} in effect",
+             f"{_n(v.get('signals_24h_human', 0), 'reading', 'readings')} from people · {v.get('signals_24h_reference', 0):,} official",
+             f"{_n(len(network.coverage_gaps(7)), 'county', 'counties')} without a sensor this week"]
+    parts.append(f"<details><summary>Across {esc(_state())}</summary><p>" + "<br>".join(state) + "</p></details>")
+    tail = [f'<a href="{link}">{label}</a>' for label, key in (("Full digest", "digest"), ("All digests", "folder"))
+            if (link := href(links.get(key)))]
+    page = href(f"{settings.public_site_url}county/{c.slug}.html") if c and settings.public_site_url else None
+    if page:
+        tail.append(f'<a href="{page}">{esc(c.name)} County page</a>')
+    if tail:
+        parts.append("<p>" + " · ".join(tail) + "</p>")
+    if not c:
+        parts.append("<p><i>Set your home (/home 62704) and this brief is about your county.</i></p>")
+    return "".join(parts)
+
+
 def fanout_brief(date: str, links: dict[str, str | None]) -> int:
     """One brief per digest subscriber, about their county. Returns messages sent."""
     if not bot.enabled:
@@ -140,15 +210,16 @@ def fanout_brief(date: str, links: dict[str, str | None]) -> int:
     chats = sorted({chat for cat in all_categories() if cat.endswith(".digest")
                     for chat in db.matching_chat_ids(cat, [st])})
     key = f"digest:{date}"
-    texts: dict[str | None, str] = {}
+    texts: dict[str | None, tuple[str, str]] = {}
     ids: list[int | None] = []
     for chat in chats:
         if db.already_notified(key, chat):
             continue
         fips = county_of(chat)
         if fips not in texts:
-            texts[fips] = compose(fips, links)
-        ids.append(db.enqueue(key, chat, texts[fips], priority=5, stale_at=utcnow() + timedelta(hours=12)))
+            texts[fips] = (compose(fips, links), compose_rich(fips, links))
+        text, rich = texts[fips]
+        ids.append(db.enqueue(key, chat, text, priority=5, stale_at=utcnow() + timedelta(hours=12), rich=rich))
     return delivery.send_now(ids)
 
 

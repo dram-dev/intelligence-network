@@ -52,6 +52,7 @@ from intelnet.topics import Metric, find_metric, get_topic, topics
 logger = logging.getLogger(__name__)
 
 CACHE_SECONDS = 120
+REQUEST_TIMEOUT = 60.0            # quick_look lowers it: the bot's reply can't wait on radar
 SLACK = timedelta(minutes=15)     # a peak metric's window must start this long before the reading
 MARGIN_DEG = 0.4                  # around the state when cropping a national grid
 NO_COVERAGE = -2.5                # MRMS writes −3 where no radar sees
@@ -226,7 +227,7 @@ def _mrms_grib2(grid: Grid, product: str, lat: float, lon: float) -> Sample:
     url = grid.url.format(product=product)
 
     def load() -> GribField:
-        r = requests.get(url, headers={"User-Agent": settings.nws_user_agent}, timeout=60)
+        r = requests.get(url, headers={"User-Agent": settings.nws_user_agent}, timeout=REQUEST_TIMEOUT)
         r.raise_for_status()
         raw = gzip.decompress(r.content) if r.content[:2] == b"\x1f\x8b" else r.content
         return parse_grib2(raw, state_bbox())
@@ -245,7 +246,7 @@ def _arcgis_image(grid: Grid, product: str, lat: float, lon: float) -> Sample:
         "mosaicRule": json.dumps({"mosaicMethod": "esriMosaicAttribute", "where": f"name='{product}'"}),
         "renderingRule": json.dumps({"rasterFunction": "None"}),
         "returnGeometry": "false", "returnCatalogItems": "true", "f": "json",
-    }, headers={"User-Agent": settings.nws_user_agent}, timeout=30)
+    }, headers={"User-Agent": settings.nws_user_agent}, timeout=min(30.0, REQUEST_TIMEOUT))
     r.raise_for_status()
     d = r.json()
     if d.get("error"):
@@ -383,6 +384,35 @@ def check_pending(now: datetime | None = None, limit: int = 200) -> list[Checked
         a = network.settle_by_grid(sig, v)
         out.append(Checked(sig, v, _witness(grid, sig, s), a))
     return out
+
+
+def quick_look(sig: Signal, timeout: float = 6.0) -> str | None:
+    """What radar shows at a fresh report, for the reply: 'radar estimates 1.1 in here
+    (last hour)'. Informational only; the verdict comes later from check_pending, once a
+    window covers the report. None when there's no grid, no signal on it, or no answer
+    within `timeout` seconds."""
+    global REQUEST_TIMEOUT
+    if not settings.grid_checks_enabled or sig.value is None or not sig.location.has_point:
+        return None
+    grid = grids().get(sig.metric)
+    metric = find_metric(sig.metric, get_topic(sig.topic))
+    if grid is None or metric is None or not metric.scored:
+        return None
+    if metric.accumulates and grid.default_window in grid.windows:
+        window = grid.default_window
+    else:
+        window = "1h" if "1h" in grid.windows else min(grid.windows, key=minutes)
+    old, REQUEST_TIMEOUT = REQUEST_TIMEOUT, timeout
+    try:
+        s = sample(grid, window, sig.location.lat, sig.location.lon)
+    except (requests.RequestException, GridError, OSError, KeyError, ValueError):
+        return None
+    finally:
+        REQUEST_TIMEOUT = old
+    if s.value is None or s.value < grid.min_signal:
+        return None
+    span = "last hour" if window == "1h" else f"last {window}"
+    return f"radar estimates {metric.display(s.value).split(' (')[0]} here ({span})"
 
 
 def _mark(sig: Signal, verdict_: dict[str, Any]) -> None:

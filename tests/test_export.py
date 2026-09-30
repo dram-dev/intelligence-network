@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from intelnet import db, demo, export
+from intelnet import db, demo, export, opendata
 
 
 def test_snapshot_is_public_by_construction(fresh_db):
@@ -17,15 +17,30 @@ def test_snapshot_is_public_by_construction(fresh_db):
     assert {t["name"] for t in snap["topics"]} == {"weather", "soil", "water", "agriculture",
                                                    "air", "quake", "nature", "markets"}
     assert snap["sources"] and all("url" in s for s in snap["sources"])
-    # no identity leaks: handles only, no names / ZIP+4 / coordinates for humans
+    # no identity leaks: handles only, no names / ZIP+4; a person's place is at most their ZIP's centre
     text = json.dumps(snap)
-    for leak in ('"Ann"', '"Bo"', '"Cy"', "tg:1001", "62704-", '"lat": 39.77'):
+    for leak in ('"Ann"', '"Bo"', '"Cy"', "tg:1001", "62704-"):
         assert leak not in text, leak
+    people = [r for r in snap["reports"] if not r["official"]]
+    assert people and all(r["who"].startswith("s-") for r in people)
+    assert all((r["lat"], r["lon"]) == opendata.public_point(r["zip5"], None) for r in people)
     sensors = [n for n in snap["graph"]["nodes"] if n["kind"] == "sensor"]
     assert sensors and all(n["label"].startswith("s-") and "lat" not in n for n in sensors)
     assert any(link["kind"] == "corroborated" for link in snap["graph"]["links"])
     assert snap["events"] and any(e["verified"] for e in snap["events"])
     assert snap["leaderboard"] and snap["leaderboard"][0]["handle"].startswith("s-")
+
+
+def test_a_persons_exact_place_never_reaches_the_snapshot(fresh_db, make_sensor):
+    from intelnet import contrib, geo
+
+    ann = make_sensor("tg:1", zip_code="62704")
+    ann.location = geo.location_from_point(39.781234, -89.654321, online=False)
+    db.upsert_sensor(ann)
+    contrib.contribute(ann, "hail quarter", source_id_base="m1", online=False, use_llm=False)
+    snap = export.snapshot(days=1)
+    text = json.dumps(snap)
+    assert snap["reports"] and "39.7812" not in text and "-89.6543" not in text
 
 
 def test_write_json_and_build_site(fresh_db, tmp_path: Path):
@@ -61,7 +76,7 @@ def test_snapshot_says_when_each_feed_last_worked(fresh_db):
 def test_export_all_without_fragment(fresh_db, tmp_path: Path, monkeypatch):
     monkeypatch.setattr(export, "FRAGMENT", tmp_path / "missing.html")
     res = export.export_all(tmp_path / "docs", days=2, site=True)
-    assert len(res["json"]) == 11 and "site" not in res
+    assert len(res["json"]) == 13 and "site" not in res
     assert db.vitals()["sensors_total"] == 0
 
 

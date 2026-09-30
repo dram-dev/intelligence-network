@@ -125,51 +125,62 @@ def contribute_json(sensor: Sensor, payload: str, **kw: Any) -> Contribution:
 
 # ── acknowledgement ──────────────────────────────────────────────────────
 
+def _reference_words(ref: Signal) -> str:
+    """'Severe Thunderstorm Warning in effect' · 'matches an NWS storm report' · 'matches the KSPI station'."""
+    if ref.evidence.get("event"):
+        return f"{ref.evidence['event']} in effect"
+    if ref.sensor_kind == "official":
+        return "matches an NWS storm report"
+    if ref.sensor_kind == "station":
+        s = db.get_sensor(ref.sensor_id)
+        return f"matches the {s.name if s and s.name else ref.sensor_id.split(':', 1)[-1].upper()} station"
+    return "matches an official source"
+
+
 def _assessment_note(a: Assessment) -> str:
+    """The status line under a recorded reading: Corroborated / Waiting / Flagged, and why."""
     if a.metric is not None and not a.metric.scored:
-        return "✅ noted: quiet reports show where a storm didn't reach"
+        return "<b>Noted</b>: quiet reports show where a storm didn't reach"
     if a.quality == "corroborated":
         bits = []
-        if a.n_corroborating:
-            bits.append(f"agrees with {a.n_corroborating} nearby sensor(s)")
         if a.reference == "agree" and a.reference_signal is not None:
-            ref = a.reference_signal
-            what = ref.evidence.get("event") or ref.sensor_id.split(":", 1)[-1].upper()
-            bits.append(f"backed by {what}")
-        return "✅ corroborated — " + "; ".join(bits)
+            bits.append(_reference_words(a.reference_signal))
+        if a.n_corroborating:
+            n = a.n_corroborating
+            bits.append(f"{n} neighbor{'s' if n != 1 else ''} agree{'s' if n == 1 else ''}")
+        return "<b>Corroborated</b>: " + esc("; ".join(bits) or "confirmed")
     if a.quality == "flagged":
-        return (f"⚠️ conflicts with {a.n_contradicting} nearby reading(s)"
-                + (" and the official reference" if a.reference == "disagree" else "")
-                + " — kept, but marked")
+        return (f"<b>Flagged</b>: conflicts with {a.n_contradicting} nearby reading{'s' if a.n_contradicting != 1 else ''}"
+                + (" and the official reference" if a.reference == "disagree" else "") + ". Kept, but marked")
     if a.quality == "rejected":
-        return "✖ rejected (outside plausible range)"
+        return "<b>Rejected</b>: outside the plausible range"
     if a.n_contradicting:
-        return (f"🕐 differs from {a.n_contradicting} nearby reading(s) — kept as unverified")
-    return "🕐 first report here — the network will watch for neighbors"
+        return f"<b>Unverified</b>: differs from {a.n_contradicting} nearby reading{'s' if a.n_contradicting != 1 else ''}"
+    return "<b>Waiting</b> for a neighbor or an official source to agree"
 
 
-def ack_text(c: Contribution, sensor: Sensor | None = None) -> str:
-    """HTML acknowledgement for Telegram (also printed by the CLI)."""
+def ack_text(c: Contribution, sensor: Sensor | None = None, radar: dict[int, str] | None = None) -> str:
+    """HTML acknowledgement for Telegram (also printed by the CLI): per reading, what was
+    recorded where, and how it stands (with what radar shows there, when known)."""
     if c.rejected:
         return f"⛔ {esc(c.rejected)}"
     lines: list[str] = []
+    radar = radar or {}
     if c.signals:
-        lines.append(f"✅ <b>Recorded {len(c.signals)} reading{'s' if len(c.signals) != 1 else ''}</b>"
-                     + (" <i>(parsed from prose)</i>" if c.used_llm else ""))
         for sig, a in zip(c.signals, c.assessments):
             m = a.metric
-            what = (m.label if m.is_flag else f"{m.label}: {m.display(sig.value)}") if m else f"{sig.metric}: {sig.value}"
-            lines.append(f"• <b>{esc(what)}</b> @ {esc(sig.location.describe())}")
-            lines.append(f"  {esc(_assessment_note(a))}")
+            what = (m.label if m.is_flag else f"{m.label} {m.display(sig.value).split(' (')[0]}") if m else f"{sig.metric} {sig.value}"
+            lines.append(f"✅ <b>Recorded:</b> {esc(what)} at {esc(sig.location.describe())}")
+            note = radar.get(sig.id or -1)
+            lines.append(_assessment_note(a) + (f"; {esc(note)}" if note else ""))
             if a.event and a.push_event:
-                lines.append(f"  📍 event {esc(a.push_reason)}: {esc(a.event.get('title') or '')} "
-                             f"(score {a.event.get('score', 0):.2f}) — pushed to subscribers")
+                lines.append(f"📍 Verified event: {esc(a.event.get('title') or '')}. Sent to subscribers")
             elif a.event and a.event_opened:
-                lines.append("  📍 opened an event — unverified until a neighbor or an official "
-                             "source agrees")
+                lines.append("📍 Opened an event, unverified until a neighbor or an official source agrees")
             elif a.event:
-                lines.append(f"  📍 joined event: {esc(a.event.get('title') or '')} "
-                             f"(score {a.event.get('score', 0):.2f})")
+                lines.append(f"📍 Joined event: {esc(a.event.get('title') or '')}")
+        if c.used_llm:
+            lines.append("<i>Read from your sentence.</i>")
     for e in c.errors:
         lines.append(f"⚠️ {esc(e)}")
     if c.leftover and not c.signals:
@@ -180,8 +191,7 @@ def ack_text(c: Contribution, sensor: Sensor | None = None) -> str:
         topic = get_topic(c.signals[0].topic)
         st = trust.standing(sensor.id, topic.name)
         lines.append(f"<i>Your {esc(topic.label.lower())} record: {esc(st.label)} · "
-                     f"{s.n_corroborated} corroborated / {s.n_contradicted} conflicting · "
-                     f"{s.n_signals} readings in all</i>")
+                     f"{s.n_signals} reading{'s' if s.n_signals != 1 else ''}</i>")
     if c.pushes:
         lines.append(f"<i>Pushed to {c.pushes} subscriber message(s).</i>")
     return "\n".join(lines) if lines else "Nothing to record."

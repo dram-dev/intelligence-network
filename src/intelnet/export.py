@@ -63,8 +63,11 @@ def _topics_doc() -> list[dict[str, Any]]:
                 "convert": _convert_table(m),
             } for m in t.metrics.values()],
             # the report buttons (the chat keyboard and the Mini App's composer)
-            "quick_reports": [{k: q[k] for k in ("id", "button", "ask", "choices", "send", "keyboard") if k in q}
+            "quick_reports": [{k: q[k] for k in ("id", "button", "ask", "choices", "send", "keyboard", "visual",
+                                                 "example") if k in q}
                               for q in t.quick_reports],
+            # how NWS impact tags read on cards and in the app (header, chip or tag)
+            "alert_parameters": t.mapping("alert_parameters"),
         })
     return out
 
@@ -141,6 +144,45 @@ def _events(days: int) -> list[dict[str, Any]]:
             "status", "opened_at", "updated_at", "source_url",
         )} | {"verified": bool(s["verified"])})
     return out
+
+
+def _map_reports(hours: float = 24) -> list[dict[str, Any]]:
+    """People's readings and NWS storm reports of the last day, for the app's map. People
+    appear as a handle at their ZIP's centre (the site's rule); storm reports are public
+    and keep their point. Notes, photos and exact places of people never leave."""
+    out = []
+    for s in db.recent_signals(hours, kinds=("human", "bot", "official"), limit=400):
+        if s.metric.startswith("alert."):
+            continue
+        m = find_metric(s.metric)
+        person = s.sensor_kind != "official"
+        pt = opendata.public_point(s.location.zip5, s.location.county_fips) if person \
+            else (round(s.location.lat, 4), round(s.location.lon, 4)) if s.location.has_point else None
+        if pt is None or m is None:
+            continue
+        out.append({"metric": s.metric, "label": m.label,
+                    "value": "" if m.is_flag or s.value is None else _short(m, s.value),
+                    "who": handle(s.sensor_id) if person else "NWS storm report",
+                    "official": not person, "quality": s.quality, "agree": s.reference_agreement,
+                    "grid": (s.evidence.get("grid") or {}).get("verdict"), "zip5": s.location.zip5,
+                    "lat": pt[0], "lon": pt[1], "at": s.observed_at.isoformat(timespec="minutes")})
+    return out
+
+
+def _gauges() -> list[dict[str, Any]]:
+    """The latest reading of each river gauge (USGS), for the app's Gauges layer."""
+    latest: dict[str, dict[str, Any]] = {}
+    for s in db.recent_signals(6, kinds=("station",), limit=5000):
+        site = s.evidence.get("site")
+        if s.source != "usgs_water" or not site or s.metric not in ("stage_m", "discharge_cms"):
+            continue
+        g = latest.setdefault(site, {"site": site, "name": s.evidence.get("name"), "url": s.evidence.get("url"),
+                                     "lat": round(s.location.lat, 4), "lon": round(s.location.lon, 4), "at": None})
+        m = find_metric(s.metric)
+        if m is not None and s.metric not in g:
+            g[s.metric] = _short(m, s.value) if s.value is not None else None
+            g["at"] = max(g["at"] or "", s.observed_at.isoformat(timespec="minutes"))
+    return [g for g in latest.values() if "stage_m" in g or "discharge_cms" in g]
 
 
 def _alerts() -> list[dict[str, Any]]:
@@ -290,6 +332,8 @@ def snapshot(days: int = 14, *, sample: bool = False) -> dict[str, Any]:
         "events": _events(days),
         "alerts": _alerts(),
         "storms": story_brief.summaries(24),
+        "reports": _map_reports(24),
+        "gauges": _gauges(),
         "activity": _activity(days),
         "graph": _graph(days),
         "leaderboard": _leaderboard(days),
@@ -303,11 +347,13 @@ def snapshot(days: int = 14, *, sample: bool = False) -> dict[str, Any]:
 def write_json(snap: dict[str, Any], out_dir: Path) -> list[Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     written = []
-    core = {k: v for k, v in snap.items() if k not in ("counties", "events", "alerts", "storms", "activity",
+    core = {k: v for k, v in snap.items() if k not in ("counties", "events", "alerts", "storms", "reports", "gauges",
+                                                        "activity",
                                                         "graph", "leaderboard", "digests", "sources", "topics")}
     for name, payload in (("network", core), ("topics", snap["topics"]), ("counties", snap["counties"]),
                           ("events", snap["events"]), ("alerts", snap["alerts"]),
-                          ("storms", snap.get("storms") or []), ("activity", snap["activity"]),
+                          ("storms", snap.get("storms") or []), ("reports", snap.get("reports") or []),
+                          ("gauges", snap.get("gauges") or []), ("activity", snap["activity"]),
                           ("graph", snap["graph"]), ("leaderboard", snap["leaderboard"]),
                           ("digests", snap["digests"]), ("sources", snap["sources"])):
         p = out_dir / f"{name}.json"

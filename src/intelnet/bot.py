@@ -14,7 +14,6 @@ Anyone can /join (optionally gated by NETWORK_JOIN_CODE). The admin chat
 """
 from __future__ import annotations
 
-import base64
 import json
 import logging
 import re
@@ -27,18 +26,28 @@ from intelnet import (
     asks,
     contrib,
     db,
+    delivery,
     feedback,
     geo,
+    grids,
     language,
     metrics,
+    miniapp,
     network,
     subscriptions,
     trust,
 )
 from intelnet.config import settings
-from intelnet.models import KIND_HUMAN, Sensor
+from intelnet.models import KIND_HUMAN, Sensor, local_time
 from intelnet.telegram import MAX_MSG, bot, esc, href, join_within, tg_time
-from intelnet.topics import all_categories, default_topic, find_metric, get_topic, topics
+from intelnet.topics import (
+    alert_question,
+    all_categories,
+    default_topic,
+    find_metric,
+    get_topic,
+    topics,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -48,6 +57,7 @@ LATE_AFTER = timedelta(minutes=2)
 # Telegram's "until I stop" live-location period, and how long we honor one.
 _LIVE_UNTIL_STOPPED = 0x7FFFFFFF
 LIVE_MAX = timedelta(hours=24)
+PHOTO_WINDOW = timedelta(minutes=10)     # a photo this soon after an app report joins it
 # A site link: t.me/<bot>?start=sub_<topic>_<category>_<area> (area: county slug, ZIP, ZIP+4, il)
 _START_SUB = re.compile(r"^sub_([a-z]+)_([a-z]+)_([a-z0-9-]+)$")
 
@@ -77,44 +87,9 @@ def _quick_reports() -> list[dict]:
     return [dict(q, topic=t.name, index=i) for t in topics().values() for i, q in enumerate(t.quick_reports)]
 
 
-APP_BUTTON = "🗺 Map · report · settings"
-APP_REPORTS = 6
-
-
-def app_state(chat_id: str | int) -> dict:
-    """What the Mini App shows about this chat: home, subscriptions, recent reports and
-    how each was checked, trust by topic. It rides in the app URL's #fragment, which the
-    browser never sends to the site's server."""
-    sensor = db.sensor_by_chat(chat_id)
-    home = None
-    if sensor and sensor.location.has_point:
-        c = geo.county(sensor.location.county_fips)
-        home = {"zip": sensor.location.zip5, "fips": sensor.location.county_fips,
-                "slug": c.slug if c else None, "label": sensor.location.describe()}
-    reports = []
-    for s in db.sensor_signals(sensor.id, APP_REPORTS) if sensor else []:
-        m = find_metric(s.metric, get_topic(s.topic))
-        reports.append({"m": m.label if m else s.metric,
-                        "v": "" if m is None or m.is_flag or s.value is None
-                        else m.display(s.value).split(" (")[0].replace(" pct", "%"),
-                        "t": s.observed_at.isoformat(timespec="minutes"), "q": s.quality,
-                        "r": s.reference_agreement, "n": s.corroboration_n,
-                        "g": (s.evidence.get("grid") or {}).get("verdict")})
-    return {"v": 1, "home": home,
-            "subs": [[r["category"], r["area"], subscriptions.area_label(r["area"])]
-                     for r in db.subscriptions_for(str(chat_id))],
-            "reports": reports,
-            "trust": [[get_topic(st.topic).label, st.label] for st in trust.standings(sensor.id)] if sensor else [],
-            "followups": feedback.enabled_for(chat_id)}
-
-
-def app_url(chat_id: str | int) -> str | None:
-    """The Mini App's address for this chat (https only: Telegram requires it)."""
-    site = settings.public_site_url
-    if not site.startswith("https://"):
-        return None
-    blob = json.dumps(app_state(chat_id), separators=(",", ":"), ensure_ascii=False).encode()
-    return f"{site}app/#s={base64.urlsafe_b64encode(blob).decode().rstrip('=')}"
+APP_BUTTON = miniapp.APP_BUTTON
+app_state = miniapp.app_state
+app_url = miniapp.app_url
 
 
 def report_keyboard(chat_id: str | int | None = None) -> dict | None:
@@ -152,7 +127,17 @@ def handle_web_app(message: dict, sensor: Sensor | None) -> str:
                 place = geo.location_from_point(lat, lon)
         except (KeyError, TypeError, ValueError):
             pass
-        return Reply(_contribute(message, sensor, text, place=place), report_keyboard(chat))
+        reply = _contribute(message, sensor, text, place=place)
+        if d.get("photo"):
+            recorded = db.message_signals("telegram", _sensor_id((message.get("from") or {}).get("id")),
+                                          f"{chat}:{message.get('message_id')}")
+            if recorded:
+                db.kv_set(f"photo:{chat}", json.dumps({"ids": [s.id for s in recorded],
+                                                       "until": (datetime.now(timezone.utc) + PHOTO_WINDOW).isoformat()}))
+                reply += "\n📷 Now send the photo; it will be attached to this report."
+        return Reply(reply, report_keyboard(chat))
+    if action == "mute":
+        return cmd_mute(message, sensor, str(d.get("minutes") or 60))
     if action == "subs":
         lines = []
         cats = set(all_categories())
@@ -200,6 +185,7 @@ def _quick(message: dict, sensor: Sensor | None, q: dict) -> str:
     if q.get("choices"):
         buttons = [{"text": label, "callback_data": f"q:{q['topic']}:{q['index']}:{j}"}
                    for j, (label, _reading) in enumerate(q["choices"])]
+        buttons.append({"text": "⌨️ Type it", "callback_data": f"t:{q['topic']}:{q['index']}"})
         return Reply(esc(str(q.get("ask") or "Pick one:")),
                      {"inline_keyboard": [buttons[i:i + 3] for i in range(0, len(buttons), 3)]})
     reply = _contribute(message, sensor, str(q["send"]))
@@ -210,7 +196,8 @@ def _quick(message: dict, sensor: Sensor | None, q: dict) -> str:
 
 
 def handle_callback(cq: dict) -> None:
-    """A tap on an inline button: record the picked reading, or undo one, in place."""
+    """A tap on an inline button: record the picked reading, or undo one, in place; the
+    alert card's Report what I see and Mute; a picker's Type it."""
     data = str(cq.get("data") or "")
     user = cq.get("from") or {}
     msg = cq.get("message") or {}
@@ -220,6 +207,39 @@ def handle_callback(cq: dict) -> None:
         bot.answer_callback(str(cq.get("id")))
         return
     sensor = db.get_sensor(_sensor_id(user["id"]))
+    thread_id = msg.get("message_thread_id") if msg.get("is_topic_message") else None
+    if data.startswith(("mute:", "unmute")):
+        muted = data.startswith("mute:")
+        if muted:
+            until = delivery.mute(chat, int(data.split(":")[1] or 60) if data.split(":")[1].isdigit() else 60)
+            bot.answer_callback(str(cq["id"]), f"Muted until {local_time(until, '%-I:%M %p')}. Alerts still arrive, silently.")
+        else:
+            delivery.unmute(chat)
+            bot.answer_callback(str(cq["id"]), "Unmuted: alerts ring again.")
+        rows = (msg.get("reply_markup") or {}).get("inline_keyboard") or []
+        swapped = [[({"text": "🔔 Unmute", "callback_data": "unmute"} if muted else {"text": "🔕 Mute 1 hr", "callback_data": "mute:60"})
+                     if str(b.get("callback_data", "")).startswith(("mute:", "unmute")) else b for b in row] for row in rows]
+        if swapped:
+            bot.edit_markup(chat, mid, {"inline_keyboard": swapped})
+        return
+    if data.startswith("rw:"):
+        _report_now(cq, data[3:], msg, thread_id)
+        return
+    if data == "sample":                     # the buttons on a sample card do nothing real
+        bot.answer_callback(str(cq["id"]), "Sample card: on a real alert this button works.")
+        return
+    if data.startswith("t:"):
+        try:
+            _, topic, i = data.split(":")
+            q = topics()[topic].quick_reports[int(i)]
+        except (ValueError, KeyError, IndexError):
+            bot.answer_callback(str(cq["id"]), "That button has expired.")
+            return
+        example = str(q.get("example") or (q["choices"][0][1] if q.get("choices") else q.get("send") or "rain 0.5in"))
+        bot.answer_callback(str(cq["id"]))
+        bot.deliver(chat, f"Type it, like <code>{esc(example)}</code>. Add <code>20m ago</code> if it was earlier.",
+                    markup={"force_reply": True, "input_field_placeholder": example}, thread_id=thread_id)
+        return
     if data.startswith("q:"):
         try:
             _, topic, i, j = data.split(":")
@@ -249,6 +269,69 @@ def handle_callback(cq: dict) -> None:
             bot.edit(chat, mid, "↩️ Removed. Tap a button to report again.")
     else:
         bot.answer_callback(str(cq["id"]))
+
+
+def _report_now(cq: dict, h: str, msg: dict, thread_id: int | None) -> None:
+    """The alert card's "Report what I see": a question under the card, answered in one or
+    two taps, with the pack's reports for this kind of alert, timed to now."""
+    chat, mid = msg["chat"]["id"], msg["message_id"]
+    thread = db.kv_get(f"rw:{h}")
+    t = db.alert_thread(thread.removeprefix("alert:")) if thread else None
+    event = (t["event"] if t else None) or ""
+    found = alert_question(event, "ended") or alert_question(event, "issued")
+    if found:
+        topic, q = found
+        ids = [str(i) for i in q.get("reports") or []]
+    else:
+        topic = default_topic()
+        ids = [str(q["id"]) for q in topic.quick_reports if q.get("id") and q.get("keyboard", True)]
+    ask = "What are you seeing right now?"
+    qid = db.add_question(chat, f"{thread or 'alert'}:now:{int(time.time())}", topic.name, ids, ask, None)
+    if qid is None or not ids:
+        bot.answer_callback(str(cq["id"]), "Use the report buttons under the chat.")
+        return
+    bot.answer_callback(str(cq["id"]))
+    bot.deliver(chat, asks.question_text(ask) + "\n<i>Only look outside when it is safe to.</i>", reply_to=mid,
+                markup=asks.question_markup(qid, topic, ids), thread_id=thread_id)
+
+
+def cmd_mute(message: dict, sensor: Sensor | None, args: str) -> str:
+    chat = message["chat"]["id"]
+    try:
+        minutes = int((args or "60").split()[0])
+    except ValueError:
+        minutes = 60
+    until = delivery.mute(chat, minutes)
+    return Reply(f"🔕 Muted until {local_time(until, '%-I:%M %p')}. Alerts still arrive, silently. /unmute to undo.",
+                 {"inline_keyboard": [[{"text": "🔔 Unmute", "callback_data": "unmute"}]]})
+
+
+def cmd_unmute(message: dict, sensor: Sensor | None, args: str) -> str:
+    delivery.unmute(message["chat"]["id"])
+    return "🔔 Unmuted: alerts ring again."
+
+
+def _attach_photo(message: dict) -> str | None:
+    """A photo sent right after an app report is that report's evidence (never its proof)."""
+    chat = message["chat"]["id"]
+    raw = db.kv_get(f"photo:{chat}")
+    if not raw or not message.get("photo") or (message.get("caption") or "").strip():
+        return None
+    try:
+        want = json.loads(raw)
+    except ValueError:
+        return None
+    if datetime.fromisoformat(want["until"]) < datetime.now(timezone.utc):
+        db.kv_delete(f"photo:{chat}")
+        return None
+    file_id = message["photo"][-1].get("file_id")
+    n = 0
+    for sig in db.signals_by_ids(want["ids"]):
+        db.set_evidence(int(sig.id or 0), {**sig.evidence, "photo_file_id": file_id})
+        n += 1
+    db.kv_delete(f"photo:{chat}")
+    return ("📷 Attached to your report. Photos are kept as evidence; they never raise a report's "
+            "credibility on their own.") if n else None
 
 
 def _answer(cq: dict, data: str, user: dict, msg: dict, sensor: Sensor | None) -> None:
@@ -700,6 +783,7 @@ COMMANDS: dict[str, Callable[[dict, Sensor | None, str], str]] = {
     "subscriptions": cmd_subs, "near": cmd_near, "alerts": cmd_alerts, "latest": cmd_latest,
     "digest": cmd_digest_email, "network": cmd_network, "topics": cmd_topics, "admin": cmd_admin,
     "privacy": cmd_privacy, "forget": cmd_forget, "report": cmd_report, "followups": cmd_followups,
+    "mute": cmd_mute, "unmute": cmd_unmute,
 }
 
 
@@ -734,7 +818,8 @@ def _contribute(message: dict, sensor: Sensor | None, text: str, *, json_mode: b
     fn = contrib.contribute_json if json_mode else contrib.contribute
     c = fn(sensor, text, source_id_base=source_id, message_time=observed or sent,
            extra_evidence=evidence or None)
-    reply = contrib.ack_text(c, sensor)
+    radar = {s.id: note for s in c.signals if s.id is not None and (note := grids.quick_look(s))}
+    reply = contrib.ack_text(c, sensor, radar)
     if sent and late > LATE_AFTER and c.signals:
         reply += (f"\n🕰 This reached the network {evidence['received_late_min']} min after you sent "
                   f"it (the bot was offline). It counts from when you sent it, {tg_time(sent, 't')}.")
@@ -758,6 +843,10 @@ def handle_message(message: dict) -> str | None:
         return cmd_location(message, sensor)
     if message.get("web_app_data"):
         return handle_web_app(message, sensor)
+    if message.get("photo"):
+        attached = _attach_photo(message)
+        if attached:
+            return attached
 
     if text.startswith("/"):
         m = re.match(r"^/([A-Za-z_]+)(?:@\w+)?\s*(.*)$", text, re.DOTALL)
@@ -835,7 +924,8 @@ def handle_updates(updates: list[dict]) -> int | None:
             logger.exception("bot: handler failed")
             reply = f"⚠️ Something went wrong: {esc(str(exc))}"
         if reply:
-            bot.send_to(message["chat"]["id"], reply, markup=getattr(reply, "markup", None))
+            bot.send_to(message["chat"]["id"], reply, markup=getattr(reply, "markup", None),
+                        thread_id=message.get("message_thread_id") if message.get("is_topic_message") else None)
     return offset
 
 

@@ -43,7 +43,7 @@ def test_the_keyboard_opens_the_app_with_the_chats_own_state(fresh_db, monkeypat
 def test_a_report_from_the_app_lands_where_it_says(fresh_db):
     bot.handle_message(_msg(31, text="/join"))
     r = bot.handle_message(_app({"a": "report", "text": "hail quarter", "lat": 39.7817, "lon": -89.6501}))
-    assert "Recorded 1 reading" in r
+    assert "Recorded:" in r
     [hail] = db.recent_signals(1, kinds=("human",), metric="hail_mm")
     assert hail.location.precision == "point" and round(hail.location.lat, 3) == 39.782
     assert "didn't come through" in bot.handle_message(_msg(31, web_app_data={"data": "not json"}))

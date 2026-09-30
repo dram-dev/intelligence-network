@@ -66,6 +66,12 @@ class Settings(BaseSettings):
     # Radar grids (pack `reference_grids`: MRMS rain, hail) check people's readings
     # each watch pass; off, readings wait for stations, storm reports and neighbors.
     grid_checks_enabled: bool = Field(default=True, alias="GRID_CHECKS_ENABLED")
+    # Telegram rich messages (Bot API 10.1) for alert cards and the morning brief; a
+    # refused rich message always falls back to the plain one. Chat sections (topics:
+    # Alerts, My reports, Morning brief) are used when "auto" and the bot has topic mode
+    # on in BotFather; "on" forces them, "off" never.
+    telegram_rich_messages: bool = Field(default=True, alias="TELEGRAM_RICH_MESSAGES")
+    telegram_topics: str = Field(default="auto", alias="TELEGRAM_TOPICS")
     # Nightly copies of the live database (backup.py); point BACKUP_DIR at a synced
     # folder (iCloud Drive, Dropbox) for a copy off this machine.
     backup_dir: Path = Field(default=Path("./backups"), alias="BACKUP_DIR")

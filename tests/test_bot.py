@@ -41,7 +41,7 @@ def test_join_code_gate(fresh_db, monkeypatch):
 
 def test_plain_text_auto_joins_and_records(fresh_db):
     r = bot.handle_message(msg("rain 1.2in @62704"))
-    assert "Auto-joined" in r and "Recorded 1 reading" in r
+    assert "Auto-joined" in r and "Recorded:" in r
     assert db.get_sensor("tg:42").n_signals == 1
     r = bot.handle_message(msg("gust 40", mid=2))          # no home, no @ → told how to fix
     assert "no location" in r and "/home" in r
@@ -58,7 +58,7 @@ def test_photo_caption_is_a_reading_with_evidence(fresh_db):
     bot.handle_message(msg("/join"))
     bot.handle_message(msg("/home 62704"))
     r = bot.handle_message(msg(caption="hail quarter", photo=[{"file_id": "abc"}], mid=3))
-    assert "Recorded 1 reading" in r
+    assert "Recorded:" in r
     sig = db.recent_signals(1, kinds=("human",))[0]
     assert sig.evidence["photo_file_id"] == "abc" and sig.metric == "hail_mm"
 
@@ -67,7 +67,7 @@ def test_json_signal_command(fresh_db):
     bot.handle_message(msg("/join"))
     bot.handle_message(msg("/home 62704"))
     r = bot.handle_message(msg('/signal {"metric":"rain_mm","value":0.5,"unit":"in"}'))
-    assert "Rainfall: 0.5 in" in r
+    assert "Rainfall 0.5 in at 62704" in r
 
 
 def test_subscribe_flow(fresh_db):

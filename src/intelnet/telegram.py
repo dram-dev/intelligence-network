@@ -53,50 +53,76 @@ class Sent:
     retry_after: float | None = None   # 429: wait this long before trying again
     permanent: bool = False            # blocked, chat gone, bad markup: retrying won't help
     error: str = ""
+    result: Any = None                 # the method's own result (a ForumTopic, getMe's User…)
 
 
 class Bot(TelegramNotifier):
     """The network's Telegram client: admin chat = the notifier's default chat."""
 
     def deliver(self, chat_id: str | int, text: str, *, silent: bool = False,
-                reply_to: int | None = None, markup: dict[str, Any] | None = None) -> Sent:
-        """POST one HTML message to any chat; `reply_to` quotes an earlier message and
-        `markup` attaches a keyboard."""
-        payload: dict[str, Any] = {
-            "chat_id": str(chat_id),
-            "text": text,
-            "parse_mode": "HTML",
-            "disable_web_page_preview": True,
-            "disable_notification": silent,
-        }
+                reply_to: int | None = None, markup: dict[str, Any] | None = None,
+                rich: str | None = None, thread_id: int | None = None) -> Sent:
+        """POST one message to any chat; `reply_to` quotes an earlier message, `markup`
+        attaches a keyboard, `thread_id` puts it in a chat section (topic).
+
+        With `rich` (Bot API 10.1 rich-message HTML) the message goes out as a rich
+        message; if Telegram refuses it (a 400), the same message goes out as the plain
+        HTML `text` instead, at once, so a formatting problem never costs a warning."""
+        common: dict[str, Any] = {"chat_id": str(chat_id), "disable_notification": silent}
         if reply_to:
-            payload["reply_parameters"] = {"message_id": reply_to, "allow_sending_without_reply": True}
+            common["reply_parameters"] = {"message_id": reply_to, "allow_sending_without_reply": True}
         if markup:
-            payload["reply_markup"] = markup
-        return self._call("sendMessage", payload)
+            common["reply_markup"] = markup
+        if thread_id:
+            common["message_thread_id"] = thread_id
+        if rich and settings.telegram_rich_messages:
+            sent = self._call("sendRichMessage", {**common, "rich_message": {"html": rich, "skip_entity_detection": True}})
+            if sent.ok or not sent.permanent or "chat not found" in sent.error or "blocked" in sent.error:
+                return sent
+            logger.warning("telegram: rich message refused (%s); sending the plain version", sent.error)
+        return self._call("sendMessage", {**common, "text": text, "parse_mode": "HTML", "disable_web_page_preview": True})
 
     def edit(self, chat_id: str | int, message_id: int, text: str, *,
-             markup: dict[str, Any] | None = None) -> Sent:
-        """Rewrite a message the bot sent earlier (editing never makes a sound)."""
-        payload: dict[str, Any] = {
-            "chat_id": str(chat_id),
-            "message_id": message_id,
-            "text": text,
-            "parse_mode": "HTML",
-            "disable_web_page_preview": True,
-        }
+             markup: dict[str, Any] | None = None, rich: str | None = None) -> Sent:
+        """Rewrite a message the bot sent earlier (editing never makes a sound). A rich
+        card is edited as a rich message, falling back to the plain `text`. Buttons not
+        passed in `markup` are removed, as Telegram does."""
+        common: dict[str, Any] = {"chat_id": str(chat_id), "message_id": message_id}
         if markup:
-            payload["reply_markup"] = markup
-        return self._call("editMessageText", payload)
+            common["reply_markup"] = markup
+        if rich and settings.telegram_rich_messages:
+            sent = self._call("editMessageText", {**common, "rich_message": {"html": rich, "skip_entity_detection": True}})
+            if sent.ok or not sent.permanent:
+                return sent
+            logger.warning("telegram: rich edit refused (%s); editing with the plain version", sent.error)
+        return self._call("editMessageText", {**common, "text": text, "parse_mode": "HTML", "disable_web_page_preview": True})
+
+    def edit_markup(self, chat_id: str | int, message_id: int, markup: dict[str, Any] | None) -> Sent:
+        """Change only a message's buttons (the Mute button turning into Unmute)."""
+        return self._call("editMessageReplyMarkup", {"chat_id": str(chat_id), "message_id": message_id,
+                                                     "reply_markup": markup or {"inline_keyboard": []}})
+
+    def create_topic(self, chat_id: str | int, name: str, icon_color: int | None = None) -> int | None:
+        """A chat section (Bot API 9.4 topics in private chats). Returns its thread id."""
+        payload: dict[str, Any] = {"chat_id": str(chat_id), "name": name[:128]}
+        if icon_color:
+            payload["icon_color"] = icon_color
+        sent = self._call("createForumTopic", payload)
+        return int(sent.result["message_thread_id"]) if sent.ok and isinstance(sent.result, dict) \
+            and sent.result.get("message_thread_id") else None
+
+    def get_me(self) -> dict[str, Any] | None:
+        sent = self._call("getMe", {})
+        return sent.result if sent.ok and isinstance(sent.result, dict) else None
 
     def answer_callback(self, query_id: str, text: str = "") -> Sent:
         """Stop a tapped button's spinner, with an optional one-line toast."""
         return self._call("answerCallbackQuery", {"callback_query_id": query_id, "text": text[:190]})
 
     def send_to(self, chat_id: str | int, text: str, *, silent: bool = False,
-                markup: dict[str, Any] | None = None) -> bool:
+                markup: dict[str, Any] | None = None, thread_id: int | None = None) -> bool:
         """POST one HTML message to any chat. False on no-op or failure."""
-        return self.deliver(chat_id, text, silent=silent, markup=markup).ok
+        return self.deliver(chat_id, text, silent=silent, markup=markup, thread_id=thread_id).ok
 
     def _call(self, method: str, payload: dict[str, Any]) -> Sent:
         chat = payload.get("chat_id")
@@ -115,7 +141,8 @@ class Bot(TelegramNotifier):
             body = {}
         if resp.ok and body.get("ok"):
             result = body.get("result")
-            return Sent(True, message_id=result.get("message_id") if isinstance(result, dict) else None)
+            return Sent(True, message_id=result.get("message_id") if isinstance(result, dict) else None,
+                        result=result)
         desc = str(body.get("description") or f"HTTP {resp.status_code}")
         if method == "editMessageText" and "message is not modified" in desc:
             return Sent(True, message_id=payload.get("message_id"))

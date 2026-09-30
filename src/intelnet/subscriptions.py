@@ -141,35 +141,162 @@ def _impact_line(sig: Signal) -> str:
 INSIDE = "inside the warned area"       # how a card says the warning covers you
 
 
-def where_you_are(sig: Signal, chat_id: str) -> tuple[list[str], bool]:
-    """The lines only this chat sees on a storm-based warning, and whether it's inside.
+@dataclass
+class Where:
+    """Where a warning stands for one chat: inside or outside its polygon (None when it
+    has none, or the chat has no place), when the storm arrives, and how to say it."""
+    lines: list[str]
+    inside: bool | None = None
+    who: str = ""                      # "Your home is" · "You are" · "The center of ZIP 62704 is"
+    label: str = ""                    # "Your home" · "You" · "ZIP 62704" (the map caption)
+    eta: datetime | None = None
+    place: geo.Location | None = None
+    ask_location: bool = False
 
-    Inside or outside the warned polygon, and when the storm reaches them (from the
-    NWS storm motion). Uses the live location while it's shared, else home; when home
-    is only a ZIP's center, the card says so rather than claiming precision.
-    """
+
+def locate(sig: Signal, chat_id: str) -> Where:
+    """Inside or outside the warned polygon, and when the storm reaches them (from the NWS
+    storm motion). Uses the live location while it's shared, else home; when home is only
+    a ZIP's center, the card says so rather than claiming precision."""
     rings = sig.evidence.get("polygon")
     if not rings:
-        return [], False
+        return Where([])
     live = db.live_location(chat_id)
     sensor = None if live else db.sensor_by_chat(chat_id)
     place = live or (sensor.location if sensor and sensor.location.has_point else None)
     if place is None or place.lat is None or place.lon is None:
-        return ["📍 Share your location (or /home 62704) to see whether this warning covers you."], False
+        return Where(["📍 Share your location (or /home 62704) to see whether this warning covers you."],
+                     ask_location=True)
     if place.precision == "point":
-        who = "You are" if live else "Your home is"
+        who, label = ("You are", "You") if live else ("Your home is", "Your home")
     else:
-        who = f"The center of ZIP {place.zip5} is"
+        who, label = f"The center of ZIP {place.zip5} is", f"ZIP {place.zip5}"
     inside = geo.point_in_polygon(place.lat, place.lon, rings)
     lines = [f"📍 <b>{who} {INSIDE if inside else 'outside the warned area'}.</b>"]
     motion = sig.evidence.get("motion")
     at = parse_iso(motion.get("at")) if motion else None
+    eta = None
     if motion and at:
         eta = geo.storm_arrival(at, motion["from_deg"], motion["speed_kt"], motion["points"],
                                 place.lat, place.lon)
-        if eta and eta > utcnow() and (sig.expires_at is None or eta <= sig.expires_at + timedelta(minutes=30)):
+        if not (eta and eta > utcnow() and (sig.expires_at is None or eta <= sig.expires_at + timedelta(minutes=30))):
+            eta = None
+        if eta:
             lines.append(f"⏱ The storm reaches you about {tg_time(eta, 't')} ({tg_time(eta, 'r')})")
-    return lines, inside
+    return Where(lines, inside, who, label, eta, place)
+
+
+def where_you_are(sig: Signal, chat_id: str) -> tuple[list[str], bool]:
+    """The lines only this chat sees on a storm-based warning, and whether it's inside."""
+    w = locate(sig, chat_id)
+    return w.lines, bool(w.inside)
+
+
+def _size_word(spec: dict[str, Any], value: float) -> str:
+    """'golf ball' for 1.75 in, when the pack names sizes for the tag's metric."""
+    m = find_metric(str(spec.get("metric") or ""))
+    if m is None or not m.words:
+        return ""
+    try:
+        canon = m.convert(value, spec.get("unit"))
+    except ValueError:
+        return ""
+    word, size = min(m.words.items(), key=lambda kv: abs(kv[1] - canon))
+    return word if abs(size - canon) <= canon * 0.08 else ""
+
+
+def card_tags(sig: Signal) -> dict[str, list[str]]:
+    """NWS impact tags as the card shows them (pack `alert_parameters`, `show`):
+    header ('CONSIDERABLE'), chips ('Hail 1.75 in golf ball') and tags ('Radar indicated')."""
+    out: dict[str, list[str]] = {"header": [], "chip": [], "tag": []}
+    impact = sig.evidence.get("impact") or {}
+    for code, spec in get_topic(sig.topic).mapping("alert_parameters").items():
+        value = impact.get(code)
+        if value in (None, ""):
+            continue
+        show = spec.get("show", "chip")
+        show = show if show in out else "chip"
+        if spec.get("levels"):
+            v = str(value)
+            out[show].append(v.upper() if show == "header" else v.capitalize() if show == "tag"
+                             else f"{spec.get('label', code)}: {v.lower()}")
+            continue
+        word = _size_word(spec, float(value))
+        out[show].append(f"{spec.get('chip') or spec.get('label', code)} {float(value):g} {spec.get('unit', '')}".strip()
+                         + (f" {word}" if word else ""))
+    return out
+
+
+def _first_sentences(text: str | None, limit: int = 220) -> str:
+    sentences = re.split(r"(?<=\.)\s+", " ".join(str(text or "").split()))
+    return " ".join(sentences[:2])[:limit]
+
+
+def _sender(ev: dict[str, Any]) -> str:
+    return re.sub(r" [A-Z]{2}$", "", str(ev.get("sender") or "NWS"))
+
+
+def format_alert_rich(sig: Signal, county_labels: list[str], *, where: Where | None = None,
+                      ended: str | None = None, ended_at: datetime | None = None) -> str:
+    """The alert card as a Telegram rich message (Bot API 10.1): the event and damage
+    threat as a heading, the reader's own situation as the headline, arrival, impact tags,
+    what to do, a map of their place, and a footer. `format_alert` is its plain fallback."""
+    ev = sig.evidence
+    event = esc(ev.get("event") or sig.metric)
+    names = [c.removesuffix(" County") for c in county_labels]
+    counties = esc(", ".join(names[:4]) + ("…" if len(names) > 4 else "")) or esc(sig.location.describe())
+    if ended:
+        head = {"cancelled": "Ended early", "area": "No longer covers your area"}.get(ended, "Ended")
+        return (f"<h4>✅ {esc(head.upper())} · {tg_time(ended_at or utcnow(), 't')}</h4><h2><s>{event}</s></h2>"
+                + (f"<p>Still in effect for {counties}</p>" if ended == "area" else f"<p>{counties}</p>"))
+    tags = card_tags(sig)
+    sev = str(ev.get("severity") or "Unknown")
+    parts = [f"<h4>{_SEVERITY_EMOJI.get(sev, '•')} {' · '.join([event.upper(), *map(esc, tags['header'])])}</h4>"]
+    if where is not None and where.inside is not None:
+        parts.append(f"<h2>{esc(where.who)} {'inside' if where.inside else 'outside'} the warning.</h2>")
+    else:
+        parts.append(f"<h2>{counties}</h2>")
+    if where is not None and where.eta:
+        parts.append(f"<p>Storm arrives about {tg_time(where.eta, 't')}, <b>{tg_time(where.eta, 'r')}</b></p>")
+    elif where is not None and where.ask_location:
+        parts.append("<p>📍 Share your location (or /home 62704) to see whether this warning covers you.</p>")
+    chips = " ".join(f"<mark>{esc(c)}</mark>" for c in tags["chip"])
+    notes = " · ".join(esc(t) for t in tags["tag"])
+    if chips or notes:
+        parts.append("<p>" + " ".join(x for x in (chips, f"<code>{notes}</code>" if notes else "") if x) + "</p>")
+    action = _first_sentences(ev.get("instruction"))
+    if action:
+        parts.append(f"<blockquote>{esc(action)}</blockquote>")
+    if where is not None and where.place is not None and ev.get("polygon"):
+        parts.append(f'<figure><tg-map lat="{where.place.lat:.3f}" long="{where.place.lon:.3f}" zoom="9"/>'
+                     f"<figcaption>{esc(where.label)} · the warned area is on the Map</figcaption></figure>")
+    foot = [esc(_sender(ev))] + ([f"until {tg_time(sig.expires_at, 't')}"] if sig.expires_at else []) + [counties]
+    if ev.get("message_type") == "Update":
+        foot.append(f"updated {tg_time(sig.observed_at, 't')}")
+    link = href(ev.get("url"))
+    parts.append("<footer>" + " · ".join(foot) + (f' · <a href="{link}">NWS alert</a>' if link else "") + "</footer>")
+    return "".join(parts)
+
+
+def report_hash(thread: str) -> str:
+    """A short, stable key for a card's thread in button data (64-byte limit)."""
+    return hashlib.sha1(thread.encode()).hexdigest()[:12]
+
+
+def card_markup(sig: Signal, chat: str, thread: str) -> dict[str, Any]:
+    """Under each alert card: Map (the app, on this warning) · Report what I see · Mute 1 hr."""
+    from intelnet import delivery, miniapp
+
+    h = report_hash(thread)
+    db.kv_set(f"rw:{h}", thread)
+    row: list[dict[str, Any]] = []
+    url = miniapp.app_url(chat, focus=str(sig.evidence.get("alert_id") or ""), tab="now")
+    if url:
+        row.append({"text": "🗺 Map", "web_app": {"url": url}})
+    row.append({"text": "📍 Report what I see", "callback_data": f"rw:{h}"})
+    row.append({"text": "🔔 Unmute", "callback_data": "unmute"} if delivery.muted(chat)
+               else {"text": "🔕 Mute 1 hr", "callback_data": "mute:60"})
+    return {"inline_keyboard": [row]}
 
 
 def format_alert(sig: Signal, county_labels: list[str], *, ended: str | None = None,
@@ -303,8 +430,10 @@ def _alert_audience(sig: Signal, siblings: list[Signal]) -> dict[str, int]:
     return out
 
 
-def _edit_card(thread: str, chat: str, card: Any, text: str, version: str) -> int | None:
-    """Queue an edit of a chat's card, unless the card (or a queued edit) already says this."""
+def _edit_card(thread: str, chat: str, card: Any, text: str, version: str, *,
+               rich: str | None = None, markup: dict[str, Any] | None = None) -> int | None:
+    """Queue an edit of a chat's card, unless the card (or a queued edit) already says this.
+    The rich version and the buttons go with it (an edit without buttons removes them)."""
     if card["text"] == text:
         return None
     pending = db.pending_in_thread(thread, chat, "edit")
@@ -312,7 +441,8 @@ def _edit_card(thread: str, chat: str, card: Any, text: str, version: str) -> in
         return int(pending["id"])
     db.supersede_outbox(thread, chat, ("edit",))          # only the newest edit matters
     return db.enqueue(f"{thread}:edit:{version}", chat, text, action="edit", thread=thread,
-                      priority=EDIT_PRIORITY, stale_at=utcnow() + timedelta(hours=24))
+                      priority=EDIT_PRIORITY, stale_at=utcnow() + timedelta(hours=24),
+                      rich=rich, markup=markup)
 
 
 def fanout_alert(sig: Signal, siblings: list[Signal], changes: list[str] | None = None) -> int:
@@ -334,23 +464,26 @@ def fanout_alert(sig: Signal, siblings: list[Signal], changes: list[str] | None 
     have = db.cards(thread)
     ids: list[int | None] = []
     for chat, priority in audience.items():
-        personal, inside = where_you_are(sig, chat)
-        text = format_alert(sig, labels, personal=personal)
+        w = locate(sig, chat)
+        inside = bool(w.inside)
+        text = format_alert(sig, labels, personal=w.lines)
+        rich = format_alert_rich(sig, labels, where=w)
+        markup = card_markup(sig, chat, thread)
         if inside:
             priority = -1                                 # inside the polygon: first out
         card = have.get(chat)
         if card is None:
             pending = db.pending_in_thread(thread, chat, "card")
             if pending is not None:
-                db.retext_outbox(pending["id"], text)     # still queued: it leaves up to date
+                db.retext_outbox(pending["id"], text, rich, markup)   # still queued: it leaves up to date
             else:
                 ids.append(db.enqueue(thread, chat, text, action="card", thread=thread,
-                                      priority=priority, stale_at=stale))
+                                      priority=priority, stale_at=stale, rich=rich, markup=markup))
                 # slow hazards ask while they're in effect (the pack says which)
                 ids.append(asks.queue(sig, chat, thread, when="issued",
                                       priority=_PRIORITY["reports"], stale_at=stale))
             continue
-        ids.append(_edit_card(thread, chat, card, text, version))
+        ids.append(_edit_card(thread, chat, card, text, version, rich=rich, markup=markup))
         back = card["state"] == "ended"
         now_covers_you = inside and INSIDE not in (card["text"] or "")
         if back or changes or now_covers_you:
@@ -365,7 +498,8 @@ def fanout_alert(sig: Signal, siblings: list[Signal], changes: list[str] | None 
         if card["state"] == "active" and chat not in audience:
             closed = closed or format_alert(sig, labels, ended="area")
             db.update_card(thread, chat, state="ended")
-            ids.append(_edit_card(thread, chat, card, closed, f"gone:{version}"))
+            ids.append(_edit_card(thread, chat, card, closed, f"gone:{version}",
+                                  rich=format_alert_rich(sig, labels, ended="area", ended_at=utcnow())))
     return delivery.send_now(ids)
 
 
@@ -382,6 +516,7 @@ def fanout_alert_ended(sig: Signal, siblings: list[Signal], reason: str, ended_a
     thread = f"alert:{sig.group_key or sig.key}"
     labels = _county_labels(siblings)
     closed = format_alert(sig, labels, ended=reason, ended_at=ended_at)
+    closed_rich = format_alert_rich(sig, labels, ended=reason, ended_at=ended_at)
     db.supersede_outbox(thread, actions=("card", "reply"))    # nothing still queued is news now
     severe = str(sig.evidence.get("severity")) in ("Severe", "Extreme")
     stamp = iso(ended_at)
@@ -390,7 +525,7 @@ def fanout_alert_ended(sig: Signal, siblings: list[Signal], reason: str, ended_a
         if card["state"] != "active":
             continue
         db.update_card(thread, chat, state="ended")
-        ids.append(_edit_card(thread, chat, card, closed, f"end:{stamp}"))
+        ids.append(_edit_card(thread, chat, card, closed, f"end:{stamp}", rich=closed_rich))
         clear = format_all_clear(sig, labels, ended_at) if severe else None
         asked = asks.queue(sig, chat, thread, when="ended", head=clear, ended_at=ended_at,
                            priority=_PRIORITY["reports"], stale_at=ended_at + timedelta(hours=6))

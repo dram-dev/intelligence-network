@@ -158,3 +158,13 @@ def test_storms_reach_the_digest_the_morning_brief_and_the_site(fresh_db, monkey
     assert "What the brief cites" not in digest.render_html(model) and st["title"] in digest.render_html(model)
     assert "⛈ <b>" in brief.compose("17167", {})
     assert export.snapshot(days=1)["storms"][0]["brief"] == st["brief"]
+
+
+def test_a_clock_time_never_vouches_for_a_number():
+    from intelnet.story_brief import Fact, valid
+
+    facts = [Fact("alert:W1", "alert", "NWS Severe Thunderstorm Warning, issued 3:01 PM, in effect", {}),
+             Fact("event:1", "event", "Hail size peak 1.75 in in Sangamon County, from 2 people, verified", {})]
+    assert not valid("Hail up to 3 in fell [2].", facts)                 # "3" only appears inside 3:01
+    assert valid("A warning came at 3:01 PM [1] and hail reached 1.75 in [2].", facts)
+    assert not valid("A warning came at 3:15 PM [1].", facts)             # a time the facts don't have

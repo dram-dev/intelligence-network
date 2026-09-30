@@ -79,6 +79,34 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   numbers (`valid()`), else the template from the same facts. `summaries()` feeds the
   digest "Storms" section, the morning brief, and `storms.json` / the site's "Storms
   today" panel (11 public JSON docs now).
+- **Interim design wave (the review's mockups)**: alert cards go out as Telegram **rich
+  messages** (Bot API 10.1 `sendRichMessage`, HTML: `<h4>` event · header tags,
+  `<h2>` "Your home is inside the warning.", arrival `<tg-time>`, `<mark>` impact chips,
+  `<code>` tags, `<blockquote>` protective action, `<tg-map>` of the reader's place,
+  `<footer>`), built by `subscriptions.format_alert_rich` + `locate()`/`card_tags()`; pack
+  `alert_parameters` entries carry `show: header|chip|tag`, `chip`, `metric` (size words).
+  `Bot.deliver/edit(rich=…)` fall back to the plain `text` on any 400 (never lose a
+  warning); `TELEGRAM_RICH_MESSAGES`. Outbox rows carry `rich`. Card buttons
+  (`card_markup`): 🗺 Map (inline `web_app`, app opened on `focus=<alert id>`; view-only:
+  sendData needs a keyboard launch) · 📍 Report what I see (`rw:<hash>` → kv thread →
+  an `asks` question under the card, timed now) · 🔕 Mute 1 hr (`mute:60` / `unmute`;
+  `delivery.muted()` sends silently, never drops). Edits carry rich + buttons; ended cards
+  drop the buttons. Report reply: "✅ Recorded: … at …" + "Corroborated: <reason>; radar
+  estimates … (last hour)" (`grids.quick_look`, 6 s cap, informational). Pickers get
+  "⌨️ Type it" (`t:` → ForceReply with the pack's `example`). App reports with
+  `photo: true` → the next photo within 10 min joins as evidence (`photo:<chat>` kv).
+  Morning brief rich (`brief.compose_rich`: list, readings table, `<details>`). **Chat
+  sections** (Bot API 9.4 topics in private chats): `TELEGRAM_TOPICS=auto` uses them when
+  getMe `has_topics_enabled` (BotFather setting; checked hourly); `delivery.thread_for`
+  creates ⚠️ Alerts / 📍 My reports / ☀️ Morning brief per chat (`chat_topics`); replies go
+  to the thread they came from. The **Mini App** was rebuilt to the mockups: bottom tabs
+  Now · Report · Alerts · Me; a D3 map around home (±20 km) with Radar / Warnings /
+  Reports / Gauges toggles, Census towns, rivers and highways (`site/assets/il-reference.json`
+  from `scripts/build_map_layers.py`, no third-party tiles), the warning polygon, storm
+  motion arrow, HOME, 5-mile scale, a sheet of what's near; radar is requested for
+  half-degree cells, not the home; Alerts tab = the card design (band, headline, chips,
+  action, footer) + Mute; Report = Where / When / sizes drawn to scale (`visual: size`) /
+  Photo / Send. `reports.json` (people at ZIP centres) and `gauges.json` feed it.
 - **Telegram Mini App** (`site/app.fragment.html` → `docs/app/index.html` via
   `export.render_app_page`): tabs Now (live NWS alerts for home, statewide map with
   storms, county-page link), Report (every pack's `quick_reports` from topics.json; at
@@ -268,7 +296,7 @@ the right event.
 
 ## Site + snapshot
 
-`export.snapshot()` → 11 public JSON docs (anonymised: humans as `s-xxxxx` +
+`export.snapshot()` → 13 public JSON docs (anonymised: humans as `s-xxxxx` +
 county only). `site/index.fragment.html` (Fraunces / IBM Plex; light+dark
 tokens; D3 v7 from cdnjs) is wrapped into `docs/index.html` with the data
 inlined; the same fragment publishes as a Claude artifact. `intelnet

@@ -30,6 +30,7 @@ MAX_EVENTS = 5
 MAX_CHARS = 420
 _CITE = re.compile(r"\[(\d+)\]")
 _NUMBER = re.compile(r"\d+(?:\.\d+)?")
+_TIME = re.compile(r"\b\d{1,2}:\d{2}\b")       # a clock time is one token: "3:01" never vouches for "3"
 
 _SYSTEM = """You write the brief for one storm tracked by a citizen weather network.
 Use ONLY the numbered facts. Two or three short sentences, under 60 words, plain text.
@@ -116,8 +117,12 @@ def valid(text: str, fs: list[Fact]) -> bool:
     cites = [int(n) for n in _CITE.findall(text)]
     if not cites or any(not 1 <= n <= len(fs) for n in cites):
         return False
-    known = set(_NUMBER.findall(" ".join(f.text for f in fs)))
-    return all(n in known for n in _NUMBER.findall(_CITE.sub("", text)))
+    facts_text = " ".join(f.text for f in fs)
+    body = _CITE.sub("", text)
+    if not set(_TIME.findall(body)) <= set(_TIME.findall(facts_text)):
+        return False
+    known = set(_NUMBER.findall(_TIME.sub(" ", facts_text)))
+    return all(n in known for n in _NUMBER.findall(_TIME.sub(" ", body)))
 
 
 def write(story_id: int) -> str | None:

@@ -17,6 +17,12 @@ each attempt, so the bot, the watch and the alert loop never send it twice.
 
 Pacing keeps inside Telegram's limits: about a second between messages to one
 chat and at most ~25 a second overall.
+
+A row may carry a rich-message version (`rich`, Bot API 10.1) and buttons
+(`markup_json`); the plain `text` is always the fallback. While a chat has muted
+alerts (`mute:<chat>` in kv) its messages still arrive, silently. When the bot has
+topic mode on, messages go to the chat's sections: alerts and storm cards to
+"Alerts", follow-up notes to "My reports", the brief to "Morning brief".
 """
 from __future__ import annotations
 
@@ -27,7 +33,8 @@ from datetime import timedelta
 from typing import Any
 
 from intelnet import db
-from intelnet.models import utcnow
+from intelnet.config import settings
+from intelnet.models import parse_iso, utcnow
 from intelnet.telegram import Sent, bot
 
 logger = logging.getLogger(__name__)
@@ -87,17 +94,88 @@ def _attempt(row: Any) -> bool:
 
 def _dispatch(row: Any) -> Sent:
     chat, action, text = row["chat_id"], row["action"], row["text"]
-    silent = bool(row["silent"])
+    silent = bool(row["silent"]) or muted(chat)
     markup = json.loads(row["markup_json"]) if row["markup_json"] else None
+    rich = row["rich"]
     if action in ("edit", "reply"):
         card = db.card(row["thread"], chat) if row["thread"] else None
         if action == "edit":
             if card is None:
                 return Sent(False, permanent=True, error="no card to edit")
-            return bot.edit(chat, card["message_id"], text)
+            return bot.edit(chat, card["message_id"], text, markup=markup, rich=rich)
         return bot.deliver(chat, text, silent=silent, reply_to=card["message_id"] if card else None,
-                           markup=markup)
-    return bot.deliver(chat, text, silent=silent, markup=markup)
+                           markup=markup, rich=rich, thread_id=thread_for(chat, kind_of(row)))
+    return bot.deliver(chat, text, silent=silent, markup=markup, rich=rich,
+                       thread_id=thread_for(chat, kind_of(row)))
+
+
+# ── mute ─────────────────────────────────────────────────────────────────
+
+def muted(chat_id: str | int) -> bool:
+    """Has this chat muted alerts for a while? (They still arrive, silently.)"""
+    until = parse_iso(db.kv_get(f"mute:{chat_id}") or "")
+    return bool(until and until > utcnow())
+
+
+def mute(chat_id: str | int, minutes: int) -> Any:
+    until = utcnow() + timedelta(minutes=max(1, min(int(minutes), 24 * 60)))
+    db.kv_set(f"mute:{chat_id}", until.isoformat())
+    return until
+
+
+def unmute(chat_id: str | int) -> None:
+    db.kv_delete(f"mute:{chat_id}")
+
+
+# ── chat sections (topics in a private chat, Bot API 9.4) ────────────────
+
+SECTIONS = {"alerts": ("⚠️ Alerts", 16478047), "reports": ("📍 My reports", 9367192),
+            "brief": ("☀️ Morning brief", 16766590)}
+_TOPICS_CHECK = timedelta(hours=1)
+
+
+def topics_enabled() -> bool:
+    """Sections are used when TELEGRAM_TOPICS is on, or "auto" and the bot has topic mode
+    on in BotFather (getMe's has_topics_enabled, checked hourly)."""
+    mode = settings.telegram_topics.strip().lower()
+    if mode in ("off", "false", "no", "0"):
+        return False
+    if mode in ("on", "true", "yes", "1"):
+        return True
+    flag, _, at = (db.kv_get("tg:topics") or "").partition("|")
+    checked = parse_iso(at) if at else None
+    if checked and utcnow() - checked < _TOPICS_CHECK:
+        return flag == "1"
+    me = bot.get_me() if bot.enabled else None
+    on = bool(me and me.get("has_topics_enabled"))
+    db.kv_set("tg:topics", ("1" if on else "0") + "|" + utcnow().isoformat())
+    return on
+
+
+def kind_of(row: Any) -> str | None:
+    """Which section a message belongs in."""
+    key, thread = str(row["key"]), str(row["thread"] or "")
+    if thread.startswith(("alert:", "story:")) or key.startswith(("event:", "report:")):
+        return "alerts"
+    if key.startswith("digest:"):
+        return "brief"
+    if key.startswith(("confirm:", "ahead:", "helped:")):
+        return "reports"
+    return None
+
+
+def thread_for(chat_id: str | int, kind: str | None) -> int | None:
+    """The chat's section of this kind, created the first time it's needed."""
+    if not kind or not topics_enabled():
+        return None
+    tid = db.chat_topic(chat_id, kind)
+    if tid:
+        return tid
+    name, color = SECTIONS[kind]
+    tid = bot.create_topic(chat_id, name, color)
+    if tid:
+        db.save_chat_topic(chat_id, kind, tid)
+    return tid
 
 
 def _pace(chat_id: str) -> None:
