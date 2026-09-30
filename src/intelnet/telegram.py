@@ -59,8 +59,9 @@ class Bot(TelegramNotifier):
     """The network's Telegram client: admin chat = the notifier's default chat."""
 
     def deliver(self, chat_id: str | int, text: str, *, silent: bool = False,
-                reply_to: int | None = None) -> Sent:
-        """POST one HTML message to any chat; `reply_to` quotes an earlier message."""
+                reply_to: int | None = None, markup: dict[str, Any] | None = None) -> Sent:
+        """POST one HTML message to any chat; `reply_to` quotes an earlier message and
+        `markup` attaches a keyboard."""
         payload: dict[str, Any] = {
             "chat_id": str(chat_id),
             "text": text,
@@ -70,6 +71,8 @@ class Bot(TelegramNotifier):
         }
         if reply_to:
             payload["reply_parameters"] = {"message_id": reply_to, "allow_sending_without_reply": True}
+        if markup:
+            payload["reply_markup"] = markup
         return self._call("sendMessage", payload)
 
     def edit(self, chat_id: str | int, message_id: int, text: str) -> Sent:
@@ -82,9 +85,10 @@ class Bot(TelegramNotifier):
             "disable_web_page_preview": True,
         })
 
-    def send_to(self, chat_id: str | int, text: str, *, silent: bool = False) -> bool:
+    def send_to(self, chat_id: str | int, text: str, *, silent: bool = False,
+                markup: dict[str, Any] | None = None) -> bool:
         """POST one HTML message to any chat. False on no-op or failure."""
-        return self.deliver(chat_id, text, silent=silent).ok
+        return self.deliver(chat_id, text, silent=silent, markup=markup).ok
 
     def _call(self, method: str, payload: dict[str, Any]) -> Sent:
         chat = payload.get("chat_id")
@@ -119,6 +123,28 @@ class Bot(TelegramNotifier):
             logger.warning("telegram: %s to %s failed: %s", method, chat, desc)
         return Sent(False, retry_after=float(retry_after) if retry_after else None,
                     permanent=resp.status_code in (400, 403), error=desc)
+
+    def get_updates(self, offset: int | None = None, timeout: int = 30) -> list[dict] | None:
+        """Long-poll for updates: a list (maybe empty), or None when the request failed.
+
+        digest-core's contract, but failures are logged without the URL (it carries
+        the token), so a Telegram outage doesn't write the token into logs/.
+        """
+        if not self.enabled:
+            return None
+        params: dict[str, Any] = {"timeout": timeout}
+        if offset is not None:
+            params["offset"] = offset
+        try:
+            resp = requests.get(self._url("getUpdates"), params=params, timeout=timeout + 10)
+            body = resp.json() if resp.status_code == 200 else {}
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("telegram: getUpdates failed: %s", type(exc).__name__)
+            return None
+        if resp.status_code != 200 or not body.get("ok"):
+            logger.warning("telegram: getUpdates failed: HTTP %s", resp.status_code)
+            return None
+        return body.get("result", [])
 
     def typing(self, chat_id: str | int) -> None:
         if not self.enabled:

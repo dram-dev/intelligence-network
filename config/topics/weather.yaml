@@ -25,6 +25,9 @@
 #   default_unit     unit assumed when a bare number is typed (US contributors
 #                    type inches / mph / °F, so those are the defaults)
 #   display_unit     {unit, expr} for the human-facing echo (in, mph, °F)
+#   accumulates      true for amounts that build over time (rain, snow): readings
+#                    are compared only with readings over the same period, so an
+#                    hourly station amount never judges a person's storm total
 
 topic: weather
 label: Weather
@@ -133,6 +136,7 @@ metrics:
     window_min: 180
     display_unit: {unit: "in", expr: "x / 25.4"}
     event: [[25, 0.4], [50, 0.7], [100, 1.0]]
+    accumulates: true
 
   snow_cm:
     label: Snowfall
@@ -146,6 +150,7 @@ metrics:
     window_min: 360
     display_unit: {unit: "in", expr: "x / 2.54"}
     event: [[15, 0.4], [30, 0.8]]
+    accumulates: true
 
   hail_mm:
     label: Hail size
@@ -304,6 +309,6 @@ station_fields:
   relh:  {metric: humidity_pct, unit: "%"}
   sknt:  {metric: wind_ms, unit: kt}
   gust:  {metric: wind_gust_ms, unit: kt}
-  phour: {metric: rain_mm, unit: "in"}
+  phour: {metric: rain_mm, unit: "in", period: 1h}   # rain in the past hour, not a storm total
   alti:  {metric: pressure_hpa, unit: inhg}
   vsby:  {metric: visibility_km, unit: mi}

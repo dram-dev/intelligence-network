@@ -133,3 +133,16 @@ def test_markup_telegram_refuses_is_resent_with_plain_times(monkeypatch):
     r = b.deliver("1", f"Until {telegram.tg_time(when)} · Severe")
     assert r.ok and r.message_id == 3 and len(posted) == 2
     assert "<tg-time" not in posted[1] and posted[1].startswith("Until ") and ("CDT" in posted[1] or "CST" in posted[1])
+
+
+def test_a_failed_long_poll_never_logs_the_token(monkeypatch, caplog):
+    b = telegram.Bot(token="123:SECRET", chat_id="1", enabled=True)
+
+    class _Requests:
+        @staticmethod
+        def get(url, **kw):
+            raise ConnectionError(f"Read timed out. url: {url}")
+
+    monkeypatch.setattr(telegram, "requests", _Requests())
+    assert b.get_updates(offset=5) is None
+    assert "SECRET" not in caplog.text and "getUpdates failed" in caplog.text

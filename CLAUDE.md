@@ -111,7 +111,22 @@ notify (08:00) ──▶ subscriptions.fanout_digest
   re-notifies as a reply to the card. `/alerts/active` never lists cancels, so a
   thread ends at expiry or after `ABSENT_CONFIRM` (90 s) missing from the feed; an
   empty feed with ≥ 3 alerts in force is treated as a glitch. Severe/Extreme ends
-  get a silent all-clear reply.
+  get a silent all-clear reply. Storm-based warnings carry their polygon and
+  motion (`evidence.polygon` / `.motion`): each chat's card says inside/outside
+  for its live location or home (`where_you_are`; "center of ZIP …" when home is
+  a ZIP centroid) and the arrival time (`geo.storm_arrival`); inside-polygon chats
+  send first (priority -1), and an update that newly covers a chat re-notifies.
+- **Places**: `/home` or a one-off location share = home (sensors table); a live
+  location share = `places` (kind live, expires with the share, max 24 h): readings
+  land there and alert targeting uses it. Live ticks (edited messages) are silent.
+- **Corrections**: an edited message withdraws the readings it produced (source_id
+  `<chat>:<msg>:<n>`) and re-contributes; an event left empty closes.
+- **Deep links**: `/start sub_<topic>_<category>_<area>` (county slug, ZIP, ZIP+4,
+  `il`) joins, subscribes, and shows a `request_location` keyboard. The site's
+  subscription builder emits these links.
+- **Accumulating metrics** (`accumulates: true`: rain, snow) compare only readings
+  over the same period (`evidence.period`; ASOS `phour` is `1h`), so an hourly
+  station amount never flags a storm total. MRMS QPE as a rain reference: not yet.
 - **digest-core** is consumed as an editable path dep from
   `../pc-insurance-digest/packages/digest-core` (like macro). CI checks out
   both repos side by side.

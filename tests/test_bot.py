@@ -177,3 +177,41 @@ def test_backlog_is_answered_in_order_and_a_late_reading_says_so(fresh_db, sent)
     sig = db.recent_signals(1)[0]
     assert sig.evidence["received_late_min"] == 20
     assert 19 * 60 <= (sig.received_at - sig.observed_at).total_seconds() <= 21 * 60
+
+
+def test_an_edited_reading_replaces_the_original(fresh_db, sent):
+    bot.handle_updates([{"update_id": 1, "message": msg("rain 0.5in @62704", uid=8, mid=21)}])
+    bot.handle_updates([{"update_id": 2, "edited_message": msg("rain 1.5in @62704", uid=8, mid=21)}])
+    rows = db.recent_signals(1, kinds=("human",), metric="rain_mm")
+    assert [round(s.value, 1) for s in rows] == [38.1]
+    assert "Corrected" in sent[-1][1]
+
+
+def test_live_location_is_where_you_are_not_a_new_home(fresh_db, sent):
+    bot.handle_message(msg("/join", uid=9))
+    bot.handle_message(msg("/home 62704", uid=9))
+    here = {"latitude": 39.80, "longitude": -89.64, "live_period": 3600}
+    assert "Following your live location" in bot.handle_message(msg(uid=9, mid=30, location=here))
+    tick = {"latitude": 39.85, "longitude": -89.60, "live_period": 3600}
+    assert bot.handle_updates([{"update_id": 3, "edited_message": msg(uid=9, mid=30, location=tick)}]) == 4
+    assert not sent                                                   # ticks are silent
+    assert db.get_sensor("tg:9").location.zip5 == "62704"            # home unchanged
+    assert round(db.live_location("9").lat, 2) == 39.85
+    bot.handle_message(msg("hail quarter", uid=9, mid=31))
+    hail = db.recent_signals(1, kinds=("human",), metric="hail_mm")[0]
+    assert round(hail.location.lat, 2) == 39.85                      # the reading lands where they are
+
+
+def test_a_site_link_joins_subscribes_and_offers_the_location_button(fresh_db, sent):
+    bot.handle_updates([{"update_id": 7, "message": msg("/start sub_weather_warnings_cook", uid=11)}])
+    assert db.get_sensor("tg:11") is not None
+    assert [(r["category"], r["area"]) for r in db.subscriptions_for("11")] == [("weather.warnings", "il.cook")]
+    assert "Subscribed" in sent[0][1] and sent.markups[0]["keyboard"][0][0]["request_location"] is True
+    r = bot.handle_message(msg(uid=11, location={"latitude": 41.88, "longitude": -87.63}))
+    assert "Home set" in r and r.markup == {"remove_keyboard": True}
+    assert "Intelligence Network" in bot.handle_message(msg("/start sub_bogus", uid=11))
+
+
+def test_sharing_a_location_first_joins_you(fresh_db):
+    r = bot.handle_message(msg(uid=12, location={"latitude": 39.7817, "longitude": -89.6501}))
+    assert "Home set" in r and db.get_sensor("tg:12").location.county_fips == "17167"

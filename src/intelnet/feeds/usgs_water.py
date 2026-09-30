@@ -5,6 +5,11 @@ and water temperature (00010, °C). Each site becomes a `station` sensor
 `gauge:<siteCode>` at trust 0.95 with its county from the site's countyCd;
 each poll yields one signal per (site, parameter) at the reading's own
 timestamp, so repeat polls dedup. Polled on the station cadence (hourly).
+
+An active site can still carry a parameter that stopped years ago, and NWIS
+answers with its last value (one gauge's temperature dates from 1988). A value
+more than STALE_AFTER older than the newest reading in the same response is
+dropped rather than stored as news.
 """
 from __future__ import annotations
 
@@ -24,6 +29,7 @@ logger = logging.getLogger(__name__)
 
 KV_LAST_POLL = "usgs_last_poll"
 PARAMETERS = ("00065", "00060", "00010")
+STALE_AFTER = timedelta(days=2)
 
 
 def parse_iv(payload: dict[str, Any], topic_name: str = "water") -> list[Signal]:
@@ -85,6 +91,9 @@ def parse_iv(payload: dict[str, Any], topic_name: str = "water") -> list[Signal]
                       "qualifiers": latest.get("qualifiers"),
                       "url": f"https://waterdata.usgs.gov/monitoring-location/{site}/"},
         ))
+    if out:
+        newest = max(s.observed_at for s in out)
+        out = [s for s in out if newest - s.observed_at <= STALE_AFTER]
     return out
 
 

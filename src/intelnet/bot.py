@@ -17,8 +17,9 @@ from __future__ import annotations
 import logging
 import re
 import time
+from dataclasses import replace
 from datetime import datetime, timedelta, timezone
-from typing import Callable
+from typing import Callable, Self
 
 from intelnet import contrib, db, geo, language, network, subscriptions
 from intelnet.config import settings
@@ -31,6 +32,29 @@ logger = logging.getLogger(__name__)
 _MAX_BACKOFF = 300
 # A reading that reaches us this long after it was sent says so in the reply.
 LATE_AFTER = timedelta(minutes=2)
+# Telegram's "until I stop" live-location period, and how long we honor one.
+_LIVE_UNTIL_STOPPED = 0x7FFFFFFF
+LIVE_MAX = timedelta(hours=24)
+# A site link: t.me/<bot>?start=sub_<topic>_<category>_<area> (area: county slug, ZIP, ZIP+4, il)
+_START_SUB = re.compile(r"^sub_([a-z]+)_([a-z]+)_([a-z0-9-]+)$")
+
+LOCATION_KEYBOARD = {
+    "keyboard": [[{"text": "📍 Share my location", "request_location": True}]],
+    "resize_keyboard": True, "one_time_keyboard": True,
+    "input_field_placeholder": "or type a reading: rain 1.2in",
+}
+REMOVE_KEYBOARD = {"remove_keyboard": True}
+
+
+class Reply(str):
+    """Reply text that also carries a Telegram keyboard (a plain str everywhere else)."""
+
+    markup: dict | None
+
+    def __new__(cls, text: str, markup: dict | None = None) -> Self:
+        obj = super().__new__(cls, text)
+        obj.markup = markup
+        return obj
 
 
 # ── helpers ───────────────────────────────────────────────────────────────
@@ -107,22 +131,64 @@ def cmd_home(message: dict, sensor: Sensor | None, args: str) -> str:
     return f"🏠 Home set: <b>{esc(loc.describe())}</b> (precision: {esc(loc.precision)})"
 
 
+def _live_until(message: dict, p: dict) -> datetime:
+    sent = _message_time(message) or datetime.now(timezone.utc)
+    period = int(p.get("live_period") or 0)
+    return sent + (LIVE_MAX if period >= _LIVE_UNTIL_STOPPED else min(timedelta(seconds=period), LIVE_MAX))
+
+
 def cmd_location(message: dict, sensor: Sensor | None) -> str:
+    """A shared location: a one-off share sets home; a live share is where you are now."""
     if sensor is None:
-        return "Send /join first, then share your location again."
+        if settings.network_join_code:
+            return "Join first: <code>/join &lt;code&gt;</code>, then share your location again."
+        sensor = _register(message.get("from") or {}, message["chat"]["id"])
     p = message["location"]
+    if p.get("live_period"):
+        until = _live_until(message, p)
+        loc = geo.location_from_point(float(p["latitude"]), float(p["longitude"]), online=False)
+        db.set_live_location(message["chat"]["id"], loc, until)
+        home = (f"Home stays {esc(sensor.location.describe())}." if sensor.location.has_point
+                else "Set a home any time with <code>/home 62704</code>.")
+        return Reply(f"📡 Following your live location until {tg_time(until, 't')}. Readings you send "
+                     f"land where you are, and alerts check it. {home}", REMOVE_KEYBOARD)
     loc = geo.location_from_point(float(p["latitude"]), float(p["longitude"]))
     db.set_sensor_location(sensor.id, loc)
-    return f"🏠 Home set from your location: <b>{esc(loc.describe())}</b>"
+    return Reply(f"🏠 Home set from your location: <b>{esc(loc.describe())}</b>\n"
+                 f"Now type what you see, e.g. <code>rain 1.2in</code>.", REMOVE_KEYBOARD)
+
+
+def cmd_start(message: dict, sensor: Sensor | None, args: str) -> str:
+    """/start, maybe carrying a site link (sub_<topic>_<category>_<area>): join, subscribe
+    and offer the share-location button in one tap."""
+    m = _START_SUB.match(args.strip().lower())
+    if not m:
+        located = sensor is not None and sensor.location.has_point
+        return help_text() if located else Reply(help_text(), LOCATION_KEYBOARD)
+    if sensor is None:
+        if settings.network_join_code:
+            return "This network needs a join code: <code>/join &lt;code&gt;</code>, then open the link again."
+        sensor = _register(message.get("from") or {}, message["chat"]["id"])
+    topic, category, area = m.groups()
+    lines = [f"👋 Welcome to the {esc(settings.network_name)}.",
+             cmd_subscribe(message, sensor, f"{topic}.{category} {area}")]
+    if sensor.location.has_point:
+        lines.append("Report what you see by typing it, e.g. <code>rain 1.2in</code>. /help lists the rest.")
+        return "\n".join(lines)
+    lines.append("Next, tap <b>📍 Share my location</b> below (or send <code>/home 62704</code>) so your "
+                 "readings land on the map. Then type what you see, e.g. <code>rain 1.2in</code>.")
+    return Reply("\n".join(lines), LOCATION_KEYBOARD)
 
 
 def cmd_me(message: dict, sensor: Sensor | None, args: str) -> str:
     if sensor is None:
         return "You haven't joined yet — send /join."
     subs = db.subscriptions_for(sensor.chat_id or "")
+    live = db.live_location(sensor.chat_id or "")
     lines = [
         f"<b>{esc(sensor.name)}</b> · <code>{esc(sensor.id)}</code>",
-        f"Home: {esc(sensor.location.describe())}",
+        f"Home: {esc(sensor.location.describe())}"
+        + (f" · live location on ({esc(live.describe())})" if live else ""),
         f"Trust {sensor.trust:.2f} · {sensor.n_corroborated} corroborated / "
         f"{sensor.n_contradicted} conflicting · {sensor.n_signals} readings",
         "Subscriptions: " + (", ".join(f"{r['category']}@{subscriptions.area_label(r['area'])}"
@@ -408,6 +474,9 @@ def _contribute(message: dict, sensor: Sensor | None, text: str, *, json_mode: b
     late = datetime.now(timezone.utc) - sent if sent else timedelta(0)
     if late > LATE_AFTER:
         evidence["received_late_min"] = int(late.total_seconds() // 60)
+    live = db.live_location(message["chat"]["id"])
+    if live is not None:          # out and about: readings land where they're sent from
+        sensor = replace(sensor, location=live)
     source_id = f"{message['chat']['id']}:{message.get('message_id')}"
     fn = contrib.contribute_json if json_mode else contrib.contribute
     c = fn(sensor, text, source_id_base=source_id, message_time=sent,
@@ -440,7 +509,9 @@ def handle_message(message: dict) -> str | None:
         if not m:
             return help_text()
         cmd, args = m.group(1).lower(), m.group(2).strip()
-        if cmd in ("start", "help"):
+        if cmd == "start":
+            return cmd_start(message, sensor, args)
+        if cmd == "help":
             return help_text()
         if cmd in ("obs", "report", "r"):
             return _contribute(message, sensor, args)
@@ -458,6 +529,30 @@ def handle_message(message: dict) -> str | None:
 
 # ── listener ──────────────────────────────────────────────────────────────
 
+def handle_edit(message: dict) -> str | None:
+    """An edited message: a live-location tick (kept, silently) or a corrected reading."""
+    chat = message.get("chat") or {}
+    user = message.get("from") or {}
+    if not chat.get("id") or not user.get("id"):
+        return None
+    sensor = db.get_sensor(_sensor_id(user["id"]))
+    if sensor is None or sensor.status == "banned":
+        return None
+    p = message.get("location")
+    if p:
+        if p.get("live_period"):
+            loc = geo.location_from_point(float(p["latitude"]), float(p["longitude"]), online=False)
+            db.set_live_location(chat["id"], loc, _live_until(message, p))
+        return None
+    text = (message.get("text") or message.get("caption") or "").strip()
+    if not text or text.startswith("/"):
+        return None
+    earlier = db.message_signals("telegram", sensor.id, f"{chat['id']}:{message.get('message_id')}")
+    network.withdraw(earlier)
+    reply = _contribute(message, sensor, text)
+    return ("✏️ <b>Corrected.</b> This replaces what the message said before.\n" + reply) if earlier else reply
+
+
 def handle_updates(updates: list[dict]) -> int | None:
     """Answer each update in order. Returns the offset that confirms them to Telegram."""
     offset = None
@@ -467,13 +562,16 @@ def handle_updates(updates: list[dict]) -> int | None:
         if not message:
             continue
         try:
-            bot.typing(message["chat"]["id"])
-            reply = handle_message(message)
+            if "message" in u:
+                bot.typing(message["chat"]["id"])
+                reply = handle_message(message)
+            else:
+                reply = handle_edit(message)
         except Exception as exc:  # noqa: BLE001
             logger.exception("bot: handler failed")
             reply = f"⚠️ Something went wrong: {esc(str(exc))}"
         if reply:
-            bot.send_to(message["chat"]["id"], reply)
+            bot.send_to(message["chat"]["id"], reply, markup=getattr(reply, "markup", None))
     return offset
 
 

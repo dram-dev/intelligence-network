@@ -74,6 +74,11 @@ tornado @sangamon -- on the ground west of town
   with no `@`, your home applies (`/home 62704-1234` or share your location)
 * plain sentences ("golf-ball hail here 5 min ago") go through the local LLM
 * automated sensors post JSON: `/signal {"metric":"rain_mm","value":1.2,"unit":"in","location":"62704"}`
+* made a mistake? edit the message: the corrected reading replaces the old one
+* sharing your **live location** doesn't move your home: readings you send land
+  where you are, and alert cards check it, until the share ends
+* a site link (`t.me/<bot>?start=sub_weather_warnings_cook`) joins you,
+  subscribes you and offers a one-tap **Share my location** button
 
 Commands: `/join [code]` · `/home` · `/me` · `/near [place] [6h]` ·
 `/alerts [county]` · `/latest` · `/network` · `/topics` ·
@@ -114,6 +119,12 @@ is edited in place, silently; you hear from it again only if the threat grows
 (bigger hail, stronger wind, a tornado observed). When it ends, the message is
 marked ended, and severe warnings get a quiet all-clear. Times show in your own
 time zone. A push Telegram can't take right away is queued and retried.
+
+For storm-based warnings the card is personal: whether your location (live, or
+home) is inside the warned polygon, and when the storm reaches you, from the NWS
+storm motion. If home is only a ZIP, the card says "the center of ZIP 62704"
+rather than pretending to know your street. People inside the polygon are sent
+first, and an update that newly covers you rings again.
 
 ## The digest lives in Google Drive
 
@@ -223,8 +234,10 @@ Pages serves (Settings → Pages → Source: GitHub Actions; `.github/workflows/
 pages.yml`). Set `SITE_AUTO_PUSH=true` and the daily run commits + pushes
 `docs/` itself. Pages needs a public repo on the free plan.
 
-The page carries: join + subscription builder (copies the exact `/subscribe`
-command), a browser-side port of the grammar to try readings, the network
+The page carries: join + subscription builder (an **Open in Telegram** link that
+joins and subscribes in one tap, or the exact `/subscribe` command to copy), live
+NWS alerts fetched in the browser (the snapshot is the fallback), a browser-side
+port of the grammar to try readings, the network
 graph (topics · metrics · sensors · counties · events · feeds; corroboration
 links), a county mesh, readings-per-day by topic, events ranked by score, the
 Drive digest links, collaboration entry points (Telegram group, Discussions,

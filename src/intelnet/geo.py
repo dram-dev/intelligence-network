@@ -26,7 +26,9 @@ import json
 import logging
 import math
 import re
+from itertools import pairwise
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta
 from functools import lru_cache
 
 from intelnet.config import CONFIG_DIR, settings
@@ -45,6 +47,55 @@ def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     dl = math.radians(lon2 - lon1)
     a = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
     return 2 * r * math.asin(math.sqrt(a))
+
+
+def point_in_polygon(lat: float, lon: float, rings: list[list[list[float]]]) -> bool:
+    """Is the point inside any of these rings? GeoJSON order: [lon, lat] pairs."""
+    for ring in rings:
+        inside = False
+        for (x1, y1), (x2, y2) in zip(ring, ring[1:] + ring[:1]):
+            if (y1 > lat) != (y2 > lat) and lon < x1 + (lat - y1) * (x2 - x1) / (y2 - y1):
+                inside = not inside
+        if inside:
+            return True
+    return False
+
+
+# A lone storm point reaches you only if its track passes this close.
+STORM_TRACK_KM = 10.0
+
+
+def storm_arrival(at: datetime, from_deg: float, speed_kt: float, points: list[list[float]],
+                  lat: float, lon: float, *, max_hours: float = 3.0) -> datetime | None:
+    """When a moving storm reaches a point, or None if it won't (or already passed).
+
+    NWS storm motion (CAP eventMotionDescription): the storm was at `points` ([lat, lon],
+    one point or a line of them) at `at`, moving FROM `from_deg` at `speed_kt`. Flat-earth
+    km around the target are plenty at storm scale. A line sweeps whatever its span
+    covers across the track; a single point must pass within STORM_TRACK_KM.
+    """
+    speed = speed_kt * 1.852
+    if speed < 5 or not points:
+        return None
+    heading = math.radians((from_deg + 180) % 360)
+    ux, uy = math.sin(heading), math.cos(heading)
+    kx = 111.32 * math.cos(math.radians(lat))
+
+    def frame(p: list[float]) -> tuple[float, float]:
+        x, y = (p[1] - lon) * kx, (p[0] - lat) * 110.57       # storm point relative to target
+        return x * ux + y * uy, x * uy - y * ux               # (along track, across track)
+
+    fr = [frame(p) for p in points]
+    behind: list[float] = [a for a, c in fr if a < 0 and abs(c) <= STORM_TRACK_KM]
+    for (a1, c1), (a2, c2) in pairwise(fr):
+        if c1 != c2 and min(c1, c2) <= 0 <= max(c1, c2):
+            a0 = a1 + (a2 - a1) * (0 - c1) / (c2 - c1)         # where the line crosses our track
+            if a0 < 0:
+                behind.append(a0)
+    if not behind:
+        return None
+    hours = -max(behind) / speed                               # the nearest part arrives first
+    return at + timedelta(hours=hours) if hours <= max_hours else None
 
 
 def geohash(lat: float, lon: float, precision: int = 7) -> str:

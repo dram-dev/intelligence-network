@@ -149,8 +149,8 @@
   .reading .meta { font-size: 13px; color: var(--muted); }
   .reading.err { border-color: var(--sev-severe); }
   .reading.err .val { font-size: 14px; color: var(--sev-severe); font-family: var(--body); }
-  .cmd { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
-  .cmd pre { flex: 1; }
+  .cmd { display: flex; gap: 8px; align-items: center; margin-top: 10px; flex-wrap: wrap; }
+  .cmd pre { flex: 1 1 220px; }
 
   /* explore */
   .radar { background: var(--radar); color: var(--radar-ink); border-radius: 3px; padding: 14px; position: relative; overflow: hidden; }
@@ -282,7 +282,7 @@
     <div class="grid-2" style="margin-top:28px">
       <div class="panel">
         <h3>Choose what gets sent to you</h3>
-        <p class="muted" style="font-size:14px">Answer three questions and we'll write the message for you. Copy it, paste it into the chat, press send. Do it again for anything else you want.</p>
+        <p class="muted" style="font-size:14px">Answer three questions, then tap <b>Open in Telegram</b> and press Start: you're joined and subscribed in one step. Or copy the message and send it in the chat yourself. Do it again for anything else you want.</p>
         <div class="grid-2" style="margin-top:14px; gap:12px">
           <div class="field"><label for="sub-topic">1. What are you interested in?</label><select id="sub-topic"></select></div>
           <div class="field"><label for="sub-cat">2. How much do you want?</label><select id="sub-cat"></select></div>
@@ -290,7 +290,7 @@
           <div class="field"><label for="sub-area">Which one?</label><select id="sub-area"></select><input type="text" id="sub-zip" placeholder="60601 or 60601-2001" hidden></div>
         </div>
         <p class="plain" id="sub-plain"></p>
-        <div class="cmd"><pre id="sub-cmd">/subscribe weather.warnings cook</pre><button class="btn" type="button" id="sub-copy">Copy</button></div>
+        <div class="cmd"><pre id="sub-cmd">/subscribe weather.warnings cook</pre><a class="btn primary" id="sub-open" href="#" target="_blank" rel="noopener">Open in Telegram</a><button class="btn" type="button" id="sub-copy">Copy</button></div>
         <p class="hint" style="margin-top:10px">Later on, send <code>/subs</code> to see what you signed up for, or <code>/unsubscribe all</code> to stop everything. You can change your mind at any time.</p>
       </div>
       <div class="panel">
@@ -353,6 +353,7 @@ corn at dent @sangamon -- looking good</textarea>
         <svg id="activity" role="img" aria-label="Stacked area chart of readings per day by topic"></svg>
         <div id="activity-legend" class="examples" style="margin-top:8px"></div>
         <h3 style="margin-top:22px">Active NWS alerts</h3>
+        <p class="muted" id="alerts-source" style="font-size:12.5px; margin-bottom:6px">From the nightly snapshot.</p>
         <div id="alerts"></div>
       </div>
     </div>
@@ -525,6 +526,9 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     if (subKind.value === 'county') area = subArea.value; else if (subKind.value === 'zip') area = (subZip.value || '60601').trim(); else area = st;
     if (cat.endsWith('.digest')) area = '';
     subCmd.textContent = ('/subscribe ' + cat + ' ' + area).trim();
+    // The same choice as a deep link: /start sub_<topic>_<category>_<area> joins and subscribes.
+    const linkArea = (cat.endsWith('.digest') || !area) ? st : area;
+    $('#sub-open').href = 'https://t.me/' + handle + '?start=' + ('sub_' + cat.replace('.', '_') + '_' + linkArea).toLowerCase().replace(/[^a-z0-9_-]/g, '');
     const desc = ((topicByName[subTopic.value]?.categories) || []).find(c => c.key === cat)?.description || '';
     let where = 'all of Illinois';
     if (cat.endsWith('.digest')) where = 'the whole network';
@@ -660,7 +664,8 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
   }
   function matchAlert(a) {
     if (!filter) return true;
-    if (filter.kind === 'county') return (a.counties || []).some(n => bare(n) === bare(filter.label));
+    if (filter.kind === 'county') { const k = (n) => bare(n).toLowerCase().replace(/[^a-z]/g, '');   // 'De Kalb' = 'DeKalb'
+      return (a.counties || []).some(n => k(n) === k(filter.label)); }
     if (filter.kind === 'topic') return filter.value === 'weather';   // NWS alerts are weather products
     return true;
   }
@@ -855,14 +860,39 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
   addEventListener('resize', () => drawActivity());
 
   // ── alerts ──
-  const al = $('#alerts'); const alerts = D.alerts || [];
+  const al = $('#alerts'); let alerts = D.alerts || []; let alertsLive = null;
   function renderAlerts() {
     al.innerHTML = '';
     const rows = alerts.filter(matchAlert);
     if (!rows.length) al.append(el('p', { class: 'muted', style: 'font-size:14px' },
-      filter ? 'No active alerts for ' + filter.label + '.' : 'None active for ' + state + ' in this snapshot.'));
-    rows.slice(0, 8).forEach(a => al.append(el('div', { class: 'alert ' + (a.severity || '') }, el('i'), el('div', {}, el('div', {}, el('b', {}, a.event || ''), ' ', el('span', { class: 'badge', style: 'margin-left:6px' }, a.severity || '')), el('div', { class: 'muted', style: 'font-size:13px' }, (a.counties || []).slice(0, 8).join(', ') + ((a.counties || []).length > 8 ? '…' : '') + (a.expires ? ' · until ' + fmtWhen(a.expires) : ''))))));
+      filter ? 'No active alerts for ' + filter.label + '.' : 'None active for ' + state + (alertsLive ? ' right now.' : ' in this snapshot.')));
+    rows.slice(0, 8).forEach(a => al.append(el('div', { class: 'alert ' + (a.severity || '') }, el('i'), el('div', {}, el('div', {}, a.url ? el('a', { href: a.url, target: '_blank', rel: 'noopener' }, el('b', {}, a.event || '')) : el('b', {}, a.event || ''), ' ', el('span', { class: 'badge', style: 'margin-left:6px' }, a.severity || '')), el('div', { class: 'muted', style: 'font-size:13px' }, (a.counties || []).slice(0, 8).join(', ') + ((a.counties || []).length > 8 ? '…' : '') + (a.expires ? ' · until ' + fmtWhen(a.expires) : ''))))));
   }
+  // Live from the NWS: the snapshot can be a day old, and warnings can't wait for it.
+  const SEV = { Extreme: 4, Severe: 3, Moderate: 2, Minor: 1 };
+  const alertSrc = $('#alerts-source');
+  const countyNames = (areaDesc) => (areaDesc || '').split(';').map(x => x.trim().replace(/,\s*[A-Z]{2}$/, '')).filter(Boolean);
+  const checked = (d) => fmtWhen(d.toISOString(), { weekday: undefined });
+  async function refreshAlerts() {
+    try {
+      const r = await fetch('https://api.weather.gov/alerts/active?area=' + state + '&status=actual&message_type=alert,update', { headers: { Accept: 'application/geo+json' } });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const j = await r.json();
+      alerts = (j.features || []).map(f => f.properties || {})
+        .map(p => ({ event: p.event, severity: p.severity, counties: countyNames(p.areaDesc), expires: p.ends || p.expires, url: p['@id'] }))
+        .sort((a, b) => (SEV[b.severity] || 0) - (SEV[a.severity] || 0));
+      alertsLive = new Date();
+      alertSrc.textContent = 'Live from the National Weather Service · checked ' + checked(alertsLive);
+      const tile = document.querySelector('#readouts .readout:last-child .v');
+      if (tile) tile.textContent = fmtInt(alerts.length);
+    } catch (e) {
+      alertSrc.textContent = alertsLive ? 'Live feed unreachable just now · last checked ' + checked(alertsLive)
+        : 'From the nightly snapshot: the live NWS feed is unreachable right now.';
+    }
+    renderAlerts();
+  }
+  refreshAlerts();
+  setInterval(() => { if (document.visibilityState === 'visible') refreshAlerts(); }, 120000);
 
   // ── events ──
   const etb = $('#events tbody'); const events = D.events || [];

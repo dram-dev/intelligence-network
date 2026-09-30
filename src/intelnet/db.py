@@ -220,6 +220,18 @@ MIGRATIONS = [
         thread_id TEXT NOT NULL
     )""",
     "CREATE INDEX IF NOT EXISTS idx_alert_ids_thread ON alert_ids(thread_id)",
+    # where a chat is right now (a shared Telegram live location), apart from home
+    """CREATE TABLE IF NOT EXISTS places (
+        chat_id     TEXT NOT NULL,
+        kind        TEXT NOT NULL,                        -- live
+        lat         REAL NOT NULL,
+        lon         REAL NOT NULL,
+        county_fips TEXT,
+        zip5        TEXT,
+        updated_at  TEXT NOT NULL,
+        expires_at  TEXT,
+        PRIMARY KEY (chat_id, kind)
+    )""",
 ]
 
 
@@ -462,8 +474,35 @@ def forget_sensor(sensor_id: str, chat_id: str | int) -> dict[str, Any]:
         conn.execute("DELETE FROM notify_log WHERE chat_id = ?", (chat,))
         conn.execute("DELETE FROM outbox WHERE chat_id = ?", (chat,))
         conn.execute("DELETE FROM sent_messages WHERE chat_id = ?", (chat,))
+        conn.execute("DELETE FROM places WHERE chat_id = ?", (chat,))
         out["sensor"] = conn.execute("DELETE FROM sensors WHERE id = ?", (sensor_id,)).rowcount
     return out
+
+
+def set_live_location(chat_id: str | int, loc: geo.Location, until: datetime) -> None:
+    """Where a chat is sharing its live location from, good until `until`."""
+    with get_conn() as conn:
+        conn.execute(
+            """INSERT INTO places (chat_id, kind, lat, lon, county_fips, zip5, updated_at, expires_at)
+               VALUES (?, 'live', ?, ?, ?, ?, ?, ?)
+               ON CONFLICT(chat_id, kind) DO UPDATE SET lat = excluded.lat, lon = excluded.lon,
+                   county_fips = excluded.county_fips, zip5 = excluded.zip5,
+                   updated_at = excluded.updated_at, expires_at = excluded.expires_at""",
+            (str(chat_id), loc.lat, loc.lon, loc.county_fips, loc.zip5, utcnow_iso(), iso(until)),
+        )
+
+
+def live_location(chat_id: str | int) -> geo.Location | None:
+    """The chat's live location, while it is still being shared."""
+    with get_conn() as conn:
+        row = conn.execute(
+            "SELECT * FROM places WHERE chat_id = ? AND kind = 'live' AND expires_at > ?",
+            (str(chat_id), utcnow_iso()),
+        ).fetchone()
+    if row is None:
+        return None
+    return geo.Location(lat=row["lat"], lon=row["lon"], county_fips=row["county_fips"],
+                        zip5=row["zip5"], label="live location", precision="point")
 
 
 def contributions_since(sensor_id: str, minutes: int) -> int:
@@ -616,6 +655,28 @@ def event_source_signal(event_id: int) -> sqlite3.Row | None:
                LIMIT 1""",
             (event_id,),
         ).fetchone()
+
+
+def message_signals(source: str, sensor_id: str, base: str) -> list[Signal]:
+    """The readings one incoming message produced (source_id '<base>:<n>')."""
+    prefix = f"{base}:"
+    with get_conn() as conn:
+        rows = conn.execute(
+            """SELECT * FROM signals WHERE sensor_id = ? AND source = ?
+               AND substr(source_id, 1, ?) = ?""",
+            (sensor_id, source, len(prefix), prefix),
+        ).fetchall()
+    return [Signal.from_row(r) for r in rows]
+
+
+def delete_signals(ids: Iterable[int]) -> int:
+    ids = list(ids)
+    if not ids:
+        return 0
+    with get_conn() as conn:
+        return conn.execute(
+            f"DELETE FROM signals WHERE id IN ({','.join('?' * len(ids))})", ids
+        ).rowcount
 
 
 def signals_for_event(event_id: int) -> list[Signal]:

@@ -30,6 +30,8 @@ class _NoTelegram:
         self.calls.append(url.rsplit("/", 1)[-1])
         raise ConnectionError("tests are offline")
 
+    get = post
+
 
 @pytest.fixture(autouse=True)
 def _offline(monkeypatch: pytest.MonkeyPatch):
@@ -85,6 +87,7 @@ class Outbound(list):
         super().__init__()
         self.edits: list[tuple[str, int, str]] = []
         self.replies: list[tuple[str, int | None, bool]] = []    # (chat, replied-to id, silent)
+        self.markups: list[dict | None] = []                     # keyboards sent, per message
 
 
 @pytest.fixture
@@ -95,9 +98,10 @@ def sent(monkeypatch: pytest.MonkeyPatch) -> Outbound:
     log = Outbound()
     ids = iter(range(1000, 1_000_000))
 
-    def _deliver(chat_id, text, *, silent=False, reply_to=None):
+    def _deliver(chat_id, text, *, silent=False, reply_to=None, markup=None):
         log.append((str(chat_id), text))
         log.replies.append((str(chat_id), reply_to, silent))
+        log.markups.append(markup)
         return telegram.Sent(True, message_id=next(ids))
 
     def _edit(chat_id, message_id, text):

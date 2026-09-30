@@ -111,6 +111,15 @@ def _closest_per_sensor(signals: list[Signal], ref: Signal) -> dict[str, Signal]
     return best
 
 
+def _same_period(metric: Metric, ref: Signal, signals: list[Signal]) -> list[Signal]:
+    """For an accumulating metric, only readings over the same period are comparable:
+    a person's storm total and a station's last-hour rain measure different things."""
+    if not metric.accumulates:
+        return signals
+    period = ref.evidence.get("period")
+    return [s for s in signals if s.evidence.get("period") == period]
+
+
 def _alert_supports(metric: Metric, signal: Signal) -> Signal | None:
     """An active NWS alert over the signal's county that supports this metric."""
     topic = get_topic(metric.topic)
@@ -129,11 +138,11 @@ def corroborate(signal: Signal, metric: Metric) -> Assessment:
     if not signal.location.has_point:
         return a
     window = timedelta(minutes=metric.window_min)
-    neighbors = db.signals_near(
+    neighbors = _same_period(metric, signal, db.signals_near(
         metric.key, signal.location.lat, signal.location.lon, metric.radius_km,
         signal.observed_at - window, signal.observed_at + window,
         exclude_sensor=signal.sensor_id,
-    )
+    ))
     for other in _closest_per_sensor(neighbors, signal).values():
         if other.value is None or signal.value is None:
             continue
@@ -310,10 +319,10 @@ def _corroborate_forward(ref: Signal, metric: Metric) -> None:
     if not ref.location.has_point or ref.value is None:
         return
     window = timedelta(minutes=metric.window_min)
-    for other in db.signals_near(
+    for other in _same_period(metric, ref, db.signals_near(
         metric.key, ref.location.lat, ref.location.lon, metric.radius_km,
         ref.observed_at - window, ref.observed_at + window, kinds=(KIND_HUMAN, "bot"),
-    ):
+    )):
         if other.id is None or other.value is None or other.quality != QUALITY_RAW:
             continue
         agree = metric.compatible(ref.value, other.value)
@@ -339,6 +348,15 @@ def process(signal: Signal) -> Assessment | None:
     if stored is None:
         return None
     return assess(stored)
+
+
+def withdraw(signals: list[Signal]) -> None:
+    """Take readings back (their message was corrected); close any event left empty."""
+    events = {s.event_id for s in signals if s.event_id}
+    db.delete_signals(s.id for s in signals if s.id is not None)
+    for event_id in events:
+        if not int(db.event_attach_stats(event_id).get("n_signals") or 0):
+            db.update_event(event_id, status="closed", closed_at=iso(utcnow()))
 
 
 def close_stale_events(idle_hours: float = EVENT_IDLE_CLOSE_HOURS) -> int:

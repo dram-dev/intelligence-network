@@ -185,3 +185,22 @@ def test_missing_home_location_is_reported(fresh_db):
     assert c.accepted == 0 and any("no location" in e for e in c.errors)
     c = _contrib(s, "rain 1in @62704", "m2")
     assert c.accepted == 1
+
+
+def test_an_hourly_station_amount_never_judges_a_storm_total(make_sensor):
+    ann = make_sensor("tg:1", zip_code="62704")
+    here = geo.location_from_zip("62704")
+
+    def station_hour(sid: str, mm: float) -> Signal:
+        return Signal(source="iem_asos", source_id=sid, sensor_id="station:spi", sensor_kind=KIND_STATION,
+                      topic="weather", metric="rain_mm", value=mm, unit="mm", location=here,
+                      quality="reference", evidence={"period": "1h"})
+
+    network.process(station_hour("SPI|1|rain_mm", 2.54))           # 0.10 in in the past hour
+    a = _contrib(ann, "rain 1.2in", "m1").assessments[0]           # a storm total
+    assert (a.quality, a.reference, a.n_contradicting) == ("raw", "none", 0)
+    network.process(station_hour("SPI|2|rain_mm", 1.0))            # a later hour settles nothing
+    assert {s.quality for s in db.recent_signals(1, kinds=("human",), metric="rain_mm")} == {"raw"}
+    assert db.get_sensor("tg:1").trust == 0.5
+    bob = make_sensor("tg:2", name="Bob", zip_code="62711")
+    assert _contrib(bob, "rain 1.1in", "m2").assessments[0].quality == "corroborated"   # totals agree

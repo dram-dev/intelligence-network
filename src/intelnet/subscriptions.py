@@ -26,7 +26,7 @@ from typing import Any
 
 from intelnet import db, delivery, geo
 from intelnet.config import settings
-from intelnet.models import Signal, iso, utcnow
+from intelnet.models import Signal, iso, parse_iso, utcnow
 from intelnet.telegram import bot, esc, href, tg_time
 from intelnet.topics import all_categories, expand_category, find_metric, get_topic
 
@@ -136,9 +136,44 @@ def _impact_line(sig: Signal) -> str:
     return " · ".join(parts)
 
 
+INSIDE = "inside the warned area"       # how a card says the warning covers you
+
+
+def where_you_are(sig: Signal, chat_id: str) -> tuple[list[str], bool]:
+    """The lines only this chat sees on a storm-based warning, and whether it's inside.
+
+    Inside or outside the warned polygon, and when the storm reaches them (from the
+    NWS storm motion). Uses the live location while it's shared, else home; when home
+    is only a ZIP's center, the card says so rather than claiming precision.
+    """
+    rings = sig.evidence.get("polygon")
+    if not rings:
+        return [], False
+    live = db.live_location(chat_id)
+    sensor = None if live else db.sensor_by_chat(chat_id)
+    place = live or (sensor.location if sensor and sensor.location.has_point else None)
+    if place is None or place.lat is None or place.lon is None:
+        return ["📍 Share your location (or /home 62704) to see whether this warning covers you."], False
+    if place.precision == "point":
+        who = "You are" if live else "Your home is"
+    else:
+        who = f"The center of ZIP {place.zip5} is"
+    inside = geo.point_in_polygon(place.lat, place.lon, rings)
+    lines = [f"📍 <b>{who} {INSIDE if inside else 'outside the warned area'}.</b>"]
+    motion = sig.evidence.get("motion")
+    at = parse_iso(motion.get("at")) if motion else None
+    if motion and at:
+        eta = geo.storm_arrival(at, motion["from_deg"], motion["speed_kt"], motion["points"],
+                                place.lat, place.lon)
+        if eta and eta > utcnow() and (sig.expires_at is None or eta <= sig.expires_at + timedelta(minutes=30)):
+            lines.append(f"⏱ The storm reaches you about {tg_time(eta, 't')} ({tg_time(eta, 'r')})")
+    return lines, inside
+
+
 def format_alert(sig: Signal, county_labels: list[str], *, ended: str | None = None,
-                 ended_at: datetime | None = None) -> str:
-    """An alert card. `ended` closes it: 'expired', 'cancelled', or 'area' (left your area)."""
+                 ended_at: datetime | None = None, personal: list[str] | None = None) -> str:
+    """An alert card. `ended` closes it: 'expired', 'cancelled', or 'area' (left your area).
+    `personal` holds the reader's own lines (see `where_you_are`)."""
     ev = sig.evidence
     sev = str(ev.get("severity") or "Unknown")
     event = esc(ev.get("event") or sig.metric)
@@ -148,7 +183,7 @@ def format_alert(sig: Signal, county_labels: list[str], *, ended: str | None = N
         lines = [f"{_ENDED_HEAD.get(ended, _ENDED_HEAD['expired'])} · {tg_time(ended_at or utcnow())}"]
         lines += [event, f"Still in effect for {where}"] if ended == "area" else [f"<s>{event}</s>", where]
     else:
-        lines = [f"{_SEVERITY_EMOJI.get(sev, '•')} <b>{event}</b>", where]
+        lines = [f"{_SEVERITY_EMOJI.get(sev, '•')} <b>{event}</b>", *(personal or []), where]
         if ev.get("nws_headline"):
             lines.append(f"<i>{esc(str(ev['nws_headline'])[:200])}</i>")
         impact = _impact_line(sig)
@@ -166,11 +201,18 @@ def format_alert(sig: Signal, county_labels: list[str], *, ended: str | None = N
     return "\n".join(lines)
 
 
-def format_alert_change(sig: Signal, changes: list[str], *, back: bool = False) -> str:
-    """The follow-up (with sound) when an alert someone already has gets worse."""
+def format_alert_change(sig: Signal, changes: list[str], *, back: bool = False,
+                        now_covers_you: bool = False) -> str:
+    """The follow-up (with sound) when an alert someone already has gets worse for them."""
     event = esc(sig.evidence.get("event") or sig.metric)
-    head = (f"⚠️ <b>{event}</b> is back in effect for your area" if back
-            else f"⬆️ <b>{event} updated</b>: {esc('; '.join(changes))}")
+    if back:
+        head = f"⚠️ <b>{event}</b> is back in effect for your area"
+    elif changes:
+        head = f"⬆️ <b>{event} updated</b>: {esc('; '.join(changes))}"
+        if now_covers_you:
+            head += ". It now covers your location"
+    else:
+        head = f"📍 <b>{event}</b> now covers your location"
     return head + (f"\nUntil {tg_time(sig.expires_at)}" if sig.expires_at else "")
 
 
@@ -284,13 +326,16 @@ def fanout_alert(sig: Signal, siblings: list[Signal], changes: list[str] | None 
     siblings = siblings or [sig]
     thread = f"alert:{sig.group_key or sig.key}"
     labels = _county_labels(siblings)
-    text = format_alert(sig, labels)
     version = str(sig.evidence.get("alert_id") or sig.key)
     stale = sig.expires_at or utcnow() + timedelta(hours=6)
     audience = _alert_audience(sig, siblings)
     have = db.cards(thread)
     ids: list[int | None] = []
     for chat, priority in audience.items():
+        personal, inside = where_you_are(sig, chat)
+        text = format_alert(sig, labels, personal=personal)
+        if inside:
+            priority = -1                                 # inside the polygon: first out
         card = have.get(chat)
         if card is None:
             pending = db.pending_in_thread(thread, chat, "card")
@@ -302,10 +347,12 @@ def fanout_alert(sig: Signal, siblings: list[Signal], changes: list[str] | None 
             continue
         ids.append(_edit_card(thread, chat, card, text, version))
         back = card["state"] == "ended"
-        if back or changes:
+        now_covers_you = inside and INSIDE not in (card["text"] or "")
+        if back or changes or now_covers_you:
             db.update_card(thread, chat, state="active")
             ids.append(db.enqueue(f"{thread}:up:{version}", chat,
-                                  format_alert_change(sig, changes or [], back=back),
+                                  format_alert_change(sig, changes or [], back=back,
+                                                      now_covers_you=now_covers_you),
                                   action="reply", thread=thread, priority=priority, stale_at=stale))
     db.supersede_outbox(thread, actions=("card",), keep_chats=audience)
     closed = None

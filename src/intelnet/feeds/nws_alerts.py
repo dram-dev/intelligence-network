@@ -70,6 +70,40 @@ def parse_impact(params: dict[str, Any], topic: str = "weather") -> dict[str, An
     return out
 
 
+_MOTION = re.compile(r"^(?P<at>[^.]+)\.\.\.[^.]*\.\.\.(?P<deg>\d+)DEG\.\.\.(?P<kt>\d+)KT\.\.\.(?P<pts>.+)$")
+
+
+def parse_motion(text: str | None) -> dict[str, Any] | None:
+    """CAP eventMotionDescription → where the storm was, when, and how it moves.
+
+    '2026-09-30T03:12:00-00:00...storm...262DEG...43KT...33.56,-103.17 33.13,-103.04'
+    → {'at': iso, 'from_deg': 262, 'speed_kt': 43, 'points': [[33.56, -103.17], …]}.
+    The direction is where the storm comes FROM (a 262° storm moves east).
+    """
+    m = _MOTION.match((text or "").strip())
+    if not m:
+        return None
+    try:
+        at = parse_iso(m["at"])
+        points = [[float(a), float(b)] for a, b in (p.split(",") for p in m["pts"].split())]
+    except (TypeError, ValueError):
+        return None
+    if at is None or not points:
+        return None
+    return {"at": iso(at), "from_deg": float(m["deg"]), "speed_kt": float(m["kt"]), "points": points}
+
+
+def _rings(geometry: dict[str, Any] | None) -> list[Any] | None:
+    """The warned area's outer rings ([lon, lat] pairs), when the alert has a polygon."""
+    g = geometry or {}
+    coords = g.get("coordinates") or []
+    if g.get("type") == "Polygon" and coords:
+        return [coords[0]]
+    if g.get("type") == "MultiPolygon":
+        return [poly[0] for poly in coords if poly] or None
+    return None
+
+
 def parse_alerts(payload: dict[str, Any], topic: str = "weather") -> list[Signal]:
     """GeoJSON FeatureCollection → signals (pure; no I/O). `group_key` = the CAP id
     until `assign_threads` points it at the alert's thread."""
@@ -106,6 +140,9 @@ def parse_alerts(payload: dict[str, Any], topic: str = "weather") -> list[Signal
             "references": [str(r["identifier"]) for r in p.get("references") or []
                            if isinstance(r, dict) and r.get("identifier")],
             "impact": parse_impact(params, topic),
+            # storm-based warnings: the warned polygon and the storm's motion
+            "polygon": _rings(feat.get("geometry")),
+            "motion": parse_motion((params.get("eventMotionDescription") or [None])[0]),
         }
         sender_id = _sender_id(p.get("senderName") or "")
         for fips in dict.fromkeys(fips_list):

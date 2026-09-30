@@ -55,6 +55,9 @@ class Metric:
     event: list[tuple[float, float]] = field(default_factory=list)
     event_direction: str = "above"              # above | below
     display_unit: dict[str, Any] | None = None  # {"unit": str, "fn": callable}
+    # An amount that builds over time (rain, snow): only readings over the same
+    # period (evidence "period", e.g. a station's 1h) are compared with each other.
+    accumulates: bool = False
 
     @property
     def is_flag(self) -> bool:
@@ -185,6 +188,7 @@ def _load_metric(topic: str, key: str, raw: dict[str, Any]) -> Metric:
         event=[(float(t), float(s)) for t, s in (raw.get("event") or [])],
         event_direction=str(raw.get("event_direction", "above")),
         display_unit=display,
+        accumulates=bool(raw.get("accumulates", False)),
     )
 
 

@@ -88,6 +88,13 @@ def test_usgs_parse():
     assert s.source_id.count("|") == 2
 
 
+def test_usgs_drops_a_parameter_that_stopped_reporting_long_ago():
+    payload = load_fixture("usgs_iv.json")
+    payload["value"]["timeSeries"][0]["values"][0]["value"][-1]["dateTime"] = "1988-08-08T05:45:00.000-05:00"
+    sigs = usgs_water.parse_iv(payload)
+    assert len(sigs) == 5 and all(s.observed_at.year == 2026 for s in sigs)
+
+
 def test_scan_parse_takes_shallowest_depth():
     payload = load_fixture("nrcs_scan.json")
     stations = {"2004:IL:SCAN": {"name": "Mason #1", "latitude": 40.31314, "longitude": -89.90187,

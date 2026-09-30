@@ -2,9 +2,10 @@
 from __future__ import annotations
 
 import json
+import math
 from datetime import datetime, timedelta, timezone
 
-from intelnet import db, watch
+from intelnet import db, geo, watch
 from intelnet.feeds import FEEDS, nws_alerts
 from intelnet.models import iso, utcnow
 
@@ -14,12 +15,15 @@ SANGAMON, MENARD, LOGAN = "017167", "017129", "017107"
 def feature(alert_id: str, *, event: str = "Severe Thunderstorm Warning", severity: str = "Severe",
             same: tuple[str, ...] = (SANGAMON,), refs: tuple[str, ...] = (), hail: str | None = None,
             wind: str | None = None, sent_ago: int = 0, minutes: int = 45,
-            message_type: str = "Alert") -> dict:
+            message_type: str = "Alert", polygon: list | None = None, motion: str | None = None) -> dict:
     """One CAP message as api.weather.gov serves it."""
     now = datetime.now(timezone.utc)
     ends = (now + timedelta(minutes=minutes)).isoformat()
-    params = {k: [v] for k, v in (("maxHailSize", hail), ("maxWindGust", wind)) if v}
-    return {"id": f"https://api.weather.gov/alerts/{alert_id}", "properties": {
+    params = {k: [v] for k, v in (("maxHailSize", hail), ("maxWindGust", wind),
+                                  ("eventMotionDescription", motion)) if v}
+    return {"id": f"https://api.weather.gov/alerts/{alert_id}",
+            "geometry": {"type": "Polygon", "coordinates": [polygon]} if polygon else None,
+            "properties": {
         "id": alert_id, "@id": f"https://api.weather.gov/alerts/{alert_id}", "event": event,
         "severity": severity, "messageType": message_type,
         "sent": (now - timedelta(minutes=sent_ago)).isoformat(), "expires": ends, "ends": ends,
@@ -155,3 +159,53 @@ def test_the_watch_leaves_alerts_to_a_live_alert_loop(fresh_db, monkeypatch):
     assert watch.run_once()["feeds"]["nws_alerts"]["skipped"] and polls == [1]
     db.kv_set(watch.ALERT_LOOP_HEARTBEAT, iso(utcnow() - timedelta(minutes=10)) or "")
     assert not watch.run_once()["feeds"]["nws_alerts"]["skipped"] and polls == [1, 1]
+
+
+def test_point_in_polygon_and_storm_arrival():
+    square = [[[-90.0, 39.5], [-89.0, 39.5], [-89.0, 40.0], [-90.0, 40.0], [-90.0, 39.5]]]
+    assert geo.point_in_polygon(39.75, -89.5, square) and not geo.point_in_polygon(40.2, -89.5, square)
+    at = datetime(2026, 9, 29, 21, 30, tzinfo=timezone.utc)
+    lat, lon = 39.80, -89.64
+    west = [[lat, lon - 20 / (111.32 * math.cos(math.radians(lat)))]]          # 20 km west
+    eta = geo.storm_arrival(at, 270, 43, west, lat, lon)                       # east at 43 kt
+    assert eta is not None and abs((eta - at).total_seconds() / 60 - 15.1) < 1
+    assert geo.storm_arrival(at, 90, 43, west, lat, lon) is None               # heading away
+    line = [[lat + 0.3, lon - 0.35], [lat - 0.3, lon - 0.35]]                  # a line 30 km west
+    assert geo.storm_arrival(at, 270, 30, line, lat, lon) is not None          # sweeps across
+    assert geo.storm_arrival(at, 270, 43, [[lat + 0.5, lon - 0.2]], lat, lon) is None   # 55 km north
+
+
+BOX = [[-89.90, 39.60], [-89.40, 39.60], [-89.40, 39.95], [-89.90, 39.95], [-89.90, 39.60]]
+
+
+def test_the_card_says_whether_you_are_inside_and_when_the_storm_arrives(fresh_db, sent, monkeypatch,
+                                                                         make_sensor):
+    make_sensor("tg:1", zip_code="62704", chat_id="1")
+    db.set_sensor_location("tg:1", geo.location_from_point(39.78, -89.65, online=False))   # a real point
+    make_sensor("tg:2", zip_code="62707", chat_id="2")                  # home known only as a ZIP
+    db.set_live_location("4", geo.location_from_point(39.70, -89.60, online=False),
+                         utcnow() + timedelta(hours=1))                 # out and about
+    for chat in ("1", "2", "3", "4"):
+        db.add_subscription(chat, "weather.warnings", "il.sangamon")
+    at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S-00:00")
+    run_feed(monkeypatch, feature("G1", polygon=BOX, motion=f"{at}...storm...270DEG...40KT...39.78,-89.95"))
+    cards = dict(sent)
+    assert "Your home is inside the warned area" in cards["1"]
+    assert "The storm reaches you about <tg-time" in cards["1"] and 'format="r"' in cards["1"]
+    assert "The center of ZIP 62707 is" in cards["2"]
+    assert "Share your location" in cards["3"]
+    assert "You are inside the warned area" in cards["4"]
+    assert sent[-1][0] == "3"                  # people inside the polygon go out first
+
+
+def test_an_update_that_newly_covers_you_rings_again(fresh_db, sent, monkeypatch, make_sensor):
+    make_sensor("tg:1", zip_code="62704", chat_id="1")
+    db.set_sensor_location("tg:1", geo.location_from_point(39.78, -89.65, online=False))
+    db.add_subscription("1", "weather.warnings", "il.sangamon")
+    short = [[-90.30, 39.60], [-89.80, 39.60], [-89.80, 39.95], [-90.30, 39.95], [-90.30, 39.60]]
+    wider = [[-90.30, 39.60], [-89.40, 39.60], [-89.40, 39.95], [-90.30, 39.95], [-90.30, 39.60]]
+    run_feed(monkeypatch, feature("H1", polygon=short, sent_ago=10))
+    assert "outside the warned area" in sent[0][1]
+    run_feed(monkeypatch, feature("H2", refs=("H1",), polygon=wider, sent_ago=2, message_type="Update"))
+    assert len(sent) == 2 and "now covers your location" in sent[1][1] and sent.replies[1][2] is False
+    assert "inside the warned area" in sent.edits[-1][2]

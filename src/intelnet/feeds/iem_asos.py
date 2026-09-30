@@ -59,7 +59,8 @@ def parse_currents(payload: dict[str, Any], topic_name: str = "weather") -> list
                 metric=metric.key, value=value, unit=metric.unit, text=None, observed_at=valid,
                 received_at=now, location=loc, confidence=1.0, quality="reference",
                 evidence={"kind": "station", "station": station, "name": row.get("name"),
-                          "raw_field": col, "raw_value": raw, "metar": row.get("raw")},
+                          "raw_field": col, "raw_value": raw, "metar": row.get("raw"),
+                          **({"period": mapping["period"]} if mapping.get("period") else {})},
             ))
     return out
 
