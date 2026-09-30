@@ -48,8 +48,10 @@ def test_the_alert_card_is_a_rich_message_with_buttons_and_a_plain_fallback(fres
     # one modest heading; the reader's situation in plain bold; tags as one line, never
     # adjacent <mark>s (Telegram runs them together into one highlighter band)
     assert rich.startswith("<h4>⚠️ Severe Thunderstorm Warning</h4><p><b>Your home is inside the warned area.</b>")
-    assert "<b>Considerable damage threat</b> · Hail <b>1.75 in</b> (golf ball) · Wind <b>70 mph</b>" in rich
-    assert "Tornado: radar indicated" in rich and "<blockquote>Move to an interior room" in rich
+    # the picture comes before the details, so the reader's own line never runs into the tags
+    assert re.search(r'</p><figure><img src="tg://photo\?id=wm-[0-9a-f]+"/></figure><p><b>Considerable damage '
+                     r'threat</b><br>Hail <b>1\.75 in</b> \(golf ball\) · Wind <b>70 mph</b> · Tornado '
+                     r'radar-indicated</p><blockquote>Move to an interior room', rich)
     assert not any(tag in rich for tag in ("<h2>", "<mark>", "<code>", "<tg-map", 'format="r"'))
     assert "<footer>NWS Lincoln · until" in rich
     # the picture of the warned area, uploaded with the card

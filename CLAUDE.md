@@ -202,19 +202,35 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   for its live location or home (`where_you_are`; "center of ZIP …" when home is
   a ZIP centroid) and the arrival time (`geo.storm_arrival`); inside-polygon chats
   send first (priority -1), and an update that newly covers a chat re-notifies.
-- **Alert card design** (polish wave, 2026-09-30): one `<h4>` (event, title case), the reader's
-  situation in bold ("Your home is inside the warned area." / "…outside, about 6 mi east of it"),
-  absolute arrival time only (a relative `tg-time` reads "41 minutes ago" on a card that stays
-  up), impact tags as one `·` line (adjacent `<mark>`s merge into one band; no `<code>`), a
-  picture, the instruction, a footer. Buttons: Report what I see (full width, primary) / Live
-  map · Mute 1 hour. Telegram's `<tg-map>` ignored zoom and showed street level, so the card
-  carries **cardmap.py**'s picture instead: Pillow, 1080×720 JPEG, Web Mercator; counties,
-  water, roads, towns (site/assets), IEM NEXRAD radar at one pixel per 0.01° cell, blurred half
-  a cell; warning polygon (or the alert's counties); 30-min storm arrow; the reader's dot.
-  Named by what it shows (version, place, 5-min radar slot) under data/cardmaps/ (36 h);
-  uploaded once via `media` + `attach://` (multipart), then reused by file id (kv
-  `tgfile:<name>`). A refused picture drops the picture, not the card. `CARD_MAPS`,
-  `CARD_MAP_RADAR` (off in tests). Font: IBM Plex Sans (OFL) vendored in config/fonts/.
+- **Alert card design** (polish waves, 2026-09-30): one `<h4>` (event, title case); a top-level
+  damage threat (DESTRUCTIVE/CATASTROPHIC) right under it; the reader's situation in bold ("Your
+  home is inside the warned area." / "…outside, about 6 mi east of it" / "Includes Sangamon
+  County, where your home is" for county-wide alerts) with a fixed arrival time (a relative
+  `tg-time` read "41 minutes ago" on a card that stays up); the picture; threat + hazards
+  ("Hail **1.75 in** (golf ball) · Wind **70 mph** · Tornado possible", never adjacent `<mark>`s);
+  the instruction; a footer whose times carry the weekday when not today (`subscriptions.clock`).
+  Buttons: Report what I see (full width, primary) / Live map · Mute 1 hour.
+- **Card picture = a radar product** (`cardmap.py` + `nexrad.py`, pack `card_radar` /
+  `alert_colours`): Telegram's `<tg-map>` ignored zoom, and IEM's mosaics are pre-coloured and
+  ~1.2 km (RIDGE PNGs are downsampled too), so the card draws **one radar's raw lowest sweep**:
+  NEXRAD Level III N0B (0.5° × 250 m super-res) from Unidata's public AWS bucket
+  (`unidata-nexrad-level3`, keys `ILX_N0B_YYYY_MM_DD_HH_MM_SS`), nearest of the pack's sites.
+  `nexrad.decode` (ICD 2620001: WMO header, PDB thresholds at halfwords 31–46, bzip2, packet 16;
+  reflectivity min/step or generic float scale/offset) matches MetPy bin for bin; `sample`
+  is bilinear in (azimuth, range) on values. QC (pack `quality`): same-scan dual-pol correlation
+  coefficient N0C < 0.85 → dropped, except strong echoes inside a *solid* storm area (tornado
+  debris; wind farms like Twin Groves E of Bloomington are stationary, CC ~0.5, up to 60 dBZ);
+  holes under rain are filled from the rain around (normalized box filter). Colours from the
+  pack's stops (translucent light rain). Dark map (site assets), warning outlined in its event
+  colour, NWS motion → dashed track with 10-min times, the reader's blue dot + "storm ~7:04 PM",
+  people's reports (cyan, at ZIP centres) and spotters' (white) from the last 2 h, legend,
+  scale, "Lincoln radar · 6:35 PM". 1080×720 JPEG named by scene + radar key; scene kept as
+  JSON. **Loop**: the card goes out with the still at once; an outbox edit (`<thread>:loop:…`,
+  priority 7, not sent in the fan-out) swaps in a 45-min H.264 loop (`render_loop`, ffmpeg)
+  rendered lazily at delivery (`cardmap.loop_bytes`), sent as an animation (`tg://video?id=`,
+  InputMediaAnimation); `fallback=False`, so a refused loop leaves the still. Radar files cache
+  in data/radar/. `CARD_MAPS`, `CARD_MAP_RADAR`, `CARD_MAP_LOOP` (all off in tests; the tests
+  build a synthetic N0B file). IBM Plex Sans (OFL) vendored in config/fonts/. numpy is a dep.
 - **Digest in Google Docs**: Docs import keeps only longhand inline styles (no `font:`
   shorthand, text-transform or letter-spacing), starts paragraphs at line-height 1, turns a
   top border into a rule, draws unset table borders as a grid, and turns any background

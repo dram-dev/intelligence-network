@@ -152,6 +152,10 @@ class Topic:
     # Radar grids that check readings where no station is near (grids.py), by metric.
     reference_grids: dict[str, dict[str, Any]] = field(default_factory=dict)
     cap_category: str = "Other"          # CAP 1.2 category for published events (opendata.py)
+    # The alert card's picture (cardmap.py): the radar it draws (product, sites, colour
+    # scale, legend) and each alert's colour by event name.
+    card_radar: dict[str, Any] = field(default_factory=dict)
+    alert_colours: dict[str, str] = field(default_factory=dict)
 
     def mapping(self, name: str) -> dict[str, dict[str, str]]:
         return self.mappings.get(name, {})
@@ -250,7 +254,7 @@ def load_topic(path: Path) -> Topic:
     metrics = {k: _load_metric(name, k, v or {}) for k, v in (raw.get("metrics") or {}).items()}
     known = {"topic", "label", "description", "categories", "alert_routing", "alert_support",
              "metrics", "lsr_types", "station_fields", "quick_reports", "alert_questions",
-             "reference_grids", "cap_category"}
+             "reference_grids", "cap_category", "card_radar", "alert_colours"}
     mappings = {
         str(k): {str(code): dict(v) for code, v in (val or {}).items()}
         for k, val in raw.items()
@@ -272,6 +276,8 @@ def load_topic(path: Path) -> Topic:
         alert_questions=[dict(q) for q in raw.get("alert_questions") or []],
         reference_grids={str(k): dict(v) for k, v in (raw.get("reference_grids") or {}).items()},
         cap_category=str(raw.get("cap_category") or "Other"),
+        card_radar=dict(raw.get("card_radar") or {}),
+        alert_colours={str(k): str(v) for k, v in (raw.get("alert_colours") or {}).items()},
     )
 
 

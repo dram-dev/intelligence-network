@@ -35,7 +35,8 @@ _TG_TIME_FALLBACK = {"t": "%-I:%M %p %Z", "wt": "%a %-I:%M %p %Z"}
 _TG_TIME = re.compile(r"<tg-time [^>]*>(.*?)</tg-time>", re.DOTALL)
 
 
-_PICTURES = re.compile(r"<figure>\s*<img [^>]*tg://photo[^>]*/>.*?</figure>|<img [^>]*tg://photo[^>]*/>", re.DOTALL)
+_PICTURES = re.compile(r"<figure>\s*<(?:img|video) [^>]*tg://(?:photo|video)[^>]*?/?>(?:</video>)?.*?</figure>"
+                       r"|<img [^>]*tg://photo[^>]*/>|<video [^>]*tg://video[^>]*>(?:</video>)?", re.DOTALL)
 
 
 def strip_pictures(rich: str) -> str:
@@ -96,33 +97,39 @@ class Bot(TelegramNotifier):
 
     def edit(self, chat_id: str | int, message_id: int, text: str, *,
              markup: dict[str, Any] | None = None, rich: str | None = None,
-             media: dict[str, str | bytes] | None = None) -> Sent:
+             media: dict[str, str | bytes] | None = None, fallback: bool = True) -> Sent:
         """Rewrite a message the bot sent earlier (editing never makes a sound). A rich
         card is edited as a rich message, falling back to the plain `text`. Buttons not
-        passed in `markup` are removed, as Telegram does."""
+        passed in `markup` are removed, as Telegram does. `fallback=False` is for an
+        optional improvement (a card's loop): refused, the message stays as it was."""
         common: dict[str, Any] = {"chat_id": str(chat_id), "message_id": message_id}
         if markup:
             common["reply_markup"] = markup
         if rich and settings.telegram_rich_messages:
-            sent = self._rich("editMessageText", common, rich, media)
-            if sent.ok or not sent.permanent:
+            sent = self._rich("editMessageText", common, rich, media, fallback=fallback)
+            if sent.ok or not sent.permanent or not fallback:
                 return sent
             logger.warning("telegram: rich edit refused (%s); editing with the plain version", sent.error)
         return self._call("editMessageText", {**common, "text": text, "parse_mode": "HTML", "disable_web_page_preview": True})
 
     def _rich(self, method: str, common: dict[str, Any], rich: str,
-              media: dict[str, str | bytes] | None) -> Sent:
-        """A rich message and its pictures: a known file goes by its file id, a new one is
-        uploaded with the request. Refused with pictures, it's tried once without them."""
+              media: dict[str, str | bytes] | None, *, fallback: bool = True) -> Sent:
+        """A rich message and its media, named in the HTML: a picture as tg://photo?id=…, a
+        looping video as tg://video?id=… (sent as an animation). A known file goes by its
+        file id, a new one is uploaded with the request. Refused with media, it's tried
+        once without them (unless `fallback` is off)."""
         body: dict[str, Any] = {"html": rich, "skip_entity_detection": True}
-        wanted = {k: v for k, v in (media or {}).items() if f"tg://photo?id={k}" in rich}
-        if not wanted:
+        kinds = {k: ("animation" if f"tg://video?id={k}" in rich else "photo") for k in (media or {})
+                 if f"tg://video?id={k}" in rich or f"tg://photo?id={k}" in rich}
+        if not kinds:
             return self._call(method, {**common, "rich_message": body})
-        body["media"] = [{"id": k, "media": {"type": "photo", "media": v if isinstance(v, str) else f"attach://{k}"}}
+        wanted = {k: v for k, v in (media or {}).items() if k in kinds}
+        body["media"] = [{"id": k, "media": {"type": kinds[k], "media": v if isinstance(v, str) else f"attach://{k}"}}
                          for k, v in wanted.items()]
-        files = {k: (f"{k}.jpg", v, "image/jpeg") for k, v in wanted.items() if isinstance(v, bytes)}
+        files = {k: (f"{k}.mp4", v, "video/mp4") if kinds[k] == "animation" else (f"{k}.jpg", v, "image/jpeg")
+                 for k, v in wanted.items() if isinstance(v, bytes)}
         sent = self._call(method, {**common, "rich_message": body}, files=files or None)
-        if sent.ok or not sent.permanent or "chat not found" in sent.error or "blocked" in sent.error:
+        if sent.ok or not sent.permanent or not fallback or "chat not found" in sent.error or "blocked" in sent.error:
             return sent
         logger.warning("telegram: %s with pictures refused (%s); trying without them", method, sent.error)
         return self._call(method, {**common, "rich_message": {"html": strip_pictures(rich), "skip_entity_detection": True}})

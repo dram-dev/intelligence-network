@@ -74,6 +74,7 @@ class Settings(BaseSettings):
     # The picture on an alert card (cardmap.py): the warned area, drawn; radar from IEM.
     card_maps: bool = Field(default=True, alias="CARD_MAPS")
     card_map_radar: bool = Field(default=True, alias="CARD_MAP_RADAR")
+    card_map_loop: bool = Field(default=True, alias="CARD_MAP_LOOP")      # the picture becomes a radar loop
     telegram_topics: str = Field(default="auto", alias="TELEGRAM_TOPICS")
     # Nightly copies of the live database (backup.py); point BACKUP_DIR at a synced
     # folder (iCloud Drive, Dropbox) for a copy off this machine.

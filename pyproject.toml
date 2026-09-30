@@ -19,6 +19,7 @@ dependencies = [
     "google-auth-httplib2>=0.2",
     "digest-core",
     "pillow>=11",
+    "numpy>=2.5.3",
 ]
 
 [project.scripts]

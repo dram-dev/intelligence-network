@@ -396,6 +396,61 @@ alert_support:
   visibility_km: [dense_fog_advisory, blizzard_warning]
   power_outage:  [severe_thunderstorm_warning, high_wind_warning, ice_storm_warning]
 
+# The alert card's picture (cardmap.py). A warning is drawn over one radar's lowest sweep
+# at full resolution: NEXRAD Level III N0B (reflectivity, 0.5° × 250 m bins, a sweep every
+# few minutes) from Unidata's public archive on AWS, the radar nearest the warning. Colours
+# run smoothly between the stops (dBZ → #RRGGBB or #RRGGBBAA); below the first, nothing.
+card_radar:
+  product: N0B
+  sites:                                  # the radars that see Illinois: id → [lat, lon, name]
+    ILX: [40.1506, -89.3368, Lincoln]
+    LOT: [41.6044, -88.0848, Chicago]
+    DVN: [41.6117, -90.5809, Quad Cities]
+    LSX: [38.6989, -90.6828, St. Louis]
+    PAH: [37.0684, -88.7719, Paducah]
+    VWX: [38.2603, -87.7247, Evansville]
+    IND: [39.7075, -86.2803, Indianapolis]
+    MKX: [42.9678, -88.5506, Milwaukee]
+  stale_minutes: 15                       # older than this and the picture says "no radar"
+  # Echoes that aren't weather (insects, birds, ground clutter, wind farms) are dropped using
+  # the same scan's dual-pol correlation coefficient (N0C): below 0.85 is not rain, snow or
+  # hail. A tornado's debris reads low too, so a strong echo (keep_above dBZ) stays when it's
+  # within storm_km of a storm; out in clear air it's clutter.
+  quality: {product: N0C, below: 0.85, keep_above: 40, storm_km: 3}
+  colours:
+    - [15, "#3A8F6A00"]
+    - [20, "#3F9C7466"]
+    - [26, "#46AE6C9C"]
+    - [31, "#3A9E52D6"]
+    - [35, "#D9D23A"]
+    - [40, "#F2A62B"]
+    - [45, "#EC6A24"]
+    - [50, "#D93131"]
+    - [55, "#AD1A48"]
+    - [60, "#C23BC2"]
+    - [65, "#EBA4FF"]
+    - [72, "#FFFFFF"]
+  legend: [[20, Light], [48, Heavy], [70, Hail]]
+
+# An alert's colour on the card's picture, by event (else by severity). Bright enough to
+# read over the radar on a dark map.
+alert_colours:
+  Tornado Warning: "#FF3B30"
+  Severe Thunderstorm Warning: "#FFB020"
+  Flash Flood Warning: "#FF4F8B"
+  Flood Warning: "#34D07B"
+  Flood Advisory: "#5BC0A0"
+  Flood Watch: "#3FB27F"
+  Special Weather Statement: "#F5E08A"
+  Tornado Watch: "#FF6F6F"
+  Severe Thunderstorm Watch: "#E0A93A"
+  Winter Storm Warning: "#FF6FD8"
+  Blizzard Warning: "#FF6A3D"
+  Ice Storm Warning: "#C78BFF"
+  Dense Fog Advisory: "#9FB3BF"
+  Heat Advisory: "#FF8C4B"
+  Excessive Heat Warning: "#FF4B6E"
+
 # NWS alert impact tags: CAP parameters on warnings (maxHailSize "1.75",
 # maxWindGust "70 MPH", tornadoDetection "RADAR INDICATED"…). The alert card
 # shows them, and when an update raises one, people who already have the card

@@ -128,3 +128,26 @@ def test_outside_says_how_far_and_which_way(fresh_db, sent, monkeypatch, make_se
     cards = dict(zip((c for c, _ in sent), sent.rich, strict=True))
     assert "<b>Your home is outside the warned area</b>, about 8 mi east of it." in cards["1"]
     assert "<b>Your home is just outside the warned area.</b>" in cards["2"]
+
+
+def test_a_time_on_another_day_carries_the_day(fresh_db):
+    """The 30 Sep Flood Watch card said 'until 1:00 AM' for Friday 1:00 AM."""
+    from datetime import timedelta
+
+    from intelnet import subscriptions
+    from intelnet.models import utcnow
+
+    assert 'format="t"' in subscriptions.clock(utcnow())
+    assert 'format="wt"' in subscriptions.clock(utcnow() + timedelta(days=2))
+
+
+def test_a_county_wide_alert_says_when_your_county_is_in_it(fresh_db, sent, monkeypatch, make_sensor):
+    make_sensor("tg:1", zip_code="62704", chat_id="1")          # home: a ZIP in Sangamon
+    make_sensor("tg:2", zip_code="60601", chat_id="2")          # home in Cook, subscribed to Sangamon
+    for chat in ("1", "2"):
+        db.add_subscription(chat, "weather.alerts", "il.sangamon")
+    run_feed(monkeypatch, feature("W1", event="Flood Watch", severity="Moderate"))
+    cards = dict(zip((c for c, _ in sent), sent.rich, strict=True))
+    assert "<p><b>Includes Sangamon County, where your home is.</b></p>" in cards["1"]
+    assert "Includes" not in cards["2"] and "<p><b>Sangamon</b></p>" in cards["2"]
+    assert "SANGAMON" not in cards["1"]                        # (the name is on the picture, not in the HTML)

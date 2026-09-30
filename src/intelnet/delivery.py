@@ -98,12 +98,16 @@ def _dispatch(row: Any) -> Sent:
     markup = json.loads(row["markup_json"]) if row["markup_json"] else None
     rich = row["rich"]
     media = cardmap.media_for(rich) if rich else None      # the card's picture: a file id, or the file
+    if rich and cardmap.missing(rich, media or {}):
+        return Sent(False, permanent=True, error="loop unavailable")   # the card keeps its picture
+    upgrade = ":loop:" in str(row["key"])                   # optional: refused, the card stays as it is
     if action in ("edit", "reply"):
         card = db.card(row["thread"], chat) if row["thread"] else None
         if action == "edit":
             if card is None:
                 return Sent(False, permanent=True, error="no card to edit")
-            sent = bot.edit(chat, card["message_id"], text, markup=markup, rich=rich, media=media)
+            sent = bot.edit(chat, card["message_id"], text, markup=markup, rich=rich, media=media,
+                            fallback=not upgrade)
         else:
             sent = bot.deliver(chat, text, silent=silent, reply_to=card["message_id"] if card else None,
                                markup=markup, rich=rich, thread_id=thread_for(chat, kind_of(row)), media=media)

@@ -159,6 +159,8 @@ class Where:
     centroid: bool = False             # the place is a ZIP's center, not a point someone gave
     off_km: float | None = None        # outside: how far from the warned area's edge…
     off_dir: str = ""                  # …and on which side of it ("east")
+    county: str = ""                   # a county-wide alert that includes the reader's county…
+    whose: str = ""                    # …"where your home is" / "where you are"
 
     def headline(self) -> str:
         """'Your home is inside the warned area.' · 'You're outside the warned area,
@@ -177,19 +179,35 @@ class Where:
         if not self.eta:
             return ""
         whom = {"You": "you", "Home": "your home"}.get(self.label, "it")
-        return f"The storm should reach {whom} about {tg_time(self.eta, 't')}."
+        return f"The storm should reach {whom} about {clock(self.eta)}."
 
 
-def locate(sig: Signal, chat_id: str) -> Where:
+def clock(dt: datetime) -> str:
+    """A time on a card: '1:00 AM' today, 'Fri 1:00 AM' any other day (in Illinois time;
+    each reader's app shows it in their own zone)."""
+    from intelnet.models import local_time
+
+    same_day = local_time(dt, "%Y-%m-%d") == local_time(utcnow(), "%Y-%m-%d")
+    return tg_time(dt, "t" if same_day else "wt")
+
+
+def locate(sig: Signal, chat_id: str, counties: set[str] | None = None) -> Where:
     """Inside or outside the warned polygon, and when the storm reaches them (from the NWS
     storm motion). Uses the live location while it's shared, else home; when home is only
-    a ZIP's center, the card says so rather than claiming precision."""
+    a ZIP's center, the card says so rather than claiming precision. An alert without a
+    polygon covers whole counties (`counties`, FIPS): the card says when theirs is one."""
     rings = sig.evidence.get("polygon")
-    if not rings:
-        return Where([])
     live = db.live_location(chat_id)
     sensor = None if live else db.sensor_by_chat(chat_id)
     place = live or (sensor.location if sensor and sensor.location.has_point else None)
+    if not rings:
+        c = geo.county(place.county_fips) if place is not None and place.lat is not None else None
+        if c is None or c.fips not in (counties or set()):
+            return Where([])
+        where = "where you are" if live else "where your home is"
+        label = "You" if live else ("Home" if place.precision == "point" else f"ZIP {place.zip5}")
+        return Where([f"📍 <b>Includes {esc(c.label)}, {where}.</b>"], label=label, place=place,
+                     county=c.label, whose=where)
     if place is None or place.lat is None or place.lon is None:
         return Where(["📍 Share your location (or /home 62704) to see whether this warning covers you."],
                      ask_location=True)
@@ -235,21 +253,25 @@ def _size_word(spec: dict[str, Any], value: float) -> str:
 
 def card_tags(sig: Signal) -> dict[str, list[str]]:
     """NWS impact tags as the card shows them (pack `alert_parameters`, `show`), as HTML:
-    header ('Considerable damage threat'), chip ('Hail <b>1.75 in</b> (golf ball)') and
-    tag ('Tornado: radar indicated')."""
-    out: dict[str, list[str]] = {"header": [], "chip": [], "tag": []}
+    header ('Considerable damage threat'; `urgent` when it's the top level, 'Destructive
+    damage threat'), chip ('Hail <b>1.75 in</b> (golf ball)') and tag ('Tornado
+    radar-indicated')."""
+    out: dict[str, list[str]] = {"header": [], "urgent": [], "chip": [], "tag": []}
     impact = sig.evidence.get("impact") or {}
     for code, spec in get_topic(sig.topic).mapping("alert_parameters").items():
         value = impact.get(code)
         if value in (None, ""):
             continue
         show = spec.get("show", "chip")
-        show = show if show in out else "chip"
+        show = show if show in ("header", "chip", "tag") else "chip"
         label = str(spec.get("label", code))
         if spec.get("levels"):
             v = str(value).lower()
-            out[show].append(f"<b>{esc(v.capitalize())} {esc(label.lower())}</b>" if show == "header"
-                             else f"{esc(label)}: {esc(v)}")
+            if show == "header":
+                top = str(value).upper() == str(spec["levels"][-1]).upper()
+                out["urgent" if top else "header"].append(f"<b>{esc(v.capitalize())} {esc(label.lower())}</b>")
+            else:
+                out[show].append(f"{esc(label)} {esc(v.replace(' ', '-'))}")
             continue
         word = _size_word(spec, float(value))
         amount = f"{float(value):g} {spec.get('unit', '')}".strip()
@@ -274,12 +296,15 @@ def _county_list(labels: list[str], limit: int = 3) -> str:
 
 
 def card_mark(where: Where | None) -> Any:
-    """The reader's dot on the card's picture, when the card knows their place."""
+    """The reader's dot on the card's picture, when the card knows their place, with when
+    the storm reaches it (in Illinois time: a picture can't follow each reader's zone)."""
     from intelnet import cardmap
+    from intelnet.models import local_time
 
     if where is None or where.place is None or where.place.lat is None or where.place.lon is None:
         return None
-    return cardmap.Mark(where.place.lat, where.place.lon, where.label)
+    note = f"storm ~{local_time(where.eta, '%-I:%M %p')}" if where.eta else ""
+    return cardmap.Mark(where.place.lat, where.place.lon, where.label, note)
 
 
 def format_alert_rich(sig: Signal, county_labels: list[str], *, where: Where | None = None,
@@ -293,33 +318,39 @@ def format_alert_rich(sig: Signal, county_labels: list[str], *, where: Where | N
     counties = esc(_county_list(county_labels)) or esc(sig.location.describe())
     if ended:
         head = {"cancelled": "ended early", "area": "no longer covers your area"}.get(ended, "has ended")
-        when = tg_time(ended_at or utcnow(), "t")
+        when = clock(ended_at or utcnow())
         tail = f"Still in effect for {counties}." if ended == "area" else f"{counties} · {esc(_sender(ev))}"
         return f"<h4>✅ {event} {head}</h4><p>{tail}</p><footer>Ended {when}</footer>"
     tags = card_tags(sig)
     sev = str(ev.get("severity") or "Unknown")
     parts = [f"<h4>{_SEVERITY_EMOJI.get(sev, '•')} {event}</h4>"]
+    if tags["urgent"]:                          # a destructive / catastrophic threat can't wait
+        parts.append("<p>🔴 " + " · ".join(tags["urgent"]) + "</p>")
+    headline = False                            # does a line above name the counties already?
     if where is not None and where.inside is not None:
         parts.append("<p>" + " ".join(x for x in (where.headline(), where.arrival()) if x) + "</p>")
+    elif where is not None and where.county:
+        parts.append(f"<p><b>Includes {esc(where.county)}, {esc(where.whose)}.</b></p>")
     elif where is not None and where.ask_location:
         parts.append("<p>📍 Share your location (or send /home with your ZIP) to see whether it covers you.</p>")
     else:
         parts.append(f"<p><b>{counties}</b></p>")
-    impact = tags["header"] + tags["chip"] + tags["tag"]
-    if impact:
-        parts.append("<p>" + " · ".join(impact) + "</p>")
+        headline = True
     if picture:
         note = (f"<figcaption>The dot is the center of ZIP {esc(where.place.zip5 if where and where.place else '')}. "
                 f"Share your location for an exact answer.</figcaption>" if where is not None and where.centroid else "")
         parts.append(f'<figure><img src="tg://photo?id={picture}"/>{note}</figure>')
+    hazards = " · ".join(tags["chip"] + tags["tag"])
+    if tags["header"] or hazards:
+        parts.append("<p>" + "<br>".join(x for x in (" · ".join(tags["header"]), hazards) if x) + "</p>")
     action = _first_sentences(ev.get("instruction"))
     if action:
         parts.append(f"<blockquote>{esc(action)}</blockquote>")
-    foot = [esc(_sender(ev))] + ([f"until {tg_time(sig.expires_at, 't')}"] if sig.expires_at else [])
-    if where is not None and where.inside is not None:
+    foot = [esc(_sender(ev))] + ([f"until {clock(sig.expires_at)}"] if sig.expires_at else [])
+    if not headline:
         foot.append(counties)
     if ev.get("message_type") == "Update":
-        foot.append(f"updated {tg_time(sig.observed_at, 't')}")
+        foot.append(f"updated {clock(sig.observed_at)}")
     link = href(ev.get("url"))
     parts.append("<footer>" + " · ".join(foot) + (f' · <a href="{link}">full text</a>' if link else "") + "</footer>")
     return "".join(parts)
@@ -492,6 +523,22 @@ def _edit_card(thread: str, chat: str, card: Any, text: str, version: str, *,
                       rich=rich, markup=markup)
 
 
+LOOP_PRIORITY = 7          # a card's radar loop: after everything else in the outbox
+
+
+def _queue_loop(thread: str, chat: str, text: str, rich: str, picture: str | None,
+                markup: dict[str, Any], stale: datetime) -> None:
+    """The card's picture becomes its radar loop once delivery gets round to it: a silent
+    edit, queued behind everything urgent and rendered when it's sent (cardmap.loop_bytes).
+    Not sent now: the next pass of the outbox picks it up. Refused, the picture stays."""
+    if not picture or not cardmap.loop_possible(picture):
+        return
+    loop = cardmap.loop_name(picture)
+    loop_rich = rich.replace(f'<img src="tg://photo?id={picture}"/>', f'<video src="tg://video?id={loop}"></video>')
+    db.enqueue(f"{thread}:loop:{loop}", chat, text, action="edit", thread=thread, priority=LOOP_PRIORITY,
+               stale_at=stale, rich=loop_rich, markup=markup)
+
+
 def fanout_alert(sig: Signal, siblings: list[Signal], changes: list[str] | None = None) -> int:
     """Bring every subscriber's card for this alert up to date. Returns messages sent.
 
@@ -510,11 +557,13 @@ def fanout_alert(sig: Signal, siblings: list[Signal], changes: list[str] | None 
     audience = _alert_audience(sig, siblings)
     have = db.cards(thread)
     ids: list[int | None] = []
+    fips = {s.location.county_fips for s in siblings if s.location.county_fips}
     for chat, priority in audience.items():
-        w = locate(sig, chat)
+        w = locate(sig, chat, fips)
         inside = bool(w.inside)
         text = format_alert(sig, labels, personal=w.lines)
-        rich = format_alert_rich(sig, labels, where=w, picture=cardmap.prepare(sig, siblings, card_mark(w)))
+        picture = cardmap.prepare(sig, siblings, card_mark(w))
+        rich = format_alert_rich(sig, labels, where=w, picture=picture)
         markup = card_markup(sig, chat, thread)
         if inside:
             priority = -1                                 # inside the polygon: first out
@@ -523,14 +572,19 @@ def fanout_alert(sig: Signal, siblings: list[Signal], changes: list[str] | None 
             pending = db.pending_in_thread(thread, chat, "card")
             if pending is not None:
                 db.retext_outbox(pending["id"], text, rich, markup)   # still queued: it leaves up to date
+                db.supersede_outbox(thread, chat, ("edit",))          # …and an older picture's loop goes
             else:
                 ids.append(db.enqueue(thread, chat, text, action="card", thread=thread,
                                       priority=priority, stale_at=stale, rich=rich, markup=markup))
                 # slow hazards ask while they're in effect (the pack says which)
                 ids.append(asks.queue(sig, chat, thread, when="issued",
                                       priority=_PRIORITY["reports"], stale_at=stale))
+            _queue_loop(thread, chat, text, rich, picture, markup, stale)
             continue
-        ids.append(_edit_card(thread, chat, card, text, version, rich=rich, markup=markup))
+        edited = _edit_card(thread, chat, card, text, version, rich=rich, markup=markup)
+        ids.append(edited)
+        if edited is not None:
+            _queue_loop(thread, chat, text, rich, picture, markup, stale)
         back = card["state"] == "ended"
         now_covers_you = inside and INSIDE not in (card["text"] or "")
         if back or changes or now_covers_you:
