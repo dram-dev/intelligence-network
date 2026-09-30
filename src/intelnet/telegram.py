@@ -10,6 +10,7 @@ plain yes/no form for replies.
 """
 from __future__ import annotations
 
+import json
 import logging
 import re
 from dataclasses import dataclass
@@ -27,11 +28,19 @@ logger = logging.getLogger(__name__)
 
 MAX_MSG = 4000   # Telegram's limit is 4096; leave headroom
 
-__all__ = ["Bot", "Sent", "bot", "esc", "href", "join_within", "tg_time", "MAX_MSG"]
+__all__ = ["Bot", "Sent", "bot", "esc", "href", "join_within", "strip_pictures", "tg_time", "MAX_MSG"]
 
 # Fallback text inside <tg-time> for clients that predate it: Illinois wall clock.
 _TG_TIME_FALLBACK = {"t": "%-I:%M %p %Z", "wt": "%a %-I:%M %p %Z"}
 _TG_TIME = re.compile(r"<tg-time [^>]*>(.*?)</tg-time>", re.DOTALL)
+
+
+_PICTURES = re.compile(r"<figure>\s*<img [^>]*tg://photo[^>]*/>.*?</figure>|<img [^>]*tg://photo[^>]*/>", re.DOTALL)
+
+
+def strip_pictures(rich: str) -> str:
+    """A rich message without its uploaded pictures (the fallback when one is refused)."""
+    return _PICTURES.sub("", rich)
 
 
 def tg_time(dt: datetime, fmt: str = "wt") -> str:
@@ -61,13 +70,16 @@ class Bot(TelegramNotifier):
 
     def deliver(self, chat_id: str | int, text: str, *, silent: bool = False,
                 reply_to: int | None = None, markup: dict[str, Any] | None = None,
-                rich: str | None = None, thread_id: int | None = None) -> Sent:
+                rich: str | None = None, thread_id: int | None = None,
+                media: dict[str, str | bytes] | None = None) -> Sent:
         """POST one message to any chat; `reply_to` quotes an earlier message, `markup`
         attaches a keyboard, `thread_id` puts it in a chat section (topic).
 
         With `rich` (Bot API 10.1 rich-message HTML) the message goes out as a rich
-        message; if Telegram refuses it (a 400), the same message goes out as the plain
-        HTML `text` instead, at once, so a formatting problem never costs a warning."""
+        message, with the pictures it names (tg://photo?id=…) from `media`: a file id,
+        or the file's bytes to upload. If Telegram refuses it (a 400), it goes again
+        without the pictures, then as the plain HTML `text`, at once, so a formatting
+        problem never costs a warning."""
         common: dict[str, Any] = {"chat_id": str(chat_id), "disable_notification": silent}
         if reply_to:
             common["reply_parameters"] = {"message_id": reply_to, "allow_sending_without_reply": True}
@@ -76,14 +88,15 @@ class Bot(TelegramNotifier):
         if thread_id:
             common["message_thread_id"] = thread_id
         if rich and settings.telegram_rich_messages:
-            sent = self._call("sendRichMessage", {**common, "rich_message": {"html": rich, "skip_entity_detection": True}})
+            sent = self._rich("sendRichMessage", common, rich, media)
             if sent.ok or not sent.permanent or "chat not found" in sent.error or "blocked" in sent.error:
                 return sent
             logger.warning("telegram: rich message refused (%s); sending the plain version", sent.error)
         return self._call("sendMessage", {**common, "text": text, "parse_mode": "HTML", "disable_web_page_preview": True})
 
     def edit(self, chat_id: str | int, message_id: int, text: str, *,
-             markup: dict[str, Any] | None = None, rich: str | None = None) -> Sent:
+             markup: dict[str, Any] | None = None, rich: str | None = None,
+             media: dict[str, str | bytes] | None = None) -> Sent:
         """Rewrite a message the bot sent earlier (editing never makes a sound). A rich
         card is edited as a rich message, falling back to the plain `text`. Buttons not
         passed in `markup` are removed, as Telegram does."""
@@ -91,11 +104,28 @@ class Bot(TelegramNotifier):
         if markup:
             common["reply_markup"] = markup
         if rich and settings.telegram_rich_messages:
-            sent = self._call("editMessageText", {**common, "rich_message": {"html": rich, "skip_entity_detection": True}})
+            sent = self._rich("editMessageText", common, rich, media)
             if sent.ok or not sent.permanent:
                 return sent
             logger.warning("telegram: rich edit refused (%s); editing with the plain version", sent.error)
         return self._call("editMessageText", {**common, "text": text, "parse_mode": "HTML", "disable_web_page_preview": True})
+
+    def _rich(self, method: str, common: dict[str, Any], rich: str,
+              media: dict[str, str | bytes] | None) -> Sent:
+        """A rich message and its pictures: a known file goes by its file id, a new one is
+        uploaded with the request. Refused with pictures, it's tried once without them."""
+        body: dict[str, Any] = {"html": rich, "skip_entity_detection": True}
+        wanted = {k: v for k, v in (media or {}).items() if f"tg://photo?id={k}" in rich}
+        if not wanted:
+            return self._call(method, {**common, "rich_message": body})
+        body["media"] = [{"id": k, "media": {"type": "photo", "media": v if isinstance(v, str) else f"attach://{k}"}}
+                         for k, v in wanted.items()]
+        files = {k: (f"{k}.jpg", v, "image/jpeg") for k, v in wanted.items() if isinstance(v, bytes)}
+        sent = self._call(method, {**common, "rich_message": body}, files=files or None)
+        if sent.ok or not sent.permanent or "chat not found" in sent.error or "blocked" in sent.error:
+            return sent
+        logger.warning("telegram: %s with pictures refused (%s); trying without them", method, sent.error)
+        return self._call(method, {**common, "rich_message": {"html": strip_pictures(rich), "skip_entity_detection": True}})
 
     def edit_markup(self, chat_id: str | int, message_id: int, markup: dict[str, Any] | None) -> Sent:
         """Change only a message's buttons (the Mute button turning into Unmute)."""
@@ -124,13 +154,18 @@ class Bot(TelegramNotifier):
         """POST one HTML message to any chat. False on no-op or failure."""
         return self.deliver(chat_id, text, silent=silent, markup=markup, thread_id=thread_id).ok
 
-    def _call(self, method: str, payload: dict[str, Any]) -> Sent:
+    def _call(self, method: str, payload: dict[str, Any],
+              files: dict[str, tuple[str, bytes, str]] | None = None) -> Sent:
         chat = payload.get("chat_id")
         if not self.enabled:
             logger.debug("telegram: disabled; not sending to %s", chat)
             return Sent(False, error="telegram disabled")
         try:
-            resp = requests.post(self._url(method), json=payload, timeout=_tg._TIMEOUT)
+            if files:          # multipart: every field a string, objects as JSON
+                form = {k: v if isinstance(v, str) else json.dumps(v) for k, v in payload.items()}
+                resp = requests.post(self._url(method), data=form, files=files, timeout=_tg._TIMEOUT + 20)
+            else:
+                resp = requests.post(self._url(method), json=payload, timeout=_tg._TIMEOUT)
         except Exception as exc:  # noqa: BLE001
             # The exception's text includes the URL, and the URL includes the token.
             logger.warning("telegram: %s to %s failed: %s", method, chat, type(exc).__name__)

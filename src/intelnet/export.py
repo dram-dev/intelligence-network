@@ -446,7 +446,7 @@ def write_digest_page(snap: dict[str, Any], out_dir: Path | None = None, hours: 
     links = snap.get("links") or {}
     downloads = {label: url for label, url in (
         ("Google Doc", links.get("latest")), ("All formats", links.get("folder"))) if url}
-    body = digest_module.render_html(model, downloads=downloads or None)
+    body = digest_module.render_html(model, downloads=downloads or None, page=True)
     out = (out_dir or DOCS_DIR) / DIGEST_PAGE
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(
@@ -454,7 +454,7 @@ def write_digest_page(snap: dict[str, Any], out_dir: Path | None = None, hours: 
         '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
         f'<title>{model.network_name} — digest {model.date}</title>\n'
         '<link rel="icon" href="assets/icon.svg" type="image/svg+xml">\n'
-        '</head>\n<body>\n' + body + "\n</body>\n</html>\n", encoding="utf-8")
+        + digest_module.FONTS_LINK + '\n</head>\n<body>\n' + body + "\n</body>\n</html>\n", encoding="utf-8")
     return out
 
 

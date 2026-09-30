@@ -191,10 +191,11 @@ def test_the_card_says_whether_you_are_inside_and_when_the_storm_arrives(fresh_d
     run_feed(monkeypatch, feature("G1", polygon=BOX, motion=f"{at}...storm...270DEG...40KT...39.78,-89.95"))
     cards = dict(sent)
     assert "Your home is inside the warned area" in cards["1"]
-    assert "The storm reaches you about <tg-time" in cards["1"] and 'format="r"' in cards["1"]
-    assert "The center of ZIP 62707 is" in cards["2"]
+    # an absolute time: a relative one ("41 minutes ago") goes stale on a card that stays up
+    assert "The storm should reach your home about <tg-time" in cards["1"] and 'format="r"' not in cards["1"]
+    assert "ZIP 62707 is" in cards["2"] and "at the ZIP's center" in cards["2"]
     assert "Share your location" in cards["3"]
-    assert "You are inside the warned area" in cards["4"]
+    assert "You're inside the warned area" in cards["4"]
     assert sent[-1][0] == "3"                  # people inside the polygon go out first
 
 

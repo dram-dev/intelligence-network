@@ -35,17 +35,17 @@ def test_build_and_render(make_sensor):
     assert "Ann" not in digest.render_html(m) and "Bob" not in digest.render_html(m)
     assert m.reading[0]["title"] == "Storms rake central Illinois" and m.reading[0]["feed"] == "Google News"
     assert m.gap_count == 101 and m.subscriptions == {"weather.digest": 1}
-    assert "3 readings from 2 sensors" in m.headline and "top event: Hail size" in m.headline
+    assert "3 readings from 2 people" in m.headline and "Top event: hail size 1.75 in, Sangamon" in m.headline
 
     html = digest.render_html(m)
-    for needle in ("Illinois environmental digest", "Intelligence Network", "Events",
-                   "Official alerts", "Readings by county", "Contributors",
-                   "Storms rake central Illinois", "Sensors wanted", "Report something", "Hail size"):
+    for needle in ("ILLINOIS DAILY DIGEST", "INTELLIGENCE NETWORK", "Network events",
+                   "Warnings and advisories", "From people", "Contributors",
+                   "Storms rake central Illinois", "Coverage", "TAKE PART", "Hail size"):
         assert needle in html, needle
     assert "<script" not in html
-    assert "Also available as" not in html                    # no links until the files exist
+    assert "Also as" not in html                              # no links until the files exist
     linked = digest.render_html(m, downloads={"PDF": "https://drive.google.com/file/d/x/view"})
-    assert "Also available as" in linked and "file/d/x/view" in linked
+    assert "Also as" in linked and "file/d/x/view" in linked
 
     text = digest.render_text(m)
     assert "Events:" in text and "Hail size" in text and "NWS alerts:" in text
@@ -94,3 +94,19 @@ def test_an_empty_table_still_has_its_header(fresh_db):
     quiet = digest.DigestModel(date="2026-09-16", generated_at="2026-09-16 03:00Z", hours=24,
                                network_name="Intelligence Network", state="IL")
     assert digest.render_csvs(quiet)["events"].strip() == ",".join(digest.EVENT_COLUMNS)
+
+
+def test_the_doc_never_highlights_text(make_sensor):
+    """Google Docs turns a background on anything but a table cell into a highlight behind
+    every line (the white bars on the 30 Sep digest) and ignores the `font:` shorthand."""
+    import re
+
+    _seed(make_sensor)
+    m = digest.build(hours=24)
+    doc = digest.render_html(m)
+    assert "<style" not in doc and 'class="sheet"' not in doc
+    for tag in re.finditer(r'<(\w+)[^>]*style="[^"]*background[^"]*"', doc):
+        assert tag.group(1) == "td", tag.group(0)[:90]
+    assert not re.search(r'style="[^"]*(?<![\w-])font:', doc)
+    page = digest.render_html(m, page=True)
+    assert "<style>" in page and 'class="sheet"' in page

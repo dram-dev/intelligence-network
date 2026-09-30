@@ -113,16 +113,19 @@ class Metric:
         return self.severity(value) > 0
 
     def display(self, value: float | None) -> str:
-        """Human-facing rendering: canonical plus the display unit when set."""
+        """Human-facing rendering, in the display unit when the pack sets one: '1.75 in',
+        '277,000 cfs', '29.92 inHg' (`decimals`), '1/16 mi' (`fractions`). The canonical
+        value stays in the data and the CSVs."""
         if value is None:
             return "—"
         if self.is_flag:
             return "reported"
-        canon = f"{value:.4g} {self.unit}".strip()
-        if self.display_unit:
-            shown = self.display_unit["fn"](value)
-            return f"{shown:.3g} {self.display_unit['unit']} ({canon})"
-        return canon
+        du = self.display_unit
+        if not du:
+            return f"{nice_number(value)} {self.unit}".strip()
+        shown = du["fn"](value)
+        text = fraction(shown) if du.get("fractions") else nice_number(shown, du.get("decimals"))
+        return f"{text} {du['unit']}"
 
 
 @dataclass
@@ -174,6 +177,36 @@ class Topic:
         return dict(sorted(out.items(), key=lambda kv: -len(kv[0])))
 
 
+def nice_number(x: float, decimals: int | None = None) -> str:
+    """Three significant figures, with thousands separators and never an exponent:
+    86.7 · 1.75 · 0.01 · 1,013 · 277,000 (a river's flow, not 277,002)."""
+    from math import floor, log10
+
+    if decimals is not None:
+        return f"{x:,.{decimals}f}"
+    if abs(x) >= 10_000:
+        return f"{round(x, 2 - floor(log10(abs(x)))):,.0f}"
+    if abs(x) >= 100:
+        return f"{x:,.0f}"
+    text = f"{x:.3g}"
+    return f"{x:.2f}" if "e" in text else text
+
+
+def fraction(x: float) -> str:
+    """Distance the way a METAR says it: sixteenths below 3 (0.0625 → '1/16',
+    1.5 → '1 1/2'), whole numbers above."""
+    from math import gcd
+
+    if x >= 3:
+        return f"{round(x):,}"
+    whole, rest = divmod(round(x * 16), 16)
+    if rest == 0:
+        return str(whole)
+    g = gcd(rest, 16)
+    part = f"{rest // g}/{16 // g}"
+    return f"{whole} {part}" if whole else part
+
+
 def _unit_fn(spec: Any):
     if isinstance(spec, dict) and "expr" in spec:
         return _compile_expr(str(spec["expr"]))
@@ -186,7 +219,8 @@ def _load_metric(topic: str, key: str, raw: dict[str, Any]) -> Metric:
     display = None
     if raw.get("display_unit"):
         du = raw["display_unit"]
-        display = {"unit": du["unit"], "fn": _compile_expr(str(du.get("expr", "x")))}
+        display = {"unit": du["unit"], "fn": _compile_expr(str(du.get("expr", "x"))),
+                   "decimals": du.get("decimals"), "fractions": bool(du.get("fractions"))}
     rng = raw.get("range")
     return Metric(
         key=key,

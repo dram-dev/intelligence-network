@@ -71,6 +71,9 @@ class Settings(BaseSettings):
     # Alerts, My reports, Morning brief) are used when "auto" and the bot has topic mode
     # on in BotFather; "on" forces them, "off" never.
     telegram_rich_messages: bool = Field(default=True, alias="TELEGRAM_RICH_MESSAGES")
+    # The picture on an alert card (cardmap.py): the warned area, drawn; radar from IEM.
+    card_maps: bool = Field(default=True, alias="CARD_MAPS")
+    card_map_radar: bool = Field(default=True, alias="CARD_MAP_RADAR")
     telegram_topics: str = Field(default="auto", alias="TELEGRAM_TOPICS")
     # Nightly copies of the live database (backup.py); point BACKUP_DIR at a synced
     # folder (iCloud Drive, Dropbox) for a copy off this machine.

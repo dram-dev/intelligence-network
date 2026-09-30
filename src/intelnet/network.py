@@ -194,7 +194,8 @@ def score_event(severity: float, n_sensors: int, mean_trust: float, n_reference:
 def _event_title(metric: Metric, peak: float | None, county_fips: str | None) -> str:
     c = geo.county(county_fips)
     where = c.label if c else "unknown county"
-    what = metric.label if metric.is_flag else f"{metric.label} {metric.display(peak)}"
+    below = "down to " if metric.event_direction == "below" else ""
+    what = metric.label if metric.is_flag else f"{metric.label} {below}{metric.display(peak)}"
     return f"{what} — {where}"
 
 

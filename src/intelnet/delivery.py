@@ -32,7 +32,7 @@ import time
 from datetime import timedelta
 from typing import Any
 
-from intelnet import db
+from intelnet import cardmap, db
 from intelnet.config import settings
 from intelnet.models import parse_iso, utcnow
 from intelnet.telegram import Sent, bot
@@ -97,16 +97,22 @@ def _dispatch(row: Any) -> Sent:
     silent = bool(row["silent"]) or muted(chat)
     markup = json.loads(row["markup_json"]) if row["markup_json"] else None
     rich = row["rich"]
+    media = cardmap.media_for(rich) if rich else None      # the card's picture: a file id, or the file
     if action in ("edit", "reply"):
         card = db.card(row["thread"], chat) if row["thread"] else None
         if action == "edit":
             if card is None:
                 return Sent(False, permanent=True, error="no card to edit")
-            return bot.edit(chat, card["message_id"], text, markup=markup, rich=rich)
-        return bot.deliver(chat, text, silent=silent, reply_to=card["message_id"] if card else None,
-                           markup=markup, rich=rich, thread_id=thread_for(chat, kind_of(row)))
-    return bot.deliver(chat, text, silent=silent, markup=markup, rich=rich,
-                       thread_id=thread_for(chat, kind_of(row)))
+            sent = bot.edit(chat, card["message_id"], text, markup=markup, rich=rich, media=media)
+        else:
+            sent = bot.deliver(chat, text, silent=silent, reply_to=card["message_id"] if card else None,
+                               markup=markup, rich=rich, thread_id=thread_for(chat, kind_of(row)), media=media)
+    else:
+        sent = bot.deliver(chat, text, silent=silent, markup=markup, rich=rich,
+                           thread_id=thread_for(chat, kind_of(row)), media=media)
+    if sent.ok and media:
+        cardmap.remember(rich, sent.result)                 # later cards reuse Telegram's copy
+    return sent
 
 
 # ── mute ─────────────────────────────────────────────────────────────────

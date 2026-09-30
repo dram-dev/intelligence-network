@@ -147,11 +147,15 @@ def triage_item(item: dict[str, Any]) -> dict[str, Any] | None:
 
 # ── digest narrative ──────────────────────────────────────────────────────
 
-_NARRATIVE_SYSTEM = """You write the two-paragraph opening of a daily digest for a citizen
-environmental sensor network in {state} (weather, water, soil, agriculture, air). Paragraph 1: what the network observed in the last 24 hours (events,
-official alerts, notable readings) — concrete places and numbers, no hype. Paragraph 2: the state of
-the network itself (coverage, corroboration, where sensors are needed) in one or two sentences.
-Plain text, no markdown, no headings, under 180 words. Only use facts from the data given."""
+_NARRATIVE_SYSTEM = """You write the opening of a daily digest for a citizen environmental sensor
+network in {state} (weather, water, soil, agriculture, air). People read it on a phone.
+Two short paragraphs, separated by a blank line, under 110 words in all.
+Paragraph 1, one or two sentences: the most important thing in the last 24 hours (warnings in
+effect, storms, events the network verified), with the places. Paragraph 2, one or two sentences:
+the network itself (readings from people, coverage, where sensors are needed).
+Don't list station highs and lows or river numbers: a table follows. Copy numbers and units
+exactly as the data writes them. Plain text, no markdown, no headings, no hype. Only use facts
+from the data given."""
 
 
 def narrative(digest_json: str) -> str | None:

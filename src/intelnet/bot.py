@@ -217,7 +217,7 @@ def handle_callback(cq: dict) -> None:
             delivery.unmute(chat)
             bot.answer_callback(str(cq["id"]), "Unmuted: alerts ring again.")
         rows = (msg.get("reply_markup") or {}).get("inline_keyboard") or []
-        swapped = [[({"text": "🔔 Unmute", "callback_data": "unmute"} if muted else {"text": "🔕 Mute 1 hr", "callback_data": "mute:60"})
+        swapped = [[dict(subscriptions.UNMUTE_BUTTON if muted else subscriptions.MUTE_BUTTON)
                      if str(b.get("callback_data", "")).startswith(("mute:", "unmute")) else b for b in row] for row in rows]
         if swapped:
             bot.edit_markup(chat, mid, {"inline_keyboard": swapped})

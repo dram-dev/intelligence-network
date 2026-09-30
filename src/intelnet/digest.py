@@ -15,13 +15,14 @@ import csv
 import html
 import io
 import json
+import re
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from typing import Any
 
 from intelnet import db, geo, network, story_brief, trust
 from intelnet.config import settings
-from intelnet.feeds.nws_alerts import SEVERITY_RANK
+from intelnet.feeds.nws_alerts import SEVERITY_RANK, office
 from intelnet.models import iso, local_time, parse_iso, public_handle
 from intelnet.topics import find_metric
 
@@ -54,17 +55,30 @@ class DigestModel:
 
     @property
     def headline(self) -> str:
+        """One plain sentence or two: the digest's opening when there's no narrative."""
         v = self.vitals
-        top = self.events[0]["title"] if self.events else None
-        bits = [f"{v.get('signals_24h_human', 0)} readings from {v.get('sensors_active_24h', 0)} sensors"]
-        if self.alerts:
-            bits.append(f"{len(self.alerts)} NWS alerts")
-        if top:
-            bits.append(f"top event: {top}")
-        return " · ".join(bits)
+        n, k, a = v.get("signals_24h_human", 0), v.get("sensors_active_24h", 0), len(self.alerts)
+        alerts = f"{a} NWS alert{'s' if a != 1 else ''} in effect" if a else "No NWS alerts in effect"
+        people = (f"{n:,} reading{'s' if n != 1 else ''} from {k} {'person' if k == 1 else 'people'}"
+                  if n else "no readings from people yet")
+        text = f"{alerts}; {people}."
+        if self.events:
+            text += f" Top event: {event_phrase(self.events[0])}."
+        return text
 
     def to_json(self) -> str:
         return json.dumps(asdict(self), default=str)
+
+
+def event_phrase(e: dict[str, Any]) -> str:
+    """'visibility down to 1/16 mi, Lake County' from an event summary."""
+    m = find_metric(str(e.get("metric") or ""))
+    what = str(e.get("metric_label") or e.get("title") or "event")
+    if m is not None and not m.is_flag:
+        what += f" {'down to ' if m.event_direction == 'below' else ''}{e.get('peak_display')}"
+    where = e.get("county_label")
+    what = what[:1].lower() + what[1:] if what[1:2].islower() else what      # "PM2.5" stays as it is
+    return what + (f", {where}" if where else "")
 
 
 def _alert_recap(hours: float) -> list[dict[str, Any]]:
@@ -151,40 +165,57 @@ def _e(x: Any) -> str:
 
 
 INK, MUTED, ACCENT = "#1A1F1C", "#5B655F", "#1D6E7A"
-LINE, SURFACE, PAPER = "#D3DAD4", "#E9EDE8", "#FFFFFF"
+LINE, SHADE, GROUND, PAPER = "#D3DAD4", "#EEF1ED", "#F1F3EF", "#FFFFFF"
 TOPIC_COLORS = {"weather": "#1D6E7A", "water": "#2B5FAD", "soil": "#7A4E24",
                 "agriculture": "#4F7F2F", "air": "#6E5E9A", "quake": "#B33A2B",
                 "nature": "#8A7A1F", "markets": "#8E4585"}
 SEVERITY_COLORS = {"Extreme": "#B3261E", "Severe": "#C4501B", "Moderate": "#B7791F",
                    "Minor": "#4B7B8A", "Unknown": MUTED}
 STATE_NAMES = {"IL": "Illinois"}
-SERIF = "Georgia, 'Iowan Old Style', serif"
-SANS = "'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif"
-MONO = "'IBM Plex Mono', 'SF Mono', Menlo, monospace"
 
-# Google Docs keeps inline colours, borders and table shading but throws the
-# stylesheet away, so every rule that matters is inline. The <style> block only
-# adds what a browser can do on top: page width, a tinted ground, link colour.
+# Google Docs builds the Doc from inline styles, and only from longhand ones: the
+# `font:` shorthand, text-transform and letter-spacing are dropped, paragraphs start at
+# line-height 1, a top border becomes a rule, and a background on anything but a table
+# cell turns into a highlight behind every line. So every style here is longhand and in
+# points, capitals are typed, spacing is explicit, and only table cells are shaded. Docs
+# keeps the first font family it's given, and renders Google Fonts by name: the site's
+# Fraunces and IBM Plex, with fallbacks a browser uses when the fonts aren't loaded.
+DISPLAY = "font-family:Fraunces,Georgia,serif"
+BODY = "font-family:'IBM Plex Sans',Arial,sans-serif"
+MONO = "font-family:'IBM Plex Mono',Menlo,monospace"
+
+
+def _style(font: str, size: float, *, color: str = INK, weight: int = 400, lh: float = 1.45,
+           after: float = 0, before: float = 0, extra: str = "") -> str:
+    return (f"{font};font-size:{size:g}pt;font-weight:{weight};color:{color};line-height:{lh:g};"
+            f"margin:{before:g}pt 0 {after:g}pt 0{';' + extra if extra else ''}")
+
+
+P_BODY = _style(BODY, 10.5, after=6)
+P_SMALL = _style(BODY, 9, color=MUTED, lh=1.4)
+P_KICKER = _style(MONO, 8, color=ACCENT, weight=700, lh=1.3, extra="letter-spacing:.08em")
+
+# The browser page adds a sheet on a tinted ground. None of this reaches the Doc: Docs
+# would turn the page colour into the Doc's background and the sheet into highlights.
 BROWSER_CSS = f"""
   :root {{ color-scheme: light; }}
-  body {{ margin: 0; padding: 28px 20px 64px; background: {SURFACE}; }}
-  .sheet {{ max-width: 860px; margin: 0 auto; background: {PAPER}; padding: 38px 40px 44px;
-            box-shadow: 0 1px 3px rgba(20,32,28,.10); border-radius: 3px; }}
-  a {{ color: {ACCENT}; }}
-  table {{ width: 100%; }}
+  body {{ margin: 0; padding: 28px 16px 64px; background: {GROUND}; }}
+  .sheet {{ max-width: 720px; margin: 0 auto; background: {PAPER}; padding: 36px 40px 44px;
+            box-shadow: 0 1px 3px rgba(20,32,28,.10); border-radius: 4px; }}
+  .sheet table {{ width: 100%; }}
+  .sheet hr {{ border: 0; border-top: 1px solid {LINE}; margin: 22px 0 0; }}
   .tw {{ overflow-x: auto; }}
   @media (max-width: 620px) {{
-    body {{ padding: 0; }} .sheet {{ padding: 22px 16px 30px; box-shadow: none; }}
-    table.vitals, table.vitals tbody {{ display: block; }}
-    table.vitals tr {{ display: grid; grid-template-columns: 1fr 1fr; }}
-    table.vitals td {{ display: block; width: auto !important; }}
+    body {{ padding: 0; background: {PAPER}; }} .sheet {{ padding: 22px 16px 30px; box-shadow: none; }}
   }}
   @media print {{ body {{ background: {PAPER}; padding: 0; }} .sheet {{ box-shadow: none; padding: 0; }} }}
 """
+FONTS_LINK = ('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;'
+              '9..144,600&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">')
 
 
 class _Raw(str):
-    """Markup that is already safe — links, chips, coloured numbers."""
+    """Markup that is already safe — links, coloured words."""
 
 
 def _cell(value: Any) -> str:
@@ -198,231 +229,259 @@ def _link(url: str | None, text: str) -> str:
             if url else _e(text))
 
 
-def _dot(topic: str | None) -> str:
-    """A topic's colour as a small square — survives the Doc conversion as text."""
-    return (f'<span style="white-space:nowrap">'
-            f'<span style="color:{TOPIC_COLORS.get(topic or "", MUTED)};font-size:13px">■</span> '
-            f'{_e(topic or "")}</span>')
-
-
 def _when(stamp: Any) -> str:
-    """2026-09-16T13:00:02Z → 16 Sep 8:00 AM, in the network's local time (LOCAL_TZ)."""
+    """2026-09-16T13:00:02Z → Wed 8:00 AM, in the network's local time (LOCAL_TZ)."""
     try:
         dt = parse_iso(str(stamp or ""))
     except ValueError:
         dt = None
-    return local_time(dt, "%-d %b %-I:%M %p") if dt else str(stamp or "")
+    return local_time(dt, "%a %-I:%M %p") if dt else str(stamp or "")
+
+
+def _n(n: int, one: str, many: str) -> str:
+    return f"{n:,} {one if n == 1 else many}"
 
 
 def _table(headers: list[str], rows: list[list[Any]], *, aligns: tuple[str, ...] = (),
            empty: str = "Nothing in this window.") -> str:
+    """At most four short columns: a phone shows the Doc reflowed, and a wide table
+    squeezes every word onto its own line."""
     if not rows:
-        return f'<p style="margin:0 0 20px;color:{MUTED};font-style:italic">{_e(empty)}</p>'
+        return f'<p style="{_style(BODY, 10, color=MUTED, after=8)};font-style:italic">{_e(empty)}</p>'
     align = lambda i: (aligns[i] if i < len(aligns) else "left")  # noqa: E731
+    # Docs draws every border left unset as a grid line, so each one is set: rules under
+    # the rows, and white (invisible) sides.
+    sides = f"border-top:1pt solid {PAPER};border-left:1pt solid {PAPER};border-right:1pt solid {PAPER};"
     head = "".join(
-        f'<th style="text-align:{align(i)};padding:7px 10px;border-bottom:2px solid {INK};'
-        f'font:600 11px/1.3 {SANS};letter-spacing:.06em;text-transform:uppercase;'
-        f'color:{MUTED}">{_e(h)}</th>' for i, h in enumerate(headers))
+        f'<td style="{sides}border-bottom:1pt solid {INK};text-align:{align(i)};padding:4pt 6pt;'
+        f'vertical-align:bottom"><p style="{_style(MONO, 7.5, color=MUTED, weight=700, lh=1.2)};'
+        f'text-align:{align(i)}">{_e(h.upper())}</p></td>'
+        for i, h in enumerate(headers))
     body = []
-    for n, row in enumerate(rows):
-        shade = f"background:{SURFACE};" if n % 2 else ""
+    for row in rows:
         cells = "".join(
-            f'<td style="{shade}text-align:{align(i)};padding:7px 10px;'
-            f'border-bottom:1px solid {LINE};font:400 13.5px/1.45 {SANS};color:{INK};'
-            f'vertical-align:top">{_cell(c)}</td>' for i, c in enumerate(row))
+            f'<td style="{sides}border-bottom:1pt solid {LINE};text-align:{align(i)};padding:4pt 6pt;'
+            f'vertical-align:top"><p style="{_style(BODY, 9.5, lh=1.35)};text-align:{align(i)}">{_cell(c)}</p></td>'
+            for i, c in enumerate(row))
         body.append(f"<tr>{cells}</tr>")
-    return (f'<div class="tw"><table cellspacing="0" cellpadding="0" style="width:100%;'
-            f'border-collapse:collapse;margin:0 0 24px">\n<thead><tr>{head}</tr></thead>\n<tbody>'
-            + "".join(body) + "</tbody></table></div>")
+    return (f'<div class="tw"><table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;'
+            f'margin:4pt 0 10pt 0"><tr>{head}</tr>' + "".join(body) + "</table></div>")
 
 
 def _section(title: str, note: str = "") -> str:
-    tail = (f' <span style="font:400 12.5px/1.4 {SANS};color:{MUTED};'
-            f'text-transform:none;letter-spacing:0">{_e(note)}</span>' if note else "")
-    return (f'<h2 style="margin:30px 0 12px;font:600 13px/1.3 {MONO};letter-spacing:.12em;'
-            f'text-transform:uppercase;color:{ACCENT};border-top:2px solid {ACCENT};'
-            f'padding-top:9px">{_e(title)}{tail}</h2>')
+    """A rule, the heading, and a line on what the section is. The heading is a real <h2>,
+    so the Doc's outline (and a phone's contents panel) lists the sections."""
+    return ("<hr>"
+            f'<h2 style="{_style(DISPLAY, 15, weight=700, lh=1.2, before=10, after=2)}">{_e(title)}</h2>'
+            + (f'<p style="{_style(BODY, 9.5, color=MUTED, lh=1.35, after=8)}">{_e(note)}</p>' if note else ""))
 
 
-def _vitals_strip(v: dict[str, Any]) -> str:
-    """Six headline numbers across the page — a table, so the Doc keeps the columns."""
+def _item(head: str, meta: str = "", body: str = "") -> str:
+    """One entry of a list-shaped section: a bold first line, a muted line under it."""
+    return (f'<p style="{_style(BODY, 10.5, lh=1.35)}">{head}</p>'
+            + (f'<p style="{P_SMALL}">{meta}</p>' if meta else "")
+            + (f'<p style="{_style(BODY, 10, color=MUTED, lh=1.4)}">{body}</p>' if body else "")
+            + f'<p style="{_style(BODY, 4, lh=1)}">&nbsp;</p>')
+
+
+def _glance(v: dict[str, Any]) -> str:
+    """Six numbers in two rows of three: a table, so the Doc keeps the grid on a phone."""
     cells = [
-        (f"{v.get('signals_24h_human', 0)}", "readings from people, 24h"),
-        (f"{v.get('signals_24h_reference', 0)}", "official readings, 24h"),
-        (f"{v.get('sensors_active_24h', 0)}/{v.get('sensors_total', 0)}", "sensors active / joined"),
-        (f"{v.get('corroboration_rate_7d', 0):.0%}", "corroborated, 7d"),
-        (f"{v.get('events_open', 0)}", "events open"),
-        (f"{v.get('alerts_active', 0)}", "NWS alerts active"),
+        (f"{v.get('signals_24h_human', 0):,}", "readings from people"),
+        (f"{v.get('signals_24h_reference', 0):,}", "official readings"),
+        (f"{v.get('sensors_active_24h', 0)} of {v.get('sensors_total', 0)}", "sensors active"),
+        (f"{v.get('alerts_active', 0)}", "NWS alerts in effect"),
+        (f"{v.get('events_open', 0)}", "network events open"),
+        (f"{v.get('corroboration_rate_7d', 0):.0%}", "corroborated, 7 days"),
     ]
-    tds = "".join(
-        f'<td style="padding:12px 10px;border:1px solid {LINE};background:{SURFACE};'
-        f'text-align:center;width:16.6%">'
-        f'<div style="font:600 25px/1.1 {SERIF};color:{INK}">{_e(big)}</div>'
-        f'<div style="font:400 10.5px/1.35 {SANS};color:{MUTED};text-transform:uppercase;'
-        f'letter-spacing:.05em;padding-top:4px">{_e(label)}</div></td>' for big, label in cells)
-    return (f'<table class="vitals" cellspacing="0" cellpadding="0" style="width:100%;'
-            f'border-collapse:collapse;margin:22px 0 6px"><tr>{tds}</tr></table>')
+    rows = []
+    for r in range(2):
+        tds = "".join(
+            f'<td style="background-color:{SHADE};border:1pt solid {PAPER};padding:6pt 8pt;width:33%;'
+            f'vertical-align:top"><p style="{_style(DISPLAY, 17, weight=700, lh=1.1)}">{_e(big)}</p>'
+            f'<p style="{_style(BODY, 8, color=MUTED, lh=1.25)}">{_e(label)}</p></td>'
+            for big, label in cells[r * 3:r * 3 + 3])
+        rows.append(f"<tr>{tds}</tr>")
+    return (f'<table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;'
+            f'margin:10pt 0 4pt 0">{"".join(rows)}</table>')
 
 
-def _downloads_bar(downloads: dict[str, str] | None) -> str:
+def _downloads(downloads: dict[str, str] | None) -> str:
     if not downloads:
         return ""
-    links = " &nbsp;·&nbsp; ".join(
-        f'<a href="{_e(url)}" style="color:{ACCENT};font-weight:600;text-decoration:none">{_e(label)}</a>'
-        for label, url in downloads.items())
-    return (f'<table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;'
-            f'margin:18px 0 4px"><tr><td style="padding:10px 14px;background:{SURFACE};'
-            f'border-left:3px solid {ACCENT};font:400 13px/1.5 {SANS};color:{INK}">'
-            f'<span style="font:600 10.5px/1.3 {MONO};letter-spacing:.1em;text-transform:uppercase;'
-            f'color:{MUTED}">Also available as</span><br>{links}</td></tr></table>')
+    links = " · ".join(_link(url, label) for label, url in downloads.items())
+    return f'<p style="{_style(BODY, 9, color=MUTED, lh=1.4, after=4)}">Also as {links}</p>'
 
 
-def render_html(m: DigestModel, downloads: dict[str, str] | None = None) -> str:
-    """The digest as a page: styled for a browser, and still tidy as a Google Doc.
+def _alert_kinds(alerts: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """One entry per kind of alert: river flood warnings come one per gauge, and four
+    lines saying 'Flood Warning' say less than one naming every county it covers."""
+    kinds: dict[str, dict[str, Any]] = {}
+    for a in alerts:
+        k = kinds.setdefault(a["event"], {"event": a["event"], "severity": a["severity"], "n": 0,
+                                          "counties": [], "senders": [], "expires": [], "url": a.get("url")})
+        k["n"] += 1
+        k["counties"] += [c for c in a["counties"] if c not in k["counties"]]
+        sender = office(a.get("sender"))
+        if sender not in k["senders"]:
+            k["senders"].append(sender)
+        if a.get("expires") not in (None, "—"):
+            k["expires"].append(a["expires"])
+    return list(kinds.values())
+
+
+READING_SHOWN = 10          # the Doc's reading list; the CSV keeps every kept item
+
+
+def _publisher(r: dict[str, Any]) -> tuple[str, str]:
+    """A Google News title ends ' - Publisher': show the publisher, not the search it came from."""
+    title, feed = str(r.get("title") or ""), str(r.get("feed") or "")
+    head, _, source = title.rpartition(" - ")
+    if feed.startswith("Google News") and len(head) >= 12 and 2 <= len(source) <= 60:
+        return head, source
+    return title, feed
+
+
+def _names(names: list[str], limit: int = 6) -> str:
+    shown = ", ".join(names[:limit])
+    return shown + (f" and {len(names) - limit} more" if len(names) > limit else "")
+
+
+def render_html(m: DigestModel, downloads: dict[str, str] | None = None, *, page: bool = False) -> str:
+    """The digest as a document: what Google Drive turns into the Doc (the default), or
+    with `page=True` the same content on a sheet for a browser (the site's copy).
 
     `downloads` maps a label to a URL ("PDF", "Word", "CSV tables"…). The publisher
     passes it on a second pass, once the files it names actually exist.
     """
     v = m.vitals
-    p = []                                            # noqa: E741 — parts of the page
-    p.append(f'<div class="sheet" style="font-family:{SANS};color:{INK}">')
+    state = STATE_NAMES.get(m.state, m.state)
+    p: list[str] = []
 
     # ── masthead ──
-    p.append(f'<div style="font:600 11px/1.3 {MONO};letter-spacing:.14em;text-transform:uppercase;'
-             f'color:{MUTED}">{_e(m.network_name)}</div>')
-    p.append(f'<h1 style="margin:6px 0 2px;font:600 34px/1.12 {SERIF};color:{INK};'
-             f'letter-spacing:-.01em">{_e(STATE_NAMES.get(m.state, m.state))} environmental digest</h1>')
-    p.append(f'<div style="font:400 15px/1.5 {SANS};color:{MUTED};border-bottom:3px solid {INK};'
-             f'padding-bottom:14px">{_e(_long_date(m.date))}</div>')
-    p.append(f'<p style="margin:16px 0 0;font:400 17px/1.5 {SERIF};color:{INK}">{_e(m.headline)}</p>')
-    p.append(_downloads_bar(downloads))
-
-    if m.narrative:
-        for para in m.narrative.split("\n\n"):
-            if para.strip():
-                p.append(f'<p style="margin:14px 0 0;font:400 16px/1.62 {SERIF};color:{INK}">'
-                         f'{_e(para.strip())}</p>')
-
-    p.append(_vitals_strip(v))
-    p.append(f'<div style="font:400 11.5px/1.4 {SANS};color:{MUTED};margin-bottom:8px">'
-             f'Counties with a human reading this week: {v.get("counties_covered_7d", 0)} of '
-             f'{v.get("counties_total", 0)} · with any data: {v.get("counties_reference_7d", 0)} · '
-             f'subscribers: {v.get("subscribers", 0)}</div>')
+    p.append(f'<p style="{P_KICKER}">{_e(m.network_name.upper())} · {_e(state.upper())} DAILY DIGEST</p>')
+    p.append(f'<h1 style="{_style(DISPLAY, 26, weight=400, lh=1.1, before=4, after=2)}">'
+             f'{_e(_long_date(m.date))}</h1>')
+    made = m.generated_at.split(" ", 1)[-1]                      # "2026-09-30 1:10 AM CDT" → the time
+    p.append(f'<p style="{_style(BODY, 9.5, color=MUTED, lh=1.4, after=8)}">The last {m.hours:g} hours '
+             f'across {_e(state)}, as of {_e(made)}</p>')
+    paras = [x.strip() for x in (m.narrative or "").split("\n\n") if x.strip()]
+    lede, rest = (paras[0], paras[1:]) if paras else (m.headline, [])
+    p.append(f'<p style="{_style(DISPLAY, 13, lh=1.45, after=6)}">{_e(lede)}</p>')
+    p += [f'<p style="{P_BODY}">{_e(x)}</p>' for x in rest]
+    p.append(_downloads(downloads))
+    p.append(_glance(v))
 
     # ── storms ──
     if m.storms:
-        p.append(_section("Storms", "warnings, storm reports and readings, one storm at a time"))
+        p.append(_section("Storms", "Warnings, storm reports and readings, one storm at a time."))
         for st in m.storms:
-            facts = "".join(f'<li>{_e(f)}</li>' for f in st["facts"])
-            p.append(f'<div style="margin:0 0 14px"><div style="font:600 15px {SANS}">{_e(st["title"] or "Storm")}</div>'
-                     f'<div style="font:400 12px {MONO};color:{MUTED}">{_e(", ".join(st["counties"]))} · '
-                     f'{_e(_when(st["opened_at"]))} – {_e(_when(st["updated_at"]))}</div>'
-                     f'<p style="font:400 14px/1.5 {SANS};margin:6px 0">{_e(st["brief"])}</p>'
-                     f'<ol style="font:400 12.5px/1.45 {SANS};color:{MUTED};margin:0;padding-left:20px">{facts}</ol></div>')
-
-    # ── events ──
-    p.append(_section("Events", "readings the network corroborated and scored"))
-    p.append(_table(
-        ["Score", "Topic", "Event", "Peak", "Sensors", "Official", "Status", "Updated"],
-        [[_Raw(f'<b style="font:600 14px {MONO}">{e.get("score") or 0:.2f}</b>'),
-          _Raw(_dot(e.get("topic"))),
-          _Raw(_link(e.get("source_url"),
-                     f'{e.get("metric_label") or e["title"]} — {e.get("county_label") or ""}'.strip(" —"))),
-          _Raw(f'<span style="white-space:nowrap">{_e(e["peak_display"])}</span>'),
-          e.get("n_sensors"), "yes" if e.get("n_reference") else "—",
-          _Raw(f'<span style="color:{"#3B7A45" if e["verified"] else MUTED}">'
-               f'{"verified" if e["verified"] else "unverified"}</span>'),
-          _Raw(f'<span style="font:400 12px {MONO};color:{MUTED};white-space:nowrap">'
-               f'{_e(_when(e.get("updated_at")))}</span>')] for e in m.events],
-        aligns=("right", "left", "left", "right", "right", "center", "left", "left"),
-        empty="No events crossed a threshold in this window."))
+            facts = "".join(f'<p style="{P_SMALL}">[{i}] {_e(f)}</p>' for i, f in enumerate(st["facts"], 1))
+            p.append(f'<p style="{_style(BODY, 11, weight=700, lh=1.3)}">{_e(st["title"] or "Storm")}</p>'
+                     f'<p style="{P_SMALL}">{_e(_names(st["counties"]))} · {_e(_when(st["opened_at"]))} – '
+                     f'{_e(_when(st["updated_at"]))}</p>'
+                     f'<p style="{_style(BODY, 10.5, before=4, after=4)}">{_e(st["brief"])}</p>{facts}'
+                     f'<p style="{_style(BODY, 4, lh=1)}">&nbsp;</p>')
 
     # ── official alerts ──
-    p.append(_section("Official alerts", "issued by the National Weather Service"))
-    p.append(_table(
-        ["Severity", "Alert", "Counties", "Issued", "Until", "Issuer"],
-        [[_Raw(f'<b style="color:{SEVERITY_COLORS.get(a["severity"], MUTED)}">{_e(a["severity"])}</b>'),
-          _Raw(_link(a.get("url"), a["event"])),
-          ", ".join(a["counties"][:8]) + ("…" if len(a["counties"]) > 8 else ""),
-          _Raw(f'<span style="font:400 12px {MONO};color:{MUTED};white-space:nowrap">'
-               f'{_e(_when(a["sent"]))}</span>'),
-          _Raw(f'<span style="font:400 12px {MONO};color:{MUTED};white-space:nowrap">'
-               f'{_e(_when(a["expires"]))}</span>'),
-          a["sender"]] for a in m.alerts],
-        aligns=("left", "left", "left", "left", "left", "left"),
-        empty="No active alerts."))
+    p.append(_section("Warnings and advisories", "In effect during the window, from the National Weather Service."))
+    kinds = _alert_kinds(m.alerts)
+    if kinds:
+        for k in kinds:
+            colour = SEVERITY_COLORS.get(str(k["severity"]), MUTED)
+            head = (f'<b style="color:{colour}">{_e(k["event"])}</b>'
+                    + (f' <span style="color:{MUTED}">×{k["n"]}</span>' if k["n"] > 1 else "")
+                    + f" — {_e(_names(k['counties']))}")
+            until = f"until {_when(max(k['expires']))}" if k["expires"] else ""
+            severity = str(k["severity"] or "")
+            meta = " · ".join(x for x in [until, ", ".join(k["senders"]),
+                                          severity if severity != "Unknown" else ""] if x)
+            p.append(_item(head, _e(meta)))
+    else:
+        p.append(f'<p style="{_style(BODY, 10, color=MUTED, after=8)};font-style:italic">No NWS alerts in this window.</p>')
+
+    # ── the network's events ──
+    p.append(_section("Network events", "Readings the network checked against neighbours and official sources."))
+    if m.events:
+        for e in m.events:
+            title = f'{e.get("metric_label") or e["title"]} — {e.get("county_label") or ""}'.strip(" —")
+            meta = [_n(e.get("n_sensors") or 0, "sensor", "sensors"),
+                    "official source agrees" if e.get("n_reference") else "",
+                    "verified" if e["verified"] else "not yet verified",
+                    f"updated {_when(e.get('updated_at'))}"]
+            p.append(_item(f"<b>{_link(e.get('source_url'), title)}</b> · {_e(e['peak_display'])}",
+                           _e(" · ".join(x for x in meta if x))))
+    else:
+        p.append(f'<p style="{_style(BODY, 10, color=MUTED, after=8)};font-style:italic">'
+                 f'No events crossed a threshold in this window.</p>')
+
+    p.append(_section("Station extremes", "Highs and lows across the official stations and gauges."))
+    p.append(_table(["Measure", "Value", "Where"],
+                    [[f"{x['metric']}, {'lowest' if x['how'] == 'min' else 'highest'}",
+                      _Raw(f'<b style="white-space:nowrap">{_e(x["value"])}</b>'),
+                      str(x["county"]).removesuffix(" County")] for x in m.extremes],
+                    aligns=("left", "right", "left")))
 
     # ── the network's own week ──
-    p.append(_section("Readings by county", "what people reported, grouped"))
+    p.append(_section("From people", "What contributors reported, by county."))
     p.append(_table(
-        ["County", "Topic", "Metric", "Readings", "Sensors", "Mean", "Peak"],
-        [[r["county"], _Raw(_dot(r.get("topic"))), r["metric"], r["n_human"], r["n_sensors"],
-          r["mean"], r["max"]] for r in m.contributions],
-        aligns=("left", "left", "left", "right", "right", "right", "right"),
-        empty="No readings from people in this window — the network is running on official feeds."))
+        ["County", "Measure", "Readings", "Peak"],
+        [[str(r["county"]).removesuffix(" County"), r["metric"],
+          f"{r['n_human']} · {_n(r['n_sensors'], 'person', 'people')}", r["max"]] for r in m.contributions],
+        aligns=("left", "left", "right", "right"),
+        empty="No readings from people in this window. The network ran on official feeds."))
 
-    p.append(_section("Station extremes", "highs and lows across the official network"))
-    p.append(_table(["Metric", "", "Value", "County"],
-                    [[x["metric"], _Raw(f'<span style="color:{MUTED}">{_e(x["how"])}</span>'),
-                      x["value"], x["county"]] for x in m.extremes],
-                    aligns=("left", "left", "right", "left")))
-
-    p.append(_section("Contributors", "this week, by handle"))
-    p.append(_table(["Sensor", "County", "Readings", "Corroborated", "Trust"],
-                    [[_Raw(f'<span style="font:400 13px {MONO}">{_e(r["name"])}</span>'), r["county"],
-                      r["n"], r["n_corr"], r.get("trust_label") or f"{r['trust']:.2f}"] for r in m.leaderboard],
-                    aligns=("left", "left", "right", "right", "right"),
-                    empty="No contributors yet — the first reading could be yours."))
+    p.append(_section("Contributors", "This week, by handle. Trust grows as readings are confirmed."))
+    p.append(_table(["Contributor", "County", "Readings", "Trust"],
+                    [[_Raw(f'<span style="{MONO}">{_e(r["name"])}</span>'), r["county"],
+                      f"{r['n']} · {r['n_corr']} confirmed", r.get("trust_label") or f"{r['trust']:.2f}"]
+                     for r in m.leaderboard],
+                    aligns=("left", "left", "right", "right"),
+                    empty="No contributors yet. The first reading could be yours."))
 
     # ── reading list ──
-    p.append(_section("Worth reading", "triaged from the network's sources"))
+    p.append(_section("Worth reading", "Picked from the network's news sources."))
     if m.reading:
-        items = []
+        seen: set[str] = set()
         for r in m.reading:
-            meta = " · ".join(x for x in [r.get("feed"),
-                                          f"relevance {r['relevance']:.2f}" if r.get("relevance") is not None else None] if x)
-            why = (f'<div style="font:400 13px/1.5 {SANS};color:{MUTED};padding-top:2px">'
-                   f'{_e(r["reason"])}</div>' if r.get("reason") else "")
-            items.append(
-                f'<li style="margin:0 0 12px">'
-                f'<span style="font:400 14.5px/1.45 {SANS}">{_link(r.get("url"), r["title"])}</span>'
-                f'<div style="font:400 11.5px/1.4 {MONO};color:{MUTED};padding-top:3px">{_e(meta)}</div>'
-                f'{why}</li>')
-        p.append(f'<ul style="margin:0 0 24px;padding-left:18px">{"".join(items)}</ul>')
+            title, source = _publisher(r)
+            key = re.sub(r"\W+", " ", title.lower()).strip()
+            if key in seen:                     # one story, two feeds (AgriNews, and Google News)
+                continue
+            seen.add(key)
+            p.append(_item(_link(r.get("url"), title), _e(source)))
+            if len(seen) >= READING_SHOWN:
+                break
     else:
-        p.append(f'<p style="margin:0 0 24px;color:{MUTED};font-style:italic">'
-                 f'Nothing kept in this window.</p>')
+        p.append(f'<p style="{_style(BODY, 10, color=MUTED, after=8)};font-style:italic">Nothing kept in this window.</p>')
 
     # ── where the network is thin ──
-    p.append(_section("Sensors wanted"))
-    gaps = (": " + _e(", ".join(m.gaps)) + ("…" if m.gap_count > len(m.gaps) else "")) if m.gaps else ""
-    p.append(f'<p style="margin:0 0 20px;font:400 14px/1.6 {SANS};color:{INK}">'
-             f'<b>{m.gap_count}</b> of {v.get("counties_total", 0)} counties had no human reading this '
-             f'week{gaps}.</p>')
+    p.append(_section("Coverage"))
+    total = v.get("counties_total", 0)
+    site = settings.public_site_url
+    map_link = f" The {_link(site, 'coverage map')} shows where a sensor would help most." if site else ""
+    p.append(f'<p style="{P_BODY}"><b>{m.gap_count} of {total}</b> counties had no reading from a person '
+             f'this week; {v.get("counties_reference_7d", 0)} had official data.{map_link}</p>')
 
     # ── how to take part ──
-    p.append(f'<table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;'
-             f'margin:8px 0 0"><tr><td style="padding:16px 18px;background:{SURFACE};'
-             f'border:1px solid {LINE}">'
-             f'<div style="font:600 12px/1.3 {MONO};letter-spacing:.1em;text-transform:uppercase;'
-             f'color:{ACCENT};padding-bottom:8px">Report something</div>'
-             f'<div style="font:400 14px/1.65 {SANS};color:{INK}">'
-             f'Message the network on Telegram and type what you see — '
-             f'<span style="font-family:{MONO}">rain 1.2in</span>, '
-             f'<span style="font-family:{MONO}">hail quarter</span>, '
-             f'<span style="font-family:{MONO}">trees down</span> — or just say it in a sentence. '
-             f'Set your home once with <span style="font-family:{MONO}">/home 62704</span>, and pick '
-             f'what you want sent to you with <span style="font-family:{MONO}">/subscribe warnings cook</span>. '
-             f'Your readings are checked against neighbors and official sources; corroborated readings '
-             f'raise your trust and become events.</div></td></tr></table>')
+    code = lambda s: f'<span style="{MONO};font-size:9.5pt">{_e(s)}</span>'
+    p.append(f'<table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;margin:14pt 0 0 0">'
+             f'<tr><td style="background-color:{SHADE};border:1pt solid {SHADE};padding:10pt 12pt">'
+             f'<p style="{P_KICKER}">TAKE PART</p>'
+             f'<p style="{_style(BODY, 10, lh=1.5, before=4)}">Message the network on Telegram and say what you see: '
+             f'{code("rain 1.2in")}, {code("hail quarter")}, {code("trees down")}, or a sentence. Set your home '
+             f'once with {code("/home 62704")} and choose what reaches you with {code("/subscribe warnings cook")}. '
+             f'Readings are checked against neighbours and official sources; confirmed ones build your trust '
+             f'and become events.</p></td></tr></table>')
 
-    footer = (f'Generated {_e(m.generated_at)} · {m.hours:g}-hour window'
-              + (f' · subscriptions: {_e(", ".join(f"{k} {n}" for k, n in m.subscriptions.items()))}'
-                 if m.subscriptions else ""))
-    p.append(f'<p style="margin:22px 0 0;padding-top:12px;border-top:1px solid {LINE};'
-             f'font:400 11.5px/1.5 {MONO};color:{MUTED}">{footer}</p>')
-    p.append("</div>")
-    return f"<style>{BROWSER_CSS}</style>\n" + "\n".join(x for x in p if x)
+    footer = f"{m.hours:g}-hour window · made {_e(m.generated_at)}" + (
+        f" · subscriptions: {_e(', '.join(f'{k} {n}' for k, n in m.subscriptions.items()))}" if m.subscriptions else "")
+    p.append(f'<p style="{_style(MONO, 7.5, color=MUTED, lh=1.4, before=14)}">{footer}</p>')
+
+    body = "\n".join(x for x in p if x)
+    if not page:
+        return body
+    return f"<style>{BROWSER_CSS}</style>\n<div class=\"sheet\">\n{body}\n</div>"
 
 
 def _long_date(date: str) -> str:

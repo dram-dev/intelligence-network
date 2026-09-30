@@ -61,6 +61,33 @@ def point_in_polygon(lat: float, lon: float, rings: list[list[list[float]]]) -> 
     return False
 
 
+def polygon_gap(lat: float, lon: float, rings: list[list[list[float]]]) -> tuple[float, float] | None:
+    """How far a point is from the nearest edge of these rings ([lon, lat] pairs), in km,
+    and the bearing from that edge to the point (90 = the point lies east of the area).
+    Flat-earth km around the point: plenty at warning scale."""
+    kx, ky = 111.32 * math.cos(math.radians(lat)), 110.57
+    best: tuple[float, float, float] | None = None
+    for ring in rings:
+        for (x1, y1), (x2, y2) in zip(ring, ring[1:] + ring[:1], strict=True):
+            ax, ay, bx, by = (x1 - lon) * kx, (y1 - lat) * ky, (x2 - lon) * kx, (y2 - lat) * ky
+            dx, dy = bx - ax, by - ay
+            span = dx * dx + dy * dy
+            f = 0.0 if span == 0 else max(0.0, min(1.0, -(ax * dx + ay * dy) / span))
+            px, py = ax + f * dx, ay + f * dy                     # nearest edge point, relative to ours
+            d = math.hypot(px, py)
+            if best is None or d < best[0]:
+                best = (d, px, py)
+    if best is None:
+        return None
+    d, px, py = best
+    return d, math.degrees(math.atan2(-px, -py)) % 360
+
+
+def compass(deg: float) -> str:
+    """0 → 'north', 100 → 'east': eight points, spelled out."""
+    return ("north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest")[round(deg / 45) % 8]
+
+
 # A lone storm point reaches you only if its track passes this close.
 STORM_TRACK_KM = 10.0
 

@@ -161,28 +161,29 @@ def _readings_table(fips: str) -> str:
 
 
 def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetime | None = None) -> str:
-    """The brief as a Telegram rich message: a heading, the night's items as a list, the
-    most-reported readings as a table, the statewide picture folded away, and the links.
-    `compose` stays the plain fallback."""
+    """The brief as a Telegram rich message: one heading naming the county, its alerts and
+    storms as lines, the night's readings as a list, the most-reported readings as a table,
+    the statewide picture folded away, and the date and links as the footer. `compose`
+    stays the plain fallback."""
     now = now or utcnow()
     c = geo.county(fips)
     where = c.label if c else _state()
-    parts = ["<h3>☀️ Morning brief</h3>", f"<p>{esc(local_time(now, '%a %-d %b'))} · {esc(where)}</p>"]
-    items: list[str] = []
+    parts = [f"<h4>☀️ Morning brief: {esc(where)}</h4>"]
     table = ""
     if c:
-        items += _in_effect(c.fips)[:4] + _ended(c.fips)[:3]
-        storms = [s for s in story_brief.summaries(HOURS) if c.fips in s["fips"]]
-        items += [f"⛈ <b>{esc(s['title'] or 'Storm')}</b>: {esc(s['brief'])}" for s in storms[:2]]
-        items += [esc(x) for x in _night(c.fips)[:6]]
-        items += [f"📍 {esc(e['title'] or '')} · {_n(e.get('n_sensors') or 0, 'sensor', 'sensors')}"
+        lines = _in_effect(c.fips)[:4] + _ended(c.fips)[:3]
+        lines += [f"⛈ <b>{esc(s['title'] or 'Storm')}</b>: {esc(s['brief'])}"
+                  for s in story_brief.summaries(HOURS) if c.fips in s["fips"]][:2]
+        lines += [f"📍 {esc(e['title'] or '')} · {_n(e.get('n_sensors') or 0, 'sensor', 'sensors')}"
                   + (" · verified" if e["verified"] else "")
                   for e in (network.event_summary(e) for e in db.events_since(HOURS) if e["county_fips"] == c.fips)][:3]
+        night = _night(c.fips)[:6]
+        parts += [f"<p>{x}</p>" for x in lines]
+        if night:
+            parts.append("<ul>" + "".join(f"<li>{esc(x)}</li>" for x in night) + "</ul>")
+        if not (lines or night):
+            parts.append(f"<p>A quiet night in {esc(where)}: no NWS alerts, and nothing notable reported.</p>")
         table = _readings_table(c.fips)
-        if not items:
-            items.append(f"A quiet night in {esc(where)}: no NWS alerts, and nothing notable reported.")
-    if items:
-        parts.append("<ul>" + "".join(f"<li>{x}</li>" for x in items) + "</ul>")
     if table:
         parts.append(table)
     v = db.vitals()
@@ -190,15 +191,15 @@ def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetim
              f"{_n(v.get('signals_24h_human', 0), 'reading', 'readings')} from people · {v.get('signals_24h_reference', 0):,} official",
              f"{_n(len(network.coverage_gaps(7)), 'county', 'counties')} without a sensor this week"]
     parts.append(f"<details><summary>Across {esc(_state())}</summary><p>" + "<br>".join(state) + "</p></details>")
-    tail = [f'<a href="{link}">{label}</a>' for label, key in (("Full digest", "digest"), ("All digests", "folder"))
-            if (link := href(links.get(key)))]
+    if not c:
+        parts.append("<p><i>Set your home (/home 62704) and this brief is about your county.</i></p>")
+    tail = [esc(local_time(now, "%a %-d %b"))]
+    tail += [f'<a href="{link}">{label}</a>' for label, key in (("Full digest", "digest"), ("All digests", "folder"))
+             if (link := href(links.get(key)))]
     page = href(f"{settings.public_site_url}county/{c.slug}.html") if c and settings.public_site_url else None
     if page:
         tail.append(f'<a href="{page}">{esc(c.name)} County page</a>')
-    if tail:
-        parts.append("<p>" + " · ".join(tail) + "</p>")
-    if not c:
-        parts.append("<p><i>Set your home (/home 62704) and this brief is about your county.</i></p>")
+    parts.append("<footer>" + " · ".join(tail) + "</footer>")
     return "".join(parts)
 
 

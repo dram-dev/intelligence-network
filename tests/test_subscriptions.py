@@ -128,5 +128,5 @@ def test_people_see_local_times_and_impact_not_utc(fresh_db):
     text = subscriptions.format_alert(alert, ["Sangamon County"])
     assert "Until <tg-time" in text and "22:15Z" not in text
     assert "Hail up to 1.75 in · Wind 70 mph · Damage threat: considerable" in text
-    assert digest._when("2026-09-16T13:00:00+00:00") == "16 Sep 8:00 AM"
+    assert digest._when("2026-09-16T13:00:00+00:00") == "Wed 8:00 AM"
     assert digest._when("—") == "—"

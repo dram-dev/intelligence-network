@@ -3,6 +3,7 @@ report reply, photos after app reports, chat sections, the rich morning brief, t
 from __future__ import annotations
 
 import json
+import re
 import time
 from datetime import datetime, timedelta, timezone
 
@@ -44,21 +45,28 @@ def test_the_alert_card_is_a_rich_message_with_buttons_and_a_plain_fallback(fres
     db.add_subscription("21", "weather.warnings", "il.sangamon")
     run_feed(monkeypatch, _svr(sent_ago=5))
     rich, markup = sent.rich[0], sent.markups[0]
-    assert "<h4>⚠️ SEVERE THUNDERSTORM WARNING · CONSIDERABLE</h4>" in rich
-    assert "<h2>Your home is inside the warning.</h2>" in rich
-    assert "<mark>Hail 1.75 in golf ball</mark>" in rich and "<mark>Wind 70 mph</mark>" in rich
-    assert "<code>Radar indicated</code>" in rich and "<blockquote>Move to an interior room" in rich
-    assert '<tg-map lat="39.782" long="-89.650" zoom="9"/>' in rich and "<footer>NWS Lincoln · until" in rich
-    [row] = markup["inline_keyboard"]
-    assert [b["text"] for b in row] == ["🗺 Map", "📍 Report what I see", "🔕 Mute 1 hr"]
-    assert "focus=R1" in row[0]["web_app"]["url"] and row[1]["callback_data"].startswith("rw:")
+    # one modest heading; the reader's situation in plain bold; tags as one line, never
+    # adjacent <mark>s (Telegram runs them together into one highlighter band)
+    assert rich.startswith("<h4>⚠️ Severe Thunderstorm Warning</h4><p><b>Your home is inside the warned area.</b>")
+    assert "<b>Considerable damage threat</b> · Hail <b>1.75 in</b> (golf ball) · Wind <b>70 mph</b>" in rich
+    assert "Tornado: radar indicated" in rich and "<blockquote>Move to an interior room" in rich
+    assert not any(tag in rich for tag in ("<h2>", "<mark>", "<code>", "<tg-map", 'format="r"'))
+    assert "<footer>NWS Lincoln · until" in rich
+    # the picture of the warned area, uploaded with the card
+    [name] = re.findall(r'<figure><img src="tg://photo\?id=(wm-[0-9a-f]+)"/>', rich)
+    assert sent.media[0][name][:2] == b"\xff\xd8"                        # a JPEG
+    report, second = markup["inline_keyboard"]
+    assert [b["text"] for b in report] == ["📍 Report what I see"] and report[0]["style"] == "primary"
+    assert [b["text"] for b in second] == ["🗺 Live map", "🔕 Mute 1 hour"]
+    assert "focus=R1" in second[0]["web_app"]["url"] and report[0]["callback_data"].startswith("rw:")
     assert "Your home is inside the warned area" in sent[0][1]           # the plain version stands by
     run_feed(monkeypatch, _svr("R2", refs=("R1",), message_type="Update", sent_ago=1))
     assert "updated" in sent.edit_rich[-1] and sent.edit_markups[-1]["inline_keyboard"]
     run_feed(monkeypatch)
     monkeypatch.setattr(nws_alerts, "ABSENT_CONFIRM", timedelta(0))
     run_feed(monkeypatch)
-    assert "ENDED EARLY" in sent.edit_rich[-1] and sent.edit_markups[-1] is None   # buttons go when it ends
+    assert "Severe Thunderstorm Warning ended early</h4>" in sent.edit_rich[-1]
+    assert sent.edit_markups[-1] is None                                  # buttons go when it ends
 
 
 def test_a_refused_rich_message_goes_out_plain_at_once(monkeypatch):
@@ -103,7 +111,7 @@ def test_report_what_i_see_asks_under_the_card_and_records_a_tap(fresh_db, sent,
     db.add_subscription("21", "weather.warnings", "il.sangamon")
     run_feed(monkeypatch, _svr(sent_ago=5))
     card_mid = db.card("alert:R1", "21")["message_id"]
-    rw = sent.markups[0]["inline_keyboard"][0][1]["callback_data"]
+    rw = sent.markups[0]["inline_keyboard"][0][0]["callback_data"]
     bot.handle_updates([_tap(21, card_mid, rw, "r1")])
     assert sent.replies[-1][1] == card_mid and "What are you seeing right now?" in sent[-1][1]
     buttons = [b for row in sent.markups[-1]["inline_keyboard"] for b in row]
@@ -182,7 +190,8 @@ def test_the_morning_brief_is_rich_with_a_readings_table(fresh_db, sent, make_se
     db.add_subscription("1", "weather.digest", "il")
     brief.fanout_brief("2026-10-01", {})
     rich = sent.rich[-1]
-    assert rich.startswith("<h3>☀️ Morning brief</h3>") and "<details><summary>Across Illinois</summary>" in rich
+    assert rich.startswith("<h4>☀️ Morning brief: Sangamon County</h4>") and "<details><summary>Across Illinois</summary>" in rich
+    assert rich.endswith("</footer>") and "<h3>" not in rich
     assert "<table compact><caption>Rainfall, last 24 hours</caption>" in rich and "corroborated" in rich
     assert "Morning brief" in sent[-1][1]                                # plain fallback
 

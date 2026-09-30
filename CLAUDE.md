@@ -202,6 +202,27 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   for its live location or home (`where_you_are`; "center of ZIP …" when home is
   a ZIP centroid) and the arrival time (`geo.storm_arrival`); inside-polygon chats
   send first (priority -1), and an update that newly covers a chat re-notifies.
+- **Alert card design** (polish wave, 2026-09-30): one `<h4>` (event, title case), the reader's
+  situation in bold ("Your home is inside the warned area." / "…outside, about 6 mi east of it"),
+  absolute arrival time only (a relative `tg-time` reads "41 minutes ago" on a card that stays
+  up), impact tags as one `·` line (adjacent `<mark>`s merge into one band; no `<code>`), a
+  picture, the instruction, a footer. Buttons: Report what I see (full width, primary) / Live
+  map · Mute 1 hour. Telegram's `<tg-map>` ignored zoom and showed street level, so the card
+  carries **cardmap.py**'s picture instead: Pillow, 1080×720 JPEG, Web Mercator; counties,
+  water, roads, towns (site/assets), IEM NEXRAD radar at one pixel per 0.01° cell, blurred half
+  a cell; warning polygon (or the alert's counties); 30-min storm arrow; the reader's dot.
+  Named by what it shows (version, place, 5-min radar slot) under data/cardmaps/ (36 h);
+  uploaded once via `media` + `attach://` (multipart), then reused by file id (kv
+  `tgfile:<name>`). A refused picture drops the picture, not the card. `CARD_MAPS`,
+  `CARD_MAP_RADAR` (off in tests). Font: IBM Plex Sans (OFL) vendored in config/fonts/.
+- **Digest in Google Docs**: Docs import keeps only longhand inline styles (no `font:`
+  shorthand, text-transform or letter-spacing), starts paragraphs at line-height 1, turns a
+  top border into a rule, draws unset table borders as a grid, and turns any background
+  outside a table cell into a highlight behind every line (the white bars of 30 Sep). It
+  keeps the first font family and renders Google Fonts by name (Fraunces, IBM Plex).
+  `render_html()` is the Doc; `page=True` wraps it in the browser sheet (site copy).
+  `tests/test_digest.py::test_the_doc_never_highlights_text` guards it. Numbers read as
+  written: `display_unit` `decimals` / `fractions` (visibility 1/16 mi), 3 figures above 10,000.
 - **Places**: `/home` or a one-off location share = home (sensors table); a live
   location share = `places` (kind live, expires with the share, max 24 h): readings
   land there and alert targeting uses it. Live ticks (edited messages) are silent.

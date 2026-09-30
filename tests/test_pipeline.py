@@ -64,9 +64,9 @@ def test_pipeline_publishes_when_drive_enabled(stubbed, monkeypatch):
 
     monkeypatch.setattr(gdrive, "publisher", Pub())
     summary = pipeline.run("daily")
-    assert published["date"] == summary["digest"]["date"] and "environmental digest" in published["html"]
+    assert published["date"] == summary["digest"]["date"] and "ILLINOIS DAILY DIGEST" in published["html"]
     assert "events" in published["tables"] and published["tables"]["events"].startswith("opened_at,")
-    assert "Also available as" in published["html"] and "file/d/p/view" in published["html"]
+    assert "Also as" in published["html"] and "file/d/p/view" in published["html"]
     assert db.latest_digest()["drive_url"].endswith("/d/edit")
 
 

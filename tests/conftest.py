@@ -38,6 +38,7 @@ def _offline(monkeypatch: pytest.MonkeyPatch, tmp_path_factory: pytest.TempPathF
     monkeypatch.setattr(settings, "geo_online_lookup", False)
     monkeypatch.setattr(settings, "llm_enabled", False)
     monkeypatch.setattr(settings, "grid_checks_enabled", False)
+    monkeypatch.setattr(settings, "card_map_radar", False)          # the card picture's radar is online
     monkeypatch.setattr(settings, "backup_dir", tmp_path_factory.mktemp("backups"))
     monkeypatch.setattr(settings, "gdrive_enabled", False)
     monkeypatch.setattr(settings, "notify_enabled", False)
@@ -96,6 +97,7 @@ class Outbound(list):
         self.threads: list[int | None] = []                       # chat sections sent to
         self.edit_rich: list[str | None] = []
         self.markup_edits: list[tuple[str, int, dict | None]] = []
+        self.media: list[dict | None] = []                        # pictures sent with rich messages
 
 
 @pytest.fixture
@@ -106,15 +108,16 @@ def sent(monkeypatch: pytest.MonkeyPatch) -> Outbound:
     log = Outbound()
     ids = iter(range(1000, 1_000_000))
 
-    def _deliver(chat_id, text, *, silent=False, reply_to=None, markup=None, rich=None, thread_id=None):
+    def _deliver(chat_id, text, *, silent=False, reply_to=None, markup=None, rich=None, thread_id=None, media=None):
         log.append((str(chat_id), text))
         log.replies.append((str(chat_id), reply_to, silent))
         log.markups.append(markup)
         log.rich.append(rich)
         log.threads.append(thread_id)
+        log.media.append(media)
         return telegram.Sent(True, message_id=next(ids))
 
-    def _edit(chat_id, message_id, text, markup=None, rich=None):
+    def _edit(chat_id, message_id, text, markup=None, rich=None, media=None):
         log.edits.append((str(chat_id), message_id, text))
         log.edit_markups.append(markup)
         log.edit_rich.append(rich)

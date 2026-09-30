@@ -43,6 +43,11 @@ ABSENT_CONFIRM = timedelta(seconds=90)
 SUSPECT_EMPTY = 3
 
 
+def office(sender: str | None) -> str:
+    """'NWS Quad Cities IA IL' → 'NWS Quad Cities': the office, without the states it serves."""
+    return re.sub(r"(?: [A-Z]{2})+$", "", str(sender or "NWS")) or "NWS"
+
+
 def slug(event: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", (event or "").lower()).strip("_")
 

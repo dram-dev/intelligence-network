@@ -132,7 +132,9 @@ def digest(hours: float, html_out: str | None, narrative: bool) -> None:
     console.print(_digest.render_text(model))
     if html_out:
         with open(html_out, "w", encoding="utf-8") as f:
-            f.write(_digest.render_html(model))
+            f.write('<!doctype html>\n<meta charset="utf-8">\n'
+                    '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+                    + _digest.FONTS_LINK + "\n" + _digest.render_html(model, page=True))
         console.print(f"[green]✓[/green] wrote {html_out}")
 
 
