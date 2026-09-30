@@ -4,6 +4,7 @@ from __future__ import annotations
 import time
 
 from intelnet import bot, db
+from intelnet.config import settings
 
 
 def msg(text: str | None = None, uid: int = 42, chat: int | None = None, mid: int = 1, **extra) -> dict:
@@ -251,3 +252,29 @@ def test_nothing_here_is_kept_and_counted_but_never_judged_or_pushed(fresh_db, s
     s = db.get_sensor("tg:14")
     assert (s.trust, s.n_signals) == (0.5, 1)
     assert not sent                                        # not pushed to report subscribers
+
+
+_TELEGRAM_TAGS = {"b", "strong", "i", "em", "u", "ins", "s", "strike", "del", "span", "tg-spoiler", "a",
+                  "tg-emoji", "code", "pre", "blockquote", "tg-time"}
+
+
+def _telegram_safe(html: str) -> bool:
+    """Would Telegram's HTML parser accept this? Only its tags, and no bare '&'."""
+    import re
+
+    tags = {t.lower() for t in re.findall(r"</?\s*([A-Za-z][\w+-]*)", html)}
+    bare_amp = re.search(r"&(?![a-zA-Z]+;|#\d+;|#x[0-9a-fA-F]+;)", html)
+    return tags <= _TELEGRAM_TAGS and bare_amp is None
+
+
+def test_every_usage_and_error_reply_is_valid_telegram_html(fresh_db, monkeypatch):
+    """A reply Telegram can't parse never arrives: a bare /subscribe once went unanswered
+    because its usage line held a literal <category>."""
+    monkeypatch.setattr(settings, "telegram_admin_chat_id", "42")
+    bot.handle_message(msg("/join"))
+    for text in ("/subscribe", "/subscribe nonsense", "/subscribe warnings atlantis", "/unsubscribe nonsense",
+                 "/home", "/home atlantis", "/near atlantis", "/alerts atlantis", "/admin", "/admin trust",
+                 "/admin nope", "/followups", "/mute", "/unmute", "/topics", "/help", "/me", "/subs",
+                 "/report", "/latest", "/network", "/privacy", "/digest nope", "/bogus"):
+        r = bot.handle_message(msg(text))
+        assert r is None or _telegram_safe(str(r)), (text, str(r)[:200])

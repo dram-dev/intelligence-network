@@ -427,7 +427,7 @@ def cmd_home(message: dict, sensor: Sensor | None, args: str) -> str:
     if sensor is None:
         return "Send /join first."
     if not args.strip():
-        return ("Usage: /home <ZIP+4 | ZIP | county | lat,lon | place> — or share your location.\n"
+        return ("Usage: /home &lt;ZIP+4 | ZIP | county | lat,lon | place&gt; — or share your location.\n"
                 f"Current: {esc(sensor.location.describe())}")
     loc = geo.parse_location(args)
     if loc is None or not loc.has_point:
@@ -709,7 +709,7 @@ def cmd_admin(message: dict, sensor: Sensor | None, args: str) -> str:
         try:
             ok = db.set_sensor_trust(parts[1], float(parts[2]))
         except ValueError:
-            return "Usage: /admin trust <sensor_id> <0..1>"
+            return "Usage: /admin trust &lt;sensor_id&gt; &lt;0..1&gt;"
         return f"{'✅' if ok else '✗'} trust {esc(parts[1])} = {parts[2]}"
     if sub == "metrics":
         days = int(parts[1]) if len(parts) >= 2 and parts[1].isdigit() else 7
@@ -719,8 +719,8 @@ def cmd_admin(message: dict, sensor: Sensor | None, args: str) -> str:
         chats = {s.chat_id for s in db.list_sensors(kind=KIND_HUMAN, limit=10000) if s.chat_id}
         n = bot.broadcast(sorted(chats), f"📣 <b>{esc(settings.network_name)}</b>\n{esc(text)}")
         return f"Broadcast to {n} chat(s)."
-    return ("Usage: /admin stats | metrics [days] | sensors | ban <id> | unban <id> | "
-            "trust <id> <0..1> | broadcast <text>")
+    return ("Usage: /admin stats | metrics [days] | sensors | ban &lt;id&gt; | unban &lt;id&gt; | "
+            "trust &lt;id&gt; &lt;0..1&gt; | broadcast &lt;text&gt;")
 
 
 def cmd_followups(message: dict, sensor: Sensor | None, args: str) -> str:

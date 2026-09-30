@@ -75,7 +75,7 @@ def parse_subscriptions(args: str, default: geo.Location | None = None) -> list[
     """
     parts = args.strip().split(maxsplit=1)
     if not parts:
-        return "Usage: /subscribe <category> [area]\n" + categories_help()
+        return "Usage: /subscribe &lt;category&gt; [area]\n" + categories_help()
     cats = expand_category(parts[0])
     if not cats:
         return f"Unknown category “{esc(parts[0])}”.\n" + categories_help()
