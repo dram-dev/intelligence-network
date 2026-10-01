@@ -1,0 +1,15 @@
+# Regional names a headline uses for places that aren't one town or county
+# (connect.py ties news to readings by the places a story names).
+Quad Cities: [Rock Island, Henry, Mercer]
+Chicagoland: [Cook, DuPage, Lake, Will, Kane, McHenry]
+Chicago area: [Cook, DuPage, Lake, Will, Kane, McHenry]
+Metro East: [St. Clair, Madison, Monroe]
+Central Illinois: [Sangamon, McLean, Champaign, Peoria, Macon, Tazewell]
+Southern Illinois: [Jackson, Williamson, Franklin, Saline, Union]
+Northern Illinois: [Winnebago, Boone, DeKalb, Ogle, Lee, Stephenson]
+Stateline: [Winnebago, Boone, Stephenson]
+Bloomington-Normal: [McLean]
+Champaign-Urbana: [Champaign]
+
+# Town names that headlines mostly use as other words ("Hurricane Polo").
+not_places: [Polo, Energy, Joy, Cherry, Oblong, Rome, Chili, Milan, Ohio, Kansas, Washington, Paris, Marion, Normal Park]

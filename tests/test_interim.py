@@ -192,7 +192,8 @@ def test_the_morning_brief_is_rich_with_a_readings_table(fresh_db, sent, make_se
     db.add_subscription("1", "weather.digest", "il")
     brief.fanout_brief("2026-10-01", {})
     rich = sent.rich[-1]
-    assert rich.startswith("<h4>☀️ Morning brief: Sangamon County</h4>") and "<details><summary>Across Illinois</summary>" in rich
+    assert rich.startswith("<h4>☀️ Morning brief: Sangamon County</h4>") and "<details><summary>The network</summary>" in rich
+    assert "<p><b>Across Illinois</b></p><ul>" in rich
     assert rich.endswith("</footer>") and "<h3>" not in rich
     assert "<table compact><caption>Rainfall, last 24 hours</caption>" in rich and "corroborated" in rich
     assert "Morning brief" in sent[-1][1]                                # plain fallback

@@ -61,6 +61,9 @@ class Metric:
     # False for an absence report ("nothing here"): kept for the map, never
     # corroborated, contradicted, trusted or turned into an event.
     scored: bool = True
+    # Words a news headline uses for this measure ("flooding", "harvest"): connect.py ties a
+    # story to the readings it's about.
+    news_words: list[str] = field(default_factory=list)
 
     @property
     def is_flag(self) -> bool:
@@ -245,6 +248,7 @@ def _load_metric(topic: str, key: str, raw: dict[str, Any]) -> Metric:
         display_unit=display,
         accumulates=bool(raw.get("accumulates", False)),
         scored=bool(raw.get("scored", True)),
+        news_words=[str(w) for w in raw.get("news_words") or []],
     )
 
 

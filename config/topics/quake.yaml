@@ -14,7 +14,7 @@ description: Felt shaking, magnitude and damage across the Wabash Valley and New
 categories:
   events:  Quakes near you — USGS locations, and shaking several people felt
   reports: Every accepted shaking report near you (raw)
-  digest:  Your county's morning brief at 8:00, with the full digest in Drive
+  digest:  "The 8:00 morning brief: news tied to the readings behind it, your county, and major readings across every topic"
 
 metrics:
   felt_intensity:

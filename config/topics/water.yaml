@@ -13,13 +13,14 @@ description: Stream stage and flow, lakes and wells, water quality, ponding and 
 categories:
   events:  Network-detected water events near you — low oxygen, nitrate spikes, fish kills, blooms
   reports: Every accepted water reading near you (raw)
-  digest:  Your county's morning brief at 8:00, with the full digest in Drive
+  digest:  "The 8:00 morning brief: news tied to the readings behind it, your county, and major readings across every topic"
 
 metrics:
   stage_m:
     label: Stage (gauge height)
     unit: m
     aliases: [stage, gauge height, gage height, river stage, stream stage, creek level, river level, water level]
+    news_words: [flood, flooding, floods, river, rivers, crest, rises]
     units: {m: 1, ft: 0.3048, feet: 0.3048, "in": 0.0254, cm: 0.01}
     default_unit: ft
     range: [-3, 25]
@@ -33,6 +34,7 @@ metrics:
     label: Streamflow
     unit: "m³/s"
     aliases: [discharge, streamflow, stream flow, river flow, flow rate, cfs]
+    news_words: [flood, flooding, river, rivers]
     units: {cms: 1, "m3/s": 1, "m³/s": 1, cfs: 0.0283168, "ft3/s": 0.0283168, "ft³/s": 0.0283168}
     default_unit: cfs
     range: [0, 60000]

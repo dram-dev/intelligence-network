@@ -13,13 +13,14 @@ description: Soil moisture, temperature, chemistry and structure from probes, ki
 categories:
   events:  Network-detected soil events near you — drought-dry profiles, root-limiting compaction, erosion
   reports: Every accepted soil reading near you (raw)
-  digest:  Your county's morning brief at 8:00, with the full digest in Drive
+  digest:  "The 8:00 morning brief: news tied to the readings behind it, your county, and major readings across every topic"
 
 metrics:
   soil_moisture_pct:
     label: Soil moisture
     unit: pct
     aliases: [soil moisture, vwc, volumetric water content, soil water, moisture probe]
+    news_words: [drought, dry, crop, crops, harvest, planting, moisture]
     units: {"%": 1, pct: 1, percent: 1}
     default_unit: "%"
     range: [0, 70]

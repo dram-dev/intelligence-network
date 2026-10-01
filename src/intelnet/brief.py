@@ -89,6 +89,59 @@ def _ended(fips: str) -> list[str]:
             out.append(f"✅ Ended: {esc(t['event'] or 'NWS alert')}" + (f" · {tg_time(at)}" if at else ""))
     return out
 
+NEWS_SHOWN = 4               # the brief's reading list (the Doc carries ten)
+
+
+def statewide() -> list[str]:
+    """The major readings across Illinois, every topic: the station and gauge extremes
+    (wind, rain, temperature, rivers, soil…) and the network's verified events. HTML lines."""
+    from intelnet import digest
+
+    lines = [f"{esc(x['metric'])}, {'lowest' if x['how'] == 'min' else 'highest'}: <b>{esc(x['value'])}</b> · "
+             f"{esc(str(x['county']).removesuffix(' County'))}" for x in digest._extremes(HOURS)]
+    events = [network.event_summary(e) for e in db.events_since(HOURS, limit=10)]
+    lines += [f"📍 {esc(digest.event_phrase(e)[:1].upper() + digest.event_phrase(e)[1:])}"
+              + (" · verified" if e["verified"] else "") for e in events if e["verified"]][:3]
+    return lines
+
+
+def connections() -> tuple[list[str], set[str]]:
+    """The news tied to what the network measured where it happened (connect.py), as HTML
+    items; and the titles used, so the reading list doesn't repeat them."""
+    from intelnet import connect
+
+    items, used = [], set()
+    for th in connect.threads():
+        heads = " · ".join(
+            (f'<a href="{href(s["url"])}">{esc(s["title"])}</a>' if href(s["url"]) else esc(s["title"]))
+            + (f" <i>({esc(s['source'])})</i>" if s["source"] else "") for s in th.stories[:2])
+        used |= {" ".join(s["title"].lower().split()) for s in th.stories}
+        facts = th.readings[:3] + ([" and ".join(th.alerts) + " in force"] if th.alerts else [])
+        items.append(f"{heads}<br>↳ <b>{esc(th.place)}</b>: {esc('; '.join(facts))}")
+    return items, used
+
+
+def news(skip: set[str] | None = None) -> list[str]:
+    """The top news the network kept in the last day, across topics: linked title · publisher."""
+    from intelnet import digest
+
+    out, seen = [], set()
+    for r in db.kept_items_since(HOURS + 6, limit=20):
+        item = {"title": r["title"], "url": r["url"],
+                "feed": (json.loads(r["metadata_json"] or "{}").get("feed") if r["metadata_json"] else None)}
+        title, source = digest._publisher(item)
+        source = source.split(" · ")[0]
+        key = " ".join(title.lower().split())
+        if key in seen or key in (skip or set()):
+            continue
+        seen.add(key)
+        link = href(r["url"])
+        head = f'<a href="{link}">{esc(title)}</a>' if link else esc(title)
+        out.append(head + (f" · <i>{esc(source)}</i>" if source else ""))
+        if len(out) >= NEWS_SHOWN:
+            break
+    return out
+
 
 def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | None = None) -> str:
     """The brief for one county (or the whole state when `fips` is None)."""
@@ -96,6 +149,11 @@ def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | N
     c = geo.county(fips)
     where = c.label if c else _state()
     lines = [f"☀️ <b>Morning brief</b> · {esc(local_time(now, '%a %-d %b'))} · {esc(where)}"]
+    linked, used = connections()
+    if linked:
+        lines.append("<b>In the news, and what was measured there</b>")
+        lines += [f"• {x.replace('<br>', chr(10) + '  ')}" for x in linked]
+        lines.append("")
     if c:
         groups = _in_effect(c.fips)
         lines += groups[:4]
@@ -109,6 +167,14 @@ def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | N
                   + (" · verified" if e["verified"] else "") for e in events[:3]]
         if not (groups or night or events or storms):
             lines.append(f"A quiet night in {esc(where)}: no NWS alerts, and nothing notable reported.")
+    wide = statewide()
+    if wide:
+        lines.append(f"\n<b>Across {esc(_state())}</b>")
+        lines += [f"• {x}" for x in wide]
+    reading = news(used)
+    if reading:
+        lines.append("\n<b>Also worth reading</b>")
+        lines += [f"• {x}" for x in reading]
     v = db.vitals()
     state = [f"{_n(v.get('alerts_active', 0), 'NWS alert', 'NWS alerts')} in effect across {esc(_state())}",
              (f"{_n(v.get('signals_24h_human', 0), 'reading', 'readings')} from people · "
@@ -169,6 +235,12 @@ def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetim
     c = geo.county(fips)
     where = c.label if c else _state()
     parts = [f"<h4>☀️ Morning brief: {esc(where)}</h4>"]
+    linked, used = connections()
+    if linked:
+        parts.append("<p><b>In the news, and what was measured there</b></p><ul>"
+                     + "".join(f"<li>{x}</li>" for x in linked) + "</ul>")
+    if c and linked:                               # the county's own section, under the connections
+        parts.append(f"<p><b>{esc(where)}</b></p>")
     table = ""
     if c:
         lines = _in_effect(c.fips)[:4] + _ended(c.fips)[:3]
@@ -186,11 +258,17 @@ def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetim
         table = _readings_table(c.fips)
     if table:
         parts.append(table)
+    wide = statewide()
+    if wide:
+        parts.append(f"<p><b>Across {esc(_state())}</b></p><ul>" + "".join(f"<li>{x}</li>" for x in wide) + "</ul>")
+    reading = news(used)
+    if reading:
+        parts.append("<p><b>Also worth reading</b></p><ul>" + "".join(f"<li>{x}</li>" for x in reading) + "</ul>")
     v = db.vitals()
     state = [f"{_n(v.get('alerts_active', 0), 'NWS alert', 'NWS alerts')} in effect",
              f"{_n(v.get('signals_24h_human', 0), 'reading', 'readings')} from people · {v.get('signals_24h_reference', 0):,} official",
              f"{_n(len(network.coverage_gaps(7)), 'county', 'counties')} without a sensor this week"]
-    parts.append(f"<details><summary>Across {esc(_state())}</summary><p>" + "<br>".join(state) + "</p></details>")
+    parts.append("<details><summary>The network</summary><p>" + "<br>".join(state) + "</p></details>")
     if not c:
         parts.append("<p><i>Set your home (/home 62704) and this brief is about your county.</i></p>")
     tail = [esc(local_time(now, "%a %-d %b"))]

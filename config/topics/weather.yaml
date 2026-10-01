@@ -41,7 +41,7 @@ categories:
   alerts:   Every NWS alert for your area (watches, advisories, statements)
   events:   Network-detected events — corroborated readings that crossed a threshold near you
   reports:  Every accepted contribution near you (raw, unfiltered)
-  digest:   Your county's morning brief at 8:00, with the full digest in Drive
+  digest:   "The 8:00 morning brief: news tied to the readings behind it, your county, and major readings across every topic"
 
 # NWS alert severity → subscription categories that receive it.
 alert_routing:
@@ -56,6 +56,7 @@ metrics:
     label: Temperature
     unit: degC
     aliases: [temp, temperature, t, air temp]
+    news_words: [heat, hot, cold, freeze, frost, temperatures]
     units: {c: 1, "°c": 1, degc: 1, f: {expr: "(x - 32) * 5 / 9"}, "°f": {expr: "(x - 32) * 5 / 9"}, degf: {expr: "(x - 32) * 5 / 9"}, degrees: {expr: "(x - 32) * 5 / 9"}, deg: {expr: "(x - 32) * 5 / 9"}}
     default_unit: f
     range: [-45, 55]
@@ -117,6 +118,7 @@ metrics:
     label: Wind gust
     unit: m/s
     aliases: [gust, gusts, wind gust, wind gusts, gusting, peak gust]
+    news_words: [wind, winds, gusts, gusty, damaging]
     units: {ms: 1, "m/s": 1, mps: 1, mph: 0.44704, kt: 0.514444, kts: 0.514444, knots: 0.514444, kmh: 0.277778, "km/h": 0.277778}
     default_unit: mph
     range: [0, 120]
@@ -131,6 +133,7 @@ metrics:
     label: Rainfall
     unit: mm
     aliases: [rain, rainfall, precip, precipitation, rain total, storm total]
+    news_words: [rain, rainfall, soaking, downpour, downpours, deluge, wet]
     units: {mm: 1, "in": 25.4, inch: 25.4, inches: 25.4, cm: 10}
     default_unit: "in"
     range: [0, 600]
@@ -145,6 +148,7 @@ metrics:
     label: Snowfall
     unit: cm
     aliases: [snow, snowfall, snow total, snow depth]
+    news_words: [snow, snowfall, blizzard]
     units: {cm: 1, "in": 2.54, inch: 2.54, inches: 2.54, mm: 0.1}
     default_unit: "in"
     range: [0, 150]
@@ -159,6 +163,7 @@ metrics:
     label: Hail size
     unit: mm
     aliases: [hail, hailstones, hail size]
+    news_words: [hail, hailstorm]
     units: {mm: 1, "in": 25.4, inch: 25.4, inches: 25.4, cm: 10}
     # NWS hail size chart (diameter). Words beat numbers for most people.
     words:
@@ -197,6 +202,7 @@ metrics:
     label: Visibility
     unit: km
     aliases: [visibility, vis, vsby]
+    news_words: [fog, foggy, visibility]
     units: {km: 1, mi: 1.609344, mile: 1.609344, miles: 1.609344, m: 0.001}
     default_unit: mi
     range: [0, 100]
