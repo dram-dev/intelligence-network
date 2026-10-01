@@ -455,14 +455,14 @@
    "kind": "topic",
    "label": "Water",
    "topic": "water",
-   "n": 10651
+   "n": 10686
   },
   {
    "id": "metric:stage_m",
    "kind": "metric",
    "label": "Stage (gauge height)",
    "topic": "water",
-   "n": 5591,
+   "n": 5598,
    "flag": false
   },
   {
@@ -470,7 +470,7 @@
    "kind": "metric",
    "label": "Streamflow",
    "topic": "water",
-   "n": 4479,
+   "n": 4498,
    "flag": false
   },
   {
@@ -478,7 +478,7 @@
    "kind": "metric",
    "label": "Water temperature",
    "topic": "water",
-   "n": 581,
+   "n": 590,
    "flag": false
   },
   {
@@ -574,14 +574,14 @@
    "kind": "topic",
    "label": "Weather",
    "topic": "weather",
-   "n": 9274
+   "n": 9223
   },
   {
    "id": "metric:temp_c",
    "kind": "metric",
    "label": "Temperature",
    "topic": "weather",
-   "n": 1327,
+   "n": 1310,
    "flag": false
   },
   {
@@ -589,7 +589,7 @@
    "kind": "metric",
    "label": "Dew point",
    "topic": "weather",
-   "n": 1324,
+   "n": 1310,
    "flag": false
   },
   {
@@ -597,7 +597,7 @@
    "kind": "metric",
    "label": "Relative humidity",
    "topic": "weather",
-   "n": 1324,
+   "n": 1310,
    "flag": false
   },
   {
@@ -605,7 +605,7 @@
    "kind": "metric",
    "label": "Pressure",
    "topic": "weather",
-   "n": 1328,
+   "n": 1314,
    "flag": false
   },
   {
@@ -613,7 +613,7 @@
    "kind": "metric",
    "label": "Sustained wind",
    "topic": "weather",
-   "n": 1298,
+   "n": 1287,
    "flag": false
   },
   {
@@ -621,7 +621,7 @@
    "kind": "metric",
    "label": "Wind gust",
    "topic": "weather",
-   "n": 17,
+   "n": 63,
    "flag": false
   },
   {
@@ -629,7 +629,7 @@
    "kind": "metric",
    "label": "Rainfall",
    "topic": "weather",
-   "n": 1329,
+   "n": 1315,
    "flag": false
   },
   {
@@ -653,7 +653,7 @@
    "kind": "metric",
    "label": "Visibility",
    "topic": "weather",
-   "n": 1327,
+   "n": 1314,
    "flag": false
   },
   {
@@ -716,13 +716,19 @@
    "id": "feed:usgs_water",
    "kind": "feed",
    "label": "usgs_water",
-   "n": 10651
+   "n": 10686
   },
   {
    "id": "feed:iem_asos",
    "kind": "feed",
    "label": "iem_asos",
-   "n": 9274
+   "n": 9222
+  },
+  {
+   "id": "feed:iem_lsr",
+   "kind": "feed",
+   "label": "iem_lsr",
+   "n": 1
   },
   {
    "id": "feed:ams_grain",
@@ -757,20 +763,6 @@
    "id": "county:17037",
    "kind": "county",
    "label": "DeKalb"
-  },
-  {
-   "id": "event:17",
-   "kind": "event",
-   "label": "Rainfall 4.41 in (112 mm) \u2014 Knox County",
-   "topic": "weather",
-   "n": 4,
-   "score": 2.375,
-   "verified": true
-  },
-  {
-   "id": "county:17095",
-   "kind": "county",
-   "label": "Knox"
   },
   {
    "id": "event:41",
@@ -940,118 +932,6 @@
    "label": "DuPage"
   },
   {
-   "id": "event:16",
-   "kind": "event",
-   "label": "Rainfall 2.48 in (62.99 mm) \u2014 Tazewell County",
-   "topic": "weather",
-   "n": 12,
-   "score": 1.662,
-   "verified": true
-  },
-  {
-   "id": "county:17179",
-   "kind": "county",
-   "label": "Tazewell"
-  },
-  {
-   "id": "event:10",
-   "kind": "event",
-   "label": "Rainfall 2.13 in (54.1 mm) \u2014 Sangamon County",
-   "topic": "weather",
-   "n": 9,
-   "score": 1.662,
-   "verified": true
-  },
-  {
-   "id": "county:17167",
-   "kind": "county",
-   "label": "Sangamon"
-  },
-  {
-   "id": "event:7",
-   "kind": "event",
-   "label": "Rainfall 2.19 in (55.63 mm) \u2014 McLean County",
-   "topic": "weather",
-   "n": 8,
-   "score": 1.662,
-   "verified": true
-  },
-  {
-   "id": "county:17113",
-   "kind": "county",
-   "label": "McLean"
-  },
-  {
-   "id": "event:12",
-   "kind": "event",
-   "label": "Rainfall 2.64 in (67.06 mm) \u2014 Peoria County",
-   "topic": "weather",
-   "n": 6,
-   "score": 1.662,
-   "verified": true
-  },
-  {
-   "id": "county:17143",
-   "kind": "county",
-   "label": "Peoria"
-  },
-  {
-   "id": "event:13",
-   "kind": "event",
-   "label": "Rainfall 2.7 in (68.58 mm) \u2014 Woodford County",
-   "topic": "weather",
-   "n": 6,
-   "score": 1.662,
-   "verified": true
-  },
-  {
-   "id": "county:17203",
-   "kind": "county",
-   "label": "Woodford"
-  },
-  {
-   "id": "event:20",
-   "kind": "event",
-   "label": "Rainfall 2.99 in (75.95 mm) \u2014 Schuyler County",
-   "topic": "weather",
-   "n": 5,
-   "score": 1.662,
-   "verified": true
-  },
-  {
-   "id": "county:17169",
-   "kind": "county",
-   "label": "Schuyler"
-  },
-  {
-   "id": "event:18",
-   "kind": "event",
-   "label": "Rainfall 2.75 in (69.85 mm) \u2014 Fulton County",
-   "topic": "weather",
-   "n": 3,
-   "score": 1.662,
-   "verified": true
-  },
-  {
-   "id": "county:17057",
-   "kind": "county",
-   "label": "Fulton"
-  },
-  {
-   "id": "event:9",
-   "kind": "event",
-   "label": "Rainfall 2.6 in (66.04 mm) \u2014 McDonough County",
-   "topic": "weather",
-   "n": 1,
-   "score": 1.662,
-   "verified": true
-  },
-  {
-   "id": "county:17109",
-   "kind": "county",
-   "label": "McDonough"
-  },
-  {
    "id": "event:46",
    "kind": "event",
    "label": "Wind gust 64.4 mph (28.81 m/s) \u2014 Richland County",
@@ -1129,6 +1009,15 @@
    "id": "county:17049",
    "kind": "county",
    "label": "Effingham"
+  },
+  {
+   "id": "event:57",
+   "kind": "event",
+   "label": "Rainfall 1.4 in \u2014 Henry County",
+   "topic": "weather",
+   "n": 1,
+   "score": 0.95,
+   "verified": true
   },
   {
    "id": "event:51",
@@ -1237,94 +1126,6 @@
    "verified": true
   },
   {
-   "id": "event:11",
-   "kind": "event",
-   "label": "Rainfall 1.45 in (36.83 mm) \u2014 Champaign County",
-   "topic": "weather",
-   "n": 10,
-   "score": 0.95,
-   "verified": true
-  },
-  {
-   "id": "event:22",
-   "kind": "event",
-   "label": "Rainfall 1.92 in (48.77 mm) \u2014 De Witt County",
-   "topic": "weather",
-   "n": 2,
-   "score": 0.95,
-   "verified": true
-  },
-  {
-   "id": "county:17039",
-   "kind": "county",
-   "label": "De Witt"
-  },
-  {
-   "id": "event:14",
-   "kind": "event",
-   "label": "Rainfall 1.5 in (38.1 mm) \u2014 Vermilion County",
-   "topic": "weather",
-   "n": 5,
-   "score": 0.95,
-   "verified": true
-  },
-  {
-   "id": "county:17183",
-   "kind": "county",
-   "label": "Vermilion"
-  },
-  {
-   "id": "event:15",
-   "kind": "event",
-   "label": "Rainfall 1.5 in (38.1 mm) \u2014 Logan County",
-   "topic": "weather",
-   "n": 4,
-   "score": 0.95,
-   "verified": true
-  },
-  {
-   "id": "county:17107",
-   "kind": "county",
-   "label": "Logan"
-  },
-  {
-   "id": "event:21",
-   "kind": "event",
-   "label": "Rainfall 1.53 in (38.86 mm) \u2014 Menard County",
-   "topic": "weather",
-   "n": 2,
-   "score": 0.95,
-   "verified": true
-  },
-  {
-   "id": "county:17129",
-   "kind": "county",
-   "label": "Menard"
-  },
-  {
-   "id": "event:19",
-   "kind": "event",
-   "label": "Rainfall 1.66 in (42.16 mm) \u2014 Piatt County",
-   "topic": "weather",
-   "n": 3,
-   "score": 0.95,
-   "verified": true
-  },
-  {
-   "id": "event:8",
-   "kind": "event",
-   "label": "Rainfall 1.57 in (39.88 mm) \u2014 Hancock County",
-   "topic": "weather",
-   "n": 1,
-   "score": 0.95,
-   "verified": true
-  },
-  {
-   "id": "county:17067",
-   "kind": "county",
-   "label": "Hancock"
-  },
-  {
    "id": "event:55",
    "kind": "event",
    "label": "Visibility 0.0625 mi (0.1006 km) \u2014 Lake County",
@@ -1337,6 +1138,20 @@
    "id": "county:17097",
    "kind": "county",
    "label": "Lake"
+  },
+  {
+   "id": "event:56",
+   "kind": "event",
+   "label": "Soil moisture 8.3 pct \u2014 Mason County",
+   "topic": "soil",
+   "n": 1,
+   "score": 0.9,
+   "verified": true
+  },
+  {
+   "id": "county:17125",
+   "kind": "county",
+   "label": "Mason"
   },
   {
    "id": "event:54",
@@ -1859,67 +1674,73 @@
    "source": "feed:usgs_water",
    "target": "metric:discharge_cms",
    "kind": "reports",
-   "weight": 4479
+   "weight": 4498
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:stage_m",
    "kind": "reports",
-   "weight": 5591
+   "weight": 5598
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:water_temp_c",
    "kind": "reports",
-   "weight": 581
+   "weight": 590
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:temp_c",
    "kind": "reports",
-   "weight": 1327
+   "weight": 1310
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:dewpoint_c",
    "kind": "reports",
-   "weight": 1324
+   "weight": 1310
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:humidity_pct",
    "kind": "reports",
-   "weight": 1324
+   "weight": 1310
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:wind_ms",
    "kind": "reports",
-   "weight": 1298
+   "weight": 1287
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:rain_mm",
    "kind": "reports",
-   "weight": 1329
+   "weight": 1314
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:pressure_hpa",
    "kind": "reports",
-   "weight": 1328
+   "weight": 1314
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:visibility_km",
    "kind": "reports",
-   "weight": 1327
+   "weight": 1314
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:wind_gust_ms",
    "kind": "reports",
-   "weight": 17
+   "weight": 63
+  },
+  {
+   "source": "feed:iem_lsr",
+   "target": "metric:rain_mm",
+   "kind": "reports",
+   "weight": 1
   },
   {
    "source": "feed:ams_grain",
@@ -1960,18 +1781,6 @@
   {
    "source": "event:27",
    "target": "county:17037",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:17",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:17",
-   "target": "county:17095",
    "kind": "in",
    "weight": 1
   },
@@ -2132,102 +1941,6 @@
    "weight": 1
   },
   {
-   "source": "event:16",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:16",
-   "target": "county:17179",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:10",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:10",
-   "target": "county:17167",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:7",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:7",
-   "target": "county:17113",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:12",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:12",
-   "target": "county:17143",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:13",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:13",
-   "target": "county:17203",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:20",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:20",
-   "target": "county:17169",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:18",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:18",
-   "target": "county:17057",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:9",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:9",
-   "target": "county:17109",
-   "kind": "in",
-   "weight": 1
-  },
-  {
    "source": "event:46",
    "target": "metric:wind_gust_ms",
    "kind": "about",
@@ -2296,6 +2009,18 @@
   {
    "source": "event:43",
    "target": "county:17049",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:57",
+   "target": "metric:rain_mm",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:57",
+   "target": "county:17073",
    "kind": "in",
    "weight": 1
   },
@@ -2408,90 +2133,6 @@
    "weight": 1
   },
   {
-   "source": "event:11",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:11",
-   "target": "county:17019",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:22",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:22",
-   "target": "county:17039",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:14",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:14",
-   "target": "county:17183",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:15",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:15",
-   "target": "county:17107",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:21",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:21",
-   "target": "county:17129",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:19",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:19",
-   "target": "county:17147",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:8",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:8",
-   "target": "county:17067",
-   "kind": "in",
-   "weight": 1
-  },
-  {
    "source": "event:55",
    "target": "metric:visibility_km",
    "kind": "about",
@@ -2500,6 +2141,18 @@
   {
    "source": "event:55",
    "target": "county:17097",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:56",
+   "target": "metric:soil_moisture_pct",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:56",
+   "target": "county:17125",
    "kind": "in",
    "weight": 1
   },

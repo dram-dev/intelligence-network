@@ -1,0 +1,33 @@
+{
+ "title": "Intelligence Network: open data",
+ "description": "A citizen sensor network's readings, events and storms. People appear only as handles with a ZIP and county.",
+ "source": "Intelligence Network",
+ "source_url": "https://dram-dev.github.io/intelligence-network/",
+ "databases": {
+  "network": {
+   "tables": {
+    "readings": {
+     "description": "One row per reading: people's (sensor = an s-xxxxx handle; ZIP5 and county only, no coordinates) and official NWS storm reports (exact points). Values are in the metric's canonical unit (see metrics). quality: raw, corroborated, flagged, rejected, reference."
+    },
+    "events": {
+     "description": "Readings past a threshold, per county and metric. Places are ZIP or county centres."
+    },
+    "storms": {
+     "description": "Events and storm-based warnings clustered per storm, with the network's brief."
+    },
+    "alerts": {
+     "description": "NWS alerts the network tracked (one row per alert, all its updates folded in)."
+    },
+    "sensors": {
+     "description": "Who reported: people as handles with a home county; official sources by id."
+    },
+    "counties": {
+     "description": "Illinois counties (Census)."
+    },
+    "metrics": {
+     "description": "The common data language: every metric's key, label and canonical unit."
+    }
+   }
+  }
+ }
+}

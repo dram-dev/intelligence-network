@@ -1,0 +1,2308 @@
+[
+ {
+  "site": "07022000",
+  "name": "Mississippi River at Thebes, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/07022000/",
+  "lat": 37.2203,
+  "lon": -89.4632,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "20.4 ft",
+  "discharge_cms": "245,000 cfs"
+ },
+ {
+  "site": "07020500",
+  "name": "Mississippi River at Chester, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/07020500/",
+  "lat": 37.9008,
+  "lon": -89.8302,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "15.5 ft",
+  "discharge_cms": "233,000 cfs"
+ },
+ {
+  "site": "05597500",
+  "name": "CRAB ORCHARD CREEK NEAR MARION, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05597500/",
+  "lat": 37.7311,
+  "lon": -88.8892,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "0.63 ft",
+  "discharge_cms": "0.05 cfs"
+ },
+ {
+  "site": "05593900",
+  "name": "EAST FORK SHOAL CREEK NEAR COFFEEN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05593900/",
+  "lat": 39.1489,
+  "lon": -89.3525,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "1.79 ft",
+  "discharge_cms": "0.02 cfs"
+ },
+ {
+  "site": "05587498",
+  "name": "Mississippi River Pool Lock and Dam 26 at Alton,IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05587498/",
+  "lat": 38.8873,
+  "lon": -90.184,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "15.1 ft"
+ },
+ {
+  "site": "05587450",
+  "name": "Mississippi River at Grafton, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05587450/",
+  "lat": 38.968,
+  "lon": -90.429,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "15.1 ft",
+  "discharge_cms": "56,800 cfs"
+ },
+ {
+  "site": "05586100",
+  "name": "ILLINOIS RIVER AT VALLEY CITY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05586100/",
+  "lat": 39.7032,
+  "lon": -90.6431,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "5.21 ft",
+  "discharge_cms": "17,600 cfs"
+ },
+ {
+  "site": "05585500",
+  "name": "ILLINOIS RIVER AT MEREDOSIA, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05585500/",
+  "lat": 39.8312,
+  "lon": -90.5598,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "6.28 ft"
+ },
+ {
+  "site": "05576193",
+  "name": "SUGAR CREEK AT COVERED BRIDGE RD NR CHATHAM, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05576193/",
+  "lat": 39.64,
+  "lon": -89.6617,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "17.9 ft",
+  "discharge_cms": "0.88 cfs"
+ },
+ {
+  "site": "05572000",
+  "name": "SANGAMON RIVER AT MONTICELLO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05572000/",
+  "lat": 40.0312,
+  "lon": -88.5892,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "5.21 ft",
+  "discharge_cms": "78.4 cfs"
+ },
+ {
+  "site": "05551330",
+  "name": "MILL CREEK NEAR BATAVIA, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05551330/",
+  "lat": 41.8458,
+  "lon": -88.3492,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "2.95 ft",
+  "discharge_cms": "38.8 cfs"
+ },
+ {
+  "site": "05550500",
+  "name": "POPLAR CREEK AT ELGIN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05550500/",
+  "lat": 42.0259,
+  "lon": -88.2557,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "1.57 ft",
+  "discharge_cms": "28.6 cfs"
+ },
+ {
+  "site": "05541710",
+  "name": "AUX SABLE CREEK NEAR MORRIS, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05541710/",
+  "lat": 41.4169,
+  "lon": -88.3478,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "5.8 ft",
+  "discharge_cms": "727 cfs"
+ },
+ {
+  "site": "05536235",
+  "name": "DEER CREEK NEAR CHICAGO HEIGHTS, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536235/",
+  "lat": 41.5209,
+  "lon": -87.5901,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "3.88 ft",
+  "discharge_cms": "24.6 cfs"
+ },
+ {
+  "site": "05536085",
+  "name": "NB CHICAGO RIVER AT N PULASKI ROAD AT CHICAGO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536085/",
+  "lat": 41.9747,
+  "lon": -87.7283,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "11.8 ft",
+  "discharge_cms": "163 cfs"
+ },
+ {
+  "site": "05531410",
+  "name": "SALT CREEK AT 22ND STREET AT OAK BROOK, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05531410/",
+  "lat": 41.8473,
+  "lon": -87.9366,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "49.3 ft"
+ },
+ {
+  "site": "05531045",
+  "name": "SALT CREEK AT ELK GROVE VILLAGE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05531045/",
+  "lat": 42.0121,
+  "lon": -88.001,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "13.4 ft",
+  "discharge_cms": "134 cfs"
+ },
+ {
+  "site": "05530100",
+  "name": "DES PLAINES R AT ALGONQUIN RD AT DES PLAINES, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05530100/",
+  "lat": 42.0317,
+  "lon": -87.8781,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "12.3 ft",
+  "discharge_cms": "1,190 cfs"
+ },
+ {
+  "site": "05530000",
+  "name": "WELLER CREEK AT DES PLAINES, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05530000/",
+  "lat": 42.0495,
+  "lon": -87.9181,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "1.19 ft",
+  "discharge_cms": "12.2 cfs"
+ },
+ {
+  "site": "05448000",
+  "name": "MILL CREEK AT MILAN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05448000/",
+  "lat": 41.4424,
+  "lon": -90.5555,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "3.9 ft",
+  "discharge_cms": "346 cfs"
+ },
+ {
+  "site": "05437050",
+  "name": "PECATONICA RIVER NR SHIRLAND, ILL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05437050/",
+  "lat": 42.4381,
+  "lon": -89.175,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "6.38 ft",
+  "discharge_cms": "2,060 cfs"
+ },
+ {
+  "site": "03612600",
+  "name": "OHIO RIVER AT OLMSTED, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03612600/",
+  "lat": 37.1792,
+  "lon": -89.0584,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "22.8 ft",
+  "discharge_cms": "142,000 cfs"
+ },
+ {
+  "site": "03399800",
+  "name": "OHIO RIVER AT SMITHLAND DAM, SMITHLAND, KY",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03399800/",
+  "lat": 37.1592,
+  "lon": -88.4273,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "12.9 ft"
+ },
+ {
+  "site": "03384500",
+  "name": "OHIO RIVER AT DAM 51 AT GOLCONDA, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03384500/",
+  "lat": 37.3578,
+  "lon": -88.4825,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "30.2 ft"
+ },
+ {
+  "site": "03346000",
+  "name": "NORTH FORK EMBARRAS RIVER NEAR OBLONG, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03346000/",
+  "lat": 39.0103,
+  "lon": -87.9456,
+  "at": "2026-10-01T06:00+00:00",
+  "stage_m": "1.96 ft",
+  "discharge_cms": "2.59 cfs"
+ },
+ {
+  "site": "05535400",
+  "name": "WF OF NB CHICAGO RIVER AT DEERFIELD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05535400/",
+  "lat": 42.1673,
+  "lon": -87.857,
+  "at": "2026-10-01T05:55+00:00",
+  "stage_m": "7.56 ft"
+ },
+ {
+  "site": "05535070",
+  "name": "SKOKIE RIVER NEAR HIGHLAND PARK, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05535070/",
+  "lat": 42.1597,
+  "lon": -87.7981,
+  "at": "2026-10-01T05:55+00:00",
+  "stage_m": "3.41 ft",
+  "discharge_cms": "31.8 cfs"
+ },
+ {
+  "site": "05535000",
+  "name": "SKOKIE RIVER AT LAKE FOREST, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05535000/",
+  "lat": 42.2325,
+  "lon": -87.8453,
+  "at": "2026-10-01T05:55+00:00",
+  "stage_m": "2.33 ft",
+  "discharge_cms": "14.9 cfs"
+ },
+ {
+  "site": "05534500",
+  "name": "NORTH BRANCH CHICAGO RIVER AT DEERFIELD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05534500/",
+  "lat": 42.1526,
+  "lon": -87.8184,
+  "at": "2026-10-01T05:55+00:00",
+  "stage_m": "5.18 ft",
+  "discharge_cms": "19.9 cfs"
+ },
+ {
+  "site": "05531500",
+  "name": "SALT CREEK AT WESTERN SPRINGS, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05531500/",
+  "lat": 41.8258,
+  "lon": -87.9003,
+  "at": "2026-10-01T05:50+00:00",
+  "stage_m": "3.28 ft",
+  "discharge_cms": "282 cfs"
+ },
+ {
+  "site": "03384450",
+  "name": "LUSK CREEK NEAR EDDYVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03384450/",
+  "lat": 37.4726,
+  "lon": -88.5477,
+  "at": "2026-10-01T05:50+00:00",
+  "stage_m": "2 ft",
+  "discharge_cms": "0.13 cfs"
+ },
+ {
+  "site": "05594600",
+  "name": "SILVER CREEK AT ROUTE 161 NR MASCOUTAH, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05594600/",
+  "lat": 38.5254,
+  "lon": -89.8245,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "7.8 ft",
+  "discharge_cms": "14.1 cfs"
+ },
+ {
+  "site": "05585000",
+  "name": "LA MOINE RIVER AT RIPLEY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05585000/",
+  "lat": 40.0251,
+  "lon": -90.6311,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "5.13 ft",
+  "discharge_cms": "85.3 cfs"
+ },
+ {
+  "site": "05584500",
+  "name": "LA MOINE RIVER AT COLMAR, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05584500/",
+  "lat": 40.3315,
+  "lon": -90.8962,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "3.79 ft",
+  "discharge_cms": "51.4 cfs"
+ },
+ {
+  "site": "05583000",
+  "name": "SANGAMON RIVER NEAR OAKFORD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05583000/",
+  "lat": 40.1234,
+  "lon": -89.984,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "3.63 ft",
+  "discharge_cms": "609 cfs"
+ },
+ {
+  "site": "05582000",
+  "name": "SALT CREEK NEAR GREENVIEW, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05582000/",
+  "lat": 40.1319,
+  "lon": -89.7357,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "1.09 ft",
+  "discharge_cms": "124 cfs"
+ },
+ {
+  "site": "05579630",
+  "name": "KICKAPOO CREEK NEAR BLOOMINGTON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05579630/",
+  "lat": 40.4583,
+  "lon": -88.8775,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "4.56 ft"
+ },
+ {
+  "site": "05576500",
+  "name": "SANGAMON RIVER AT RIVERTON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05576500/",
+  "lat": 39.8431,
+  "lon": -89.5475,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "2.62 ft",
+  "discharge_cms": "149 cfs"
+ },
+ {
+  "site": "05576000",
+  "name": "SOUTH FORK SANGAMON RIVER NEAR ROCHESTER, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05576000/",
+  "lat": 39.7422,
+  "lon": -89.5673,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "5.25 ft",
+  "discharge_cms": "8.43 cfs"
+ },
+ {
+  "site": "05573540",
+  "name": "SANGAMON RIVER AT ROUTE 48 AT DECATUR, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05573540/",
+  "lat": 39.8311,
+  "lon": -88.9764,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "2.01 ft",
+  "discharge_cms": "14.6 cfs"
+ },
+ {
+  "site": "05570000",
+  "name": "SPOON RIVER AT SEVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05570000/",
+  "lat": 40.4901,
+  "lon": -90.3401,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "6.61 ft",
+  "discharge_cms": "482 cfs"
+ },
+ {
+  "site": "05569500",
+  "name": "SPOON RIVER AT LONDON MILLS, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05569500/",
+  "lat": 40.7077,
+  "lon": -90.2798,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "3.56 ft",
+  "discharge_cms": "453 cfs"
+ },
+ {
+  "site": "05568615",
+  "name": "ILLINOIS RIVER AT COPPERAS CREEK, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05568615/",
+  "lat": 40.4766,
+  "lon": -89.8885,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "6.04 ft"
+ },
+ {
+  "site": "05568500",
+  "name": "ILLINOIS RIVER AT KINGSTON MINES, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05568500/",
+  "lat": 40.5534,
+  "lon": -89.7773,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "6.6 ft",
+  "discharge_cms": "14,700 cfs"
+ },
+ {
+  "site": "05568000",
+  "name": "MACKINAW RIVER NEAR GREEN VALLEY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05568000/",
+  "lat": 40.4547,
+  "lon": -89.6062,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "13.9 ft",
+  "discharge_cms": "136 cfs"
+ },
+ {
+  "site": "05567500",
+  "name": "MACKINAW RIVER NEAR CONGERVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05567500/",
+  "lat": 40.6235,
+  "lon": -89.2417,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "1.18 ft",
+  "discharge_cms": "72.9 cfs"
+ },
+ {
+  "site": "05561500",
+  "name": "FONDULAC CREEK NEAR EAST PEORIA, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05561500/",
+  "lat": 40.6771,
+  "lon": -89.5312,
+  "at": "2026-10-01T05:45+00:00",
+  "discharge_cms": "0.78 cfs"
+ },
+ {
+  "site": "05558300",
+  "name": "ILLINOIS RIVER AT HENRY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05558300/",
+  "lat": 41.1073,
+  "lon": -89.3562,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "15.7 ft",
+  "discharge_cms": "15,700 cfs"
+ },
+ {
+  "site": "05556500",
+  "name": "BIG BUREAU CREEK AT PRINCETON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05556500/",
+  "lat": 41.3674,
+  "lon": -89.498,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "3.78 ft",
+  "discharge_cms": "411 cfs"
+ },
+ {
+  "site": "05555300",
+  "name": "VERMILION RIVER NEAR LEONORE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05555300/",
+  "lat": 41.2083,
+  "lon": -88.9306,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "3.68 ft",
+  "discharge_cms": "73.5 cfs"
+ },
+ {
+  "site": "05554500",
+  "name": "VERMILION RIVER AT PONTIAC, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05554500/",
+  "lat": 40.8778,
+  "lon": -88.636,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "2.84 ft",
+  "discharge_cms": "35 cfs"
+ },
+ {
+  "site": "05552500",
+  "name": "FOX RIVER AT DAYTON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05552500/",
+  "lat": 41.3841,
+  "lon": -88.789,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "8.99 ft",
+  "discharge_cms": "4,980 cfs"
+ },
+ {
+  "site": "05551582",
+  "name": "FOX RIVER BYPASS AT YORKVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05551582/",
+  "lat": 41.6428,
+  "lon": -88.4434,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "10.4 ft"
+ },
+ {
+  "site": "05551581",
+  "name": "FOX RIVER TAILWATER AT YORKVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05551581/",
+  "lat": 41.6428,
+  "lon": -88.4434,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "8.96 ft"
+ },
+ {
+  "site": "05551580",
+  "name": "FOX RIVER AT YORKVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05551580/",
+  "lat": 41.6428,
+  "lon": -88.4434,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "13.6 ft",
+  "discharge_cms": "3,550 cfs"
+ },
+ {
+  "site": "05551001",
+  "name": "FOX RIVER AT SOUTH ELGIN, IL (TAILWATER)",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05551001/",
+  "lat": 41.9962,
+  "lon": -88.295,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "7.61 ft"
+ },
+ {
+  "site": "05551000",
+  "name": "FOX RIVER AT SOUTH ELGIN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05551000/",
+  "lat": 41.9962,
+  "lon": -88.295,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "13.4 ft",
+  "discharge_cms": "2,970 cfs"
+ },
+ {
+  "site": "05550300",
+  "name": "TYLER CREEK AT ELGIN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05550300/",
+  "lat": 42.0587,
+  "lon": -88.3041,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "6.15 ft",
+  "discharge_cms": "47.1 cfs"
+ },
+ {
+  "site": "05550000",
+  "name": "FOX RIVER AT ALGONQUIN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05550000/",
+  "lat": 42.1663,
+  "lon": -88.2903,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "1.27 ft"
+ },
+ {
+  "site": "05549000",
+  "name": "BOONE CREEK NEAR MC HENRY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05549000/",
+  "lat": 42.3207,
+  "lon": -88.3126,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "1.22 ft",
+  "discharge_cms": "18.2 cfs"
+ },
+ {
+  "site": "05548500",
+  "name": "FOX RIVER AT JOHNSBURG, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05548500/",
+  "lat": 42.3763,
+  "lon": -88.2367,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "4.26 ft"
+ },
+ {
+  "site": "05548105",
+  "name": "NIPPERSINK CREEK ABOVE WONDER LAKE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05548105/",
+  "lat": 42.3853,
+  "lon": -88.3697,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "5.4 ft",
+  "discharge_cms": "99.9 cfs"
+ },
+ {
+  "site": "05547000",
+  "name": "CHANNEL LAKE NEAR ANTIOCH, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05547000/",
+  "lat": 42.4719,
+  "lon": -88.147,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "4.62 ft"
+ },
+ {
+  "site": "05543500",
+  "name": "ILLINOIS RIVER AT MARSEILLES, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05543500/",
+  "lat": 41.327,
+  "lon": -88.7171,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "12.9 ft",
+  "discharge_cms": "10,700 cfs"
+ },
+ {
+  "site": "05543010",
+  "name": "ILLINOIS RIVER AT SENECA, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05543010/",
+  "lat": 41.2999,
+  "lon": -88.6142,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "21 ft"
+ },
+ {
+  "site": "05542500",
+  "name": "ILLINOIS RIVER AT MORRIS, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05542500/",
+  "lat": 41.3546,
+  "lon": -88.4285,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "6.49 ft",
+  "discharge_cms": "10,400 cfs"
+ },
+ {
+  "site": "05542000",
+  "name": "MAZON RIVER NEAR COAL CITY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05542000/",
+  "lat": 41.2862,
+  "lon": -88.3599,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "1.4 ft",
+  "discharge_cms": "35.3 cfs"
+ },
+ {
+  "site": "05540500",
+  "name": "DU PAGE RIVER AT SHOREWOOD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05540500/",
+  "lat": 41.5223,
+  "lon": -88.1929,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "11.9 ft",
+  "discharge_cms": "1,190 cfs"
+ },
+ {
+  "site": "05540290",
+  "name": "DU PAGE RIVER NEAR PLAINFIELD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05540290/",
+  "lat": 41.6904,
+  "lon": -88.1664,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "8.41 ft",
+  "discharge_cms": "776 cfs"
+ },
+ {
+  "site": "05540275",
+  "name": "SPRING BROOK AT 87TH STREET NEAR NAPERVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05540275/",
+  "lat": 41.7259,
+  "lon": -88.1632,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "4.35 ft",
+  "discharge_cms": "37.8 cfs"
+ },
+ {
+  "site": "05540228",
+  "name": "EAST BRANCH DUPAGE RIVER AT SHORT ST AT LISLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05540228/",
+  "lat": 41.7928,
+  "lon": -88.079,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "7.2 ft",
+  "discharge_cms": "267 cfs"
+ },
+ {
+  "site": "05536580",
+  "name": "STONY CREEK (WEST) NEAR WORTH, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536580/",
+  "lat": 41.689,
+  "lon": -87.8299,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "26.9 ft",
+  "discharge_cms": "128 cfs"
+ },
+ {
+  "site": "05536500",
+  "name": "TINLEY CREEK NEAR PALOS PARK, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536500/",
+  "lat": 41.6466,
+  "lon": -87.7664,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "3.29 ft",
+  "discharge_cms": "55.9 cfs"
+ },
+ {
+  "site": "05536343",
+  "name": "NATALIE CREEK AT MIDLOTHIAN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536343/",
+  "lat": 41.6217,
+  "lon": -87.7333,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "5.56 ft",
+  "discharge_cms": "10.9 cfs"
+ },
+ {
+  "site": "05536310",
+  "name": "CALUMET UNION DRAINAGE CANAL NEAR MARKHAM, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536310/",
+  "lat": 41.597,
+  "lon": -87.6657,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "3.37 ft",
+  "discharge_cms": "41.3 cfs"
+ },
+ {
+  "site": "05536290",
+  "name": "LITTLE CALUMET RIVER AT SOUTH HOLLAND, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536290/",
+  "lat": 41.607,
+  "lon": -87.5976,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "7.82 ft",
+  "discharge_cms": "371 cfs"
+ },
+ {
+  "site": "05536275",
+  "name": "THORN CREEK AT THORNTON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536275/",
+  "lat": 41.5682,
+  "lon": -87.6083,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "3.8 ft",
+  "discharge_cms": "215 cfs"
+ },
+ {
+  "site": "05536162",
+  "name": "PLUM CREEK NEAR CRETE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536162/",
+  "lat": 41.4357,
+  "lon": -87.5716,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "7.79 ft",
+  "discharge_cms": "4.14 cfs"
+ },
+ {
+  "site": "05532500",
+  "name": "DES PLAINES RIVER AT RIVERSIDE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05532500/",
+  "lat": 41.8215,
+  "lon": -87.822,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "4.56 ft",
+  "discharge_cms": "1,910 cfs"
+ },
+ {
+  "site": "05530990",
+  "name": "SALT CREEK AT ROLLING MEADOWS, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05530990/",
+  "lat": 42.0604,
+  "lon": -88.0167,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "3.24 ft",
+  "discharge_cms": "55.6 cfs"
+ },
+ {
+  "site": "05529500",
+  "name": "MC DONALD CREEK NEAR MOUNT PROSPECT, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05529500/",
+  "lat": 42.0953,
+  "lon": -87.9128,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "1.35 ft",
+  "discharge_cms": "13.3 cfs"
+ },
+ {
+  "site": "05529000",
+  "name": "DES PLAINES RIVER NEAR DES PLAINES, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05529000/",
+  "lat": 42.0872,
+  "lon": -87.8872,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "12.2 ft",
+  "discharge_cms": "903 cfs"
+ },
+ {
+  "site": "05528100",
+  "name": "DES PLAINES RIVER AT LINCOLNSHIRE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05528100/",
+  "lat": 42.2006,
+  "lon": -87.9186,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "10.2 ft",
+  "discharge_cms": "901 cfs"
+ },
+ {
+  "site": "05527500",
+  "name": "KANKAKEE RIVER NEAR WILMINGTON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05527500/",
+  "lat": 41.3463,
+  "lon": -88.1867,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "1.8 ft",
+  "discharge_cms": "2,980 cfs"
+ },
+ {
+  "site": "05526000",
+  "name": "IROQUOIS RIVER NEAR CHEBANSE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05526000/",
+  "lat": 41.0092,
+  "lon": -87.8241,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "2.89 ft",
+  "discharge_cms": "235 cfs"
+ },
+ {
+  "site": "05520500",
+  "name": "KANKAKEE RIVER AT MOMENCE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05520500/",
+  "lat": 41.1599,
+  "lon": -87.6688,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "2.46 ft",
+  "discharge_cms": "2,270 cfs"
+ },
+ {
+  "site": "05446500",
+  "name": "ROCK RIVER NEAR JOSLIN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05446500/",
+  "lat": 41.5561,
+  "lon": -90.1853,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "8.12 ft",
+  "discharge_cms": "9,050 cfs"
+ },
+ {
+  "site": "05444000",
+  "name": "ELKHORN CREEK NEAR PENROSE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05444000/",
+  "lat": 41.9027,
+  "lon": -89.6964,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "3.2 ft",
+  "discharge_cms": "85.1 cfs"
+ },
+ {
+  "site": "05443500",
+  "name": "ROCK RIVER AT COMO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05443500/",
+  "lat": 41.7722,
+  "lon": -89.7456,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "5.81 ft",
+  "discharge_cms": "8,930 cfs"
+ },
+ {
+  "site": "05439500",
+  "name": "SOUTH BRANCH KISHWAUKEE RIVER NR FAIRDALE IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05439500/",
+  "lat": 42.1106,
+  "lon": -88.9007,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "2.52 ft",
+  "discharge_cms": "123 cfs"
+ },
+ {
+  "site": "05437641",
+  "name": "ROCK RIVER AT AUBURN ST AT ROCKFORD",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05437641/",
+  "lat": 42.2887,
+  "lon": -89.0644,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "2.24 ft"
+ },
+ {
+  "site": "03381500",
+  "name": "LITTLE WABASH RIVER AT CARMI, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03381500/",
+  "lat": 38.0606,
+  "lon": -88.1572,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "2.57 ft",
+  "discharge_cms": "91.2 cfs"
+ },
+ {
+  "site": "03378000",
+  "name": "BONPAS CREEK AT BROWNS, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03378000/",
+  "lat": 38.3864,
+  "lon": -87.9758,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "1.22 ft",
+  "discharge_cms": "0.16 cfs"
+ },
+ {
+  "site": "03377500",
+  "name": "WABASH RIVER AT MT. CARMEL, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03377500/",
+  "lat": 38.3983,
+  "lon": -87.7564,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "5.63 ft",
+  "discharge_cms": "15,200 cfs"
+ },
+ {
+  "site": "03346500",
+  "name": "EMBARRAS RIVER AT LAWRENCEVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03346500/",
+  "lat": 38.7238,
+  "lon": -87.6644,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "17 ft",
+  "discharge_cms": "157 cfs"
+ },
+ {
+  "site": "03345500",
+  "name": "EMBARRAS RIVER AT STE. MARIE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03345500/",
+  "lat": 38.9367,
+  "lon": -88.0223,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "1.25 ft",
+  "discharge_cms": "106 cfs"
+ },
+ {
+  "site": "03343350",
+  "name": "BLACK SLOUGH AT CR 500N NR PHILO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03343350/",
+  "lat": 39.9526,
+  "lon": -88.1692,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "5.56 ft",
+  "discharge_cms": "2.57 cfs"
+ },
+ {
+  "site": "03339000",
+  "name": "VERMILION RIVER NEAR DANVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03339000/",
+  "lat": 40.1011,
+  "lon": -87.5976,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "2.77 ft",
+  "discharge_cms": "257 cfs"
+ },
+ {
+  "site": "03337100",
+  "name": "BONEYARD CREEK AT LINCOLN AVE AT URBANA, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03337100/",
+  "lat": 40.1114,
+  "lon": -88.2194,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "7.49 ft",
+  "discharge_cms": "2.09 cfs"
+ },
+ {
+  "site": "03336900",
+  "name": "SALT FORK NEAR ST. JOSEPH, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03336900/",
+  "lat": 40.1496,
+  "lon": -88.0336,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "3.2 ft",
+  "discharge_cms": "31.6 cfs"
+ },
+ {
+  "site": "03336890",
+  "name": "SPOON RIVER NEAR ST. JOSEPH, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03336890/",
+  "lat": 40.1642,
+  "lon": -88.0275,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "4.23 ft",
+  "discharge_cms": "6.82 cfs"
+ },
+ {
+  "site": "03336645",
+  "name": "MIDDLE FORK VERMILION RIVER ABOVE OAKWOOD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03336645/",
+  "lat": 40.137,
+  "lon": -87.7447,
+  "at": "2026-10-01T05:45+00:00",
+  "stage_m": "0.89 ft",
+  "discharge_cms": "32.5 cfs"
+ },
+ {
+  "site": "05540250",
+  "name": "EAST BRANCH DU PAGE RIVER AT BOLINGBROOK, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05540250/",
+  "lat": 41.7181,
+  "lon": -88.0706,
+  "at": "2026-10-01T05:40+00:00",
+  "stage_m": "16.8 ft",
+  "discharge_cms": "366 cfs"
+ },
+ {
+  "site": "05536121",
+  "name": "CHICAGO RIVER AT CHICAGO LOCK AT CHICAGO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536121/",
+  "lat": 41.8893,
+  "lon": -87.6079,
+  "at": "2026-10-01T05:39+00:00",
+  "stage_m": "-2.84 ft"
+ },
+ {
+  "site": "04087440",
+  "name": "LAKE MICHIGAN AT CHICAGO LOCK AT CHICAGO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/04087440/",
+  "lat": 41.8893,
+  "lon": -87.6079,
+  "at": "2026-10-01T05:39+00:00",
+  "stage_m": "0.59 ft"
+ },
+ {
+  "site": "05536123",
+  "name": "CHICAGO RIVER AT COLUMBUS DRIVE AT CHICAGO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536123/",
+  "lat": 41.8884,
+  "lon": -87.6212,
+  "at": "2026-10-01T05:38+00:00",
+  "stage_m": "-2.92 ft"
+ },
+ {
+  "site": "05540195",
+  "name": "ST. JOSEPH CREEK AT ROUTE 34 AT LISLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05540195/",
+  "lat": 41.8019,
+  "lon": -88.0689,
+  "at": "2026-10-01T05:35+00:00",
+  "stage_m": "4.93 ft",
+  "discharge_cms": "34.8 cfs"
+ },
+ {
+  "site": "03337000",
+  "name": "BONEYARD CREEK AT URBANA, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03337000/",
+  "lat": 40.1113,
+  "lon": -88.2266,
+  "at": "2026-10-01T05:35+00:00",
+  "stage_m": "10.2 ft",
+  "discharge_cms": "1.73 cfs"
+ },
+ {
+  "site": "05536890",
+  "name": "CHICAGO SANITARY AND SHIP CANAL NR LEMONT, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536890/",
+  "lat": 41.6912,
+  "lon": -87.9638,
+  "at": "2026-10-01T05:32+00:00",
+  "stage_m": "24.4 ft",
+  "discharge_cms": "4,170 cfs"
+ },
+ {
+  "site": "05599490",
+  "name": "BIG MUDDY RIVER AT RTE 127 AT MURPHYSBORO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05599490/",
+  "lat": 37.7583,
+  "lon": -89.3278,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "4.02 ft",
+  "discharge_cms": "185 cfs"
+ },
+ {
+  "site": "05597000",
+  "name": "BIG MUDDY RIVER AT PLUMFIELD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05597000/",
+  "lat": 37.8914,
+  "lon": -89.0194,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "2.49 ft",
+  "discharge_cms": "65.9 cfs"
+ },
+ {
+  "site": "05595952",
+  "name": "BIG MUDDY RIVER BELOW REND LAKE NR BENTON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05595952/",
+  "lat": 38.027,
+  "lon": -88.9606,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "7.45 ft",
+  "discharge_cms": "31.6 cfs"
+ },
+ {
+  "site": "05595820",
+  "name": "CASEY FORK AT MOUNT VERNON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05595820/",
+  "lat": 38.2867,
+  "lon": -88.8722,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "1.56 ft",
+  "discharge_cms": "2.6 cfs"
+ },
+ {
+  "site": "05595730",
+  "name": "RAYSE CREEK NEAR WALTONVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05595730/",
+  "lat": 38.2542,
+  "lon": -89.0406,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "0.99 ft",
+  "discharge_cms": "0 cfs"
+ },
+ {
+  "site": "05595200",
+  "name": "RICHLAND CREEK NEAR HECKER, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05595200/",
+  "lat": 38.3239,
+  "lon": -89.9706,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "26.9 ft",
+  "discharge_cms": "11.4 cfs"
+ },
+ {
+  "site": "05594800",
+  "name": "SILVER CREEK NEAR FREEBURG, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05594800/",
+  "lat": 38.4061,
+  "lon": -89.8739,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "0.07 ft",
+  "discharge_cms": "14.3 cfs"
+ },
+ {
+  "site": "05594070",
+  "name": "SUGAR CREEK NEAR AVISTON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05594070/",
+  "lat": 38.6159,
+  "lon": -89.6288,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "2.41 ft",
+  "discharge_cms": "1.49 cfs"
+ },
+ {
+  "site": "05594000",
+  "name": "SHOAL CREEK NEAR BREESE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05594000/",
+  "lat": 38.6097,
+  "lon": -89.4947,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "1.01 ft",
+  "discharge_cms": "22.7 cfs"
+ },
+ {
+  "site": "05593000",
+  "name": "KASKASKIA RIVER AT CARLYLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05593000/",
+  "lat": 38.6103,
+  "lon": -89.3575,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "5.69 ft",
+  "discharge_cms": "76.9 cfs"
+ },
+ {
+  "site": "05592900",
+  "name": "EAST FORK KASKASKIA RIVER NEAR SANDOVAL, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05592900/",
+  "lat": 38.6889,
+  "lon": -89.1,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "2.42 ft",
+  "discharge_cms": "0 cfs"
+ },
+ {
+  "site": "05592800",
+  "name": "HURRICANE CREEK NEAR MULBERRY GROVE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05592800/",
+  "lat": 38.9223,
+  "lon": -89.2367,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "3.49 ft",
+  "discharge_cms": "1.11 cfs"
+ },
+ {
+  "site": "05592575",
+  "name": "HICKORY CREEK NEAR BROWNSTOWN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05592575/",
+  "lat": 38.9371,
+  "lon": -88.9528,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "3.81 ft",
+  "discharge_cms": "0 cfs"
+ },
+ {
+  "site": "05592500",
+  "name": "KASKASKIA RIVER AT VANDALIA, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05592500/",
+  "lat": 38.9606,
+  "lon": -89.0888,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "2.95 ft",
+  "discharge_cms": "82.2 cfs"
+ },
+ {
+  "site": "05592100",
+  "name": "KASKASKIA RIVER NEAR COWDEN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05592100/",
+  "lat": 39.2299,
+  "lon": -88.8418,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "2.29 ft",
+  "discharge_cms": "62.7 cfs"
+ },
+ {
+  "site": "05592050",
+  "name": "ROBINSON CREEK NEAR SHELBYVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05592050/",
+  "lat": 39.4059,
+  "lon": -88.8968,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "2.74 ft"
+ },
+ {
+  "site": "05592000",
+  "name": "KASKASKIA RIVER AT SHELBYVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05592000/",
+  "lat": 39.407,
+  "lon": -88.781,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "6.38 ft",
+  "discharge_cms": "64.3 cfs"
+ },
+ {
+  "site": "05591700",
+  "name": "WEST OKAW RIVER NEAR LOVINGTON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05591700/",
+  "lat": 39.7307,
+  "lon": -88.6621,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "2.4 ft",
+  "discharge_cms": "0 cfs"
+ },
+ {
+  "site": "05591550",
+  "name": "WHITLEY CREEK NEAR ALLENVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05591550/",
+  "lat": 39.5067,
+  "lon": -88.5273,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "2.16 ft",
+  "discharge_cms": "0 cfs"
+ },
+ {
+  "site": "05591200",
+  "name": "KASKASKIA RIVER AT COOKS MILLS, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05591200/",
+  "lat": 39.5835,
+  "lon": -88.4138,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "1.58 ft",
+  "discharge_cms": "21.6 cfs"
+ },
+ {
+  "site": "05587900",
+  "name": "CAHOKIA CREEK AT EDWARDSVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05587900/",
+  "lat": 38.8244,
+  "lon": -89.9747,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "3.29 ft",
+  "discharge_cms": "16.9 cfs"
+ },
+ {
+  "site": "05587000",
+  "name": "MACOUPIN CREEK NEAR KANE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05587000/",
+  "lat": 39.2339,
+  "lon": -90.3944,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "3.78 ft",
+  "discharge_cms": "9.43 cfs"
+ },
+ {
+  "site": "05586300",
+  "name": "ILLINOIS RIVER AT FLORENCE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05586300/",
+  "lat": 39.6328,
+  "lon": -90.6077,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "17.9 ft"
+ },
+ {
+  "site": "05579500",
+  "name": "LAKE FORK NEAR CORNLAND, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05579500/",
+  "lat": 39.9518,
+  "lon": -89.3857,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "3.35 ft",
+  "discharge_cms": "8.37 cfs"
+ },
+ {
+  "site": "05578500",
+  "name": "SALT CREEK NEAR ROWELL, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05578500/",
+  "lat": 40.1152,
+  "lon": -89.0492,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "9.07 ft",
+  "discharge_cms": "19.8 cfs"
+ },
+ {
+  "site": "05578250",
+  "name": "NORTH FORK SALT CREEK NEAR DE WITT, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05578250/",
+  "lat": 40.2359,
+  "lon": -88.8096,
+  "at": "2026-10-01T05:30+00:00",
+  "discharge_cms": "3.3 cfs"
+ },
+ {
+  "site": "05578100",
+  "name": "SALT CREEK NEAR FARMER CITY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05578100/",
+  "lat": 40.2279,
+  "lon": -88.6606,
+  "at": "2026-10-01T05:30+00:00",
+  "discharge_cms": "13.9 cfs"
+ },
+ {
+  "site": "05577500",
+  "name": "SPRING CREEK AT SPRINGFIELD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05577500/",
+  "lat": 39.8154,
+  "lon": -89.6994,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "1.28 ft",
+  "discharge_cms": "0.04 cfs"
+ },
+ {
+  "site": "05576250",
+  "name": "SUGAR CREEK NEAR SPRINGFIELD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05576250/",
+  "lat": 39.7791,
+  "lon": -89.5925,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "9.65 ft",
+  "discharge_cms": "9.62 cfs"
+ },
+ {
+  "site": "05576022",
+  "name": "SOUTH FORK SANGAMON RIVER BELOW ROCHESTER, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05576022/",
+  "lat": 39.7538,
+  "lon": -89.5657,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "4.21 ft"
+ },
+ {
+  "site": "05565600",
+  "name": "MACKINAW RIVER NEAR HUDSON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05565600/",
+  "lat": 40.6583,
+  "lon": -89.0503,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "12.7 ft"
+ },
+ {
+  "site": "05551700",
+  "name": "BLACKBERRY CREEK NEAR YORKVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05551700/",
+  "lat": 41.6719,
+  "lon": -88.4415,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "4.41 ft",
+  "discharge_cms": "109 cfs"
+ },
+ {
+  "site": "05551675",
+  "name": "BLACKBERRY CREEK NEAR MONTGOMERY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05551675/",
+  "lat": 41.7408,
+  "lon": -88.3833,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "4.43 ft",
+  "discharge_cms": "98.2 cfs"
+ },
+ {
+  "site": "05550001",
+  "name": "FOX RIVER (TAILWATER) AT ALGONQUIN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05550001/",
+  "lat": 42.1619,
+  "lon": -88.2939,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "8.28 ft",
+  "discharge_cms": "2,750 cfs"
+ },
+ {
+  "site": "05547500",
+  "name": "FOX LAKE NEAR LAKE VILLA, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05547500/",
+  "lat": 42.4192,
+  "lon": -88.1259,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "4.56 ft"
+ },
+ {
+  "site": "05537980",
+  "name": "DES PLAINES RIVER AT ROUTE 53 AT JOLIET, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05537980/",
+  "lat": 41.5365,
+  "lon": -88.0837,
+  "at": "2026-10-01T05:30+00:00",
+  "discharge_cms": "6,960 cfs"
+ },
+ {
+  "site": "05536340",
+  "name": "MIDLOTHIAN CREEK AT OAK FOREST, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536340/",
+  "lat": 41.6141,
+  "lon": -87.7295,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "2.66 ft",
+  "discharge_cms": "145 cfs"
+ },
+ {
+  "site": "05536255",
+  "name": "BUTTERFIELD CREEK AT FLOSSMOOR, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536255/",
+  "lat": 41.5399,
+  "lon": -87.6494,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "5.03 ft",
+  "discharge_cms": "50.8 cfs"
+ },
+ {
+  "site": "05536137",
+  "name": "CHICAGO S & S CANAL AT WESTERN AVE AT CHICAGO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536137/",
+  "lat": 41.8372,
+  "lon": -87.6854,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "-2.83 ft"
+ },
+ {
+  "site": "05536000",
+  "name": "NORTH BRANCH CHICAGO RIVER AT NILES, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536000/",
+  "lat": 42.0122,
+  "lon": -87.7958,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "2.2 ft",
+  "discharge_cms": "181 cfs"
+ },
+ {
+  "site": "05528000",
+  "name": "DES PLAINES RIVER NEAR GURNEE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05528000/",
+  "lat": 42.3439,
+  "lon": -87.9411,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "5.95 ft",
+  "discharge_cms": "705 cfs"
+ },
+ {
+  "site": "05527800",
+  "name": "DES PLAINES RIVER AT RUSSELL, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05527800/",
+  "lat": 42.4894,
+  "lon": -87.9259,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "6.91 ft",
+  "discharge_cms": "408 cfs"
+ },
+ {
+  "site": "05469000",
+  "name": "HENDERSON CREEK NEAR OQUAWKA, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05469000/",
+  "lat": 41.0014,
+  "lon": -90.8543,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "16.1 ft",
+  "discharge_cms": "526 cfs"
+ },
+ {
+  "site": "05467000",
+  "name": "POPE CREEK NEAR KEITHSBURG, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05467000/",
+  "lat": 41.1289,
+  "lon": -90.9193,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "21.7 ft",
+  "discharge_cms": "335 cfs"
+ },
+ {
+  "site": "05466500",
+  "name": "EDWARDS RIVER NEAR NEW BOSTON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05466500/",
+  "lat": 41.187,
+  "lon": -90.9674,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "16.3 ft",
+  "discharge_cms": "808 cfs"
+ },
+ {
+  "site": "05447500",
+  "name": "GREEN RIVER NEAR GENESEO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05447500/",
+  "lat": 41.4889,
+  "lon": -90.158,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "6.19 ft",
+  "discharge_cms": "1,490 cfs"
+ },
+ {
+  "site": "05443000",
+  "name": "ROCK RIVER ABOVE SINNISSIPPI DAM AT ROCK FALLS, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05443000/",
+  "lat": 41.7872,
+  "lon": -89.6771,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "6.69 ft"
+ },
+ {
+  "site": "05440000",
+  "name": "KISHWAUKEE RIVER NEAR PERRYVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05440000/",
+  "lat": 42.1944,
+  "lon": -88.9989,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "6.32 ft",
+  "discharge_cms": "790 cfs"
+ },
+ {
+  "site": "05439000",
+  "name": "SOUTH BRANCH KISHWAUKEE RIVER AT DEKALB, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05439000/",
+  "lat": 41.9311,
+  "lon": -88.7597,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "4.42 ft",
+  "discharge_cms": "167 cfs"
+ },
+ {
+  "site": "05438500",
+  "name": "KISHWAUKEE RIVER AT BELVIDERE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05438500/",
+  "lat": 42.2561,
+  "lon": -88.8632,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "2.02 ft",
+  "discharge_cms": "389 cfs"
+ },
+ {
+  "site": "05437610",
+  "name": "ROCK RIVER AT LATHAM PARK, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05437610/",
+  "lat": 42.3686,
+  "lon": -89.0573,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "5.02 ft"
+ },
+ {
+  "site": "05437500",
+  "name": "ROCK RIVER AT ROCKTON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05437500/",
+  "lat": 42.4503,
+  "lon": -89.0725,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "5.74 ft",
+  "discharge_cms": "5,820 cfs"
+ },
+ {
+  "site": "05435500",
+  "name": "PECATONICA RIVER AT FREEPORT, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05435500/",
+  "lat": 42.3003,
+  "lon": -89.6153,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "5.66 ft",
+  "discharge_cms": "1,080 cfs"
+ },
+ {
+  "site": "05420400",
+  "name": "MISSISSIPPI RIVER AT DAM 13 NEAR FULTON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05420400/",
+  "lat": 41.8945,
+  "lon": -90.1568,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "5.78 ft"
+ },
+ {
+  "site": "03382100",
+  "name": "SOUTH FORK SALINE RIVER NR CARRIER MILLS, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03382100/",
+  "lat": 37.6381,
+  "lon": -88.6781,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "2.16 ft",
+  "discharge_cms": "4.23 cfs"
+ },
+ {
+  "site": "03381495",
+  "name": "LITTLE WABASH RIVER AT MAIN ST AT CARMI, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03381495/",
+  "lat": 38.0922,
+  "lon": -88.1561,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "3.35 ft"
+ },
+ {
+  "site": "03380000",
+  "name": "LITTLE WABASH RIVER NEAR GOLDEN GATE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03380000/",
+  "lat": 38.3719,
+  "lon": -88.2331,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "4.68 ft"
+ },
+ {
+  "site": "03379500",
+  "name": "LITTLE WABASH RIVER BELOW CLAY CITY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03379500/",
+  "lat": 38.6347,
+  "lon": -88.2972,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "4.28 ft",
+  "discharge_cms": "33.2 cfs"
+ },
+ {
+  "site": "03378635",
+  "name": "LITTLE WABASH RIVER NEAR EFFINGHAM, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03378635/",
+  "lat": 39.1039,
+  "lon": -88.5944,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "10.7 ft",
+  "discharge_cms": "24.4 cfs"
+ },
+ {
+  "site": "03337570",
+  "name": "SALINE BRANCH ABOVE 1700E NEAR URBANA, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03337570/",
+  "lat": 40.1298,
+  "lon": -88.1517,
+  "at": "2026-10-01T05:30+00:00",
+  "stage_m": "0.53 ft",
+  "discharge_cms": "29.8 cfs"
+ },
+ {
+  "site": "05540160",
+  "name": "EAST BRANCH DU PAGE RIVER NEAR DOWNERS GROVE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05540160/",
+  "lat": 41.8317,
+  "lon": -88.0478,
+  "at": "2026-10-01T05:20+00:00",
+  "stage_m": "13 ft",
+  "discharge_cms": "125 cfs"
+ },
+ {
+  "site": "05540060",
+  "name": "KRESS CREEK AT WEST CHICAGO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05540060/",
+  "lat": 41.8564,
+  "lon": -88.2042,
+  "at": "2026-10-01T05:20+00:00",
+  "stage_m": "4.51 ft",
+  "discharge_cms": "29.6 cfs"
+ },
+ {
+  "site": "05536900",
+  "name": "CHICAGO SANITARY AND SHIP CANAL AT LEMONT, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536900/",
+  "lat": 41.6789,
+  "lon": -88.001,
+  "at": "2026-10-01T05:20+00:00",
+  "stage_m": "24.2 ft"
+ },
+ {
+  "site": "05531300",
+  "name": "SALT CREEK AT ELMHURST, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05531300/",
+  "lat": 41.8862,
+  "lon": -87.9596,
+  "at": "2026-10-01T05:20+00:00",
+  "stage_m": "6.15 ft",
+  "discharge_cms": "181 cfs"
+ },
+ {
+  "site": "394803088215001",
+  "name": "KASKASKIA RIVER INFLOW AT FICKLIN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/394803088215001/",
+  "lat": 39.8008,
+  "lon": -88.3639,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "7.08 ft"
+ },
+ {
+  "site": "05594450",
+  "name": "SILVER CREEK NEAR TROY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05594450/",
+  "lat": 38.7164,
+  "lon": -89.8292,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "3.54 ft",
+  "discharge_cms": "0.67 cfs"
+ },
+ {
+  "site": "05594100",
+  "name": "KASKASKIA RIVER NEAR VENEDY STATION, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05594100/",
+  "lat": 38.4506,
+  "lon": -89.6275,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "1.37 ft",
+  "discharge_cms": "121 cfs"
+ },
+ {
+  "site": "05593945",
+  "name": "SHOAL CREEK NEAR PIERRON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05593945/",
+  "lat": 38.7758,
+  "lon": -89.4989,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "42 ft",
+  "discharge_cms": "9.46 cfs"
+ },
+ {
+  "site": "05593575",
+  "name": "LITTLE CROOKED CREEK NEAR NEW MINDEN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05593575/",
+  "lat": 38.4417,
+  "lon": -89.4167,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "4.68 ft",
+  "discharge_cms": "0.55 cfs"
+ },
+ {
+  "site": "05590800",
+  "name": "LAKE FORK AT ATWOOD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05590800/",
+  "lat": 39.8063,
+  "lon": -88.4762,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "2.37 ft"
+ },
+ {
+  "site": "05590520",
+  "name": "KASKASKIA RIVER BELOW FICKLIN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05590520/",
+  "lat": 39.7917,
+  "lon": -88.3678,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "2.17 ft",
+  "discharge_cms": "9.68 cfs"
+ },
+ {
+  "site": "05590050",
+  "name": "COPPER SLOUGH AT CHAMPAIGN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05590050/",
+  "lat": 40.0972,
+  "lon": -88.3072,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "9.93 ft",
+  "discharge_cms": "2.42 cfs"
+ },
+ {
+  "site": "05588000",
+  "name": "INDIAN CREEK AT WANDA, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05588000/",
+  "lat": 38.8417,
+  "lon": -90.0331,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "0.28 ft",
+  "discharge_cms": "0.45 cfs"
+ },
+ {
+  "site": "05580950",
+  "name": "SUGAR CREEK NEAR BLOOMINGTON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05580950/",
+  "lat": 40.4712,
+  "lon": -89.029,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "1 ft",
+  "discharge_cms": "31.4 cfs"
+ },
+ {
+  "site": "05580000",
+  "name": "KICKAPOO CREEK AT WAYNESVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05580000/",
+  "lat": 40.2548,
+  "lon": -89.1294,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "2.47 ft",
+  "discharge_cms": "19.3 cfs"
+ },
+ {
+  "site": "05579725",
+  "name": "LITTLE KICKAPOO CREEK NEAR HEYWORTH, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05579725/",
+  "lat": 40.365,
+  "lon": -88.9642,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "3.32 ft",
+  "discharge_cms": "6.26 cfs"
+ },
+ {
+  "site": "05578000",
+  "name": "SANGAMON RIVER AT PETERSBURG, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05578000/",
+  "lat": 40.0133,
+  "lon": -89.8383,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "4.56 ft",
+  "discharge_cms": "199 cfs"
+ },
+ {
+  "site": "05576900",
+  "name": "SANGAMON RIVER NEAR SPRINGFIELD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05576900/",
+  "lat": 39.8714,
+  "lon": -89.6141,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "21.3 ft"
+ },
+ {
+  "site": "05576090",
+  "name": "LICK CREEK NEAR CHATHAM, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05576090/",
+  "lat": 39.6992,
+  "lon": -89.7617,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "12 ft",
+  "discharge_cms": "0 cfs"
+ },
+ {
+  "site": "05570910",
+  "name": "SANGAMON RIVER AT FISHER, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05570910/",
+  "lat": 40.311,
+  "lon": -88.3224,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "4.66 ft",
+  "discharge_cms": "21.1 cfs"
+ },
+ {
+  "site": "05568800",
+  "name": "INDIAN CREEK NEAR WYOMING, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05568800/",
+  "lat": 41.0187,
+  "lon": -89.8357,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "9.96 ft",
+  "discharge_cms": "52.3 cfs"
+ },
+ {
+  "site": "05565700",
+  "name": "SIXMILE CREEK AT HUDSON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05565700/",
+  "lat": 40.6053,
+  "lon": -89.003,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "11.4 ft",
+  "discharge_cms": "4.9 cfs"
+ },
+ {
+  "site": "05564400",
+  "name": "MONEY CREEK NEAR TOWANDA, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05564400/",
+  "lat": 40.6053,
+  "lon": -88.899,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "14.4 ft",
+  "discharge_cms": "3.98 cfs"
+ },
+ {
+  "site": "05551545",
+  "name": "WAUBONSEE CREEK NEAR OSWEGO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05551545/",
+  "lat": 41.7013,
+  "lon": -88.327,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "9.27 ft",
+  "discharge_cms": "99.3 cfs"
+ },
+ {
+  "site": "05551200",
+  "name": "FERSON CREEK NEAR ST. CHARLES, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05551200/",
+  "lat": 41.9332,
+  "lon": -88.3411,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "1.88 ft",
+  "discharge_cms": "33.7 cfs"
+ },
+ {
+  "site": "05549501",
+  "name": "FOX RIVER (TAILWATER) NEAR MCHENRY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05549501/",
+  "lat": 42.3092,
+  "lon": -88.2515,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "3.21 ft"
+ },
+ {
+  "site": "05549500",
+  "name": "FOX RIVER NEAR MCHENRY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05549500/",
+  "lat": 42.31,
+  "lon": -88.2515,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "3.6 ft"
+ },
+ {
+  "site": "05540130",
+  "name": "WEST BRANCH DU PAGE RIVER NEAR NAPERVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05540130/",
+  "lat": 41.7203,
+  "lon": -88.1319,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "5.26 ft",
+  "discharge_cms": "335 cfs"
+ },
+ {
+  "site": "05540095",
+  "name": "WEST BRANCH DU PAGE RIVER NEAR WARRENVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05540095/",
+  "lat": 41.8175,
+  "lon": -88.1714,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "17.7 ft"
+ },
+ {
+  "site": "05539000",
+  "name": "HICKORY CREEK AT JOLIET, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05539000/",
+  "lat": 41.5147,
+  "lon": -88.0733,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "12.6 ft",
+  "discharge_cms": "428 cfs"
+ },
+ {
+  "site": "05536265",
+  "name": "LANSING DITCH NEAR LANSING, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536265/",
+  "lat": 41.5284,
+  "lon": -87.5294,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "4.93 ft"
+ },
+ {
+  "site": "05536215",
+  "name": "THORN CREEK AT GLENWOOD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536215/",
+  "lat": 41.5302,
+  "lon": -87.6226,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "2.95 ft",
+  "discharge_cms": "76.8 cfs"
+ },
+ {
+  "site": "05533000",
+  "name": "FLAG CREEK NEAR WILLOW SPRINGS, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05533000/",
+  "lat": 41.7389,
+  "lon": -87.8969,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "4.23 ft",
+  "discharge_cms": "88.6 cfs"
+ },
+ {
+  "site": "05532000",
+  "name": "ADDISON CREEK AT BELLWOOD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05532000/",
+  "lat": 41.8819,
+  "lon": -87.8689,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "2.3 ft",
+  "discharge_cms": "73 cfs"
+ },
+ {
+  "site": "05528500",
+  "name": "BUFFALO CREEK NEAR WHEELING, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05528500/",
+  "lat": 42.1519,
+  "lon": -87.9578,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "1.97 ft",
+  "discharge_cms": "11.1 cfs"
+ },
+ {
+  "site": "05495500",
+  "name": "BEAR CREEK NEAR MARCELLINE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05495500/",
+  "lat": 40.1428,
+  "lon": -91.3374,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "2.38 ft",
+  "discharge_cms": "5.46 cfs"
+ },
+ {
+  "site": "05442300",
+  "name": "ROCK RIVER AT DIXON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05442300/",
+  "lat": 41.8442,
+  "lon": -89.4858,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "9.87 ft",
+  "discharge_cms": "7,370 cfs"
+ },
+ {
+  "site": "05440700",
+  "name": "ROCK RIVER AT BYRON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05440700/",
+  "lat": 42.1222,
+  "lon": -89.2554,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "7.66 ft",
+  "discharge_cms": "7,730 cfs"
+ },
+ {
+  "site": "05438170",
+  "name": "KISHWAUKEE RIVER AT MARENGO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05438170/",
+  "lat": 42.2653,
+  "lon": -88.6085,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "7.81 ft",
+  "discharge_cms": "105 cfs"
+ },
+ {
+  "site": "05419000",
+  "name": "APPLE RIVER NEAR HANOVER, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05419000/",
+  "lat": 42.2583,
+  "lon": -90.285,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "4.39 ft",
+  "discharge_cms": "176 cfs"
+ },
+ {
+  "site": "05414820",
+  "name": "SINSINAWA RIVER NEAR MENOMINEE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05414820/",
+  "lat": 42.4786,
+  "lon": -90.4867,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "4.86 ft",
+  "discharge_cms": "24.4 cfs"
+ },
+ {
+  "site": "03382200",
+  "name": "MIDDLE FORK SALINE RIVER NEAR HARRISBURG, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03382200/",
+  "lat": 37.7381,
+  "lon": -88.5014,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "8.94 ft"
+ },
+ {
+  "site": "03343400",
+  "name": "EMBARRAS RIVER NEAR CAMARGO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03343400/",
+  "lat": 39.7916,
+  "lon": -88.1858,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "2.81 ft",
+  "discharge_cms": "8.37 cfs"
+ },
+ {
+  "site": "03338780",
+  "name": "NORTH FORK VERMILION RIVER NEAR BISMARCK, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03338780/",
+  "lat": 40.2657,
+  "lon": -87.6421,
+  "at": "2026-10-01T05:15+00:00",
+  "stage_m": "4.97 ft"
+ },
+ {
+  "site": "370000089094501",
+  "name": "OHIO RIVER AT CAIRO, IL (CORPS)",
+  "url": "https://waterdata.usgs.gov/monitoring-location/370000089094501/",
+  "lat": 37.0001,
+  "lon": -89.1626,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "23.5 ft"
+ },
+ {
+  "site": "05595240",
+  "name": "KASKASKIA RIVER NEAR RED BUD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05595240/",
+  "lat": 38.1886,
+  "lon": -89.8889,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "68.6 ft"
+ },
+ {
+  "site": "05595000",
+  "name": "KASKASKIA RIVER AT NEW ATHENS, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05595000/",
+  "lat": 38.3197,
+  "lon": -89.8883,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "68.6 ft",
+  "discharge_cms": "517 cfs"
+ },
+ {
+  "site": "05568705",
+  "name": "MASON TAZEWELL DRAINAGE D AT CR2350E NR TOPEKA, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05568705/",
+  "lat": 40.3266,
+  "lon": -89.9141,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "15.4 ft",
+  "discharge_cms": "56.8 cfs"
+ },
+ {
+  "site": "05560500",
+  "name": "FARM CREEK AT FARMDALE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05560500/",
+  "lat": 40.6674,
+  "lon": -89.5039,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "0.95 ft",
+  "discharge_cms": "10.4 cfs"
+ },
+ {
+  "site": "05551540",
+  "name": "FOX RIVER AT MONTGOMERY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05551540/",
+  "lat": 41.7336,
+  "lon": -88.3333,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "12.4 ft",
+  "discharge_cms": "3,070 cfs"
+ },
+ {
+  "site": "05548280",
+  "name": "NIPPERSINK CREEK NEAR SPRING GROVE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05548280/",
+  "lat": 42.4437,
+  "lon": -88.2474,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "4.71 ft",
+  "discharge_cms": "166 cfs"
+ },
+ {
+  "site": "05537500",
+  "name": "LONG RUN NEAR LEMONT, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05537500/",
+  "lat": 41.6426,
+  "lon": -87.9994,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "3.29 ft",
+  "discharge_cms": "112 cfs"
+ },
+ {
+  "site": "05536140",
+  "name": "CHICAGO SANITARY AND SHIP CANAL AT STICKNEY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536140/",
+  "lat": 41.8167,
+  "lon": -87.7535,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "-2.9 ft"
+ },
+ {
+  "site": "05536118",
+  "name": "NB CHICAGO RIVER AT GRAND AVENUE AT CHICAGO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536118/",
+  "lat": 41.8923,
+  "lon": -87.6424,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "-2.79 ft"
+ },
+ {
+  "site": "05535500",
+  "name": "WF OF NB CHICAGO RIVER AT NORTHBROOK IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05535500/",
+  "lat": 42.1383,
+  "lon": -87.8347,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "1.27 ft",
+  "discharge_cms": "20.8 cfs"
+ },
+ {
+  "site": "05533600",
+  "name": "DES PLAINES RIVER NEAR LEMONT, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05533600/",
+  "lat": 41.6724,
+  "lon": -88.0285,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "8.14 ft",
+  "discharge_cms": "1,690 cfs"
+ },
+ {
+  "site": "05533400",
+  "name": "SAWMILL CREEK NEAR LEMONT, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05533400/",
+  "lat": 41.7078,
+  "lon": -87.9628,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "9.31 ft",
+  "discharge_cms": "42 cfs"
+ },
+ {
+  "site": "05532600",
+  "name": "DES PLAINES RIVER AT LYONS, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05532600/",
+  "lat": 41.8061,
+  "lon": -87.8112,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "14.3 ft"
+ },
+ {
+  "site": "05531175",
+  "name": "SALT CREEK AT WOOD DALE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05531175/",
+  "lat": 41.9641,
+  "lon": -87.9842,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "8.31 ft"
+ },
+ {
+  "site": "05530750",
+  "name": "DES PLAINES RIVER AT RIVER FOREST, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05530750/",
+  "lat": 41.8883,
+  "lon": -87.8328,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "8.78 ft"
+ },
+ {
+  "site": "05527950",
+  "name": "MILL CREEK AT OLD MILL CREEK, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05527950/",
+  "lat": 42.4153,
+  "lon": -87.9692,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "7.11 ft",
+  "discharge_cms": "68.9 cfs"
+ },
+ {
+  "site": "05525500",
+  "name": "SUGAR CREEK AT MILFORD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05525500/",
+  "lat": 40.6299,
+  "lon": -87.7235,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "2.82 ft",
+  "discharge_cms": "21.2 cfs"
+ },
+ {
+  "site": "05525000",
+  "name": "IROQUOIS RIVER AT IROQUOIS, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05525000/",
+  "lat": 40.8231,
+  "lon": -87.5817,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "5.22 ft",
+  "discharge_cms": "108 cfs"
+ },
+ {
+  "site": "05437645",
+  "name": "ROCK RIVER ABOVE DAM AT ROCKFORD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05437645/",
+  "lat": 42.2665,
+  "lon": -89.096,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "1.84 ft"
+ },
+ {
+  "site": "03612000",
+  "name": "CACHE RIVER AT FORMAN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03612000/",
+  "lat": 37.335,
+  "lon": -88.9253,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "8.26 ft",
+  "discharge_cms": "0.81 cfs"
+ },
+ {
+  "site": "03380500",
+  "name": "SKILLET FORK AT WAYNE CITY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03380500/",
+  "lat": 38.3633,
+  "lon": -88.5878,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "3.22 ft"
+ },
+ {
+  "site": "03336998",
+  "name": "BONEYARD CREEK BELOW 6TH STREET AT CHAMPAIGN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03336998/",
+  "lat": 40.1112,
+  "lon": -88.2299,
+  "at": "2026-10-01T05:00+00:00",
+  "stage_m": "11.4 ft"
+ }
+]

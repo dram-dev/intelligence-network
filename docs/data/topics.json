@@ -14,7 +14,7 @@
    },
    {
     "key": "agriculture.digest",
-    "description": "The daily digest (Google Doc link) when it is published"
+    "description": "Your county's morning brief at 8:00, with the full digest in Drive"
    }
   ],
   "metrics": [
@@ -535,7 +535,9 @@
     "display": null,
     "convert": {}
    }
-  ]
+  ],
+  "quick_reports": [],
+  "alert_parameters": {}
  },
  {
   "name": "air",
@@ -552,7 +554,7 @@
    },
    {
     "key": "air.digest",
-    "description": "The daily digest (Google Doc link) when it is published"
+    "description": "Your county's morning brief at 8:00, with the full digest in Drive"
    }
   ],
   "metrics": [
@@ -747,7 +749,9 @@
     "display": null,
     "convert": {}
    }
-  ]
+  ],
+  "quick_reports": [],
+  "alert_parameters": {}
  },
  {
   "name": "markets",
@@ -764,7 +768,7 @@
    },
    {
     "key": "markets.digest",
-    "description": "The daily digest (Google Doc link) when it is published"
+    "description": "Your county's morning brief at 8:00, with the full digest in Drive"
    }
   ],
   "metrics": [
@@ -1086,7 +1090,9 @@
     "display": null,
     "convert": {}
    }
-  ]
+  ],
+  "quick_reports": [],
+  "alert_parameters": {}
  },
  {
   "name": "nature",
@@ -1103,7 +1109,7 @@
    },
    {
     "key": "nature.digest",
-    "description": "The daily digest (Google Doc link) when it is published"
+    "description": "Your county's morning brief at 8:00, with the full digest in Drive"
    }
   ],
   "metrics": [
@@ -1367,7 +1373,9 @@
     "display": null,
     "convert": {}
    }
-  ]
+  ],
+  "quick_reports": [],
+  "alert_parameters": {}
  },
  {
   "name": "quake",
@@ -1384,7 +1392,7 @@
    },
    {
     "key": "quake.digest",
-    "description": "The daily digest (Google Doc link) when it is published"
+    "description": "Your county's morning brief at 8:00, with the full digest in Drive"
    }
   ],
   "metrics": [
@@ -1542,7 +1550,9 @@
     "display": null,
     "convert": {}
    }
-  ]
+  ],
+  "quick_reports": [],
+  "alert_parameters": {}
  },
  {
   "name": "soil",
@@ -1559,7 +1569,7 @@
    },
    {
     "key": "soil.digest",
-    "description": "The daily digest (Google Doc link) when it is published"
+    "description": "Your county's morning brief at 8:00, with the full digest in Drive"
    }
   ],
   "metrics": [
@@ -1900,7 +1910,9 @@
     "display": null,
     "convert": {}
    }
-  ]
+  ],
+  "quick_reports": [],
+  "alert_parameters": {}
  },
  {
   "name": "water",
@@ -1917,7 +1929,7 @@
    },
    {
     "key": "water.digest",
-    "description": "The daily digest (Google Doc link) when it is published"
+    "description": "Your county's morning brief at 8:00, with the full digest in Drive"
    }
   ],
   "metrics": [
@@ -2370,7 +2382,9 @@
     "display": null,
     "convert": {}
    }
-  ]
+  ],
+  "quick_reports": [],
+  "alert_parameters": {}
  },
  {
   "name": "weather",
@@ -2395,7 +2409,7 @@
    },
    {
     "key": "weather.digest",
-    "description": "The daily digest (Google Doc link) when it is published"
+    "description": "Your county's morning brief at 8:00, with the full digest in Drive"
    }
   ],
   "metrics": [
@@ -3079,6 +3093,232 @@
     "display": null,
     "convert": {}
    }
-  ]
+  ],
+  "quick_reports": [
+   {
+    "id": "rain",
+    "button": "\ud83c\udf27 Rain",
+    "ask": "How much rain so far? Pick the closest total.",
+    "choices": [
+     [
+      "0.1 in",
+      "rain 0.1in"
+     ],
+     [
+      "\u00bc in",
+      "rain 0.25in"
+     ],
+     [
+      "\u00bd in",
+      "rain 0.5in"
+     ],
+     [
+      "1 in",
+      "rain 1in"
+     ],
+     [
+      "1\u00bd in",
+      "rain 1.5in"
+     ],
+     [
+      "2 in",
+      "rain 2in"
+     ],
+     [
+      "3 in or more",
+      "rain 3in"
+     ],
+     [
+      "None",
+      "nothing here -- no rain"
+     ]
+    ]
+   },
+   {
+    "id": "hail",
+    "button": "\ud83e\uddca Hail",
+    "ask": "How big? Pick the closest match.",
+    "choices": [
+     [
+      "Pea \u00bc\u2033",
+      "hail pea"
+     ],
+     [
+      "Penny \u00be\u2033",
+      "hail penny"
+     ],
+     [
+      "Quarter 1\u2033",
+      "hail quarter"
+     ],
+     [
+      "Ping-pong 1\u00bd\u2033",
+      "hail ping pong"
+     ],
+     [
+      "Golf ball 1\u00be\u2033",
+      "hail golf ball"
+     ],
+     [
+      "Tennis ball 2\u00bd\u2033",
+      "hail tennis ball"
+     ],
+     [
+      "Baseball 2\u00be\u2033",
+      "hail baseball"
+     ],
+     [
+      "Softball 4\u00bd\u2033",
+      "hail softball"
+     ],
+     [
+      "None",
+      "nothing here -- no hail"
+     ]
+    ],
+    "visual": "size",
+    "example": "hail 1.25in"
+   },
+   {
+    "id": "wind",
+    "button": "\ud83d\udca8 Wind",
+    "ask": "How strong was the strongest gust, roughly?",
+    "choices": [
+     [
+      "30 mph",
+      "gust 30 mph"
+     ],
+     [
+      "40 mph",
+      "gust 40 mph"
+     ],
+     [
+      "50 mph",
+      "gust 50 mph"
+     ],
+     [
+      "60 mph",
+      "gust 60 mph"
+     ],
+     [
+      "70 mph",
+      "gust 70 mph"
+     ],
+     [
+      "80+ mph",
+      "gust 80 mph"
+     ],
+     [
+      "Trees down",
+      "trees down"
+     ]
+    ]
+   },
+   {
+    "id": "flooding",
+    "button": "\ud83c\udf0a Flooding",
+    "send": "flooding"
+   },
+   {
+    "id": "damage",
+    "button": "\ud83c\udf33 Damage",
+    "send": "trees down"
+   },
+   {
+    "id": "nothing",
+    "button": "\u2705 Nothing here",
+    "send": "nothing here"
+   },
+   {
+    "id": "snow",
+    "button": "\u2744\ufe0f Snow",
+    "ask": "How much snow fell? Pick the closest total.",
+    "choices": [
+     [
+      "1 in",
+      "snow 1in"
+     ],
+     [
+      "2 in",
+      "snow 2in"
+     ],
+     [
+      "4 in",
+      "snow 4in"
+     ],
+     [
+      "6 in",
+      "snow 6in"
+     ],
+     [
+      "8 in",
+      "snow 8in"
+     ],
+     [
+      "12 in or more",
+      "snow 12in"
+     ],
+     [
+      "None",
+      "nothing here -- no snow"
+     ]
+    ],
+    "keyboard": false
+   }
+  ],
+  "alert_parameters": {
+   "maxHailSize": {
+    "label": "Hail up to",
+    "unit": "in",
+    "chip": "Hail",
+    "metric": "hail_mm"
+   },
+   "maxWindGust": {
+    "label": "Wind",
+    "unit": "mph",
+    "chip": "Wind"
+   },
+   "tornadoDetection": {
+    "label": "Tornado",
+    "levels": [
+     "POSSIBLE",
+     "RADAR INDICATED",
+     "OBSERVED"
+    ],
+    "show": "tag"
+   },
+   "tornadoDamageThreat": {
+    "label": "Tornado damage threat",
+    "levels": [
+     "CONSIDERABLE",
+     "CATASTROPHIC"
+    ],
+    "show": "header"
+   },
+   "thunderstormDamageThreat": {
+    "label": "Damage threat",
+    "levels": [
+     "CONSIDERABLE",
+     "DESTRUCTIVE"
+    ],
+    "show": "header"
+   },
+   "flashFloodDetection": {
+    "label": "Flash flood",
+    "levels": [
+     "RADAR INDICATED",
+     "OBSERVED"
+    ],
+    "show": "tag"
+   },
+   "flashFloodDamageThreat": {
+    "label": "Flash flood damage threat",
+    "levels": [
+     "CONSIDERABLE",
+     "CATASTROPHIC"
+    ],
+    "show": "header"
+   }
+  }
  }
 ]

@@ -1,0 +1,44 @@
+[
+ {
+  "id": 1,
+  "topic": "weather",
+  "title": "Flood Watch",
+  "severity": 0.75,
+  "status": "closed",
+  "counties": [
+   "Lake"
+  ],
+  "fips": [
+   "17097"
+  ],
+  "opened_at": "2026-09-30T22:00:00+00:00",
+  "updated_at": "2026-09-30T22:00:00+00:00",
+  "lat": 42.321,
+  "lon": -87.936,
+  "brief": "A NWS Flood Watch is currently in effect [1]. It was issued at 5:00 PM [1].",
+  "facts": [
+   "NWS Flood Watch, issued 5:00 PM, in effect"
+  ]
+ },
+ {
+  "id": 2,
+  "topic": "weather",
+  "title": "Rainfall 1.4 in \u2014 Henry County",
+  "severity": 0.4,
+  "status": "closed",
+  "counties": [
+   "Henry"
+  ],
+  "fips": [
+   "17073"
+  ],
+  "opened_at": "2026-09-30T23:25:00+00:00",
+  "updated_at": "2026-09-30T23:25:00+00:00",
+  "lat": 41.47,
+  "lon": -90.32,
+  "brief": "Rainfall peaked at 1.4 inches in Henry County [1]. This measurement comes from one official source [1]. The data has been verified [1].",
+  "facts": [
+   "Rainfall peak 1.4 in in Henry County, from 1 official source, verified"
+  ]
+ }
+]

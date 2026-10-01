@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://dram-dev.github.io/intelligence-network/sitemap.xml
