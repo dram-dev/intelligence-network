@@ -299,8 +299,11 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   the site's 01:10 snapshot), one per county among subscribers, named `dm-<hash>` in
   cardmap's folder so delivery uploads it like a card picture and reuses Telegram's file id;
   `CARD_MAPS` off → no picture. The brief lists the stories under the map's numbers
-  (`connections(day)`, `<code>n</code>` badges) and its "Across Illinois" is the map's
-  labelled readings; a story's further headlines (`more`) stay out of "Also worth reading".
+  (`connections(day)`: a short block each, "1 · Chicago area", the lead headline with its
+  publisher and how many more, a "↳ value, place" line per reading, ⚠️ the alerts in force;
+  Telegram showed `<code>` as plain text and one run-on bullet was hard to scan), and its
+  "Across Illinois" is the map's labelled readings; a story's further headlines (`more`)
+  stay out of "Also worth reading". The picture's ▲ is sized from the font's digits.
 - **Morning brief** (`brief.py`): replaces the digest-link ping. Per digest
   subscriber: county from live location, else home, else the state. Lines: alerts
   in effect (one per event, ×n), alerts ended in 24 h (alert_threads), every metric

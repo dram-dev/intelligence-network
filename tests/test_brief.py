@@ -59,9 +59,9 @@ def test_the_briefs_stories_carry_the_maps_numbers(fresh_db, sent, make_sensor):
     day = notable.build()
     [story] = day["news"]
     rich = brief.compose_rich("17167", {}, day=day, picture=daymap.prepare(day, "17167"))
-    assert f"<li><code>{story['n']}</code> <b>Springfield</b>: " in rich and "↳ Rain 1.50 in s-" in rich
+    assert f"<p><b>{story['n']} · Springfield</b><br>" in rich and "↳ Rain 1.50 in, s-" in rich
     plain = brief.compose("17167", {}, day=day)
-    assert f"<b>{story['n']}</b> · <b>Springfield</b>: " in plain and "Heavy rain soaks Springfield" in plain
+    assert f"<b>{story['n']} · Springfield</b>\n" in plain and "Heavy rain soaks Springfield" in plain
 
 
 def test_the_brief_waits_out_quiet_hours_and_goes_without_drive(fresh_db, sent, monkeypatch):

@@ -50,7 +50,7 @@ SS = 2                            # vector layers drawn twice as large, then sca
 PAD = 30
 RAIL = 300                        # the key, right of the state
 KEEP = timedelta(days=3)
-RENDER_VERSION = 1                # part of every name: bump it when the drawing changes
+RENDER_VERSION = 2                # part of every name: bump it when the drawing changes
 # The site's dark topic colours (site/index.fragment.html), which hold up on this dark map
 TOPIC_COLOURS = {"weather": "#5FB4C0", "soil": "#C08A5A", "water": "#7FA6E8", "agriculture": "#8BBF63",
                  "air": "#B1A2E3", "quake": "#E5786A", "nature": "#D9C45A", "markets": "#D28CC8"}
@@ -252,13 +252,16 @@ def _label(d: ImageDraw.ImageDraw, labels: _Labels, x: float, y: float, text: st
     """A stand-out's label where it fits around its dot. A rise ("▲ 1.86 ft") gets its
     triangle drawn: the font has no glyph for it."""
     rising = text.startswith("▲")
-    shown = "   " + text.lstrip("▲ ") if rising else text
+    shown = "    " + text.lstrip("▲ ") if rising else text
     for xy, anchor in cardmap._spots(x, y, 17, 13):
         if labels.put(xy, shown, font, anchor=anchor, stroke=5):
-            if rising:
-                x0, y0, _, y1 = d.textbbox(xy, shown, font=font, anchor=anchor)
-                cy = (y0 + y1) / 2 + 2
-                d.polygon([(x0 + 1, cy + 9), (x0 + 23, cy + 9), (x0 + 12, cy - 10)], fill=TEXT, outline=HALO, width=3)
+            if rising:                      # as tall as the digits beside it, standing on their baseline
+                x0 = d.textbbox(xy, shown, font=font, anchor=anchor)[0]
+                _, top, _, base = d.textbbox(xy, "0", font=font, anchor=anchor)
+                w = (base - top) * 1.1
+                tri = [(x0 + 2, base), (x0 + 2 + w, base), (x0 + 2 + w / 2, top)]
+                d.polygon(tri, fill=HALO, outline=HALO, width=7)                # its halo, like the text's
+                d.polygon(tri, fill=TEXT)
             return
 
 

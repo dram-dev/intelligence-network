@@ -114,8 +114,9 @@ class Story:
     """One of the day's stories, under the number the map gives it."""
     n: int
     where: str                          # "Chicago area", or "Agriculture, statewide"
-    heads: str                          # up to two linked headlines with their publishers (HTML)
-    facts: list[str]                    # what the network measured there, the alerts in force
+    head: str                           # its lead headline, linked, with its publisher (HTML)
+    facts: list[str]                    # what the network measured there
+    alerts: str = ""                    # "Flood Warning and Flood Watch in force"
 
 
 def connections(day: dict[str, Any]) -> tuple[list[Story], set[str]]:
@@ -125,14 +126,16 @@ def connections(day: dict[str, Any]) -> tuple[list[Story], set[str]]:
     places = {p["id"]: p for p in day.get("places") or []}
     items, used = [], set()
     for n in day.get("news") or []:
-        heads = " · ".join(
-            (f'<a href="{href(s["url"])}">{esc(s["title"])}</a>' if href(s["url"]) else esc(s["title"]))
-            + (f" <i>({esc(s['source'])})</i>" if s["source"] else "") for s in n["stories"][:2])
+        lead, link = n["stories"][0], href(n["stories"][0]["url"])
+        others = len(n["stories"]) - 1 + len(n.get("more") or [])
+        source = " · ".join(x for x in (lead["source"], f"{others} more {'story' if others == 1 else 'stories'}"
+                                        if others else "") if x)
+        head = (f'<a href="{link}">{esc(lead["title"])}</a>' if link else esc(lead["title"])) \
+            + (f" <i>({esc(source)})</i>" if source else "")
         used |= {" ".join(t.lower().split()) for t in [s["title"] for s in n["stories"]] + (n.get("more") or [])}
-        facts = [f"{notable.tight(p['label'])} {p['name']}" for p in (places.get(i) for i in n["links"]) if p]
-        facts += [" and ".join(n["alerts"]) + " in force"] if n["alerts"] else []
+        facts = [f"{notable.tight(p['label'])}, {p['name']}" for p in (places.get(i) for i in n["links"]) if p]
         where = n["place"] or f"{notable.topic_label(n['topic'])}, statewide"
-        items.append(Story(n["n"], where, heads, facts))
+        items.append(Story(n["n"], where, head, facts, " and ".join(n["alerts"]) + " in force" if n["alerts"] else ""))
     return items, used
 
 
@@ -169,8 +172,9 @@ def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | N
     linked, used = connections(day)
     if linked:
         lines.append("<b>In the news, and what was measured there</b>")
-        lines += [f"<b>{st.n}</b> · <b>{esc(st.where)}</b>: {st.heads}"
-                  + (f"\n   ↳ {esc('; '.join(st.facts))}" if st.facts else "") for st in linked]
+        lines += [f"<b>{st.n} · {esc(st.where)}</b>\n{st.head}"
+                  + "".join(f"\n   ↳ {esc(f)}" for f in st.facts)
+                  + (f"\n   ⚠️ {esc(st.alerts)}" if st.alerts else "") + "\n" for st in linked]
         lines.append("")
     if c:
         groups = _in_effect(c.fips)
@@ -262,10 +266,11 @@ def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetim
                      + ("; your county is outlined" if c else "") + ".</figcaption></figure>")
     linked, used = connections(day)
     if linked:
-        parts.append("<p><b>In the news, and what was measured there</b></p><ul>"
-                     + "".join(f"<li><code>{st.n}</code> <b>{esc(st.where)}</b>: {st.heads}"
-                               + (f"<br>↳ {esc(' · '.join(st.facts))}" if st.facts else "") + "</li>"
-                               for st in linked) + "</ul>")
+        parts.append("<p><b>In the news, and what was measured there</b></p>"
+                     + "".join(f"<p><b>{st.n} · {esc(st.where)}</b><br>{st.head}"
+                               + "".join(f"<br>↳ {esc(f)}" for f in st.facts)
+                               + (f"<br>⚠️ {esc(st.alerts)}" if st.alerts else "") + "</p>"
+                               for st in linked))
     if c and linked:                               # the county's own section, under the connections
         parts.append(f"<p><b>{esc(where)}</b></p>")
     table = ""
