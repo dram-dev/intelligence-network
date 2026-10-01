@@ -220,8 +220,13 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   is bilinear in (azimuth, range) on values. QC (pack `quality`): same-scan dual-pol correlation
   coefficient N0C < 0.85 → dropped, except strong echoes inside a *solid* storm area (tornado
   debris; wind farms like Twin Groves E of Bloomington are stationary, CC ~0.5, up to 60 dBZ);
-  holes under rain are filled from the rain around (normalized box filter). Colours from the
-  pack's stops (translucent light rain). Dark map (site assets), warning outlined in its event
+  holes under rain are filled from the rain around (normalized box filter, ≥ 35% rain around);
+  lone specks go. Within 12 km of the radar (spokes, the blind cone) the readings around are
+  smoothed in (`_near_site`); a distant second radar was tried and painted streaks. Colours
+  from the pack's stops (translucent light rain). Labels never sit on the storm's track: its
+  name goes behind it, the times beside it. Bump `cardmap.RENDER_VERSION` whenever the drawing
+  changes (pictures and loops are cached by content name). Every render is looked at before
+  it ships (stills, loop frames): see the samples workflow in memory. Dark map (site assets), warning outlined in its event
   colour, NWS motion → dashed track with 10-min times, the reader's blue dot + "storm ~7:04 PM",
   people's reports (cyan, at ZIP centres) and spotters' (white) from the last 2 h, legend,
   scale, "Lincoln radar · 6:35 PM". 1080×720 JPEG named by scene + radar key; scene kept as

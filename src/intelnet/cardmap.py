@@ -50,6 +50,9 @@ KEEP = timedelta(hours=36)          # pictures (and radar files) on disk
 NEAR_KM = 45                        # a place this close to the warning is inside the frame
 TRACK_STEP, TRACK_MAX = 10, 60      # the storm's track: a mark every 10 minutes, up to an hour
 REPORT_HOURS = 2                    # reports drawn: the last two hours
+# Part of every picture's name: bump it when the drawing changes, so a picture (or loop)
+# already on disk or at Telegram is never reused in its old design.
+RENDER_VERSION = 9
 PHOTO = re.compile(r"tg://photo\?id=([A-Za-z0-9_-]{1,64})")
 VIDEO = re.compile(r"tg://video\?id=([A-Za-z0-9_-]{1,64})")
 LOOP_MINUTES = 45                   # a card's loop: the last three quarters of an hour of radar
@@ -199,7 +202,7 @@ class Scene:
     def name(self, slot: str) -> str:
         """What the picture shows, as a file name: same scene, same picture."""
         m = self.mark
-        spec = [self.version, len(self.rings), self.counties, slot, self.extra,
+        spec = [RENDER_VERSION, self.version, len(self.rings), self.counties, slot, self.extra,
                 [round(m.lat, 3), round(m.lon, 3), m.label, m.note] if m else None,
                 [[round(r.lat, 3), round(r.lon, 3), r.text] for r in self.reports]]
         return "wm-" + hashlib.sha1(json.dumps(spec, default=str).encode()).hexdigest()[:20]
@@ -316,22 +319,55 @@ def radar_keys(topic: str, f: Frame, minutes: float) -> list[str]:
 _LAYERS: dict[tuple[str, Frame], Image.Image | None] = {}
 
 
-def radar_layer(topic: str, key: str, f: Frame) -> Image.Image | None:
-    """One sweep, sampled at every pixel of the frame and coloured: an RGBA layer."""
-    hit = _LAYERS.get((key, f))
-    if hit is not None:
-        return hit
+NEAR_SITE_KM = 12.0         # by a radar its lowest sweep is clutter-filtered into spokes, and the cone
+                            # over it is blind: inside this, the readings around are smoothed in
+
+
+def _sweep_values(topic: str, key: str, lats: np.ndarray, lons: np.ndarray) -> tuple[np.ndarray, Any] | None:
     raw = nexrad.fetch(key, _dir().parent / "radar")
     if raw is None:
         return None
     try:
         sweep = nexrad.decode(raw)
-    except (ValueError, OSError, EOFError) as exc:
+    except (ValueError, OSError, EOFError, struct.error) as exc:
         logger.info("cardmap: can't read %s (%s)", key, type(exc).__name__)
         return None
+    return _quality(topic, key, nexrad.sample(sweep, lats, lons), lats, lons), sweep
+
+
+def _near_site(values: np.ndarray, km: np.ndarray, km_per_px: float) -> np.ndarray:
+    """Close to the radar, spokes and the blind cone become a smooth field: the mean of the
+    readings around each pixel (wide where they're sparse, fine where they're dense), blended
+    into the readings as the distance grows. What a national mosaic does at a site, instead
+    of a broken fan or a black hole."""
+    hi = NEAR_SITE_KM
+    if float(km.min()) >= hi:
+        return values
+    seen = ~np.isnan(values) & (values >= 15)
+    smooth = np.full(values.shape, -20.0)
+    for km_r in (4.0, 1.2):                     # wide first, then fine where the readings are dense
+        r = max(2, int(km_r / km_per_px))
+        total = _box(seen.astype(np.float64), r)
+        mean = _box(np.where(seen, values, 0.0), r) / np.maximum(total, 1)
+        smooth = np.where(total >= 0.3 * (2 * r + 1) ** 2, mean, smooth)
+    w = np.clip(km / hi, 0, 1) ** 2                        # 0: all smoothed · 1: as measured
+    # a gap takes the smooth value outright; a reading is blended toward it near the radar
+    mixed = np.where(seen, w * np.nan_to_num(values, nan=-20.0) + (1 - w) * smooth, smooth)
+    return np.where(km < hi, mixed, values).astype(np.float32)
+
+
+def radar_layer(topic: str, key: str, f: Frame) -> Image.Image | None:
+    """One sweep, sampled at every pixel of the frame and coloured: an RGBA layer."""
+    hit = _LAYERS.get((key, f))
+    if hit is not None:
+        return hit
     lats, lons = f.grid()
-    values = nexrad.sample(sweep, lats, lons)
-    values = _quality(topic, key, values, lats, lons)
+    got = _sweep_values(topic, key, lats, lons)
+    if got is None:
+        return None
+    values, sweep = got
+    values = _near_site(values, nexrad.distance_km(sweep.site_lat, sweep.site_lon, lats, lons),
+                        _km_per_px(lats, lons))
     idx = np.clip(np.round((np.nan_to_num(values, nan=-40.0) + 32) * 2), 0, 255).astype(np.uint8)
     layer = Image.fromarray(_lut(topic)[idx], "RGBA")
     if len(_LAYERS) > 48:
@@ -382,8 +418,12 @@ def _fill_holes(values: np.ndarray, dropped: np.ndarray, radius_px: float) -> np
     mean = _box(np.where(valid, values, 0.0), r) / np.maximum(total, 1)
     area = (2 * r + 1) ** 2
     empty = np.isnan(values) | (values < 15)             # nothing seen: spokes by the radar, bins it lost
-    holes = (dropped & (total >= 0.55 * area)) | (empty & (total >= 0.8 * area))
-    return np.where(holes, mean, values).astype(np.float32)
+    holes = (dropped & (total >= 0.35 * area)) | (empty & (total >= 0.8 * area))
+    filled = np.where(holes, mean, values).astype(np.float32)
+    # a lone speck (a few pixels with almost nothing around) is clutter or noise at this scale
+    seen = ~np.isnan(filled) & (filled >= 15)
+    lone = seen & (_box(seen.astype(np.float64), 4) < 0.15 * 81)
+    return np.where(lone, np.nan, filled)
 
 
 def _km_per_px(lats: np.ndarray, lons: np.ndarray) -> float:
@@ -541,6 +581,31 @@ class _Labels:
         """Right of a point, else left, above, below."""
         return any(self.put(xy, text, font, anchor=anchor, **kw) for xy, anchor in (
             ((x + gap, y), "lm"), ((x - gap, y), "rm"), ((x, y - gap), "mb"), ((x, y + gap), "mt")))
+
+
+def behind(labels: _Labels, x: float, y: float, heading: float, text: str, font: Any) -> None:
+    """A label on the side the storm came from, so it never sits on the track ahead."""
+    back = math.radians(heading + 180)
+    bx, by = math.sin(back), -math.cos(back)                   # picture y grows downward
+    spots = _spots(x, y, 22, 18)
+    spots.sort(key=lambda s: -((s[0][0] - x) * bx + (s[0][1] - y) * by))
+    any(labels.put(xy, text, font, anchor=anchor) for xy, anchor in spots)
+
+
+def beside(labels: _Labels, x: float, y: float, heading: float, text: str, font: Any) -> bool:
+    """A label off to the side of a track (the most perpendicular free spot), never on it."""
+    h = math.radians(heading)
+    mx, my = math.sin(h), -math.cos(h)
+    spots = _spots(x, y, 14, 11)
+    spots.sort(key=lambda s: abs((s[0][0] - x) * mx + (s[0][1] - y) * my) / math.hypot(s[0][0] - x, s[0][1] - y))
+    return any(labels.put(xy, text, font, anchor=anchor) for xy, anchor in spots)
+
+
+def _spots(x: float, y: float, gap: float, diagonal: float) -> list[tuple[tuple[float, float], str]]:
+    """Where a label can go around a point: the four sides, then the four corners."""
+    return [((x + gap, y), "lm"), ((x - gap, y), "rm"), ((x, y - gap), "mb"), ((x, y + gap), "mt"),
+            ((x + diagonal, y + diagonal), "lt"), ((x - diagonal, y + diagonal), "rt"),
+            ((x + diagonal, y - diagonal), "lb"), ((x - diagonal, y - diagonal), "rb")]
 
 
 def _pill(d: ImageDraw.ImageDraw, box: tuple[float, float, float, float]) -> None:
@@ -711,13 +776,18 @@ def render_image(sc: Scene, *, radar: bool = True, radar_key: str | None = None,
         mph = round(float(sc.motion["speed_kt"]) * 1.15078)
         heading = (float(sc.motion["from_deg"]) + 180) % 360
         labels.taken.append((x - 12, y - 12, x + 12, y + 12))
-        labels.near(x, y, f"Storm · {geo.compass(heading)} {mph} mph", _font(25, "SemiBold"), gap=18)
+        line = [f.px(la, lo) for _, la, lo in steps]                   # the track itself is taken ground
+        for (ax, ay), (bx, by) in pairwise(line):
+            n = max(1, int(math.hypot(bx - ax, by - ay) / 10))
+            labels.taken += [(ax + (bx - ax) * i / n - 5, ay + (by - ay) * i / n - 5,
+                              ax + (bx - ax) * i / n + 5, ay + (by - ay) * i / n + 5) for i in range(n + 1)]
+        behind(labels, x, y, heading, f"Storm · {geo.compass(heading)} {mph} mph", _font(25, "SemiBold"))
         for minutes, la, lo in steps[1:]:
             px_, py_ = f.px(la, lo)
             labels.taken.append((px_ - 7, py_ - 7, px_ + 7, py_ + 7))
             if at:
-                labels.near(px_, py_, local_time(at + timedelta(minutes=minutes), "%-I:%M"), _font(22, "SemiBold"),
-                            gap=12)
+                beside(labels, px_, py_, heading, local_time(at + timedelta(minutes=minutes), "%-I:%M"),
+                       _font(22, "SemiBold"))
     if sc.counties:                             # a county-wide alert: name its counties
         for fips in sc.extra:
             c = geo.county(fips)

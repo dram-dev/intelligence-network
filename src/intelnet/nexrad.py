@@ -142,6 +142,13 @@ def fetch(key: str, cache: Path | None = None) -> bytes | None:
 
 # ── onto a map ───────────────────────────────────────────────────────────
 
+def distance_km(lat: float, lon: float, lats: np.ndarray, lons: np.ndarray) -> np.ndarray:
+    """Great-circle distance from one point to each (lat, lon)."""
+    p1, p2 = np.radians(lat), np.radians(lats)
+    a = np.sin((p2 - p1) / 2) ** 2 + np.cos(p1) * np.cos(p2) * np.sin(np.radians(lons - lon) / 2) ** 2
+    return 2 * 6371.0 * np.arcsin(np.sqrt(np.clip(a, 0, 1)))
+
+
 def sample(sweep: Sweep, lats: np.ndarray, lons: np.ndarray, *, floor: float | None = -20.0) -> np.ndarray:
     """The sweep's value at each (lat, lon), bilinear between radials and bins so edges
     are smooth, NaN beyond the sweep. Where the radar saw nothing, `floor` stands in (so
