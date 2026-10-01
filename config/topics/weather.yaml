@@ -54,6 +54,7 @@ alert_routing:
 metrics:
   temp_c:
     label: Temperature
+    headline: {max: High, min: Low}
     unit: degC
     aliases: [temp, temperature, t, air temp]
     news_words: [heat, hot, cold, freeze, frost, temperatures]
@@ -68,6 +69,7 @@ metrics:
 
   dewpoint_c:
     label: Dew point
+    short: Dew point
     unit: degC
     aliases: [dewpoint, dew point, dp, dew]
     units: {c: 1, "°c": 1, f: {expr: "(x - 32) * 5 / 9"}, "°f": {expr: "(x - 32) * 5 / 9"}, degrees: {expr: "(x - 32) * 5 / 9"}, deg: {expr: "(x - 32) * 5 / 9"}}
@@ -91,6 +93,7 @@ metrics:
 
   pressure_hpa:
     label: Pressure
+    short: Pressure
     unit: hPa
     aliases: [pressure, baro, barometer, mslp, slp]
     units: {hpa: 1, mb: 1, mbar: 1, inhg: 33.8639, "in": 33.8639, pa: 0.01}
@@ -103,6 +106,7 @@ metrics:
 
   wind_ms:
     label: Sustained wind
+    short: Wind
     unit: m/s
     aliases: [wind, wind speed, sustained, sustained wind]
     units: {ms: 1, "m/s": 1, mps: 1, mph: 0.44704, kt: 0.514444, kts: 0.514444, knots: 0.514444, kmh: 0.277778, "km/h": 0.277778}
@@ -116,6 +120,7 @@ metrics:
 
   wind_gust_ms:
     label: Wind gust
+    short: Gust
     unit: m/s
     aliases: [gust, gusts, wind gust, wind gusts, gusting, peak gust]
     news_words: [wind, winds, gusts, gusty, damaging]
@@ -131,21 +136,23 @@ metrics:
 
   rain_mm:
     label: Rainfall
+    headline: {max: Rain}
     unit: mm
     aliases: [rain, rainfall, precip, precipitation, rain total, storm total]
-    news_words: [rain, rainfall, soaking, downpour, downpours, deluge, wet]
+    news_words: [rain, rainfall, rainy, soaking, downpour, deluge, wet]
     units: {mm: 1, "in": 25.4, inch: 25.4, inches: 25.4, cm: 10}
     default_unit: "in"
     range: [0, 600]
     tolerance: {rel: 0.4, abs: 6}
     radius_km: 15
     window_min: 180
-    display_unit: {unit: "in", expr: "x / 25.4"}
+    display_unit: {unit: "in", expr: "x / 25.4", decimals: 2}     # 0.23 in, 1.50 in: as gauges are read
     event: [[25, 0.4], [50, 0.7], [100, 1.0]]
     accumulates: true
 
   snow_cm:
     label: Snowfall
+    headline: {max: Snow}
     unit: cm
     aliases: [snow, snowfall, snow total, snow depth]
     news_words: [snow, snowfall, blizzard]
@@ -155,51 +162,55 @@ metrics:
     tolerance: {rel: 0.4, abs: 3}
     radius_km: 20
     window_min: 360
-    display_unit: {unit: "in", expr: "x / 2.54"}
+    display_unit: {unit: "in", expr: "x / 2.54", decimals: 1}
     event: [[15, 0.4], [30, 0.8]]
     accumulates: true
 
   hail_mm:
     label: Hail size
+    headline: {max: Hail}
     unit: mm
     aliases: [hail, hailstones, hail size]
     news_words: [hail, hailstorm]
     units: {mm: 1, "in": 25.4, inch: 25.4, inches: 25.4, cm: 10}
-    # NWS hail size chart (diameter). Words beat numbers for most people.
+    # NWS hail size chart (diameter, the chart's inches in mm: golf ball 1.75 in). Words beat
+    # numbers for most people.
     words:
-      pea: 6
-      marble: 13
-      mothball: 13
-      dime: 18
-      penny: 19
-      nickel: 22
-      quarter: 25
-      half dollar: 32
-      ping pong: 38
-      ping-pong: 38
-      walnut: 38
-      golf ball: 44
-      golfball: 44
-      golf-ball: 44
-      hen egg: 51
-      egg: 51
-      tennis ball: 64
-      baseball: 70
-      tea cup: 76
-      teacup: 76
-      grapefruit: 100
-      softball: 114
+      pea: 6.35
+      marble: 12.7
+      mothball: 12.7
+      dime: 17.78
+      penny: 19.05
+      nickel: 22.35
+      quarter: 25.4
+      half dollar: 31.75
+      ping pong: 38.1
+      ping-pong: 38.1
+      walnut: 38.1
+      golf ball: 44.45
+      golfball: 44.45
+      golf-ball: 44.45
+      hen egg: 50.8
+      egg: 50.8
+      tennis ball: 63.5
+      baseball: 69.85
+      tea cup: 76.2
+      teacup: 76.2
+      grapefruit: 101.6
+      softball: 114.3
     default_unit: "in"
     range: [0, 200]
     tolerance: {rel: 0.5, abs: 10}
     radius_km: 25
     window_min: 90
-    display_unit: {unit: "in", expr: "x / 25.4"}
-    # 1 in (quarter) is the NWS severe criterion.
-    event: [[25, 0.5], [44, 0.8], [70, 1.0]]
+    display_unit: {unit: "in", expr: "x / 25.4", decimals: 2}     # 1.75 in, as the NWS writes hail
+    # 1 in (quarter) is the NWS severe criterion; thresholds sit a hair under the chart sizes
+    # (1.75 × 25.4 is 44.449… in floating point)
+    event: [[25, 0.5], [44, 0.8], [69, 1.0]]
 
   visibility_km:
     label: Visibility
+    short: Visibility
     unit: km
     aliases: [visibility, vis, vsby]
     news_words: [fog, foggy, visibility]
@@ -219,6 +230,7 @@ metrics:
     label: Tornado
     kind: flag
     aliases: [tornado, twister, tornado on the ground]
+    news_words: [tornado, tornadoes, twister]
     radius_km: 30
     window_min: 90
     event: [[1, 1.0]]
@@ -235,6 +247,7 @@ metrics:
     label: Flooding
     kind: flag
     aliases: [flood, flooding, flash flood, street flooding, water over road, high water]
+    news_words: [flood, flooding, flash flood, flooded]
     radius_km: 15
     window_min: 180
     event: [[1, 0.7]]
@@ -243,6 +256,7 @@ metrics:
     label: Wind damage
     kind: flag
     aliases: [wind damage, tree down, trees down, power lines down, roof damage, damage]
+    news_words: [wind damage, storm damage, damaging winds, trees down]
     radius_km: 20
     window_min: 180
     event: [[1, 0.6]]
@@ -251,6 +265,7 @@ metrics:
     label: Power outage
     kind: flag
     aliases: [outage, power outage, power out, no power, blackout]
+    news_words: [power outage, outages, without power, blackout]
     radius_km: 15
     window_min: 240
     event: [[1, 0.4]]
@@ -259,6 +274,7 @@ metrics:
     label: Lightning
     kind: flag
     aliases: [lightning, thunder]
+    news_words: [lightning]
     radius_km: 20
     window_min: 60
 

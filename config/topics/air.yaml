@@ -16,8 +16,11 @@ categories:
 metrics:
   pm25_ugm3:
     label: PM2.5
+    short: PM2.5
+    headline: {max: PM2.5}
     unit: "µg/m³"
     aliases: [pm2.5, pm25, "pm 2.5", fine particulates, particulates]
+    news_words: [air quality, particulate]
     units: {"ug/m3": 1, "µg/m³": 1, ugm3: 1}
     default_unit: "ug/m3"
     range: [0, 1000]
@@ -28,8 +31,10 @@ metrics:
 
   aqi:
     label: Air Quality Index
+    headline: {max: AQI}
     unit: AQI
     aliases: [aqi, air quality index, air quality]
+    news_words: [air quality]
     units: {aqi: 1}
     range: [0, 500]
     tolerance: {abs: 25}
@@ -39,8 +44,10 @@ metrics:
 
   ozone_ppb:
     label: Ozone
+    headline: {max: Ozone}
     unit: ppb
     aliases: [ozone, o3]
+    news_words: [ozone, smog]
     units: {ppb: 1, ppm: 1000}
     default_unit: ppb
     range: [0, 400]
@@ -54,6 +61,7 @@ metrics:
     label: Smoke
     kind: flag
     aliases: [smoke, wildfire smoke, smoky, smoky haze, haze, hazy sky]
+    news_words: [smoke, smoky, wildfire smoke]
     radius_km: 30
     window_min: 360
     event: [[1, 0.4]]

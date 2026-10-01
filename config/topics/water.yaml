@@ -18,9 +18,11 @@ categories:
 metrics:
   stage_m:
     label: Stage (gauge height)
+    short: Stage
+    headline: {rise: Rise}
     unit: m
     aliases: [stage, gauge height, gage height, river stage, stream stage, creek level, river level, water level]
-    news_words: [flood, flooding, floods, river, rivers, crest, rises]
+    news_words: [flood, flooding, river, crest, rises]
     units: {m: 1, ft: 0.3048, feet: 0.3048, "in": 0.0254, cm: 0.01}
     default_unit: ft
     range: [-3, 25]
@@ -32,9 +34,10 @@ metrics:
 
   discharge_cms:
     label: Streamflow
+    short: Flow
     unit: "m³/s"
     aliases: [discharge, streamflow, stream flow, river flow, flow rate, cfs]
-    news_words: [flood, flooding, river, rivers]
+    news_words: [flood, flooding, river]
     units: {cms: 1, "m3/s": 1, "m³/s": 1, cfs: 0.0283168, "ft3/s": 0.0283168, "ft³/s": 0.0283168}
     default_unit: cfs
     range: [0, 60000]
@@ -45,6 +48,7 @@ metrics:
 
   water_temp_c:
     label: Water temperature
+    short: Water
     unit: degC
     aliases: [water temp, water temperature, stream temp, river temp, lake temp, creek temp]
     units: {c: 1, "°c": 1, f: {expr: "(x - 32) * 5 / 9"}, "°f": {expr: "(x - 32) * 5 / 9"}}
@@ -68,6 +72,7 @@ metrics:
 
   dissolved_oxygen_mgl:
     label: Dissolved oxygen
+    short: Oxygen
     unit: mg/L
     aliases: [dissolved oxygen, do, "d.o.", oxygen]
     units: {"mg/l": 1, mgl: 1, ppm: 1}
@@ -103,8 +108,10 @@ metrics:
 
   nitrate_mgl:
     label: Nitrate-N
+    short: Nitrate
     unit: mg/L
     aliases: [nitrate, nitrate-n, no3, nitrates]
+    news_words: [nitrate]
     units: {"mg/l": 1, mgl: 1, ppm: 1}
     default_unit: "mg/l"
     range: [0, 150]
@@ -146,6 +153,7 @@ metrics:
     label: Fish kill
     kind: flag
     aliases: [fish kill, dead fish, fishkill]
+    news_words: [fish kill, dead fish]
     radius_km: 20
     window_min: 1440
     event: [[1, 0.7]]
@@ -154,6 +162,7 @@ metrics:
     label: Algal bloom
     kind: flag
     aliases: [algae bloom, algal bloom, blue-green algae, cyanobacteria, green scum, bloom on the lake]
+    news_words: [algae, algal bloom]
     radius_km: 20
     window_min: 2880
     event: [[1, 0.5]]

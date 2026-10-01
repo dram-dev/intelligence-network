@@ -68,7 +68,7 @@ def test_json_signal_command(fresh_db):
     bot.handle_message(msg("/join"))
     bot.handle_message(msg("/home 62704"))
     r = bot.handle_message(msg('/signal {"metric":"rain_mm","value":0.5,"unit":"in"}'))
-    assert "Rainfall 0.5 in at 62704" in r
+    assert "Rainfall 0.50 in at 62704" in r
 
 
 def test_subscribe_flow(fresh_db):

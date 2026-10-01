@@ -39,9 +39,10 @@ def test_numeric_readings_normalize_to_canonical_units(text, metric, value):
 
 
 @pytest.mark.parametrize("text, mm", [
-    ("hail quarter", 25), ("quarter size hail", 25), ("quarter-sized hail", 25),
-    ("golf ball hail", 44), ("hail the size of golf balls", 44), ("golfball hail", 44),
-    ("pea sized hail", 6), ("hail half dollar", 32), ("softball hail!", 114),
+    # the NWS chart's sizes, exactly: a golf ball is 1.75 in
+    ("hail quarter", 25.4), ("quarter size hail", 25.4), ("quarter-sized hail", 25.4),
+    ("golf ball hail", 44.45), ("hail the size of golf balls", 44.45), ("golfball hail", 44.45),
+    ("pea sized hail", 6.35), ("hail half dollar", 31.75), ("softball hail!", 114.3),
 ])
 def test_named_hail_sizes(text, mm):
     s, _ = _one(text)

@@ -63,7 +63,7 @@ def test_events_and_storm_based_warnings_gather_into_one_story(fresh_db, monkeyp
                                                             severity="Moderate", minutes=600))
     kinds = sorted((m["kind"], m["ref"]) for m in db.story_members(a.story.story_id))
     assert kinds == [("alert", "W1"), ("event", str(a.event["id"]))]              # no county-wide F1
-    assert db.story(a.story.story_id)["title"].startswith("Hail size 1.73 in")      # the most severe member
+    assert db.story(a.story.story_id)["title"].startswith("Hail size 1.75 in")      # the most severe member
     assert watch.run_once(only=["iem_lsr"])["stories_closed"] == 0
 
 

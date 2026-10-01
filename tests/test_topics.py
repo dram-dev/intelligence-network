@@ -14,7 +14,7 @@ def test_weather_pack_shape():
                                "weather.reports", "weather.digest"]
     assert t.alert_routing["Extreme"] == ["warnings", "alerts"]
     m = t.metrics["hail_mm"]
-    assert m.words["golf ball"] == 44 and m.default_unit == "in"
+    assert m.words["golf ball"] == 44.45 and m.default_unit == "in"        # 1.75 in, the NWS chart
     assert m.is_event(25) and not m.is_event(24) and m.severity(70) == 1.0
     assert t.metrics["visibility_km"].is_event(0.3) and not t.metrics["visibility_km"].is_event(5)
     assert t.metrics["tornado"].is_flag and t.metrics["tornado"].convert(0, None) == 1.0

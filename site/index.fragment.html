@@ -113,7 +113,118 @@
   .map-key { display: flex; flex-wrap: wrap; gap: 4px 14px; padding: 8px 12px; border-top: 1px solid var(--line); font: 12px var(--mono); color: var(--muted); }
   .map-key span { white-space: nowrap; }
   .map-key i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
-  .now-side { display: grid; gap: 16px; align-content: start; }
+  /* the masthead map's layers, marks, card, and the news beside it */
+  :root { --card-shadow: 0 12px 32px rgba(15, 22, 19, .16), 0 2px 6px rgba(15, 22, 19, .08); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --card-shadow: 0 14px 36px rgba(0, 0, 0, .5), 0 2px 6px rgba(0, 0, 0, .3); } }
+  :root[data-theme="dark"] { --card-shadow: 0 14px 36px rgba(0, 0, 0, .5), 0 2px 6px rgba(0, 0, 0, .3); }
+  .map-layers { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  .layer { display: inline-flex; align-items: center; gap: 6px; font: 500 12.5px/1 var(--body); color: var(--ink); cursor: pointer;
+           padding: 6px 10px 6px 9px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--surface); }
+  .layer:hover { border-color: var(--ink); }
+  .layer i { width: 9px; height: 9px; border-radius: 50%; background: var(--c, var(--muted)); flex: none; }
+  .layer i.sq { border-radius: 2.5px; background: var(--ink); }
+  .layer i.rad { border-radius: 2px; width: 12px; background: linear-gradient(90deg, #4fa84a, #e3c43a, #c9302c); }
+  .layer b { font: 500 11.5px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+  .layer[aria-pressed="false"] { color: var(--muted); background: transparent; border-style: dashed; }
+  .layer[aria-pressed="false"] i { opacity: .3; }
+  .map-stage { position: relative; }
+  .m-radar { opacity: .4; mix-blend-mode: multiply; filter: saturate(.8); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .m-radar { opacity: .42; mix-blend-mode: screen; filter: saturate(.7); } }
+  :root[data-theme="dark"] .m-radar { opacity: .42; mix-blend-mode: screen; filter: saturate(.7); }
+  .m-labels text { transition: opacity .15s ease; }
+  .m-labels text.is-dim { opacity: .2; }
+  .m-mark { transition: opacity .15s ease; }
+  .m-mark.is-dim { opacity: .2; }
+  .m-mark:focus { outline: none; }
+  .m-mark:focus-visible .dot, .m-mark:focus-visible rect { stroke: var(--accent); }
+  .m-mark.is-active .dot, .m-mark.is-active rect { stroke: var(--ink); }
+  .map-key .key-note { flex-basis: 100%; margin: 2px 0 0; font: 12px/1.45 var(--body); color: var(--muted); max-width: none; }
+  .map-key i.k1, .map-key i.k2 { border-radius: 50%; background: var(--muted); box-shadow: 0 0 0 1.5px var(--surface); }
+  .map-key i.k2 { width: 7px; height: 7px; vertical-align: 0; }
+  .map-key i.k3 { border-radius: 2.5px; background: var(--ink); }
+  .map-card { position: absolute; z-index: 6; width: 300px; max-width: calc(100% - 16px); background: var(--surface); color: var(--ink);
+              border: 1px solid var(--line-strong); border-radius: 6px; padding: 12px 14px 13px; font-size: 13.5px; line-height: 1.45;
+              box-shadow: var(--card-shadow); pointer-events: none; opacity: 0; transform: translateY(3px);
+              transition: opacity .14s ease, transform .14s ease; }
+  .map-card.on { opacity: 1; transform: none; }
+  .map-card.pinned { pointer-events: auto; }
+  .map-card.docked { left: 8px; right: 8px; width: auto; max-width: none; }
+  .map-card.peek { width: 252px; padding: 10px 12px 11px; }
+  .map-card.peek h3 { font-size: 14.5px; padding-right: 0; }
+  .map-card.peek .eye { padding-right: 0; }
+  .map-card.peek .big { margin-top: 7px; }
+  .map-card.peek .big .v { font-size: 22px; }
+  .map-card.peek .big .v.flag { font-size: 18px; }
+  .map-card .peek-why { margin-top: 6px; font-size: 12.5px; line-height: 1.4; color: var(--muted); }
+  .map-card .peek-why .nb { min-width: 17px; height: 17px; font-size: 10.5px; vertical-align: 1px; }
+  .map-card .peek-title { margin-top: 4px; font-size: 13px; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .map-card .peek-src { margin-top: 2px; font-size: 12px; color: var(--muted); }
+  .map-card .peek-measured { margin-top: 7px; display: flex; flex-wrap: wrap; gap: 3px 12px; font: 500 12px var(--mono); }
+  .map-card .peek-measured span { white-space: nowrap; }
+  .map-card .peek-measured i { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--c); margin-right: 5px; vertical-align: 0; }
+  .map-card .x { position: absolute; top: 5px; right: 5px; width: 30px; height: 30px; border: 0; background: none; color: var(--muted);
+                 font: 20px/1 var(--body); cursor: pointer; border-radius: 4px; }
+  .map-card .x:hover { color: var(--ink); background: var(--surface-2); }
+  .map-card .eye { display: flex; align-items: center; gap: 6px; font: 500 10.5px var(--mono); letter-spacing: .07em; text-transform: uppercase;
+                   color: var(--muted); padding-right: 26px; }
+  .map-card .eye i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); flex: none; }
+  .map-card h3 { font: 600 15.5px/1.3 var(--body); margin: 6px 0 1px; padding-right: 18px; text-wrap: balance; }
+  .map-card .sub { font-size: 12.5px; color: var(--muted); }
+  .map-card .st { font: 500 10.5px var(--mono); padding: 1px 5px; border-radius: 3px; border: 1px solid currentColor; margin-left: 2px; white-space: nowrap; }
+  .map-card .st.ok { color: var(--ok); } .map-card .st.warn { color: var(--amber); }
+  .map-card .big { display: flex; align-items: baseline; flex-wrap: wrap; gap: 3px 9px; margin-top: 11px; }
+  .map-card .big .v { font: 500 26px/1 var(--mono); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .map-card .big .v.flag { font: 600 21px/1.1 var(--body); letter-spacing: 0; }
+  .map-card .big .n { font-size: 12.5px; color: var(--muted); }
+  .map-card .big .d { flex-basis: 100%; font: 600 13px var(--body); color: var(--c); }
+  .map-card .spark { display: block; width: 100%; height: 46px; margin-top: 8px; overflow: visible; }
+  .map-card .spark-axis { display: flex; justify-content: space-between; gap: 8px; font: 11px var(--body); color: var(--muted); margin-top: 2px; }
+  .map-card .more { margin-top: 9px; display: grid; gap: 2px; font-size: 13px; }
+  .map-card .more b { font: 500 12.5px var(--mono); }
+  .map-card .evt { margin-top: 8px; font-size: 12.5px; }
+  .map-card .why { list-style: none; margin: 11px 0 0; padding: 9px 0 0; border-top: 1px solid var(--line); display: grid; gap: 6px;
+                   font-size: 12.5px; color: var(--muted); }
+  .map-card .why .story { color: var(--ink); display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: start; line-height: 1.35; }
+  .nb { display: inline-grid; place-items: center; min-width: 19px; height: 19px; padding: 0 5px; border-radius: 4px; border: 0;
+        background: var(--ink); color: var(--ground); font: 600 11.5px/1 var(--body); font-variant-numeric: tabular-nums; flex: none; }
+  button.nb { cursor: pointer; }
+  .map-card .eye .nb { min-width: 17px; height: 17px; font-size: 10.5px; letter-spacing: 0; }
+  .map-card .acts { margin-top: 11px; display: flex; gap: 6px 16px; flex-wrap: wrap; font-size: 13px; }
+  .map-card .hint { margin-top: 9px; font-size: 11.5px; color: var(--muted); }
+  .map-card .stories { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 8px; font-size: 13.5px; line-height: 1.35; }
+  .map-card .stories .also { font-size: 12.5px; color: var(--muted); }
+  .map-card .stories a { color: var(--ink); text-decoration-color: var(--line-strong); }
+  .map-card .stories a:hover { color: var(--accent); }
+  .map-card .measured { margin-top: 11px; padding-top: 9px; border-top: 1px solid var(--line); }
+  .map-card .measured .lab { font: 500 10.5px var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+  .map-card .measured ul { list-style: none; margin: 0 -6px; padding: 0; display: grid; }
+  .map-card .measured button { all: unset; box-sizing: border-box; width: 100%; display: grid; grid-template-columns: 8px minmax(0, 1fr) auto;
+                               gap: 8px; align-items: center; padding: 5px 6px; border-radius: 4px; cursor: pointer; font-size: 13px; }
+  .map-card .measured button:hover, .map-card .measured button:focus-visible { background: var(--surface-2); }
+  .map-card .measured button i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+  .map-card .measured button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .map-card .measured button b { font: 500 12.5px var(--mono); white-space: nowrap; }
+  .map-card .measured.none { color: var(--muted); font-size: 12.5px; }
+  .map-card .inforce { margin-top: 8px; font-size: 12.5px; color: var(--sev-severe); font-weight: 500; }
+  .news-list { list-style: none; margin: 0; padding: 0; }
+  .news-item { margin: 0 -16px; padding: 10px 16px 11px; border-top: 1px solid var(--line); transition: background .15s ease; }
+  .news-list .news-item:first-child { border-top: 0; padding-top: 6px; }
+  .news-item.on { background: var(--surface-2); }
+  .news-place { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font: 600 14px var(--body); }
+  .news-place:hover, .news-item.on .news-place { color: var(--accent); }
+  .news-place:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+  .news-title { margin-top: 5px; font-size: 14px; line-height: 1.4; text-wrap: pretty; }
+  .news-title a { color: var(--ink); text-decoration-color: var(--line-strong); }
+  .news-title a:hover { color: var(--accent); text-decoration-color: currentColor; }
+  .news-src { margin-top: 2px; font-size: 12px; color: var(--muted); }
+  .news-measured { margin: 7px 0 0; padding: 0; list-style: none; display: grid; gap: 3px; }
+  .news-measured li { display: grid; grid-template-columns: 7px auto minmax(0, 1fr); gap: 7px; align-items: baseline; font-size: 12.5px; }
+  .news-measured i { width: 7px; height: 7px; border-radius: 50%; background: var(--c); align-self: center; }
+  .news-measured b { font: 500 12.5px var(--mono); white-space: nowrap; }
+  .news-measured span { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .news-alerts { margin-top: 4px; font-size: 12px; color: var(--sev-severe); font-weight: 500; }
+  .news-sub { font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 6px 0 0; padding-top: 12px; border-top: 1px solid var(--line-strong); }
+  .now-side { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; align-content: start; }
   .now-side > section { background: var(--surface); border: 1px solid var(--line); border-radius: 3px; padding: 14px 16px; box-shadow: var(--shadow); }
   .now-side h2 { font: 500 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
   .near form { display: flex; gap: 8px; }
@@ -129,6 +240,12 @@
   .sources span.live::before { box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 25%, transparent); }
   .mast .lede { margin-top: 16px; font-size: 16.5px; max-width: 70ch; color: var(--muted); }
   @media (max-width: 860px) { .now { grid-template-columns: minmax(0, 1fr); } }
+  /* wide screens: the map stays beside the stories and alerts as they scroll, sized to fit the
+     screen whole (chips, map and key), so a story hovered far down still lights up on it */
+  @media (min-width: 861px) {
+    .now { grid-template-columns: minmax(0, clamp(380px, calc((100vh - 240px) * 460 / 720), 640px)) minmax(0, 1fr); }
+    .now-map { position: sticky; top: 14px; }
+  }
   .mast .sample { margin-top: 18px; display: inline-flex; gap: 8px; align-items: center; font-size: 13px; color: var(--muted); }
   .sample b { color: var(--amber); font-weight: 600; }
   .readouts { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; border: 1px solid var(--line); border-radius: 3px;
@@ -268,7 +385,11 @@
     <p class="status-sub" id="status-sub"></p>
     <div class="now">
       <figure class="now-map">
-        <svg id="now-map" viewBox="0 0 460 720" role="img" aria-label="Illinois right now: county lines, NWS alerts in effect, weather radar, and where the network has readings"></svg>
+        <div class="map-layers" id="map-layers" role="group" aria-label="Show on the map"></div>
+        <div class="map-stage">
+          <svg id="now-map" viewBox="0 0 460 720" role="group" aria-label="Illinois right now: NWS alerts and radar, the day's notable readings in every topic, and the news tied to them"></svg>
+          <div class="map-card" id="map-card" role="dialog" aria-live="polite" hidden></div>
+        </div>
         <figcaption class="map-key" id="map-key"></figcaption>
       </figure>
       <aside class="now-side">
@@ -277,14 +398,18 @@
           <p class="muted" id="alerts-source" style="font-size:12.5px; margin-bottom:6px">From the nightly snapshot.</p>
           <div id="alerts"></div>
         </section>
-        <section aria-labelledby="storms-h" id="storms-box" hidden>
-          <h2 id="storms-h">Storms today</h2>
-          <div id="storms"></div>
+        <section aria-labelledby="news-h" id="news-box" hidden>
+          <h2 id="news-h">In the news · what was measured there</h2>
+          <div id="news"></div>
         </section>
         <section class="near" aria-labelledby="near-h">
           <h2 id="near-h">Near you</h2>
           <form id="near-form"><input type="text" id="near-zip" inputmode="numeric" autocomplete="postal-code" maxlength="10" placeholder="ZIP, e.g. 62704" aria-label="Your ZIP code"><button class="btn" type="submit">Show</button></form>
           <div class="near-out" id="near-out"><p class="muted">Alerts, readings and a one-tap Telegram link for any Illinois ZIP.</p></div>
+        </section>
+        <section aria-labelledby="storms-h" id="storms-box" hidden>
+          <h2 id="storms-h">Storms today</h2>
+          <div id="storms"></div>
         </section>
         <section aria-labelledby="net-h">
           <h2 id="net-h">The network</h2>
@@ -505,7 +630,7 @@ K = 4 · prior = 0.5 · trusted ≥ 0.8 · half-life 180 days</pre>
     </div>
     <div class="panel" style="margin-top:20px">
       <h3>Pull the network's own snapshot</h3>
-      <p style="font-size:14.5px">The page is built from thirteen JSON files that anyone may fetch and reuse: <code>data/network.json</code>, <code>counties.json</code>, <code>events.json</code>, <code>alerts.json</code>, <code>storms.json</code>, <code>reports.json</code>, <code>gauges.json</code>, <code>activity.json</code>, <code>graph.json</code>, <code>leaderboard.json</code>, <code>digests.json</code>, <code>topics.json</code>, <code>sources.json</code>. Same anonymisation as the page.</p>
+      <p style="font-size:14.5px">The page is built from fourteen JSON files that anyone may fetch and reuse: <code>data/network.json</code>, <code>map.json</code> (the day's notable readings and the news tied to them), <code>counties.json</code>, <code>events.json</code>, <code>alerts.json</code>, <code>storms.json</code>, <code>reports.json</code>, <code>gauges.json</code>, <code>activity.json</code>, <code>graph.json</code>, <code>leaderboard.json</code>, <code>digests.json</code>, <code>topics.json</code>, <code>sources.json</code>. Same anonymisation as the page.</p>
       <p style="font-size:14.5px; margin-top:10px">For other systems: the week's verified events as <a href="feeds/events.geojson">GeoJSON</a> and as <a href="feeds/cap.atom">CAP 1.2 in Atom</a> (the format emergency managers' tools read), and storms as <a href="feeds/storms.geojson">GeoJSON</a>. For research: <a href="{{DATASETTE_URL}}" target="_blank" rel="noopener">explore the database in your browser</a> with Datasette Lite (people's readings, storm reports, events, storms and alerts for 90 days; people as handles with ZIP and county only), or download <a href="data/network.sqlite">network.sqlite</a>.</p>
     </div>
   </div>
@@ -645,7 +770,10 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     const spec = m.convert[unit]; if (spec == null) throw new Error('unknown unit "' + unit + '" for ' + m.key);
     return typeof spec === 'number' ? val * spec : evalExpr(spec.expr, val);
   };
-  const display = (m, v) => { if (m.kind === 'flag') return 'reported'; const canon = Number(v.toPrecision(4)) + ' ' + m.unit; return m.display ? Number(evalExpr(m.display.expr, v).toPrecision(3)) + ' ' + m.display.unit + ' (' + canon + ')' : canon; };
+  const display = (m, v) => { if (m.kind === 'flag') return 'reported';
+    if (m.display_words) { const w = Object.keys(m.words || {}).filter(k => Math.abs(m.words[k] - v) < 1e-9).sort((a, b) => a.length - b.length)[0];
+      if (w) return w.length <= 3 && /^[a-z0-9]+$/.test(w) ? w.toUpperCase() : w; }      // corn at "R4", not "19 stage"
+    const canon = Number(v.toPrecision(4)) + ' ' + m.unit; return m.display ? Number(evalExpr(m.display.expr, v).toPrecision(3)) + ' ' + m.display.unit + ' (' + canon + ')' : canon; };
   const parseLocation = (raw) => {
     const t = raw.trim().replace(/^@/, '');
     if (/^\d{5}(?:[- ]?\d{4})?$/.test(t)) return { label: t.replace(/^(\d{5})[- ]?(\d{4})$/, '$1-$2'), kind: /\d{9}|-/.test(t) ? 'ZIP+4' : 'ZIP' };
@@ -1007,9 +1135,29 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
       : 'From the network snapshot of ' + fmtWhen(D.generated_at) + '. The live feed will fill in when it answers.';
   }
 
+  // ── the masthead map ────────────────────────────────────────────────────
+  // Live: NWS alerts and radar. From the snapshot (notable.py): the day's notable readings
+  // in every topic and the stories they bear on. A labelled dot is a headline reading, a
+  // small dot one worth a look, a numbered square a story, drawn to the readings behind it
+  // when you hover it. Hover for a card, click to keep it open; the news list beside the
+  // map drives the same highlight. Symbols keep their size on screen whatever the map's.
   const NW = 460, NH = 720;
+  const M = D.map || {};
+  const PLACES = M.places || [], NEWS = M.news || [], AREAS = M.areas || [];
+  const placeById = Object.fromEntries(PLACES.map(p => [p.id, p]));
+  const newsById = Object.fromEntries(NEWS.map(n => [n.id, n]));
+  const layerOff = new Set();                  // topics, 'news' or 'radar' switched off
   let nowProj = null, nowAlertsG = null, nowPinG = null, nearZip = null, radarImg = null;
-  const nowSvg = d3.select('#now-map');
+  let marks = [], finder = null, active = null, pinned = false, cardFor = null;
+  const nowSvg = d3.select('#now-map'), stage = document.querySelector('.map-stage'), card = $('#map-card');
+  const cssVar = (k, f) => getComputedStyle(document.documentElement).getPropertyValue(k).trim() || f;
+  const tColor = (t) => cssVar('--t-' + t, cssVar('--muted', '#5b655f'));
+  const tLabel = (t) => (topicByName[t] || {}).label || ({ landuse: 'Land use', emergency: 'Emergency', research: 'Research' })[t] || (t ? t[0].toUpperCase() + t.slice(1) : '');
+  // '93.9 °F' → '93.9°F', '-40 ¢' → '−40¢': units close up, minus signs are minus signs
+  const tight = (s) => String(s || '').replace(/ (°F|°C|%|¢)/g, '$1').replace(/(^|[\s(])-(?=\d)/g, '$1−');
+  const clockTime = (iso) => fmtWhen(iso, { weekday: undefined, timeZoneName: undefined });
+  const dayTime = (iso) => { const h = (Date.parse(M.as_of || D.generated_at || '') - Date.parse(iso)) / 3600000;
+    return h < 20 ? clockTime(iso) : fmtWhen(iso, { timeZoneName: undefined, month: 'short', day: 'numeric', hour: undefined, minute: undefined, weekday: undefined }); };
   const radarSrc = () => {                  // IEM's NEXRAD mosaic, cut to exactly this map's frame (web Mercator)
     const [w, n] = nowProj.invert([0, 0]), [e, s] = nowProj.invert([NW, NH]);
     const R = 6378137, x = (lon) => lon * Math.PI / 180 * R, y = (lat) => Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)) * R;
@@ -1017,14 +1165,20 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
       + '&SRS=EPSG:3857&BBOX=' + [x(w), y(s), x(e), y(n)].map(v => v.toFixed(0)).join(',') + '&WIDTH=' + NW + '&HEIGHT=' + NH
       + '&FORMAT=image/png&TRANSPARENT=true&t=' + Math.floor(Date.now() / 300000);
   };
+  // viewBox units per screen pixel, so a 6 px dot is 6 px on a phone and on a desktop
+  const perPx = () => NW / Math.max(240, nowSvg.node().getBoundingClientRect().width || NW);
+  const measure = (() => { const c = document.createElement('canvas').getContext('2d');
+    return (text, px, weight) => { c.font = (weight || 600) + ' ' + px + 'px "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif'; return c.measureText(text).width; }; })();
+
   function drawNowMap() {
     nowSvg.selectAll('*').remove();
     if (!D.boundaries) { document.querySelector('.now-map').hidden = true; return; }
-    const cs = getComputedStyle(document.documentElement); const tok = (k, f) => cs.getPropertyValue(k).trim() || f;
+    const u = perPx(), tok = cssVar;
     nowProj = d3.geoMercator().fitExtent([[12, 12], [NW - 12, NH - 12]], D.boundaries);
-    const path = d3.geoPath(nowProj);
+    const path = d3.geoPath(nowProj), P = (lat, lon) => nowProj([lon, lat]);
     const state = { type: 'FeatureCollection', features: D.boundaries.features };
-    nowSvg.append('defs').append('clipPath').attr('id', 'il-clip').append('path').attr('d', path(state));
+    const defs = nowSvg.append('defs');
+    defs.append('clipPath').attr('id', 'il-clip').append('path').attr('d', path(state));
     // land, and the survey grid on it (a line every six miles: the townships)
     nowSvg.append('path').attr('d', path(state)).attr('fill', tok('--ground', '#f1f3ef'));
     const [w, n] = nowProj.invert([0, 0]), [e, s] = nowProj.invert([NW, NH]);
@@ -1039,29 +1193,353 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     const shade = d3.scaleLinear().domain([0, Math.sqrt(maxH)]).range([0, .55]);
     const shapes = nowSvg.append('g').selectAll('path').data(D.boundaries.features).join('path').attr('d', path)
       .attr('fill', tok('--accent', '#1d6e7a')).attr('fill-opacity', f => shade(Math.sqrt((countyByFips[f.properties.fips] || {}).human || 0)))
-      .attr('stroke', 'none').style('cursor', 'pointer');
+      .attr('stroke', 'none');
+    // whole-county readings past a threshold (the Drought Monitor): hatched in their topic's colour
+    const shapeOf = Object.fromEntries(D.boundaries.features.map(f => [f.properties.fips, f]));
+    const areaG = nowSvg.append('g').attr('class', 'm-areas').attr('pointer-events', 'none');
+    AREAS.forEach((a, i) => {
+      const id = 'hatch-' + i;
+      defs.append('pattern').attr('id', id).attr('patternUnits', 'userSpaceOnUse').attr('width', 5 * u).attr('height', 5 * u)
+        .attr('patternTransform', 'rotate(45)').append('line').attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', 5 * u)
+        .attr('stroke', tColor(a.topic)).attr('stroke-width', 1.6 * u).attr('stroke-opacity', .55);
+      a.counties.forEach(f => { if (shapeOf[f]) areaG.append('path').attr('d', path(shapeOf[f])).attr('fill', 'url(#' + id + ')').attr('data-topic', a.topic); });
+    });
+    // rivers: where the gauges are
+    nowSvg.append('path').attr('class', 'm-rivers').attr('clip-path', 'url(#il-clip)').attr('pointer-events', 'none')
+      .attr('d', path({ type: 'MultiLineString', coordinates: (D.rivers || []).flatMap(r => r.lines) }))
+      .attr('fill', 'none').attr('stroke', tok('--t-water', '#2b5fad')).attr('stroke-opacity', .38)
+      .attr('stroke-width', .95 * u).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round');
     // radar under the lines and alerts; gone quietly where images are blocked
-    radarImg = nowSvg.append('image').attr('href', radarSrc()).attr('x', 0).attr('y', 0).attr('width', NW).attr('height', NH)
-      .attr('opacity', .62).attr('preserveAspectRatio', 'none').attr('pointer-events', 'none')
+    radarImg = layerOff.has('radar') ? null : nowSvg.append('image').attr('class', 'm-radar').attr('href', radarSrc()).attr('x', 0).attr('y', 0)
+      .attr('width', NW).attr('height', NH).attr('preserveAspectRatio', 'none').attr('pointer-events', 'none')
       .on('error', function () { d3.select(this).remove(); radarImg = null; drawKey(); });
     nowAlertsG = nowSvg.append('g').attr('pointer-events', 'none');
     nowSvg.append('path').attr('d', path(state)).attr('fill', 'none').attr('stroke', tok('--line-strong', '#b9c3bc'))
       .attr('stroke-width', .8).attr('pointer-events', 'none');                        // county lines
-    const labels = nowSvg.append('g').attr('pointer-events', 'none');
-    [['17031', 'Chicago'], ['17167', 'Springfield'], ['17143', 'Peoria'], ['17019', 'Champaign'], ['17163', 'Metro East'], ['17201', 'Rockford'], ['17077', 'Carbondale']]
-      .forEach(([f, name]) => { const c = countyByFips[f]; if (!c) return; const [x, y] = nowProj([c.lon, c.lat]);
-        labels.append('text').text(name).attr('x', x).attr('y', y + 3).attr('text-anchor', 'middle').attr('font-size', 10.5)
-          .attr('font-family', 'IBM Plex Mono, monospace').attr('fill', tok('--muted', '#5b655f')).attr('paint-order', 'stroke')
-          .attr('stroke', tok('--surface', '#fff')).attr('stroke-width', 3).attr('stroke-opacity', .8); });
+    const focusG = nowSvg.append('g').attr('class', 'm-focus').attr('pointer-events', 'none');   // a story's counties
+    const linkG = nowSvg.append('g').attr('class', 'm-links').attr('pointer-events', 'none');
+    const markG = nowSvg.append('g').attr('class', 'm-marks');
+    const labelG = nowSvg.append('g').attr('class', 'm-labels').attr('pointer-events', 'none');
     nowPinG = nowSvg.append('g').attr('pointer-events', 'none');
-    shapes.on('mousemove', (ev, f) => { const c = countyByFips[f.properties.fips]; if (!c) return;
-        const here = alerts.filter(a => (a.fips || []).includes(c.fips));
-        showTip('<b>' + c.name + ' County</b><br>' + (here.length ? here.map(a => a.event).slice(0, 4).join('<br>') : 'No NWS alerts') + '<br>' + c.human + ' human readings, ' + (D.days || 14) + ' days', ev.clientX, ev.clientY); })
-      .on('mouseleave', hideTip)
-      .on('click', (ev, f) => { hideTip(); const c = countyByFips[f.properties.fips];
-        if (c) setFilter({ kind: 'county', value: c.fips, nodeId: 'county:' + c.fips, label: c.name + ' County' }); });
-    paintNowAlerts(); drawKey();
+
+    // ── marks: the day's readings, then the stories ──
+    marks = [];
+    const ground = tok('--ground', '#f1f3ef'), ink = tok('--ink', '#1a1f1c');
+    const shown = (t) => !layerOff.has(t);
+    PLACES.slice().sort((a, b) => b.tier - a.tier).forEach(p => {
+      if (!shown(p.topic)) return;
+      const [x, y] = P(p.lat, p.lon); const r = (p.tier === 1 ? 5.5 : 3.8) * u;
+      const g = markG.append('g').attr('class', 'm-mark tier' + p.tier).attr('transform', 'translate(' + x + ',' + y + ')')
+        .attr('data-id', p.id).attr('tabindex', p.tier === 1 ? 0 : -1).attr('role', 'button')
+        .attr('aria-label', tight(p.label) + ', ' + p.name + (p.county ? ', ' + p.county + ' County' : '') + '. ' + (p.why[0] || ''));
+      if (p.person) g.append('circle').attr('r', r + 2.6 * u).attr('fill', 'none').attr('stroke', tColor(p.topic)).attr('stroke-width', 1.4 * u);
+      g.append('circle').attr('class', 'dot').attr('r', r).attr('fill', tColor(p.topic))
+        .attr('stroke', ground).attr('stroke-width', (p.tier === 1 ? 2 : 1.5) * u);
+      marks.push({ kind: 'place', id: p.id, x, y, r: (p.tier === 1 ? 13 : 9) * u, el: g, tier: p.tier, topic: p.topic });
+    });
+    // stories: a numbered square where the story is; statewide ones docked in the empty corner
+    const located = NEWS.filter(nw => !nw.statewide && nw.lat != null), wide = NEWS.filter(nw => nw.statewide);
+    const badge = (nw, x, y) => {
+      const s = 19 * u, wd = (nw.n > 9 ? 23 : 19) * u;
+      const g = markG.append('g').attr('class', 'm-mark m-news').attr('transform', 'translate(' + x + ',' + y + ')')
+        .attr('data-id', nw.id).attr('tabindex', 0).attr('role', 'button')
+        .attr('aria-label', 'Story ' + nw.n + (nw.place ? ', ' + nw.place : ', statewide') + ': ' + nw.stories[0].title);
+      g.append('rect').attr('x', -wd / 2).attr('y', -s / 2).attr('width', wd).attr('height', s).attr('rx', 4.5 * u)
+        .attr('fill', ink).attr('stroke', ground).attr('stroke-width', 1.6 * u);
+      g.append('text').text(nw.n).attr('text-anchor', 'middle').attr('dy', '.36em').attr('font-size', 11.5 * u)
+        .attr('font-weight', 600).attr('font-family', 'IBM Plex Sans, sans-serif').attr('fill', ground);
+      marks.push({ kind: 'news', id: nw.id, x, y, r: 15 * u, el: g, topic: 'news' });
+    };
+    if (shown('news')) {
+      // a badge never sits on another: nudge clear of earlier ones
+      const placed = [];
+      located.forEach(nw => { let [x, y] = P(nw.lat, nw.lon);
+        for (let k = 0; k < 8 && placed.some(([a, b]) => Math.hypot(a - x, b - y) < 22 * u); k++) { x += 14 * u; y -= 10 * u; }
+        placed.push([x, y]); badge(nw, x, y); });
+      if (wide.length) {                    // the corner below the Wabash: Kentucky and Indiana, empty on this map
+        let [cx, cy] = P(37.62, -87.55);
+        cx = Math.min(cx, NW - 6 * u - ((wide.length - 1) / 2 * 25 + 12) * u);    // the whole row inside the frame
+        labelG.append('text').attr('class', 'm-dock').text('STATEWIDE').attr('x', cx).attr('y', cy - 16 * u).attr('text-anchor', 'middle')
+          .attr('font-size', 9.5 * u).attr('letter-spacing', '.08em').attr('font-family', 'IBM Plex Mono, monospace').attr('fill', tok('--muted', '#5b655f'));
+        wide.forEach((nw, i) => badge(nw, cx + (i - (wide.length - 1) / 2) * 25 * u, cy));
+      }
+    }
+    // ── labels: headline readings, then the cities, each where it fits ──
+    // labels keep clear of the big marks and of each other; a small dot may sit under a label's halo
+    const taken = marks.filter(m => m.tier !== 2).map(m => ({ x0: m.x - m.r * .55, y0: m.y - m.r * .55, x1: m.x + m.r * .55, y1: m.y + m.r * .55 }));
+    const hits = (b) => b.x0 < 4 || b.y0 < 4 || b.x1 > NW - 4 || b.y1 > NH - 4 || taken.some(t => b.x0 < t.x1 && b.x1 > t.x0 && b.y0 < t.y1 && b.y1 > t.y0);
+    const place = (text, x, y, px, weight, gap) => {
+      const wd = measure(text, px, weight) * u, h = px * u, gp = gap * u;
+      const spots = [[x + gp, y + h * .36, 'start', x + gp, y - h / 2], [x - gp, y + h * .36, 'end', x - gp - wd, y - h / 2],
+        [x, y - gp - h * .2, 'middle', x - wd / 2, y - gp - h], [x, y + gp + h * .8, 'middle', x - wd / 2, y + gp],
+        [x + gp * .8, y - gp * .7, 'start', x + gp * .8, y - gp * .7 - h * .8], [x + gp * .8, y + gp + h * .5, 'start', x + gp * .8, y + gp - h * .3],
+        [x - gp * .8, y - gp * .7, 'end', x - gp * .8 - wd, y - gp * .7 - h * .8], [x - gp * .8, y + gp + h * .5, 'end', x - gp * .8 - wd, y + gp - h * .3]];
+      for (const [tx, ty, anchor, bx, by] of spots) {
+        const b = { x0: bx - 2 * u, y0: by - 1 * u, x1: bx + wd + 2 * u, y1: by + h + 1 * u };
+        if (!hits(b)) { taken.push(b); return [tx, ty, anchor]; }
+      }
+      return null;
+    };
+    const label = (text, at, cls, px, weight, fill, id) => {
+      if (!at) return null;
+      return labelG.append('text').attr('class', cls).attr('data-id', id || null).text(text).attr('x', at[0]).attr('y', at[1]).attr('text-anchor', at[2])
+        .attr('font-size', px * u).attr('font-weight', weight).attr('font-family', cls === 'm-city' ? 'IBM Plex Mono, monospace' : 'IBM Plex Sans, sans-serif')
+        .attr('fill', fill).attr('paint-order', 'stroke').attr('stroke', ground).attr('stroke-width', 3.2 * u).attr('stroke-linejoin', 'round');
+    };
+    PLACES.filter(p => p.tier === 1 && shown(p.topic)).forEach(p => {
+      const [x, y] = P(p.lat, p.lon), text = tight(p.label);
+      const at = place(text, x, y, 12, 600, 9);
+      const m = marks.find(k => k.id === p.id); if (m) m.label = label(text, at, 'm-label', 12, 600, ink, p.id);
+    });
+    // cities for bearings, each centred on its county where nothing else is
+    [['17031', 'Chicago'], ['17167', 'Springfield'], ['17143', 'Peoria'], ['17019', 'Champaign'], ['17163', 'Metro East'], ['17201', 'Rockford'], ['17077', 'Carbondale']]
+      .forEach(([f, name]) => { const c = countyByFips[f]; if (!c) return; const [x, y] = P(c.lat, c.lon);
+        const wd = measure(name, 10.5, 400) * u * 1.12, h = 10.5 * u, b = { x0: x - wd / 2 - 2 * u, y0: y - h * .6, x1: x + wd / 2 + 2 * u, y1: y + h * .55 };
+        if (hits(b)) return;
+        taken.push(b); label(name, [x, y + 3.5 * u, 'middle'], 'm-city', 10.5, 400, tok('--muted', '#5b655f')); });
+
+    // ── pointing: the nearest mark within reach, else the county under the pointer ──
+    finder = marks.length ? d3.Delaunay.from(marks, m => m.x, m => m.y) : null;
+    const pick = (ev) => {
+      if (!finder) return null;
+      const [x, y] = d3.pointer(ev, nowSvg.node()), m = marks[finder.find(x, y)];
+      return m && Math.hypot(m.x - x, m.y - y) <= m.r ? m : null;
+    };
+    nowSvg.on('pointermove', (ev) => {
+      const m = pick(ev);
+      nowSvg.style('cursor', m ? 'pointer' : 'default');
+      if (m) { hideTip(); if (!pinned) setActive(m, false); return; }
+      if (!pinned && active) setActive(null, false);
+      const f = ev.target && ev.target.__data__ && ev.target.__data__.properties ? ev.target.__data__ : null;
+      const c = f ? countyByFips[f.properties.fips] : null;
+      if (!c || ev.pointerType === 'touch') return hideTip();
+      const here = alerts.filter(a => (a.fips || []).includes(c.fips));
+      showTip('<b>' + c.name + ' County</b><br>' + (here.length ? here.map(a => a.event).slice(0, 4).join('<br>') : 'No NWS alerts') + '<br>' + c.human + ' human readings, ' + (D.days || 14) + ' days', ev.clientX, ev.clientY);
+    }).on('pointerleave', () => { hideTip(); if (!pinned) setActive(null, false); })
+      .on('click', (ev) => {
+        const m = pick(ev);
+        if (m) { setActive(m, !(pinned && active === m)); return; }
+        if (pinned) { setActive(null, false); return; }           // the first click away closes the card
+        const f = ev.target && ev.target.__data__ && ev.target.__data__.properties ? ev.target.__data__ : null;
+        const c = f ? countyByFips[f.properties.fips] : null; hideTip();
+        if (c) setFilter({ kind: 'county', value: c.fips, nodeId: 'county:' + c.fips, label: c.name + ' County' });
+      });
+    shapes.style('cursor', 'pointer');
+    markG.selectAll('.m-mark').on('focus', function () { const m = marks.find(k => k.el.node() === this); if (m && !pinned) setActive(m, false); })
+      .on('blur', () => { if (!pinned) setActive(null, false); })
+      .on('keydown', function (ev) { if (ev.key !== 'Enter' && ev.key !== ' ') return; ev.preventDefault();
+        const m = marks.find(k => k.el.node() === this); if (m) setActive(m, true); });
+    Object.assign(drawNowMap, { focusG, linkG, labelG, path, P });
+    paintNowAlerts(); drawKey(); drawLayers();
     if (nearZip) pinNear(nearZip);
+    const was = active && marks.find(m => m.kind === active.kind && m.id === active.id);
+    active = null; if (was) setActive(was, pinned); else { pinned = false; hideCard(); }
+  }
+
+  // ── highlight: a story with the readings behind it, or a reading with its stories ──
+  function setActive(m, pin, quiet) {         // quiet: highlight only, no card (the list already says it)
+    const same = active && m && active.kind === m.kind && active.id === m.id;
+    active = m; pinned = !!(m && pin);
+    const { focusG, linkG, labelG, path, P } = drawNowMap;
+    focusG.selectAll('*').remove(); linkG.selectAll('*').remove(); labelG.selectAll('.m-temp').remove();
+    nowSvg.selectAll('.m-mark').classed('is-active', false).classed('is-dim', false);
+    labelG.selectAll('.m-label, .m-city').classed('is-dim', false);
+    document.querySelectorAll('.news-item').forEach(li => li.classList.toggle('on', !!(m && m.kind === 'news' && li.dataset.id === m.id)));
+    if (!m) { hideCard(); return; }
+    const u = perPx(), ink = cssVar('--ink', '#1a1f1c'), ground = cssVar('--ground', '#f1f3ef');
+    const keep = new Set([m.id]);
+    let pairs = [];                                   // [from mark, to mark]
+    const markOf = (kind, id) => marks.find(k => k.kind === kind && k.id === id);
+    if (m.kind === 'news') {
+      const nw = newsById[m.id];
+      (nw.links || []).forEach(id => { const t = markOf('place', id); if (t) { keep.add(id); pairs.push([m, t]); } });
+      const shapeOf = Object.fromEntries(D.boundaries.features.map(f => [f.properties.fips, f]));
+      (nw.counties || []).forEach(f => { if (shapeOf[f]) focusG.append('path').attr('d', path(shapeOf[f])).attr('fill', ink).attr('fill-opacity', .06)
+        .attr('stroke', ink).attr('stroke-opacity', .55).attr('stroke-width', 1.1 * u).attr('stroke-linejoin', 'round'); });
+    } else if (m.kind === 'place') {
+      const p = placeById[m.id];
+      (p.news || []).forEach(id => { const t = markOf('news', id); if (t) { keep.add(id); pairs.push([t, m]); } });
+    }
+    pairs.forEach(([a, b], i) => {                     // a gentle arc from the story to the reading
+      const dx = b.x - a.x, dy = b.y - a.y, len = Math.hypot(dx, dy) || 1, bend = Math.min(40 * u, len * .18);
+      const cx = (a.x + b.x) / 2 - dy / len * bend, cy = (a.y + b.y) / 2 + dx / len * bend;
+      const line = linkG.append('path').attr('d', 'M' + a.x + ',' + a.y + 'Q' + cx + ',' + cy + ' ' + b.x + ',' + b.y)
+        .attr('fill', 'none').attr('stroke', ink).attr('stroke-width', 1.3 * u).attr('stroke-opacity', .8).attr('stroke-linecap', 'round');
+      const L = line.node().getTotalLength();
+      if (!same && !matchMedia('(prefers-reduced-motion: reduce)').matches)
+        line.attr('stroke-dasharray', L).attr('stroke-dashoffset', L).transition().delay(i * 40).duration(380).ease(d3.easeCubicOut).attr('stroke-dashoffset', 0);
+      linkG.append('circle').attr('cx', b.x).attr('cy', b.y).attr('r', 2.2 * u).attr('fill', ink);
+    });
+    nowSvg.selectAll('.m-mark').each(function () { const id = this.getAttribute('data-id');
+      d3.select(this).classed('is-active', id === m.id).classed('is-dim', !keep.has(id)); });
+    labelG.selectAll('.m-label').each(function () { d3.select(this).classed('is-dim', !keep.has(this.getAttribute('data-id'))); });
+    labelG.selectAll('.m-city').classed('is-dim', true);
+    // readings drawn to a story say what they are, even the small ones: each where it fits
+    const boxes = [];
+    labelG.selectAll('.m-label:not(.is-dim)').each(function () { const bb = this.getBBox(); boxes.push({ x0: bb.x, y0: bb.y, x1: bb.x + bb.width, y1: bb.y + bb.height }); });
+    pairs.forEach(([a, b]) => { const t = b.kind === 'place' ? b : a; const p = placeById[t.id]; if (!p || t.label) return;
+      const text = tight(p.label), wd = measure(text, 11.5, 600) * u, h = 11.5 * u, g = 8 * u;
+      const spots = [[t.x + g, t.y + h * .36, 'start', t.x + g], [t.x - g, t.y + h * .36, 'end', t.x - g - wd],
+        [t.x, t.y - g, 'middle', t.x - wd / 2], [t.x, t.y + g + h * .75, 'middle', t.x - wd / 2]];
+      const spot = spots.find(sp => { const bx = { x0: sp[3] - 2 * u, y0: sp[1] - h * .86, x1: sp[3] + wd + 2 * u, y1: sp[1] + h * .14 };
+        if (bx.x0 < 2 || bx.x1 > NW - 2 || boxes.some(o => bx.x0 < o.x1 && bx.x1 > o.x0 && bx.y0 < o.y1 && bx.y1 > o.y0)) return false;
+        boxes.push(bx); return true; });
+      if (!spot) return;
+      labelG.append('text').attr('class', 'm-temp').text(text).attr('x', spot[0]).attr('y', spot[1])
+        .attr('text-anchor', spot[2]).attr('font-size', 11.5 * u).attr('font-weight', 600).attr('font-family', 'IBM Plex Sans, sans-serif')
+        .attr('fill', ink).attr('paint-order', 'stroke').attr('stroke', ground).attr('stroke-width', 3.2 * u); });
+    // what the card must not cover: the mark, what it's drawn to, and a story's counties
+    const xs = [m.x, ...pairs.flatMap(([a, b]) => [a.x, b.x])], ys = [m.y, ...pairs.flatMap(([a, b]) => [a.y, b.y])];
+    focusG.selectAll('path').each(function () { const bb = this.getBBox(); xs.push(bb.x, bb.x + bb.width); ys.push(bb.y, bb.y + bb.height); });
+    [m, ...pairs.flat()].forEach(t => { if (t.label && t.label.node()) { const bb = t.label.node().getBBox();
+      xs.push(bb.x, bb.x + bb.width); ys.push(bb.y, bb.y + bb.height); } });        // and the labels that say what they are
+    if (quiet && !pinned) { hideCard(); return; }
+    showCard(m, { x0: Math.min(...xs), y0: Math.min(...ys), x1: Math.max(...xs), y1: Math.max(...ys) });
+  }
+
+  // ── the card ──
+  function hideCard() { card.classList.remove('on', 'pinned'); card.hidden = true; cardFor = null; }
+  function showCard(m, keepClear) {
+    const html = m.kind === 'news' ? newsCard(newsById[m.id]) : placeCard(placeById[m.id]);
+    if (cardFor !== m.kind + m.id + pinned) { card.innerHTML = html; cardFor = m.kind + m.id + pinned; }
+    card.hidden = false; card.classList.toggle('pinned', pinned); card.classList.toggle('peek', !pinned);
+    card.setAttribute('aria-label', m.kind === 'news' ? 'Story ' + newsById[m.id].n : placeById[m.id].name);
+    const close = card.querySelector('.x'); if (close) close.onclick = () => setActive(null, false);
+    card.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { const [kind, id] = b.dataset.go.split(':');
+      const t = marks.find(k => k.kind === kind && k.id === id); if (t) setActive(t, true); });
+    // where: a preview beside the mark; a kept card beside it on a wide map, docked at the far
+    // edge on a narrow one (a phone's sheet)
+    const sr = stage.getBoundingClientRect(), vr = nowSvg.node().getBoundingClientRect(), k = vr.width / NW;
+    const x = vr.left - sr.left + m.x * k, y = vr.top - sr.top + m.y * k;
+    card.style.left = card.style.top = card.style.right = card.style.bottom = '';
+    if (pinned && sr.width < 560) {
+      card.classList.add('docked');
+      if (y > sr.height / 2) card.style.top = '8px'; else card.style.bottom = '8px';
+    } else {
+      card.classList.remove('docked');
+      const cw = card.offsetWidth, ch = card.offsetHeight, gap = 16, W = sr.width, H = sr.height;
+      const ox = vr.left - sr.left, oy = vr.top - sr.top, kc = keepClear || { x0: m.x, y0: m.y, x1: m.x, y1: m.y };
+      const b = { x0: ox + kc.x0 * k - 6, y0: oy + kc.y0 * k - 6, x1: ox + kc.x1 * k + 6, y1: oy + kc.y1 * k + 6 };
+      const clampY = (t) => Math.max(8, Math.min(H - ch - 8, t)), clampX = (l) => Math.max(8, Math.min(W - cw - 8, l));
+      // the spot that hides least of what it highlights, and never the mark itself: beside it,
+      // above or below it, beside the mark, or a corner of the map
+      const spots = [[b.x1 + gap, y - ch * .35], [b.x0 - gap - cw, y - ch * .35], [x - cw / 2, b.y1 + gap], [x - cw / 2, b.y0 - gap - ch],
+        [x + gap, y - ch * .35], [x - gap - cw, y - ch * .35], [8, 8], [W - cw - 8, 8], [8, H - ch - 8], [W - cw - 8, H - ch - 8]]
+        .map(([l, t]) => [clampX(l), clampY(t)]);
+      const overlap = (l, t, r) => Math.max(0, Math.min(l + cw, r.x1) - Math.max(l, r.x0)) * Math.max(0, Math.min(t + ch, r.y1) - Math.max(t, r.y0));
+      const mark = { x0: x - 14, y0: y - 14, x1: x + 14, y1: y + 14 };
+      const cost = ([l, t]) => overlap(l, t, b) + 1e6 * overlap(l, t, mark);
+      const [left, top] = spots.reduce((best, sp) => cost(sp) < cost(best) ? sp : best);
+      card.style.left = left + 'px'; card.style.top = top + 'px';
+    }
+    requestAnimationFrame(() => card.classList.add('on'));
+  }
+  const escHtml = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  const ext = (url, text) => url ? '<a href="' + escHtml(url) + '" target="_blank" rel="noopener">' + text + '</a>' : text;
+  function spark(sp, color) {
+    if (!sp || !sp.v || sp.v.length < 2) return '';
+    const W = 280, H = 46, pad = 3, t0 = sp.t[0], t1 = sp.t[sp.t.length - 1] || 1;
+    const lo = Math.min(...sp.v), hi = Math.max(...sp.v), span = hi - lo || 1;
+    const X = (t) => pad + (t - t0) / ((t1 - t0) || 1) * (W - 2 * pad), Y = (v) => H - pad - (v - lo) / span * (H - 2 * pad - 10);
+    const pts = sp.t.map((t, i) => X(t).toFixed(1) + ',' + Y(sp.v[i]).toFixed(1));
+    const last = pts[pts.length - 1].split(',');
+    return '<svg class="spark" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" aria-hidden="true">'
+      + '<path d="M' + pts[0].split(',')[0] + ',' + (H - pad) + 'L' + pts.join('L') + 'L' + last[0] + ',' + (H - pad) + 'Z" fill="' + color + '" fill-opacity=".12"/>'
+      + '<polyline points="' + pts.join(' ') + '" fill="none" stroke="' + color + '" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>'
+      + '<circle cx="' + last[0] + '" cy="' + last[1] + '" r="2.6" fill="' + color + '"/></svg>'
+      + '<div class="spark-axis"><span>' + tight(sp.v[0].toLocaleString(undefined, { maximumFractionDigits: 2 }) + ' ' + sp.unit) + ', ' + Math.round(-t0 / 60) + ' hours ago</span><span>now</span></div>';
+  }
+  function placeCard(p) {
+    if (!pinned) return placePeek(p);
+    const c = tColor(p.topic), lead = p.lines[0] || {};
+    const status = p.person ? '<span class="st ' + (p.status === 'corroborated' ? 'ok' : 'warn') + '">' + (p.status === 'corroborated' ? 'Corroborated' : 'Not yet checked') + '</span>' : '';
+    const delta = lead.note ? '<span class="d">' + (/^up /.test(lead.note) ? '▲ ' + tight(lead.note.slice(3)) : escHtml(lead.note)) + '</span>' : '';
+    const rest = p.lines.slice(1).map(l => l.value === 'reported'                 // a flag: what was seen, not a number
+      ? '<div>' + escHtml(l.name) + ' <span class="muted">reported</span></div>'
+      : '<div><span class="muted">' + escHtml(l.name) + '</span> <b>' + tight(escHtml(l.value)) + '</b>' + (l.note ? ' <span class="muted">· ' + escHtml(l.note) + '</span>' : '') + '</div>').join('');
+    const stories = (p.news || []).map(id => newsById[id]).filter(Boolean);
+    const page = p.county ? counties.find(x => x.name === p.county) : null;
+    return (pinned ? '<button class="x" type="button" aria-label="Close">×</button>' : '')
+      + '<div class="eye" style="--c:' + c + '"><i></i>' + escHtml(tLabel(p.topic)) + ' · ' + escHtml(p.source) + '</div>'
+      + '<h3>' + escHtml(p.name) + '</h3>'
+      + '<div class="sub">' + [p.zip ? 'ZIP ' + escHtml(p.zip) : '', p.county ? escHtml(p.county) + ' County' : '', lead.at ? dayTime(lead.at) : ''].filter(Boolean).join(' · ') + ' ' + status + '</div>'
+      + (lead.value === 'reported'
+        ? '<div class="big" style="--c:' + c + '"><span class="v flag">' + escHtml(lead.name) + '</span><span class="n">reported</span></div>'
+        : '<div class="big" style="--c:' + c + '"><span class="v">' + tight(escHtml(lead.value || '')) + '</span>' + (lead.name && lead.value ? '<span class="n">' + escHtml(lead.name) + '</span>' : '') + delta + '</div>')
+      + spark(p.spark, c)
+      + (rest ? '<div class="more">' + rest + '</div>' : '')
+      + (p.event ? '<div class="evt"><span class="badge ' + (p.event.verified ? 'ok' : 'warn') + '">' + (p.event.verified ? 'verified' : 'unverified') + '</span> Network event: ' + escHtml(p.event.title) + '</div>' : '')
+      + '<ul class="why">' + p.why.filter(w => !/^In the news/.test(w)).map(w => '<li>' + escHtml(w) + '</li>').join('')
+      + stories.map(nw => '<li class="story"><button type="button" class="nb" data-go="news:' + nw.id + '">' + nw.n + '</button> ' + escHtml(nw.stories[0].title) + '</li>').join('') + '</ul>'
+      + (pinned ? '<div class="acts">' + (p.url ? ext(p.url, 'Source ↗') : '') + (page ? '<a href="county/' + page.slug + '.html">' + escHtml(page.name) + ' County page</a>' : '') + '</div>'
+        : '<div class="hint">Click for ' + (stories.length ? 'the story and links' : 'links') + '</div>');
+  }
+  function placePeek(p) {
+    const c = tColor(p.topic), lead = p.lines[0] || {}, stories = (p.news || []).map(id => newsById[id]).filter(Boolean);
+    const value = lead.value === 'reported' ? '<span class="v flag">' + escHtml(lead.name) + '</span><span class="n">reported</span>'
+      : '<span class="v">' + tight(escHtml(lead.value || '')) + '</span><span class="n">' + escHtml(lead.name || '') + '</span>';
+    const delta = lead.note && /^up /.test(lead.note) ? '<span class="d">▲ ' + tight(lead.note.slice(3)) + '</span>' : '';
+    const why = p.why.find(w => !/^In the news/.test(w));
+    return '<div class="eye" style="--c:' + c + '"><i></i>' + escHtml(tLabel(p.topic)) + ' · ' + escHtml(p.source) + '</div>'
+      + '<h3>' + escHtml(p.name) + '</h3>'
+      + '<div class="sub">' + [p.zip ? 'ZIP ' + escHtml(p.zip) : '', p.county ? escHtml(p.county) + ' County' : '', lead.at ? dayTime(lead.at) : ''].filter(Boolean).join(' · ') + '</div>'
+      + '<div class="big" style="--c:' + c + '">' + value + delta + '</div>'
+      + (why ? '<p class="peek-why">' + escHtml(why) + '</p>' : '')
+      + (stories.length ? '<p class="peek-why">In the news: ' + stories.map(nw => '<span class="nb">' + nw.n + '</span>').join(' ') + '</p>' : '')
+      + '<div class="hint">Click for ' + (p.spark ? 'the last day, ' : '') + (stories.length ? 'the stories ' : '') + 'and links</div>';
+  }
+  function newsCard(nw) {
+    const linked = (nw.links || []).map(id => placeById[id]).filter(Boolean);
+    if (!pinned) return '<div class="eye" style="--c:' + tColor(nw.topic) + '"><span class="nb">' + nw.n + '</span>In the news · ' + escHtml(tLabel(nw.topic)) + '</div>'
+      + '<h3>' + escHtml(nw.place || nw.stories[0].title) + '</h3>'
+      + (nw.place ? '<p class="peek-title">' + escHtml(nw.stories[0].title) + '</p>' : '')
+      + '<p class="peek-src">' + escHtml(nw.stories[0].source) + (nw.stories.length > 1 ? ' · ' + (nw.stories.length - 1) + ' more' : '') + '</p>'
+      + (linked.length ? '<p class="peek-measured">' + linked.map(p => '<span style="--c:' + tColor(p.topic) + '"><i></i>' + tight(escHtml(p.label)) + '</span>').join('') + '</p>' : '')
+      + (nw.alerts && nw.alerts.length ? '<div class="inforce">' + escHtml(nw.alerts.join(' · ')) + ' in force</div>' : '')
+      + '<div class="hint">Click for the stories and links</div>';
+    const rows = linked.map(p => '<li><button type="button" data-go="place:' + p.id + '" style="--c:' + tColor(p.topic) + '"><i></i><span>' + escHtml(p.name) + '</span><b>' + tight(escHtml(p.label)) + '</b></button></li>').join('');
+    return (pinned ? '<button class="x" type="button" aria-label="Close">×</button>' : '')
+      + '<div class="eye" style="--c:' + tColor(nw.topic) + '"><span class="nb">' + nw.n + '</span>In the news · ' + escHtml(tLabel(nw.topic)) + (nw.statewide ? ' · statewide' : '') + '</div>'
+      + (nw.place ? '<h3>' + escHtml(nw.place) + '</h3>' : '')
+      // a preview names the lead story; the kept card lists them all, linked
+      + '<ul class="stories">' + (pinned ? nw.stories : nw.stories.slice(0, 1)).map(s => '<li>' + (pinned ? ext(s.url, escHtml(s.title)) : escHtml(s.title)) + ' <span class="muted">— ' + escHtml(s.source) + (s.at ? ', ' + dayTime(s.at) : '') + '</span></li>').join('')
+      + (!pinned && nw.stories.length > 1 ? '<li class="also">and ' + (nw.stories.length - 1) + ' more ' + (nw.stories.length > 2 ? 'stories' : 'story') + ' about ' + escHtml(nw.place || 'this') + '</li>' : '') + '</ul>'
+      + (rows ? '<div class="measured"><div class="lab">What the network measured' + (nw.statewide ? '' : ' there') + '</div><ul>' + rows + '</ul></div>'
+        : '<div class="measured none">Nothing the network measures bears on this one yet.</div>')
+      + (nw.alerts && nw.alerts.length ? '<div class="inforce">' + escHtml(nw.alerts.join(' · ')) + ' in force</div>' : '')
+      + (pinned ? '' : '<div class="hint">Click for the links</div>');
+  }
+
+  // ── the key: what's on the map, which layers show ──
+  function drawLayers() {
+    const box = $('#map-layers'); if (!box) return; box.innerHTML = '';
+    const counts = {}; PLACES.forEach(p => { counts[p.topic] = (counts[p.topic] || 0) + 1; });
+    AREAS.forEach(a => { counts[a.topic] = (counts[a.topic] || 0) + a.counties.length; });
+    const chip = (key, label, n, swatch) => {
+      const b = el('button', { type: 'button', class: 'layer', 'aria-pressed': String(!layerOff.has(key)) }, swatch, label);
+      if (n != null) b.append(el('b', {}, String(n)));
+      b.addEventListener('click', () => { layerOff.has(key) ? layerOff.delete(key) : layerOff.add(key); setActive(null, false); drawNowMap(); });
+      box.append(b);
+    };
+    const short = { markets: 'Markets', nature: 'Nature', quake: 'Quakes', agriculture: 'Crops' };
+    TOPICS.map(t => t.name).filter(t => counts[t]).sort((a, b) => counts[b] - counts[a])
+      .forEach(t => chip(t, short[t] || tLabel(t), counts[t], el('i', { style: '--c:' + tColor(t) })));
+    if (NEWS.length) chip('news', 'News', NEWS.length, el('i', { class: 'sq' }));
+    chip('radar', 'Radar', null, el('i', { class: 'rad' }));
+  }
+  function drawKey() {
+    const key = $('#map-key'); key.innerHTML = '';
+    const item = (sw, label) => key.append(el('span', {}, sw, label));
+    item(el('i', { style: 'background:' + cssVar('--sev-severe') }), 'warning');
+    item(el('i', { style: 'background:' + cssVar('--sev-moderate') + ';opacity:.7' }), 'watch or advisory');
+    if (radarImg) item(el('i', { style: 'background:linear-gradient(90deg,#4fa84a,#e3c43a,#c9302c)' }), 'radar');
+    if (PLACES.length) { item(el('i', { class: 'k1' }), 'stand-out reading'); item(el('i', { class: 'k2' }), 'notable'); }
+    if (NEWS.length) item(el('i', { class: 'k3' }), 'story, drawn to its readings');
+    const asOf = M.as_of ? fmtWhen(M.as_of, { timeZoneName: undefined }) : null;
+    const lines = [];
+    if (asOf) lines.push('Readings and stories from the 24 hours to ' + asOf + '; alerts and radar are live.');
+    if ((M.quiet || []).length) lines.push('Nothing stood out in ' + M.quiet.map(q => q.toLowerCase()).join(', ').replace(/, ([^,]*)$/, ' or $1') + '.');
+    if (lines.length) key.append(el('p', { class: 'key-note' }, lines.join(' ')));
   }
   const sevColor = (a) => { const cs = getComputedStyle(document.documentElement);
     return cs.getPropertyValue(a.severity === 'Extreme' ? '--sev-extreme' : a.severity === 'Severe' ? '--sev-severe' : a.severity === 'Moderate' ? '--sev-moderate' : '--sev-minor').trim() || '#c4501b'; };
@@ -1082,25 +1560,50 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
       }
     });
   }
-  function drawKey() {
-    const cs = getComputedStyle(document.documentElement); const tok = (k) => cs.getPropertyValue(k).trim();
-    const key = $('#map-key'); key.innerHTML = '';
-    const item = (color, label, opacity) => key.append(el('span', {}, el('i', { style: 'background:' + color + ';opacity:' + (opacity || 1) }), label));
-    item(tok('--sev-severe'), 'warning'); item(tok('--sev-moderate'), 'watch or advisory', .7);
-    if (radarImg) item('linear-gradient(90deg,#4fa84a,#e3c43a,#c9302c)', 'radar (IEM NEXRAD)');
-    item(tok('--accent'), 'network readings', .5);
-  }
   function pinNear(zip) {
     if (!nowPinG || !nowProj) return;
     nowPinG.selectAll('*').remove();
     const z = (D.zips || {})[zip]; if (!z) return;
-    const [x, y] = nowProj([z[2], z[1]]);
-    const cs = getComputedStyle(document.documentElement);
-    nowPinG.append('circle').attr('cx', x).attr('cy', y).attr('r', 11).attr('fill', 'none').attr('stroke', cs.getPropertyValue('--ink').trim()).attr('stroke-width', 1.5);
-    nowPinG.append('circle').attr('cx', x).attr('cy', y).attr('r', 4).attr('fill', cs.getPropertyValue('--ink').trim());
-    nowPinG.append('text').text(zip).attr('x', x + 15).attr('y', y + 4).attr('font-size', 11).attr('font-family', 'IBM Plex Mono, monospace')
-      .attr('fill', cs.getPropertyValue('--ink').trim()).attr('paint-order', 'stroke').attr('stroke', cs.getPropertyValue('--surface').trim()).attr('stroke-width', 3);
+    const [x, y] = nowProj([z[2], z[1]]), u = perPx();
+    const ink = cssVar('--ink'), surface = cssVar('--surface');
+    nowPinG.append('circle').attr('cx', x).attr('cy', y).attr('r', 11 * u).attr('fill', 'none').attr('stroke', ink).attr('stroke-width', 1.5 * u);
+    nowPinG.append('circle').attr('cx', x).attr('cy', y).attr('r', 4 * u).attr('fill', ink);
+    nowPinG.append('text').text(zip).attr('x', x + 15 * u).attr('y', y + 4 * u).attr('font-size', 11 * u).attr('font-family', 'IBM Plex Mono, monospace')
+      .attr('fill', ink).attr('paint-order', 'stroke').attr('stroke', surface).attr('stroke-width', 3 * u);
   }
+
+  // ── the news beside the map ──
+  function renderNews() {
+    const box = $('#news'); if (!box || !NEWS.length) return;
+    $('#news-box').hidden = false; box.innerHTML = '';
+    const item = (nw) => {
+      const li = el('li', { class: 'news-item', 'data-id': nw.id });
+      const head = el('button', { type: 'button', class: 'news-place', 'aria-label': 'Show story ' + nw.n + ' on the map' },
+        el('span', { class: 'nb' }, String(nw.n)), nw.place || tLabel(nw.topic));
+      const s0 = nw.stories[0];
+      li.append(head, el('p', { class: 'news-title' }, s0.url ? el('a', { href: s0.url, target: '_blank', rel: 'noopener' }, s0.title) : s0.title),
+        el('p', { class: 'news-src' }, s0.source + (nw.stories.length > 1 ? ' · ' + (nw.stories.length - 1) + ' more ' + (nw.stories.length > 2 ? 'stories' : 'story') : '') + (nw.place ? ' · ' + tLabel(nw.topic) : '')));
+      const links = (nw.links || []).map(id => placeById[id]).filter(Boolean);
+      if (links.length) li.append(el('ul', { class: 'news-measured', 'aria-label': 'What the network measured' },
+        ...links.map(p => el('li', { style: '--c:' + tColor(p.topic) }, el('i'), el('b', {}, tight(p.label)), el('span', {}, p.name)))));
+      if ((nw.alerts || []).length) li.append(el('p', { class: 'news-alerts' }, nw.alerts.join(' · ') + ' in force'));
+      const go = (pin, quiet) => { const m = marks.find(k => k.kind === 'news' && k.id === nw.id); if (m) setActive(m, pin, quiet); };
+      li.addEventListener('mouseenter', () => { if (!pinned) go(false, true); });
+      li.addEventListener('mouseleave', () => { if (!pinned) setActive(null, false); });
+      head.addEventListener('click', () => { if (layerOff.has('news')) { layerOff.delete('news'); drawNowMap(); }
+        go(true); const r = document.querySelector('.now-map').getBoundingClientRect();
+        if (r.top < 0 || r.top > innerHeight * .6) document.querySelector('.now-map').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+      return li;
+    };
+    const located = NEWS.filter(nw => !nw.statewide), wide = NEWS.filter(nw => nw.statewide);
+    if (located.length) box.append(el('ol', { class: 'news-list' }, ...located.map(item)));
+    if (wide.length) box.append(el('div', { class: 'news-sub' }, 'Statewide'), el('ol', { class: 'news-list' }, ...wide.map(item)));
+  }
+  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape' && active) setActive(null, false); });
+  let lastW = 0, mapResize;
+  new ResizeObserver(() => { clearTimeout(mapResize); mapResize = setTimeout(() => {
+    const wNow = nowSvg.node().getBoundingClientRect().width; if (Math.abs(wNow - lastW) > 2) { lastW = wNow; drawNowMap(); } }, 120); }).observe(document.querySelector('.now-map'));
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => drawNowMap());   // labels are placed by their measured width
 
   // Near you: a ZIP → its county's alerts and readings, a pin, and a one-tap Telegram link
   const nearOut = $('#near-out');
@@ -1158,7 +1661,7 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
       el('a', { class: 'btn', href: '#report' }, 'How reporting works')));
   }
 
-  drawNowMap(); statusLine(); drawSources(); drawNetNow();
+  drawNowMap(); renderNews(); statusLine(); drawSources(); drawNetNow();
   try { const saved = localStorage.getItem('in-zip'); if (saved) { $('#near-zip').value = saved; showNear(saved); } } catch (e) {}
   setInterval(() => { if (document.visibilityState === 'visible' && radarImg) radarImg.attr('href', radarSrc()); }, 300000);
   refreshAlerts();

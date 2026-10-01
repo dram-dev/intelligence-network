@@ -266,6 +266,30 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   The snapshot carries `feeds` (last good run per source) and `reference_sizes`.
   Grids that collapse to one column use `minmax(0, 1fr)` (plain `1fr` let a long
   code line push the phone layout to 1,240 px).
+- **Masthead map: the day across every topic** (`notable.py` → snapshot `map`, `data/map.json`;
+  drawn by the fragment's "masthead map" script). What stands out comes from the packs: a
+  reading past its `event` threshold; a metric's `headline` reading (`{max: High, min: Low}`,
+  `{rise: Rise}`: the state's highest/lowest, needing ≥ 3 sites, or the three biggest rises
+  at one site, glitch-guarded like `connect._rise`); people's readings (by handle at the ZIP
+  centre); NWS storm reports. A running amount (`accumulates`) headlines only as a total: a
+  station's hourly amount is labelled a rate ("in/hr"). One place per site with all its
+  notable readings; ≤ 14 labelled (headline readings first, then one per measure, ≤ 3 per
+  topic, no twin labels within 50 km), the rest dots. Slow sources (soil station) show their
+  latest day ≤ 8 days; `county_wide` metrics (USDM) are hatched areas; points outside the
+  state's outline are dropped (`in_state`). Stories: kept items ≥ 0.8 relevance, placed by
+  `connect.places_in` + `place_point` (a town's own point; an alias at its first county),
+  grouped like threads (a sub-place joins a wider one only when they name a measure in
+  common), ≤ 7 located + 3 statewide (one per subject first), each linked to ≤ 4 readings
+  (the best of each measure it names: a rise, a total, or anything past threshold; a level
+  that didn't move bears on nothing). Headlines name a measure only by `news_words` or a
+  multi-word alias (one-word aliases matched "Pressure mounts for lawmakers"). Labels use the
+  headline name, else the pack's `short`, else the label less "(…)"; scales read in words
+  (`display_words`: corn "R4", drought "D2"). Page: layer chips (topic counts, News, Radar),
+  rivers (inlined, thinned), screen-constant symbol sizes, Delaunay picking, hover = compact
+  preview, click = kept card (trend sparkline, other readings, stories, links; a bottom sheet
+  under 560 px), a story highlights its counties and draws arcs to its readings, the news
+  list beside the map drives the same highlight; on wide screens the map is sticky and sized
+  to the viewport. The readings and stories are as of the snapshot; alerts and radar are live.
 - **Morning brief** (`brief.py`): replaces the digest-link ping. Per digest
   subscriber: county from live location, else home, else the state. Lines: alerts
   in effect (one per event, ×n), alerts ended in 24 h (alert_threads), every metric
@@ -338,7 +362,7 @@ the right event.
 
 ## Site + snapshot
 
-`export.snapshot()` → 13 public JSON docs (anonymised: humans as `s-xxxxx` +
+`export.snapshot()` → 14 public JSON docs (anonymised: humans as `s-xxxxx` +
 county only). `site/index.fragment.html` (Fraunces / IBM Plex; light+dark
 tokens; D3 v7 from cdnjs) is wrapped into `docs/index.html` with the data
 inlined; the same fragment publishes as a Claude artifact. `intelnet

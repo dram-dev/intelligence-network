@@ -47,7 +47,11 @@ def test_write_json_and_build_site(fresh_db, tmp_path: Path):
     demo.seed(days=3)
     snap = export.snapshot(days=3, sample=True)
     files = export.write_json(snap, tmp_path / "data")
-    assert {p.name for p in files} >= {"network.json", "graph.json", "counties.json", "events.json", "sources.json"}
+    assert {p.name for p in files} >= {"network.json", "graph.json", "counties.json", "events.json", "sources.json",
+                                       "map.json"}
+    day = json.loads((tmp_path / "data" / "map.json").read_text(encoding="utf-8"))
+    assert day["places"] and {"places", "news", "areas", "quiet", "as_of"} <= set(day)
+    assert all(p["name"].startswith("s-") for p in day["places"] if p["person"])       # people by handle only
     frag = tmp_path / "frag.html"
     frag.write_text("<title>T</title>\n<link rel=\"stylesheet\" href=\"x\">\n<style>b{}</style>\n"
                     "<main>hi</main>\n<script>window.NETWORK_DATA = /*__NETWORK_DATA__*/null;</script>\n",
@@ -62,6 +66,7 @@ def test_write_json_and_build_site(fresh_db, tmp_path: Path):
     # the page draws its map from inlined geography: 102 county shapes and every ZIP
     data = json.loads(html.split("window.NETWORK_DATA = ", 1)[1].split(";</script>", 1)[0].replace("<\\/", "</"))
     assert len(data["boundaries"]["features"]) == 102 and data["zips"]["62704"][0] == "17167"
+    assert any(r["name"] == "Illinois River" for r in data["rivers"])                  # where the gauges are
     assert "boundaries" not in {p.stem for p in files}                   # page furniture, not public data
 
 
@@ -76,7 +81,7 @@ def test_snapshot_says_when_each_feed_last_worked(fresh_db):
 def test_export_all_without_fragment(fresh_db, tmp_path: Path, monkeypatch):
     monkeypatch.setattr(export, "FRAGMENT", tmp_path / "missing.html")
     res = export.export_all(tmp_path / "docs", days=2, site=True)
-    assert len(res["json"]) == 13 and "site" not in res
+    assert len(res["json"]) == 14 and "site" not in res
     assert db.vitals()["sensors_total"] == 0
 
 

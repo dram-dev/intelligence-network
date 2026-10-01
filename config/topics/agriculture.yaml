@@ -17,6 +17,8 @@ categories:
 metrics:
   corn_stage:
     label: Corn growth stage
+    short: Corn
+    display_words: true
     unit: stage
     aliases: [corn stage, corn at, corn is at, corn]
     units: {stage: 1}
@@ -62,6 +64,8 @@ metrics:
 
   soy_stage:
     label: Soybean growth stage
+    short: Soybeans
+    display_words: true
     unit: stage
     aliases: [soybean stage, soy stage, beans at, beans are at, soybeans at, soybeans, beans]
     units: {stage: 1}
@@ -102,8 +106,11 @@ metrics:
 
   crop_condition:
     label: Crop condition (NASS scale)
+    short: Crops
+    display_words: true
     unit: score
     aliases: [crop condition, condition, crop looks, crop rating, crops look]
+    news_words: [crop condition, crop ratings]
     units: {score: 1}
     words:
       very poor: 1
@@ -151,8 +158,12 @@ metrics:
 
   drought_category:
     label: Drought category (USDM)
+    short: Drought
+    display_words: true
+    county_wide: true          # a category for the whole county: the map draws the county
     unit: D-level
     aliases: [drought category, drought level, usdm, drought monitor]
+    news_words: [drought]
     units: {d-level: 1, level: 1}
     words:
       none: 0
@@ -177,6 +188,7 @@ metrics:
     label: Drought stress
     kind: flag
     aliases: [drought stress, leaves rolling, corn rolling, curling leaves, crops wilting, firing lower leaves]
+    news_words: [drought]
     radius_km: 25
     window_min: 1440
     event: [[1, 0.5]]
@@ -193,6 +205,7 @@ metrics:
     label: Pest pressure
     kind: flag
     aliases: [pest pressure, aphids, soybean aphid, armyworm, armyworms, fall armyworm, rootworm, japanese beetles, corn borer, cutworm, stink bugs, grasshoppers, insect pressure]
+    news_words: [aphids, armyworm, rootworm, cutworm, grasshoppers]
     radius_km: 25
     window_min: 4320
     event: [[1, 0.5]]
@@ -209,6 +222,7 @@ metrics:
     label: Invasive pest
     kind: flag
     aliases: [spotted lanternfly, lanternfly, emerald ash borer, japanese beetle swarm, invasive pest, new pest, asian longhorned beetle, spongy moth]
+    news_words: [lanternfly, emerald ash borer]
     radius_km: 40
     window_min: 10080
     event: [[1, 0.7]]
@@ -217,6 +231,7 @@ metrics:
     label: Livestock disease
     kind: flag
     aliases: [avian flu, avian influenza, bird flu, hpai, hogs sick, cattle sick, livestock disease, herd quarantine, flock depopulated]
+    news_words: [avian flu, bird flu, hpai]
     radius_km: 50
     window_min: 10080
     event: [[1, 0.8]]

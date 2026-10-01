@@ -64,6 +64,18 @@ class Metric:
     # Words a news headline uses for this measure ("flooding", "harvest"): connect.py ties a
     # story to the readings it's about.
     news_words: list[str] = field(default_factory=list)
+    # The reading of this measure that makes the day's news, for the site's map (notable.py):
+    # {max: High} the state's highest, {min: Low} its lowest, {rise: Rise} the biggest rise
+    # at one site. Each value is the short name the map labels that reading with.
+    headline: dict[str, str] = field(default_factory=dict)
+    # A reading about a whole county rather than a point in it (the Drought Monitor's
+    # category): the site's map draws it as the county.
+    county_wide: bool = False
+    # The name a map label uses ("Corn R2", "Gust 62 mph"); the label, less any "(…)", when unset.
+    short: str = ""
+    # A scale read in its own words: corn at "R2", drought "D2", condition "good", not the
+    # number each is stored as.
+    display_words: bool = False
 
     @property
     def is_flag(self) -> bool:
@@ -123,6 +135,11 @@ class Metric:
             return "—"
         if self.is_flag:
             return "reported"
+        if self.display_words:
+            names = [w for w, v in self.words.items() if abs(v - value) < 1e-9]
+            if names:
+                w = min(names, key=len)
+                return w.upper() if len(w) <= 3 and w.isalnum() else w
         du = self.display_unit
         if not du:
             return f"{nice_number(value)} {self.unit}".strip()
@@ -249,6 +266,10 @@ def _load_metric(topic: str, key: str, raw: dict[str, Any]) -> Metric:
         accumulates=bool(raw.get("accumulates", False)),
         scored=bool(raw.get("scored", True)),
         news_words=[str(w) for w in raw.get("news_words") or []],
+        headline={str(k): str(v) for k, v in (raw.get("headline") or {}).items()},
+        county_wide=bool(raw.get("county_wide", False)),
+        short=str(raw.get("short") or ""),
+        display_words=bool(raw.get("display_words", False)),
     )
 
 

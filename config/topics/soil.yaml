@@ -18,11 +18,13 @@ categories:
 metrics:
   soil_moisture_pct:
     label: Soil moisture
+    headline: {min: Soil moisture}
     unit: pct
     aliases: [soil moisture, vwc, volumetric water content, soil water, moisture probe]
-    news_words: [drought, dry, crop, crops, harvest, planting, moisture]
+    news_words: [drought, dry, dryness, topsoil, subsoil, crop progress]
     units: {"%": 1, pct: 1, percent: 1}
     default_unit: "%"
+    display_unit: {unit: "%", expr: "x"}
     range: [0, 70]
     tolerance: {abs: 8}
     radius_km: 12
@@ -33,6 +35,7 @@ metrics:
 
   soil_temp_c:
     label: Soil temperature
+    short: Soil temp
     unit: degC
     aliases: [soil temp, soil temperature, ground temp, ground temperature, 4-inch soil temp]
     units: {c: 1, "°c": 1, f: {expr: "(x - 32) * 5 / 9"}, "°f": {expr: "(x - 32) * 5 / 9"}, degrees: {expr: "(x - 32) * 5 / 9"}}
@@ -109,6 +112,7 @@ metrics:
     label: Erosion
     kind: flag
     aliases: [erosion, gully, gullies, rills, rill erosion, soil loss, washout, ephemeral gully]
+    news_words: [erosion]
     radius_km: 15
     window_min: 720
     event: [[1, 0.6]]

@@ -34,7 +34,7 @@ def test_the_keyboard_opens_the_app_with_the_chats_own_state(fresh_db, monkeypat
     assert button["text"] == bot.APP_BUTTON and button["web_app"]["url"].startswith("https://example.test/intelnet/app/#s=")
     s = _state(r.markup)
     assert s["home"]["zip"] == "62704" and s["home"]["slug"] == "sangamon"
-    assert s["reports"][0]["m"] == "Rainfall" and s["reports"][0]["v"] == "0.5 in" and s["reports"][0]["q"] == "raw"
+    assert s["reports"][0]["m"] == "Rainfall" and s["reports"][0]["v"] == "0.50 in" and s["reports"][0]["q"] == "raw"
     assert s["followups"] is True and s["trust"] == []
     monkeypatch.setattr(settings, "site_url", "http://localhost:8000/")               # Telegram needs https
     assert all("web_app" not in b for row in bot.report_keyboard(31)["keyboard"] for b in row)

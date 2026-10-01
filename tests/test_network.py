@@ -95,7 +95,7 @@ def test_events_open_join_score_and_push_gate(make_sensor, monkeypatch):
     c2 = _contrib(bob, "hail golf ball", "m2")
     a2 = c2.assessments[0]
     assert a2.event["id"] == a1.event["id"]                # joined the same county event
-    assert a2.event["n_sensors"] == 2 and a2.event["peak_value"] == 44
+    assert a2.event["n_sensors"] == 2 and a2.event["peak_value"] == 44.45
     assert a2.push_event and a2.push_reason == "new"
     # a third report that doesn't move the score much is not re-pushed
     cy = make_sensor("tg:3", name="Cy", zip_code="62702")

@@ -25,7 +25,7 @@ from typing import Any
 
 import yaml
 
-from intelnet import db, geo, network, opendata, story_brief, trust
+from intelnet import db, geo, network, notable, opendata, story_brief, trust
 from intelnet.config import CONFIG_DIR, PROJECT_ROOT, settings
 from intelnet.models import KIND_BOT, KIND_HUMAN, REFERENCE_KINDS, local_time, public_handle, utcnow
 from intelnet.topics import find_metric, topics
@@ -57,7 +57,7 @@ def _topics_doc() -> list[dict[str, Any]]:
                 "key": m.key, "label": m.label, "unit": m.unit, "kind": m.kind,
                 "aliases": list(m.aliases), "units": list(m.units), "default_unit": m.default_unit,
                 "words": m.words, "range": list(m.range) if m.range else None,
-                "event": m.event, "event_direction": m.event_direction,
+                "event": m.event, "event_direction": m.event_direction, "display_words": m.display_words,
                 "display": ({"unit": m.display_unit["unit"], "expr": _display_expr(m)}
                             if m.display_unit else None),
                 "convert": _convert_table(m),
@@ -332,6 +332,7 @@ def snapshot(days: int = 14, *, sample: bool = False) -> dict[str, Any]:
         "events": _events(days),
         "alerts": _alerts(),
         "storms": story_brief.summaries(24),
+        "map": notable.build(),                         # the masthead map: notable readings + the news on them
         "reports": _map_reports(24),
         "gauges": _gauges(),
         "activity": _activity(days),
@@ -347,12 +348,13 @@ def snapshot(days: int = 14, *, sample: bool = False) -> dict[str, Any]:
 def write_json(snap: dict[str, Any], out_dir: Path) -> list[Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     written = []
-    core = {k: v for k, v in snap.items() if k not in ("counties", "events", "alerts", "storms", "reports", "gauges",
-                                                        "activity",
+    core = {k: v for k, v in snap.items() if k not in ("counties", "events", "alerts", "storms", "map", "reports",
+                                                        "gauges", "activity",
                                                         "graph", "leaderboard", "digests", "sources", "topics")}
     for name, payload in (("network", core), ("topics", snap["topics"]), ("counties", snap["counties"]),
                           ("events", snap["events"]), ("alerts", snap["alerts"]),
-                          ("storms", snap.get("storms") or []), ("reports", snap.get("reports") or []),
+                          ("storms", snap.get("storms") or []), ("map", snap.get("map") or {}),
+                          ("reports", snap.get("reports") or []),
                           ("gauges", snap.get("gauges") or []), ("activity", snap["activity"]),
                           ("graph", snap["graph"]), ("leaderboard", snap["leaderboard"]),
                           ("digests", snap["digests"]), ("sources", snap["sources"])):
@@ -393,13 +395,40 @@ def copy_assets(out_dir: Path | None = None, site_dir: Path | None = None) -> li
 
 def _page_geography() -> dict[str, Any]:
     """Static geography the page draws with: county shapes (site/assets/<st>-counties.geojson,
-    Census TIGERweb) and ZIP → [county FIPS, lat, lon]. Inlined, not fetched, so the map
-    and "Near you" also work offline and as an artifact."""
+    Census TIGERweb), the named rivers (the Mini App's reference layer, thinned to the hero
+    map's scale) and ZIP → [county FIPS, lat, lon]. Inlined, not fetched, so the map and
+    "Near you" also work offline and as an artifact."""
     shapes = ASSETS_DIR / f"{settings.geo_state.lower()}-counties.geojson"
     return {
         "boundaries": json.loads(shapes.read_text(encoding="utf-8")) if shapes.exists() else None,
+        "rivers": _rivers(),
         "zips": {z.zip5: [z.county_fips, round(z.lat, 3), round(z.lon, 3)] for z in geo.zctas().values()},
     }
+
+
+def _rivers(step: float = 0.012) -> list[dict[str, Any]]:
+    """Named rivers as [lon, lat] lines, a point kept every ~1 km (a pixel on the masthead
+    map) so the page carries a few dozen KB, not the app's full detail."""
+    path = ASSETS_DIR / f"{settings.geo_state.lower()}-reference.json"
+    try:
+        ref = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    out = []
+    for r in ref.get("rivers") or []:
+        lines = []
+        for line in r.get("lines") or []:
+            kept = [line[0]]
+            for pt in line[1:-1]:
+                if abs(pt[0] - kept[-1][0]) + abs(pt[1] - kept[-1][1]) >= step:
+                    kept.append(pt)
+            if len(line) > 1:
+                kept.append(line[-1])
+            if len(kept) > 1:
+                lines.append([[round(x, 3), round(y, 3)] for x, y in kept])
+        if lines:
+            out.append({"name": r.get("name"), "lines": lines})
+    return out
 
 
 def _page_data(snap: dict[str, Any]) -> str:

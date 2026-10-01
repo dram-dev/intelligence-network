@@ -73,7 +73,8 @@ def _places() -> list[tuple[re.Pattern[str], tuple[str, ...]]]:
     for alias, counties in aliases.items():
         fips = {c.fips for c in (geo.county_by_name(str(x)) for x in counties) if c}
         named.setdefault(str(alias), set()).update(fips)
-    return [(re.compile(rf"(?<!\w){re.escape(n)}(?!\w)"), tuple(sorted(f)))
+    # hyphens as spaces, the way `places_in` reads the headline ("Bloomington-Normal")
+    return [(re.compile(rf"(?<!\w){re.escape(n.replace('-', ' '))}(?!\w)"), tuple(sorted(f)))
             for n, f in sorted(named.items(), key=lambda kv: -len(kv[0]))]
 
 
@@ -97,15 +98,48 @@ def counties_in(text: str) -> list[str]:
     return places_in(text)[0]
 
 
+@lru_cache(maxsize=1)
+def _points() -> dict[str, tuple[float, float]]:
+    """Where each name a headline can use sits, for the site's map: a town at its own point
+    (a bare "Peoria" is the city), a county at its centre, a regional name at the centre of
+    its first county (the aliases list the core one first: Rock Island for the Quad Cities).
+    Keyed as `places_in` reports names: hyphens read as spaces."""
+    out: dict[str, tuple[float, float]] = {}
+    for c in geo.counties().values():
+        out[c.name] = out[f"{c.name} County"] = (c.lat, c.lon)
+    try:
+        ref = json.loads((PROJECT_ROOT / "site" / "assets" / "il-reference.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        ref = {}
+    for name, lat, lon, *_ in ref.get("places", []):
+        out[name] = (float(lat), float(lon))
+    try:
+        aliases = yaml.safe_load((CONFIG_DIR / "geo" / "aliases.yaml").read_text(encoding="utf-8")) or {}
+    except OSError:
+        aliases = {}
+    aliases.pop("not_places", None)
+    for alias, counties in aliases.items():
+        first = next((c for c in (geo.county_by_name(str(x)) for x in counties) if c), None)
+        if first is not None:
+            out[str(alias)] = (first.lat, first.lon)
+    return {name.replace("-", " "): pt for name, pt in out.items()}
+
+
+def place_point(label: str) -> tuple[float, float] | None:
+    """The point a place name from `places_in` stands for, or None."""
+    return _points().get(label.replace("-", " "))
+
+
 # ── what was measured there ──────────────────────────────────────────────
 
 def _named(metric: Any, text: str) -> bool:
     """Does the headline name this measure ("rain" → rainfall; "flood", "river" → gauges)?
-    By the pack's aliases and the pack's `news_words`."""
-    words = set(re.findall(r"[a-z]+", text.lower()))
-    names = [a for a in metric.aliases if len(a) >= 4] + list(getattr(metric, "news_words", []) or [])
-    return any(set(a.lower().split()) <= words or a.lower().rstrip("s") in words or a.lower() + "s" in words
-               or a.lower() + "ing" in words for a in names)
+    By the pack's `news_words`, and its aliases of more than one word ("soil moisture"). A
+    one-word alias is shorthand for a report ("pressure 29.9", "stage 7"), and headlines use
+    those words for other things: "Pressure mounts for lawmakers", "as conditions worsen"."""
+    flat = " ".join(re.findall(r"[a-z0-9.]+", text.lower()))
+    names = [a for a in metric.aliases if " " in a.strip()] + list(getattr(metric, "news_words", []) or [])
+    return any(re.search(rf"(?<![a-z]){re.escape(n.lower())}(?:s|es|ing|ed)?(?![a-z])", flat) for n in names)
 
 
 def _readings(counties: list[str], topic: str | None, text: str = "") -> tuple[list[tuple[float, str]], list[str]]:
