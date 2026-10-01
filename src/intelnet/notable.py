@@ -533,6 +533,23 @@ def _alerts(counties: list[str]) -> list[str]:
     return out
 
 
+# ── words for people ──────────────────────────────────────────────────────
+
+def tight(label: str) -> str:
+    """A label as the map writes it, the site and the brief alike: '93.9 °F' → '93.9°F',
+    '-40 ¢' → '−40¢', '▲ 1.86 ft' → '▲1.86 ft'."""
+    for unit in ("°F", "°C", "%", "¢"):
+        label = label.replace(f" {unit}", unit)
+    return re.sub(r"(^|[\s(])-(?=\d)", "\\1\u2212", label).replace("▲ ", "▲")
+
+
+def topic_label(topic: str | None) -> str:
+    """A topic's name for people: its pack's label, or the reading list's own topics."""
+    packs = {t.name: t.label for t in topics().values()}
+    extra = {"landuse": "Land use", "emergency": "Emergency", "research": "Research"}
+    return packs.get(topic or "") or extra.get(topic or "") or (topic or "News").title()
+
+
 # ── the document ──────────────────────────────────────────────────────────
 
 def _spark(m: Metric, sigs: list[Signal]) -> dict[str, Any] | None:
@@ -770,6 +787,7 @@ def build(now: datetime | None = None) -> dict[str, Any]:
             "counties": g.counties,
             "stories": [{"title": s.title, "source": s.source, "url": s.url, "at": s.at}
                         for s in sorted(g.stories, key=lambda s: -s.relevance)[:3]],
+            "more": [s.title for s in sorted(g.stories, key=lambda s: -s.relevance)[3:13]],   # the rest, by title
             "links": [p.id for p, _ in g.links if p.id],
             "alerts": _alerts(g.counties) if g.counties else [],
         })

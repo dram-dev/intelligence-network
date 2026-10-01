@@ -290,6 +290,17 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   under 560 px), a story highlights its counties and draws arcs to its readings, the news
   list beside the map drives the same highlight; on wide screens the map is sticky and sized
   to the viewport. The readings and stories are as of the snapshot; alerts and radar are live.
+- **The brief's map** (`daymap.py`): the masthead map as one picture for the 08:00 brief (a chat
+  can't hover): 1080×1350, the alert cards' dark map with the site's dark topic colours; dots
+  and labels as on the site (a rise's ▲ is drawn: IBM Plex has no glyph), numbered story squares
+  with arcs to their readings, statewide stories in the key on the right, NWS alerts in their
+  card colours (warnings stronger than watches), the reader's county outlined. No radar: the
+  brief is about the last day. Built from a fresh `notable.build()` at brief time (fresher than
+  the site's 01:10 snapshot), one per county among subscribers, named `dm-<hash>` in
+  cardmap's folder so delivery uploads it like a card picture and reuses Telegram's file id;
+  `CARD_MAPS` off → no picture. The brief lists the stories under the map's numbers
+  (`connections(day)`, `<code>n</code>` badges) and its "Across Illinois" is the map's
+  labelled readings; a story's further headlines (`more`) stay out of "Also worth reading".
 - **Morning brief** (`brief.py`): replaces the digest-link ping. Per digest
   subscriber: county from live location, else home, else the state. Lines: alerts
   in effect (one per event, ×n), alerts ended in 24 h (alert_threads), every metric

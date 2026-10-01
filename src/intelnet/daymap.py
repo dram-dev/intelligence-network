@@ -1,0 +1,360 @@
+"""The day across the state in one picture: the morning brief's map.
+
+The site's masthead map (notable.py), drawn for a chat, where nothing can be hovered: the
+day's notable readings as dots in their topic's colour, the stand-outs labelled; the
+stories as numbered squares, under the same numbers the brief lists them by, each drawn to
+the readings it's about; the NWS alerts in effect, in their alert cards' colours; the
+reader's county outlined. Stories about the whole state have no place on it, so they wait
+in the key beside it. The alert cards' dark map with the site's dark topic colours, so it
+reads the same in a light chat or a dark one.
+
+A picture is named by what it shows (`dm-<hash>`) and kept with the alert cards' pictures,
+so delivery attaches it like theirs, and a brief that draws the same picture as an earlier
+one reuses Telegram's copy (cardmap.media_for).
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import logging
+import math
+import time
+from datetime import datetime, timedelta
+from functools import lru_cache
+from io import BytesIO
+from typing import Any
+
+from PIL import Image, ImageDraw
+
+from intelnet import cardmap, geo, notable
+from intelnet.cardmap import (
+    BEYOND,
+    COUNTY,
+    HALO,
+    LAND,
+    RIVER,
+    TEXT,
+    TEXT_DIM,
+    WATER,
+    _font,
+    _hex,
+    _merc,
+)
+from intelnet.config import settings
+from intelnet.models import local_time, parse_iso, utcnow
+
+logger = logging.getLogger(__name__)
+
+W, H = 1080, 1350                 # 4:5, the tallest a chat shows a picture without making you scroll past it
+SS = 2                            # vector layers drawn twice as large, then scaled down
+PAD = 30
+RAIL = 300                        # the key, right of the state
+KEEP = timedelta(days=3)
+RENDER_VERSION = 1                # part of every name: bump it when the drawing changes
+# The site's dark topic colours (site/index.fragment.html), which hold up on this dark map
+TOPIC_COLOURS = {"weather": "#5FB4C0", "soil": "#C08A5A", "water": "#7FA6E8", "agriculture": "#8BBF63",
+                 "air": "#B1A2E3", "quake": "#E5786A", "nature": "#D9C45A", "markets": "#D28CC8"}
+OUTLINE = (112, 128, 121)
+INK = (16, 20, 23)                # a badge's number
+# Towns for bearings, largest first; each is written where nothing more important is
+CITIES = ("Chicago", "Rockford", "Springfield", "Peoria", "Champaign", "Moline", "Carbondale", "Quincy",
+          "Bloomington", "Decatur", "Kankakee", "Effingham", "Mount Vernon")
+
+
+def _colour(topic: str) -> tuple[int, int, int]:
+    return _hex(TOPIC_COLOURS.get(topic, "#A8B4AE"))[:3]
+
+
+def _topic_name(topic: str | None) -> str:
+    """A topic as the key names it, short as the site's layer chips do ("Markets")."""
+    short = {"markets": "Markets", "nature": "Nature", "quake": "Quakes", "agriculture": "Crops"}
+    return short.get(topic or "") or notable.topic_label(topic)
+
+
+# ── where things are ──────────────────────────────────────────────────────
+
+@lru_cache(maxsize=1)
+def _fit() -> tuple[float, float, float, float, float, float]:
+    """(scale, left, top, the state's right edge, its west and north in Mercator metres):
+    the state as large as the picture's height allows, left of the key."""
+    xs, ys = [], []
+    for rings in cardmap._counties().values():
+        for ring in rings:
+            for lon, lat in ring:
+                x, y = _merc(lat, lon)
+                xs.append(x)
+                ys.append(y)
+    if not xs:                                     # no shapes: a frame around the state's middle
+        xs, ys = [_merc(40, -91.5)[0], _merc(40, -87.5)[0]], [_merc(37, -89)[1], _merc(42.5, -89)[1]]
+    w, h = max(xs) - min(xs), max(ys) - min(ys)
+    k = min((W - RAIL - 2 * PAD) / w, (H - 2 * PAD) / h)
+    left = PAD + (W - RAIL - 2 * PAD - w * k) / 2
+    top = PAD + (H - 2 * PAD - h * k) / 2
+    return k, left, top, left + w * k, min(xs), max(ys)
+
+
+def px(lat: float, lon: float, scale: int = 1) -> tuple[float, float]:
+    k, left, top, _, x0, y1 = _fit()
+    x, y = _merc(lat, lon)
+    return (left + (x - x0) * k) * scale, (top + (y1 - y) * k) * scale
+
+
+def _ring(ring: list[list[float]], scale: int = SS) -> list[tuple[float, float]]:
+    return [px(lat, lon, scale) for lon, lat in ring]
+
+
+# ── the picture ───────────────────────────────────────────────────────────
+
+def _alerts() -> list[dict[str, Any]]:
+    """The alerts in effect: their counties or polygon, in their card's colour, worst last."""
+    from intelnet.feeds.nws_alerts import SEVERITY_RANK, active_alert_groups
+
+    out = []
+    for g in active_alert_groups():
+        s = g["signal"]
+        ev = s.evidence
+        event, severity = str(ev.get("event") or ""), str(ev.get("severity") or "Unknown")
+        fips = sorted({c.fips for c in (geo.county_by_name(n) for n in g["counties"]) if c})
+        out.append({"event": event, "rank": SEVERITY_RANK.get(severity, 0), "warning": event.endswith("Warning"),
+                    "colour": cardmap._colour(s.topic, event, severity),
+                    "polygon": ev.get("polygon"), "counties": fips})
+    return sorted(out, key=lambda a: (a["rank"], a["event"]))
+
+
+class _Labels(cardmap._Labels):
+    """Labels kept on the state's side of the picture, clear of the key."""
+
+    def free(self, box: tuple[float, float, float, float]) -> bool:
+        x0, y0, x1, y1 = box
+        if x0 < 8 or y0 < 8 or x1 > _fit()[3] + 40 or x1 > W - RAIL - 6 or y1 > H - 8:
+            return False
+        return not any(x0 < b[2] and b[0] < x1 and y0 < b[3] and b[1] < y1 for b in self.taken)
+
+
+def _badge(d: ImageDraw.ImageDraw, x: float, y: float, n: int, size: float) -> tuple[float, float, float, float]:
+    """A story's numbered square, centred on (x, y), at the final scale."""
+    w = size * (1.25 if n > 9 else 1)
+    box = (x - w / 2, y - size / 2, x + w / 2, y + size / 2)
+    d.rounded_rectangle(box, radius=size * .22, fill=TEXT, outline=HALO, width=3)
+    d.text((x, y + 1), str(n), font=_font(round(size * .62), "SemiBold"), fill=INK, anchor="mm")
+    return box
+
+
+def _arc(a: tuple[float, float], b: tuple[float, float], bend: float = .18) -> list[tuple[float, float]]:
+    """A gentle curve from a story to a reading, as points."""
+    (ax, ay), (bx, by) = a, b
+    dx, dy = bx - ax, by - ay
+    length = math.hypot(dx, dy) or 1
+    lift = min(80 * SS, length * bend)
+    cx, cy = (ax + bx) / 2 - dy / length * lift, (ay + by) / 2 + dx / length * lift
+    return [((1 - t) ** 2 * ax + 2 * (1 - t) * t * cx + t ** 2 * bx, (1 - t) ** 2 * ay + 2 * (1 - t) * t * cy + t ** 2 * by)
+            for t in (i / 24 for i in range(25))]
+
+
+def _badge_spots(day: dict[str, Any]) -> dict[str, tuple[float, float]]:
+    """Where each located story's square goes: its place, nudged clear of the squares before it."""
+    spots: dict[str, tuple[float, float]] = {}
+    for n in day.get("news") or []:
+        if n.get("statewide") or n.get("lat") is None:
+            continue
+        x, y = px(n["lat"], n["lon"])
+        for _ in range(8):
+            if all(math.hypot(x - a, y - b) >= 52 for a, b in spots.values()):
+                break
+            x, y = x + 30, y - 22
+        spots[n["id"]] = (x, y)
+    return spots
+
+
+def render_image(day: dict[str, Any], fips: str | None = None, alerts: list[dict[str, Any]] | None = None,
+                 *, now: datetime | None = None) -> Image.Image:
+    now = now or utcnow()
+    alerts = _alerts() if alerts is None else alerts
+    shapes = cardmap._counties()
+    ref = cardmap._reference()
+    places = {p["id"]: p for p in day.get("places") or []}
+
+    # the ground: land, water, alerts, county lines, the reader's county
+    base = Image.new("RGB", (W * SS, H * SS), BEYOND)
+    d = ImageDraw.Draw(base, "RGBA")
+    for rings in shapes.values():
+        for ring in rings:
+            d.polygon(_ring(ring), fill=LAND)
+    for wt in ref.get("water", []):
+        for ring in wt.get("rings", []):
+            d.polygon(_ring(ring), fill=WATER)
+    for rv in ref.get("rivers", []):
+        for line in rv.get("lines", []):
+            if len(line) > 1:
+                d.line(_ring(line), fill=RIVER, width=3, joint="curve")
+    for a in alerts:                                   # a warning stronger than a watch or advisory
+        for f in a["counties"] if not a["polygon"] else []:
+            for ring in shapes.get(f, []):
+                d.polygon(_ring(ring), fill=(*a["colour"], 86 if a.get("warning") else 46))
+        for ring in a["polygon"] or []:
+            d.polygon(_ring(ring), fill=(*a["colour"], 56))
+            d.line(_ring(ring) + _ring(ring[:1]), fill=(*a["colour"], 255), width=6, joint="curve")
+    for rings in shapes.values():
+        for ring in rings:
+            d.line(_ring(ring) + _ring(ring[:1]), fill=COUNTY, width=2, joint="curve")
+    mine = shapes.get(fips or "", [])
+    for ring in mine:
+        d.polygon(_ring(ring), fill=(255, 255, 255, 22))
+        d.line(_ring(ring) + _ring(ring[:1]), fill=(*TEXT, 255), width=7, joint="curve")
+    img = base.resize((W, H), Image.Resampling.LANCZOS).convert("RGBA")
+
+    # the marks: arcs from each story to its readings, then the readings, the stories on top
+    over = Image.new("RGBA", (W * SS, H * SS), (0, 0, 0, 0))
+    o = ImageDraw.Draw(over)
+    spots = _badge_spots(day)
+    for n in day.get("news") or []:
+        at = spots.get(n["id"])
+        for pid in n.get("links") or [] if at else []:
+            p = places.get(pid)
+            if p is None:
+                continue
+            pts = _arc((at[0] * SS, at[1] * SS), px(p["lat"], p["lon"], SS))
+            o.line(pts, fill=(*HALO, 150), width=9, joint="curve")
+            o.line(pts, fill=(*TEXT, 205), width=4, joint="curve")
+    for p in sorted(places.values(), key=lambda p: -p["tier"]):         # the small dots first
+        x, y = px(p["lat"], p["lon"], SS)
+        c = _colour(p["topic"])
+        r = (10 if p["tier"] == 1 else 6) * SS
+        if p.get("person"):
+            o.ellipse((x - r - 11, y - r - 11, x + r + 11, y + r + 11), outline=(*c, 255), width=5)
+        o.ellipse((x - r, y - r, x + r, y + r), fill=(*c, 255), outline=(*HALO, 255), width=6 if p["tier"] == 1 else 4)
+    img.alpha_composite(over.resize((W, H), Image.Resampling.LANCZOS))
+
+    d = ImageDraw.Draw(img, "RGBA")
+    labels = _Labels(d)
+    labels.taken.append((W - RAIL - 6, 0, W, H))
+    for p in places.values():
+        if p["tier"] == 1:
+            x, y = px(p["lat"], p["lon"])
+            labels.taken.append((x - 12, y - 12, x + 12, y + 12))
+    for n in day.get("news") or []:
+        if n["id"] in spots:
+            labels.taken.append(_badge(d, *spots[n["id"]], n["n"], 44))
+    big = _font(29, "SemiBold")
+    for p in (q for q in places.values() if q["tier"] == 1):           # in the order notable ranked them
+        _label(d, labels, *px(p["lat"], p["lon"]), notable.tight(p["label"]), big)
+    towns = {name: (lat, lon) for name, lat, lon, *_ in ref.get("places", [])}
+    for name in CITIES:
+        if name in towns:
+            x, y = px(*towns[name])
+            labels.put((x, y), name, _font(24, "Medium"), fill=TEXT_DIM, anchor="mm", stroke=4)
+
+    _rail(d, day, fips, alerts, now)
+    return img.convert("RGB")
+
+
+def _label(d: ImageDraw.ImageDraw, labels: _Labels, x: float, y: float, text: str, font: Any) -> None:
+    """A stand-out's label where it fits around its dot. A rise ("▲ 1.86 ft") gets its
+    triangle drawn: the font has no glyph for it."""
+    rising = text.startswith("▲")
+    shown = "   " + text.lstrip("▲ ") if rising else text
+    for xy, anchor in cardmap._spots(x, y, 17, 13):
+        if labels.put(xy, shown, font, anchor=anchor, stroke=5):
+            if rising:
+                x0, y0, _, y1 = d.textbbox(xy, shown, font=font, anchor=anchor)
+                cy = (y0 + y1) / 2 + 2
+                d.polygon([(x0 + 1, cy + 9), (x0 + 23, cy + 9), (x0 + 12, cy - 10)], fill=TEXT, outline=HALO, width=3)
+            return
+
+
+def _rail(d: ImageDraw.ImageDraw, day: dict[str, Any], fips: str | None, alerts: list[dict[str, Any]],
+          now: datetime) -> None:
+    """The key beside the state: the date, what each mark is, the stories without a place."""
+    x = W - RAIL + 10
+    d.text((x, 44), "ILLINOIS", font=_font(24, "Medium"), fill=TEXT_DIM, anchor="ls")
+    d.text((x, 92), local_time(now, "%a %-d %b"), font=_font(42, "SemiBold"), fill=TEXT, anchor="ls")
+    d.line([(x, 122), (W - PAD, 122)], fill=COUNTY, width=2)
+    y = 168
+    row = _font(27, "Medium")
+    counts: dict[str, int] = {}
+    for p in day.get("places") or []:
+        counts[p["topic"]] = counts.get(p["topic"], 0) + 1
+    for a in day.get("areas") or []:
+        counts[a["topic"]] = counts.get(a["topic"], 0) + len(a["counties"])
+    for topic in sorted(counts, key=lambda t: -counts[t]):
+        c = _colour(topic)
+        d.ellipse((x, y - 11, x + 22, y + 11), fill=c, outline=HALO, width=2)
+        d.text((x + 38, y), _topic_name(topic), font=row, fill=TEXT, anchor="lm")
+        y += 46
+    if day.get("news"):
+        _badge(d, x + 11, y, 1, 26)
+        d.text((x + 38, y), "Story below", font=row, fill=TEXT, anchor="lm")
+        y += 46
+    if alerts:
+        worst = alerts[-1]
+        d.rounded_rectangle((x, y - 11, x + 22, y + 11), radius=4, fill=(*worst["colour"], 150), outline=worst["colour"])
+        d.text((x + 38, y), "NWS alert", font=row, fill=TEXT, anchor="lm")
+        y += 46
+    if fips:
+        d.rounded_rectangle((x, y - 11, x + 22, y + 11), radius=3, outline=TEXT, width=3)
+        d.text((x + 38, y), "Your county", font=row, fill=TEXT, anchor="lm")
+        y += 46
+    wide = [n for n in day.get("news") or [] if n.get("statewide")]
+    if wide:
+        y += 22
+        d.line([(x, y - 30), (W - PAD, y - 30)], fill=COUNTY, width=2)
+        d.text((x, y + 8), "STATEWIDE", font=_font(24, "Medium"), fill=TEXT_DIM, anchor="ls")
+        y += 50
+        for n in wide:
+            _badge(d, x + 18, y, n["n"], 36)
+            d.text((x + 48, y), _topic_name(n["topic"]), font=row, fill=TEXT, anchor="lm")
+            y += 52
+    as_of = parse_iso(day.get("as_of")) or now
+    small = _font(23, "Medium")
+    foot = ["Readings and news from", f"the 24 hours to {local_time(as_of, '%-I:%M %p')}"]
+    if abs((now - as_of).total_seconds()) > 900:                  # an older day: the alerts are now's
+        foot.append(f"Alerts as of {local_time(now, '%-I:%M %p')}")
+    for i, line in enumerate(reversed(foot)):
+        d.text((x, H - 40 - i * 32), line, font=small, fill=TEXT_DIM, anchor="ls")
+
+
+def render(day: dict[str, Any], fips: str | None = None, alerts: list[dict[str, Any]] | None = None,
+           *, now: datetime | None = None) -> bytes:
+    out = BytesIO()
+    render_image(day, fips, alerts, now=now).save(out, "JPEG", quality=90, subsampling=0, optimize=True)
+    return out.getvalue()
+
+
+def name(day: dict[str, Any], fips: str | None, alerts: list[dict[str, Any]], now: datetime) -> str:
+    """What the picture shows, as a name: the same day, county and alerts draw the same picture."""
+    spec = [RENDER_VERSION, fips, local_time(now, "%Y-%m-%d %H"), day.get("as_of"),
+            [(p["id"], p["tier"], p["label"], p["lat"], p["lon"], p["topic"]) for p in day.get("places") or []],
+            [(n["n"], n.get("lat"), n.get("lon"), n.get("links"), n.get("topic")) for n in day.get("news") or []],
+            [(a["counties"], a["topic"]) for a in day.get("areas") or []],
+            [(a["event"], a["counties"], bool(a["polygon"])) for a in alerts]]
+    return "dm-" + hashlib.sha1(json.dumps(spec, default=str).encode()).hexdigest()[:20]
+
+
+def prepare(day: dict[str, Any], fips: str | None = None, *, now: datetime | None = None) -> str | None:
+    """Draw (or find) the picture for this county's brief; its name, or None when pictures
+    are off or drawing failed (the brief goes without it)."""
+    if not settings.card_maps:
+        return None
+    now = now or utcnow()
+    try:
+        alerts = _alerts()
+        pic = name(day, fips, alerts, now)
+        path = cardmap._dir() / f"{pic}.jpg"
+        if not path.exists():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(render(day, fips, alerts, now=now))
+    except Exception:              # a brief goes out without its map rather than not at all
+        logger.exception("daymap: drawing the brief's map failed")
+        return None
+    _prune()
+    return pic
+
+
+def _prune() -> None:
+    cutoff = time.time() - KEEP.total_seconds()
+    for p in cardmap._dir().glob("dm-*"):
+        try:
+            if p.stat().st_mtime < cutoff:
+                p.unlink()
+        except OSError:
+            pass

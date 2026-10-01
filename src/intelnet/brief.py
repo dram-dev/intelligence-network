@@ -13,10 +13,11 @@ county's people reported, or whose readings crossed the pack's event threshold.
 from __future__ import annotations
 
 import json
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Any
 
-from intelnet import db, delivery, geo, network, story_brief
+from intelnet import daymap, db, delivery, geo, network, notable, story_brief
 from intelnet.config import settings
 from intelnet.feeds.nws_alerts import active_alert_groups
 from intelnet.models import local_time, parse_iso, public_handle, utcnow
@@ -92,32 +93,46 @@ def _ended(fips: str) -> list[str]:
 NEWS_SHOWN = 4               # the brief's reading list (the Doc carries ten)
 
 
-def statewide() -> list[str]:
-    """The major readings across Illinois, every topic: the station and gauge extremes
-    (wind, rain, temperature, rivers, soil…) and the network's verified events. HTML lines."""
+def statewide(day: dict[str, Any]) -> list[str]:
+    """The readings that stood out across Illinois, every topic, as the map labels them
+    (notable.py: the state's high and low, the wettest total, the biggest rise, anything
+    past its threshold…), and the network's verified events. HTML lines."""
     from intelnet import digest
 
-    lines = [f"{esc(x['metric'])}, {'lowest' if x['how'] == 'min' else 'highest'}: <b>{esc(x['value'])}</b> · "
-             f"{esc(str(x['county']).removesuffix(' County'))}" for x in digest._extremes(HOURS)]
+    lines = []
+    for p in (p for p in day.get("places") or [] if p["tier"] == 1):
+        where = p["name"] + (f", {p['county']}" if p.get("county") and p["county"] not in p["name"] else "")
+        lines.append(f"<b>{esc(notable.tight(p['label']))}</b> · {esc(where)}")
     events = [network.event_summary(e) for e in db.events_since(HOURS, limit=10)]
     lines += [f"📍 {esc(digest.event_phrase(e)[:1].upper() + digest.event_phrase(e)[1:])}"
               + (" · verified" if e["verified"] else "") for e in events if e["verified"]][:3]
     return lines
 
 
-def connections() -> tuple[list[str], set[str]]:
-    """The news tied to what the network measured where it happened (connect.py), as HTML
-    items; and the titles used, so the reading list doesn't repeat them."""
-    from intelnet import connect
+@dataclass
+class Story:
+    """One of the day's stories, under the number the map gives it."""
+    n: int
+    where: str                          # "Chicago area", or "Agriculture, statewide"
+    heads: str                          # up to two linked headlines with their publishers (HTML)
+    facts: list[str]                    # what the network measured there, the alerts in force
 
+
+def connections(day: dict[str, Any]) -> tuple[list[Story], set[str]]:
+    """The day's stories (notable.py) under the numbers the map gives them, each with what
+    the network measured where it is; and the titles used, so the reading list doesn't
+    repeat them."""
+    places = {p["id"]: p for p in day.get("places") or []}
     items, used = [], set()
-    for th in connect.threads():
+    for n in day.get("news") or []:
         heads = " · ".join(
             (f'<a href="{href(s["url"])}">{esc(s["title"])}</a>' if href(s["url"]) else esc(s["title"]))
-            + (f" <i>({esc(s['source'])})</i>" if s["source"] else "") for s in th.stories[:2])
-        used |= {" ".join(s["title"].lower().split()) for s in th.stories}
-        facts = th.readings[:3] + ([" and ".join(th.alerts) + " in force"] if th.alerts else [])
-        items.append(f"{heads}<br>↳ <b>{esc(th.place)}</b>: {esc('; '.join(facts))}")
+            + (f" <i>({esc(s['source'])})</i>" if s["source"] else "") for s in n["stories"][:2])
+        used |= {" ".join(t.lower().split()) for t in [s["title"] for s in n["stories"]] + (n.get("more") or [])}
+        facts = [f"{notable.tight(p['label'])} {p['name']}" for p in (places.get(i) for i in n["links"]) if p]
+        facts += [" and ".join(n["alerts"]) + " in force"] if n["alerts"] else []
+        where = n["place"] or f"{notable.topic_label(n['topic'])}, statewide"
+        items.append(Story(n["n"], where, heads, facts))
     return items, used
 
 
@@ -143,16 +158,19 @@ def news(skip: set[str] | None = None) -> list[str]:
     return out
 
 
-def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | None = None) -> str:
+def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | None = None,
+            day: dict[str, Any] | None = None) -> str:
     """The brief for one county (or the whole state when `fips` is None)."""
     now = now or utcnow()
+    day = day if day is not None else notable.build(now)
     c = geo.county(fips)
     where = c.label if c else _state()
     lines = [f"☀️ <b>Morning brief</b> · {esc(local_time(now, '%a %-d %b'))} · {esc(where)}"]
-    linked, used = connections()
+    linked, used = connections(day)
     if linked:
         lines.append("<b>In the news, and what was measured there</b>")
-        lines += [f"• {x.replace('<br>', chr(10) + '  ')}" for x in linked]
+        lines += [f"<b>{st.n}</b> · <b>{esc(st.where)}</b>: {st.heads}"
+                  + (f"\n   ↳ {esc('; '.join(st.facts))}" if st.facts else "") for st in linked]
         lines.append("")
     if c:
         groups = _in_effect(c.fips)
@@ -167,7 +185,7 @@ def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | N
                   + (" · verified" if e["verified"] else "") for e in events[:3]]
         if not (groups or night or events or storms):
             lines.append(f"A quiet night in {esc(where)}: no NWS alerts, and nothing notable reported.")
-    wide = statewide()
+    wide = statewide(day)
     if wide:
         lines.append(f"\n<b>Across {esc(_state())}</b>")
         lines += [f"• {x}" for x in wide]
@@ -226,19 +244,28 @@ def _readings_table(fips: str) -> str:
     return (f"<table compact><caption>{esc(m.label)}, last 24 hours</caption>" + "".join(cells) + "</table>")
 
 
-def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetime | None = None) -> str:
-    """The brief as a Telegram rich message: one heading naming the county, its alerts and
+def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetime | None = None,
+                 day: dict[str, Any] | None = None, picture: str | None = None) -> str:
+    """The brief as a Telegram rich message: one heading naming the county, the day's map
+    (daymap.py) with the stories under the numbers it gives them, the county's alerts and
     storms as lines, the night's readings as a list, the most-reported readings as a table,
-    the statewide picture folded away, and the date and links as the footer. `compose`
-    stays the plain fallback."""
+    the readings that stood out across the state, and the date and links as the footer.
+    `compose` stays the plain fallback."""
     now = now or utcnow()
+    day = day if day is not None else notable.build(now)
     c = geo.county(fips)
     where = c.label if c else _state()
     parts = [f"<h4>☀️ Morning brief: {esc(where)}</h4>"]
-    linked, used = connections()
+    if picture:
+        parts.append(f'<figure><img src="tg://photo?id={picture}"/><figcaption>What stood out across '
+                     f"{esc(_state())}, by topic; the numbers are the stories below"
+                     + ("; your county is outlined" if c else "") + ".</figcaption></figure>")
+    linked, used = connections(day)
     if linked:
         parts.append("<p><b>In the news, and what was measured there</b></p><ul>"
-                     + "".join(f"<li>{x}</li>" for x in linked) + "</ul>")
+                     + "".join(f"<li><code>{st.n}</code> <b>{esc(st.where)}</b>: {st.heads}"
+                               + (f"<br>↳ {esc(' · '.join(st.facts))}" if st.facts else "") + "</li>"
+                               for st in linked) + "</ul>")
     if c and linked:                               # the county's own section, under the connections
         parts.append(f"<p><b>{esc(where)}</b></p>")
     table = ""
@@ -258,7 +285,7 @@ def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetim
         table = _readings_table(c.fips)
     if table:
         parts.append(table)
-    wide = statewide()
+    wide = statewide(day)
     if wide:
         parts.append(f"<p><b>Across {esc(_state())}</b></p><ul>" + "".join(f"<li>{x}</li>" for x in wide) + "</ul>")
     reading = news(used)
@@ -291,12 +318,15 @@ def fanout_brief(date: str, links: dict[str, str | None]) -> int:
     key = f"digest:{date}"
     texts: dict[str | None, tuple[str, str]] = {}
     ids: list[int | None] = []
+    day: dict[str, Any] | None = None
     for chat in chats:
         if db.already_notified(key, chat):
             continue
         fips = county_of(chat)
         if fips not in texts:
-            texts[fips] = (compose(fips, links), compose_rich(fips, links))
+            day = day if day is not None else notable.build()          # one day for every county's brief
+            texts[fips] = (compose(fips, links, day=day),
+                           compose_rich(fips, links, day=day, picture=daymap.prepare(day, fips)))
         text, rich = texts[fips]
         ids.append(db.enqueue(key, chat, text, priority=5, stale_at=utcnow() + timedelta(hours=12), rich=rich))
     return delivery.send_now(ids)

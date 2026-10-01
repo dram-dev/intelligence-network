@@ -1434,6 +1434,7 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     }
     requestAnimationFrame(() => card.classList.add('on'));
   }
+  const others = (nw) => nw.stories.length - 1 + (nw.more || []).length;     // a story's other headlines
   const escHtml = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
   const ext = (url, text) => url ? '<a href="' + escHtml(url) + '" target="_blank" rel="noopener">' + text + '</a>' : text;
   function spark(sp, color) {
@@ -1493,7 +1494,7 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     if (!pinned) return '<div class="eye" style="--c:' + tColor(nw.topic) + '"><span class="nb">' + nw.n + '</span>In the news · ' + escHtml(tLabel(nw.topic)) + '</div>'
       + '<h3>' + escHtml(nw.place || nw.stories[0].title) + '</h3>'
       + (nw.place ? '<p class="peek-title">' + escHtml(nw.stories[0].title) + '</p>' : '')
-      + '<p class="peek-src">' + escHtml(nw.stories[0].source) + (nw.stories.length > 1 ? ' · ' + (nw.stories.length - 1) + ' more' : '') + '</p>'
+      + '<p class="peek-src">' + escHtml(nw.stories[0].source) + (others(nw) ? ' · ' + others(nw) + ' more' : '') + '</p>'
       + (linked.length ? '<p class="peek-measured">' + linked.map(p => '<span style="--c:' + tColor(p.topic) + '"><i></i>' + tight(escHtml(p.label)) + '</span>').join('') + '</p>' : '')
       + (nw.alerts && nw.alerts.length ? '<div class="inforce">' + escHtml(nw.alerts.join(' · ')) + ' in force</div>' : '')
       + '<div class="hint">Click for the stories and links</div>';
@@ -1503,7 +1504,7 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
       + (nw.place ? '<h3>' + escHtml(nw.place) + '</h3>' : '')
       // a preview names the lead story; the kept card lists them all, linked
       + '<ul class="stories">' + (pinned ? nw.stories : nw.stories.slice(0, 1)).map(s => '<li>' + (pinned ? ext(s.url, escHtml(s.title)) : escHtml(s.title)) + ' <span class="muted">— ' + escHtml(s.source) + (s.at ? ', ' + dayTime(s.at) : '') + '</span></li>').join('')
-      + (!pinned && nw.stories.length > 1 ? '<li class="also">and ' + (nw.stories.length - 1) + ' more ' + (nw.stories.length > 2 ? 'stories' : 'story') + ' about ' + escHtml(nw.place || 'this') + '</li>' : '') + '</ul>'
+      + ((nw.more || []).length && pinned ? '<li class="also">and ' + nw.more.length + ' more ' + (nw.more.length > 1 ? 'stories' : 'story') + ' about ' + escHtml(nw.place || 'this') + '</li>' : '') + '</ul>'
       + (rows ? '<div class="measured"><div class="lab">What the network measured' + (nw.statewide ? '' : ' there') + '</div><ul>' + rows + '</ul></div>'
         : '<div class="measured none">Nothing the network measures bears on this one yet.</div>')
       + (nw.alerts && nw.alerts.length ? '<div class="inforce">' + escHtml(nw.alerts.join(' · ')) + ' in force</div>' : '')
@@ -1582,7 +1583,7 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
         el('span', { class: 'nb' }, String(nw.n)), nw.place || tLabel(nw.topic));
       const s0 = nw.stories[0];
       li.append(head, el('p', { class: 'news-title' }, s0.url ? el('a', { href: s0.url, target: '_blank', rel: 'noopener' }, s0.title) : s0.title),
-        el('p', { class: 'news-src' }, s0.source + (nw.stories.length > 1 ? ' · ' + (nw.stories.length - 1) + ' more ' + (nw.stories.length > 2 ? 'stories' : 'story') : '') + (nw.place ? ' · ' + tLabel(nw.topic) : '')));
+        el('p', { class: 'news-src' }, s0.source + (others(nw) ? ' · ' + others(nw) + ' more ' + (others(nw) > 1 ? 'stories' : 'story') : '') + (nw.place ? ' · ' + tLabel(nw.topic) : '')));
       const links = (nw.links || []).map(id => placeById[id]).filter(Boolean);
       if (links.length) li.append(el('ul', { class: 'news-measured', 'aria-label': 'What the network measured' },
         ...links.map(p => el('li', { style: '--c:' + tColor(p.topic) }, el('i'), el('b', {}, tight(p.label)), el('span', {}, p.name)))));

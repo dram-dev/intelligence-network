@@ -36,7 +36,32 @@ def test_a_subscriber_gets_their_countys_night_and_the_state_in_brief(fresh_db, 
     assert "<blockquote expandable>" in mine and "Full digest" in mine and "county/sangamon.html" in mine
     state = texts["6"]
     assert "· Illinois" in state and "Set your home" in state and "Ended:" not in state   # no county lines
+    # the day's map heads each rich brief, the reader's county outlined; it goes up as a JPEG
+    rich = dict(zip([chat for chat, _ in sent], sent.rich, strict=True))
+    assert 'tg://photo?id=dm-' in rich["5"] and "your county is outlined" in rich["5"]
+    assert 'tg://photo?id=dm-' in rich["6"] and "your county is outlined" not in rich["6"]
+    uploads = [m for m in sent.media if m]
+    assert len(uploads) == 2 and all(next(iter(m.values()))[:2] == b"\xff\xd8" for m in uploads)
+    assert "<b>Rain 1.50 in</b> · s-" in rich["5"]               # across the state: the map's stand-outs
     assert pipeline.notify_digest(force=True)["sent"] == 0                         # once a day
+
+
+def test_the_briefs_stories_carry_the_maps_numbers(fresh_db, sent, make_sensor):
+    from intelnet import brief, daymap, notable
+    from intelnet.ingest.base import IngestedItem
+
+    ann = make_sensor("tg:5", zip_code="62704", chat_id="5")
+    contrib.contribute(ann, "rain 1.5in", source_id_base="m1", online=False, use_llm=False)
+    db.upsert_items([IngestedItem(source="news", source_id="s1", title="Heavy rain soaks Springfield overnight",
+                                  url="https://ex.test/1", content="...", metadata={"feed": "Google News"})])
+    with db.get_conn() as conn:
+        db.update_triage(conn.execute("SELECT id FROM items").fetchone()["id"], "keep", 0.9, "weather", "t")
+    day = notable.build()
+    [story] = day["news"]
+    rich = brief.compose_rich("17167", {}, day=day, picture=daymap.prepare(day, "17167"))
+    assert f"<li><code>{story['n']}</code> <b>Springfield</b>: " in rich and "↳ Rain 1.50 in s-" in rich
+    plain = brief.compose("17167", {}, day=day)
+    assert f"<b>{story['n']}</b> · <b>Springfield</b>: " in plain and "Heavy rain soaks Springfield" in plain
 
 
 def test_the_brief_waits_out_quiet_hours_and_goes_without_drive(fresh_db, sent, monkeypatch):
