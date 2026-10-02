@@ -185,6 +185,18 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   `TELEGRAM_ADMIN_CHAT_ID`. Open registration unless `NETWORK_JOIN_CODE`; auto-join
   on first reading. Rate limit `NETWORK_RATE_LIMIT` per 10 min; `/admin ban`. The
   listener answers the backlog queued while it was down (no skipping).
+- **Getting started is all taps** (bot.py, 2026-10-01): before Start, the bot's description, profile
+  line and a 7-command menu (`description()`, `short_description()`, `COMMAND_MENU`) are set from
+  code at listener start where they differ (`ensure_profile`). /start joins (unless
+  `NETWORK_JOIN_CODE`) and asks one thing, "Where are you?", with two buttons: 📍 Share my
+  location, or 🗺 Pick my county (Telegram can't share a location from a computer): six
+  alphabetical runs → the county (`hc:<run>`, `hs:<fips>`). A ZIP typed on its own also sets the
+  place; /home with nothing asks again. Once a place is set (`settled`): "Your place: ZIP 62704 ·
+  Sangamon County" with 🔔 Warnings for my area (weather.warnings at the home ZIP, else county)
+  and ☀️ Morning brief at 8 AM (weather.digest), toggles (`go:warn`, `go:brief`; ✅ when on, tap
+  again to stop), then the report keyboard in a follow-up (`Reply.then`: a message carries one
+  keyboard). A bare /subscribe shows the same two buttons. /help is six lines with the rest in an
+  expandable "More". The site's join section is "Sign up in three taps".
 - **Delivery** (`delivery.py`): every push is an `outbox` row first (UNIQUE key ×
   chat = the dedup), sent at once, retried with backoff (429 → `retry_after`) until
   sent or stale; 400/403 → dropped. Rows are claimed before each attempt, so the

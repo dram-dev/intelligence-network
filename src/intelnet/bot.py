@@ -61,22 +61,30 @@ PHOTO_WINDOW = timedelta(minutes=10)     # a photo this soon after an app report
 # A site link: t.me/<bot>?start=sub_<topic>_<category>_<area> (area: county slug, ZIP, ZIP+4, il)
 _START_SUB = re.compile(r"^sub_([a-z]+)_([a-z]+)_([a-z0-9-]+)$")
 
+# Getting started is all taps: share a location (a phone), or pick the county (a computer,
+# where Telegram can't share one); typing a ZIP works too, but nobody has to.
+PICK_COUNTY = "🗺 Pick my county"
 LOCATION_KEYBOARD = {
-    "keyboard": [[{"text": "📍 Share my location", "request_location": True}]],
+    "keyboard": [[{"text": "📍 Share my location", "request_location": True}, {"text": PICK_COUNTY}]],
     "resize_keyboard": True, "one_time_keyboard": True,
-    "input_field_placeholder": "or type a reading: rain 1.2in",
+    "input_field_placeholder": "Or type your ZIP code",
 }
 REMOVE_KEYBOARD = {"remove_keyboard": True}
+STATE_NAMES = {"IL": "Illinois"}
 
 
 class Reply(str):
-    """Reply text that also carries a Telegram keyboard (a plain str everywhere else)."""
+    """Reply text that also carries a Telegram keyboard (a plain str everywhere else), and
+    any messages to send right after it (a message has one keyboard: buttons under a
+    message, or the report buttons in place of the phone's keyboard, not both)."""
 
     markup: dict | None
+    then: list[Reply]
 
-    def __new__(cls, text: str, markup: dict | None = None) -> Self:
+    def __new__(cls, text: str, markup: dict | None = None, then: list[Reply] | None = None) -> Self:
         obj = super().__new__(cls, text)
         obj.markup = markup
+        obj.then = list(then or [])
         return obj
 
 
@@ -224,6 +232,9 @@ def handle_callback(cq: dict) -> None:
         return
     if data.startswith("rw:"):
         _report_now(cq, data[3:], msg, thread_id)
+        return
+    if data.startswith(("hc:", "hs:", "go:")):
+        _start_tap(cq, data, user, msg)
         return
     if data == "sample":                     # the buttons on a sample card do nothing real
         bot.answer_callback(str(cq["id"]), "Sample card: on a real alert this button works.")
@@ -386,25 +397,171 @@ def _register(user: dict, chat_id: str | int) -> Sensor:
     return db.upsert_sensor(s)
 
 
+def _state() -> str:
+    return STATE_NAMES.get(settings.geo_state, settings.geo_state)
+
+
 def help_text() -> str:
-    topic = default_topic()
+    """What the bot does, in a glance; the rest folded under More."""
     return (
-        f"👋 <b>{esc(settings.network_name)}</b> — a sensor network you can join from your phone.\n"
-        f"Every reading you send is checked against neighbors and official sources; "
-        f"corroborated readings become events and raise your trust.\n\n"
-        f"<b>Report</b> with buttons: /report · or just type it — weather, soil, water, crops, air:\n"
-        f"<code>{esc(language.cheatsheet())}</code>\n"
-        f"Plain sentences work too (“golf-ball hail here 5 min ago”). /topics lists every metric.\n\n"
-        f"<b>Set up</b>: /join · /home 62704-1234 (or share your location) · /me\n"
-        f"<b>Pull</b>: /near [place] · /alerts [county] · /latest · /network\n"
-        f"<b>Subscribe</b>: /subscribe warnings cook · /subscribe events 62704 · "
-        f"/subscribe soil.events · /subscribe *.events · /subscribe digest · /subs · /unsubscribe all\n"
-        f"<b>Digest by email</b>: /digest you@example.com\n"
-        f"<b>Automated sensors</b>: /signal {esc(language.as_json_example(topic))}\n"
-        f"<b>Follow-ups</b> (a question after an alert, a note when a report is confirmed): "
-        f"/followups off\n"
-        f"<b>Privacy</b>: /privacy · delete everything about you: /forget"
+        "<b>How it works</b>\n"
+        "📍 <b>Your place</b>: /home to share your location or pick your county\n"
+        "🗣 <b>Report</b>: tap a button below, or type it: <code>rain 1.2in</code> · <code>hail quarter</code> · "
+        "<code>trees down</code>. Your own words work too.\n"
+        "🔔 <b>What you get</b>: /subscribe to choose · /subs to see · /unsubscribe all to stop\n"
+        "🔎 <b>Around you</b>: /near · /alerts · /latest\n"
+        "👤 <b>You</b>: /me · /privacy · /forget deletes everything about you\n"
+        "<blockquote expandable><b>More</b>\n"
+        "Everything you can report, by topic: /topics\n"
+        "Other subscriptions: <code>/subscribe alerts</code> (every NWS alert) · "
+        "<code>/subscribe water.events cook</code> · <code>/subscribe *.events 62704</code>\n"
+        "The morning brief by email: <code>/digest you@example.com</code>\n"
+        "Notes when a report is confirmed, a question after a storm: <code>/followups off</code> stops them\n"
+        "The network's numbers: /network\n"
+        'Automated sensors post JSON: <code>/signal {"metric": "rain_mm", "value": 0.5, "unit": "in"}</code>'
+        "</blockquote>"
     )
+
+
+# ── getting started ──────────────────────────────────────────────────────
+
+def description() -> str:
+    """What an empty chat with the bot says before Start (Telegram's limit: 512)."""
+    return (f"Free weather warnings for your exact place in {_state()}, and a morning brief on what neighbors "
+            "and official stations measured: rain, hail, rivers, soil, crops, smoke.\n\n"
+            "See something? Tap a button to report it. Every report is checked against nearby stations, "
+            "river gauges and the National Weather Service.\n\n"
+            "No sign-up: tap Start, then share your location.")
+
+
+def short_description() -> str:
+    """The line on the bot's profile and in shared links (limit: 120)."""
+    return f"Free {_state()} weather warnings for your exact place, and what your neighbors report. Tap Start."
+
+
+COMMAND_MENU = [("report", "Report what you see"), ("home", "Set or change your place"),
+                ("subscribe", "Choose warnings or the morning brief"), ("near", "What's been reported near you"),
+                ("alerts", "Weather alerts in effect"), ("subs", "What you get, and how to stop it"),
+                ("help", "How it works")]
+
+
+def ensure_profile() -> None:
+    """Set the bot's description, profile line and command menu from here (so they're
+    versioned), where they differ from what Telegram has. Never stops the bot."""
+    try:
+        if (bot._call("getMyDescription", {}).result or {}).get("description") != description():
+            bot._call("setMyDescription", {"description": description()})
+        if (bot._call("getMyShortDescription", {}).result or {}).get("short_description") != short_description():
+            bot._call("setMyShortDescription", {"short_description": short_description()})
+        want = [{"command": c, "description": d} for c, d in COMMAND_MENU]
+        if bot._call("getMyCommands", {}).result != want:
+            bot._call("setMyCommands", {"commands": want})
+    except Exception:  # noqa: BLE001 — a profile that didn't update is no reason to stay down
+        logger.warning("bot: couldn't update the profile texts")
+
+
+def where_prompt(intro: str = "") -> Reply:
+    """Where are you? Two buttons: share a location, or pick the county."""
+    return Reply(intro + "<b>Where are you?</b> Tap 📍 <b>Share my location</b> below, or 🗺 <b>Pick my county</b> "
+                 "on a computer.", LOCATION_KEYBOARD)
+
+
+def _place(loc: geo.Location) -> str:
+    """'ZIP 62704 · Sangamon County', or 'Sangamon County'."""
+    c = geo.county(loc.county_fips)
+    return " · ".join(x for x in (f"ZIP {loc.zip5}" if loc.zip5 else "", c.label if c else "") if x) \
+        or loc.describe()
+
+
+def _offer(chat: str | int) -> dict:
+    """What to send them, as two buttons; a tick on what they already get (tap again: off)."""
+    have = {r["category"] for r in db.subscriptions_for(chat)}
+    warn, brief = "weather.warnings" in have, any(c.endswith(".digest") for c in have)
+    return {"inline_keyboard": [
+        [{"text": ("✅ " if warn else "🔔 ") + "Warnings for my area", "callback_data": "go:warn"}],
+        [{"text": ("✅ " if brief else "☀️ ") + "Morning brief at 8 AM", "callback_data": "go:brief"}]]}
+
+
+def settled(chat: str | int, loc: geo.Location, head: str = "🏠 <b>Your place: {place}</b>") -> Reply:
+    """A place is set: what to send them (two buttons), then the report buttons."""
+    first = (head.format(place=esc(_place(loc))) + "\nWhat should I send you? Tap one or both; tap again to stop.")
+    after = Reply("When you see something (rain, hail, flooding, smoke), tap its button below. Or say it in "
+                  "your own words, like <i>hail the size of quarters</i>.",
+                  report_keyboard(chat) or REMOVE_KEYBOARD)
+    return Reply(first, _offer(chat), then=[after])
+
+
+def _county_groups() -> list[list[geo.County]]:
+    """The state's counties in six alphabetical runs, a screen of buttons each."""
+    cs = sorted(geo.counties().values(), key=lambda c: c.name)
+    size = -(-len(cs) // 6)
+    return [cs[i:i + size] for i in range(0, len(cs), size)]
+
+
+def county_picker(group: int | None = None) -> tuple[str, dict]:
+    """The county picker: the runs first, then the counties of one run."""
+    groups = _county_groups()
+    if group is None or not 0 <= group < len(groups):
+        rows = [[{"text": f"{g[0].name} – {g[-1].name}", "callback_data": f"hc:{i}"}] for i, g in enumerate(groups)]
+        return "Which county? Tap the range it's in:", {"inline_keyboard": rows}
+    cs = groups[group]
+    rows = [[{"text": c.name, "callback_data": f"hs:{c.fips}"} for c in cs[i:i + 3]] for i in range(0, len(cs), 3)]
+    rows.append([{"text": "◀ Back", "callback_data": "hc:"}])
+    return "Tap your county:", {"inline_keyboard": rows}
+
+
+def _joined(user: dict, chat: str | int) -> Sensor | None:
+    """The tapper's sensor, joining them first when the network is open."""
+    sensor = db.get_sensor(_sensor_id(user["id"]))
+    if sensor is None and not settings.network_join_code:
+        sensor = _register(user, chat)
+    return sensor
+
+
+def _start_tap(cq: dict, data: str, user: dict, msg: dict) -> None:
+    """The getting-started buttons: pick a county (hc:, hs:), turn warnings or the brief on
+    or off (go:)."""
+    chat, mid, cid = msg["chat"]["id"], msg["message_id"], str(cq["id"])
+    sensor = _joined(user, chat)
+    if sensor is None:
+        bot.answer_callback(cid, "This network needs a join code: /join <code>")
+        return
+    if data.startswith("hc:"):
+        text, markup = county_picker(int(data[3:]) if data[3:].isdigit() else None)
+        bot.answer_callback(cid)
+        bot.edit(chat, mid, text, markup=markup)
+        return
+    if data.startswith("hs:"):
+        c = geo.county(data[3:])
+        if c is None:
+            bot.answer_callback(cid, "That button has expired.")
+            return
+        loc = geo.location_from_county(c)
+        db.set_sensor_location(sensor.id, loc)
+        bot.answer_callback(cid, f"Home: {c.label}")
+        done = settled(chat, loc)
+        bot.edit(chat, mid, done, markup=done.markup)
+        for extra in done.then:
+            bot.send_to(chat, extra, markup=extra.markup)
+        return
+    want = data[3:]
+    home = sensor.location
+    if want == "warn" and not (home.zip5 or home.county_fips):
+        bot.answer_callback(cid, "Tell me where you are first.")
+        bot.send_to(chat, where_prompt(), markup=LOCATION_KEYBOARD)
+        return
+    category = "weather.warnings" if want == "warn" else "weather.digest"
+    have = any(r["category"] == category for r in db.subscriptions_for(chat))
+    if have:
+        db.remove_subscription(chat, category)
+        bot.answer_callback(cid, "Warnings off." if want == "warn" else "Morning brief off.")
+    else:
+        area = home.zip5 or (geo.county(home.county_fips).slug if home.county_fips else settings.geo_state.lower())
+        cmd_subscribe(msg | {"from": user}, sensor, f"{category} {area}" if want == "warn" else category)
+        c = geo.county(home.county_fips)
+        bot.answer_callback(cid, f"You'll get warnings for {c.label if c else 'your area'}." if want == "warn"
+                            else "You'll get a short brief each morning at 8.")
+    bot.edit_markup(chat, mid, _offer(chat))
 
 
 # ── command handlers: (message, sensor|None, args) → reply text ──────────
@@ -412,29 +569,28 @@ def help_text() -> str:
 def cmd_join(message: dict, sensor: Sensor | None, args: str) -> str:
     user = message.get("from") or {}
     if sensor is not None:
-        return ("You're already a sensor here. Set your home with /home <zip> or share your "
-                "location, then just send readings.")
+        if not sensor.location.has_point:
+            return where_prompt("You're already in.\n")
+        return f"You're already in. Your place: <b>{esc(_place(sensor.location))}</b>. /help shows the rest."
     if settings.network_join_code and args.strip() != settings.network_join_code:
         return "This network needs a join code: <code>/join &lt;code&gt;</code>"
     s = _register(user, message["chat"]["id"])
-    return (f"✅ Welcome, {esc(s.name)} — you're sensor <code>{esc(s.id)}</code>.\n"
-            f"Next: <code>/home 62704-1234</code> (your ZIP+4, ZIP or county) or share your "
-            f"location, so readings land on the map. Then just type what you see: "
-            f"<code>rain 1.2in</code>, <code>hail quarter</code>, <code>trees down</code>.")
+    return where_prompt(f"✅ Welcome, {esc(s.name)}. You're in.\n")
 
 
 def cmd_home(message: dict, sensor: Sensor | None, args: str) -> str:
     if sensor is None:
-        return "Send /join first."
+        if settings.network_join_code:
+            return "Join first: <code>/join &lt;code&gt;</code>."
+        sensor = _register(message.get("from") or {}, message["chat"]["id"])
     if not args.strip():
-        return ("Usage: /home &lt;ZIP+4 | ZIP | county | lat,lon | place&gt; — or share your location.\n"
-                f"Current: {esc(sensor.location.describe())}")
+        now = f"Your place now: {esc(_place(sensor.location))}.\n" if sensor.location.has_point else ""
+        return where_prompt(now)
     loc = geo.parse_location(args)
     if loc is None or not loc.has_point:
-        return f"Couldn't place “{esc(args)}”. Try a ZIP (62704), ZIP+4 (62704-1234) or a county."
+        return f"Couldn't place “{esc(args)}”. Try a ZIP (62704), a ZIP+4 (62704-1234) or a county."
     db.set_sensor_location(sensor.id, loc)
-    return Reply(f"🏠 Home set: <b>{esc(loc.describe())}</b> (precision: {esc(loc.precision)})",
-                 report_keyboard(message["chat"]["id"]))
+    return settled(message["chat"]["id"], loc)
 
 
 def _live_until(message: dict, p: dict) -> datetime:
@@ -461,31 +617,27 @@ def cmd_location(message: dict, sensor: Sensor | None) -> str:
                      report_keyboard(message["chat"]["id"]) or REMOVE_KEYBOARD)
     loc = geo.location_from_point(float(p["latitude"]), float(p["longitude"]))
     db.set_sensor_location(sensor.id, loc)
-    return Reply(f"🏠 Home set from your location: <b>{esc(loc.describe())}</b>\n"
-                 f"Now tap a button below when you see something, or type it: <code>rain 1.2in</code>.",
-                 report_keyboard(message["chat"]["id"]) or REMOVE_KEYBOARD)
+    return settled(message["chat"]["id"], loc)
 
 
 def cmd_start(message: dict, sensor: Sensor | None, args: str) -> str:
     """/start, maybe carrying a site link (sub_<topic>_<category>_<area>): join, subscribe
     and offer the share-location button in one tap."""
     m = _START_SUB.match(args.strip().lower())
-    if not m:
-        located = sensor is not None and sensor.location.has_point
-        return help_text() if located else Reply(help_text(), LOCATION_KEYBOARD)
+    chat = message["chat"]["id"]
     if sensor is None:
         if settings.network_join_code:
-            return "This network needs a join code: <code>/join &lt;code&gt;</code>, then open the link again."
-        sensor = _register(message.get("from") or {}, message["chat"]["id"])
-    topic, category, area = m.groups()
-    lines = [f"👋 Welcome to the {esc(settings.network_name)}.",
-             cmd_subscribe(message, sensor, f"{topic}.{category} {area}")]
-    if sensor.location.has_point:
-        lines.append("Report what you see by typing it, e.g. <code>rain 1.2in</code>. /help lists the rest.")
-        return "\n".join(lines)
-    lines.append("Next, tap <b>📍 Share my location</b> below (or send <code>/home 62704</code>) so your "
-                 "readings land on the map. Then type what you see, e.g. <code>rain 1.2in</code>.")
-    return Reply("\n".join(lines), LOCATION_KEYBOARD)
+            return "This network needs a join code: <code>/join &lt;code&gt;</code>, then tap Start again."
+        sensor = _register(message.get("from") or {}, chat)
+    welcome = (f"👋 <b>Welcome to the {esc(settings.network_name)}.</b>\nFree warnings for your exact place in "
+               f"{esc(_state())}, and an easy way to tell your neighbors what you see.\n\n")
+    if m:                                          # a site link: subscribed already, by its choice
+        topic, category, area = m.groups()
+        welcome += cmd_subscribe(message, sensor, f"{topic}.{category} {area}") + "\n\n"
+    if not sensor.location.has_point:
+        return where_prompt(welcome)
+    return settled(chat, sensor.location, "👋 <b>Welcome back.</b> Your place: <b>{place}</b>" if not m
+                   else welcome + "🏠 <b>Your place: {place}</b>")
 
 
 def cmd_me(message: dict, sensor: Sensor | None, args: str) -> str:
@@ -509,6 +661,9 @@ def cmd_me(message: dict, sensor: Sensor | None, args: str) -> str:
 
 
 def cmd_subscribe(message: dict, sensor: Sensor | None, args: str) -> str:
+    if not args.strip():                         # the two everyone wants, as buttons; the rest under /help
+        return Reply("What should I send you? Tap one or both; tap again to stop.\n"
+                     "<i>Other topics and places: /help, under More.</i>", _offer(message["chat"]["id"]))
     parsed = subscriptions.parse_subscriptions(args, sensor.location if sensor else None)
     if isinstance(parsed, str):
         return parsed
@@ -868,6 +1023,11 @@ def handle_message(message: dict) -> str | None:
 
     if not text:
         return None
+    if text == PICK_COUNTY:
+        words, markup = county_picker()
+        return Reply(words, markup)
+    if re.fullmatch(r"\d{5}(?:[- ]?\d{4})?", text):          # a ZIP on its own: that's where they are
+        return cmd_home(message, sensor, text)
     quick = next((q for q in _quick_reports() if q["button"] == text), None)
     if quick is not None:
         return _quick(message, sensor, quick)
@@ -923,9 +1083,11 @@ def handle_updates(updates: list[dict]) -> int | None:
         except Exception as exc:  # noqa: BLE001
             logger.exception("bot: handler failed")
             reply = f"⚠️ Something went wrong: {esc(str(exc))}"
+        thread = message.get("message_thread_id") if message.get("is_topic_message") else None
         if reply:
-            bot.send_to(message["chat"]["id"], reply, markup=getattr(reply, "markup", None),
-                        thread_id=message.get("message_thread_id") if message.get("is_topic_message") else None)
+            bot.send_to(message["chat"]["id"], reply, markup=getattr(reply, "markup", None), thread_id=thread)
+            for extra in getattr(reply, "then", None) or []:          # e.g. the report buttons, after the place
+                bot.send_to(message["chat"]["id"], extra, markup=extra.markup, thread_id=thread)
     return offset
 
 
@@ -939,6 +1101,7 @@ def run_listener(poll_timeout: int = 30) -> None:
     if not bot.enabled:
         raise RuntimeError("Telegram not configured — set TELEGRAM_BOT_TOKEN + TELEGRAM_ADMIN_CHAT_ID.")
     db.init_db()
+    ensure_profile()
     logger.info("bot: listening as the %s", settings.network_name)
     offset: int | None = None
     backoff = 1

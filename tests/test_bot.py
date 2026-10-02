@@ -20,11 +20,12 @@ def msg(text: str | None = None, uid: int = 42, chat: int | None = None, mid: in
 
 def test_help_join_home_me(fresh_db):
     assert "Intelligence Network" in bot.handle_message(msg("/start"))
-    r = bot.handle_message(msg("/join"))
-    assert "Welcome, Cy Q" in r and db.get_sensor("tg:42") is not None
-    assert "already a sensor" in bot.handle_message(msg("/join"))
+    assert db.get_sensor("tg:42") is not None                                  # Start is joining
+    assert "already in" in bot.handle_message(msg("/join"))
+    r = bot.handle_message(msg("/join", uid=43))
+    assert "Welcome, Cy Q" in r and "Where are you?" in r
     r = bot.handle_message(msg("/home 60601-2001"))
-    assert "60601-2001, Cook County" in r
+    assert "ZIP 60601 · Cook County" in r
     assert db.get_sensor("tg:42").location.zip9 == "60601-2001"
     assert "Couldn't place" in bot.handle_message(msg("/home atlantis"))
     r = bot.handle_message(msg("/me"))
@@ -209,13 +210,13 @@ def test_a_site_link_joins_subscribes_and_offers_the_location_button(fresh_db, s
     assert [(r["category"], r["area"]) for r in db.subscriptions_for("11")] == [("weather.warnings", "il.cook")]
     assert "Subscribed" in sent[0][1] and sent.markups[0]["keyboard"][0][0]["request_location"] is True
     r = bot.handle_message(msg(uid=11, location={"latitude": 41.88, "longitude": -87.63}))
-    assert "Home set" in r and r.markup["keyboard"][0][0]["text"] == "🌧 Rain"   # location button → report buttons
-    assert "Intelligence Network" in bot.handle_message(msg("/start sub_bogus", uid=11))
+    assert "Your place" in r and r.then[0].markup["keyboard"][0][0]["text"] == "🌧 Rain"   # then the report buttons
+    assert "Welcome back" in bot.handle_message(msg("/start sub_bogus", uid=11))
 
 
 def test_sharing_a_location_first_joins_you(fresh_db):
     r = bot.handle_message(msg(uid=12, location={"latitude": 39.7817, "longitude": -89.6501}))
-    assert "Home set" in r and db.get_sensor("tg:12").location.county_fips == "17167"
+    assert "Your place" in r and db.get_sensor("tg:12").location.county_fips == "17167"
 
 
 def _tap(uid: int, chat: int, message_id: int, data: str, cid: str) -> dict:
@@ -227,7 +228,7 @@ def _tap(uid: int, chat: int, message_id: int, data: str, cid: str) -> dict:
 def test_the_report_keyboard_records_hail_in_two_taps_and_undoes_it(fresh_db, sent):
     bot.handle_message(msg("/join", uid=13))
     home = bot.handle_message(msg("/home 62704", uid=13))
-    kb = home.markup
+    kb = home.then[0].markup                                         # after the place: the report buttons
     assert [b["text"] for b in kb["keyboard"][0]] == ["🌧 Rain", "🧊 Hail", "💨 Wind"] and kb["is_persistent"]
     assert bot.handle_message(msg("/report", uid=13)).markup == kb
     picker = bot.handle_message(msg("🧊 Hail", uid=13, mid=40))
@@ -278,3 +279,57 @@ def test_every_usage_and_error_reply_is_valid_telegram_html(fresh_db, monkeypatc
                  "/report", "/latest", "/network", "/privacy", "/digest nope", "/bogus"):
         r = bot.handle_message(msg(text))
         assert r is None or _telegram_safe(str(r)), (text, str(r)[:200])
+
+
+def test_getting_started_takes_only_taps(fresh_db, sent):
+    """Start joins you; a county is two taps away (a computer can't share a location);
+    warnings and the brief are a tap each, and a tap again turns them off."""
+    bot.handle_updates([{"update_id": 1, "message": msg("/start", uid=21)}])
+    assert db.get_sensor("tg:21") is not None and "Where are you?" in sent[0][1]
+    where = sent.markups[0]["keyboard"][0]
+    assert where[0]["request_location"] is True and where[1]["text"] == bot.PICK_COUNTY
+    runs = bot.handle_message(msg(bot.PICK_COUNTY, uid=21)).markup["inline_keyboard"]
+    assert len(runs) == 6 and runs[0][0]["text"].startswith("Adams")
+    sangamon = next(i for i, g in enumerate(bot._county_groups()) if any(c.name == "Sangamon" for c in g))
+    bot.handle_updates([_tap(21, 21, 50, f"hc:{sangamon}", "c1")])
+    assert any(b["callback_data"] == "hs:17167" for row in sent.edit_markups[-1]["inline_keyboard"] for b in row)
+    bot.handle_updates([_tap(21, 21, 50, "hs:17167", "c2")])
+    assert db.get_sensor("tg:21").location.county_fips == "17167"
+    assert "Your place: Sangamon County" in sent.edits[-1][2]
+    assert sent.markups[-1]["keyboard"][0][0]["text"] == "🌧 Rain"          # then the report buttons
+    bot.handle_updates([_tap(21, 21, 50, "go:warn", "c3")])
+    assert [(r["category"], r["area"]) for r in db.subscriptions_for("21")] == [("weather.warnings", "il.sangamon")]
+    assert sent.answers[-1] == ("c3", "You'll get warnings for Sangamon County.")
+    assert sent.markup_edits[-1][2]["inline_keyboard"][0][0]["text"].startswith("✅")
+    bot.handle_updates([_tap(21, 21, 50, "go:brief", "c4")])
+    assert {r["category"] for r in db.subscriptions_for("21")} == {"weather.warnings", "weather.digest"}
+    bot.handle_updates([_tap(21, 21, 50, "go:warn", "c5")])                 # again: off
+    assert [r["category"] for r in db.subscriptions_for("21")] == ["weather.digest"]
+
+
+def test_a_zip_on_its_own_sets_the_place_and_subscribe_offers_buttons(fresh_db):
+    r = bot.handle_message(msg("62704", uid=22))
+    assert "Your place: ZIP 62704 · Sangamon County" in r and db.get_sensor("tg:22").location.zip5 == "62704"
+    offer = bot.handle_message(msg("/subscribe", uid=22)).markup["inline_keyboard"]
+    assert [row[0]["callback_data"] for row in offer] == ["go:warn", "go:brief"]
+    assert "Where are you?" in bot.handle_message(msg("/home", uid=22))      # no typing needed to change it
+
+
+def test_help_is_a_glance_and_the_profile_is_set_once(fresh_db, monkeypatch):
+    text = bot.help_text()
+    assert text.count("\n", 0, text.index("<blockquote expandable>")) <= 6         # six lines, the rest folded
+    assert len(bot.description()) <= 512 and len(bot.short_description()) <= 120
+    from intelnet import telegram
+
+    calls = []
+
+    def fake(method, payload, files=None):
+        calls.append(method)
+        result = {"getMyDescription": {"description": bot.description()},
+                  "getMyShortDescription": {"short_description": "old"}, "getMyCommands": []}.get(method)
+        return telegram.Sent(True, result=result)
+
+    monkeypatch.setattr(bot.bot, "_call", fake)
+    bot.ensure_profile()
+    assert calls == ["getMyDescription", "getMyShortDescription", "setMyShortDescription", "getMyCommands",
+                     "setMyCommands"]                                       # only what differs is set

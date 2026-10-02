@@ -29,7 +29,7 @@ def test_the_keyboard_opens_the_app_with_the_chats_own_state(fresh_db, monkeypat
     bot.handle_message(_msg(31, text="/join"))
     bot.handle_message(_msg(31, text="/subscribe warnings"))
     bot.handle_message(_msg(31, text="rain 0.5in @62704"))
-    r = bot.handle_message(_msg(31, text="/home 62704"))
+    r = bot.handle_message(_msg(31, text="/home 62704")).then[0]          # the report buttons follow the place
     button = r.markup["keyboard"][-1][0]
     assert button["text"] == bot.APP_BUTTON and button["web_app"]["url"].startswith("https://example.test/intelnet/app/#s=")
     s = _state(r.markup)
@@ -59,7 +59,7 @@ def test_subscriptions_home_and_followups_from_the_app(fresh_db):
     assert "Subscribed" in r
     bot.handle_message(_app({"a": "subs", "add": [], "remove": [["weather.warnings", "il.sangamon"]]}))
     assert [x["category"] for x in db.subscriptions_for("31")] == ["weather.digest"]
-    assert "Home set" in bot.handle_message(_app({"a": "home", "place": "60601"}))
+    assert "Your place: ZIP 60601 · Cook County" in bot.handle_message(_app({"a": "home", "place": "60601"}))
     assert db.get_sensor("tg:31").location.county_fips == "17031"
     assert "Follow-ups off" in bot.handle_message(_app({"a": "followups", "on": False}))
 
