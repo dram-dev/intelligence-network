@@ -2,6 +2,9 @@
 from __future__ import annotations
 
 
+import json
+import re
+
 from conftest import load_fixture
 from intelnet import contrib, db, digest
 from intelnet.feeds import nws_alerts
@@ -32,7 +35,14 @@ def test_build_and_render(make_sensor):
     assert m.alerts and m.alerts[0]["counties"]
     assert m.contributions and m.contributions[0]["county"] == "Sangamon County"
     assert m.leaderboard[0]["name"].startswith("s-")          # handles, never names
-    assert "Ann" not in digest.render_html(m) and "Bob" not in digest.render_html(m)
+    text = re.sub(r"data:image/jpeg;base64,[A-Za-z0-9+/=]+", "", digest.render_html(m))   # the map is no text
+    assert "Ann" not in text and "Bob" not in text
+    # the day's map heads the Doc, with its stories numbered and its stand-outs explained
+    assert 'src="data:image/jpeg;base64,/9j/' in digest.render_html(m) and 'width="432"' in text
+    assert "What stood out" in text and "Hail 1.75 in" in text
+    assert "In the news, and what was measured there" in text and "1 · Weather, statewide" in text
+    assert "Every story kept today is listed above" in text                  # not twice: listed, then "worth reading"
+    assert "Station extremes" not in text and "day" not in json.loads(m.to_json())         # nor in the narrative
     assert m.reading[0]["title"] == "Storms rake central Illinois" and m.reading[0]["feed"] == "Google News"
     assert m.gap_count == 101 and m.subscriptions == {"weather.digest": 1}
     assert "3 readings from 2 people" in m.headline and "Top event: hail size 1.75 in, Sangamon" in m.headline

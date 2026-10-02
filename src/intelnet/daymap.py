@@ -1,12 +1,13 @@
-"""The day across the state in one picture: the morning brief's map.
+"""The day across the state in one picture: the morning brief's map, and the digest's.
 
-The site's masthead map (notable.py), drawn for a chat, where nothing can be hovered: the
-day's notable readings as dots in their topic's colour, the stand-outs labelled; the
-stories as numbered squares, under the same numbers the brief lists them by, each drawn to
-the readings it's about; the NWS alerts in effect, in their alert cards' colours; the
-reader's county outlined. Stories about the whole state have no place on it, so they wait
-in the key beside it. The alert cards' dark map with the site's dark topic colours, so it
-reads the same in a light chat or a dark one.
+The site's masthead map (notable.py), drawn where nothing can be hovered: the day's notable
+readings as dots in their topic's colour, the stand-outs labelled; the stories as numbered
+squares, under the same numbers the brief and the digest list them by, each drawn to the
+readings it's about; the NWS alerts in effect, in their alert cards' colours; the reader's
+county outlined. Stories about the whole state have no place on it, so they wait in the key
+beside it. Two palettes: `DARK`, the alert cards' dark map with the site's dark topic
+colours, reads the same in a light chat or a dark one; `LIGHT`, the site's light colours on
+a white ground, sits on the digest's page and prints.
 
 A picture is named by what it shows (`dm-<hash>`) and kept with the alert cards' pictures,
 so delivery attaches it like theirs, and a brief that draws the same picture as an earlier
@@ -19,6 +20,7 @@ import json
 import logging
 import math
 import time
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from functools import lru_cache
 from io import BytesIO
@@ -51,18 +53,39 @@ PAD = 30
 RAIL = 300                        # the key, right of the state
 KEEP = timedelta(days=3)
 RENDER_VERSION = 2                # part of every name: bump it when the drawing changes
-# The site's dark topic colours (site/index.fragment.html), which hold up on this dark map
-TOPIC_COLOURS = {"weather": "#5FB4C0", "soil": "#C08A5A", "water": "#7FA6E8", "agriculture": "#8BBF63",
-                 "air": "#B1A2E3", "quake": "#E5786A", "nature": "#D9C45A", "markets": "#D28CC8"}
-OUTLINE = (112, 128, 121)
-INK = (16, 20, 23)                # a badge's number
+
+
+@dataclass(frozen=True)
+class Palette:
+    ground: tuple[int, int, int]        # around the state
+    land: tuple[int, int, int]
+    water: tuple[int, int, int]
+    river: tuple[int, int, int]
+    county: tuple[int, int, int]
+    text: tuple[int, int, int]
+    dim: tuple[int, int, int]
+    halo: tuple[int, int, int]          # behind text and marks
+    badge: tuple[int, int, int]         # a story's square, and its number
+    badge_text: tuple[int, int, int]
+    topics: dict[str, str]              # the site's topic colours for this ground
+    alert_alpha: tuple[int, int]        # a watch or advisory's tint, a warning's
+
+
+# The site's topic colours (site/index.fragment.html tokens), dark and light
+DARK = Palette(BEYOND, LAND, WATER, RIVER, COUNTY, TEXT, TEXT_DIM, HALO, TEXT, (16, 20, 23),
+               {"weather": "#5FB4C0", "soil": "#C08A5A", "water": "#7FA6E8", "agriculture": "#8BBF63",
+                "air": "#B1A2E3", "quake": "#E5786A", "nature": "#D9C45A", "markets": "#D28CC8"}, (46, 86))
+LIGHT = Palette((255, 255, 255), (241, 243, 239), (213, 226, 234), (123, 160, 191), (206, 213, 208),
+                (26, 31, 28), (91, 101, 95), (255, 255, 255), (26, 31, 28), (255, 255, 255),
+                {"weather": "#1D6E7A", "soil": "#7A4E24", "water": "#2B5FAD", "agriculture": "#4F7F2F",
+                 "air": "#6E5E9A", "quake": "#B33A2B", "nature": "#8A7A1F", "markets": "#8E4585"}, (52, 92))
 # Towns for bearings, largest first; each is written where nothing more important is
 CITIES = ("Chicago", "Rockford", "Springfield", "Peoria", "Champaign", "Moline", "Carbondale", "Quincy",
           "Bloomington", "Decatur", "Kankakee", "Effingham", "Mount Vernon")
 
 
-def _colour(topic: str) -> tuple[int, int, int]:
-    return _hex(TOPIC_COLOURS.get(topic, "#A8B4AE"))[:3]
+def _colour(topic: str, pal: Palette = DARK) -> tuple[int, int, int]:
+    return _hex(pal.topics.get(topic, "#8C9891"))[:3]
 
 
 def _topic_name(topic: str | None) -> str:
@@ -131,12 +154,13 @@ class _Labels(cardmap._Labels):
         return not any(x0 < b[2] and b[0] < x1 and y0 < b[3] and b[1] < y1 for b in self.taken)
 
 
-def _badge(d: ImageDraw.ImageDraw, x: float, y: float, n: int, size: float) -> tuple[float, float, float, float]:
+def _badge(d: ImageDraw.ImageDraw, x: float, y: float, n: int, size: float,
+           pal: Palette = DARK) -> tuple[float, float, float, float]:
     """A story's numbered square, centred on (x, y), at the final scale."""
     w = size * (1.25 if n > 9 else 1)
     box = (x - w / 2, y - size / 2, x + w / 2, y + size / 2)
-    d.rounded_rectangle(box, radius=size * .22, fill=TEXT, outline=HALO, width=3)
-    d.text((x, y + 1), str(n), font=_font(round(size * .62), "SemiBold"), fill=INK, anchor="mm")
+    d.rounded_rectangle(box, radius=size * .22, fill=pal.badge, outline=pal.halo, width=3)
+    d.text((x, y + 1), str(n), font=_font(round(size * .62), "SemiBold"), fill=pal.badge_text, anchor="mm")
     return box
 
 
@@ -167,7 +191,7 @@ def _badge_spots(day: dict[str, Any]) -> dict[str, tuple[float, float]]:
 
 
 def render_image(day: dict[str, Any], fips: str | None = None, alerts: list[dict[str, Any]] | None = None,
-                 *, now: datetime | None = None) -> Image.Image:
+                 *, now: datetime | None = None, pal: Palette = DARK) -> Image.Image:
     now = now or utcnow()
     alerts = _alerts() if alerts is None else alerts
     shapes = cardmap._counties()
@@ -175,32 +199,32 @@ def render_image(day: dict[str, Any], fips: str | None = None, alerts: list[dict
     places = {p["id"]: p for p in day.get("places") or []}
 
     # the ground: land, water, alerts, county lines, the reader's county
-    base = Image.new("RGB", (W * SS, H * SS), BEYOND)
+    base = Image.new("RGB", (W * SS, H * SS), pal.ground)
     d = ImageDraw.Draw(base, "RGBA")
     for rings in shapes.values():
         for ring in rings:
-            d.polygon(_ring(ring), fill=LAND)
+            d.polygon(_ring(ring), fill=pal.land)
     for wt in ref.get("water", []):
         for ring in wt.get("rings", []):
-            d.polygon(_ring(ring), fill=WATER)
+            d.polygon(_ring(ring), fill=pal.water)
     for rv in ref.get("rivers", []):
         for line in rv.get("lines", []):
             if len(line) > 1:
-                d.line(_ring(line), fill=RIVER, width=3, joint="curve")
+                d.line(_ring(line), fill=pal.river, width=3, joint="curve")
     for a in alerts:                                   # a warning stronger than a watch or advisory
         for f in a["counties"] if not a["polygon"] else []:
             for ring in shapes.get(f, []):
-                d.polygon(_ring(ring), fill=(*a["colour"], 86 if a.get("warning") else 46))
+                d.polygon(_ring(ring), fill=(*a["colour"], pal.alert_alpha[1 if a.get("warning") else 0]))
         for ring in a["polygon"] or []:
             d.polygon(_ring(ring), fill=(*a["colour"], 56))
             d.line(_ring(ring) + _ring(ring[:1]), fill=(*a["colour"], 255), width=6, joint="curve")
     for rings in shapes.values():
         for ring in rings:
-            d.line(_ring(ring) + _ring(ring[:1]), fill=COUNTY, width=2, joint="curve")
+            d.line(_ring(ring) + _ring(ring[:1]), fill=pal.county, width=2, joint="curve")
     mine = shapes.get(fips or "", [])
     for ring in mine:
-        d.polygon(_ring(ring), fill=(255, 255, 255, 22))
-        d.line(_ring(ring) + _ring(ring[:1]), fill=(*TEXT, 255), width=7, joint="curve")
+        d.polygon(_ring(ring), fill=(*pal.text, 22))
+        d.line(_ring(ring) + _ring(ring[:1]), fill=(*pal.text, 255), width=7, joint="curve")
     img = base.resize((W, H), Image.Resampling.LANCZOS).convert("RGBA")
 
     # the marks: arcs from each story to its readings, then the readings, the stories on top
@@ -214,15 +238,15 @@ def render_image(day: dict[str, Any], fips: str | None = None, alerts: list[dict
             if p is None:
                 continue
             pts = _arc((at[0] * SS, at[1] * SS), px(p["lat"], p["lon"], SS))
-            o.line(pts, fill=(*HALO, 150), width=9, joint="curve")
-            o.line(pts, fill=(*TEXT, 205), width=4, joint="curve")
+            o.line(pts, fill=(*pal.halo, 150), width=9, joint="curve")
+            o.line(pts, fill=(*pal.text, 205), width=4, joint="curve")
     for p in sorted(places.values(), key=lambda p: -p["tier"]):         # the small dots first
         x, y = px(p["lat"], p["lon"], SS)
-        c = _colour(p["topic"])
+        c = _colour(p["topic"], pal)
         r = (10 if p["tier"] == 1 else 6) * SS
         if p.get("person"):
             o.ellipse((x - r - 11, y - r - 11, x + r + 11, y + r + 11), outline=(*c, 255), width=5)
-        o.ellipse((x - r, y - r, x + r, y + r), fill=(*c, 255), outline=(*HALO, 255), width=6 if p["tier"] == 1 else 4)
+        o.ellipse((x - r, y - r, x + r, y + r), fill=(*c, 255), outline=(*pal.halo, 255), width=6 if p["tier"] == 1 else 4)
     img.alpha_composite(over.resize((W, H), Image.Resampling.LANCZOS))
 
     d = ImageDraw.Draw(img, "RGBA")
@@ -234,44 +258,45 @@ def render_image(day: dict[str, Any], fips: str | None = None, alerts: list[dict
             labels.taken.append((x - 12, y - 12, x + 12, y + 12))
     for n in day.get("news") or []:
         if n["id"] in spots:
-            labels.taken.append(_badge(d, *spots[n["id"]], n["n"], 44))
+            labels.taken.append(_badge(d, *spots[n["id"]], n["n"], 44, pal))
     big = _font(29, "SemiBold")
     for p in (q for q in places.values() if q["tier"] == 1):           # in the order notable ranked them
-        _label(d, labels, *px(p["lat"], p["lon"]), notable.tight(p["label"]), big)
+        _label(d, labels, *px(p["lat"], p["lon"]), notable.tight(p["label"]), big, pal)
     towns = {name: (lat, lon) for name, lat, lon, *_ in ref.get("places", [])}
     for name in CITIES:
         if name in towns:
             x, y = px(*towns[name])
-            labels.put((x, y), name, _font(24, "Medium"), fill=TEXT_DIM, anchor="mm", stroke=4)
+            labels.put((x, y), name, _font(24, "Medium"), fill=pal.dim, halo=pal.halo, anchor="mm", stroke=4)
 
-    _rail(d, day, fips, alerts, now)
+    _rail(d, day, fips, alerts, now, pal)
     return img.convert("RGB")
 
 
-def _label(d: ImageDraw.ImageDraw, labels: _Labels, x: float, y: float, text: str, font: Any) -> None:
+def _label(d: ImageDraw.ImageDraw, labels: _Labels, x: float, y: float, text: str, font: Any,
+           pal: Palette = DARK) -> None:
     """A stand-out's label where it fits around its dot. A rise ("▲ 1.86 ft") gets its
     triangle drawn: the font has no glyph for it."""
     rising = text.startswith("▲")
     shown = "    " + text.lstrip("▲ ") if rising else text
     for xy, anchor in cardmap._spots(x, y, 17, 13):
-        if labels.put(xy, shown, font, anchor=anchor, stroke=5):
+        if labels.put(xy, shown, font, fill=pal.text, halo=pal.halo, anchor=anchor, stroke=5):
             if rising:                      # as tall as the digits beside it, standing on their baseline
                 x0 = d.textbbox(xy, shown, font=font, anchor=anchor)[0]
                 _, top, _, base = d.textbbox(xy, "0", font=font, anchor=anchor)
                 w = (base - top) * 1.1
                 tri = [(x0 + 2, base), (x0 + 2 + w, base), (x0 + 2 + w / 2, top)]
-                d.polygon(tri, fill=HALO, outline=HALO, width=7)                # its halo, like the text's
-                d.polygon(tri, fill=TEXT)
+                d.polygon(tri, fill=pal.halo, outline=pal.halo, width=7)        # its halo, like the text's
+                d.polygon(tri, fill=pal.text)
             return
 
 
 def _rail(d: ImageDraw.ImageDraw, day: dict[str, Any], fips: str | None, alerts: list[dict[str, Any]],
-          now: datetime) -> None:
+          now: datetime, pal: Palette = DARK) -> None:
     """The key beside the state: the date, what each mark is, the stories without a place."""
     x = W - RAIL + 10
-    d.text((x, 44), "ILLINOIS", font=_font(24, "Medium"), fill=TEXT_DIM, anchor="ls")
-    d.text((x, 92), local_time(now, "%a %-d %b"), font=_font(42, "SemiBold"), fill=TEXT, anchor="ls")
-    d.line([(x, 122), (W - PAD, 122)], fill=COUNTY, width=2)
+    d.text((x, 44), "ILLINOIS", font=_font(24, "Medium"), fill=pal.dim, anchor="ls")
+    d.text((x, 92), local_time(now, "%a %-d %b"), font=_font(42, "SemiBold"), fill=pal.text, anchor="ls")
+    d.line([(x, 122), (W - PAD, 122)], fill=pal.county, width=2)
     y = 168
     row = _font(27, "Medium")
     counts: dict[str, int] = {}
@@ -280,32 +305,31 @@ def _rail(d: ImageDraw.ImageDraw, day: dict[str, Any], fips: str | None, alerts:
     for a in day.get("areas") or []:
         counts[a["topic"]] = counts.get(a["topic"], 0) + len(a["counties"])
     for topic in sorted(counts, key=lambda t: -counts[t]):
-        c = _colour(topic)
-        d.ellipse((x, y - 11, x + 22, y + 11), fill=c, outline=HALO, width=2)
-        d.text((x + 38, y), _topic_name(topic), font=row, fill=TEXT, anchor="lm")
+        d.ellipse((x, y - 11, x + 22, y + 11), fill=_colour(topic, pal), outline=pal.halo, width=2)
+        d.text((x + 38, y), _topic_name(topic), font=row, fill=pal.text, anchor="lm")
         y += 46
     if day.get("news"):
-        _badge(d, x + 11, y, 1, 26)
-        d.text((x + 38, y), "Story below", font=row, fill=TEXT, anchor="lm")
+        _badge(d, x + 11, y, 1, 26, pal)
+        d.text((x + 38, y), "Story below", font=row, fill=pal.text, anchor="lm")
         y += 46
     if alerts:
         worst = alerts[-1]
         d.rounded_rectangle((x, y - 11, x + 22, y + 11), radius=4, fill=(*worst["colour"], 150), outline=worst["colour"])
-        d.text((x + 38, y), "NWS alert", font=row, fill=TEXT, anchor="lm")
+        d.text((x + 38, y), "NWS alert", font=row, fill=pal.text, anchor="lm")
         y += 46
     if fips:
-        d.rounded_rectangle((x, y - 11, x + 22, y + 11), radius=3, outline=TEXT, width=3)
-        d.text((x + 38, y), "Your county", font=row, fill=TEXT, anchor="lm")
+        d.rounded_rectangle((x, y - 11, x + 22, y + 11), radius=3, outline=pal.text, width=3)
+        d.text((x + 38, y), "Your county", font=row, fill=pal.text, anchor="lm")
         y += 46
     wide = [n for n in day.get("news") or [] if n.get("statewide")]
     if wide:
         y += 22
-        d.line([(x, y - 30), (W - PAD, y - 30)], fill=COUNTY, width=2)
-        d.text((x, y + 8), "STATEWIDE", font=_font(24, "Medium"), fill=TEXT_DIM, anchor="ls")
+        d.line([(x, y - 30), (W - PAD, y - 30)], fill=pal.county, width=2)
+        d.text((x, y + 8), "STATEWIDE", font=_font(24, "Medium"), fill=pal.dim, anchor="ls")
         y += 50
         for n in wide:
-            _badge(d, x + 18, y, n["n"], 36)
-            d.text((x + 48, y), _topic_name(n["topic"]), font=row, fill=TEXT, anchor="lm")
+            _badge(d, x + 18, y, n["n"], 36, pal)
+            d.text((x + 48, y), _topic_name(n["topic"]), font=row, fill=pal.text, anchor="lm")
             y += 52
     as_of = parse_iso(day.get("as_of")) or now
     small = _font(23, "Medium")
@@ -313,13 +337,13 @@ def _rail(d: ImageDraw.ImageDraw, day: dict[str, Any], fips: str | None, alerts:
     if abs((now - as_of).total_seconds()) > 900:                  # an older day: the alerts are now's
         foot.append(f"Alerts as of {local_time(now, '%-I:%M %p')}")
     for i, line in enumerate(reversed(foot)):
-        d.text((x, H - 40 - i * 32), line, font=small, fill=TEXT_DIM, anchor="ls")
+        d.text((x, H - 40 - i * 32), line, font=small, fill=pal.dim, anchor="ls")
 
 
 def render(day: dict[str, Any], fips: str | None = None, alerts: list[dict[str, Any]] | None = None,
-           *, now: datetime | None = None) -> bytes:
+           *, now: datetime | None = None, pal: Palette = DARK) -> bytes:
     out = BytesIO()
-    render_image(day, fips, alerts, now=now).save(out, "JPEG", quality=90, subsampling=0, optimize=True)
+    render_image(day, fips, alerts, now=now, pal=pal).save(out, "JPEG", quality=90, subsampling=0, optimize=True)
     return out.getvalue()
 
 

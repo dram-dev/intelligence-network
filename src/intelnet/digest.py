@@ -11,20 +11,24 @@ Telegram-preview form. No file is written here.
 """
 from __future__ import annotations
 
+import base64
 import csv
 import html
 import io
 import json
+import logging
 import re
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
-from intelnet import db, geo, network, story_brief, trust
+from intelnet import daymap, db, geo, network, notable, story_brief, trust
 from intelnet.config import settings
 from intelnet.feeds.nws_alerts import SEVERITY_RANK, office
 from intelnet.models import iso, local_time, parse_iso, public_handle
 from intelnet.topics import find_metric
+
+logger = logging.getLogger(__name__)
 
 EXTREME_METRICS = (("wind_gust_ms", "max"), ("rain_mm", "max"), ("temp_c", "max"),
                    ("temp_c", "min"), ("visibility_km", "min"), ("snow_cm", "max"),
@@ -52,6 +56,8 @@ class DigestModel:
     gap_count: int = 0
     subscriptions: dict[str, int] = field(default_factory=dict)
     links: dict[str, str | None] = field(default_factory=dict)
+    day: dict[str, Any] = field(default_factory=dict)                   # notable.py: the map's readings and stories
+    picture: bytes | None = None                                        # the day's map (daymap.py, light), JPEG
 
     @property
     def headline(self) -> str:
@@ -67,7 +73,8 @@ class DigestModel:
         return text
 
     def to_json(self) -> str:
-        return json.dumps(asdict(self), default=str)
+        """The model for the narrative's prompt: without the map's data and picture."""
+        return json.dumps({k: v for k, v in asdict(self).items() if k not in ("day", "picture")}, default=str)
 
 
 def event_phrase(e: dict[str, Any]) -> str:
@@ -122,7 +129,7 @@ def _extremes(hours: float) -> list[dict[str, Any]]:
 
 
 def build(hours: float = 24.0, date: str | None = None) -> DigestModel:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     model = DigestModel(
         date=date or now.strftime("%Y-%m-%d"), generated_at=local_time(now, "%Y-%m-%d %-I:%M %p %Z"),
         hours=hours, network_name=settings.network_name, state=settings.geo_state,
@@ -133,6 +140,12 @@ def build(hours: float = 24.0, date: str | None = None) -> DigestModel:
     model.storms = story_brief.summaries(hours)
     model.contributions = [r for r in network.mesh_rows(hours) if r["n_human"]][:25]
     model.extremes = _extremes(hours)
+    model.day = notable.build(now)
+    if settings.card_maps:                     # the day on the map, on the page's white
+        try:
+            model.picture = daymap.render(model.day, None, now=now, pal=daymap.LIGHT)
+        except Exception:                      # a digest without its map rather than no digest
+            logger.exception("digest: drawing the day's map failed")
     # The digest folder can be anyone-with-link, so people appear by handle only
     # — the same rule as the public site.
     model.leaderboard = [
@@ -204,6 +217,7 @@ BROWSER_CSS = f"""
             box-shadow: 0 1px 3px rgba(20,32,28,.10); border-radius: 4px; }}
   .sheet table {{ width: 100%; }}
   .sheet hr {{ border: 0; border-top: 1px solid {LINE}; margin: 22px 0 0; }}
+  .sheet img {{ max-width: 100%; height: auto; }}
   .tw {{ overflow-x: auto; }}
   @media (max-width: 620px) {{
     body {{ padding: 0; background: {PAPER}; }} .sheet {{ padding: 22px 16px 30px; box-shadow: none; }}
@@ -248,7 +262,7 @@ def _table(headers: list[str], rows: list[list[Any]], *, aligns: tuple[str, ...]
     squeezes every word onto its own line."""
     if not rows:
         return f'<p style="{_style(BODY, 10, color=MUTED, after=8)};font-style:italic">{_e(empty)}</p>'
-    align = lambda i: (aligns[i] if i < len(aligns) else "left")  # noqa: E731
+    align = lambda i: (aligns[i] if i < len(aligns) else "left")
     # Docs draws every border left unset as a grid line, so each one is set: rules under
     # the rows, and white (invisible) sides.
     sides = f"border-top:1pt solid {PAPER};border-left:1pt solid {PAPER};border-right:1pt solid {PAPER};"
@@ -282,6 +296,19 @@ def _item(head: str, meta: str = "", body: str = "") -> str:
             + (f'<p style="{P_SMALL}">{meta}</p>' if meta else "")
             + (f'<p style="{_style(BODY, 10, color=MUTED, lh=1.4)}">{body}</p>' if body else "")
             + f'<p style="{_style(BODY, 4, lh=1)}">&nbsp;</p>')
+
+
+def _story(st: notable.Listed) -> str:
+    """One of the day's stories under its map number: the place, the lead headline, a line
+    per reading measured there, the alerts in force."""
+    out = [f'<p style="{_style(BODY, 11, weight=700, lh=1.3)}">{st.n} · {_e(st.where)}</p>',
+           f'<p style="{_style(BODY, 10.5, lh=1.4)}">{_link(st.url, st.title)}'
+           + (f' <span style="color:{MUTED}">({_e(st.source)})</span>' if st.source else "") + "</p>"]
+    out += [f'<p style="{_style(BODY, 9.5, lh=1.4)}">↳ {_e(r)}</p>' for r in st.readings]
+    if st.alerts:
+        out.append(f'<p style="{_style(BODY, 9.5, color=SEVERITY_COLORS["Severe"], weight=700, lh=1.4)}">'
+                   f'{_e(st.alerts)}</p>')
+    return "".join(out) + f'<p style="{_style(BODY, 4, lh=1)}">&nbsp;</p>'
 
 
 def _glance(v: dict[str, Any]) -> str:
@@ -372,6 +399,25 @@ def render_html(m: DigestModel, downloads: dict[str, str] | None = None, *, page
     p.append(_downloads(downloads))
     p.append(_glance(v))
 
+    # ── the day on the map: what stood out, and the stories it numbers ──
+    listed, told = notable.listing(m.day)
+    if m.picture:
+        alt = (f"Map of {state}: the day's notable readings by topic, the stand-outs labelled, "
+               "and the stories below by number")
+        # no caption under it: the map's own key says what the marks are, and a caption can
+        # fall onto the next page alone
+        p.append(f'<p style="text-align:center;margin:12pt 0 4pt 0"><img src="data:image/jpeg;base64,'
+                 f'{base64.b64encode(m.picture).decode()}" width="432" height="540" alt="{_e(alt)}"></p>')
+    if listed:
+        p.append(_section("In the news, and what was measured there",
+                          "Stories from the network's news sources, each with what was measured where it happened."))
+        p += [_story(st) for st in listed]
+    stand = notable.standouts(m.day)
+    if stand:
+        p.append(_section("What stood out", "The readings labelled on the map, and why each is there."))
+        p.append(_table(["Reading", "Where", "Why"],
+                        [[_Raw(f'<b style="white-space:nowrap">{_e(a)}</b>'), b, c] for a, b, c in stand]))
+
     # ── storms ──
     if m.storms:
         p.append(_section("Storms", "Warnings, storm reports and readings, one storm at a time."))
@@ -415,13 +461,6 @@ def render_html(m: DigestModel, downloads: dict[str, str] | None = None, *, page
         p.append(f'<p style="{_style(BODY, 10, color=MUTED, after=8)};font-style:italic">'
                  f'No events crossed a threshold in this window.</p>')
 
-    p.append(_section("Station extremes", "Highs and lows across the official stations and gauges."))
-    p.append(_table(["Measure", "Value", "Where"],
-                    [[f"{x['metric']}, {'lowest' if x['how'] == 'min' else 'highest'}",
-                      _Raw(f'<b style="white-space:nowrap">{_e(x["value"])}</b>'),
-                      str(x["county"]).removesuffix(" County")] for x in m.extremes],
-                    aligns=("left", "right", "left")))
-
     # ── the network's own week ──
     p.append(_section("From people", "What contributors reported, by county."))
     p.append(_table(
@@ -443,15 +482,20 @@ def render_html(m: DigestModel, downloads: dict[str, str] | None = None, *, page
     p.append(_section("Worth reading", "Picked from the network's news sources."))
     if m.reading:
         seen: set[str] = set()
+        shown = 0
         for r in m.reading:
             title, source = _publisher(r)
             key = re.sub(r"\W+", " ", title.lower()).strip()
-            if key in seen:                     # one story, two feeds (AgriNews, and Google News)
+            if key in seen or " ".join(title.lower().split()) in told:     # one story, two feeds; or listed above
                 continue
             seen.add(key)
             p.append(_item(_link(r.get("url"), title), _e(source)))
-            if len(seen) >= READING_SHOWN:
+            shown += 1
+            if shown >= READING_SHOWN:
                 break
+        if not shown:
+            p.append(f'<p style="{_style(BODY, 10, color=MUTED, after=8)};font-style:italic">'
+                     f'Every story kept today is listed above, with the readings behind it.</p>')
     else:
         p.append(f'<p style="{_style(BODY, 10, color=MUTED, after=8)};font-style:italic">Nothing kept in this window.</p>')
 
@@ -518,8 +562,15 @@ def render_text(m: DigestModel) -> str:
     lines += [f"  [{a['severity']}] {a['event']} — {', '.join(a['counties'][:5])} (until {_when(a['expires'])})"
               for a in m.alerts[:15]] or ["  none"]
     lines.append("")
-    lines.append("Station extremes: " + "; ".join(f"{x['metric']} {x['how']} {x['value']} ({x['county']})"
-                                                  for x in m.extremes) if m.extremes else "Station extremes: none")
+    listed, _ = notable.listing(m.day)
+    if listed:
+        lines.append("In the news, and what was measured there:")
+        for st in listed:
+            lines.append(f"  {st.n} · {st.where}: {st.title}" + (f" ({st.source})" if st.source else ""))
+            lines += [f"      ↳ {r}" for r in st.readings] + ([f"      {st.alerts}"] if st.alerts else [])
+        lines.append("")
+    stand = notable.standouts(m.day)
+    lines.append("What stood out: " + "; ".join(f"{a} ({b})" for a, b, _ in stand) if stand else "What stood out: nothing")
     lines.append("")
     lines.append("Reading:")
     lines += [f"  - {r['title']}" for r in m.reading[:10]] or ["  none"]

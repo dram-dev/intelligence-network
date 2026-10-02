@@ -550,6 +550,56 @@ def topic_label(topic: str | None) -> str:
     return packs.get(topic or "") or extra.get(topic or "") or (topic or "News").title()
 
 
+@dataclass
+class Listed:
+    """One of the day's stories as the brief and the digest list it, under the map's number."""
+    n: int
+    where: str                      # "Chicago area", or "Agriculture, statewide"
+    title: str                      # the lead headline
+    url: str | None
+    source: str                     # "NBC 5 Chicago · 6 more stories"
+    readings: list[str]             # "▲1.27 ft, Du Page River at Shorewood"
+    alerts: str = ""                # "Flood Warning and Flood Watch in force"
+
+
+def listing(day: dict[str, Any]) -> tuple[list[Listed], set[str]]:
+    """The day's stories under the numbers the map gives them, each with what the network
+    measured where it is; and every headline they hold (lower-cased), so a reading list
+    after them doesn't repeat one."""
+    places = {p["id"]: p for p in day.get("places") or []}
+    out: list[Listed] = []
+    used: set[str] = set()
+    for n in day.get("news") or []:
+        lead = n["stories"][0]
+        others = len(n["stories"]) - 1 + len(n.get("more") or [])
+        source = " · ".join(x for x in (lead["source"], f"{others} more {'story' if others == 1 else 'stories'}"
+                                        if others else "") if x)
+        used |= {" ".join(t.lower().split()) for t in [s["title"] for s in n["stories"]] + (n.get("more") or [])}
+        readings = [f"{tight(p['label'])}, {p['name']}" for p in (places.get(i) for i in n["links"]) if p]
+        out.append(Listed(n["n"], n["place"] or f"{topic_label(n['topic'])}, statewide", lead["title"], lead["url"],
+                          source, readings, f"{_and(n['alerts'])} in force" if n["alerts"] else ""))
+    return out, used
+
+
+def _and(names: list[str]) -> str:
+    """'Flood Warning, Flood Watch and Flood Advisory'."""
+    return names[0] if len(names) < 2 else f"{', '.join(names[:-1])} and {names[-1]}"
+
+
+def standouts(day: dict[str, Any]) -> list[tuple[str, str, str]]:
+    """The labelled readings, as text: (label, where, why) — 'Rain 1.50 in', '3 mi E of
+    Garden Plain, Whiteside', 'Highest rainfall total in Illinois in the last 24 hours'."""
+    numbers = {n["id"]: n["n"] for n in day.get("news") or []}
+    out = []
+    for p in (p for p in day.get("places") or [] if p["tier"] == 1):
+        where = p["name"] + (f", {p['county']}" if p.get("county") and p["county"] not in p["name"] else "")
+        stories = [str(numbers[i]) for i in p.get("news") or [] if i in numbers]
+        tied = f"Tied to {'story' if len(stories) == 1 else 'stories'} {_and(stories)}" if stories else ""
+        why = next((w for w in p["why"] if not w.startswith("In the news")), tied or (p["why"] or [""])[0])
+        out.append((tight(p["label"]), where, why))
+    return out
+
+
 # ── the document ──────────────────────────────────────────────────────────
 
 def _spark(m: Metric, sigs: list[Signal]) -> dict[str, Any] | None:

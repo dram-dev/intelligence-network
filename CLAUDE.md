@@ -304,6 +304,16 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   Telegram showed `<code>` as plain text and one run-on bullet was hard to scan), and its
   "Across Illinois" is the map's labelled readings; a story's further headlines (`more`)
   stay out of "Also worth reading". The picture's ▲ is sized from the font's digits.
+- **The digest's map** (the Google Doc and the site's digest.html): `daymap.LIGHT`, the same
+  picture in the site's light colours on white (prints, sits on the page), drawn by
+  `digest.build` from a fresh `notable.build()` (`model.day`, `model.picture`; both kept out of
+  the narrative's JSON) and embedded as a base64 `data:` image, 432×540 px (Drive's HTML import
+  keeps it, sized, and the PDF/Word exports carry it: probed). Under the at-a-glance strip, no
+  caption (the key says what marks are; a caption fell onto page 2 alone). Then "In the news,
+  and what was measured there" (`notable.listing`, shared with the brief) and "What stood out"
+  (`notable.standouts`: reading · where · why; a reading only a story ties in says "Tied to
+  story 1"), which replaces the Doc's "Station extremes" (it gave a station's wettest hour as
+  the day's rain); station-extremes.csv stays. "Worth reading" skips the listed stories.
 - **Morning brief** (`brief.py`): replaces the digest-link ping. Per digest
   subscriber: county from live location, else home, else the state. Lines: alerts
   in effect (one per event, ×n), alerts ended in 24 h (alert_threads), every metric

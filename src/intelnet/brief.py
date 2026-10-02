@@ -13,7 +13,6 @@ county's people reported, or whose readings crossed the pack's event threshold.
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Any
 
@@ -99,44 +98,18 @@ def statewide(day: dict[str, Any]) -> list[str]:
     past its threshold…), and the network's verified events. HTML lines."""
     from intelnet import digest
 
-    lines = []
-    for p in (p for p in day.get("places") or [] if p["tier"] == 1):
-        where = p["name"] + (f", {p['county']}" if p.get("county") and p["county"] not in p["name"] else "")
-        lines.append(f"<b>{esc(notable.tight(p['label']))}</b> · {esc(where)}")
+    lines = [f"<b>{esc(label)}</b> · {esc(where)}" for label, where, _ in notable.standouts(day)]
     events = [network.event_summary(e) for e in db.events_since(HOURS, limit=10)]
     lines += [f"📍 {esc(digest.event_phrase(e)[:1].upper() + digest.event_phrase(e)[1:])}"
               + (" · verified" if e["verified"] else "") for e in events if e["verified"]][:3]
     return lines
 
 
-@dataclass
-class Story:
-    """One of the day's stories, under the number the map gives it."""
-    n: int
-    where: str                          # "Chicago area", or "Agriculture, statewide"
-    head: str                           # its lead headline, linked, with its publisher (HTML)
-    facts: list[str]                    # what the network measured there
-    alerts: str = ""                    # "Flood Warning and Flood Watch in force"
-
-
-def connections(day: dict[str, Any]) -> tuple[list[Story], set[str]]:
-    """The day's stories (notable.py) under the numbers the map gives them, each with what
-    the network measured where it is; and the titles used, so the reading list doesn't
-    repeat them."""
-    places = {p["id"]: p for p in day.get("places") or []}
-    items, used = [], set()
-    for n in day.get("news") or []:
-        lead, link = n["stories"][0], href(n["stories"][0]["url"])
-        others = len(n["stories"]) - 1 + len(n.get("more") or [])
-        source = " · ".join(x for x in (lead["source"], f"{others} more {'story' if others == 1 else 'stories'}"
-                                        if others else "") if x)
-        head = (f'<a href="{link}">{esc(lead["title"])}</a>' if link else esc(lead["title"])) \
-            + (f" <i>({esc(source)})</i>" if source else "")
-        used |= {" ".join(t.lower().split()) for t in [s["title"] for s in n["stories"]] + (n.get("more") or [])}
-        facts = [f"{notable.tight(p['label'])}, {p['name']}" for p in (places.get(i) for i in n["links"]) if p]
-        where = n["place"] or f"{notable.topic_label(n['topic'])}, statewide"
-        items.append(Story(n["n"], where, head, facts, " and ".join(n["alerts"]) + " in force" if n["alerts"] else ""))
-    return items, used
+def _head(st: notable.Listed) -> str:
+    """A story's lead headline, linked, with its publisher and how many more there are."""
+    link = href(st.url)
+    return ((f'<a href="{link}">{esc(st.title)}</a>' if link else esc(st.title))
+            + (f" <i>({esc(st.source)})</i>" if st.source else ""))
 
 
 def news(skip: set[str] | None = None) -> list[str]:
@@ -169,11 +142,11 @@ def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | N
     c = geo.county(fips)
     where = c.label if c else _state()
     lines = [f"☀️ <b>Morning brief</b> · {esc(local_time(now, '%a %-d %b'))} · {esc(where)}"]
-    linked, used = connections(day)
+    linked, used = notable.listing(day)
     if linked:
         lines.append("<b>In the news, and what was measured there</b>")
-        lines += [f"<b>{st.n} · {esc(st.where)}</b>\n{st.head}"
-                  + "".join(f"\n   ↳ {esc(f)}" for f in st.facts)
+        lines += [f"<b>{st.n} · {esc(st.where)}</b>\n{_head(st)}"
+                  + "".join(f"\n   ↳ {esc(r)}" for r in st.readings)
                   + (f"\n   ⚠️ {esc(st.alerts)}" if st.alerts else "") + "\n" for st in linked]
         lines.append("")
     if c:
@@ -264,11 +237,11 @@ def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetim
         parts.append(f'<figure><img src="tg://photo?id={picture}"/><figcaption>What stood out across '
                      f"{esc(_state())}, by topic; the numbers are the stories below"
                      + ("; your county is outlined" if c else "") + ".</figcaption></figure>")
-    linked, used = connections(day)
+    linked, used = notable.listing(day)
     if linked:
         parts.append("<p><b>In the news, and what was measured there</b></p>"
-                     + "".join(f"<p><b>{st.n} · {esc(st.where)}</b><br>{st.head}"
-                               + "".join(f"<br>↳ {esc(f)}" for f in st.facts)
+                     + "".join(f"<p><b>{st.n} · {esc(st.where)}</b><br>{_head(st)}"
+                               + "".join(f"<br>↳ {esc(r)}" for r in st.readings)
                                + (f"<br>⚠️ {esc(st.alerts)}" if st.alerts else "") + "</p>"
                                for st in linked))
     if c and linked:                               # the county's own section, under the connections
