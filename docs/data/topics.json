@@ -14,7 +14,7 @@
    },
    {
     "key": "agriculture.digest",
-    "description": "Your county's morning brief at 8:00, with the full digest in Drive"
+    "description": "The 8:00 morning brief: news tied to the readings behind it, your county, and major readings across every topic"
    }
   ],
   "metrics": [
@@ -75,6 +75,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": true,
     "display": null,
     "convert": {
      "stage": 1.0
@@ -135,6 +136,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": true,
     "display": null,
     "convert": {
      "stage": 1.0
@@ -169,6 +171,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": true,
     "display": null,
     "convert": {
      "score": 1.0
@@ -202,6 +205,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "bu/ac": 1.0,
@@ -235,6 +239,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "%": 1.0,
@@ -266,6 +271,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "%": 1.0,
@@ -321,6 +327,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": true,
     "display": null,
     "convert": {
      "d-level": 1.0,
@@ -351,6 +358,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -381,6 +389,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -415,6 +424,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -448,6 +458,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -477,6 +488,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -507,6 +519,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -532,6 +545,7 @@
     "range": null,
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    }
@@ -554,7 +568,7 @@
    },
    {
     "key": "air.digest",
-    "description": "Your county's morning brief at 8:00, with the full digest in Drive"
+    "description": "The 8:00 morning brief: news tied to the readings behind it, your county, and major readings across every topic"
    }
   ],
   "metrics": [
@@ -596,6 +610,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "ug/m3": 1.0,
@@ -637,6 +652,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "aqi": 1.0
@@ -672,6 +688,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "ppb": 1.0,
@@ -702,6 +719,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -725,6 +743,7 @@
     "range": null,
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -746,6 +765,7 @@
     "range": null,
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    }
@@ -768,7 +788,7 @@
    },
    {
     "key": "markets.digest",
-    "description": "Your county's morning brief at 8:00, with the full digest in Drive"
+    "description": "The 8:00 morning brief: news tied to the readings behind it, your county, and major readings across every topic"
    }
   ],
   "metrics": [
@@ -807,7 +827,11 @@
      ]
     ],
     "event_direction": "below",
-    "display": null,
+    "display_words": false,
+    "display": {
+     "unit": "\u00a2",
+     "expr": "x * 100"
+    },
     "convert": {
      "$/bu": 1.0,
      "usd/bu": 1.0,
@@ -852,7 +876,11 @@
      ]
     ],
     "event_direction": "below",
-    "display": null,
+    "display_words": false,
+    "display": {
+     "unit": "\u00a2",
+     "expr": "x * 100"
+    },
     "convert": {
      "$/bu": 1.0,
      "usd/bu": 1.0,
@@ -886,6 +914,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "$/bu": 1.0,
@@ -927,7 +956,11 @@
      ]
     ],
     "event_direction": "below",
-    "display": null,
+    "display_words": false,
+    "display": {
+     "unit": "\u00a2",
+     "expr": "x * 100"
+    },
     "convert": {
      "$/bu": 1.0,
      "usd/bu": 1.0,
@@ -969,6 +1002,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "$/gal": 1.0,
@@ -1011,6 +1045,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "$/gal": 1.0,
@@ -1054,6 +1089,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "min": 1.0,
@@ -1087,6 +1123,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    }
@@ -1109,7 +1146,7 @@
    },
    {
     "key": "nature.digest",
-    "description": "Your county's morning brief at 8:00, with the full digest in Drive"
+    "description": "The 8:00 morning brief: news tied to the readings behind it, your county, and major readings across every topic"
    }
   ],
   "metrics": [
@@ -1150,6 +1187,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "%": 1.0,
@@ -1187,6 +1225,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "count": 1.0
@@ -1216,6 +1255,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -1245,6 +1285,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -1270,6 +1311,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -1298,6 +1340,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -1320,6 +1363,7 @@
     "range": null,
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -1349,6 +1393,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -1370,6 +1415,7 @@
     "range": null,
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    }
@@ -1392,7 +1438,7 @@
    },
    {
     "key": "quake.digest",
-    "description": "Your county's morning brief at 8:00, with the full digest in Drive"
+    "description": "The 8:00 morning brief: news tied to the readings behind it, your county, and major readings across every topic"
    }
   ],
   "metrics": [
@@ -1443,6 +1489,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "mmi": 1.0
@@ -1483,6 +1530,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "m": 1.0,
@@ -1520,6 +1568,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -1547,6 +1596,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    }
@@ -1569,7 +1619,7 @@
    },
    {
     "key": "soil.digest",
-    "description": "Your county's morning brief at 8:00, with the full digest in Drive"
+    "description": "The 8:00 morning brief: news tied to the readings behind it, your county, and major readings across every topic"
    }
   ],
   "metrics": [
@@ -1607,7 +1657,11 @@
      ]
     ],
     "event_direction": "below",
-    "display": null,
+    "display_words": false,
+    "display": {
+     "unit": "%",
+     "expr": "x"
+    },
     "convert": {
      "%": 1.0,
      "pct": 1.0,
@@ -1641,6 +1695,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": {
      "unit": "\u00b0F",
      "expr": "x * 9 / 5 + 32"
@@ -1684,6 +1739,7 @@
      ]
     ],
     "event_direction": "below",
+    "display_words": false,
     "display": null,
     "convert": {
      "ph": 1.0
@@ -1713,6 +1769,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "%": 1.0,
@@ -1751,6 +1808,7 @@
      ]
     ],
     "event_direction": "below",
+    "display_words": false,
     "display": {
      "unit": "in/hr",
      "expr": "x / 25.4"
@@ -1797,6 +1855,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "psi": 1.0,
@@ -1828,6 +1887,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "count": 1.0,
@@ -1861,6 +1921,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -1882,6 +1943,7 @@
     "range": null,
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -1907,6 +1969,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    }
@@ -1929,7 +1992,7 @@
    },
    {
     "key": "water.digest",
-    "description": "Your county's morning brief at 8:00, with the full digest in Drive"
+    "description": "The 8:00 morning brief: news tied to the readings behind it, your county, and major readings across every topic"
    }
   ],
   "metrics": [
@@ -1963,6 +2026,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": {
      "unit": "ft",
      "expr": "x / 0.3048"
@@ -2004,6 +2068,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": {
      "unit": "cfs",
      "expr": "x / 0.0283168"
@@ -2044,6 +2109,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": {
      "unit": "\u00b0F",
      "expr": "x * 9 / 5 + 32"
@@ -2081,6 +2147,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "ntu": 1.0,
@@ -2120,6 +2187,7 @@
      ]
     ],
     "event_direction": "below",
+    "display_words": false,
     "display": null,
     "convert": {
      "mg/l": 1.0,
@@ -2150,6 +2218,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "ph": 1.0
@@ -2180,6 +2249,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "us/cm": 1.0,
@@ -2221,6 +2291,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "mg/l": 1.0,
@@ -2253,6 +2324,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": {
      "unit": "ft",
      "expr": "x / 0.3048"
@@ -2287,6 +2359,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -2308,6 +2381,7 @@
     "range": null,
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -2332,6 +2406,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -2359,6 +2434,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -2379,6 +2455,7 @@
     "range": null,
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    }
@@ -2409,7 +2486,7 @@
    },
    {
     "key": "weather.digest",
-    "description": "Your county's morning brief at 8:00, with the full digest in Drive"
+    "description": "The 8:00 morning brief: news tied to the readings behind it, your county, and major readings across every topic"
    }
   ],
   "metrics": [
@@ -2451,6 +2528,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": {
      "unit": "\u00b0F",
      "expr": "x * 9 / 5 + 32"
@@ -2503,6 +2581,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": {
      "unit": "\u00b0F",
      "expr": "x * 9 / 5 + 32"
@@ -2547,6 +2626,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {
      "%": 1.0,
@@ -2582,6 +2662,7 @@
     ],
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": {
      "unit": "inHg",
      "expr": "x / 33.8639"
@@ -2634,6 +2715,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": {
      "unit": "mph",
      "expr": "x / 0.44704"
@@ -2695,6 +2777,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": {
      "unit": "mph",
      "expr": "x / 0.44704"
@@ -2752,6 +2835,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": {
      "unit": "in",
      "expr": "x / 25.4"
@@ -2799,6 +2883,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": {
      "unit": "in",
      "expr": "x / 2.54"
@@ -2830,28 +2915,28 @@
     ],
     "default_unit": "in",
     "words": {
-     "pea": 6.0,
-     "marble": 13.0,
-     "mothball": 13.0,
-     "dime": 18.0,
-     "penny": 19.0,
-     "nickel": 22.0,
-     "quarter": 25.0,
-     "half dollar": 32.0,
-     "ping pong": 38.0,
-     "ping-pong": 38.0,
-     "walnut": 38.0,
-     "golf ball": 44.0,
-     "golfball": 44.0,
-     "golf-ball": 44.0,
-     "hen egg": 51.0,
-     "egg": 51.0,
-     "tennis ball": 64.0,
-     "baseball": 70.0,
-     "tea cup": 76.0,
-     "teacup": 76.0,
-     "grapefruit": 100.0,
-     "softball": 114.0
+     "pea": 6.35,
+     "marble": 12.7,
+     "mothball": 12.7,
+     "dime": 17.78,
+     "penny": 19.05,
+     "nickel": 22.35,
+     "quarter": 25.4,
+     "half dollar": 31.75,
+     "ping pong": 38.1,
+     "ping-pong": 38.1,
+     "walnut": 38.1,
+     "golf ball": 44.45,
+     "golfball": 44.45,
+     "golf-ball": 44.45,
+     "hen egg": 50.8,
+     "egg": 50.8,
+     "tennis ball": 63.5,
+     "baseball": 69.85,
+     "tea cup": 76.2,
+     "teacup": 76.2,
+     "grapefruit": 101.6,
+     "softball": 114.3
     },
     "range": [
      0.0,
@@ -2867,11 +2952,12 @@
       0.8
      ],
      [
-      70.0,
+      69.0,
       1.0
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": {
      "unit": "in",
      "expr": "x / 25.4"
@@ -2914,6 +3000,7 @@
      ]
     ],
     "event_direction": "below",
+    "display_words": false,
     "display": {
      "unit": "mi",
      "expr": "x / 1.609344"
@@ -2947,6 +3034,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -2972,6 +3060,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -2999,6 +3088,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -3026,6 +3116,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -3052,6 +3143,7 @@
      ]
     ],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -3070,6 +3162,7 @@
     "range": null,
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    },
@@ -3090,6 +3183,7 @@
     "range": null,
     "event": [],
     "event_direction": "above",
+    "display_words": false,
     "display": null,
     "convert": {}
    }

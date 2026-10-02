@@ -1,1 +1,13 @@
-[]
+[
+ {
+  "handle": "s-1929c",
+  "county": "McLean",
+  "n": 1,
+  "n_corr": 1,
+  "trust": 0.56,
+  "trust_low": 0.28,
+  "trust_high": 0.83,
+  "checks": 1,
+  "new": true
+ }
+]
