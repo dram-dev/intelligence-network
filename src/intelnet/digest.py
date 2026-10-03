@@ -58,12 +58,14 @@ class DigestModel:
     links: dict[str, str | None] = field(default_factory=dict)
     day: dict[str, Any] = field(default_factory=dict)                   # notable.py: the map's readings and stories
     picture: bytes | None = None                                        # the day's map (daymap.py, light), JPEG
+    picture_full: bytes | None = None                                   # the same map as a PNG, its own file in Drive
 
     @property
     def headline(self) -> str:
         """One plain sentence or two: the digest's opening when there's no narrative."""
         v = self.vitals
-        n, k, a = v.get("signals_24h_human", 0), v.get("sensors_active_24h", 0), len(self.alerts)
+        # alerts in effect now, as the numbers count them (self.alerts is every alert of the window)
+        n, k, a = v.get("signals_24h_human", 0), v.get("sensors_active_24h", 0), v.get("alerts_active", 0)
         alerts = f"{a} NWS alert{'s' if a != 1 else ''} in effect" if a else "No NWS alerts in effect"
         people = (f"{n:,} reading{'s' if n != 1 else ''} from {k} {'person' if k == 1 else 'people'}"
                   if n else "no readings from people yet")
@@ -74,7 +76,8 @@ class DigestModel:
 
     def to_json(self) -> str:
         """The model for the narrative's prompt: without the map's data and picture."""
-        return json.dumps({k: v for k, v in asdict(self).items() if k not in ("day", "picture")}, default=str)
+        return json.dumps({k: v for k, v in asdict(self).items() if k not in ("day", "picture", "picture_full")},
+                          default=str)
 
 
 def event_phrase(e: dict[str, Any]) -> str:
@@ -143,7 +146,8 @@ def build(hours: float = 24.0, date: str | None = None) -> DigestModel:
     model.day = notable.build(now)
     if settings.card_maps:                     # the day on the map, on the page's white
         try:
-            model.picture = daymap.render(model.day, None, now=now, pal=daymap.LIGHT)
+            img = daymap.render_image(model.day, None, now=now, pal=daymap.LIGHT)
+            model.picture, model.picture_full = daymap.encode(img), daymap.encode(img, "PNG")
         except Exception:                      # a digest without its map rather than no digest
             logger.exception("digest: drawing the day's map failed")
     # The digest folder can be anyone-with-link, so people appear by handle only
@@ -282,12 +286,17 @@ def _table(headers: list[str], rows: list[list[Any]], *, aligns: tuple[str, ...]
             f'margin:4pt 0 10pt 0"><tr>{head}</tr>' + "".join(body) + "</table></div>")
 
 
+KEEP = "page-break-after:avoid"     # Docs' "keep with next" (the import's only page control)
+
+
 def _section(title: str, note: str = "") -> str:
     """A rule, the heading, and a line on what the section is. The heading is a real <h2>,
-    so the Doc's outline (and a phone's contents panel) lists the sections."""
+    so the Doc's outline (and a phone's contents panel) lists the sections; it and its note
+    keep with what follows, so no heading ends a page alone."""
     return ("<hr>"
-            f'<h2 style="{_style(DISPLAY, 15, weight=700, lh=1.2, before=10, after=2)}">{_e(title)}</h2>'
-            + (f'<p style="{_style(BODY, 9.5, color=MUTED, lh=1.35, after=8)}">{_e(note)}</p>' if note else ""))
+            f'<h2 style="{_style(DISPLAY, 15, weight=700, lh=1.2, before=10, after=2, extra=KEEP)}">{_e(title)}</h2>'
+            + (f'<p style="{_style(BODY, 9.5, color=MUTED, lh=1.35, after=8, extra=KEEP)}">{_e(note)}</p>'
+               if note else ""))
 
 
 def _item(head: str, meta: str = "", body: str = "") -> str:
@@ -330,7 +339,7 @@ def _glance(v: dict[str, Any]) -> str:
             for big, label in cells[r * 3:r * 3 + 3])
         rows.append(f"<tr>{tds}</tr>")
     return (f'<table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;'
-            f'margin:10pt 0 4pt 0">{"".join(rows)}</table>')
+            f'margin:6pt 0 4pt 0">{"".join(rows)}</table>')
 
 
 def _downloads(downloads: dict[str, str] | None) -> str:
@@ -357,6 +366,8 @@ def _alert_kinds(alerts: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return list(kinds.values())
 
 
+MAP_LABEL = "Full-size map"    # the downloads bar's name for the map's own file (gdrive.publish)
+LEDE_MAX = 200              # characters: three lines of the 13 pt lede across the Doc's page
 READING_SHOWN = 10          # the Doc's reading list; the CSV keeps every kept item
 
 
@@ -390,24 +401,33 @@ def render_html(m: DigestModel, downloads: dict[str, str] | None = None, *, page
     p.append(f'<h1 style="{_style(DISPLAY, 26, weight=400, lh=1.1, before=4, after=2)}">'
              f'{_e(_long_date(m.date))}</h1>')
     made = m.generated_at.split(" ", 1)[-1]                      # "2026-09-30 1:10 AM CDT" → the time
-    p.append(f'<p style="{_style(BODY, 9.5, color=MUTED, lh=1.4, after=8)}">The last {m.hours:g} hours '
+    p.append(f'<p style="{_style(BODY, 9.5, color=MUTED, lh=1.4, after=6)}">The last {m.hours:g} hours '
              f'across {_e(state)}, as of {_e(made)}</p>')
     paras = [x.strip() for x in (m.narrative or "").split("\n\n") if x.strip()]
-    lede, rest = (paras[0], paras[1:]) if paras else (m.headline, [])
+    # the narrative's first paragraph leads while it fits page 1's three lines; a longer one opens the body
+    lede, rest = (paras[0], paras[1:]) if paras and len(paras[0]) <= LEDE_MAX else (m.headline, paras)
     p.append(f'<p style="{_style(DISPLAY, 13, lh=1.45, after=6)}">{_e(lede)}</p>')
-    p += [f'<p style="{P_BODY}">{_e(x)}</p>' for x in rest]
     p.append(_downloads(downloads))
-    p.append(_glance(v))
 
-    # ── the day on the map: what stood out, and the stories it numbers ──
+    # ── the day on the map, then its numbers: what stood out, and the stories it numbers ──
+    # Page 1 is the masthead, a lede of up to three lines, the map and the numbers. Docs' import
+    # keeps no page break, moves a picture that doesn't fit to the next page whole and splits a
+    # table anywhere, even inside a row: so the map comes before the numbers, sized to leave them room.
     listed, told = notable.listing(m.day)
     if m.picture:
         alt = (f"Map of {state}: the day's notable readings by topic, the stand-outs labelled, "
                "and the stories below by number")
         # no caption under it: the map's own key says what the marks are, and a caption can
-        # fall onto the next page alone
-        p.append(f'<p style="text-align:center;margin:12pt 0 4pt 0"><img src="data:image/jpeg;base64,'
-                 f'{base64.b64encode(m.picture).decode()}" width="432" height="540" alt="{_e(alt)}"></p>')
+        # fall onto the next page alone. A phone gets Google's 256-pixel copy of any picture in
+        # a Doc, and the import drops a link on a picture: the bar above links the full-size file
+        w, h = (432, 540) if page else (384, 480)                 # 4 × 5 in on the Doc's page
+        p.append(f'<p style="text-align:center;margin:4pt 0 2pt 0"><img src="data:image/jpeg;base64,'
+                 f'{base64.b64encode(m.picture).decode()}" width="{w}" height="{h}" alt="{_e(alt)}"></p>')
+    p.append(_glance(v))
+    if rest:                      # Docs drops the space above a paragraph that follows a table
+        p.append(f'<p style="{_style(BODY, 7, lh=1)}">&nbsp;</p>')
+    p += [f'<p style="{P_BODY}">{_e(x)}</p>' for x in rest]
+    sections = len(p)
     if listed:
         p.append(_section("In the news, and what was measured there",
                           "Stories from the network's news sources, each with what was measured where it happened."))
@@ -522,6 +542,11 @@ def render_html(m: DigestModel, downloads: dict[str, str] | None = None, *, page
         f" · subscriptions: {_e(', '.join(f'{k} {n}' for k, n in m.subscriptions.items()))}" if m.subscriptions else "")
     p.append(f'<p style="{_style(MONO, 7.5, color=MUTED, lh=1.4, before=14)}">{footer}</p>')
 
+    # the first section goes without its rule: the numbers close page 1, and Docs' import makes a
+    # rule a line of its own that can stay at the foot of page 1 while the heading starts page 2
+    first = next((i for i in range(sections, len(p)) if p[i].startswith("<hr>")), None)
+    if first is not None:
+        p[first] = p[first].removeprefix("<hr>")
     body = "\n".join(x for x in p if x)
     if not page:
         return body

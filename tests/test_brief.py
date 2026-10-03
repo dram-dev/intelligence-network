@@ -35,7 +35,7 @@ def test_a_subscriber_gets_their_countys_night_and_the_state_in_brief(fresh_db, 
     assert "Ended: Severe Thunderstorm Warning" in mine
     assert "<blockquote expandable>" in mine and "Full digest" in mine and "county/sangamon.html" in mine
     state = texts["6"]
-    assert "· Illinois" in state and "Set your home" in state and "Ended:" not in state   # no county lines
+    assert "· Illinois" in state and "Tap /home" in state and "Ended:" not in state       # no county lines
     # the day's map heads each rich brief, the reader's county outlined; it goes up as a JPEG
     rich = dict(zip([chat for chat, _ in sent], sent.rich, strict=True))
     assert 'tg://photo?id=dm-' in rich["5"] and "your county is outlined" in rich["5"]
@@ -70,4 +70,21 @@ def test_the_brief_waits_out_quiet_hours_and_goes_without_drive(fresh_db, sent, 
     assert pipeline.notify_digest()["reason"] == "quiet hours" and not sent
     monkeypatch.setattr(pipeline, "subscriptions_allowed_now", lambda: True)
     out = pipeline.notify_digest()                                                 # Drive is off in tests
-    assert out["sent"] == 1 and not out["links"] and "Full digest" not in sent[0][1]
+    assert out["sent"] == 1 and not out["links"]
+    assert "digest.html\">Full digest" in sent[0][1] and "Google Doc" not in sent[0][1]   # the site's copy still is
+
+
+def test_full_digest_opens_the_phone_friendly_copy_then_the_doc(fresh_db, monkeypatch):
+    """Google Docs gives a phone a 256-pixel copy of any picture: the brief's first link is the
+    site's copy of the digest, the Google Doc one tap further."""
+    from intelnet import brief
+
+    monkeypatch.setattr(settings, "site_url", "https://example.test/intelnet/")
+    links = {"digest": "https://docs.google.com/document/d/D/edit",
+             "folder": "https://drive.google.com/drive/folders/F"}
+    assert brief._digest_links(links) == [("Full digest", "https://example.test/intelnet/digest.html"),
+                                          ("Google Doc", "https://docs.google.com/document/d/D/edit"),
+                                          ("All digests", "https://drive.google.com/drive/folders/F")]
+    monkeypatch.setattr(settings, "site_url", "")
+    monkeypatch.setattr(settings, "github_repo", "")                 # no site at all: the Doc is the digest
+    assert brief._digest_links(links)[0] == ("Full digest", "https://docs.google.com/document/d/D/edit")

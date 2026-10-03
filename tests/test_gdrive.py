@@ -90,7 +90,11 @@ class FakeService:
 def _content(media):
     if media is None:
         return None
-    return media.getbytes(0, media.size()).decode()      # MediaIoBaseUpload public API
+    data = media.getbytes(0, media.size())               # MediaIoBaseUpload public API
+    try:
+        return data.decode()
+    except UnicodeDecodeError:                           # a picture: kept as it is
+        return data
 
 
 def test_publish_creates_folder_latest_and_daily_doc(fresh_db, monkeypatch):
@@ -418,10 +422,12 @@ def test_the_digest_is_rewritten_with_links_to_its_own_downloads(fresh_db, monke
         seen.update(downloads)
         return "<h1>digest</h1><p>PDF: " + downloads["PDF"] + "</p>"
 
-    links = pub.publish("2026-09-16", "<h1>digest</h1>", tables={"events": "a\n"}, rerender=rerender)
+    links = pub.publish("2026-09-16", "<h1>digest</h1>", tables={"events": "a\n"}, rerender=rerender,
+                        extras={"Full-size map": ("map.png", b"\x89PNG...", "image/png")})
     files = _published(svc)
     name = f"2026-09-16 {settings.network_name} digest"
-    assert set(seen) == {"PDF", "Word", "HTML", "CSV tables"}
+    assert set(seen) == {"PDF", "Word", "HTML", "CSV tables", "Full-size map"}
+    assert "2026-09-16 map.png" in files and seen["Full-size map"].startswith("https://drive.google.com/file/d/")
     assert seen["PDF"].startswith("https://drive.google.com/file/d/")
     assert seen["CSV tables"] == links["day_url"]
     # the second pass replaced the document, the HTML file and both exports in place

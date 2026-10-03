@@ -51,8 +51,8 @@ def test_pipeline_publishes_when_drive_enabled(stubbed, monkeypatch):
     published = {}
 
     class Pub:
-        def publish(self, date, html, tables=None, rerender=None):
-            published["date"], published["tables"] = date, tables or {}
+        def publish(self, date, html, tables=None, rerender=None, extras=None):
+            published["date"], published["tables"], published["extras"] = date, tables or {}, extras or {}
             # the publisher writes twice: plain first, then with the download links
             published["html"] = rerender({"PDF": "https://drive.google.com/file/d/p/view"}) if rerender else html
             return {"doc_id": "d", "doc_url": "https://docs.google.com/document/d/d/edit",
@@ -67,6 +67,8 @@ def test_pipeline_publishes_when_drive_enabled(stubbed, monkeypatch):
     assert published["date"] == summary["digest"]["date"] and "ILLINOIS DAILY DIGEST" in published["html"]
     assert "events" in published["tables"] and published["tables"]["events"].startswith("opened_at,")
     assert "Also as" in published["html"] and "file/d/p/view" in published["html"]
+    [(name, blob, mime)] = published["extras"].values()                  # the map's full-size copy goes up too
+    assert name == "map.png" and blob[:4] == b"\x89PNG" and mime == "image/png"
     assert db.latest_digest()["drive_url"].endswith("/d/edit")
 
 
@@ -80,7 +82,7 @@ def test_expired_drive_login_dms_the_admin_once_a_day(stubbed, sent, monkeypatch
     monkeypatch.setattr(settings, "gdrive_credentials_path", client)
 
     class Expired:
-        def publish(self, date, html, tables=None, rerender=None):
+        def publish(self, date, html, tables=None, rerender=None, extras=None):
             raise gdrive.DriveNotConfigured("Google authorization expired or was revoked — run `uv run intelnet drive init`")
 
         def sync_readers(self):

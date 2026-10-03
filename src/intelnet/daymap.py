@@ -342,8 +342,17 @@ def _rail(d: ImageDraw.ImageDraw, day: dict[str, Any], fips: str | None, alerts:
 
 def render(day: dict[str, Any], fips: str | None = None, alerts: list[dict[str, Any]] | None = None,
            *, now: datetime | None = None, pal: Palette = DARK) -> bytes:
+    return encode(render_image(day, fips, alerts, now=now, pal=pal))
+
+
+def encode(img: Image.Image, fmt: str = "JPEG") -> bytes:
+    """A drawn map as a file: JPEG to embed or send, PNG where the text must stay crisp
+    when zoomed (the digest's full-size copy)."""
     out = BytesIO()
-    render_image(day, fips, alerts, now=now, pal=pal).save(out, "JPEG", quality=90, subsampling=0, optimize=True)
+    if fmt == "PNG":
+        img.save(out, "PNG", optimize=True)
+    else:
+        img.save(out, "JPEG", quality=90, subsampling=0, optimize=True)
     return out.getvalue()
 
 

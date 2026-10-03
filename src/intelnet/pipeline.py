@@ -108,6 +108,7 @@ def _run(run_type: str, skip_publish: bool, console: Any) -> dict[str, Any]:
             links = publisher.publish(
                 model.date, html, tables=digest.render_csvs(model),
                 rerender=lambda downloads: digest.render_html(model, downloads=downloads),
+                extras={digest.MAP_LABEL: ("map.png", model.picture_full, "image/png")} if model.picture_full else None,
             )
             publisher.sync_readers()
             console.print(f"  published → {links['doc_url']}")

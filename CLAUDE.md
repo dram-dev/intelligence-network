@@ -253,7 +253,14 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   top border into a rule, draws unset table borders as a grid, and turns any background
   outside a table cell into a highlight behind every line (the white bars of 30 Sep). It
   keeps the first font family and renders Google Fonts by name (Fraunces, IBM Plex).
-  `render_html()` is the Doc; `page=True` wraps it in the browser sheet (site copy).
+  Page control (probed 3 Oct): no page break survives (any spelling); `page-break-after:avoid`
+  becomes "keep with next" (`digest.KEEP`, on headings and notes), but not on an `<hr>` (a rule
+  is its own line and can end a page alone) and not into a table. A table splits at a page's
+  end, between rows or inside one; a paragraph straight after a table loses its space above
+  (use a spacer paragraph); a link on a picture is dropped. Phones get a 256-px copy of every
+  picture in a Doc. An export made seconds after the Doc is created sometimes renders before
+  the fonts load (all Arial; 2 of 14 probes); the published PDFs come from the second pass and
+  have been fine. `render_html()` is the Doc; `page=True` wraps it in the browser sheet (site copy).
   `tests/test_digest.py::test_the_doc_never_highlights_text` guards it. Numbers read as
   written: `display_unit` `decimals` / `fractions` (visibility 1/16 mi), 3 figures above 10,000.
 - **Places**: `/home` or a one-off location share = home (sensors table); a live
@@ -319,9 +326,19 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
 - **The digest's map** (the Google Doc and the site's digest.html): `daymap.LIGHT`, the same
   picture in the site's light colours on white (prints, sits on the page), drawn by
   `digest.build` from a fresh `notable.build()` (`model.day`, `model.picture`; both kept out of
-  the narrative's JSON) and embedded as a base64 `data:` image, 432×540 px (Drive's HTML import
-  keeps it, sized, and the PDF/Word exports carry it: probed). Under the at-a-glance strip, no
-  caption (the key says what marks are; a caption fell onto page 2 alone). Then "In the news,
+  the narrative's JSON) and embedded as a base64 `data:` image, 384×480 px in the Doc (4 × 5 in)
+  and 432×540 on the site (Drive's HTML import keeps it, sized, and the PDF/Word exports carry
+  it: probed). Page 1 = masthead, lede, "Also as" links, the map, then the numbers: the lede is
+  the narrative's first paragraph up to `LEDE_MAX` (200 chars, three lines), else the headline
+  (the paragraph opens the body), whose "N NWS alerts in effect" is `vitals.alerts_active` (in
+  effect now, as the numbers count them; it once counted the window's 11 over a grid saying 4);
+  the first section drops its rule. Probed with ledes of 1–3
+  lines and a long narrative: nothing splits and the map never leaves page 1 (it once did:
+  the "Also as" line pushed it to page 2). No caption (the key says what marks are; a caption
+  fell onto page 2 alone). The phone's blur: `model.picture_full` (PNG) goes up as the day
+  folder's `map.png` (`gdrive.publish(extras=…)`), linked as "Full-size map" in the Doc's
+  "Also as" line, and the brief's "Full digest" opens the site copy (`brief._digest_links`:
+  site, then "Google Doc", "All digests"). Then "In the news,
   and what was measured there" (`notable.listing`, shared with the brief) and "What stood out"
   (`notable.standouts`: reading · where · why; a reading only a story ties in says "Tied to
   story 1"), which replaces the Doc's "Station extremes" (it gave a station's wettest hour as
@@ -330,8 +347,9 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   subscriber: county from live location, else home, else the state. Lines: alerts
   in effect (one per event, ×n), alerts ended in 24 h (alert_threads), every metric
   people reported or whose reading crossed its event threshold (no weather code),
-  network events, a `<blockquote expandable>` statewide summary, Drive + county-page
-  links. Works without Drive. Key `digest:<local date>` = once a day.
+  network events, a `<blockquote expandable>` statewide summary, the digest's links (the
+  site copy first, made for phones) + county page. Works without Drive. Key
+  `digest:<local date>` = once a day.
 - **County pages** (`export.render_county_pages`, `site/county.fragment.html`):
   `docs/county/<slug>.html` ×102 + `sitemap.xml` + `robots.txt`. Static HTML for
   search (subscribe links, readings, neighbors), a small script for live alerts

@@ -37,12 +37,23 @@ def test_build_and_render(make_sensor):
     assert m.leaderboard[0]["name"].startswith("s-")          # handles, never names
     text = re.sub(r"data:image/jpeg;base64,[A-Za-z0-9+/=]+", "", digest.render_html(m))   # the map is no text
     assert "Ann" not in text and "Bob" not in text
-    # the day's map heads the Doc, with its stories numbered and its stand-outs explained
-    assert 'src="data:image/jpeg;base64,/9j/' in digest.render_html(m) and 'width="432"' in text
+    # the day's map heads the Doc, with its stories numbered and its stand-outs explained; page 1
+    # is the lede, the links, the map, then the numbers (a table can't hold the map off page 1)
+    assert 'src="data:image/jpeg;base64,/9j/' in digest.render_html(m) and 'width="384"' in text
+    bar = digest.render_html(m, downloads={"PDF": "p"})
+    assert bar.index("Also as") < bar.index("<img") < bar.index("official readings</p>") < bar.index("In the news")
+    assert "<hr>" not in bar[:bar.index("In the news")] and "<hr>" in bar[bar.index("In the news"):]   # none left alone
+    assert 'width="432"' in digest.render_html(m, downloads={"PDF": "p"}, page=True)        # no page on the site
     assert "What stood out" in text and "Hail 1.75 in" in text
     assert "In the news, and what was measured there" in text and "1 · Weather, statewide" in text
     assert "Every story kept today is listed above" in text                  # not twice: listed, then "worth reading"
     assert "Station extremes" not in text and "day" not in json.loads(m.to_json())         # nor in the narrative
+    # a phone gets Google's 256-pixel copy of a picture in a Doc: the bar links the map's full-size PNG
+    assert m.picture_full[:4] == b"\x89PNG" and "picture_full" not in json.loads(m.to_json())
+    linked = digest.render_html(m, downloads={"PDF": "https://drive.google.com/file/d/P/view",
+                                              digest.MAP_LABEL: "https://drive.google.com/file/d/M/view"})
+    assert re.search(r'Also as <a href="[^"]+/P/view"[^>]*>PDF</a> · <a href="[^"]+/M/view"[^>]*>Full-size map</a>',
+                     linked)
     assert m.reading[0]["title"] == "Storms rake central Illinois" and m.reading[0]["feed"] == "Google News"
     assert m.gap_count == 101 and m.subscriptions == {"weather.digest": 1}
     assert "3 readings from 2 people" in m.headline and "Top event: hail size 1.75 in, Sangamon" in m.headline
@@ -74,6 +85,28 @@ def test_extremes_use_stations_not_humans(make_sensor):
     db.insert_signals(iem_asos.parse_currents(load_fixture("iem_asos.json")))
     m = digest.build(hours=24 * 400)  # fixture obs are in the past relative to test time
     assert any(x["metric"] == "Temperature" for x in m.extremes)
+
+
+def test_the_lede_counts_alerts_in_effect_like_the_numbers_do():
+    # the window's alerts include ended ones: "11 in effect" over a grid saying 4 contradicts itself
+    m = digest.DigestModel(date="2026-10-03", generated_at="2026-10-03 1:10 AM CDT", hours=27,
+                           network_name="N", state="IL", vitals={"alerts_active": 4},
+                           alerts=[{"event": f"Flood Warning {i}"} for i in range(11)])
+    assert m.headline.startswith("4 NWS alerts in effect;")
+    m.vitals["alerts_active"] = 0
+    assert m.headline.startswith("No NWS alerts in effect;")
+
+
+def test_a_long_first_paragraph_opens_the_body_and_the_facts_lead(make_sensor):
+    # page 1 has room for three lines of lede above the map and its numbers
+    m = digest.build(hours=24)
+    short, long_ = "Floods along the Rock.", "Flood warnings along the Rock River " * 8
+    m.narrative = f"{short}\n\nOne person sent a reading."
+    html = digest.render_html(m)
+    assert html.index(short) < html.index("<img") < html.index("One person sent a reading")
+    m.narrative = f"{long_.strip()}\n\nOne person sent a reading."
+    html = digest.render_html(m)
+    assert html.index(m.headline) < html.index("<img") < html.index("official readings</p>") < html.index(long_[:40])
 
 
 def test_empty_network_renders(fresh_db):

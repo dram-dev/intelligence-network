@@ -134,6 +134,22 @@ def news(skip: set[str] | None = None) -> list[str]:
     return out
 
 
+def _digest_links(links: dict[str, str | None]) -> list[tuple[str, str]]:
+    """Where the brief sends people for the whole digest: the site's copy first, made for a
+    phone (Google Docs gives a phone a 256-pixel copy of any picture, so the map blurs, and
+    lays the page out wider than the screen); then the Google Doc, and every day's folder."""
+    out = []
+    web = href(f"{settings.public_site_url}digest.html") if settings.public_site_url else None
+    doc = href(links.get("digest"))
+    if web:
+        out.append(("Full digest", web))
+    if doc:
+        out.append(("Google Doc" if web else "Full digest", doc))
+    if folder := href(links.get("folder")):
+        out.append(("All digests", folder))
+    return out
+
+
 def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | None = None,
             day: dict[str, Any] | None = None) -> str:
     """The brief for one county (or the whole state when `fips` is None)."""
@@ -178,18 +194,14 @@ def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | N
     top = [network.event_summary(e) for e in db.events_since(HOURS, limit=2)]
     state += [f"Top event: {esc(e['title'] or '')}" for e in top[:1]]
     lines.append("<blockquote expandable>" + "\n".join(state) + "</blockquote>")
-    tail = []
-    for label, key in (("Full digest", "digest"), ("All digests", "folder")):
-        link = href(links.get(key))
-        if link:
-            tail.append(f'<a href="{link}">{label}</a>')
+    tail = [f'<a href="{link}">{label}</a>' for label, link in _digest_links(links)]
     page = href(f"{settings.public_site_url}county/{c.slug}.html") if c and settings.public_site_url else None
     if page:
         tail.append(f'<a href="{page}">{esc(c.name)} County page</a>')
     if tail:
         lines.append(" · ".join(tail))
     if not c:
-        lines.append("<i>Set your home (/home 62704) and this brief is about your county.</i>")
+        lines.append("<i>Tap /home to set your place, and this brief covers your county too.</i>")
     return join_within(lines, MAX_MSG)
 
 
@@ -275,10 +287,9 @@ def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetim
              f"{_n(len(network.coverage_gaps(7)), 'county', 'counties')} without a sensor this week"]
     parts.append("<details><summary>The network</summary><p>" + "<br>".join(state) + "</p></details>")
     if not c:
-        parts.append("<p><i>Set your home (/home 62704) and this brief is about your county.</i></p>")
+        parts.append("<p><i>Tap /home to set your place, and this brief covers your county too.</i></p>")
     tail = [esc(local_time(now, "%a %-d %b"))]
-    tail += [f'<a href="{link}">{label}</a>' for label, key in (("Full digest", "digest"), ("All digests", "folder"))
-             if (link := href(links.get(key)))]
+    tail += [f'<a href="{link}">{label}</a>' for label, link in _digest_links(links)]
     page = href(f"{settings.public_site_url}county/{c.slug}.html") if c and settings.public_site_url else None
     if page:
         tail.append(f'<a href="{page}">{esc(c.name)} County page</a>')

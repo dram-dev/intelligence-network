@@ -350,7 +350,8 @@ class DrivePublisher:
 
     # ── publishing ────────────────────────────────────────────────────────
     def publish(self, date: str, html: str, tables: dict[str, str] | None = None,
-                rerender: Callable[[dict[str, str]], str] | None = None) -> dict[str, str | None]:
+                rerender: Callable[[dict[str, str]], str] | None = None,
+                extras: dict[str, tuple[str, bytes, str]] | None = None) -> dict[str, str | None]:
         """Publish the day's digest in every format, and refresh the Latest doc.
 
         The day gets a folder of its own holding the Google Doc, a PDF, a Word
@@ -361,6 +362,8 @@ class DrivePublisher:
         twice when `rerender` is given: once to create the files, then again with
         a "also available as" bar naming them. The second pass replaces contents
         in place, so every link — including ones already sent out — still works.
+        `extras` are more files for the day's folder, by the label the downloads give them:
+        {"Full-size map": ("map.png", data, "image/png")}.
         Returns the links the digest record and the Telegram ping use.
         """
         from googleapiclient.http import MediaInMemoryUpload
@@ -390,12 +393,15 @@ class DrivePublisher:
         written["html"] = self._upload(f"{name}.html", day_id, data, HTML_MIME)
         for table, text in (tables or {}).items():
             written[table] = self._upload(f"{date} {table}.csv", day_id, text.encode("utf-8"), CSV_MIME)
+        for label, (filename, blob, mime) in (extras or {}).items():
+            written[label] = self._upload(f"{date} {filename}", day_id, blob, mime)
 
         downloads = {label: url for label, url in (
             ("PDF", self.file_url(written.get("pdf"))),
             ("Word", self.file_url(written.get("docx"))),
             ("HTML", self.file_url(written.get("html"))),
             ("CSV tables", self.folder_url(day_id) if tables else None),
+            *((label, self.file_url(written.get(label))) for label in (extras or {})),
         ) if url}
         if rerender is not None:
             data = rerender(downloads).encode("utf-8")
