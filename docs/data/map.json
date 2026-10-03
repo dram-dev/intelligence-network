@@ -1,43 +1,44 @@
 {
- "as_of": "2026-10-02T06:50:05+00:00",
+ "as_of": "2026-10-03T07:19:09+00:00",
  "hours": 24,
  "places": [
   {
    "id": "p1",
    "topic": "weather",
    "source": "NWS storm report",
-   "name": "2 mi N of Hamilton",
-   "county": "Hancock",
+   "name": "1 mi N of Carbon Cliff",
+   "county": "Rock Island",
    "zip": null,
-   "lat": 40.42,
-   "lon": -91.36,
+   "lat": 41.51,
+   "lon": -90.39,
    "person": false,
-   "label": "Rain 2.70 in",
+   "label": "Rain 3.50 in",
    "lines": [
     {
      "metric": "rain_mm",
      "name": "Rainfall",
-     "value": "2.70 in",
+     "value": "3.50 in",
      "note": null,
-     "at": "2026-10-02T01:37+00:00",
+     "at": "2026-10-02T15:14+00:00",
      "sev": 0.7
     }
    ],
    "why": [
     "Rainfall well past the network's event threshold",
     "Highest rainfall total in Illinois in the last 24 hours",
-    "Reported to the NWS by the public"
+    "Reported to the NWS by a trained spotter"
    ],
    "status": "official",
-   "at": "2026-10-02T01:37+00:00",
+   "at": "2026-10-02T15:14+00:00",
    "url": null,
    "spark": null,
    "event": {
-    "title": "Rainfall 2.70 in \u2014 Hancock County",
+    "title": "Rainfall 3.50 in \u2014 Rock Island County",
     "verified": true,
     "score": 1.66
    },
    "news": [
+    "n2",
     "n7"
    ],
    "tier": 1
@@ -46,38 +47,37 @@
    "id": "p2",
    "topic": "water",
    "source": "USGS stream gauge",
-   "name": "East Branch Dupage River at Short St at Lisle",
-   "county": "DuPage",
+   "name": "Spoon River at Seville",
+   "county": "Fulton",
    "zip": null,
-   "lat": 41.7928,
-   "lon": -88.079,
+   "lat": 40.4901,
+   "lon": -90.3401,
    "person": false,
-   "label": "\u25b2 5.03 ft",
+   "label": "\u25b2 9.62 ft",
    "lines": [
     {
      "metric": "stage_m",
      "name": "Stage (gauge height)",
-     "value": "11.8 ft",
-     "note": "up 5.03 ft in 24 hours",
-     "at": "2026-10-02T05:45+00:00",
+     "value": "17.7 ft",
+     "note": "up 9.62 ft in 24 hours",
+     "at": "2026-10-03T05:45+00:00",
      "sev": 0.0
     },
     {
      "metric": "discharge_cms",
      "name": "Streamflow",
-     "value": "1,100 cfs",
-     "note": "up 906 cfs in 24 hours",
-     "at": "2026-10-02T05:45+00:00",
+     "value": "6,780 cfs",
+     "note": "up 5,740 cfs in 24 hours",
+     "at": "2026-10-03T05:45+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Biggest rise in Illinois in the last 24 hours",
-    "In the news: \u201cWater alert issued for Chicago-area; residents asked to delay showers amid heavy rain, flooding\u201d"
+    "Biggest rise in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-10-02T05:45+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/05540228/",
+   "at": "2026-10-03T05:45+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05570000/",
    "spark": {
     "name": "Stage (gauge height)",
     "unit": "ft",
@@ -106,83 +106,79 @@
      0
     ],
     "v": [
-     7.03,
-     6.97,
-     6.91,
-     6.87,
-     6.84,
-     6.83,
-     6.84,
-     6.82,
-     6.79,
-     6.76,
-     6.82,
-     6.85,
-     6.9,
-     7.14,
-     7.42,
-     7.92,
-     8.67,
-     9.71,
-     10.83,
-     11.49,
-     11.78,
-     11.79
+     8.12,
+     8.27,
+     8.43,
+     8.65,
+     8.94,
+     9.32,
+     9.8,
+     10.39,
+     11.07,
+     11.79,
+     12.53,
+     13.27,
+     14.6,
+     15.17,
+     15.68,
+     16.14,
+     16.53,
+     16.85,
+     17.12,
+     17.4,
+     17.59,
+     17.74
     ]
    },
    "event": null,
-   "news": [
-    "n1",
-    "n8"
-   ],
+   "news": [],
    "tier": 1
   },
   {
    "id": "p3",
    "topic": "weather",
    "source": "Airport station",
-   "name": "Freeport (FEP)",
-   "county": "Stephenson",
+   "name": "Belleville - Scott AFB (BLV)",
+   "county": "St. Clair",
    "zip": null,
-   "lat": 42.2462,
-   "lon": -89.582,
+   "lat": 38.5454,
+   "lon": -89.8515,
    "person": false,
-   "label": "Low 53.6 \u00b0F",
+   "label": "High 73.8 \u00b0F",
    "lines": [
     {
      "metric": "temp_c",
      "name": "Temperature",
-     "value": "53.6 \u00b0F",
-     "note": "the day's low",
-     "at": "2026-10-02T06:15+00:00",
+     "value": "73.8 \u00b0F",
+     "note": "the day's high",
+     "at": "2026-10-02T20:55+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Lowest temperature in Illinois in the last 24 hours"
+    "Highest temperature in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-10-02T06:15+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=FEP&network=IL_ASOS",
+   "at": "2026-10-03T05:55+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=BLV&network=IL_ASOS",
    "spark": {
     "name": "Temperature",
     "unit": "\u00b0F",
     "t": [
-     -1400,
-     -1340,
-     -1280,
-     -1220,
-     -1160,
-     -1100,
-     -1040,
-     -980,
-     -920,
-     -860,
-     -800,
-     -740,
-     -680,
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1070,
+     -1020,
+     -955,
+     -900,
+     -840,
+     -780,
+     -700,
+     -660,
      -600,
-     -560,
+     -540,
      -480,
      -420,
      -360,
@@ -194,30 +190,29 @@
      0
     ],
     "v": [
-     64.8,
+     68.0,
+     67.0,
+     66.0,
+     65.0,
+     64.4,
+     64.6,
+     64.4,
+     66.0,
      65.7,
-     64.6,
-     64.4,
-     64.4,
-     63.7,
-     64.6,
-     66.6,
-     66.2,
-     64.0,
-     63.7,
-     64.0,
-     63.5,
-     63.5,
-     63.7,
-     63.7,
-     63.0,
-     62.2,
-     61.7,
-     61.7,
+     67.6,
+     68.0,
+     67.6,
+     72.3,
+     73.8,
+     73.2,
+     72.0,
+     68.0,
+     65.5,
+     60.4,
      61.0,
-     58.3,
-     56.5,
-     53.6
+     58.6,
+     57.4,
+     56.3
     ]
    },
    "event": null,
@@ -228,34 +223,33 @@
    "id": "p4",
    "topic": "weather",
    "source": "Airport station",
-   "name": "Belleville - Scott AFB (BLV)",
-   "county": "St. Clair",
+   "name": "Freeport (FEP)",
+   "county": "Stephenson",
    "zip": null,
-   "lat": 38.5454,
-   "lon": -89.8515,
+   "lat": 42.2462,
+   "lon": -89.582,
    "person": false,
-   "label": "High 92.3 \u00b0F",
+   "label": "Low 42 \u00b0F",
    "lines": [
     {
      "metric": "temp_c",
      "name": "Temperature",
-     "value": "92.3 \u00b0F",
-     "note": "the day's high",
-     "at": "2026-10-01T19:55+00:00",
+     "value": "42 \u00b0F",
+     "note": "the day's low",
+     "at": "2026-10-03T06:15+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Highest temperature in Illinois in the last 24 hours"
+    "Lowest temperature in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-10-02T05:55+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=BLV&network=IL_ASOS",
+   "at": "2026-10-03T06:15+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=FEP&network=IL_ASOS",
    "spark": {
     "name": "Temperature",
     "unit": "\u00b0F",
     "t": [
-     -1380,
      -1320,
      -1260,
      -1200,
@@ -273,38 +267,37 @@
      -480,
      -420,
      -360,
-     -290,
-     -234,
-     -160,
-     -98,
-     -50,
+     -300,
+     -240,
+     -180,
+     -140,
+     -60,
      0
     ],
     "v": [
-     74.3,
-     75.0,
-     74.5,
-     72.3,
-     71.8,
-     71.4,
-     74.3,
-     78.4,
-     82.0,
-     84.2,
-     86.5,
-     90.0,
-     91.2,
-     92.3,
-     90.5,
-     89.4,
-     87.3,
-     83.7,
-     78.8,
-     73.4,
-     71.6,
-     71.6,
-     73.4,
-     71.4
+     50.0,
+     49.0,
+     48.0,
+     47.3,
+     46.6,
+     48.4,
+     54.0,
+     57.7,
+     60.6,
+     62.2,
+     63.7,
+     65.0,
+     66.2,
+     66.0,
+     65.0,
+     61.5,
+     54.7,
+     54.0,
+     47.0,
+     45.5,
+     43.0,
+     44.0,
+     42.0
     ]
    },
    "event": null,
@@ -321,31 +314,22 @@
    "lat": 40.931,
    "lon": -90.2138,
    "person": false,
-   "label": "Corn -33 \u00a2",
+   "label": "Soybeans -44 \u00a2",
    "lines": [
-    {
-     "metric": "corn_basis",
-     "name": "Corn basis",
-     "value": "-33 \u00a2",
-     "note": "country elevators",
-     "at": "2026-10-01T18:44+00:00",
-     "sev": 0.0
-    },
     {
      "metric": "soy_basis",
      "name": "Soybean basis",
-     "value": "-45 \u00a2",
+     "value": "-44 \u00a2",
      "note": "country elevators",
-     "at": "2026-10-01T18:44+00:00",
+     "at": "2026-10-02T18:02+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Lowest corn basis in Illinois in the last 24 hours",
     "Lowest soybean basis in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-10-01T18:44+00:00",
+   "at": "2026-10-02T18:02+00:00",
    "url": null,
    "spark": null,
    "event": null,
@@ -354,31 +338,31 @@
   },
   {
    "id": "p6",
-   "topic": "soil",
-   "source": "NRCS soil station",
-   "name": "Mason #1 soil station",
-   "county": "Mason",
+   "topic": "markets",
+   "source": "USDA grain bids",
+   "name": "North Illinois River district",
+   "county": "Peoria",
    "zip": null,
-   "lat": 40.3131,
-   "lon": -89.9019,
+   "lat": 40.786,
+   "lon": -89.767,
    "person": false,
-   "label": "Soil moisture 8.3 %",
+   "label": "Corn -32 \u00a2",
    "lines": [
     {
-     "metric": "soil_moisture_pct",
-     "name": "Soil moisture",
-     "value": "8.3 %",
-     "note": null,
-     "at": "2026-09-29T12:00+00:00",
-     "sev": 0.4
+     "metric": "corn_basis",
+     "name": "Corn basis",
+     "value": "-32 \u00a2",
+     "note": "barge loading elevators",
+     "at": "2026-10-02T18:02+00:00",
+     "sev": 0.0
     }
    ],
    "why": [
-    "Soil moisture past the network's event threshold"
+    "Lowest corn basis in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-09-29T12:00+00:00",
-   "url": "https://wcc.sc.egov.usda.gov/nwcc/site?sitenum=2004",
+   "at": "2026-10-02T18:02+00:00",
+   "url": null,
    "spark": null,
    "event": null,
    "news": [],
@@ -388,87 +372,79 @@
    "id": "p7",
    "topic": "water",
    "source": "USGS stream gauge",
-   "name": "Chicago Sanitary and Ship Canal near Lemont",
-   "county": "DuPage",
+   "name": "Chicago Sanitary and Ship Canal at Lemont",
+   "county": "Cook",
    "zip": null,
-   "lat": 41.6912,
-   "lon": -87.9638,
+   "lat": 41.6789,
+   "lon": -88.001,
    "person": false,
-   "label": "\u25b2 7,510 cfs",
+   "label": "\u25b2 1.75 ft",
    "lines": [
-    {
-     "metric": "discharge_cms",
-     "name": "Streamflow",
-     "value": "10,200 cfs",
-     "note": "up 7,510 cfs in 24 hours",
-     "at": "2026-10-02T06:00+00:00",
-     "sev": 0.0
-    },
     {
      "metric": "stage_m",
      "name": "Stage (gauge height)",
-     "value": "24.1 ft",
-     "note": null,
-     "at": "2026-10-02T06:02+00:00",
+     "value": "25.1 ft",
+     "note": "up 1.75 ft in 24 hours",
+     "at": "2026-10-03T04:40+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "In the news: \u201cWater alert issued for Chicago-area; residents asked to delay showers amid heavy rain, flooding\u201d"
+    "In the news: \u201cChicago weather: Flood watch for most of Chicago area through evening\u201d"
    ],
    "status": "official",
-   "at": "2026-10-02T06:02+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/05536890/",
+   "at": "2026-10-03T05:40+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05536900/",
    "spark": {
-    "name": "Streamflow",
-    "unit": "cfs",
+    "name": "Stage (gauge height)",
+    "unit": "ft",
     "t": [
-     -1348,
-     -1280,
-     -1220,
+     -1300,
+     -1240,
      -1160,
      -1100,
      -1040,
      -980,
      -920,
      -860,
-     -780,
-     -718,
-     -658,
-     -568,
+     -800,
+     -740,
+     -680,
+     -620,
+     -560,
      -500,
-     -420,
-     -360,
-     -300,
-     -240,
-     -180,
+     -440,
+     -380,
+     -320,
+     -260,
+     -200,
      -120,
-     -80,
+     -60,
      0
     ],
     "v": [
-     4060.0,
-     4060.0,
-     4560.0,
-     4370.0,
-     4490.0,
-     4350.0,
-     4780.0,
-     4460.0,
-     4570.0,
-     5830.0,
-     4400.0,
-     3830.0,
-     3320.0,
-     3100.0,
-     2690.0,
-     3750.0,
-     2840.0,
-     5180.0,
-     7500.0,
-     8260.0,
-     8920.0,
-     10200.0
+     23.58,
+     23.62,
+     23.51,
+     23.54,
+     23.51,
+     23.39,
+     23.38,
+     23.36,
+     23.22,
+     23.14,
+     23.67,
+     24.04,
+     24.13,
+     24.33,
+     24.56,
+     24.71,
+     24.69,
+     24.61,
+     24.97,
+     24.93,
+     25.07,
+     24.89
     ]
    },
    "event": null,
@@ -479,43 +455,96 @@
   },
   {
    "id": "p8",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "1 mi ENE of Green River",
-   "county": "Henry",
+   "topic": "water",
+   "source": "USGS stream gauge",
+   "name": "Des Plaines River near Lemont",
+   "county": "Will",
    "zip": null,
-   "lat": 41.47,
-   "lon": -90.32,
+   "lat": 41.6724,
+   "lon": -88.0285,
    "person": false,
-   "label": "Rain 2.50 in",
+   "label": "\u25b2 850 cfs",
    "lines": [
     {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "2.50 in",
-     "note": null,
-     "at": "2026-10-01T21:10+00:00",
-     "sev": 0.7
+     "metric": "discharge_cms",
+     "name": "Streamflow",
+     "value": "3,310 cfs",
+     "note": "up 850 cfs in 24 hours",
+     "at": "2026-10-02T21:00+00:00",
+     "sev": 0.0
+    },
+    {
+     "metric": "stage_m",
+     "name": "Stage (gauge height)",
+     "value": "9.83 ft",
+     "note": "up 0.8 ft in 24 hours",
+     "at": "2026-10-03T05:00+00:00",
+     "sev": 0.0
     }
    ],
    "why": [
-    "Rainfall well past the network's event threshold",
-    "Reported to the NWS by a trained spotter",
-    "In the news: \u201cHeavy rain expected for the Quad Cities\u201d"
+    "In the news: \u201cChicago weather: Flood watch for most of Chicago area through evening\u201d"
    ],
    "status": "official",
-   "at": "2026-10-01T21:10+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 2.50 in \u2014 Henry County",
-    "verified": true,
-    "score": 1.66
+   "at": "2026-10-03T05:00+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05533600/",
+   "spark": {
+    "name": "Streamflow",
+    "unit": "cfs",
+    "t": [
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -600,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     2420.0,
+     2500.0,
+     2580.0,
+     2680.0,
+     2770.0,
+     2850.0,
+     2950.0,
+     3030.0,
+     3110.0,
+     3180.0,
+     3230.0,
+     3260.0,
+     3250.0,
+     3310.0,
+     3300.0,
+     3270.0,
+     3200.0,
+     3210.0,
+     3240.0,
+     3250.0,
+     3250.0,
+     3270.0
+    ]
    },
+   "event": null,
    "news": [
-    "n4"
+    "n1"
    ],
-   "tier": 2
+   "tier": 1
   },
   {
    "id": "p9",
@@ -541,20 +570,15 @@
    "why": [
     "Flooding reported",
     "Reported to the NWS by NWS Employee",
-    "In the news: \u201cWater alert issued for Chicago-area; residents asked to delay showers amid heavy rain, flooding\u201d"
+    "In the news: \u201cChicago weather: Flood watch for most of Chicago area through evening\u201d"
    ],
    "status": "official",
    "at": "2026-10-01T23:45+00:00",
    "url": null,
    "spark": null,
-   "event": {
-    "title": "Flooding \u2014 Will County",
-    "verified": true,
-    "score": 1.66
-   },
+   "event": null,
    "news": [
-    "n1",
-    "n8"
+    "n1"
    ],
    "tier": 2
   },
@@ -562,165 +586,44 @@
    "id": "p10",
    "topic": "weather",
    "source": "NWS storm report",
-   "name": "3 mi NE of Dunlap",
-   "county": "Peoria",
+   "name": "1 mi ENE of Green River",
+   "county": "Henry",
    "zip": null,
-   "lat": 40.89,
-   "lon": -89.64,
+   "lat": 41.47,
+   "lon": -90.32,
    "person": false,
-   "label": "Rain 1.13 in",
+   "label": "Rain 2.80 in",
    "lines": [
     {
      "metric": "rain_mm",
      "name": "Rainfall",
-     "value": "1.13 in",
+     "value": "2.80 in",
      "note": null,
-     "at": "2026-10-01T12:00+00:00",
-     "sev": 0.4
+     "at": "2026-10-02T19:28+00:00",
+     "sev": 0.7
     }
    ],
    "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by a CoCoRaHS observer",
-    "In the news: \u201cCooler temperatures follow heavy rain in Central Illinois\u201d"
+    "Rainfall well past the network's event threshold",
+    "Reported to the NWS by a trained spotter",
+    "In the news: \u201cHighest 72-hr Rainfall Reports (NWS Quad Cities)\u201d"
    ],
    "status": "official",
-   "at": "2026-10-01T12:00+00:00",
+   "at": "2026-10-02T19:28+00:00",
    "url": null,
    "spark": null,
    "event": {
-    "title": "Rainfall 1.13 in \u2014 Peoria County",
+    "title": "Rainfall 2.80 in \u2014 Henry County",
     "verified": true,
-    "score": 0.95
+    "score": 1.66
    },
    "news": [
-    "n3"
+    "n2"
    ],
    "tier": 2
   },
   {
    "id": "p11",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "3 mi W of Alta",
-   "county": "Peoria",
-   "zip": null,
-   "lat": 40.82,
-   "lon": -89.68,
-   "person": false,
-   "label": "Rain 1.01 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.01 in",
-     "note": null,
-     "at": "2026-10-01T12:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by a CoCoRaHS observer",
-    "In the news: \u201cCooler temperatures follow heavy rain in Central Illinois\u201d"
-   ],
-   "status": "official",
-   "at": "2026-10-01T12:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.13 in \u2014 Peoria County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [
-    "n3"
-   ],
-   "tier": 2
-  },
-  {
-   "id": "p12",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "2 mi E of Bloomington",
-   "county": "McLean",
-   "zip": null,
-   "lat": 40.48,
-   "lon": -88.96,
-   "person": false,
-   "label": "Rain 1.00 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.00 in",
-     "note": null,
-     "at": "2026-10-02T03:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by NWS Employee",
-    "In the news: \u201cCooler temperatures follow heavy rain in Central Illinois\u201d"
-   ],
-   "status": "official",
-   "at": "2026-10-02T03:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.13 in \u2014 McLean County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [
-    "n3",
-    "n5"
-   ],
-   "tier": 2
-  },
-  {
-   "id": "p13",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "1 mi ENE of Leland Grove",
-   "county": "Sangamon",
-   "zip": null,
-   "lat": 39.78,
-   "lon": -89.66,
-   "person": false,
-   "label": "Rain 1.60 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.60 in",
-     "note": null,
-     "at": "2026-10-02T03:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by a CoCoRaHS observer",
-    "In the news: \u201cCooler temperatures follow heavy rain in Central Illinois\u201d"
-   ],
-   "status": "official",
-   "at": "2026-10-02T03:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.60 in \u2014 Sangamon County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [
-    "n3"
-   ],
-   "tier": 2
-  },
-  {
-   "id": "p14",
    "topic": "weather",
    "source": "NWS storm report",
    "name": "4 mi SW of Armington",
@@ -736,7 +639,7 @@
      "name": "Rainfall",
      "value": "1.00 in",
      "note": null,
-     "at": "2026-10-02T04:30+00:00",
+     "at": "2026-10-02T08:30+00:00",
      "sev": 0.4
     }
    ],
@@ -746,7 +649,7 @@
     "In the news: \u201cPRECIPITATION REPORTS SINCE LATE TUESDAY NIGHT (NWS Lincoln)\u201d"
    ],
    "status": "official",
-   "at": "2026-10-02T04:30+00:00",
+   "at": "2026-10-02T08:30+00:00",
    "url": null,
    "spark": null,
    "event": {
@@ -755,132 +658,163 @@
     "score": 0.95
    },
    "news": [
-    "n2"
+    "n3"
    ],
+   "tier": 2
+  },
+  {
+   "id": "p12",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "Mahomet",
+   "county": "Champaign",
+   "zip": null,
+   "lat": 40.2,
+   "lon": -88.41,
+   "person": false,
+   "label": "Rain 1.27 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.27 in",
+     "note": null,
+     "at": "2026-10-02T14:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold",
+    "Reported to the NWS by a CoCoRaHS observer",
+    "In the news: \u201cProposed data center in Mahomet, IL: What we\u2019re doing, and what you can do\u201d"
+   ],
+   "status": "official",
+   "at": "2026-10-02T14:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": {
+    "title": "Rainfall 1.27 in \u2014 Champaign County",
+    "verified": true,
+    "score": 0.95
+   },
+   "news": [
+    "n4"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "p13",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "Knoxville",
+   "county": "Knox",
+   "zip": null,
+   "lat": 40.91,
+   "lon": -90.29,
+   "person": false,
+   "label": "Rain 2.24 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "2.24 in",
+     "note": null,
+     "at": "2026-10-02T11:30+00:00",
+     "sev": 0.7
+    }
+   ],
+   "why": [
+    "Rainfall well past the network's event threshold",
+    "Reported to the NWS by Mesonet"
+   ],
+   "status": "official",
+   "at": "2026-10-02T11:30+00:00",
+   "url": null,
+   "spark": null,
+   "event": {
+    "title": "Rainfall 2.67 in \u2014 Knox County",
+    "verified": true,
+    "score": 1.66
+   },
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p14",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "Lanark",
+   "county": "Carroll",
+   "zip": null,
+   "lat": 42.1,
+   "lon": -89.83,
+   "person": false,
+   "label": "Rain 2.85 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "2.85 in",
+     "note": null,
+     "at": "2026-10-02T12:01+00:00",
+     "sev": 0.7
+    }
+   ],
+   "why": [
+    "Rainfall well past the network's event threshold",
+    "Reported to the NWS by a trained spotter"
+   ],
+   "status": "official",
+   "at": "2026-10-02T12:01+00:00",
+   "url": null,
+   "spark": null,
+   "event": {
+    "title": "Rainfall 2.85 in \u2014 Carroll County",
+    "verified": true,
+    "score": 1.66
+   },
+   "news": [],
    "tier": 2
   },
   {
    "id": "p15",
    "topic": "weather",
    "source": "NWS storm report",
-   "name": "2 mi ESE of Bloomington",
-   "county": "McLean",
+   "name": "Knoxville",
+   "county": "Knox",
    "zip": null,
-   "lat": 40.47,
-   "lon": -88.96,
+   "lat": 40.9,
+   "lon": -90.29,
    "person": false,
-   "label": "Rain 1.05 in",
+   "label": "Rain 2.67 in",
    "lines": [
     {
      "metric": "rain_mm",
      "name": "Rainfall",
-     "value": "1.05 in",
+     "value": "2.67 in",
      "note": null,
-     "at": "2026-10-02T04:47+00:00",
-     "sev": 0.4
+     "at": "2026-10-02T13:00+00:00",
+     "sev": 0.7
     }
    ],
    "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by Mesonet",
-    "In the news: \u201cFirst-ever Community Solar Farm in Illinois operating in McLean County\u201d"
+    "Rainfall well past the network's event threshold",
+    "Reported to the NWS by a co-op observer"
    ],
    "status": "official",
-   "at": "2026-10-02T04:47+00:00",
+   "at": "2026-10-02T13:00+00:00",
    "url": null,
    "spark": null,
    "event": {
-    "title": "Rainfall 1.13 in \u2014 McLean County",
+    "title": "Rainfall 2.67 in \u2014 Knox County",
     "verified": true,
-    "score": 0.95
+    "score": 1.66
    },
-   "news": [
-    "n5"
-   ],
+   "news": [],
    "tier": 2
   },
   {
    "id": "p16",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "2 mi S of Cooksville",
-   "county": "McLean",
-   "zip": null,
-   "lat": 40.51,
-   "lon": -88.72,
-   "person": false,
-   "label": "Rain 1.00 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.00 in",
-     "note": null,
-     "at": "2026-10-02T04:50+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by Mesonet",
-    "In the news: \u201cFirst-ever Community Solar Farm in Illinois operating in McLean County\u201d"
-   ],
-   "status": "official",
-   "at": "2026-10-02T04:50+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.13 in \u2014 McLean County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [
-    "n5"
-   ],
-   "tier": 2
-  },
-  {
-   "id": "p17",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "1 mi S of Bloomington",
-   "county": "McLean",
-   "zip": null,
-   "lat": 40.46,
-   "lon": -89.0,
-   "person": false,
-   "label": "Rain 1.13 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.13 in",
-     "note": null,
-     "at": "2026-10-02T04:53+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by Mesonet",
-    "In the news: \u201cFirst-ever Community Solar Farm in Illinois operating in McLean County\u201d"
-   ],
-   "status": "official",
-   "at": "2026-10-02T04:53+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.13 in \u2014 McLean County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [
-    "n5"
-   ],
-   "tier": 2
-  },
-  {
-   "id": "p18",
    "topic": "weather",
    "source": "NWS storm report",
    "name": "3 mi E of Garden Plain",
@@ -889,27 +823,101 @@
    "lat": 41.81,
    "lon": -90.08,
    "person": false,
-   "label": "Rain 1.50 in",
+   "label": "Rain 2.75 in",
    "lines": [
     {
      "metric": "rain_mm",
      "name": "Rainfall",
-     "value": "1.50 in",
+     "value": "2.75 in",
      "note": null,
-     "at": "2026-10-01T11:02+00:00",
+     "at": "2026-10-02T14:01+00:00",
+     "sev": 0.7
+    }
+   ],
+   "why": [
+    "Rainfall well past the network's event threshold",
+    "Reported to the NWS by a trained spotter"
+   ],
+   "status": "official",
+   "at": "2026-10-02T14:01+00:00",
+   "url": null,
+   "spark": null,
+   "event": {
+    "title": "Rainfall 2.75 in \u2014 Whiteside County",
+    "verified": true,
+    "score": 1.66
+   },
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p17",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "4 mi NW of Monticello",
+   "county": "Piatt",
+   "zip": null,
+   "lat": 40.07,
+   "lon": -88.62,
+   "person": false,
+   "label": "Rain 1.17 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.17 in",
+     "note": null,
+     "at": "2026-10-02T08:30+00:00",
      "sev": 0.4
     }
    ],
    "why": [
     "Rainfall past the network's event threshold",
-    "Reported to the NWS by a trained spotter"
+    "Reported to the NWS by Mesonet"
    ],
    "status": "official",
-   "at": "2026-10-01T11:02+00:00",
+   "at": "2026-10-02T08:30+00:00",
    "url": null,
    "spark": null,
    "event": {
-    "title": "Rainfall 1.5 in \u2014 Whiteside County",
+    "title": "Rainfall 1.17 in \u2014 Piatt County",
+    "verified": true,
+    "score": 0.95
+   },
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p18",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "4 mi E of Royal",
+   "county": "Vermilion",
+   "zip": null,
+   "lat": 40.19,
+   "lon": -87.89,
+   "person": false,
+   "label": "Rain 1.07 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.07 in",
+     "note": null,
+     "at": "2026-10-02T08:30+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold",
+    "Reported to the NWS by Mesonet"
+   ],
+   "status": "official",
+   "at": "2026-10-02T08:30+00:00",
+   "url": null,
+   "spark": null,
+   "event": {
+    "title": "Rainfall 1.07 in \u2014 Vermilion County",
     "verified": true,
     "score": 0.95
    },
@@ -920,35 +928,35 @@
    "id": "p19",
    "topic": "weather",
    "source": "NWS storm report",
-   "name": "2 mi WSW of Elmore",
+   "name": "Delong",
    "county": "Knox",
    "zip": null,
-   "lat": 40.95,
-   "lon": -90.01,
+   "lat": 40.82,
+   "lon": -90.31,
    "person": false,
-   "label": "Rain 1.03 in",
+   "label": "Rain 1.25 in",
    "lines": [
     {
      "metric": "rain_mm",
      "name": "Rainfall",
-     "value": "1.03 in",
+     "value": "1.25 in",
      "note": null,
-     "at": "2026-10-01T11:30+00:00",
+     "at": "2026-10-02T08:43+00:00",
      "sev": 0.4
     }
    ],
    "why": [
     "Rainfall past the network's event threshold",
-    "Reported to the NWS by a CoCoRaHS observer"
+    "Reported to the NWS by Mesonet"
    ],
    "status": "official",
-   "at": "2026-10-01T11:30+00:00",
+   "at": "2026-10-02T08:43+00:00",
    "url": null,
    "spark": null,
    "event": {
-    "title": "Rainfall 1.32 in \u2014 Knox County",
+    "title": "Rainfall 2.67 in \u2014 Knox County",
     "verified": true,
-    "score": 0.95
+    "score": 1.66
    },
    "news": [],
    "tier": 2
@@ -957,33 +965,33 @@
    "id": "p20",
    "topic": "weather",
    "source": "NWS storm report",
-   "name": "2 mi WSW of Henry",
-   "county": "Marshall",
+   "name": "1 mi SSW of Chandlerville",
+   "county": "Cass",
    "zip": null,
-   "lat": 41.1,
-   "lon": -89.38,
+   "lat": 40.04,
+   "lon": -90.15,
    "person": false,
-   "label": "Rain 1.04 in",
+   "label": "Rain 1.01 in",
    "lines": [
     {
      "metric": "rain_mm",
      "name": "Rainfall",
-     "value": "1.04 in",
+     "value": "1.01 in",
      "note": null,
-     "at": "2026-10-01T11:45+00:00",
+     "at": "2026-10-02T08:43+00:00",
      "sev": 0.4
     }
    ],
    "why": [
     "Rainfall past the network's event threshold",
-    "Reported to the NWS by a CoCoRaHS observer"
+    "Reported to the NWS by Mesonet"
    ],
    "status": "official",
-   "at": "2026-10-01T11:45+00:00",
+   "at": "2026-10-02T08:43+00:00",
    "url": null,
    "spark": null,
    "event": {
-    "title": "Rainfall 1.13 in \u2014 Marshall County",
+    "title": "Rainfall 1.01 in \u2014 Cass County",
     "verified": true,
     "score": 0.95
    },
@@ -992,741 +1000,97 @@
   },
   {
    "id": "p21",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "3 mi NE of East Galesburg",
-   "county": "Knox",
+   "topic": "water",
+   "source": "USGS stream gauge",
+   "name": "La Moine River at Colmar",
+   "county": "McDonough",
    "zip": null,
-   "lat": 40.97,
-   "lon": -90.27,
+   "lat": 40.3315,
+   "lon": -90.8962,
    "person": false,
-   "label": "Rain 1.32 in",
+   "label": "\u25b2 5.62 ft",
    "lines": [
     {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.32 in",
-     "note": null,
-     "at": "2026-10-01T12:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by a CoCoRaHS observer"
-   ],
-   "status": "official",
-   "at": "2026-10-01T12:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.32 in \u2014 Knox County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p22",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "1 mi W of Galesburg",
-   "county": "Knox",
-   "zip": null,
-   "lat": 40.95,
-   "lon": -90.39,
-   "person": false,
-   "label": "Rain 1.26 in",
-   "lines": [
+     "metric": "stage_m",
+     "name": "Stage (gauge height)",
+     "value": "9.81 ft",
+     "note": "up 5.62 ft in 24 hours",
+     "at": "2026-10-03T05:45+00:00",
+     "sev": 0.0
+    },
     {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.26 in",
-     "note": null,
-     "at": "2026-10-01T12:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by a co-op observer"
-   ],
-   "status": "official",
-   "at": "2026-10-01T12:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.32 in \u2014 Knox County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p23",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "Wyoming",
-   "county": "Stark",
-   "zip": null,
-   "lat": 41.06,
-   "lon": -89.77,
-   "person": false,
-   "label": "Rain 1.22 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.22 in",
-     "note": null,
-     "at": "2026-10-01T12:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by a CoCoRaHS observer"
-   ],
-   "status": "official",
-   "at": "2026-10-01T12:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.22 in \u2014 Stark County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p24",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "3 mi N of Galesburg",
-   "county": "Knox",
-   "zip": null,
-   "lat": 40.99,
-   "lon": -90.38,
-   "person": false,
-   "label": "Rain 1.15 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.15 in",
-     "note": null,
-     "at": "2026-10-01T12:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by a CoCoRaHS observer"
-   ],
-   "status": "official",
-   "at": "2026-10-01T12:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.32 in \u2014 Knox County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p25",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "3 mi S of Henry",
-   "county": "Marshall",
-   "zip": null,
-   "lat": 41.07,
-   "lon": -89.35,
-   "person": false,
-   "label": "Rain 1.13 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.13 in",
-     "note": null,
-     "at": "2026-10-01T12:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by a CoCoRaHS observer"
-   ],
-   "status": "official",
-   "at": "2026-10-01T12:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.13 in \u2014 Marshall County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p26",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "3 mi SE of Henderson",
-   "county": "Knox",
-   "zip": null,
-   "lat": 40.99,
-   "lon": -90.31,
-   "person": false,
-   "label": "Rain 1.11 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.11 in",
-     "note": null,
-     "at": "2026-10-01T12:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by a CoCoRaHS observer"
-   ],
-   "status": "official",
-   "at": "2026-10-01T12:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.32 in \u2014 Knox County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p27",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "1 mi NW of Knoxville",
-   "county": "Knox",
-   "zip": null,
-   "lat": 40.91,
-   "lon": -90.29,
-   "person": false,
-   "label": "Rain 1.77 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.77 in",
-     "note": null,
-     "at": "2026-10-01T22:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by a CoCoRaHS observer"
-   ],
-   "status": "official",
-   "at": "2026-10-01T22:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.77 in \u2014 Knox County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p28",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "Bradford",
-   "county": "Stark",
-   "zip": null,
-   "lat": 41.17,
-   "lon": -89.66,
-   "person": false,
-   "label": "Rain 1.05 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.05 in",
-     "note": null,
-     "at": "2026-10-01T12:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by a CoCoRaHS observer"
-   ],
-   "status": "official",
-   "at": "2026-10-01T12:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.22 in \u2014 Stark County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p29",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "Knoxville",
-   "county": "Knox",
-   "zip": null,
-   "lat": 40.9,
-   "lon": -90.29,
-   "person": false,
-   "label": "Rain 1.12 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.12 in",
-     "note": null,
-     "at": "2026-10-01T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by a co-op observer"
-   ],
-   "status": "official",
-   "at": "2026-10-01T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.32 in \u2014 Knox County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p30",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "2 mi NNW of Germantown Hills",
-   "county": "Woodford",
-   "zip": null,
-   "lat": 40.79,
-   "lon": -89.49,
-   "person": false,
-   "label": "Rain 1.05 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.05 in",
-     "note": null,
-     "at": "2026-10-01T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by a CoCoRaHS observer"
-   ],
-   "status": "official",
-   "at": "2026-10-01T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.05 in \u2014 Woodford County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p31",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "Carthage",
-   "county": "Hancock",
-   "zip": null,
-   "lat": 40.41,
-   "lon": -91.13,
-   "person": false,
-   "label": "Rain 1.75 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.75 in",
-     "note": null,
-     "at": "2026-10-01T22:24+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by the public"
-   ],
-   "status": "official",
-   "at": "2026-10-01T22:24+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 2.70 in \u2014 Hancock County",
-    "verified": true,
-    "score": 1.66
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p32",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "1 mi S of Carthage",
-   "county": "Hancock",
-   "zip": null,
-   "lat": 40.41,
-   "lon": -91.14,
-   "person": false,
-   "label": "Rain 1.67 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.67 in",
-     "note": null,
-     "at": "2026-10-02T00:49+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by the public"
-   ],
-   "status": "official",
-   "at": "2026-10-02T00:49+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 2.70 in \u2014 Hancock County",
-    "verified": true,
-    "score": 1.66
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p33",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "4 mi NW of Monticello",
-   "county": "Piatt",
-   "zip": null,
-   "lat": 40.07,
-   "lon": -88.62,
-   "person": false,
-   "label": "Rain 1.16 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.16 in",
-     "note": null,
-     "at": "2026-10-02T04:30+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by Mesonet"
-   ],
-   "status": "official",
-   "at": "2026-10-02T04:30+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.16 in \u2014 Piatt County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p34",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "1 mi NNW of Galesburg",
-   "county": "Knox",
-   "zip": null,
-   "lat": 40.96,
-   "lon": -90.37,
-   "person": false,
-   "label": "Rain 1.30 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.30 in",
-     "note": null,
-     "at": "2026-10-02T04:50+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by Mesonet"
-   ],
-   "status": "official",
-   "at": "2026-10-02T04:50+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.30 in \u2014 Knox County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p35",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "Delong",
-   "county": "Knox",
-   "zip": null,
-   "lat": 40.82,
-   "lon": -90.31,
-   "person": false,
-   "label": "Rain 1.29 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.29 in",
-     "note": null,
-     "at": "2026-10-02T04:54+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by Mesonet"
-   ],
-   "status": "official",
-   "at": "2026-10-02T04:54+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.30 in \u2014 Knox County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p36",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "1 mi W of Bradford",
-   "county": "Stark",
-   "zip": null,
-   "lat": 41.18,
-   "lon": -89.67,
-   "person": false,
-   "label": "Rain 1.70 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.70 in",
-     "note": null,
-     "at": "2026-10-02T04:53+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by Mesonet"
-   ],
-   "status": "official",
-   "at": "2026-10-02T04:53+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.70 in \u2014 Stark County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p37",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "Farmington",
-   "county": "Fulton",
-   "zip": null,
-   "lat": 40.69,
-   "lon": -90.01,
-   "person": false,
-   "label": "Rain 1.15 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.15 in",
-     "note": null,
-     "at": "2026-10-02T04:53+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by Mesonet"
-   ],
-   "status": "official",
-   "at": "2026-10-02T04:53+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.15 in \u2014 Fulton County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p38",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "3 mi E of London Mills",
-   "county": "Fulton",
-   "zip": null,
-   "lat": 40.71,
-   "lon": -90.21,
-   "person": false,
-   "label": "Rain 1.05 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.05 in",
-     "note": null,
-     "at": "2026-10-02T04:53+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by Mesonet"
-   ],
-   "status": "official",
-   "at": "2026-10-02T04:53+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.15 in \u2014 Fulton County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p39",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "1 mi SSW of Chandlerville",
-   "county": "Cass",
-   "zip": null,
-   "lat": 40.04,
-   "lon": -90.15,
-   "person": false,
-   "label": "Rain 1.00 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.00 in",
-     "note": null,
-     "at": "2026-10-02T04:54+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold",
-    "Reported to the NWS by Mesonet"
-   ],
-   "status": "official",
-   "at": "2026-10-02T04:54+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Rainfall 1.00 in \u2014 Cass County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p40",
-   "topic": "weather",
-   "source": "Network member",
-   "name": "s-1929c",
-   "county": "McLean",
-   "zip": null,
-   "lat": 40.4946,
-   "lon": -88.8445,
-   "person": true,
-   "label": "Rain 0.50 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "0.50 in",
-     "note": null,
-     "at": "2026-10-02T02:32+00:00",
+     "metric": "discharge_cms",
+     "name": "Streamflow",
+     "value": "1,000 cfs",
+     "note": "up 924 cfs in 24 hours",
+     "at": "2026-10-03T05:45+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Reported by a network member, and corroborated"
+    "Second-biggest rise in Illinois in the last 24 hours"
    ],
-   "status": "corroborated",
-   "at": "2026-10-02T02:32+00:00",
-   "url": null,
-   "spark": null,
+   "status": "official",
+   "at": "2026-10-03T05:45+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05584500/",
+   "spark": {
+    "name": "Stage (gauge height)",
+    "unit": "ft",
+    "t": [
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     4.19,
+     4.22,
+     4.25,
+     4.28,
+     4.34,
+     4.42,
+     4.53,
+     4.7,
+     4.99,
+     5.46,
+     6.12,
+     6.82,
+     8.04,
+     8.53,
+     8.92,
+     9.2,
+     9.43,
+     9.6,
+     9.71,
+     9.77,
+     9.8,
+     9.81
+    ]
+   },
    "event": null,
    "news": [],
    "tier": 2
   },
   {
-   "id": "p41",
+   "id": "p22",
    "topic": "water",
    "source": "USGS stream gauge",
    "name": "Spoon River at London Mills",
@@ -1735,30 +1099,30 @@
    "lat": 40.7077,
    "lon": -90.2798,
    "person": false,
-   "label": "\u25b2 4.93 ft",
+   "label": "\u25b2 3.43 ft",
    "lines": [
     {
      "metric": "stage_m",
      "name": "Stage (gauge height)",
-     "value": "8.63 ft",
-     "note": "up 4.93 ft in 24 hours",
-     "at": "2026-10-02T05:45+00:00",
+     "value": "13.4 ft",
+     "note": "up 3.43 ft in 24 hours",
+     "at": "2026-10-03T05:45+00:00",
      "sev": 0.0
     },
     {
      "metric": "discharge_cms",
      "name": "Streamflow",
-     "value": "2,450 cfs",
-     "note": "up 1,954 cfs in 24 hours",
-     "at": "2026-10-02T05:45+00:00",
+     "value": "5,150 cfs",
+     "note": "up 2,000 cfs in 24 hours",
+     "at": "2026-10-03T05:45+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Second-biggest rise in Illinois in the last 24 hours"
+    "Third-biggest rise in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-10-02T05:45+00:00",
+   "at": "2026-10-03T05:45+00:00",
    "url": "https://waterdata.usgs.gov/monitoring-location/05569500/",
    "spark": {
     "name": "Stage (gauge height)",
@@ -1788,28 +1152,28 @@
      0
     ],
     "v": [
-     3.7,
-     3.79,
-     3.84,
-     3.92,
-     4.0,
-     4.05,
-     4.11,
-     4.16,
-     4.21,
-     4.27,
-     4.33,
-     4.4,
-     4.63,
-     4.82,
-     5.08,
-     5.38,
-     5.71,
-     6.17,
-     6.74,
-     7.37,
-     7.99,
-     8.63
+     10.0,
+     10.78,
+     11.55,
+     12.29,
+     13.0,
+     13.6,
+     14.13,
+     14.53,
+     14.83,
+     15.03,
+     15.14,
+     15.17,
+     15.06,
+     14.9,
+     14.71,
+     14.51,
+     14.31,
+     14.11,
+     13.92,
+     13.74,
+     13.58,
+     13.43
     ]
    },
    "event": null,
@@ -1817,98 +1181,7 @@
    "tier": 2
   },
   {
-   "id": "p42",
-   "topic": "water",
-   "source": "USGS stream gauge",
-   "name": "Tinley Creek near Palos Park",
-   "county": "Cook",
-   "zip": null,
-   "lat": 41.6466,
-   "lon": -87.7664,
-   "person": false,
-   "label": "\u25b2 3.88 ft",
-   "lines": [
-    {
-     "metric": "stage_m",
-     "name": "Stage (gauge height)",
-     "value": "7 ft",
-     "note": "up 3.88 ft in 24 hours",
-     "at": "2026-10-02T05:45+00:00",
-     "sev": 0.0
-    },
-    {
-     "metric": "discharge_cms",
-     "name": "Streamflow",
-     "value": "685 cfs",
-     "note": "up 645 cfs in 24 hours",
-     "at": "2026-10-02T05:45+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Third-biggest rise in Illinois in the last 24 hours"
-   ],
-   "status": "official",
-   "at": "2026-10-02T05:45+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/05536500/",
-   "spark": {
-    "name": "Stage (gauge height)",
-    "unit": "ft",
-    "t": [
-     -1320,
-     -1260,
-     -1200,
-     -1140,
-     -1080,
-     -1020,
-     -960,
-     -900,
-     -840,
-     -780,
-     -660,
-     -600,
-     -540,
-     -480,
-     -420,
-     -360,
-     -300,
-     -240,
-     -180,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     3.23,
-     3.21,
-     3.19,
-     3.17,
-     3.16,
-     3.15,
-     3.16,
-     3.18,
-     3.18,
-     3.15,
-     3.13,
-     3.12,
-     3.12,
-     3.12,
-     3.14,
-     3.23,
-     3.56,
-     4.97,
-     6.26,
-     6.57,
-     6.88,
-     7.0
-    ]
-   },
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p43",
+   "id": "p23",
    "topic": "weather",
    "source": "NWS storm report",
    "name": "2 mi NE of Lodge",
@@ -1917,14 +1190,14 @@
    "lat": 40.13,
    "lon": -88.53,
    "person": false,
-   "label": "Rain 0.96 in",
+   "label": "Rain 0.97 in",
    "lines": [
     {
      "metric": "rain_mm",
      "name": "Rainfall",
-     "value": "0.96 in",
+     "value": "0.97 in",
      "note": null,
-     "at": "2026-10-02T04:30+00:00",
+     "at": "2026-10-02T08:30+00:00",
      "sev": 0.0
     }
    ],
@@ -1932,7 +1205,7 @@
     "Reported to the NWS by Mesonet"
    ],
    "status": "official",
-   "at": "2026-10-02T04:30+00:00",
+   "at": "2026-10-02T08:30+00:00",
    "url": null,
    "spark": null,
    "event": null,
@@ -1940,23 +1213,23 @@
    "tier": 2
   },
   {
-   "id": "p44",
+   "id": "p24",
    "topic": "weather",
    "source": "NWS storm report",
-   "name": "Lane",
-   "county": "De Witt",
+   "name": "1 mi S of Bloomington",
+   "county": "McLean",
    "zip": null,
-   "lat": 40.12,
-   "lon": -88.86,
+   "lat": 40.46,
+   "lon": -89.0,
    "person": false,
-   "label": "Rain 0.95 in",
+   "label": "Rain 0.96 in",
    "lines": [
     {
      "metric": "rain_mm",
      "name": "Rainfall",
-     "value": "0.95 in",
+     "value": "0.96 in",
      "note": null,
-     "at": "2026-10-02T04:45+00:00",
+     "at": "2026-10-02T08:43+00:00",
      "sev": 0.0
     }
    ],
@@ -1964,7 +1237,39 @@
     "Reported to the NWS by Mesonet"
    ],
    "status": "official",
-   "at": "2026-10-02T04:45+00:00",
+   "at": "2026-10-02T08:43+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p25",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "2 mi ENE of La Fayette",
+   "county": "Stark",
+   "zip": null,
+   "lat": 41.12,
+   "lon": -89.94,
+   "person": false,
+   "label": "Rain 0.96 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "0.96 in",
+     "note": null,
+     "at": "2026-10-02T08:44+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by Mesonet"
+   ],
+   "status": "official",
+   "at": "2026-10-02T08:44+00:00",
    "url": null,
    "spark": null,
    "event": null,
@@ -1976,7 +1281,7 @@
   {
    "id": "n1",
    "n": 1,
-   "topic": "water",
+   "topic": "weather",
    "place": "Chicago area",
    "statewide": false,
    "lat": 41.837,
@@ -1991,46 +1296,76 @@
    ],
    "stories": [
     {
-     "title": "Water alert issued for Chicago-area; residents asked to delay showers amid heavy rain, flooding",
-     "source": "NBC 5 Chicago",
-     "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQQlVFclh5bklOa2Fqek5wOHg0LWs3WnhVUmoyTUdINmRvdDA4MmpUU2dhZXBiQ0RjOFNtU0FhNXNPNEYyeGxyaGRTNlJ0VVJZaTA0aVd0eVBhN3dXZEZQRmV6dXI0N3N2dFlBNEtSVmFjU2pSSVg1ZlZWNEcxdWdUOUVWNFBNenJJdHg0UEhqQTkxN3hSb295aU5QaGV4UkFjU1dvM1E4QjBKajRSS2poQWRHMENWZ1lHRTVR0gHDAUFVX3lxTE1vNl9SeHNyX1FoWXJSdF83d0NIajZaSjNoSGp5cDBmbksxVVhYX3hYNUp2SW1peWgyeTJad0V3MVhKalBsZHR0Vnk2OHpyWGowdGF3TEhldkNPYjJfeUZGeG1JYkJIN19kX3hlUl8tRkJmNjllWVA5WkNXM1VEbXU3YnYtZGRvSHRHclR5UkdEYkFPS0JiMk53eTBOeUk5RUhDeEYtQ3dmYjFnU0RUT1VvY2l2Qk42OURxaUtRXzM5LU9Edw?oc=5",
-     "at": "2026-09-30T16:10:49"
+     "title": "2-DAY RAINFALL REPORTS ENDING THE MORNING OF 10/2 (NWS Chicago)",
+     "source": "NWS Chicago statements",
+     "url": "https://mesonet.agron.iastate.edu/p.php?pid=202610021531-KLOT-NOUS43-PNSLOT",
+     "at": "2026-10-02T15:31:00+00:00"
+    },
+    {
+     "title": "Chicago weather: Flood watch for most of Chicago area through evening",
+     "source": "CBS News",
+     "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOWktGSGs4b0lpTTlFNWZGZ29VTmc0bzU5NHJXV3Z3Y3E4TlVBVk0zUUppT1E0X3BBcFl3SExzX3BhVXhCdmJYdWU4ejI5VHdtSWk5UUZYMmpqaUo1SENqMV9kUzFlc1ZtZWhZelFQMFhCSGlBWS1sSWpGUFFOeTRYalp6b2FTb1JlaGJ4YmsxNjFMQWVEcFFINnJ3NTRkeGtJOGV2ZnV3bHJUN3M?oc=5",
+     "at": "2026-10-01T17:58:00"
     },
     {
      "title": "Chicago weather: Heavy rain and flooding risk Thursday night",
      "source": "CBS News",
      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNT0VtMTNrUnFKaGFSejR4UDVxMVpZb3JMMFhvbXNiXzhqSENuczN3bjFTVHhBY3RjTDRyelZsQ3hQcEF5dHlVNXBUVWlKX05lNUdnRVRTV2JoNGxTeEJqOF9GaVNlZUlxVzk4QkxwV3ZTa2lXTVBBN0tIUGRKcUloMUJFeUg0UEJFOUhveURJTEZwalRPRGtCcDdVTnN4QmM?oc=5",
      "at": "2026-10-01T23:22:00"
-    },
-    {
-     "title": "Chicago weather forecast Thursday: Flood Watch in effect for most counties in area amid rounds of heavy rain | LIVE RADAR",
-     "source": "ABC7 Chicago",
-     "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxPX2JnMzFSaDlSMUZpbU1LOU1wRXU2Ym9hb3pvZ3dtWEVicTN4UkdBZnlFMEtnWHlSZnVWRHF4emFDVjFSMWZ0Z195RVJoTnNDZm1ySWs0emRIa1FacV9xZmVHNC1KbHo1MXZSMUZTQUEycFBfUjZxTFRkU3d5UGhtR3RVRk93T2dIV2VOelJ0c3JSZ19sb2JvN1ctdTdTVUlTeEoxOGpDdDJyTHZqLVl4czVLRUdKbWRNd2FRUG9EN1VBc3lxS1RfdmdKcTdheFloalBsRWN4TzFpZ1hX0gHiAUFVX3lxTE1pQndjZDZzRk0zNWZzdlhDenZCUDVFbEJZOHpYSFFmZmJRWlRTRjNmOVktbmExQU8xUXI2Qk56WWxZTlh5Y2MtbVNyZVc0WlZCNlBhNnBEMFJsY21FWDJFVWRKSnBxRFNYVEw4SmJMNGFGb1BBSHJ5NWFZLXJqT3FCbXktUEZsdHBXZy05U3VqT054TDdZU0ZBcU5SbHFkOGFhZmxoM3Rfd3ZtV2JENl9uSk5WRTY3eWdsUXozLW4tY2h2aDhDZ1V1MkZBRHRULUZOM3J0TTNLbHZTUndkNXBKWlE?oc=5",
-     "at": "2026-10-01T22:18:13"
     }
    ],
    "more": [
-    "Chicago weather: Rain could bring flooding through Thursday",
-    "Chicago weather: Midweek soaking rain caused by Hurricane Polo tropical air",
-    "Chicago Weather Alert: Heavy rain and 97% chance of wet conditions expected today, September 30, 2026",
-    "Chicago forecast: Multiple waves of heavy rain, isolated storms through Thursday",
+    "Chicago weather forecast Thursday: Flood Watch in effect for most counties in area amid rounds of heavy rain | LIVE RADAR",
+    "Chicago weather: Rain tapers off overnight",
     "Chicago weather update: 99% chance of rain today, high of 21\u00b0C, prepare for heavy downpours",
     "Rain continues Thursday in Chicago"
    ],
    "links": [
-    "p2",
     "p9",
-    "p7"
+    "p7",
+    "p8"
    ],
    "alerts": [
-    "Flood Warning",
-    "Flood Watch",
-    "Flood Advisory"
+    "Flood Warning"
    ]
   },
   {
    "id": "n2",
    "n": 2,
+   "topic": "weather",
+   "place": "Quad Cities",
+   "statewide": false,
+   "lat": 41.4684,
+   "lon": -90.5721,
+   "counties": [
+    "17073",
+    "17131",
+    "17161"
+   ],
+   "stories": [
+    {
+     "title": "Highest 72-hr Rainfall Reports (NWS Quad Cities)",
+     "source": "NWS Quad Cities statements",
+     "url": "https://mesonet.agron.iastate.edu/p.php?pid=202610021912-KDVN-NOUS43-PNSDVN",
+     "at": "2026-10-02T19:12:00+00:00"
+    },
+    {
+     "title": "Hihgest 72-hr Rainfall Reports (NWS Quad Cities)",
+     "source": "NWS Quad Cities statements",
+     "url": "https://mesonet.agron.iastate.edu/p.php?pid=202610021619-KDVN-NOUS43-PNSDVN",
+     "at": "2026-10-02T16:19:00+00:00"
+    }
+   ],
+   "more": [],
+   "links": [
+    "p1",
+    "p10"
+   ],
+   "alerts": []
+  },
+  {
+   "id": "n3",
+   "n": 3,
    "topic": "weather",
    "place": "Lincoln",
    "statewide": false,
@@ -2049,103 +1384,44 @@
    ],
    "more": [],
    "links": [
-    "p14"
-   ],
-   "alerts": []
-  },
-  {
-   "id": "n3",
-   "n": 3,
-   "topic": "weather",
-   "place": "Central Illinois",
-   "statewide": false,
-   "lat": 39.7569,
-   "lon": -89.6624,
-   "counties": [
-    "17019",
-    "17113",
-    "17115",
-    "17143",
-    "17167",
-    "17179"
-   ],
-   "stories": [
-    {
-     "title": "Cooler temperatures follow heavy rain in Central Illinois",
-     "source": "FOX Illinois",
-     "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQVWRadjdZZHUzdEJneld1SmxDMlFUYnl5Y3I5T3FEZTRHMzB6S3YtTzNCUzU2MVBpNS1jR2lERUp0eWNBbnp4NlMtY2RJUVktZ1JLLXdjcklwN3Z6eHJQd2traGRXcWNReDNiVmRBQ3RPNnUwR2VZbkV2SHJLMjZLZkdPV1Y5YVlVQjZheTFZelE3bVNETGNsWU5vTDF4YXc5VDA2SjZsNG9WTm1fdU9vREhTcE53TXJuSUZEa29EcGJ0b1F3R21lNGdhWGt0M0wyNDdrSnU0eGNoSkU?oc=5",
-     "at": "2026-09-30T23:51:00"
-    }
-   ],
-   "more": [],
-   "links": [
-    "p13",
-    "p10",
-    "p11",
-    "p12"
+    "p11"
    ],
    "alerts": []
   },
   {
    "id": "n4",
    "n": 4,
-   "topic": "weather",
-   "place": "Quad Cities",
-   "statewide": false,
-   "lat": 41.4684,
-   "lon": -90.5721,
-   "counties": [
-    "17073",
-    "17131",
-    "17161"
-   ],
-   "stories": [
-    {
-     "title": "Heavy rain expected for the Quad Cities",
-     "source": "OurQuadCities",
-     "url": "https://www.ourquadcities.com/news/local-news/heavy-rain-expected-for-the-quad-cities/",
-     "at": "2026-09-30T12:44:18"
-    }
-   ],
-   "more": [],
-   "links": [
-    "p8"
-   ],
-   "alerts": [
-    "Flood Warning"
-   ]
-  },
-  {
-   "id": "n5",
-   "n": 5,
    "topic": "landuse",
-   "place": "McLean County",
+   "place": "Mahomet",
    "statewide": false,
-   "lat": 40.4946,
-   "lon": -88.8445,
+   "lat": 40.1901,
+   "lon": -88.3895,
    "counties": [
-    "17113"
+    "17019"
    ],
    "stories": [
     {
-     "title": "First-ever Community Solar Farm in Illinois operating in McLean County",
-     "source": "WEEK | 25 News Now",
-     "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQZXpMX0o5cnJSVE91WEk5TXdvblVrbXN0Ukc2YUhIaEw1aG5Dd1ZYQi1icGZCT2FtRTI2T3ExdGZuclo2d1JhSUJFN0FmTTVBX00wdllxTjZTSTBaY0RsOGdybHBBRTFkU1pxMFlqdG9ra0hmc3lMNUpxSExzZDNLTm9lbkExN2psdGttTGliQjNsY083X0NuTXUwZE9oUi14V1RBT9IBuAFBVV95cUxOVzUtcC13VlBTYWpJTVM1YWpmYVFMVlp6cmUtZDdkM0NnVHE0b1ZRRHBFZFZzc2U4MzB2d3NlNW9qM1lNb3Z0QW9falhTZXBoN0xOTlZhLVNQWF9OM3hTUWNUQWhxS0tnd0UyS0Y3blQxWDdKdU9jOFNDZTJocDlnMXNUOGJkYWlvemRjWkJ1bGRXeEtOUFpiY3Y1cmhKVGV1cWJNMGExQ2NvZkNCcTNjeVNnRkhUQkxF?oc=5",
-     "at": "2026-10-01T15:00:00"
+     "title": "Proposed data center in Mahomet, IL: What we\u2019re doing, and what you can do",
+     "source": "Prairie Rivers Network",
+     "url": "https://prairierivers.org/front-page/2026/10/proposed-data-center-in-mahomet-il-what-were-doing-and-what-you-can-do/",
+     "at": "2026-10-02T16:32:19"
+    },
+    {
+     "title": "\u2018It\u2019s baffling to me\u2019: County board officials weigh in on proposed data center for Mahomet",
+     "source": "WCIA.com",
+     "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNU0NVNDFTOS1TTmMwWVRLQVZHbnlKUGZEdE43TjNVY0tjc1NNY2VaVWpSLVYyRVk1VV9iLUhSSE12RXJBMmdXb25ZRjhqZG5fTFBsX0lUSmtldGxSLWoxSDlhRU1adkV2ZnJkb2JpWDVHbFJpd1BDdFhtejY4dGt2Z3hMNDR2ZnFieHltdE5ta0t5NkxsSGlHSXpZa0Z3UndaUTVkNDNQUWpwRGZkWU5vNU1GRjFVMGpCczFhX09Ydm16R3hvODhobTNn0gHPAUFVX3lxTFBtS0FackNsZ0lELUVWNlpRTTRES01OdFVoVk1PVGdlM2VLSUhvVk5pZWs4bzlNSWFhbWVsR0t1cWMwYjZIdy1rODV6NlB2RzVVenlYR1ZwNXRpdEVvTm9xRU1YelZqYVI1S3dUYlRXRzc2ZW12bXlhSVZHX2t6elQteGxLTHZ0VEFPTUp2UHluWkFFQi13VGxIZjJobmtVcXNyNTBXNVpLdnpaQ0ZrZUhCSDBhNU1OS1lNTnhKeThJMXpjTldCWVoyWGxBT19rbw?oc=5",
+     "at": "2026-09-30T18:27:22"
     }
    ],
    "more": [],
    "links": [
-    "p12",
-    "p15",
-    "p16",
-    "p17"
+    "p12"
    ],
    "alerts": []
   },
   {
-   "id": "n6",
-   "n": 6,
+   "id": "n5",
+   "n": 5,
    "topic": "weather",
    "place": "Rockford",
    "statewide": false,
@@ -2165,9 +1441,30 @@
    ],
    "more": [],
    "links": [],
-   "alerts": [
-    "Flood Advisory"
-   ]
+   "alerts": []
+  },
+  {
+   "id": "n6",
+   "n": 6,
+   "topic": "landuse",
+   "place": "McLean County",
+   "statewide": false,
+   "lat": 40.4946,
+   "lon": -88.8445,
+   "counties": [
+    "17113"
+   ],
+   "stories": [
+    {
+     "title": "First-ever Community Solar Farm in Illinois operating in McLean County",
+     "source": "WEEK | 25 News Now",
+     "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQZXpMX0o5cnJSVE91WEk5TXdvblVrbXN0Ukc2YUhIaEw1aG5Dd1ZYQi1icGZCT2FtRTI2T3ExdGZuclo2d1JhSUJFN0FmTTVBX00wdllxTjZTSTBaY0RsOGdybHBBRTFkU1pxMFlqdG9ra0hmc3lMNUpxSExzZDNLTm9lbkExN2psdGttTGliQjNsY083X0NuTXUwZE9oUi14V1RBT9IBuAFBVV95cUxOVzUtcC13VlBTYWpJTVM1YWpmYVFMVlp6cmUtZDdkM0NnVHE0b1ZRRHBFZFZzc2U4MzB2d3NlNW9qM1lNb3Z0QW9falhTZXBoN0xOTlZhLVNQWF9OM3hTUWNUQWhxS0tnd0UyS0Y3blQxWDdKdU9jOFNDZTJocDlnMXNUOGJkYWlvemRjWkJ1bGRXeEtOUFpiY3Y1cmhKVGV1cWJNMGExQ2NvZkNCcTNjeVNnRkhUQkxF?oc=5",
+     "at": "2026-10-01T15:00:00"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
   },
   {
    "id": "n7",
@@ -2195,30 +1492,6 @@
   {
    "id": "n8",
    "n": 8,
-   "topic": "water",
-   "place": null,
-   "statewide": true,
-   "lat": null,
-   "lon": null,
-   "counties": [],
-   "stories": [
-    {
-     "title": "Here is your Wednesday forecast-Areas of flooding and rises in river levels possible through late week...",
-     "source": "wimsradio.com",
-     "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5xZkw5YWNmeXYtQ19WWW1oazRYRHFlZFhMZlI5c2dfRVNKbEdRUHdhLXBiZ0FzMTlUWlVVZDhNa3ZKTlphVWhoZXB2RUN6RFRDbmpOSFB4Vkt1MFgwOFJST3ByUnBLM1A2NzJ3SzE0VzFZMlVVdnVR?oc=5",
-     "at": "2026-09-30T12:08:46"
-    }
-   ],
-   "more": [],
-   "links": [
-    "p2",
-    "p9"
-   ],
-   "alerts": []
-  },
-  {
-   "id": "n9",
-   "n": 9,
    "topic": "emergency",
    "place": null,
    "statewide": true,
@@ -2236,6 +1509,27 @@
    "more": [],
    "links": [],
    "alerts": []
+  },
+  {
+   "id": "n9",
+   "n": 9,
+   "topic": "landuse",
+   "place": null,
+   "statewide": true,
+   "lat": null,
+   "lon": null,
+   "counties": [],
+   "stories": [
+    {
+     "title": "Report: New data centers could create more than 120K Illinois jobs, though mostly temporary",
+     "source": "Clinton Herald",
+     "url": "https://news.google.com/rss/articles/CBMilwJBVV95cUxQVUJWVHJUSDFnTVoyRVZaYUNSUHNsQ0M0Yjk1NUt6X0luZ0hjNnl1WGtyUWxTWGRVR3RhdS1vSHBvTG1BQ3Y2WmlvQzIzMmNlbTBCS0NVeTFLd1lCMEd2UWVSbjIwaFI1TkVjd0tPakdSblZsbmJCRm90YTFRTnJHMlBfV3A3SUZmc0dZM1RfV3Y0NGI0WVdWb1JpZTB3cDFtQnNhQTRwa3hMM1U1SC1wREl1Mjl4ZUNjSmxzaWZPcm9rSjZDRTVtQkJLWHJVUjR2Z0s0VnhKMGVzWGdsaW5BQmlEWXV5TmRFUVRCVEZHazBuRFEtOWJKMnl2dlRialBlVlVyNk5qTkFEcXVGemxsSW9qSXFCaW8?oc=5",
+     "at": "2026-10-01T21:06:12"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
   }
  ],
  "areas": [],
@@ -2243,6 +1537,7 @@
   "Agriculture",
   "Air",
   "Seasons & nature",
-  "Earthquakes"
+  "Earthquakes",
+  "Soil"
  ]
 }

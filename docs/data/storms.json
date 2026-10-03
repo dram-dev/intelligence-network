@@ -1,33 +1,32 @@
 [
  {
-  "id": 6,
+  "id": 21,
   "topic": "weather",
   "title": "Flood Warning",
   "severity": 0.75,
   "status": "closed",
   "counties": [
-   "Henry",
-   "Rock Island"
+   "Calhoun",
+   "Pike"
   ],
   "fips": [
-   "17073",
-   "17161"
+   "17013",
+   "17149"
   ],
-  "opened_at": "2026-10-01T18:14:00+00:00",
-  "updated_at": "2026-10-02T00:08:00+00:00",
-  "lat": 41.472,
-  "lon": -90.487,
-  "brief": "An NWS Flood Warning issued at 1:14 PM is currently in effect [1]. A second NWS Flood Warning issued at 7:08 PM is also in effect [2]. Verified rainfall peaked at 2.50 inches in Henry County [3].",
+  "opened_at": "2026-10-02T16:34:00+00:00",
+  "updated_at": "2026-10-02T16:34:00+00:00",
+  "lat": 39.394,
+  "lon": -90.94,
+  "brief": "An NWS Flood Warning is currently in effect [1]. This alert was issued at 11:34 AM [2].",
   "facts": [
-   "NWS Flood Warning, issued 1:14 PM, ended 7:15 PM",
-   "NWS Flood Warning, issued 7:08 PM, in effect",
-   "Rainfall peak 2.50 in in Henry County, from 1 official source, verified"
+   "NWS Flood Warning, issued 11:34 AM, in effect",
+   "NWS Flood Warning, issued 11:34 AM, in effect"
   ]
  },
  {
-  "id": 5,
+  "id": 18,
   "topic": "weather",
-  "title": "Flood Watch",
+  "title": "Flood Warning",
   "severity": 0.75,
   "status": "closed",
   "counties": [
@@ -36,69 +35,152 @@
   "fips": [
    "17111"
   ],
-  "opened_at": "2026-10-01T14:23:00+00:00",
-  "updated_at": "2026-10-01T14:23:00+00:00",
+  "opened_at": "2026-10-02T14:53:00+00:00",
+  "updated_at": "2026-10-02T14:53:00+00:00",
   "lat": 42.554,
   "lon": -88.216,
-  "brief": "A NWS Flood Watch is currently in effect [1]. It was issued at 9:23 AM [1].",
+  "brief": "A National Weather Service Flood Warning is currently in effect [1]. The alert was issued at 9:53 AM [1].",
   "facts": [
-   "NWS Flood Watch, issued 9:23 AM, in effect"
+   "NWS Flood Warning, issued 9:53 AM, in effect"
   ]
  },
  {
-  "id": 8,
+  "id": 12,
   "topic": "weather",
-  "title": "Rainfall 2.70 in \u2014 Hancock County",
-  "severity": 0.7,
-  "status": "open",
+  "title": "Flood Warning",
+  "severity": 0.75,
+  "status": "closed",
   "counties": [
-   "Hancock"
+   "Knox"
   ],
   "fips": [
-   "17067"
+   "17095"
   ],
-  "opened_at": "2026-10-01T22:24:00+00:00",
-  "updated_at": "2026-10-02T01:37:00+00:00",
-  "lat": 40.41,
-  "lon": -91.13,
-  "brief": "Rainfall peaked at 2.70 inches in Hancock County [1]. This measurement was verified by three official sources [1].",
+  "opened_at": "2026-10-02T04:53:00+00:00",
+  "updated_at": "2026-10-02T13:23:00+00:00",
+  "lat": 40.748,
+  "lon": -90.255,
+  "brief": "A NWS Flood Warning is in effect as of 8:23 AM [1]. Knox County verified a rainfall peak of 2.24 inches from multiple sources [2]. Fulton County verified a rainfall peak of 1.15 inches from multiple sources [3].",
   "facts": [
-   "Rainfall peak 2.70 in in Hancock County, from -2 people and 3 official sources, verified"
+   "NWS Flood Warning, issued 8:23 AM, ended 7:32 PM",
+   "Rainfall peak 2.67 in in Knox County, from -5 people and 6 official sources, verified",
+   "Rainfall peak 1.15 in in Fulton County, from -1 people and 2 official sources, verified"
   ]
  },
  {
-  "id": 9,
+  "id": 15,
   "topic": "weather",
-  "title": "Flooding \u2014 Will County",
+  "title": "Flood Warning",
+  "severity": 0.75,
+  "status": "closed",
+  "counties": [
+   "Kendall"
+  ],
+  "fips": [
+   "17093"
+  ],
+  "opened_at": "2026-10-02T10:51:00+00:00",
+  "updated_at": "2026-10-02T10:51:00+00:00",
+  "lat": 41.508,
+  "lon": -88.695,
+  "brief": "A NWS Flood Warning is currently in effect [1]. It was issued at 5:51 AM [1].",
+  "facts": [
+   "NWS Flood Warning, issued 5:51 AM, ended 8:22 PM"
+  ]
+ },
+ {
+  "id": 22,
+  "topic": "weather",
+  "title": "Rainfall 2.80 in \u2014 Henry County",
   "severity": 0.7,
   "status": "closed",
   "counties": [
-   "Cook",
-   "DuPage",
-   "Will"
+   "Henry"
   ],
   "fips": [
-   "17031",
-   "17043",
-   "17197"
+   "17073"
   ],
-  "opened_at": "2026-10-01T22:52:00+00:00",
-  "updated_at": "2026-10-02T00:13:00+00:00",
-  "lat": 41.639,
-  "lon": -87.942,
-  "brief": "A NWS Flood Advisory issued at 5:52 PM is currently in effect [1]. Another NWS Flood Advisory issued at 7:13 PM is also in effect [2]. Verified flooding peaked in Will County according to one official source [3].",
+  "opened_at": "2026-10-02T19:28:00+00:00",
+  "updated_at": "2026-10-02T19:28:00+00:00",
+  "lat": 41.47,
+  "lon": -90.32,
+  "brief": "Rainfall peaked at 2.80 inches in Henry County [1]. This measurement comes from one official source [1]. The data has been verified [1].",
   "facts": [
-   "NWS Flood Advisory, issued 5:52 PM, in effect",
-   "NWS Flood Advisory, issued 7:13 PM, in effect",
-   "Flooding peak reported in Will County, from 1 official source, verified"
+   "Rainfall peak 2.80 in in Henry County, from 1 official source, verified"
+  ]
+ },
+ {
+  "id": 19,
+  "topic": "weather",
+  "title": "Rainfall 3.50 in \u2014 Rock Island County",
+  "severity": 0.7,
+  "status": "closed",
+  "counties": [
+   "Rock Island"
+  ],
+  "fips": [
+   "17161"
+  ],
+  "opened_at": "2026-10-02T15:14:00+00:00",
+  "updated_at": "2026-10-02T15:14:00+00:00",
+  "lat": 41.51,
+  "lon": -90.39,
+  "brief": "Rainfall peaked at 3.50 inches in Rock Island County [1]. This measurement came from one official source [1]. The data has been verified [1].",
+  "facts": [
+   "Rainfall peak 3.50 in in Rock Island County, from 1 official source, verified"
+  ]
+ },
+ {
+  "id": 17,
+  "topic": "weather",
+  "title": "Rainfall 2.75 in \u2014 Whiteside County",
+  "severity": 0.7,
+  "status": "closed",
+  "counties": [
+   "Carroll",
+   "Whiteside"
+  ],
+  "fips": [
+   "17015",
+   "17195"
+  ],
+  "opened_at": "2026-10-02T12:01:00+00:00",
+  "updated_at": "2026-10-02T14:01:00+00:00",
+  "lat": 41.955,
+  "lon": -89.955,
+  "brief": "Verified rainfall peaked at 2.85 inches in Carroll County [1]. Another verified report showed a peak of 2.75 inches in Whiteside County [2].",
+  "facts": [
+   "Rainfall peak 2.85 in in Carroll County, from 1 official source, verified",
+   "Rainfall peak 2.75 in in Whiteside County, from 1 official source, verified"
+  ]
+ },
+ {
+  "id": 20,
+  "topic": "weather",
+  "title": "Rainfall 1.27 in \u2014 Champaign County",
+  "severity": 0.4,
+  "status": "closed",
+  "counties": [
+   "Champaign"
+  ],
+  "fips": [
+   "17019"
+  ],
+  "opened_at": "2026-10-02T14:00:00+00:00",
+  "updated_at": "2026-10-02T14:00:00+00:00",
+  "lat": 40.2,
+  "lon": -88.41,
+  "brief": "Rainfall peaked at 1.27 inches in Champaign County [1]. This measurement came from one official source [1]. The data has been verified [1].",
+  "facts": [
+   "Rainfall peak 1.27 in in Champaign County, from 1 official source, verified"
   ]
  },
  {
   "id": 11,
   "topic": "weather",
-  "title": "Rainfall 1.00 in \u2014 Cass County",
+  "title": "Rainfall 1.01 in \u2014 Cass County",
   "severity": 0.4,
-  "status": "open",
+  "status": "closed",
   "counties": [
    "Cass",
    "Sangamon"
@@ -108,43 +190,21 @@
    "17167"
   ],
   "opened_at": "2026-10-02T04:54:00+00:00",
-  "updated_at": "2026-10-02T04:54:00+00:00",
+  "updated_at": "2026-10-02T08:43:00+00:00",
   "lat": 39.91,
   "lon": -89.905,
-  "brief": "Verified rainfall peaked at 1.60 inches in Sangamon County [1]. Cass County recorded a verified peak of 1.00 inch [2].",
+  "brief": "Verified rainfall peaked at 1.60 inches in Sangamon County from one official source [1]. Cass County recorded a verified peak of 1.01 inches from two official sources [2].",
   "facts": [
    "Rainfall peak 1.60 in in Sangamon County, from 1 official source, verified",
-   "Rainfall peak 1.00 in in Cass County, from 1 official source, verified"
-  ]
- },
- {
-  "id": 12,
-  "topic": "weather",
-  "title": "Rainfall 1.30 in \u2014 Knox County",
-  "severity": 0.4,
-  "status": "open",
-  "counties": [
-   "Knox"
-  ],
-  "fips": [
-   "17095"
-  ],
-  "opened_at": "2026-10-02T04:53:00+00:00",
-  "updated_at": "2026-10-02T04:54:00+00:00",
-  "lat": 40.765,
-  "lon": -90.26,
-  "brief": "Verified rainfall peaked at 1.15 inches in Fulton County [1]. Knox County recorded a verified peak of 1.30 inches [2].",
-  "facts": [
-   "Rainfall peak 1.15 in in Fulton County, from -1 people and 2 official sources, verified",
-   "Rainfall peak 1.30 in in Knox County, from -2 people and 3 official sources, verified"
+   "Rainfall peak 1.01 in in Cass County, from -1 people and 2 official sources, verified"
   ]
  },
  {
   "id": 10,
   "topic": "weather",
-  "title": "Rainfall 1.13 in \u2014 McLean County",
+  "title": "Rainfall 1.00 in \u2014 Logan County",
   "severity": 0.4,
-  "status": "open",
+  "status": "closed",
   "counties": [
    "Logan",
    "McLean",
@@ -156,108 +216,56 @@
    "17147"
   ],
   "opened_at": "2026-10-02T04:30:00+00:00",
-  "updated_at": "2026-10-02T04:53:00+00:00",
+  "updated_at": "2026-10-02T08:30:00+00:00",
   "lat": 40.293,
   "lon": -88.9,
-  "brief": "Verified rainfall peaked at 1.00 inch in Logan County [1]. Piatt County recorded a verified peak of 1.16 inches [2]. McLean County saw a verified peak of 1.13 inches from three official sources [3].",
+  "brief": "Verified rainfall peaked at 1.13 inches in McLean County [1]. Logan County recorded a verified peak of 1.00 inch [2]. Piatt County saw a verified peak of 1.17 inches [3].",
   "facts": [
-   "Rainfall peak 1.00 in in Logan County, from 1 official source, verified",
-   "Rainfall peak 1.16 in in Piatt County, from 1 official source, verified",
-   "Rainfall peak 1.13 in in McLean County, from -3 people and 4 official sources, verified"
+   "Rainfall peak 1.13 in in McLean County, from -3 people and 4 official sources, verified",
+   "Rainfall peak 1.00 in in Logan County, from -1 people and 2 official sources, verified",
+   "Rainfall peak 1.17 in in Piatt County, from -1 people and 2 official sources, verified"
   ]
  },
  {
-  "id": 13,
+  "id": 14,
   "topic": "weather",
-  "title": "Rainfall 1.70 in \u2014 Stark County",
-  "severity": 0.4,
-  "status": "open",
-  "counties": [
-   "Stark"
-  ],
-  "fips": [
-   "17175"
-  ],
-  "opened_at": "2026-10-02T04:53:00+00:00",
-  "updated_at": "2026-10-02T04:53:00+00:00",
-  "lat": 41.18,
-  "lon": -89.67,
-  "brief": "Rainfall peaked at 1.70 inches in Stark County [1]. This measurement comes from one official source [1]. The data has been verified [1].",
-  "facts": [
-   "Rainfall peak 1.70 in in Stark County, from 1 official source, verified"
-  ]
- },
- {
-  "id": 7,
-  "topic": "weather",
-  "title": "Rainfall 1.77 in \u2014 Knox County",
+  "title": "Rainfall 1.07 in \u2014 Vermilion County",
   "severity": 0.4,
   "status": "closed",
   "counties": [
-   "Knox"
+   "Vermilion"
   ],
   "fips": [
-   "17095"
+   "17183"
   ],
-  "opened_at": "2026-10-01T22:00:00+00:00",
-  "updated_at": "2026-10-01T22:00:00+00:00",
-  "lat": 40.91,
-  "lon": -90.29,
-  "brief": "Knox County recorded a rainfall peak of 1.77 inches [1]. This measurement comes from one official source [1]. The data has been verified [1].",
+  "opened_at": "2026-10-02T08:30:00+00:00",
+  "updated_at": "2026-10-02T08:30:00+00:00",
+  "lat": 40.19,
+  "lon": -87.89,
+  "brief": "The storm produced a verified rainfall peak of 1.07 inches in Vermilion County [1]. This measurement comes from one official source [1].",
   "facts": [
-   "Rainfall peak 1.77 in in Knox County, from 1 official source, verified"
+   "Rainfall peak 1.07 in in Vermilion County, from 1 official source, verified"
   ]
  },
  {
-  "id": 4,
+  "id": 16,
   "topic": "weather",
-  "title": "Rainfall 1.32 in \u2014 Knox County",
-  "severity": 0.4,
+  "title": "Flood Advisory",
+  "severity": 0.25,
   "status": "closed",
   "counties": [
-   "Knox",
-   "Marshall",
-   "Peoria",
-   "Stark"
+   "Pope"
   ],
   "fips": [
-   "17095",
-   "17123",
-   "17143",
-   "17175"
+   "17151"
   ],
-  "opened_at": "2026-10-01T12:00:00+00:00",
-  "updated_at": "2026-10-01T13:00:00+00:00",
-  "lat": 40.966,
-  "lon": -89.644,
-  "brief": "Verified rainfall peaked at 1.32 inches in Knox County [4]. Stark County recorded a peak of 1.22 inches [3]. Peoria and Marshall Counties both saw 1.13 inches, while Woodford County reported 1.05 inches [1][2][5].",
+  "opened_at": "2026-10-02T13:11:00+00:00",
+  "updated_at": "2026-10-02T13:11:00+00:00",
+  "lat": 37.287,
+  "lon": -88.399,
+  "brief": "A NWS Flood Advisory is currently in effect [1]. It was issued at 8:11 AM [1].",
   "facts": [
-   "Rainfall peak 1.13 in in Peoria County, from -1 people and 2 official sources, verified",
-   "Rainfall peak 1.13 in in Marshall County, from -1 people and 2 official sources, verified",
-   "Rainfall peak 1.22 in in Stark County, from -1 people and 2 official sources, verified",
-   "Rainfall peak 1.32 in in Knox County, from -6 people and 7 official sources, verified",
-   "Rainfall peak 1.05 in in Woodford County, from 1 official source, verified"
-  ]
- },
- {
-  "id": 3,
-  "topic": "weather",
-  "title": "Rainfall 1.5 in \u2014 Whiteside County",
-  "severity": 0.4,
-  "status": "closed",
-  "counties": [
-   "Whiteside"
-  ],
-  "fips": [
-   "17195"
-  ],
-  "opened_at": "2026-10-01T11:02:00+00:00",
-  "updated_at": "2026-10-01T11:02:00+00:00",
-  "lat": 41.81,
-  "lon": -90.08,
-  "brief": "Whiteside County recorded a rainfall peak of 1.5 inches [1]. This measurement comes from one official source [1]. The data has been verified [1].",
-  "facts": [
-   "Rainfall peak 1.50 in in Whiteside County, from 1 official source, verified"
+   "NWS Flood Advisory, issued 8:11 AM, ended 1:15 PM"
   ]
  }
 ]
