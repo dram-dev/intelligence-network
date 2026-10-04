@@ -458,4 +458,5 @@ uv sync && cp .env.example .env && uv run intelnet init-db
 uv run intelnet watch · signal "rain 0.4in @62704" · near 62704 · digest --html out.html
 uv run intelnet drive init · pipeline --run-type manual · health
 uv run pytest
+uvx ruff@0.15.0 check .     # CI's lint gate: zero findings, or every push (the nightly one too) fails CI
 ```

@@ -101,7 +101,9 @@ def _grib2(values: list[list[int]], *, la1: float, lo1: float, step: float, vali
     img.save(png, format="PNG")
     s1 = struct.pack(">IBHHBBBHBBBBBBB", 21, 1, 161, 0, 2, 1, 1, valid.year, valid.month, valid.day,
                      valid.hour, valid.minute, valid.second, 0, 1)
-    micro = lambda x: round(x * 1e6)
+    def micro(x):
+        return round(x * 1e6)
+
     s3 = struct.pack(">IBBIBBH", 72, 3, 0, ni * nj, 0, 0, 0) + bytes(16) + struct.pack(
         ">IIIIIIBIIIIB", ni, nj, 0, 0xFFFFFFFF, micro(la1), micro(lo1 % 360), 48,
         micro(la1 - (nj - 1) * step), micro((lo1 + (ni - 1) * step) % 360), micro(step), micro(step), 0)
@@ -153,9 +155,10 @@ def test_the_arcgis_reader_takes_the_raw_pixel_for_the_named_product(monkeypatch
 def test_which_window_judges_a_reading(make_sensor):
     g, hail, rain = grids.grids()["hail_mm"], network.find_metric("hail_mm"), network.find_metric("rain_mm")
     now = utcnow()
-    sig = lambda metric, ago, **ev: Signal(source="t", source_id="x", sensor_id="s", sensor_kind="human",
-                                          topic="weather", metric=metric, value=30,
-                                          observed_at=now - timedelta(minutes=ago), evidence=ev)
+    def sig(metric, ago, **ev):
+        return Signal(source="t", source_id="x", sensor_id="s", sensor_kind="human", topic="weather",
+                      metric=metric, value=30, observed_at=now - timedelta(minutes=ago), evidence=ev)
+
     assert grids.pick_window(g, hail, sig("hail_mm", 10), now) == "30m"
     assert grids.pick_window(g, hail, sig("hail_mm", 40), now) == "1h"     # the window starts 15 min early
     assert grids.pick_window(g, hail, sig("hail_mm", 50), now) == "2h"

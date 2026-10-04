@@ -76,7 +76,9 @@ def test_one_card_per_storm_edited_as_it_grows(fresh_db, sent, monkeypatch, make
     box = [[-89.90, 39.60], [-89.40, 39.60], [-89.40, 39.95], [-89.90, 39.95], [-89.90, 39.60]]
     db.add_subscription("50", "weather.events", "il.sangamon")
     ann, bob = make_sensor("tg:1", zip_code="62704"), make_sensor("tg:2", name="Bob", zip_code="62711")
-    say = lambda s, text, base: contrib.contribute(s, text, source_id_base=base, online=False, use_llm=False)
+    def say(s, text, base):
+        return contrib.contribute(s, text, source_id_base=base, online=False, use_llm=False)
+
     say(ann, "hail golf ball", "m1")
     say(bob, "hail 1.75in", "m2")                                     # verified: the storm's card goes out
     cards = [(c, t) for c, t in sent if c == "50"]

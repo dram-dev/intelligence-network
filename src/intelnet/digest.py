@@ -266,7 +266,9 @@ def _table(headers: list[str], rows: list[list[Any]], *, aligns: tuple[str, ...]
     squeezes every word onto its own line."""
     if not rows:
         return f'<p style="{_style(BODY, 10, color=MUTED, after=8)};font-style:italic">{_e(empty)}</p>'
-    align = lambda i: (aligns[i] if i < len(aligns) else "left")
+    def align(i: int) -> str:
+        return aligns[i] if i < len(aligns) else "left"
+
     # Docs draws every border left unset as a grid line, so each one is set: rules under
     # the rows, and white (invisible) sides.
     sides = f"border-top:1pt solid {PAPER};border-left:1pt solid {PAPER};border-right:1pt solid {PAPER};"
@@ -528,7 +530,9 @@ def render_html(m: DigestModel, downloads: dict[str, str] | None = None, *, page
              f'this week; {v.get("counties_reference_7d", 0)} had official data.{map_link}</p>')
 
     # ── how to take part ──
-    code = lambda s: f'<span style="{MONO};font-size:9.5pt">{_e(s)}</span>'
+    def code(s: str) -> str:
+        return f'<span style="{MONO};font-size:9.5pt">{_e(s)}</span>'
+
     p.append(f'<table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;margin:14pt 0 0 0">'
              f'<tr><td style="background-color:{SHADE};border:1pt solid {SHADE};padding:10pt 12pt">'
              f'<p style="{P_KICKER}">TAKE PART</p>'
