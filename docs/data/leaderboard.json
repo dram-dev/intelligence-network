@@ -9,5 +9,16 @@
   "trust_high": 0.83,
   "checks": 1,
   "new": true
+ },
+ {
+  "handle": "s-9778e",
+  "county": "McLean",
+  "n": 1,
+  "n_corr": 0,
+  "trust": 0.5,
+  "trust_low": 0.21,
+  "trust_high": 0.79,
+  "checks": 0,
+  "new": true
  }
 ]
