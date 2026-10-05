@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-04T06:34:29+00:00",
+ "generated_at": "2026-10-05T07:24:00+00:00",
  "sample": false,
  "days": 14,
  "network_name": "Intelligence Network",
@@ -13,14 +13,14 @@
  "links": {
   "folder": "https://drive.google.com/drive/folders/10LXhVLmbA6xekUOXLUgVO_JFM9BjCw6d",
   "latest": "https://docs.google.com/document/d/1pU_qedEUjRd5C6kZpRF3w-_njpS6_zsmQIqwBUvN0kw/edit",
-  "digest": "https://docs.google.com/document/d/1LXoCde89nOQ663Dbh_rr3vJJJbFVRWYM3l20NAFC3Ts/edit"
+  "digest": "https://docs.google.com/document/d/19-k7lgZCsPCL4YrTf7u-caRwyCo4S_33NojWME4DNT0/edit"
  },
  "vitals": {
   "sensors_total": 2,
-  "sensors_active_24h": 1,
+  "sensors_active_24h": 0,
   "sensors_active_7d": 2,
-  "signals_24h_human": 1,
-  "signals_24h_reference": 19130,
+  "signals_24h_human": 0,
+  "signals_24h_reference": 18775,
   "corroborated_7d": 1,
   "flagged_7d": 0,
   "human_7d": 2,
@@ -35,17 +35,17 @@
   "corroboration_rate_7d": 0.5
  },
  "feeds": {
-  "ams_grain": "2026-10-04T02:45:35+00:00",
-  "iem_asos": "2026-10-04T05:42:29+00:00",
-  "iem_lsr": "2026-10-04T06:32:41+00:00",
-  "news": "2026-10-04T06:29:46+00:00",
-  "nrcs_scan": "2026-10-03T20:44:07+00:00",
-  "nws_alerts": "2026-10-04T06:34:29+00:00",
-  "nws_statements": "2026-10-04T06:29:48+00:00",
-  "pipeline": "2026-10-03T07:19:19+00:00",
-  "usdm": "2026-10-03T22:59:42+00:00",
-  "usgs_quake": "2026-10-04T06:27:40+00:00",
-  "usgs_water": "2026-10-04T06:07:35+00:00"
+  "ams_grain": "2026-10-05T02:54:34+00:00",
+  "iem_asos": "2026-10-05T06:51:06+00:00",
+  "iem_lsr": "2026-10-05T07:21:21+00:00",
+  "news": "2026-10-05T07:20:14+00:00",
+  "nrcs_scan": "2026-10-04T16:45:18+00:00",
+  "nws_alerts": "2026-10-05T07:23:56+00:00",
+  "nws_statements": "2026-10-05T07:20:15+00:00",
+  "pipeline": "2026-10-04T06:34:40+00:00",
+  "usdm": "2026-10-04T19:00:49+00:00",
+  "usgs_quake": "2026-10-05T07:21:21+00:00",
+  "usgs_water": "2026-10-05T06:10:58+00:00"
  },
  "reference_sizes": {
   "ams": 1,

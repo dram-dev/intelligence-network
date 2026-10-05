@@ -1,16 +1,1 @@
-[
- {
-  "metric": "nothing_here",
-  "label": "All quiet",
-  "value": "",
-  "who": "s-9778e",
-  "official": false,
-  "quality": "raw",
-  "agree": "none",
-  "grid": null,
-  "zip5": null,
-  "lat": 40.4946,
-  "lon": -88.8445,
-  "at": "2026-10-03T13:21+00:00"
- }
-]
+[]
