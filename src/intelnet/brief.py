@@ -16,7 +16,7 @@ import json
 from datetime import datetime, timedelta
 from typing import Any
 
-from intelnet import daymap, db, delivery, geo, network, notable, story_brief
+from intelnet import ahead, daymap, db, delivery, geo, network, notable, story_brief
 from intelnet.config import settings
 from intelnet.feeds.nws_alerts import active_alert_groups
 from intelnet.models import local_time, parse_iso, public_handle, utcnow
@@ -134,6 +134,20 @@ def news(skip: set[str] | None = None) -> list[str]:
     return out
 
 
+def today(c: geo.County | None, now: datetime) -> list[str]:
+    """The county's day ahead, first in the brief: today's and tonight's forecast and any outlook
+    risk over it (ahead.py). Without a county: the counties an outlook puts at risk."""
+    if not ahead.enabled():
+        return []
+    if c is not None:
+        day = ahead.for_point(c.lat, c.lon, now=now)
+        return ([f"{ahead.icon(p)} <b>{esc(p.name)}</b>: {esc(p.text())}" for p in day.periods]
+                + [f"{r.emoji} <b>{esc(r.name)}</b>: {esc(r.text())}" for r in day.risks])
+    at = ahead.target(now, [])
+    return [f"{r.emoji} <b>{esc(r.name)}</b>: {esc(r.text())} for {esc(ahead.names(cs))}"
+            for r, cs in ahead.county_risks(at, ahead.day_word(now, at))]
+
+
 def _digest_links(links: dict[str, str | None]) -> list[tuple[str, str]]:
     """Where the brief sends people for the whole digest: the site's copy first, made for a
     phone (Google Docs gives a phone a 256-pixel copy of any picture, so the map blurs, and
@@ -151,13 +165,16 @@ def _digest_links(links: dict[str, str | None]) -> list[tuple[str, str]]:
 
 
 def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | None = None,
-            day: dict[str, Any] | None = None) -> str:
+            day: dict[str, Any] | None = None, ahead_lines: list[str] | None = None) -> str:
     """The brief for one county (or the whole state when `fips` is None)."""
     now = now or utcnow()
     day = day if day is not None else notable.build(now)
     c = geo.county(fips)
     where = c.label if c else _state()
     lines = [f"☀️ <b>Morning brief</b> · {esc(local_time(now, '%a %-d %b'))} · {esc(where)}"]
+    first = ahead_lines if ahead_lines is not None else today(c, now)
+    if first:
+        lines += first + [""]
     linked, used = notable.listing(day)
     if linked:
         lines.append("<b>In the news, and what was measured there</b>")
@@ -234,7 +251,8 @@ def _readings_table(fips: str) -> str:
 
 
 def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetime | None = None,
-                 day: dict[str, Any] | None = None, picture: str | None = None) -> str:
+                 day: dict[str, Any] | None = None, picture: str | None = None,
+                 ahead_lines: list[str] | None = None) -> str:
     """The brief as a Telegram rich message: one heading naming the county, the day's map
     (daymap.py) with the stories under the numbers it gives them, the county's alerts and
     storms as lines, the night's readings as a list, the most-reported readings as a table,
@@ -245,6 +263,9 @@ def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetim
     c = geo.county(fips)
     where = c.label if c else _state()
     parts = [f"<h4>☀️ Morning brief: {esc(where)}</h4>"]
+    first = ahead_lines if ahead_lines is not None else today(c, now)
+    if first:
+        parts.append("<p>" + "<br>".join(first) + "</p>")
     if picture:
         parts.append(f'<figure><img src="tg://photo?id={picture}"/><figcaption>What stood out across '
                      f"{esc(_state())}, by topic; the numbers are the stories below"
@@ -314,8 +335,10 @@ def fanout_brief(date: str, links: dict[str, str | None]) -> int:
         fips = county_of(chat)
         if fips not in texts:
             day = day if day is not None else notable.build()          # one day for every county's brief
-            texts[fips] = (compose(fips, links, day=day),
-                           compose_rich(fips, links, day=day, picture=daymap.prepare(day, fips)))
+            first = today(geo.county(fips), utcnow())                  # one forecast per county
+            texts[fips] = (compose(fips, links, day=day, ahead_lines=first),
+                           compose_rich(fips, links, day=day, picture=daymap.prepare(day, fips),
+                                        ahead_lines=first))
         text, rich = texts[fips]
         ids.append(db.enqueue(key, chat, text, priority=5, stale_at=utcnow() + timedelta(hours=12), rich=rich))
     return delivery.send_now(ids)

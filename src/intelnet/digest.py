@@ -22,7 +22,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
 from typing import Any
 
-from intelnet import daymap, db, geo, network, notable, story_brief, trust
+from intelnet import ahead, daymap, db, geo, network, notable, story_brief, trust
 from intelnet.config import settings
 from intelnet.feeds.nws_alerts import SEVERITY_RANK, office
 from intelnet.models import iso, local_time, parse_iso, public_handle
@@ -59,6 +59,7 @@ class DigestModel:
     day: dict[str, Any] = field(default_factory=dict)                   # notable.py: the map's readings and stories
     picture: bytes | None = None                                        # the day's map (daymap.py, light), JPEG
     picture_full: bytes | None = None                                   # the same map as a PNG, its own file in Drive
+    ahead: ahead.Statewide = field(default_factory=ahead.Statewide)     # the day ahead: places' forecasts, risks
 
     @property
     def headline(self) -> str:
@@ -144,6 +145,7 @@ def build(hours: float = 24.0, date: str | None = None) -> DigestModel:
     model.contributions = [r for r in network.mesh_rows(hours) if r["n_human"]][:25]
     model.extremes = _extremes(hours)
     model.day = notable.build(now)
+    model.ahead = ahead.statewide(now)
     if settings.card_maps:                     # the day on the map, on the page's white
         try:
             img = daymap.render_image(model.day, None, now=now, pal=daymap.LIGHT)
@@ -440,6 +442,17 @@ def render_html(m: DigestModel, downloads: dict[str, str] | None = None, *, page
         p.append(_table(["Reading", "Where", "Why"],
                         [[_Raw(f'<b style="white-space:nowrap">{_e(a)}</b>'), b, c] for a, b, c in stand]))
 
+    # ── the day ahead: the outlooks over the state, then the places' forecasts ──
+    if m.ahead:
+        p.append(_section("The day ahead", "National Weather Service forecasts, and the outlooks that cover "
+                                           f"{state}."))
+        p += [f'<p style="{_style(BODY, 10.5, lh=1.4, after=6)}"><b>{_e(r.name)}</b>: {_e(r.text())} for '
+              f"{_e(ahead.names(cs))}.</p>" for r, cs in m.ahead.risks]
+        if m.ahead.places:
+            heads = [x.name for x in m.ahead.places[0][1]]
+            p.append(_table(["Place", *heads], [[_Raw(f"<b>{_e(name)}</b>"), *(x.text() for x in ps)]
+                                                for name, ps in m.ahead.places if len(ps) == len(heads)]))
+
     # ── storms ──
     if m.storms:
         p.append(_section("Storms", "Warnings, storm reports and readings, one storm at a time."))
@@ -587,6 +600,11 @@ def render_text(m: DigestModel) -> str:
               f"{', official' if e.get('n_reference') else ''}{', verified' if e['verified'] else ''})"
               for e in m.events] or ["  none"]
     lines.append("")
+    if m.ahead:
+        lines.append("The day ahead:")
+        lines += [f"  {r.name}: {r.text()} for {ahead.names(cs)}" for r, cs in m.ahead.risks]
+        lines += [f"  {name}: " + " · ".join(f"{x.name}: {x.text()}" for x in ps) for name, ps in m.ahead.places]
+        lines.append("")
     lines.append("NWS alerts:")
     lines += [f"  [{a['severity']}] {a['event']} — {', '.join(a['counties'][:5])} (until {_when(a['expires'])})"
               for a in m.alerts[:15]] or ["  none"]

@@ -82,6 +82,8 @@ class Settings(BaseSettings):
     backup_keep: int = Field(default=7, alias="BACKUP_KEEP")
     reference_retention_days: int = Field(default=30, alias="REFERENCE_RETENTION_DAYS")
     news_enabled: bool = Field(default=True, alias="NEWS_ENABLED")
+    # The forecast and outlooks (ahead.py) in the brief, the digest and /forecast.
+    ahead_enabled: bool = Field(default=True, alias="AHEAD_ENABLED")
     # USDA AMS Market News (marsapi.ams.usda.gov) — free key, sent as the HTTP
     # Basic username. Empty disables the grain-bid feed.
     usda_mars_key: str = Field(default="", alias="USDA_MARS_KEY")

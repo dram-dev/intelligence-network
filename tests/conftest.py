@@ -38,6 +38,7 @@ def _offline(monkeypatch: pytest.MonkeyPatch, tmp_path_factory: pytest.TempPathF
     monkeypatch.setattr(settings, "geo_online_lookup", False)
     monkeypatch.setattr(settings, "llm_enabled", False)
     monkeypatch.setattr(settings, "grid_checks_enabled", False)
+    monkeypatch.setattr(settings, "ahead_enabled", False)           # forecasts and outlooks are online
     monkeypatch.setattr(settings, "card_map_radar", False)          # the card picture's radar is online
     monkeypatch.setattr(settings, "card_map_loop", False)
     monkeypatch.setattr(settings, "backup_dir", tmp_path_factory.mktemp("backups"))

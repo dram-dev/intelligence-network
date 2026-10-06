@@ -23,6 +23,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Callable, Self
 
 from intelnet import (
+    ahead,
     asks,
     contrib,
     db,
@@ -409,7 +410,7 @@ def help_text() -> str:
         "🗣 <b>Report</b>: tap a button below, or type it: <code>rain 1.2in</code> · <code>hail quarter</code> · "
         "<code>trees down</code>. Your own words work too.\n"
         "🔔 <b>What you get</b>: /subscribe to choose · /subs to see · /unsubscribe all to stop\n"
-        "🔎 <b>Around you</b>: /near · /alerts · /latest\n"
+        "🔎 <b>Around you</b>: /forecast · /near · /alerts · /latest\n"
         "👤 <b>You</b>: /me · /privacy · /forget deletes everything about you\n"
         "<blockquote expandable><b>More</b>\n"
         "Everything you can report, by topic: /topics\n"
@@ -440,7 +441,8 @@ def short_description() -> str:
 
 
 COMMAND_MENU = [("report", "Report what you see"), ("home", "Set or change your place"),
-                ("subscribe", "Choose warnings or the morning brief"), ("near", "What's been reported near you"),
+                ("subscribe", "Choose warnings or the morning brief"), ("forecast", "Today's forecast for your place"),
+                ("near", "What's been reported near you"),
                 ("alerts", "Weather alerts in effect"), ("subs", "What you get, and how to stop it"),
                 ("help", "How it works")]
 
@@ -709,6 +711,23 @@ def _fmt_age(dt: datetime) -> str:
     return f"{mins}m ago" if mins < 90 else f"{mins // 60}h ago"
 
 
+def cmd_forecast(message: dict, sensor: Sensor | None, args: str) -> str:
+    """The forecast for the chat's place (live location, else home) or one named: the next three
+    periods from the National Weather Service, and any outlook risk over it (ahead.py)."""
+    chat = (message.get("chat") or {}).get("id")
+    loc = geo.parse_location(args) if args.strip() else (
+        (db.live_location(chat) if chat else None) or (sensor.location if sensor else None))
+    if loc is None or not loc.has_point:
+        return "Where? <code>/forecast 62704</code>, <code>/forecast peoria</code>, or set /home first."
+    day = ahead.for_point(loc.lat, loc.lon, n=3, from_daytime=False)
+    if not day:
+        return "The forecast isn't available right now. Try again in a few minutes."
+    return "\n".join([f"🌤 <b>Forecast for {esc(loc.describe())}</b>"]
+                     + [f"{ahead.icon(p)} <b>{esc(p.name)}</b>: {esc(p.text())}" for p in day.periods]
+                     + [f"{r.emoji} <b>{esc(r.name)}</b>: {esc(r.text())}" for r in day.risks]
+                     + ["<i>National Weather Service</i>"])
+
+
 def cmd_near(message: dict, sensor: Sensor | None, args: str) -> str:
     hours = 3.0
     m = re.search(r"\b(\d+(?:\.\d+)?)\s*h\b", args)
@@ -935,7 +954,8 @@ def cmd_forget(message: dict, sensor: Sensor | None, args: str) -> str:
 COMMANDS: dict[str, Callable[[dict, Sensor | None, str], str]] = {
     "join": cmd_join, "home": cmd_home, "me": cmd_me,
     "subscribe": cmd_subscribe, "unsubscribe": cmd_unsubscribe, "subs": cmd_subs,
-    "subscriptions": cmd_subs, "near": cmd_near, "alerts": cmd_alerts, "latest": cmd_latest,
+    "subscriptions": cmd_subs, "near": cmd_near, "forecast": cmd_forecast, "alerts": cmd_alerts,
+    "latest": cmd_latest,
     "digest": cmd_digest_email, "network": cmd_network, "topics": cmd_topics, "admin": cmd_admin,
     "privacy": cmd_privacy, "forget": cmd_forget, "report": cmd_report, "followups": cmd_followups,
     "mute": cmd_mute, "unmute": cmd_unmute,

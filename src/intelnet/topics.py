@@ -176,6 +176,8 @@ class Topic:
     # scale, legend) and each alert's colour by event name.
     card_radar: dict[str, Any] = field(default_factory=dict)
     alert_colours: dict[str, str] = field(default_factory=dict)
+    # What's ahead (ahead.py): the forecast for a place, the outlooks over it, the digest's places.
+    ahead: dict[str, Any] = field(default_factory=dict)
 
     def mapping(self, name: str) -> dict[str, dict[str, str]]:
         return self.mappings.get(name, {})
@@ -303,6 +305,7 @@ def load_topic(path: Path) -> Topic:
         cap_category=str(raw.get("cap_category") or "Other"),
         card_radar=dict(raw.get("card_radar") or {}),
         alert_colours={str(k): str(v) for k, v in (raw.get("alert_colours") or {}).items()},
+        ahead=dict(raw.get("ahead") or {}),
     )
 
 
