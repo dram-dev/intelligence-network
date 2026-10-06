@@ -5,9 +5,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/07022000/",
   "lat": 37.2203,
   "lon": -89.4632,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "19.3 ft",
-  "discharge_cms": "236,000 cfs"
+  "at": "2026-10-06T06:00+00:00",
+  "stage_m": "23.7 ft",
+  "discharge_cms": "319,000 cfs"
  },
  {
   "site": "07020500",
@@ -15,9 +15,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/07020500/",
   "lat": 37.9008,
   "lon": -89.8302,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "17.7 ft",
-  "discharge_cms": "267,000 cfs"
+  "at": "2026-10-06T06:00+00:00",
+  "stage_m": "22.8 ft",
+  "discharge_cms": "355,000 cfs"
  },
  {
   "site": "05597500",
@@ -25,19 +25,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05597500/",
   "lat": 37.7311,
   "lon": -88.8892,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "0.69 ft",
-  "discharge_cms": "0.13 cfs"
- },
- {
-  "site": "05593900",
-  "name": "EAST FORK SHOAL CREEK NEAR COFFEEN, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05593900/",
-  "lat": 39.1489,
-  "lon": -89.3525,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "1.84 ft",
-  "discharge_cms": "0.06 cfs"
+  "at": "2026-10-06T06:00+00:00",
+  "stage_m": "0.65 ft",
+  "discharge_cms": "0.08 cfs"
  },
  {
   "site": "05587498",
@@ -45,8 +35,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05587498/",
   "lat": 38.8873,
   "lon": -90.184,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "15 ft"
+  "at": "2026-10-06T06:00+00:00",
+  "stage_m": "15.4 ft"
  },
  {
   "site": "05587450",
@@ -54,38 +44,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05587450/",
   "lat": 38.968,
   "lon": -90.429,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "17 ft",
-  "discharge_cms": "216,000 cfs"
- },
- {
-  "site": "05586100",
-  "name": "ILLINOIS RIVER AT VALLEY CITY, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05586100/",
-  "lat": 39.7032,
-  "lon": -90.6431,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "7.72 ft",
-  "discharge_cms": "27,500 cfs"
- },
- {
-  "site": "05585500",
-  "name": "ILLINOIS RIVER AT MEREDOSIA, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05585500/",
-  "lat": 39.8312,
-  "lon": -90.5598,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "9.03 ft"
- },
- {
-  "site": "05576193",
-  "name": "SUGAR CREEK AT COVERED BRIDGE RD NR CHATHAM, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05576193/",
-  "lat": 39.64,
-  "lon": -89.6617,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "17.8 ft",
-  "discharge_cms": "0.77 cfs"
+  "at": "2026-10-06T06:00+00:00",
+  "stage_m": "17.2 ft",
+  "discharge_cms": "219,000 cfs"
  },
  {
   "site": "05572000",
@@ -93,9 +54,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05572000/",
   "lat": 40.0312,
   "lon": -88.5892,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "5.78 ft",
-  "discharge_cms": "133 cfs"
+  "at": "2026-10-06T06:00+00:00",
+  "stage_m": "5.76 ft",
+  "discharge_cms": "131 cfs"
  },
  {
   "site": "05551330",
@@ -103,9 +64,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05551330/",
   "lat": 41.8458,
   "lon": -88.3492,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "2.89 ft",
-  "discharge_cms": "35.6 cfs"
+  "at": "2026-10-06T06:00+00:00",
+  "stage_m": "2.68 ft",
+  "discharge_cms": "25.4 cfs"
  },
  {
   "site": "05550500",
@@ -113,29 +74,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05550500/",
   "lat": 42.0259,
   "lon": -88.2557,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "1.67 ft",
-  "discharge_cms": "37.7 cfs"
- },
- {
-  "site": "05541710",
-  "name": "AUX SABLE CREEK NEAR MORRIS, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05541710/",
-  "lat": 41.4169,
-  "lon": -88.3478,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "5.27 ft",
-  "discharge_cms": "545 cfs"
- },
- {
-  "site": "05536275",
-  "name": "THORN CREEK AT THORNTON, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05536275/",
-  "lat": 41.5682,
-  "lon": -87.6083,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "3.32 ft",
-  "discharge_cms": "104 cfs"
+  "at": "2026-10-06T06:00+00:00",
+  "stage_m": "1.55 ft",
+  "discharge_cms": "27 cfs"
  },
  {
   "site": "05536235",
@@ -143,19 +84,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05536235/",
   "lat": 41.5209,
   "lon": -87.5901,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "3.6 ft",
-  "discharge_cms": "16 cfs"
- },
- {
-  "site": "05536085",
-  "name": "NB CHICAGO RIVER AT N PULASKI ROAD AT CHICAGO, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05536085/",
-  "lat": 41.9747,
-  "lon": -87.7283,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "12.2 ft",
-  "discharge_cms": "231 cfs"
+  "at": "2026-10-06T06:00+00:00",
+  "stage_m": "3.52 ft",
+  "discharge_cms": "13.8 cfs"
  },
  {
   "site": "05531410",
@@ -163,8 +94,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05531410/",
   "lat": 41.8473,
   "lon": -87.9366,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "49.1 ft"
+  "at": "2026-10-06T06:00+00:00",
+  "stage_m": "48.6 ft"
  },
  {
   "site": "05531045",
@@ -172,19 +103,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05531045/",
   "lat": 42.0121,
   "lon": -88.001,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "12.7 ft",
-  "discharge_cms": "70 cfs"
- },
- {
-  "site": "05530100",
-  "name": "DES PLAINES R AT ALGONQUIN RD AT DES PLAINES, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05530100/",
-  "lat": 42.0317,
-  "lon": -87.8781,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "12.3 ft",
-  "discharge_cms": "1,180 cfs"
+  "at": "2026-10-06T06:00+00:00",
+  "stage_m": "12.5 ft",
+  "discharge_cms": "55 cfs"
  },
  {
   "site": "05530000",
@@ -192,38 +113,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05530000/",
   "lat": 42.0495,
   "lon": -87.9181,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "0.82 ft",
-  "discharge_cms": "3.25 cfs"
- },
- {
-  "site": "05448000",
-  "name": "MILL CREEK AT MILAN, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05448000/",
-  "lat": 41.4424,
-  "lon": -90.5555,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "2.99 ft",
-  "discharge_cms": "148 cfs"
- },
- {
-  "site": "05437645",
-  "name": "ROCK RIVER ABOVE DAM AT ROCKFORD, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05437645/",
-  "lat": 42.2665,
-  "lon": -89.096,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "2.64 ft"
- },
- {
-  "site": "05437050",
-  "name": "PECATONICA RIVER NR SHIRLAND, ILL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05437050/",
-  "lat": 42.4381,
-  "lon": -89.175,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "8.46 ft",
-  "discharge_cms": "3,300 cfs"
+  "at": "2026-10-06T06:00+00:00",
+  "stage_m": "0.79 ft",
+  "discharge_cms": "2.79 cfs"
  },
  {
   "site": "03399800",
@@ -231,45 +123,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03399800/",
   "lat": 37.1592,
   "lon": -88.4273,
-  "at": "2026-10-05T06:00+00:00",
+  "at": "2026-10-06T06:00+00:00",
   "stage_m": "12.9 ft"
- },
- {
-  "site": "03384500",
-  "name": "OHIO RIVER AT DAM 51 AT GOLCONDA, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/03384500/",
-  "lat": 37.3578,
-  "lon": -88.4825,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "30.1 ft"
- },
- {
-  "site": "03346000",
-  "name": "NORTH FORK EMBARRAS RIVER NEAR OBLONG, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/03346000/",
-  "lat": 39.0103,
-  "lon": -87.9456,
-  "at": "2026-10-05T06:00+00:00",
-  "stage_m": "1.96 ft",
-  "discharge_cms": "2.59 cfs"
- },
- {
-  "site": "05536121",
-  "name": "CHICAGO RIVER AT CHICAGO LOCK AT CHICAGO, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05536121/",
-  "lat": 41.8893,
-  "lon": -87.6079,
-  "at": "2026-10-05T05:57+00:00",
-  "stage_m": "-2.17 ft"
- },
- {
-  "site": "04087440",
-  "name": "LAKE MICHIGAN AT CHICAGO LOCK AT CHICAGO, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/04087440/",
-  "lat": 41.8893,
-  "lon": -87.6079,
-  "at": "2026-10-05T05:57+00:00",
-  "stage_m": "0.49 ft"
  },
  {
   "site": "05539900",
@@ -277,9 +132,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05539900/",
   "lat": 41.911,
   "lon": -88.1791,
-  "at": "2026-10-05T05:55+00:00",
-  "stage_m": "2.95 ft",
-  "discharge_cms": "1.67 cfs"
+  "at": "2026-10-06T05:55+00:00",
+  "stage_m": "4.28 ft",
+  "discharge_cms": "45.3 cfs"
  },
  {
   "site": "05535400",
@@ -287,8 +142,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05535400/",
   "lat": 42.1673,
   "lon": -87.857,
-  "at": "2026-10-05T05:55+00:00",
-  "stage_m": "7.4 ft"
+  "at": "2026-10-06T05:55+00:00",
+  "stage_m": "7.33 ft"
  },
  {
   "site": "05535070",
@@ -296,9 +151,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05535070/",
   "lat": 42.1597,
   "lon": -87.7981,
-  "at": "2026-10-05T05:55+00:00",
-  "stage_m": "3.24 ft",
-  "discharge_cms": "23.7 cfs"
+  "at": "2026-10-06T05:55+00:00",
+  "stage_m": "2.97 ft",
+  "discharge_cms": "13 cfs"
  },
  {
   "site": "05535000",
@@ -306,9 +161,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05535000/",
   "lat": 42.2325,
   "lon": -87.8453,
-  "at": "2026-10-05T05:55+00:00",
-  "stage_m": "2.34 ft",
-  "discharge_cms": "15.5 cfs"
+  "at": "2026-10-06T05:55+00:00",
+  "stage_m": "2.18 ft",
+  "discharge_cms": "8.1 cfs"
  },
  {
   "site": "05534500",
@@ -316,9 +171,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05534500/",
   "lat": 42.1526,
   "lon": -87.8184,
-  "at": "2026-10-05T05:55+00:00",
-  "stage_m": "5.37 ft",
-  "discharge_cms": "28.3 cfs"
+  "at": "2026-10-06T05:55+00:00",
+  "stage_m": "5.06 ft",
+  "discharge_cms": "15.7 cfs"
  },
  {
   "site": "05531500",
@@ -326,9 +181,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05531500/",
   "lat": 41.8258,
   "lon": -87.9003,
-  "at": "2026-10-05T05:50+00:00",
-  "stage_m": "2.98 ft",
-  "discharge_cms": "220 cfs"
+  "at": "2026-10-06T05:50+00:00",
+  "stage_m": "2.45 ft",
+  "discharge_cms": "123 cfs"
  },
  {
   "site": "03384450",
@@ -336,7 +191,7 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03384450/",
   "lat": 37.4726,
   "lon": -88.5477,
-  "at": "2026-10-05T05:50+00:00",
+  "at": "2026-10-06T05:50+00:00",
   "stage_m": "2 ft",
   "discharge_cms": "0.13 cfs"
  },
@@ -346,9 +201,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05594600/",
   "lat": 38.5254,
   "lon": -89.8245,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "7.94 ft",
-  "discharge_cms": "19.1 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "7.95 ft",
+  "discharge_cms": "19.5 cfs"
  },
  {
   "site": "05585000",
@@ -356,9 +211,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05585000/",
   "lat": 40.0251,
   "lon": -90.6311,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "8.91 ft",
-  "discharge_cms": "900 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "7.82 ft",
+  "discharge_cms": "624 cfs"
  },
  {
   "site": "05584500",
@@ -366,9 +221,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05584500/",
   "lat": 40.3315,
   "lon": -90.8962,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "6.87 ft",
-  "discharge_cms": "405 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "6.1 ft",
+  "discharge_cms": "290 cfs"
  },
  {
   "site": "05583000",
@@ -376,9 +231,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05583000/",
   "lat": 40.1234,
   "lon": -89.984,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "3.7 ft",
-  "discharge_cms": "580 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "3.67 ft",
+  "discharge_cms": "559 cfs"
  },
  {
   "site": "05582000",
@@ -386,9 +241,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05582000/",
   "lat": 40.1319,
   "lon": -89.7357,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "1.6 ft",
-  "discharge_cms": "321 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "1.52 ft",
+  "discharge_cms": "285 cfs"
  },
  {
   "site": "05579630",
@@ -396,8 +251,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05579630/",
   "lat": 40.4583,
   "lon": -88.8775,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "4.64 ft"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "4.68 ft"
  },
  {
   "site": "05576500",
@@ -405,9 +260,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05576500/",
   "lat": 39.8431,
   "lon": -89.5475,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "2.69 ft",
-  "discharge_cms": "161 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "2.62 ft",
+  "discharge_cms": "149 cfs"
  },
  {
   "site": "05576000",
@@ -415,9 +270,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05576000/",
   "lat": 39.7422,
   "lon": -89.5673,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "5.25 ft",
-  "discharge_cms": "8.43 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "5.24 ft",
+  "discharge_cms": "8.21 cfs"
  },
  {
   "site": "05573540",
@@ -425,9 +280,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05573540/",
   "lat": 39.8311,
   "lon": -88.9764,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "2.32 ft",
-  "discharge_cms": "47.9 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "2.34 ft",
+  "discharge_cms": "51.1 cfs"
  },
  {
   "site": "05570000",
@@ -435,9 +290,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05570000/",
   "lat": 40.4901,
   "lon": -90.3401,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "12.9 ft",
-  "discharge_cms": "3,440 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "11.2 ft",
+  "discharge_cms": "2,460 cfs"
  },
  {
   "site": "05569500",
@@ -445,9 +300,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05569500/",
   "lat": 40.7077,
   "lon": -90.2798,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "8.03 ft",
-  "discharge_cms": "2,170 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "6.89 ft",
+  "discharge_cms": "1,660 cfs"
  },
  {
   "site": "05568615",
@@ -455,8 +310,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05568615/",
   "lat": 40.4766,
   "lon": -89.8885,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "10.8 ft"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "11.1 ft"
  },
  {
   "site": "05568500",
@@ -464,9 +319,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05568500/",
   "lat": 40.5534,
   "lon": -89.7773,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "11.7 ft",
-  "discharge_cms": "29,200 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "11.9 ft",
+  "discharge_cms": "29,300 cfs"
  },
  {
   "site": "05568000",
@@ -474,9 +329,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05568000/",
   "lat": 40.4547,
   "lon": -89.6062,
-  "at": "2026-10-05T05:45+00:00",
+  "at": "2026-10-06T05:45+00:00",
   "stage_m": "14.2 ft",
-  "discharge_cms": "226 cfs"
+  "discharge_cms": "223 cfs"
  },
  {
   "site": "05567500",
@@ -484,9 +339,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05567500/",
   "lat": 40.6235,
   "lon": -89.2417,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "1.46 ft",
-  "discharge_cms": "151 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "1.38 ft",
+  "discharge_cms": "134 cfs"
  },
  {
   "site": "05561500",
@@ -494,9 +349,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05561500/",
   "lat": 40.6771,
   "lon": -89.5312,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "2.17 ft",
-  "discharge_cms": "0.09 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "2.15 ft",
+  "discharge_cms": "0.02 cfs"
  },
  {
   "site": "05558300",
@@ -504,9 +359,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05558300/",
   "lat": 41.1073,
   "lon": -89.3562,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "18.3 ft",
-  "discharge_cms": "29,200 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "18 ft",
+  "discharge_cms": "23,300 cfs"
  },
  {
   "site": "05556500",
@@ -514,9 +369,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05556500/",
   "lat": 41.3674,
   "lon": -89.498,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "4.17 ft",
-  "discharge_cms": "557 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "3.81 ft",
+  "discharge_cms": "422 cfs"
  },
  {
   "site": "05555300",
@@ -524,9 +379,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05555300/",
   "lat": 41.2083,
   "lon": -88.9306,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "4.48 ft",
-  "discharge_cms": "330 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "4.34 ft",
+  "discharge_cms": "266 cfs"
  },
  {
   "site": "05554500",
@@ -534,9 +389,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05554500/",
   "lat": 40.8778,
   "lon": -88.636,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "3.32 ft",
-  "discharge_cms": "117 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "3.18 ft",
+  "discharge_cms": "87 cfs"
  },
  {
   "site": "05552500",
@@ -544,9 +399,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05552500/",
   "lat": 41.3841,
   "lon": -88.789,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "9.54 ft",
-  "discharge_cms": "5,920 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "9.18 ft",
+  "discharge_cms": "5,300 cfs"
  },
  {
   "site": "05551582",
@@ -554,8 +409,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05551582/",
   "lat": 41.6428,
   "lon": -88.4434,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "10.3 ft"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "10.2 ft"
  },
  {
   "site": "05551581",
@@ -563,8 +418,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05551581/",
   "lat": 41.6428,
   "lon": -88.4434,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "8.94 ft"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "8.88 ft"
  },
  {
   "site": "05551580",
@@ -572,9 +427,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05551580/",
   "lat": 41.6428,
   "lon": -88.4434,
-  "at": "2026-10-05T05:45+00:00",
+  "at": "2026-10-06T05:45+00:00",
   "stage_m": "13.6 ft",
-  "discharge_cms": "3,390 cfs"
+  "discharge_cms": "3,290 cfs"
  },
  {
   "site": "05551001",
@@ -582,8 +437,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05551001/",
   "lat": 41.9962,
   "lon": -88.295,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "7.7 ft"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "7.66 ft"
  },
  {
   "site": "05551000",
@@ -591,9 +446,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05551000/",
   "lat": 41.9962,
   "lon": -88.295,
-  "at": "2026-10-05T05:45+00:00",
+  "at": "2026-10-06T05:45+00:00",
   "stage_m": "13.5 ft",
-  "discharge_cms": "3,030 cfs"
+  "discharge_cms": "3,060 cfs"
  },
  {
   "site": "05550300",
@@ -601,9 +456,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05550300/",
   "lat": 42.0587,
   "lon": -88.3041,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "6.27 ft",
-  "discharge_cms": "63.8 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "6.16 ft",
+  "discharge_cms": "48.3 cfs"
  },
  {
   "site": "05550000",
@@ -611,8 +466,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05550000/",
   "lat": 42.1663,
   "lon": -88.2903,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "1.47 ft"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "1.48 ft"
  },
  {
   "site": "05549000",
@@ -620,9 +475,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05549000/",
   "lat": 42.3207,
   "lon": -88.3126,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "1.23 ft",
-  "discharge_cms": "18.6 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "1.18 ft",
+  "discharge_cms": "16.9 cfs"
  },
  {
   "site": "05548500",
@@ -630,8 +485,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05548500/",
   "lat": 42.3763,
   "lon": -88.2367,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "4.5 ft"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "4.48 ft"
  },
  {
   "site": "05548105",
@@ -639,9 +494,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05548105/",
   "lat": 42.3853,
   "lon": -88.3697,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "5.48 ft",
-  "discharge_cms": "114 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "5.35 ft",
+  "discharge_cms": "91.5 cfs"
  },
  {
   "site": "05547000",
@@ -649,8 +504,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05547000/",
   "lat": 42.4719,
   "lon": -88.147,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "4.86 ft"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "4.83 ft"
  },
  {
   "site": "05543500",
@@ -658,9 +513,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05543500/",
   "lat": 41.327,
   "lon": -88.7171,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "13.6 ft",
-  "discharge_cms": "14,000 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "12.9 ft",
+  "discharge_cms": "10,700 cfs"
  },
  {
   "site": "05543010",
@@ -668,8 +523,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05543010/",
   "lat": 41.2999,
   "lon": -88.6142,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "21.2 ft"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "20.9 ft"
  },
  {
   "site": "05542500",
@@ -677,9 +532,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05542500/",
   "lat": 41.3546,
   "lon": -88.4285,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "7.29 ft",
-  "discharge_cms": "13,500 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "6.37 ft",
+  "discharge_cms": "9,910 cfs"
  },
  {
   "site": "05542000",
@@ -687,9 +542,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05542000/",
   "lat": 41.2862,
   "lon": -88.3599,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "2.13 ft",
-  "discharge_cms": "191 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "1.94 ft",
+  "discharge_cms": "133 cfs"
  },
  {
   "site": "05540500",
@@ -697,9 +552,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05540500/",
   "lat": 41.5223,
   "lon": -88.1929,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "12 ft",
-  "discharge_cms": "1,290 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "11.5 ft",
+  "discharge_cms": "939 cfs"
  },
  {
   "site": "05540290",
@@ -707,9 +562,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05540290/",
   "lat": 41.6904,
   "lon": -88.1664,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "7.99 ft",
-  "discharge_cms": "682 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "7.7 ft",
+  "discharge_cms": "562 cfs"
  },
  {
   "site": "05540275",
@@ -717,9 +572,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05540275/",
   "lat": 41.7259,
   "lon": -88.1632,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "3.73 ft",
-  "discharge_cms": "13.5 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "3.52 ft",
+  "discharge_cms": "10.4 cfs"
  },
  {
   "site": "05540228",
@@ -727,9 +582,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05540228/",
   "lat": 41.7928,
   "lon": -88.079,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "6.39 ft",
-  "discharge_cms": "142 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "6.11 ft",
+  "discharge_cms": "105 cfs"
  },
  {
   "site": "05536580",
@@ -737,9 +592,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05536580/",
   "lat": 41.689,
   "lon": -87.8299,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "26 ft",
-  "discharge_cms": "39.8 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "25.8 ft",
+  "discharge_cms": "27.3 cfs"
  },
  {
   "site": "05536500",
@@ -747,9 +602,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05536500/",
   "lat": 41.6466,
   "lon": -87.7664,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "2.84 ft",
-  "discharge_cms": "21.1 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "2.72 ft",
+  "discharge_cms": "14.9 cfs"
  },
  {
   "site": "05536343",
@@ -757,9 +612,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05536343/",
   "lat": 41.6217,
   "lon": -87.7333,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "5.31 ft",
-  "discharge_cms": "2.01 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "5.25 ft",
+  "discharge_cms": "1.15 cfs"
  },
  {
   "site": "05536310",
@@ -767,9 +622,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05536310/",
   "lat": 41.597,
   "lon": -87.6657,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "2.59 ft",
-  "discharge_cms": "11.9 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "2.89 ft",
+  "discharge_cms": "22.8 cfs"
  },
  {
   "site": "05536290",
@@ -777,9 +632,19 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05536290/",
   "lat": 41.607,
   "lon": -87.5976,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "6.42 ft",
-  "discharge_cms": "166 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "6.21 ft",
+  "discharge_cms": "140 cfs"
+ },
+ {
+  "site": "05536275",
+  "name": "THORN CREEK AT THORNTON, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536275/",
+  "lat": 41.5682,
+  "lon": -87.6083,
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "3.23 ft",
+  "discharge_cms": "88.6 cfs"
  },
  {
   "site": "05536162",
@@ -787,9 +652,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05536162/",
   "lat": 41.4357,
   "lon": -87.5716,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "7.84 ft",
-  "discharge_cms": "4.91 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "7.77 ft",
+  "discharge_cms": "3.85 cfs"
  },
  {
   "site": "05532500",
@@ -797,9 +662,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05532500/",
   "lat": 41.8215,
   "lon": -87.822,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "4.48 ft",
-  "discharge_cms": "1,830 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "3.99 ft",
+  "discharge_cms": "1,420 cfs"
  },
  {
   "site": "05531015",
@@ -807,8 +672,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05531015/",
   "lat": 42.0314,
   "lon": -88.0112,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "5.42 ft"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "5.41 ft"
  },
  {
   "site": "05530990",
@@ -816,9 +681,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05530990/",
   "lat": 42.0604,
   "lon": -88.0167,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "2.72 ft",
-  "discharge_cms": "17.3 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "2.59 ft",
+  "discharge_cms": "12.1 cfs"
  },
  {
   "site": "05529500",
@@ -826,9 +691,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05529500/",
   "lat": 42.0953,
   "lon": -87.9128,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "1.2 ft",
-  "discharge_cms": "9.59 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "1.06 ft",
+  "discharge_cms": "6.09 cfs"
  },
  {
   "site": "05529000",
@@ -836,9 +701,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05529000/",
   "lat": 42.0872,
   "lon": -87.8872,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "12.2 ft",
-  "discharge_cms": "955 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "11.8 ft",
+  "discharge_cms": "823 cfs"
  },
  {
   "site": "05528100",
@@ -846,9 +711,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05528100/",
   "lat": 42.2006,
   "lon": -87.9186,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "10.3 ft",
-  "discharge_cms": "906 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "9.99 ft",
+  "discharge_cms": "827 cfs"
  },
  {
   "site": "05527500",
@@ -856,9 +721,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05527500/",
   "lat": 41.3463,
   "lon": -88.1867,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "1.96 ft",
-  "discharge_cms": "3,590 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "1.98 ft",
+  "discharge_cms": "3,670 cfs"
  },
  {
   "site": "05526000",
@@ -866,9 +731,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05526000/",
   "lat": 41.0092,
   "lon": -87.8241,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "3.83 ft",
-  "discharge_cms": "636 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "3.91 ft",
+  "discharge_cms": "678 cfs"
  },
  {
   "site": "05520500",
@@ -876,9 +741,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05520500/",
   "lat": 41.1599,
   "lon": -87.6688,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "2.62 ft",
-  "discharge_cms": "2,550 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "2.66 ft",
+  "discharge_cms": "2,620 cfs"
  },
  {
   "site": "05446500",
@@ -886,9 +751,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05446500/",
   "lat": 41.5561,
   "lon": -90.1853,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "11 ft",
-  "discharge_cms": "15,600 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "10.5 ft",
+  "discharge_cms": "14,400 cfs"
  },
  {
   "site": "05444000",
@@ -896,9 +761,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05444000/",
   "lat": 41.9027,
   "lon": -89.6964,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "3.93 ft",
-  "discharge_cms": "206 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "3.76 ft",
+  "discharge_cms": "176 cfs"
  },
  {
   "site": "05443500",
@@ -906,9 +771,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05443500/",
   "lat": 41.7722,
   "lon": -89.7456,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "7.9 ft",
-  "discharge_cms": "14,200 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "7.61 ft",
+  "discharge_cms": "13,400 cfs"
  },
  {
   "site": "05439500",
@@ -916,9 +781,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05439500/",
   "lat": 42.1106,
   "lon": -88.9007,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "4.97 ft",
-  "discharge_cms": "1,140 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "4.04 ft",
+  "discharge_cms": "753 cfs"
  },
  {
   "site": "05437641",
@@ -926,8 +791,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05437641/",
   "lat": 42.2887,
   "lon": -89.0644,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "3.08 ft"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "3.06 ft"
  },
  {
   "site": "03381500",
@@ -935,9 +800,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03381500/",
   "lat": 38.0606,
   "lon": -88.1572,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "2.15 ft",
-  "discharge_cms": "38.3 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "2.14 ft",
+  "discharge_cms": "37.4 cfs"
  },
  {
   "site": "03378000",
@@ -945,9 +810,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03378000/",
   "lat": 38.3864,
   "lon": -87.9758,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "1.23 ft",
-  "discharge_cms": "0.19 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "1.22 ft",
+  "discharge_cms": "0.16 cfs"
  },
  {
   "site": "03377500",
@@ -955,8 +820,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03377500/",
   "lat": 38.3983,
   "lon": -87.7564,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "5.06 ft",
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "5.04 ft",
   "discharge_cms": "13,000 cfs"
  },
  {
@@ -965,9 +830,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03346500/",
   "lat": 38.7238,
   "lon": -87.6644,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "16.9 ft",
-  "discharge_cms": "109 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "16.8 ft",
+  "discharge_cms": "99.3 cfs"
  },
  {
   "site": "03345500",
@@ -975,9 +840,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03345500/",
   "lat": 38.9367,
   "lon": -88.0223,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "1.08 ft",
-  "discharge_cms": "82.5 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "1.05 ft",
+  "discharge_cms": "78.9 cfs"
  },
  {
   "site": "03343350",
@@ -985,19 +850,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03343350/",
   "lat": 39.9526,
   "lon": -88.1692,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "5.59 ft",
-  "discharge_cms": "2.72 cfs"
- },
- {
-  "site": "03339000",
-  "name": "VERMILION RIVER NEAR DANVILLE, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/03339000/",
-  "lat": 40.1011,
-  "lon": -87.5976,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "3 ft",
-  "discharge_cms": "330 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "5.57 ft",
+  "discharge_cms": "2.62 cfs"
  },
  {
   "site": "03337100",
@@ -1005,9 +860,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03337100/",
   "lat": 40.1114,
   "lon": -88.2194,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "7.49 ft",
-  "discharge_cms": "2.09 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "7.5 ft",
+  "discharge_cms": "2.43 cfs"
  },
  {
   "site": "03336645",
@@ -1015,9 +870,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03336645/",
   "lat": 40.137,
   "lon": -87.7447,
-  "at": "2026-10-05T05:45+00:00",
-  "stage_m": "0.91 ft",
-  "discharge_cms": "35.5 cfs"
+  "at": "2026-10-06T05:45+00:00",
+  "stage_m": "0.96 ft",
+  "discharge_cms": "44.1 cfs"
  },
  {
   "site": "05540250",
@@ -1025,9 +880,27 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05540250/",
   "lat": 41.7181,
   "lon": -88.0706,
-  "at": "2026-10-05T05:40+00:00",
-  "stage_m": "15.8 ft",
-  "discharge_cms": "213 cfs"
+  "at": "2026-10-06T05:40+00:00",
+  "stage_m": "15.6 ft",
+  "discharge_cms": "183 cfs"
+ },
+ {
+  "site": "05536121",
+  "name": "CHICAGO RIVER AT CHICAGO LOCK AT CHICAGO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536121/",
+  "lat": 41.8893,
+  "lon": -87.6079,
+  "at": "2026-10-06T05:39+00:00",
+  "stage_m": "-1.87 ft"
+ },
+ {
+  "site": "04087440",
+  "name": "LAKE MICHIGAN AT CHICAGO LOCK AT CHICAGO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/04087440/",
+  "lat": 41.8893,
+  "lon": -87.6079,
+  "at": "2026-10-06T05:39+00:00",
+  "stage_m": "0.4 ft"
  },
  {
   "site": "05536123",
@@ -1035,8 +908,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05536123/",
   "lat": 41.8884,
   "lon": -87.6212,
-  "at": "2026-10-05T05:38+00:00",
-  "stage_m": "-2.23 ft"
+  "at": "2026-10-06T05:38+00:00",
+  "stage_m": "-1.94 ft"
  },
  {
   "site": "05540195",
@@ -1044,9 +917,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05540195/",
   "lat": 41.8019,
   "lon": -88.0689,
-  "at": "2026-10-05T05:35+00:00",
-  "stage_m": "4.59 ft",
-  "discharge_cms": "18.3 cfs"
+  "at": "2026-10-06T05:35+00:00",
+  "stage_m": "4.5 ft",
+  "discharge_cms": "13 cfs"
  },
  {
   "site": "03337000",
@@ -1054,9 +927,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03337000/",
   "lat": 40.1113,
   "lon": -88.2266,
-  "at": "2026-10-05T05:35+00:00",
+  "at": "2026-10-06T05:35+00:00",
   "stage_m": "10.3 ft",
-  "discharge_cms": "1.85 cfs"
+  "discharge_cms": "1.91 cfs"
  },
  {
   "site": "05536890",
@@ -1064,9 +937,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05536890/",
   "lat": 41.6912,
   "lon": -87.9638,
-  "at": "2026-10-05T05:32+00:00",
-  "stage_m": "25.1 ft",
-  "discharge_cms": "3,840 cfs"
+  "at": "2026-10-06T05:32+00:00",
+  "stage_m": "25.6 ft",
+  "discharge_cms": "1,720 cfs"
  },
  {
   "site": "05599490",
@@ -1074,9 +947,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05599490/",
   "lat": 37.7583,
   "lon": -89.3278,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "3.69 ft",
-  "discharge_cms": "25.1 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "8.09 ft"
  },
  {
   "site": "05597000",
@@ -1084,9 +956,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05597000/",
   "lat": 37.8914,
   "lon": -89.0194,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "2.5 ft",
-  "discharge_cms": "66.6 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "2.49 ft",
+  "discharge_cms": "65.9 cfs"
  },
  {
   "site": "05595952",
@@ -1094,9 +966,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05595952/",
   "lat": 38.027,
   "lon": -88.9606,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "7.47 ft",
-  "discharge_cms": "33.3 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "7.48 ft",
+  "discharge_cms": "34.1 cfs"
  },
  {
   "site": "05595820",
@@ -1104,7 +976,7 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05595820/",
   "lat": 38.2867,
   "lon": -88.8722,
-  "at": "2026-10-05T05:30+00:00",
+  "at": "2026-10-06T05:30+00:00",
   "stage_m": "1.59 ft",
   "discharge_cms": "2.82 cfs"
  },
@@ -1114,8 +986,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05595730/",
   "lat": 38.2542,
   "lon": -89.0406,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "0.93 ft",
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "0.9 ft",
   "discharge_cms": "0 cfs"
  },
  {
@@ -1124,9 +996,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05595200/",
   "lat": 38.3239,
   "lon": -89.9706,
-  "at": "2026-10-05T05:30+00:00",
+  "at": "2026-10-06T05:30+00:00",
   "stage_m": "26.9 ft",
-  "discharge_cms": "11.5 cfs"
+  "discharge_cms": "11.2 cfs"
  },
  {
   "site": "05594800",
@@ -1134,9 +1006,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05594800/",
   "lat": 38.4061,
   "lon": -89.8739,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "0.16 ft",
-  "discharge_cms": "18.8 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "0.09 ft",
+  "discharge_cms": "15.2 cfs"
  },
  {
   "site": "05594070",
@@ -1144,9 +1016,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05594070/",
   "lat": 38.6159,
   "lon": -89.6288,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "2.52 ft",
-  "discharge_cms": "2.77 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "2.47 ft",
+  "discharge_cms": "2.15 cfs"
  },
  {
   "site": "05594000",
@@ -1154,9 +1026,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05594000/",
   "lat": 38.6097,
   "lon": -89.4947,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "1.02 ft",
-  "discharge_cms": "24.1 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "0.99 ft",
+  "discharge_cms": "20.1 cfs"
  },
  {
   "site": "05593000",
@@ -1164,9 +1036,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05593000/",
   "lat": 38.6103,
   "lon": -89.3575,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "5.75 ft",
-  "discharge_cms": "86.8 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "5.76 ft",
+  "discharge_cms": "88.5 cfs"
  },
  {
   "site": "05592900",
@@ -1174,7 +1046,7 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05592900/",
   "lat": 38.6889,
   "lon": -89.1,
-  "at": "2026-10-05T05:30+00:00",
+  "at": "2026-10-06T05:30+00:00",
   "stage_m": "2.45 ft",
   "discharge_cms": "0 cfs"
  },
@@ -1184,9 +1056,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05592800/",
   "lat": 38.9223,
   "lon": -89.2367,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "3.47 ft",
-  "discharge_cms": "0.86 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "3.46 ft",
+  "discharge_cms": "0.75 cfs"
  },
  {
   "site": "05592575",
@@ -1194,8 +1066,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05592575/",
   "lat": 38.9371,
   "lon": -88.9528,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "3.79 ft",
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "3.78 ft",
   "discharge_cms": "0 cfs"
  },
  {
@@ -1204,9 +1076,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05592500/",
   "lat": 38.9606,
   "lon": -89.0888,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "2.83 ft",
-  "discharge_cms": "68.8 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "2.78 ft",
+  "discharge_cms": "63.4 cfs"
  },
  {
   "site": "05592100",
@@ -1214,9 +1086,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05592100/",
   "lat": 39.2299,
   "lon": -88.8418,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "2.28 ft",
-  "discharge_cms": "61.7 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "2.32 ft",
+  "discharge_cms": "65.9 cfs"
  },
  {
   "site": "05592050",
@@ -1224,8 +1096,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05592050/",
   "lat": 39.4059,
   "lon": -88.8968,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "2.76 ft"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "2.8 ft"
  },
  {
   "site": "05592000",
@@ -1233,7 +1105,7 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05592000/",
   "lat": 39.407,
   "lon": -88.781,
-  "at": "2026-10-05T05:30+00:00",
+  "at": "2026-10-06T05:30+00:00",
   "stage_m": "6.38 ft",
   "discharge_cms": "64.3 cfs"
  },
@@ -1243,8 +1115,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05591700/",
   "lat": 39.7307,
   "lon": -88.6621,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "2.4 ft",
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "2.39 ft",
   "discharge_cms": "0 cfs"
  },
  {
@@ -1253,7 +1125,7 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05591550/",
   "lat": 39.5067,
   "lon": -88.5273,
-  "at": "2026-10-05T05:30+00:00",
+  "at": "2026-10-06T05:30+00:00",
   "stage_m": "2.17 ft",
   "discharge_cms": "0 cfs"
  },
@@ -1263,7 +1135,7 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05591200/",
   "lat": 39.5835,
   "lon": -88.4138,
-  "at": "2026-10-05T05:30+00:00",
+  "at": "2026-10-06T05:30+00:00",
   "stage_m": "1.92 ft",
   "discharge_cms": "36.4 cfs"
  },
@@ -1273,9 +1145,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05587900/",
   "lat": 38.8244,
   "lon": -89.9747,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "3.38 ft",
-  "discharge_cms": "23.2 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "3.34 ft",
+  "discharge_cms": "3.04 cfs"
  },
  {
   "site": "05587000",
@@ -1283,9 +1155,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05587000/",
   "lat": 39.2339,
   "lon": -90.3944,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "3.79 ft",
-  "discharge_cms": "9.84 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "3.78 ft",
+  "discharge_cms": "9.43 cfs"
  },
  {
   "site": "05586300",
@@ -1293,8 +1165,27 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05586300/",
   "lat": 39.6328,
   "lon": -90.6077,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "20.3 ft"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "20.6 ft"
+ },
+ {
+  "site": "05586100",
+  "name": "ILLINOIS RIVER AT VALLEY CITY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05586100/",
+  "lat": 39.7032,
+  "lon": -90.6431,
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "8.06 ft",
+  "discharge_cms": "29,300 cfs"
+ },
+ {
+  "site": "05585500",
+  "name": "ILLINOIS RIVER AT MEREDOSIA, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05585500/",
+  "lat": 39.8312,
+  "lon": -90.5598,
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "9.44 ft"
  },
  {
   "site": "05579500",
@@ -1302,9 +1193,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05579500/",
   "lat": 39.9518,
   "lon": -89.3857,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "3.43 ft",
-  "discharge_cms": "11.3 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "3.38 ft",
+  "discharge_cms": "9.41 cfs"
  },
  {
   "site": "05578500",
@@ -1312,7 +1203,7 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05578500/",
   "lat": 40.1152,
   "lon": -89.0492,
-  "at": "2026-10-05T05:30+00:00",
+  "at": "2026-10-06T05:30+00:00",
   "stage_m": "9.06 ft",
   "discharge_cms": "19.5 cfs"
  },
@@ -1322,8 +1213,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05578250/",
   "lat": 40.2359,
   "lon": -88.8096,
-  "at": "2026-10-05T05:30+00:00",
-  "discharge_cms": "16.9 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "discharge_cms": "19.3 cfs"
  },
  {
   "site": "05578100",
@@ -1331,8 +1222,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05578100/",
   "lat": 40.2279,
   "lon": -88.6606,
-  "at": "2026-10-05T05:30+00:00",
-  "discharge_cms": "17.7 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "discharge_cms": "14.5 cfs"
  },
  {
   "site": "05576250",
@@ -1340,9 +1231,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05576250/",
   "lat": 39.7791,
   "lon": -89.5925,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "9.68 ft",
-  "discharge_cms": "11.4 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "9.64 ft",
+  "discharge_cms": "9.1 cfs"
  },
  {
   "site": "05576022",
@@ -1350,8 +1241,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05576022/",
   "lat": 39.7538,
   "lon": -89.5657,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "4.28 ft"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "4.3 ft"
  },
  {
   "site": "05565600",
@@ -1359,8 +1250,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05565600/",
   "lat": 40.6583,
   "lon": -89.0503,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "13.1 ft"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "13 ft"
  },
  {
   "site": "05551700",
@@ -1368,9 +1259,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05551700/",
   "lat": 41.6719,
   "lon": -88.4415,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "5.37 ft",
-  "discharge_cms": "232 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "4.93 ft",
+  "discharge_cms": "169 cfs"
  },
  {
   "site": "05551675",
@@ -1378,9 +1269,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05551675/",
   "lat": 41.7408,
   "lon": -88.3833,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "4.94 ft",
-  "discharge_cms": "149 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "4.6 ft",
+  "discharge_cms": "114 cfs"
  },
  {
   "site": "05550001",
@@ -1388,9 +1279,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05550001/",
   "lat": 42.1619,
   "lon": -88.2939,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "8.43 ft",
-  "discharge_cms": "2,880 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "8.46 ft",
+  "discharge_cms": "2,910 cfs"
  },
  {
   "site": "05547500",
@@ -1398,8 +1289,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05547500/",
   "lat": 42.4192,
   "lon": -88.1259,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "4.76 ft"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "4.73 ft"
  },
  {
   "site": "05537980",
@@ -1407,8 +1298,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05537980/",
   "lat": 41.5365,
   "lon": -88.0837,
-  "at": "2026-10-05T05:30+00:00",
-  "discharge_cms": "5,200 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "discharge_cms": "5,150 cfs"
  },
  {
   "site": "05536340",
@@ -1416,9 +1307,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05536340/",
   "lat": 41.6141,
   "lon": -87.7295,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "2.02 ft",
-  "discharge_cms": "39.1 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "1.99 ft",
+  "discharge_cms": "34.1 cfs"
  },
  {
   "site": "05536255",
@@ -1426,9 +1317,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05536255/",
   "lat": 41.5399,
   "lon": -87.6494,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "4.44 ft",
-  "discharge_cms": "20.8 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "4.3 ft",
+  "discharge_cms": "15.7 cfs"
  },
  {
   "site": "05536137",
@@ -1436,8 +1327,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05536137/",
   "lat": 41.8372,
   "lon": -87.6854,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "-2.16 ft"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "-1.85 ft"
  },
  {
   "site": "05536000",
@@ -1445,9 +1336,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05536000/",
   "lat": 42.0122,
   "lon": -87.7958,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "2.51 ft",
-  "discharge_cms": "223 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "2.09 ft",
+  "discharge_cms": "167 cfs"
  },
  {
   "site": "05528000",
@@ -1455,9 +1346,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05528000/",
   "lat": 42.3439,
   "lon": -87.9411,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "5.95 ft",
-  "discharge_cms": "705 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "5.71 ft",
+  "discharge_cms": "642 cfs"
  },
  {
   "site": "05527800",
@@ -1465,9 +1356,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05527800/",
   "lat": 42.4894,
   "lon": -87.9259,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "7.28 ft",
-  "discharge_cms": "530 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "7.15 ft",
+  "discharge_cms": "485 cfs"
  },
  {
   "site": "05469000",
@@ -1475,9 +1366,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05469000/",
   "lat": 41.0014,
   "lon": -90.8543,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "17.2 ft",
-  "discharge_cms": "743 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "16.7 ft",
+  "discharge_cms": "634 cfs"
  },
  {
   "site": "05467000",
@@ -1485,9 +1376,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05467000/",
   "lat": 41.1289,
   "lon": -90.9193,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "21.7 ft",
-  "discharge_cms": "331 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "21.2 ft",
+  "discharge_cms": "268 cfs"
  },
  {
   "site": "05466500",
@@ -1495,9 +1386,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05466500/",
   "lat": 41.187,
   "lon": -90.9674,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "17 ft",
-  "discharge_cms": "996 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "16.3 ft",
+  "discharge_cms": "820 cfs"
  },
  {
   "site": "05447500",
@@ -1505,9 +1396,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05447500/",
   "lat": 41.4889,
   "lon": -90.158,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "8.65 ft",
-  "discharge_cms": "2,670 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "7.5 ft",
+  "discharge_cms": "2,080 cfs"
  },
  {
   "site": "05443000",
@@ -1515,8 +1406,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05443000/",
   "lat": 41.7872,
   "lon": -89.6771,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "6.65 ft"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "6.58 ft"
  },
  {
   "site": "05440000",
@@ -1524,9 +1415,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05440000/",
   "lat": 42.1944,
   "lon": -88.9989,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "8.42 ft",
-  "discharge_cms": "2,590 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "7.59 ft",
+  "discharge_cms": "1,810 cfs"
  },
  {
   "site": "05439000",
@@ -1534,9 +1425,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05439000/",
   "lat": 41.9311,
   "lon": -88.7597,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "5.12 ft",
-  "discharge_cms": "276 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "4.69 ft",
+  "discharge_cms": "206 cfs"
  },
  {
   "site": "05438500",
@@ -1544,9 +1435,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05438500/",
   "lat": 42.2561,
   "lon": -88.8632,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "3.17 ft",
-  "discharge_cms": "915 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "2.74 ft",
+  "discharge_cms": "732 cfs"
  },
  {
   "site": "05437610",
@@ -1554,8 +1445,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05437610/",
   "lat": 42.3686,
   "lon": -89.0573,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "6.12 ft"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "6.09 ft"
  },
  {
   "site": "05437500",
@@ -1563,7 +1454,7 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05437500/",
   "lat": 42.4503,
   "lon": -89.0725,
-  "at": "2026-10-05T05:30+00:00",
+  "at": "2026-10-06T05:30+00:00",
   "stage_m": "6.7 ft",
   "discharge_cms": "7,680 cfs"
  },
@@ -1573,9 +1464,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05435500/",
   "lat": 42.3003,
   "lon": -89.6153,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "8.39 ft",
-  "discharge_cms": "1,770 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "7.65 ft",
+  "discharge_cms": "1,580 cfs"
  },
  {
   "site": "05420400",
@@ -1583,8 +1474,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05420400/",
   "lat": 41.8945,
   "lon": -90.1568,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "6.77 ft"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "6.24 ft"
  },
  {
   "site": "03382100",
@@ -1592,9 +1483,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03382100/",
   "lat": 37.6381,
   "lon": -88.6781,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "2.29 ft",
-  "discharge_cms": "8.71 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "2.31 ft",
+  "discharge_cms": "9.6 cfs"
  },
  {
   "site": "03381495",
@@ -1602,7 +1493,7 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03381495/",
   "lat": 38.0922,
   "lon": -88.1561,
-  "at": "2026-10-05T05:30+00:00",
+  "at": "2026-10-06T05:30+00:00",
   "stage_m": "3.05 ft"
  },
  {
@@ -1611,8 +1502,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03380000/",
   "lat": 38.3719,
   "lon": -88.2331,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "5.04 ft"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "5.02 ft"
  },
  {
   "site": "03379500",
@@ -1620,9 +1511,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03379500/",
   "lat": 38.6347,
   "lon": -88.2972,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "4.24 ft",
-  "discharge_cms": "31 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "4.23 ft",
+  "discharge_cms": "30.4 cfs"
  },
  {
   "site": "03378635",
@@ -1630,9 +1521,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03378635/",
   "lat": 39.1039,
   "lon": -88.5944,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "10.7 ft",
-  "discharge_cms": "24.4 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "10.5 ft",
+  "discharge_cms": "2.65 cfs"
  },
  {
   "site": "03337570",
@@ -1640,9 +1531,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03337570/",
   "lat": 40.1298,
   "lon": -88.1517,
-  "at": "2026-10-05T05:30+00:00",
-  "stage_m": "0.56 ft",
-  "discharge_cms": "32.6 cfs"
+  "at": "2026-10-06T05:30+00:00",
+  "stage_m": "0.54 ft",
+  "discharge_cms": "30.7 cfs"
  },
  {
   "site": "05540160",
@@ -1650,9 +1541,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05540160/",
   "lat": 41.8317,
   "lon": -88.0478,
-  "at": "2026-10-05T05:20+00:00",
-  "stage_m": "12.5 ft",
-  "discharge_cms": "64.6 cfs"
+  "at": "2026-10-06T05:20+00:00",
+  "stage_m": "12.3 ft",
+  "discharge_cms": "46.8 cfs"
  },
  {
   "site": "05540060",
@@ -1660,9 +1551,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05540060/",
   "lat": 41.8564,
   "lon": -88.2042,
-  "at": "2026-10-05T05:20+00:00",
-  "stage_m": "4.71 ft",
-  "discharge_cms": "43.7 cfs"
+  "at": "2026-10-06T05:20+00:00",
+  "stage_m": "4.57 ft",
+  "discharge_cms": "33.9 cfs"
  },
  {
   "site": "05536900",
@@ -1670,8 +1561,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05536900/",
   "lat": 41.6789,
   "lon": -88.001,
-  "at": "2026-10-05T05:20+00:00",
-  "stage_m": "24.8 ft"
+  "at": "2026-10-06T05:20+00:00",
+  "stage_m": "25.4 ft"
  },
  {
   "site": "05531300",
@@ -1679,9 +1570,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05531300/",
   "lat": 41.8862,
   "lon": -87.9596,
-  "at": "2026-10-05T05:20+00:00",
-  "stage_m": "6.09 ft",
-  "discharge_cms": "171 cfs"
+  "at": "2026-10-06T05:20+00:00",
+  "stage_m": "5.69 ft",
+  "discharge_cms": "108 cfs"
  },
  {
   "site": "394803088215001",
@@ -1689,8 +1580,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/394803088215001/",
   "lat": 39.8008,
   "lon": -88.3639,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "7.09 ft"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "7.1 ft"
  },
  {
   "site": "05594450",
@@ -1698,9 +1589,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05594450/",
   "lat": 38.7164,
   "lon": -89.8292,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "3.46 ft",
-  "discharge_cms": "0.37 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "3.51 ft",
+  "discharge_cms": "0.55 cfs"
  },
  {
   "site": "05594100",
@@ -1708,9 +1599,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05594100/",
   "lat": 38.4506,
   "lon": -89.6275,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "1.18 ft",
-  "discharge_cms": "94.6 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "1.14 ft",
+  "discharge_cms": "89.4 cfs"
  },
  {
   "site": "05593945",
@@ -1718,9 +1609,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05593945/",
   "lat": 38.7758,
   "lon": -89.4989,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "42 ft",
-  "discharge_cms": "8.86 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "42.1 ft",
+  "discharge_cms": "11.1 cfs"
  },
  {
   "site": "05593575",
@@ -1728,7 +1619,7 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05593575/",
   "lat": 38.4417,
   "lon": -89.4167,
-  "at": "2026-10-05T05:15+00:00",
+  "at": "2026-10-06T05:15+00:00",
   "stage_m": "4.65 ft",
   "discharge_cms": "0.45 cfs"
  },
@@ -1738,8 +1629,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05590800/",
   "lat": 39.8063,
   "lon": -88.4762,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "2.65 ft"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "2.81 ft"
  },
  {
   "site": "05590520",
@@ -1747,9 +1638,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05590520/",
   "lat": 39.7917,
   "lon": -88.3678,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "2.55 ft",
-  "discharge_cms": "33 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "2.4 ft"
  },
  {
   "site": "05590050",
@@ -1757,9 +1647,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05590050/",
   "lat": 40.0972,
   "lon": -88.3072,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "9.95 ft",
-  "discharge_cms": "2.78 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "9.93 ft",
+  "discharge_cms": "2.39 cfs"
  },
  {
   "site": "05588000",
@@ -1767,9 +1657,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05588000/",
   "lat": 38.8417,
   "lon": -90.0331,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "0.29 ft",
-  "discharge_cms": "0.5 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "0.28 ft",
+  "discharge_cms": "0.24 cfs"
  },
  {
   "site": "05580950",
@@ -1777,9 +1667,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05580950/",
   "lat": 40.4712,
   "lon": -89.029,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "1.15 ft",
-  "discharge_cms": "51.8 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "1.09 ft",
+  "discharge_cms": "43.2 cfs"
  },
  {
   "site": "05580000",
@@ -1787,9 +1677,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05580000/",
   "lat": 40.2548,
   "lon": -89.1294,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "2.6 ft",
-  "discharge_cms": "27.1 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "2.57 ft",
+  "discharge_cms": "25.2 cfs"
  },
  {
   "site": "05579725",
@@ -1797,9 +1687,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05579725/",
   "lat": 40.365,
   "lon": -88.9642,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "3.4 ft",
-  "discharge_cms": "8.7 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "3.38 ft",
+  "discharge_cms": "8.02 cfs"
  },
  {
   "site": "05578000",
@@ -1807,9 +1697,19 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05578000/",
   "lat": 40.0133,
   "lon": -89.8383,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "4.62 ft",
-  "discharge_cms": "221 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "4.63 ft",
+  "discharge_cms": "225 cfs"
+ },
+ {
+  "site": "05577500",
+  "name": "SPRING CREEK AT SPRINGFIELD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05577500/",
+  "lat": 39.8154,
+  "lon": -89.6994,
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "1.51 ft",
+  "discharge_cms": "0.59 cfs"
  },
  {
   "site": "05576900",
@@ -1817,8 +1717,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05576900/",
   "lat": 39.8714,
   "lon": -89.6141,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "21.4 ft"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "21.3 ft"
  },
  {
   "site": "05576090",
@@ -1826,8 +1726,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05576090/",
   "lat": 39.6992,
   "lon": -89.7617,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "12 ft",
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "11.9 ft",
   "discharge_cms": "0 cfs"
  },
  {
@@ -1836,9 +1736,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05570910/",
   "lat": 40.311,
   "lon": -88.3224,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "5.03 ft",
-  "discharge_cms": "33 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "4.88 ft",
+  "discharge_cms": "28 cfs"
  },
  {
   "site": "05568800",
@@ -1846,9 +1746,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05568800/",
   "lat": 41.0187,
   "lon": -89.8357,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "10.7 ft",
-  "discharge_cms": "112 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "10.5 ft",
+  "discharge_cms": "94 cfs"
  },
  {
   "site": "05565700",
@@ -1856,9 +1756,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05565700/",
   "lat": 40.6053,
   "lon": -89.003,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "11.8 ft",
-  "discharge_cms": "15.3 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "11.7 ft",
+  "discharge_cms": "13 cfs"
  },
  {
   "site": "05564400",
@@ -1866,9 +1766,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05564400/",
   "lat": 40.6053,
   "lon": -88.899,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "14.9 ft",
-  "discharge_cms": "18.2 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "14.8 ft",
+  "discharge_cms": "14 cfs"
  },
  {
   "site": "05551545",
@@ -1876,9 +1776,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05551545/",
   "lat": 41.7013,
   "lon": -88.327,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "8.8 ft",
-  "discharge_cms": "68.8 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "8.51 ft",
+  "discharge_cms": "51.8 cfs"
  },
  {
   "site": "05551200",
@@ -1886,9 +1786,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05551200/",
   "lat": 41.9332,
   "lon": -88.3411,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "2.11 ft",
-  "discharge_cms": "53.2 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "2.02 ft",
+  "discharge_cms": "44.9 cfs"
  },
  {
   "site": "05549501",
@@ -1896,8 +1796,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05549501/",
   "lat": 42.3092,
   "lon": -88.2515,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "3.48 ft"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "3.5 ft"
  },
  {
   "site": "05549500",
@@ -1905,8 +1805,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05549500/",
   "lat": 42.31,
   "lon": -88.2515,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "3.82 ft"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "3.81 ft"
  },
  {
   "site": "05540130",
@@ -1914,9 +1814,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05540130/",
   "lat": 41.7203,
   "lon": -88.1319,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "5.19 ft",
-  "discharge_cms": "315 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "4.98 ft",
+  "discharge_cms": "258 cfs"
  },
  {
   "site": "05540095",
@@ -1924,9 +1824,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05540095/",
   "lat": 41.8175,
   "lon": -88.1714,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "8.48 ft",
-  "discharge_cms": "237 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "8.28 ft",
+  "discharge_cms": "166 cfs"
  },
  {
   "site": "05539000",
@@ -1934,9 +1834,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05539000/",
   "lat": 41.5147,
   "lon": -88.0733,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "11.9 ft",
-  "discharge_cms": "224 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "11.6 ft",
+  "discharge_cms": "164 cfs"
  },
  {
   "site": "05536265",
@@ -1944,8 +1844,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05536265/",
   "lat": 41.5284,
   "lon": -87.5294,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "4.76 ft"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "5.41 ft"
  },
  {
   "site": "05536215",
@@ -1953,9 +1853,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05536215/",
   "lat": 41.5302,
   "lon": -87.6226,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "2.72 ft",
-  "discharge_cms": "47.2 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "2.68 ft",
+  "discharge_cms": "42.9 cfs"
  },
  {
   "site": "05533000",
@@ -1963,9 +1863,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05533000/",
   "lat": 41.7389,
   "lon": -87.8969,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "3.63 ft",
-  "discharge_cms": "29.4 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "3.59 ft",
+  "discharge_cms": "26.8 cfs"
  },
  {
   "site": "05532000",
@@ -1973,9 +1873,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05532000/",
   "lat": 41.8819,
   "lon": -87.8689,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "1.75 ft",
-  "discharge_cms": "27.1 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "1.62 ft",
+  "discharge_cms": "19.6 cfs"
  },
  {
   "site": "05528500",
@@ -1983,9 +1883,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05528500/",
   "lat": 42.1519,
   "lon": -87.9578,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "2.17 ft",
-  "discharge_cms": "19 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "1.95 ft",
+  "discharge_cms": "10.4 cfs"
  },
  {
   "site": "05495500",
@@ -1993,9 +1893,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05495500/",
   "lat": 40.1428,
   "lon": -91.3374,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "2.9 ft",
-  "discharge_cms": "46.3 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "2.73 ft",
+  "discharge_cms": "28.3 cfs"
  },
  {
   "site": "05442300",
@@ -2003,9 +1903,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05442300/",
   "lat": 41.8442,
   "lon": -89.4858,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "11.2 ft",
-  "discharge_cms": "11,700 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "10.9 ft",
+  "discharge_cms": "10,600 cfs"
  },
  {
   "site": "05440700",
@@ -2013,9 +1913,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05440700/",
   "lat": 42.1222,
   "lon": -89.2554,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "9.1 ft",
-  "discharge_cms": "11,500 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "8.71 ft",
+  "discharge_cms": "10,500 cfs"
  },
  {
   "site": "05438170",
@@ -2023,9 +1923,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05438170/",
   "lat": 42.2653,
   "lon": -88.6085,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "8.86 ft",
-  "discharge_cms": "242 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "8.47 ft",
+  "discharge_cms": "185 cfs"
  },
  {
   "site": "05419000",
@@ -2033,9 +1933,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05419000/",
   "lat": 42.2583,
   "lon": -90.285,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "4.42 ft",
-  "discharge_cms": "196 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "4.36 ft",
+  "discharge_cms": "158 cfs"
  },
  {
   "site": "05414820",
@@ -2043,9 +1943,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05414820/",
   "lat": 42.4786,
   "lon": -90.4867,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "4.84 ft",
-  "discharge_cms": "23.3 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "4.83 ft",
+  "discharge_cms": "22.7 cfs"
  },
  {
   "site": "03382200",
@@ -2053,8 +1953,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03382200/",
   "lat": 37.7381,
   "lon": -88.5014,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "9.01 ft"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "9.02 ft"
  },
  {
   "site": "03343400",
@@ -2062,9 +1962,19 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03343400/",
   "lat": 39.7916,
   "lon": -88.1858,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "3 ft",
-  "discharge_cms": "13.4 cfs"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "2.92 ft",
+  "discharge_cms": "11.2 cfs"
+ },
+ {
+  "site": "03339000",
+  "name": "VERMILION RIVER NEAR DANVILLE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03339000/",
+  "lat": 40.1011,
+  "lon": -87.5976,
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "2.88 ft",
+  "discharge_cms": "292 cfs"
  },
  {
   "site": "03338780",
@@ -2072,8 +1982,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/03338780/",
   "lat": 40.2657,
   "lon": -87.6421,
-  "at": "2026-10-05T05:15+00:00",
-  "stage_m": "5.07 ft"
+  "at": "2026-10-06T05:15+00:00",
+  "stage_m": "5.02 ft"
  },
  {
   "site": "370000089094501",
@@ -2081,8 +1991,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/370000089094501/",
   "lat": 37.0001,
   "lon": -89.1626,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "16.8 ft"
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "19.5 ft"
  },
  {
   "site": "05595240",
@@ -2090,8 +2000,8 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05595240/",
   "lat": 38.1886,
   "lon": -89.8889,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "68.6 ft"
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "69 ft"
  },
  {
   "site": "05595000",
@@ -2099,19 +2009,19 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05595000/",
   "lat": 38.3197,
   "lon": -89.8883,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "68.6 ft",
-  "discharge_cms": "589 cfs"
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "68.8 ft",
+  "discharge_cms": "414 cfs"
  },
  {
-  "site": "05577500",
-  "name": "SPRING CREEK AT SPRINGFIELD, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05577500/",
-  "lat": 39.8154,
-  "lon": -89.6994,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "1.54 ft",
-  "discharge_cms": "0.78 cfs"
+  "site": "05593900",
+  "name": "EAST FORK SHOAL CREEK NEAR COFFEEN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05593900/",
+  "lat": 39.1489,
+  "lon": -89.3525,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "1.8 ft",
+  "discharge_cms": "0.03 cfs"
  },
  {
   "site": "05568705",
@@ -2119,7 +2029,7 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05568705/",
   "lat": 40.3266,
   "lon": -89.9141,
-  "at": "2026-10-05T05:00+00:00",
+  "at": "2026-10-06T05:00+00:00",
   "stage_m": "15.4 ft",
   "discharge_cms": "57.4 cfs"
  },
@@ -2129,7 +2039,7 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05560500/",
   "lat": 40.6674,
   "lon": -89.5039,
-  "at": "2026-10-05T05:00+00:00",
+  "at": "2026-10-06T05:00+00:00",
   "stage_m": "0.74 ft",
   "discharge_cms": "5.13 cfs"
  },
@@ -2139,171 +2049,9 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05551540/",
   "lat": 41.7336,
   "lon": -88.3333,
-  "at": "2026-10-05T05:00+00:00",
+  "at": "2026-10-06T05:00+00:00",
   "stage_m": "12.4 ft",
   "discharge_cms": "3,140 cfs"
- },
- {
-  "site": "05548000",
-  "name": "NIPPERSINK LAKE AT FOX LAKE, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05548000/",
-  "lat": 42.4031,
-  "lon": -88.1826,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "4.76 ft"
- },
- {
-  "site": "05537500",
-  "name": "LONG RUN NEAR LEMONT, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05537500/",
-  "lat": 41.6426,
-  "lon": -87.9994,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "2.02 ft",
-  "discharge_cms": "42 cfs"
- },
- {
-  "site": "05536140",
-  "name": "CHICAGO SANITARY AND SHIP CANAL AT STICKNEY, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05536140/",
-  "lat": 41.8167,
-  "lon": -87.7535,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "-2.24 ft"
- },
- {
-  "site": "05536118",
-  "name": "NB CHICAGO RIVER AT GRAND AVENUE AT CHICAGO, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05536118/",
-  "lat": 41.8923,
-  "lon": -87.6424,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "-2.13 ft"
- },
- {
-  "site": "05535500",
-  "name": "WF OF NB CHICAGO RIVER AT NORTHBROOK IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05535500/",
-  "lat": 42.1383,
-  "lon": -87.8347,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "1.13 ft",
-  "discharge_cms": "13.2 cfs"
- },
- {
-  "site": "05533600",
-  "name": "DES PLAINES RIVER NEAR LEMONT, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05533600/",
-  "lat": 41.6724,
-  "lon": -88.0285,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "8.86 ft",
-  "discharge_cms": "2,280 cfs"
- },
- {
-  "site": "05533400",
-  "name": "SAWMILL CREEK NEAR LEMONT, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05533400/",
-  "lat": 41.7078,
-  "lon": -87.9628,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "8.91 ft",
-  "discharge_cms": "17 cfs"
- },
- {
-  "site": "05532600",
-  "name": "DES PLAINES RIVER AT LYONS, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05532600/",
-  "lat": 41.8061,
-  "lon": -87.8112,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "14.6 ft"
- },
- {
-  "site": "05531175",
-  "name": "SALT CREEK AT WOOD DALE, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05531175/",
-  "lat": 41.9641,
-  "lon": -87.9842,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "7.99 ft"
- },
- {
-  "site": "05530750",
-  "name": "DES PLAINES RIVER AT RIVER FOREST, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05530750/",
-  "lat": 41.8883,
-  "lon": -87.8328,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "8.72 ft"
- },
- {
-  "site": "05527950",
-  "name": "MILL CREEK AT OLD MILL CREEK, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05527950/",
-  "lat": 42.4153,
-  "lon": -87.9692,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "7.89 ft",
-  "discharge_cms": "131 cfs"
- },
- {
-  "site": "05525500",
-  "name": "SUGAR CREEK AT MILFORD, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05525500/",
-  "lat": 40.6299,
-  "lon": -87.7235,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "3.18 ft",
-  "discharge_cms": "39.7 cfs"
- },
- {
-  "site": "05525000",
-  "name": "IROQUOIS RIVER AT IROQUOIS, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/05525000/",
-  "lat": 40.8231,
-  "lon": -87.5817,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "7.84 ft",
-  "discharge_cms": "464 cfs"
- },
- {
-  "site": "03612600",
-  "name": "OHIO RIVER AT OLMSTED, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/03612600/",
-  "lat": 37.1792,
-  "lon": -89.0584,
-  "at": "2026-10-05T05:00+00:00",
-  "discharge_cms": "89,800 cfs",
-  "stage_m": "22.9 ft"
- },
- {
-  "site": "03612000",
-  "name": "CACHE RIVER AT FORMAN, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/03612000/",
-  "lat": 37.335,
-  "lon": -88.9253,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "8.45 ft",
-  "discharge_cms": "2.02 cfs"
- },
- {
-  "site": "03380500",
-  "name": "SKILLET FORK AT WAYNE CITY, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/03380500/",
-  "lat": 38.3633,
-  "lon": -88.5878,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "3.47 ft"
- },
- {
-  "site": "03336998",
-  "name": "BONEYARD CREEK BELOW 6TH STREET AT CHAMPAIGN, IL",
-  "url": "https://waterdata.usgs.gov/monitoring-location/03336998/",
-  "lat": 40.1112,
-  "lon": -88.2299,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "11.4 ft"
  },
  {
   "site": "05548280",
@@ -2311,8 +2059,258 @@
   "url": "https://waterdata.usgs.gov/monitoring-location/05548280/",
   "lat": 42.4437,
   "lon": -88.2474,
-  "at": "2026-10-05T05:00+00:00",
-  "stage_m": "5.66 ft",
-  "discharge_cms": "335 cfs"
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "5.22 ft",
+  "discharge_cms": "251 cfs"
+ },
+ {
+  "site": "05548000",
+  "name": "NIPPERSINK LAKE AT FOX LAKE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05548000/",
+  "lat": 42.4031,
+  "lon": -88.1826,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "4.73 ft"
+ },
+ {
+  "site": "05541710",
+  "name": "AUX SABLE CREEK NEAR MORRIS, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05541710/",
+  "lat": 41.4169,
+  "lon": -88.3478,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "4.79 ft",
+  "discharge_cms": "398 cfs"
+ },
+ {
+  "site": "05537500",
+  "name": "LONG RUN NEAR LEMONT, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05537500/",
+  "lat": 41.6426,
+  "lon": -87.9994,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "1.69 ft",
+  "discharge_cms": "29.9 cfs"
+ },
+ {
+  "site": "05536140",
+  "name": "CHICAGO SANITARY AND SHIP CANAL AT STICKNEY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536140/",
+  "lat": 41.8167,
+  "lon": -87.7535,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "-1.92 ft"
+ },
+ {
+  "site": "05536118",
+  "name": "NB CHICAGO RIVER AT GRAND AVENUE AT CHICAGO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536118/",
+  "lat": 41.8923,
+  "lon": -87.6424,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "-1.86 ft"
+ },
+ {
+  "site": "05536085",
+  "name": "NB CHICAGO RIVER AT N PULASKI ROAD AT CHICAGO, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05536085/",
+  "lat": 41.9747,
+  "lon": -87.7283,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "12 ft",
+  "discharge_cms": "193 cfs"
+ },
+ {
+  "site": "05535500",
+  "name": "WF OF NB CHICAGO RIVER AT NORTHBROOK IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05535500/",
+  "lat": 42.1383,
+  "lon": -87.8347,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "1.07 ft",
+  "discharge_cms": "10.2 cfs"
+ },
+ {
+  "site": "05533600",
+  "name": "DES PLAINES RIVER NEAR LEMONT, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05533600/",
+  "lat": 41.6724,
+  "lon": -88.0285,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "8.21 ft",
+  "discharge_cms": "1,740 cfs"
+ },
+ {
+  "site": "05533400",
+  "name": "SAWMILL CREEK NEAR LEMONT, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05533400/",
+  "lat": 41.7078,
+  "lon": -87.9628,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "8.77 ft",
+  "discharge_cms": "11.5 cfs"
+ },
+ {
+  "site": "05532600",
+  "name": "DES PLAINES RIVER AT LYONS, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05532600/",
+  "lat": 41.8061,
+  "lon": -87.8112,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "13.6 ft"
+ },
+ {
+  "site": "05531175",
+  "name": "SALT CREEK AT WOOD DALE, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05531175/",
+  "lat": 41.9641,
+  "lon": -87.9842,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "7.52 ft"
+ },
+ {
+  "site": "05530750",
+  "name": "DES PLAINES RIVER AT RIVER FOREST, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05530750/",
+  "lat": 41.8883,
+  "lon": -87.8328,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "7.9 ft"
+ },
+ {
+  "site": "05530100",
+  "name": "DES PLAINES R AT ALGONQUIN RD AT DES PLAINES, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05530100/",
+  "lat": 42.0317,
+  "lon": -87.8781,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "11.8 ft",
+  "discharge_cms": "1,020 cfs"
+ },
+ {
+  "site": "05527950",
+  "name": "MILL CREEK AT OLD MILL CREEK, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05527950/",
+  "lat": 42.4153,
+  "lon": -87.9692,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "7.66 ft",
+  "discharge_cms": "111 cfs"
+ },
+ {
+  "site": "05525500",
+  "name": "SUGAR CREEK AT MILFORD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05525500/",
+  "lat": 40.6299,
+  "lon": -87.7235,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "3.1 ft",
+  "discharge_cms": "35 cfs"
+ },
+ {
+  "site": "05525000",
+  "name": "IROQUOIS RIVER AT IROQUOIS, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05525000/",
+  "lat": 40.8231,
+  "lon": -87.5817,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "7.36 ft",
+  "discharge_cms": "383 cfs"
+ },
+ {
+  "site": "05448000",
+  "name": "MILL CREEK AT MILAN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05448000/",
+  "lat": 41.4424,
+  "lon": -90.5555,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "2.85 ft",
+  "discharge_cms": "124 cfs"
+ },
+ {
+  "site": "05437645",
+  "name": "ROCK RIVER ABOVE DAM AT ROCKFORD, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05437645/",
+  "lat": 42.2665,
+  "lon": -89.096,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "2.62 ft"
+ },
+ {
+  "site": "05437050",
+  "name": "PECATONICA RIVER NR SHIRLAND, ILL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05437050/",
+  "lat": 42.4381,
+  "lon": -89.175,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "8.37 ft",
+  "discharge_cms": "3,240 cfs"
+ },
+ {
+  "site": "03612600",
+  "name": "OHIO RIVER AT OLMSTED, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03612600/",
+  "lat": 37.1792,
+  "lon": -89.0584,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "22.8 ft",
+  "discharge_cms": "99,300 cfs"
+ },
+ {
+  "site": "03612000",
+  "name": "CACHE RIVER AT FORMAN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03612000/",
+  "lat": 37.335,
+  "lon": -88.9253,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "8.39 ft",
+  "discharge_cms": "1.56 cfs"
+ },
+ {
+  "site": "03384500",
+  "name": "OHIO RIVER AT DAM 51 AT GOLCONDA, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03384500/",
+  "lat": 37.3578,
+  "lon": -88.4825,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "30.1 ft"
+ },
+ {
+  "site": "03380500",
+  "name": "SKILLET FORK AT WAYNE CITY, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03380500/",
+  "lat": 38.3633,
+  "lon": -88.5878,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "3.47 ft"
+ },
+ {
+  "site": "03346000",
+  "name": "NORTH FORK EMBARRAS RIVER NEAR OBLONG, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03346000/",
+  "lat": 39.0103,
+  "lon": -87.9456,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "1.94 ft",
+  "discharge_cms": "2.32 cfs"
+ },
+ {
+  "site": "03336998",
+  "name": "BONEYARD CREEK BELOW 6TH STREET AT CHAMPAIGN, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/03336998/",
+  "lat": 40.1112,
+  "lon": -88.2299,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "11.4 ft"
+ },
+ {
+  "site": "05576193",
+  "name": "SUGAR CREEK AT COVERED BRIDGE RD NR CHATHAM, IL",
+  "url": "https://waterdata.usgs.gov/monitoring-location/05576193/",
+  "lat": 39.64,
+  "lon": -89.6617,
+  "at": "2026-10-06T05:00+00:00",
+  "stage_m": "17.8 ft",
+  "discharge_cms": "0.65 cfs"
  }
 ]
