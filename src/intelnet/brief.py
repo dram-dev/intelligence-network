@@ -16,7 +16,7 @@ import json
 from datetime import datetime, timedelta
 from typing import Any
 
-from intelnet import ahead, daymap, db, delivery, geo, network, notable, story_brief
+from intelnet import ahead, daymap, db, delivery, geo, network, notable, rivers, story_brief
 from intelnet.config import settings
 from intelnet.feeds.nws_alerts import active_alert_groups
 from intelnet.models import local_time, parse_iso, public_handle, utcnow
@@ -148,6 +148,13 @@ def today(c: geo.County | None, now: datetime) -> list[str]:
             for r, cs in ahead.county_risks(at, ahead.day_word(now, at))]
 
 
+def high_water(c: geo.County | None, gauges: list[rivers.Gauge] | None = None) -> list[str]:
+    """River gauges running high near the county (rivers.py); without a county, the ones in flood."""
+    gauges = rivers.high_water() if gauges is None else gauges
+    near = rivers.near(gauges, c) if c else [g for g in gauges if g.level >= 2]
+    return [f"🌊 <b>{esc(g.name)}</b>: {esc(g.text())}" for g in near[:4]]
+
+
 def _digest_links(links: dict[str, str | None]) -> list[tuple[str, str]]:
     """Where the brief sends people for the whole digest: the site's copy first, made for a
     phone (Google Docs gives a phone a 256-pixel copy of any picture, so the map blurs, and
@@ -165,7 +172,8 @@ def _digest_links(links: dict[str, str | None]) -> list[tuple[str, str]]:
 
 
 def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | None = None,
-            day: dict[str, Any] | None = None, ahead_lines: list[str] | None = None) -> str:
+            day: dict[str, Any] | None = None, ahead_lines: list[str] | None = None,
+            gauges: list[rivers.Gauge] | None = None) -> str:
     """The brief for one county (or the whole state when `fips` is None)."""
     now = now or utcnow()
     day = day if day is not None else notable.build(now)
@@ -182,10 +190,12 @@ def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | N
                   + "".join(f"\n   ↳ {esc(r)}" for r in st.readings)
                   + (f"\n   ⚠️ {esc(st.alerts)}" if st.alerts else "") + "\n" for st in linked]
         lines.append("")
+    river = high_water(c, gauges)
     if c:
         groups = _in_effect(c.fips)
         lines += groups[:4]
         lines += _ended(c.fips)[:3]
+        lines += river
         night = _night(c.fips)
         lines += [f"• {esc(x)}" for x in night[:6]]
         storms = [s for s in story_brief.summaries(HOURS) if c.fips in s["fips"]]
@@ -193,8 +203,10 @@ def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | N
         events = [network.event_summary(e) for e in db.events_since(HOURS) if e["county_fips"] == c.fips]
         lines += [f"📍 {esc(e['title'] or '')} · {_n(e.get('n_sensors') or 0, 'sensor', 'sensors')}"
                   + (" · verified" if e["verified"] else "") for e in events[:3]]
-        if not (groups or night or events or storms):
+        if not (groups or night or events or storms or river):
             lines.append(f"A quiet night in {esc(where)}: no NWS alerts, and nothing notable reported.")
+    elif river:
+        lines += river + [""]
     wide = statewide(day)
     if wide:
         lines.append(f"\n<b>Across {esc(_state())}</b>")
@@ -252,7 +264,7 @@ def _readings_table(fips: str) -> str:
 
 def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetime | None = None,
                  day: dict[str, Any] | None = None, picture: str | None = None,
-                 ahead_lines: list[str] | None = None) -> str:
+                 ahead_lines: list[str] | None = None, gauges: list[rivers.Gauge] | None = None) -> str:
     """The brief as a Telegram rich message: one heading naming the county, the day's map
     (daymap.py) with the stories under the numbers it gives them, the county's alerts and
     storms as lines, the night's readings as a list, the most-reported readings as a table,
@@ -280,8 +292,9 @@ def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetim
     if c and linked:                               # the county's own section, under the connections
         parts.append(f"<p><b>{esc(where)}</b></p>")
     table = ""
+    river = high_water(c, gauges)
     if c:
-        lines = _in_effect(c.fips)[:4] + _ended(c.fips)[:3]
+        lines = _in_effect(c.fips)[:4] + _ended(c.fips)[:3] + river
         lines += [f"⛈ <b>{esc(s['title'] or 'Storm')}</b>: {esc(s['brief'])}"
                   for s in story_brief.summaries(HOURS) if c.fips in s["fips"]][:2]
         lines += [f"📍 {esc(e['title'] or '')} · {_n(e.get('n_sensors') or 0, 'sensor', 'sensors')}"
@@ -294,6 +307,8 @@ def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetim
         if not (lines or night):
             parts.append(f"<p>A quiet night in {esc(where)}: no NWS alerts, and nothing notable reported.</p>")
         table = _readings_table(c.fips)
+    elif river:
+        parts.append(f"<p><b>Rivers in flood</b><br>{'<br>'.join(river)}</p>")
     if table:
         parts.append(table)
     wide = statewide(day)
@@ -329,6 +344,7 @@ def fanout_brief(date: str, links: dict[str, str | None]) -> int:
     texts: dict[str | None, tuple[str, str]] = {}
     ids: list[int | None] = []
     day: dict[str, Any] | None = None
+    gauges: list[rivers.Gauge] | None = None
     for chat in chats:
         if db.already_notified(key, chat):
             continue
@@ -336,9 +352,10 @@ def fanout_brief(date: str, links: dict[str, str | None]) -> int:
         if fips not in texts:
             day = day if day is not None else notable.build()          # one day for every county's brief
             first = today(geo.county(fips), utcnow())                  # one forecast per county
-            texts[fips] = (compose(fips, links, day=day, ahead_lines=first),
+            gauges = gauges if gauges is not None else rivers.high_water()   # one river survey
+            texts[fips] = (compose(fips, links, day=day, ahead_lines=first, gauges=gauges),
                            compose_rich(fips, links, day=day, picture=daymap.prepare(day, fips),
-                                        ahead_lines=first))
+                                        ahead_lines=first, gauges=gauges))
         text, rich = texts[fips]
         ids.append(db.enqueue(key, chat, text, priority=5, stale_at=utcnow() + timedelta(hours=12), rich=rich))
     return delivery.send_now(ids)

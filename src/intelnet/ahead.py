@@ -17,23 +17,17 @@ from __future__ import annotations
 
 import logging
 import re
-import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from typing import Any
 from zoneinfo import ZoneInfo
 
-from intelnet import geo
+from intelnet import fetch, geo
 from intelnet.config import settings
 from intelnet.models import parse_iso, utcnow
 from intelnet.topics import topics
 
 logger = logging.getLogger(__name__)
-
-TIMEOUT = 12
-TTL = 30 * 60                       # one process asks a source at most every half hour
-_memo: dict[str, tuple[float, Any]] = {}
-
 
 @dataclass(frozen=True)
 class Period:
@@ -92,25 +86,7 @@ def enabled() -> bool:
 
 
 def _get(url: str) -> Any:
-    """JSON from a source, tried twice, kept for TTL in this process."""
-    hit = _memo.get(url)
-    if hit and time.monotonic() - hit[0] < TTL:
-        return hit[1]
-    import requests
-
-    last: Exception | None = None
-    for _ in range(2):
-        try:
-            r = requests.get(url, timeout=TIMEOUT, headers={
-                "User-Agent": settings.nws_user_agent, "Accept": "application/geo+json, application/json"})
-            r.raise_for_status()
-            data = r.json()
-            _memo[url] = (time.monotonic(), data)
-            return data
-        except Exception as exc:  # noqa: BLE001
-            last = exc
-    assert last is not None
-    raise last
+    return fetch.get_json(url)
 
 
 # ── the forecast for a point ──────────────────────────────────────────────

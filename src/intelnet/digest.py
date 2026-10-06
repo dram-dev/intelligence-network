@@ -22,7 +22,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
 from typing import Any
 
-from intelnet import ahead, daymap, db, geo, network, notable, story_brief, trust
+from intelnet import ahead, daymap, db, geo, network, notable, rivers, story_brief, trust
 from intelnet.config import settings
 from intelnet.feeds.nws_alerts import SEVERITY_RANK, office
 from intelnet.models import iso, local_time, parse_iso, public_handle
@@ -60,6 +60,7 @@ class DigestModel:
     picture: bytes | None = None                                        # the day's map (daymap.py, light), JPEG
     picture_full: bytes | None = None                                   # the same map as a PNG, its own file in Drive
     ahead: ahead.Statewide = field(default_factory=ahead.Statewide)     # the day ahead: places' forecasts, risks
+    rivers: list[rivers.Gauge] = field(default_factory=list)            # gauges near flood stage or above
 
     @property
     def headline(self) -> str:
@@ -146,6 +147,7 @@ def build(hours: float = 24.0, date: str | None = None) -> DigestModel:
     model.extremes = _extremes(hours)
     model.day = notable.build(now)
     model.ahead = ahead.statewide(now)
+    model.rivers = rivers.high_water(now)
     if settings.card_maps:                     # the day on the map, on the page's white
         try:
             img = daymap.render_image(model.day, None, now=now, pal=daymap.LIGHT)
@@ -453,6 +455,15 @@ def render_html(m: DigestModel, downloads: dict[str, str] | None = None, *, page
             p.append(_table(["Place", *heads], [[_Raw(f"<b>{_e(name)}</b>"), *(x.text() for x in ps)]
                                                 for name, ps in m.ahead.places if len(ps) == len(heads)]))
 
+    # ── high water: river gauges near flood stage or above, now or forecast ──
+    if m.rivers:
+        p.append(_section("High water", "River gauges near flood stage or above, now or forecast, from "
+                                        "National Weather Service river forecasts."))
+        p.append(_table(["Gauge", "Now", "Flood stage", "Forecast"],
+                        [[_Raw(f"<b>{_e(g.name)}</b>"), g.now_text(),
+                          rivers.stage_text(g.floods_at, g.unit) if g.floods_at is not None else "—",
+                          (g.forecast_text()[:1].upper() + g.forecast_text()[1:]) or "—"] for g in m.rivers]))
+
     # ── storms ──
     if m.storms:
         p.append(_section("Storms", "Warnings, storm reports and readings, one storm at a time."))
@@ -604,6 +615,10 @@ def render_text(m: DigestModel) -> str:
         lines.append("The day ahead:")
         lines += [f"  {r.name}: {r.text()} for {ahead.names(cs)}" for r, cs in m.ahead.risks]
         lines += [f"  {name}: " + " · ".join(f"{x.name}: {x.text()}" for x in ps) for name, ps in m.ahead.places]
+        lines.append("")
+    if m.rivers:
+        lines.append("High water:")
+        lines += [f"  {g.name}: {g.text()}" for g in m.rivers]
         lines.append("")
     lines.append("NWS alerts:")
     lines += [f"  [{a['severity']}] {a['event']} — {', '.join(a['counties'][:5])} (until {_when(a['expires'])})"

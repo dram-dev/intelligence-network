@@ -49,6 +49,33 @@ def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     return 2 * r * math.asin(math.sqrt(a))
 
 
+@lru_cache(maxsize=1)
+def county_outlines() -> dict[str, list[list[list[float]]]]:
+    """County FIPS → outer rings ([lon, lat] pairs), from the site's county map
+    (site/assets/<st>-counties.geojson: Census, generalized, shoreline-clipped)."""
+    path = CONFIG_DIR.parent / "site" / "assets" / f"{settings.geo_state.lower()}-counties.geojson"
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    out: dict[str, list[list[list[float]]]] = {}
+    for f in data.get("features", []):
+        g, fips = f.get("geometry") or {}, str((f.get("properties") or {}).get("fips") or "")
+        polys = [g["coordinates"]] if g.get("type") == "Polygon" else g.get("coordinates") or []
+        out[fips] = [poly[0] for poly in polys if poly]
+    return out
+
+
+def in_or_near_state(lat: float, lon: float, km: float) -> bool:
+    """Inside the state's outline, or within `km` of it (a gauge on a border river's far bank).
+    True when the outline isn't there to say."""
+    rings = [r for rs in county_outlines().values() for r in rs]
+    if not rings or point_in_polygon(lat, lon, rings):
+        return True
+    gap = polygon_gap(lat, lon, rings)
+    return gap is not None and gap[0] <= km
+
+
 def point_in_polygon(lat: float, lon: float, rings: list[list[list[float]]]) -> bool:
     """Is the point inside any of these rings? GeoJSON order: [lon, lat] pairs."""
     for ring in rings:

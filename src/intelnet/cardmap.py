@@ -133,19 +133,9 @@ def frame_for(points: list[tuple[float, float]], *, pad: float = 0.2, min_km: fl
     return Frame(round(cx - w / 2), round(cy - h / 2), round(cx + w / 2), round(cy + h / 2))
 
 
-@lru_cache(maxsize=1)
 def _counties() -> dict[str, list[list[list[float]]]]:
     """County FIPS → outer rings ([lon, lat] pairs), from the site's county map."""
-    try:
-        data = json.loads((ASSETS / "il-counties.geojson").read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        return {}
-    out: dict[str, list[list[list[float]]]] = {}
-    for f in data.get("features", []):
-        g, fips = f.get("geometry") or {}, str((f.get("properties") or {}).get("fips") or "")
-        polys = [g["coordinates"]] if g.get("type") == "Polygon" else g.get("coordinates") or []
-        out[fips] = [poly[0] for poly in polys if poly]
-    return out
+    return geo.county_outlines()
 
 
 @lru_cache(maxsize=1)
