@@ -500,6 +500,26 @@
   "verified": true
  },
  {
+  "id": 82,
+  "topic": "soil",
+  "metric": "soil_moisture_pct",
+  "metric_label": "Soil moisture",
+  "title": "Soil moisture down to 9.2 % \u2014 Mason County",
+  "county_fips": "17125",
+  "county_label": "Mason County",
+  "peak_display": "9.2 %",
+  "n_signals": 1,
+  "n_sensors": 1,
+  "n_reference": 1,
+  "severity": 0.4,
+  "score": 0.9,
+  "status": "closed",
+  "opened_at": "2026-10-05T12:00:00+00:00",
+  "updated_at": "2026-10-05T12:00:00+00:00",
+  "source_url": "https://wcc.sc.egov.usda.gov/nwcc/site?sitenum=2004",
+  "verified": true
+ },
+ {
   "id": 55,
   "topic": "weather",
   "metric": "visibility_km",
