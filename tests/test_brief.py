@@ -108,3 +108,16 @@ def test_each_brief_carries_a_button_to_invite_a_neighbor(fresh_db, sent, make_s
     assert parse_qs(urlparse(state["url"]).query)["url"] == ["https://t.me/intelligence_network_bot?start="]
     monkeypatch.setattr(settings, "telegram_bot_handle", "")
     assert brief.invite_markup(None) is None                                        # no handle, no button
+
+
+def test_the_countys_alert_in_force_comes_first(fresh_db):
+    lake = geo.location_from_county(geo.county("17097"))
+    db.insert_signals([Signal(
+        source="nws_alerts", source_id="FW1|17097", sensor_id="nws:nws_chicago_il", sensor_kind="authority",
+        topic="weather", metric="alert.flood_warning", value=1.0, unit="", location=lake, quality="reference",
+        group_key="FW1", expires_at=utcnow() + timedelta(hours=6),
+        evidence={"event": "Flood Warning", "severity": "Moderate"})])
+    rich = brief.compose_rich("17097", {}, day={})
+    assert rich.split("</h4>", 1)[1].startswith("<p>⚠️ <b>Flood Warning</b> until ")      # before the map
+    plain = brief.compose("17097", {}, day={})
+    assert plain.split("\n")[1].startswith("⚠️ <b>Flood Warning</b> until ")

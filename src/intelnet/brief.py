@@ -195,7 +195,11 @@ def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | N
     c = geo.county(fips)
     where = c.label if c else _state()
     lines = [f"☀️ <b>Morning brief</b> · {esc(local_time(now, '%a %-d %b'))} · {esc(where)}"]
-    first = ahead_lines if ahead_lines is not None else today(c, now)
+    # first, the reader's day: the forecast and outlooks, then what's in force there now
+    # (alerts in effect, rivers running high), before the state's map and stories
+    groups = _in_effect(c.fips)[:4] if c else []
+    river = high_water(c, gauges)
+    first = (ahead_lines if ahead_lines is not None else today(c, now)) + groups + river
     if first:
         lines += first + [""]
     linked, used = notable.listing(day)
@@ -205,12 +209,8 @@ def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | N
                   + "".join(f"\n   ↳ {esc(r)}" for r in st.readings)
                   + (f"\n   ⚠️ {esc(st.alerts)}" if st.alerts else "") + "\n" for st in linked]
         lines.append("")
-    river = high_water(c, gauges)
     if c:
-        groups = _in_effect(c.fips)
-        lines += groups[:4]
         lines += _ended(c.fips)[:3]
-        lines += river
         night = _night(c.fips)
         lines += [f"• {esc(x)}" for x in night[:6]]
         storms = [s for s in story_brief.summaries(HOURS) if c.fips in s["fips"]]
@@ -220,8 +220,6 @@ def compose(fips: str | None, links: dict[str, str | None], *, now: datetime | N
                   + (" · verified" if e["verified"] else "") for e in events[:3]]
         if not (groups or night or events or storms or river):
             lines.append(f"A quiet night in {esc(where)}: no NWS alerts, and nothing notable reported.")
-    elif river:
-        lines += river + [""]
     wide = statewide(day)
     if wide:
         lines.append(f"\n<b>Across {esc(_state())}</b>")
@@ -290,7 +288,9 @@ def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetim
     c = geo.county(fips)
     where = c.label if c else _state()
     parts = [f"<h4>☀️ Morning brief: {esc(where)}</h4>"]
-    first = ahead_lines if ahead_lines is not None else today(c, now)
+    groups = _in_effect(c.fips)[:4] if c else []                  # the reader's day first (see compose)
+    river = high_water(c, gauges)
+    first = (ahead_lines if ahead_lines is not None else today(c, now)) + groups + river
     if first:
         parts.append("<p>" + "<br>".join(first) + "</p>")
     if picture:
@@ -304,26 +304,24 @@ def compose_rich(fips: str | None, links: dict[str, str | None], *, now: datetim
                                + "".join(f"<br>↳ {esc(r)}" for r in st.readings)
                                + (f"<br>⚠️ {esc(st.alerts)}" if st.alerts else "") + "</p>"
                                for st in linked))
-    if c and linked:                               # the county's own section, under the connections
-        parts.append(f"<p><b>{esc(where)}</b></p>")
     table = ""
-    river = high_water(c, gauges)
     if c:
-        lines = _in_effect(c.fips)[:4] + _ended(c.fips)[:3] + river
+        lines = _ended(c.fips)[:3]
         lines += [f"⛈ <b>{esc(s['title'] or 'Storm')}</b>: {esc(s['brief'])}"
                   for s in story_brief.summaries(HOURS) if c.fips in s["fips"]][:2]
         lines += [f"📍 {esc(e['title'] or '')} · {_n(e.get('n_sensors') or 0, 'sensor', 'sensors')}"
                   + (" · verified" if e["verified"] else "")
                   for e in (network.event_summary(e) for e in db.events_since(HOURS) if e["county_fips"] == c.fips)][:3]
         night = _night(c.fips)[:6]
+        table = _readings_table(c.fips)
+        quiet = not (groups or river or lines or night)
+        if linked and (lines or night or table or quiet):     # the county's own section, under the connections
+            parts.append(f"<p><b>{esc(where)}</b></p>")
         parts += [f"<p>{x}</p>" for x in lines]
         if night:
             parts.append("<ul>" + "".join(f"<li>{esc(x)}</li>" for x in night) + "</ul>")
-        if not (lines or night):
+        if quiet:
             parts.append(f"<p>A quiet night in {esc(where)}: no NWS alerts, and nothing notable reported.</p>")
-        table = _readings_table(c.fips)
-    elif river:
-        parts.append(f"<p><b>Rivers in flood</b><br>{'<br>'.join(river)}</p>")
     if table:
         parts.append(table)
     wide = statewide(day)

@@ -51,8 +51,14 @@ def _offline(monkeypatch: pytest.MonkeyPatch, tmp_path_factory: pytest.TempPathF
     monkeypatch.setattr(settings, "site_url", "")
     monkeypatch.setattr(settings, "network_contact_email", "")
     monkeypatch.setattr(settings, "site_auto_push", False)
-    from intelnet import telegram
+    from intelnet import fetch, telegram
     from intelnet.feeds import cocorahs, usgs_water
+
+    def _offline_fetch(url, **kw):
+        raise ConnectionError(f"tests are offline: {url}")
+
+    # Forecasts, outlooks and rivers (ahead.py, rivers.py): a test fakes the source it reads.
+    monkeypatch.setattr(fetch, "get_json", _offline_fetch)
 
     # Feeds that a watch pass runs and a test may not stub: offline, with nothing to report.
     monkeypatch.setattr(cocorahs, "fetch", lambda *a, **k: "ObservationDate,StationNumber\n")

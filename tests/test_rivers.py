@@ -82,13 +82,12 @@ def test_a_gauge_reads_now_flood_stage_and_the_next_days(nwps):
 
 
 def test_the_brief_has_the_gauges_near_its_county(fresh_db, nwps):
-    lake = brief.compose_rich("17097", {}, day={})
-    assert "<p>🌊 <b>Des Plaines River near Russell</b>: 7.03 ft, steady, minor flooding" in lake
+    lake = brief.compose_rich("17097", {}, day={})                       # first, under the heading
+    assert "</h4><p>🌊 <b>Des Plaines River near Russell</b>: 7.03 ft, steady, minor flooding" in lake
     assert "Chester" not in lake and "A quiet night" not in lake
     assert "🌊 <b>Mississippi River at Chester</b>" in brief.compose("17157", {}, day={})       # Randolph
     statewide = brief.compose_rich(None, {}, day={})                     # no county: the gauges in flood
-    assert "<b>Rivers in flood</b><br>🌊 <b>Des Plaines River near Russell</b>" in statewide
-    assert "Chester" not in statewide
+    assert "</h4><p>🌊 <b>Des Plaines River near Russell</b>" in statewide and "Chester" not in statewide
 
 
 def test_the_digest_lists_high_water(make_sensor, nwps):
