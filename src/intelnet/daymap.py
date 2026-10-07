@@ -26,12 +26,13 @@ from functools import lru_cache
 from io import BytesIO
 from typing import Any
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageChops, ImageDraw
 
 from intelnet import cardmap, geo, notable
 from intelnet.cardmap import (
     BEYOND,
     COUNTY,
+    Dense,
     HALO,
     LAND,
     RIVER,
@@ -47,12 +48,14 @@ from intelnet.models import local_time, parse_iso, utcnow
 
 logger = logging.getLogger(__name__)
 
-W, H = 1080, 1350                 # 4:5, the tallest a chat shows a picture without making you scroll past it
-SS = 2                            # vector layers drawn twice as large, then scaled down
+W, H = 1080, 1350                 # the layout, in points: 4:5, the tallest a chat shows without scrolling past it
+K = 2048 / W                      # pixels a point: 2048 × 2560, the largest picture Telegram keeps whole
+SS = 2                            # vector layers drawn twice as large again, then scaled down
 PAD = 30
 RAIL = 300                        # the key, right of the state
+BORDER_KM = 4                     # rivers and lakes drawn this far past the state: border rivers whole
 KEEP = timedelta(days=3)
-RENDER_VERSION = 3                # part of every name: bump it when the drawing changes
+RENDER_VERSION = 4                # part of every name: bump it when the drawing changes (4: 2048 × 2560)
 
 
 @dataclass(frozen=True)
@@ -154,7 +157,7 @@ class _Labels(cardmap._Labels):
         return not any(x0 < b[2] and b[0] < x1 and y0 < b[3] and b[1] < y1 for b in self.taken)
 
 
-def _badge(d: ImageDraw.ImageDraw, x: float, y: float, n: int, size: float,
+def _badge(d: Dense, x: float, y: float, n: int, size: float,
            pal: Palette = DARK) -> tuple[float, float, float, float]:
     """A story's numbered square, centred on (x, y), at the final scale."""
     w = size * (1.25 if n > 9 else 1)
@@ -203,18 +206,13 @@ def render_image(day: dict[str, Any], fips: str | None = None, alerts: list[dict
     places = {p["id"]: p for p in day.get("places") or []}
 
     # the ground: land, water, alerts, county lines, the reader's county
-    base = Image.new("RGB", (W * SS, H * SS), pal.ground)
-    d = ImageDraw.Draw(base, "RGBA")
+    size = (round(W * K), round(H * K))
+    base = Image.new("RGB", (round(W * K * SS), round(H * K * SS)), pal.ground)
+    d = Dense(ImageDraw.Draw(base, "RGBA"), K)
     for rings in shapes.values():
         for ring in rings:
             d.polygon(_ring(ring), fill=pal.land)
-    for wt in ref.get("water", []):
-        for ring in wt.get("rings", []):
-            d.polygon(_ring(ring), fill=pal.water)
-    for rv in ref.get("rivers", []):
-        for line in rv.get("lines", []):
-            if len(line) > 1:
-                d.line(_ring(line), fill=pal.river, width=3, joint="curve")
+    _waters(base, shapes, ref, pal)
     for a in alerts:                                   # a warning stronger than a watch or advisory
         for f in a["counties"] if not a["polygon"] else []:
             for ring in shapes.get(f, []):
@@ -229,11 +227,11 @@ def render_image(day: dict[str, Any], fips: str | None = None, alerts: list[dict
     for ring in mine:
         d.polygon(_ring(ring), fill=(*pal.text, 22))
         d.line(_ring(ring) + _ring(ring[:1]), fill=(*pal.text, 255), width=7, joint="curve")
-    img = base.resize((W, H), Image.Resampling.LANCZOS).convert("RGBA")
+    img = base.resize(size, Image.Resampling.LANCZOS).convert("RGBA")
 
     # the marks: arcs from each story to its readings, then the readings, the stories on top
-    over = Image.new("RGBA", (W * SS, H * SS), (0, 0, 0, 0))
-    o = ImageDraw.Draw(over)
+    over = Image.new("RGBA", base.size, (0, 0, 0, 0))
+    o = Dense(ImageDraw.Draw(over), K)
     spots = _badge_spots(day)
     for n in day.get("news") or []:
         at = spots.get(n["id"])
@@ -251,9 +249,9 @@ def render_image(day: dict[str, Any], fips: str | None = None, alerts: list[dict
         if p.get("person"):
             o.ellipse((x - r - 11, y - r - 11, x + r + 11, y + r + 11), outline=(*c, 255), width=5)
         o.ellipse((x - r, y - r, x + r, y + r), fill=(*c, 255), outline=(*pal.halo, 255), width=6 if p["tier"] == 1 else 4)
-    img.alpha_composite(over.resize((W, H), Image.Resampling.LANCZOS))
+    img.alpha_composite(over.resize(size, Image.Resampling.LANCZOS))
 
-    d = ImageDraw.Draw(img, "RGBA")
+    d = Dense(ImageDraw.Draw(img, "RGBA"), K)
     labels = _Labels(d)
     labels.taken.append((W - RAIL - 6, 0, W, H))
     for p in places.values():
@@ -276,7 +274,29 @@ def render_image(day: dict[str, Any], fips: str | None = None, alerts: list[dict
     return img.convert("RGB")
 
 
-def _label(d: ImageDraw.ImageDraw, labels: _Labels, x: float, y: float, text: str, font: Any,
+def _waters(base: Image.Image, shapes: dict[str, Any], ref: dict[str, Any], pal: Palette) -> None:
+    """The rivers and lakes, as far as the state reaches and a little past it (the Mississippi
+    and the Wabash whole): drawn further, Indiana's rivers wandered under the key."""
+    wet = Image.new("RGBA", base.size, (0, 0, 0, 0))
+    w = Dense(ImageDraw.Draw(wet), K)
+    for wt in ref.get("water", []):
+        for ring in wt.get("rings", []):
+            w.polygon(_ring(ring), fill=pal.water)
+    for rv in ref.get("rivers", []):
+        for line in rv.get("lines", []):
+            if len(line) > 1:
+                w.line(_ring(line), fill=pal.river, width=3, joint="curve")
+    reach = Image.new("L", base.size, 0)
+    r = Dense(ImageDraw.Draw(reach), K)
+    per_km = _fit()[0] * 1000 / math.cos(math.radians(40)) * SS          # points a km, mid-state, drawn twice as large
+    for rings in shapes.values():
+        for ring in rings:
+            r.polygon(_ring(ring), fill=255)
+            r.line(_ring(ring) + _ring(ring[:1]), fill=255, width=2 * BORDER_KM * per_km)
+    base.paste(wet, (0, 0), ImageChops.multiply(wet.getchannel("A"), reach))
+
+
+def _label(d: Dense, labels: _Labels, x: float, y: float, text: str, font: Any,
            pal: Palette = DARK) -> None:
     """A stand-out's label where it fits around its dot. A rise ("▲ 1.86 ft") gets its
     triangle drawn: the font has no glyph for it."""
@@ -294,7 +314,7 @@ def _label(d: ImageDraw.ImageDraw, labels: _Labels, x: float, y: float, text: st
             return
 
 
-def _rail(d: ImageDraw.ImageDraw, day: dict[str, Any], fips: str | None, alerts: list[dict[str, Any]],
+def _rail(d: Dense, day: dict[str, Any], fips: str | None, alerts: list[dict[str, Any]],
           now: datetime, pal: Palette = DARK) -> None:
     """The key beside the state: the date, what each mark is, the stories without a place."""
     x = W - RAIL + 10

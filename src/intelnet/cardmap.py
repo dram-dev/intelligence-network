@@ -41,8 +41,9 @@ from intelnet.topics import find_metric, get_topic
 
 logger = logging.getLogger(__name__)
 
-W, H = 1080, 720                    # 3:2, what a phone shows at full width
-SS = 2                              # vector layers are drawn twice as large, then scaled down: smooth edges
+W, H = 1080, 720                    # the layout, in points: 3:2, what a phone shows at full width
+K = 2                               # pixels a point: 2160 × 1440 (Telegram keeps a picture whole up to 2560)
+SS = 2                              # vector layers are drawn twice as large again, then scaled down: smooth edges
 EARTH = 6378137.0
 ASSETS = PROJECT_ROOT / "site" / "assets"
 FONT = CONFIG_DIR / "fonts" / "IBMPlexSans.ttf"
@@ -52,7 +53,7 @@ TRACK_STEP, TRACK_MAX = 10, 60      # the storm's track: a mark every 10 minutes
 REPORT_HOURS = 2                    # reports drawn: the last two hours
 # Part of every picture's name: bump it when the drawing changes, so a picture (or loop)
 # already on disk or at Telegram is never reused in its old design.
-RENDER_VERSION = 9
+RENDER_VERSION = 10
 PHOTO = re.compile(r"tg://photo\?id=([A-Za-z0-9_-]{1,64})")
 VIDEO = re.compile(r"tg://video\?id=([A-Za-z0-9_-]{1,64})")
 LOOP_MINUTES = 45                   # a card's loop: the last three quarters of an hour of radar
@@ -113,7 +114,8 @@ class Frame:
                 _unmerc_lat(self.y1), math.degrees(self.x1 / EARTH))
 
     def grid(self) -> tuple[np.ndarray, np.ndarray]:
-        """Latitude and longitude of every pixel's centre."""
+        """Latitude and longitude of every point's centre (the layout's: radar_layer draws
+        the values out to the pixels)."""
         xs = self.x0 + (np.arange(W) + 0.5) / W * (self.x1 - self.x0)
         ys = self.y1 - (np.arange(H) + 0.5) / H * (self.y1 - self.y0)
         lons = np.degrees(xs / EARTH)
@@ -139,22 +141,36 @@ def _counties() -> dict[str, list[list[list[float]]]]:
 
 
 @lru_cache(maxsize=1)
+def _detail() -> dict[str, Any]:
+    """The reference layers at ~50 m, for the pictures drawn here (scripts/build_map_layers.py
+    --detail): finer than a browser should download, so never published."""
+    try:
+        return json.loads((CONFIG_DIR / "geo" / f"{settings.geo_state.lower()}-detail.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+@lru_cache(maxsize=1)
 def _reference() -> dict[str, Any]:
-    """Rivers, lakes, roads and towns (scripts/build_map_layers.py)."""
+    """Rivers, lakes, roads and towns (scripts/build_map_layers.py): the detailed layers
+    where they're built, else the site's."""
+    if _detail():
+        return _detail()
     try:
         return json.loads((ASSETS / "il-reference.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return {}
 
 
-@lru_cache(maxsize=16)
+@lru_cache(maxsize=64)
 def _font(size: int, weight: str = "Regular") -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
     try:
         f = ImageFont.truetype(str(FONT), size)
         f.set_variation_by_name(weight)
-        return f
     except (OSError, ValueError):
-        return ImageFont.load_default(size=size)
+        f = ImageFont.load_default(size=size)
+    f.weight = weight               # so a dense picture (Dense) can ask for the same face k times as large
+    return f
 
 
 # ── what a picture shows ─────────────────────────────────────────────────
@@ -347,7 +363,10 @@ def _near_site(values: np.ndarray, km: np.ndarray, km_per_px: float) -> np.ndarr
 
 
 def radar_layer(topic: str, key: str, f: Frame) -> Image.Image | None:
-    """One sweep, sampled at every pixel of the frame and coloured: an RGBA layer."""
+    """One sweep, sampled at every point of the frame and coloured: an RGBA layer at the
+    picture's density. A point (46–185 m) is already finer than a radar bin (250 m, wider
+    across the beam), so the sweep is read once a point and its values drawn out to the
+    pixels between before they're coloured: crisp colour edges, a quarter of the reading."""
     hit = _LAYERS.get((key, f))
     if hit is not None:
         return hit
@@ -358,7 +377,10 @@ def radar_layer(topic: str, key: str, f: Frame) -> Image.Image | None:
     values, sweep = got
     values = _near_site(values, nexrad.distance_km(sweep.site_lat, sweep.site_lon, lats, lons),
                         _km_per_px(lats, lons))
-    idx = np.clip(np.round((np.nan_to_num(values, nan=-40.0) + 32) * 2), 0, 255).astype(np.uint8)
+    values = np.nan_to_num(values, nan=-40.0).astype(np.float32)
+    if K != 1:
+        values = np.asarray(Image.fromarray(values, "F").resize((round(W * K), round(H * K)), Image.Resampling.BILINEAR))
+    idx = np.clip(np.round((values + 32) * 2), 0, 255).astype(np.uint8)
     layer = Image.fromarray(_lut(topic)[idx], "RGBA")
     if len(_LAYERS) > 48:
         _LAYERS.clear()
@@ -465,8 +487,8 @@ def _base(f: Frame, sc: Scene) -> Image.Image:
 
 
 def _draw_base(f: Frame, sc: Scene) -> Image.Image:
-    img = Image.new("RGB", (W * SS, H * SS), BEYOND)
-    d = ImageDraw.Draw(img, "RGBA")
+    img = Image.new("RGB", (round(W * K * SS), round(H * K * SS)), BEYOND)
+    d = Dense(ImageDraw.Draw(img, "RGBA"), K)
     shapes = _counties()
     for rings in shapes.values():
         for ring in rings:
@@ -493,10 +515,10 @@ def _draw_base(f: Frame, sc: Scene) -> Image.Image:
                 d.line(_path(f, ring) + _path(f, ring[:1]), fill=COUNTY, width=3, joint="curve")
     for ring in sc.rings:                        # the warned area's tint, under the radar
         d.polygon(_path(f, ring), fill=(*sc.colour, 20 if sc.counties else 11))
-    return img.resize((W, H), Image.Resampling.LANCZOS)
+    return img.resize((round(W * K), round(H * K)), Image.Resampling.LANCZOS)
 
 
-def _dashes(d: ImageDraw.ImageDraw, pts: list[tuple[float, float]], *, dash: float, gap: float,
+def _dashes(d: Dense, pts: list[tuple[float, float]], *, dash: float, gap: float,
             fill: tuple[int, ...], width: int) -> None:
     for (x0, y0), (x1, y1) in pairwise(pts):
         length = math.hypot(x1 - x0, y1 - y0)
@@ -530,10 +552,54 @@ def track(sc: Scene, f: Frame) -> list[tuple[int, float, float]]:
     return out
 
 
+class Dense:
+    """An ImageDraw for a picture laid out in points and drawn at `k` pixels a point: every
+    coordinate, line width, radius and font size is multiplied by k, and text boxes come back
+    in points. The layout stays where it was; the detail is k times as fine."""
+
+    def __init__(self, d: ImageDraw.ImageDraw, k: float) -> None:
+        self.d, self.k = d, k
+
+    def _xy(self, xy: Any) -> list[Any]:
+        if len(xy) and isinstance(xy[0], (tuple, list)):
+            return [(x * self.k, y * self.k) for x, y in xy]
+        return [v * self.k for v in xy]
+
+    def _w(self, width: float) -> int:
+        return max(1, round(width * self.k)) if width else 0
+
+    def _font(self, font: Any) -> Any:
+        return _font(max(1, round(font.size * self.k)), getattr(font, "weight", "Regular")) if font else font
+
+    def line(self, xy: Any, fill: Any = None, width: float = 1, joint: str | None = None) -> None:
+        self.d.line(self._xy(xy), fill=fill, width=self._w(width), joint=joint)
+
+    def polygon(self, xy: Any, fill: Any = None, outline: Any = None, width: float = 1) -> None:
+        self.d.polygon(self._xy(xy), fill=fill, outline=outline, width=self._w(width))
+
+    def ellipse(self, xy: Any, fill: Any = None, outline: Any = None, width: float = 1) -> None:
+        self.d.ellipse(self._xy(xy), fill=fill, outline=outline, width=self._w(width))
+
+    def rounded_rectangle(self, xy: Any, radius: float = 0, fill: Any = None, outline: Any = None,
+                          width: float = 1) -> None:
+        self.d.rounded_rectangle(self._xy(xy), radius=radius * self.k, fill=fill, outline=outline, width=self._w(width))
+
+    def text(self, xy: Any, text: str, fill: Any = None, font: Any = None, anchor: str | None = None,
+             stroke_width: float = 0, stroke_fill: Any = None) -> None:
+        self.d.text(self._xy(xy), text, fill=fill, font=self._font(font), anchor=anchor,
+                    stroke_width=self._w(stroke_width), stroke_fill=stroke_fill)
+
+    def textbbox(self, xy: Any, text: str, font: Any = None, anchor: str | None = None,
+                 stroke_width: float = 0) -> tuple[float, float, float, float]:
+        x0, y0, x1, y1 = self.d.textbbox(self._xy(xy), text, font=self._font(font), anchor=anchor,
+                                         stroke_width=self._w(stroke_width))
+        return x0 / self.k, y0 / self.k, x1 / self.k, y1 / self.k
+
+
 class _Labels:
     """Text placed so no two labels overlap (greedy, most important first)."""
 
-    def __init__(self, d: ImageDraw.ImageDraw) -> None:
+    def __init__(self, d: Dense) -> None:
         self.d = d
         self.taken: list[tuple[float, float, float, float]] = []
 
@@ -598,11 +664,11 @@ def _spots(x: float, y: float, gap: float, diagonal: float) -> list[tuple[tuple[
             ((x + diagonal, y - diagonal), "lb"), ((x - diagonal, y - diagonal), "rb")]
 
 
-def _pill(d: ImageDraw.ImageDraw, box: tuple[float, float, float, float]) -> None:
+def _pill(d: Dense, box: tuple[float, float, float, float]) -> None:
     d.rounded_rectangle(box, radius=12, fill=(8, 11, 13, 190), outline=(255, 255, 255, 28), width=1)
 
 
-def _scale_bar(d: ImageDraw.ImageDraw, f: Frame, labels: _Labels) -> None:
+def _scale_bar(d: Dense, f: Frame, labels: _Labels) -> None:
     target = W * 0.14 * f.km_per_px / 1.609344                     # miles in ~14% of the width
     miles = next((x for x in (1, 2, 5, 10, 20, 25, 50, 100) if x >= target * 0.7), 100)
     length = miles * 1.609344 / f.km_per_px
@@ -616,7 +682,7 @@ def _scale_bar(d: ImageDraw.ImageDraw, f: Frame, labels: _Labels) -> None:
     labels.taken.append((x0 - 14, y - 36, x1 + 14, y + 12))
 
 
-def _legend(d: ImageDraw.ImageDraw, topic: str, labels: _Labels) -> None:
+def _legend(d: Dense, topic: str, labels: _Labels) -> None:
     """The colour scale, named: Light · Moderate · Heavy · Hail."""
     cfg = get_topic(topic).card_radar
     names = cfg.get("legend") or []
@@ -644,7 +710,7 @@ def _legend(d: ImageDraw.ImageDraw, topic: str, labels: _Labels) -> None:
     labels.taken.append((x0 - 14, y0 - 16, x0 + width + 14, y0 + 36))
 
 
-def _edge_pointer(d: ImageDraw.ImageDraw, f: Frame, mark: Mark, labels: _Labels) -> None:
+def _edge_pointer(d: Dense, f: Frame, mark: Mark, labels: _Labels) -> None:
     """A place outside the picture: an arrow at the edge, toward it, with the distance."""
     s, w, n, e = f.bbox()
     clat, clon = (s + n) / 2, (w + e) / 2
@@ -667,7 +733,7 @@ def render(sc: Scene, *, radar: bool = True, radar_key: str | None = None, now: 
     """The picture, as JPEG bytes."""
     img = render_image(sc, radar=radar, radar_key=radar_key, now=now, frame=frame)
     out = BytesIO()
-    img.save(out, "JPEG", quality=92, subsampling=0, optimize=True)
+    img.save(out, "JPEG", quality=85, subsampling=0, optimize=True)        # at 2×, as clean as 92 was at 1×
     return out.getvalue()
 
 
@@ -686,8 +752,8 @@ def render_image(sc: Scene, *, radar: bool = True, radar_key: str | None = None,
         swept_at = nexrad.key_time(radar_key)
 
     # vector layers at twice the size, then scaled down: smooth outlines, dots and dashes
-    over = Image.new("RGBA", (W * SS, H * SS), (0, 0, 0, 0))
-    d = ImageDraw.Draw(over)
+    over = Image.new("RGBA", (round(W * K * SS), round(H * K * SS)), (0, 0, 0, 0))
+    d = Dense(ImageDraw.Draw(over), K)
     for ring in sc.rings:
         path = _path(f, ring) + _path(f, ring[:1])
         d.line(path, fill=(*HALO, 230), width=13 if not sc.counties else 9, joint="curve")
@@ -717,10 +783,10 @@ def render_image(sc: Scene, *, radar: bool = True, radar_key: str | None = None,
         d.ellipse((x - 44, y - 44, x + 44, y + 44), fill=(*YOU, 60))
         d.ellipse((x - 25, y - 25, x + 25, y + 25), fill=(*TEXT, 255))
         d.ellipse((x - 17, y - 17, x + 17, y + 17), fill=(*YOU, 255))
-    over = over.convert("RGBa").resize((W, H), Image.Resampling.LANCZOS).convert("RGBA")
+    over = over.convert("RGBa").resize(img.size, Image.Resampling.LANCZOS).convert("RGBA")
     img.alpha_composite(over)
 
-    d = ImageDraw.Draw(img, "RGBA")
+    d = Dense(ImageDraw.Draw(img, "RGBA"), K)
     labels = _Labels(d)
     _legend(d, sc.topic, labels)
     _scale_bar(d, f, labels)
@@ -817,10 +883,11 @@ def render_loop(sc: Scene, *, minutes: float = 45, frame: Frame | None = None, f
         return None
     with tempfile.TemporaryDirectory() as tmp:
         for i, key in enumerate(keys):
-            render_image(sc, radar_key=key, frame=f).save(f"{tmp}/f{i:03d}.png")
-        subprocess.run([ffmpeg, "-loglevel", "error", "-y", "-framerate", f"{fps:g}", "-i", f"{tmp}/f%03d.png",
+            render_image(sc, radar_key=key, frame=f).save(f"{tmp}/f{i:03d}.ppm")     # uncompressed: PNG was slow
+        subprocess.run([ffmpeg, "-loglevel", "error", "-y", "-framerate", f"{fps:g}", "-i", f"{tmp}/f%03d.ppm",
                         "-vf", f"tpad=stop_mode=clone:stop_duration={hold:g}", "-c:v", "libx264",
-                        "-pix_fmt", "yuv420p", "-crf", "19", "-preset", "medium", "-movflags", "+faststart",
+                        # crf 22 at 2×: its blocks are a quarter the size of 19's at 1×, the file a quarter smaller
+                        "-pix_fmt", "yuv420p", "-crf", "22", "-preset", "medium", "-movflags", "+faststart",
                         "-an", f"{tmp}/loop.mp4"], check=True, timeout=90)
         return Path(f"{tmp}/loop.mp4").read_bytes()
 

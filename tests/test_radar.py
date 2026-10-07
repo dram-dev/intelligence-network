@@ -88,11 +88,12 @@ def test_the_picture_draws_the_radar_under_the_warning(fresh_db, offline_radar):
     sc = cardmap.scene(rows[0], rows, None)
     img = cardmap.render_image(sc, radar_key=KEY)
     f = cardmap.frame_for(cardmap._points(sc))
+    k = cardmap.K                                                       # pixels a point
     x, y = f.px(*HOME)
-    r, g, _ = img.getpixel((int(x), int(y)))
-    assert img.size == (cardmap.W, cardmap.H) and r > 180 and g < 110     # a 50 dBZ red, not the dark map
+    r, g, _ = img.getpixel((int(x * k), int(y * k)))
+    assert img.size == (cardmap.W * k, cardmap.H * k) and r > 180 and g < 110     # a 50 dBZ red, not the dark map
     far_x, far_y = f.px(HOME[0] - 0.25, HOME[1] - 0.2)                  # no echo there
-    assert max(img.getpixel((int(far_x), int(far_y)))) < 90
+    assert max(img.getpixel((int(far_x * k), int(far_y * k)))) < 90
 
 
 def test_a_card_gets_its_picture_first_then_its_loop(fresh_db, sent, monkeypatch, make_sensor, offline_radar):
