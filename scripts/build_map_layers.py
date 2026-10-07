@@ -9,10 +9,23 @@ server for tiles near that home. Written once and committed:
     uv run python scripts/build_map_layers.py
 
 → site/assets/il-reference.json   {places: [[name, lat, lon, km²]], rivers: [...], roads: [...]}
+
+The pictures drawn on this machine (the brief's and the digest's map, the alert cards) want
+more than a browser should download: `--detail` writes the same layers at ~50 m for them
+alone (never published). `--counties` writes the county outlines everything shares (the
+site's maps, the Mini App, the pictures, geo's point → county): the Census 500K lines,
+clipped to the shoreline, at ~50 m, wound the way D3 draws them (clockwise).
+
+    uv run python scripts/build_map_layers.py --detail
+    uv run python scripts/build_map_layers.py --counties
+
+→ config/geo/il-detail.json         the reference layers at ~50 m
+→ site/assets/il-counties.geojson   {features: [{properties: {fips, name}, geometry: Polygon}]}
 """
 from __future__ import annotations
 
 import json
+import sys
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -21,10 +34,15 @@ import requests
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "site" / "assets" / "il-reference.json"
-TIGER = "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb"
+DETAIL_OUT = ROOT / "config" / "geo" / "il-detail.json"
+COUNTIES_OUT = ROOT / "site" / "assets" / "il-counties.geojson"
+SERVICES = "https://tigerweb.geo.census.gov/arcgis/rest/services"
+TIGER = f"{SERVICES}/TIGERweb"
+COUNTIES = f"{SERVICES}/Generalized_ACS2025/State_County/MapServer/11"     # Counties 500K, shoreline-clipped
 STATE = "17"
 ENVELOPE = {"xmin": -91.52, "ymin": 36.96, "xmax": -87.01, "ymax": 42.51, "spatialReference": {"wkid": 4326}}
 SIMPLIFY_DEG = 0.004          # ~400 m: plenty for a county-scale map, small enough to ship
+DETAIL_DEG = 0.0005           # ~50 m: a pixel of the densest picture drawn here (an alert card at 2×)
 MIN_PLACE_KM2 = 1.0
 
 # The rivers people in Illinois would name; each is many TIGER segments, merged by name.
@@ -40,10 +58,10 @@ WIDE_RIVERS = ["Mississippi River", "Illinois River", "Ohio River", "Wabash Rive
 
 
 def query(path: str, **params) -> list[dict]:
-    """An ArcGIS REST query, paged, returning features."""
+    """An ArcGIS REST query, paged, returning features (`path` under TIGERweb, or a full URL)."""
     out, offset = [], 0
     while True:
-        r = requests.get(f"{TIGER}/{path}/query", params={
+        r = requests.get(f"{path if path.startswith('https:') else f'{TIGER}/{path}'}/query", params={
             "f": "json", "outSR": 4326, "resultOffset": offset, "resultRecordCount": 2000, **params}, timeout=120)
         r.raise_for_status()
         d = r.json()
@@ -67,7 +85,35 @@ def lines(geom: dict) -> list[list[list[float]]]:
     return [[[round(x, 4), round(y, 4)] for x, y in path] for path in (geom or {}).get("paths") or [] if len(path) > 1]
 
 
-def main() -> None:
+def area(ring: list[list[float]]) -> float:
+    """Signed area in degrees² (the shoelace): below zero, the ring runs clockwise."""
+    return sum(a[0] * b[1] - b[0] * a[1] for a, b in zip(ring, ring[1:], strict=False)) / 2
+
+
+def counties() -> None:
+    feats = query(COUNTIES, where=f"STATE='{STATE}'", outFields="GEOID,BASENAME", returnGeometry="true",
+                  maxAllowableOffset=DETAIL_DEG)
+    out = []
+    for f in sorted(feats, key=lambda f: f["attributes"]["GEOID"]):
+        rings = [[[round(x, 4), round(y, 4)] for x, y in ring] for ring in (f.get("geometry") or {}).get("rings") or []
+                 if len(ring) > 3]
+        rings = [r if area(r) < 0 else r[::-1] for r in rings]                     # D3: clockwise outside
+        geometry = ({"type": "Polygon", "coordinates": rings[:1]} if len(rings) == 1
+                    else {"type": "MultiPolygon", "coordinates": [[r] for r in rings]})
+        out.append({"type": "Feature", "properties": {"fips": f["attributes"]["GEOID"], "name": f["attributes"]["BASENAME"]},
+                    "geometry": geometry})
+    doc = {"type": "FeatureCollection",
+           "source": f"US Census Bureau TIGERweb Generalized_ACS2025, Counties 500K (cartographic, clipped to shoreline), "
+                     f"simplified to ~{DETAIL_DEG:g} deg; public domain",
+           "features": out}
+    COUNTIES_OUT.write_text(json.dumps(doc, separators=(",", ":")), encoding="utf-8")
+    points = sum(len(r) for f in out for r in (f["geometry"]["coordinates"] if f["geometry"]["type"] == "Polygon"
+                                                 else [p[0] for p in f["geometry"]["coordinates"]]))
+    print(f"{COUNTIES_OUT.relative_to(ROOT)}: {len(out)} counties, {points} points, {COUNTIES_OUT.stat().st_size / 1024:.0f} KB")
+
+
+def main(detail: bool = False) -> None:
+    simplify, out = (DETAIL_DEG, DETAIL_OUT) if detail else (SIMPLIFY_DEG, OUT)
     places = query("Places_CouSub_ConCity_SubMCD/MapServer/4", where=f"STATE='{STATE}'",
                    outFields="BASENAME,INTPTLAT,INTPTLON,AREALAND", returnGeometry="false")
     rows = sorted(([p["attributes"]["BASENAME"], round(float(p["attributes"]["INTPTLAT"]), 4),
@@ -77,7 +123,7 @@ def main() -> None:
     rows = [r for r in rows if r[3] >= MIN_PLACE_KM2]
 
     geo = {"geometry": json.dumps(ENVELOPE), "geometryType": "esriGeometryEnvelope", "inSR": 4326,
-           "spatialRel": "esriSpatialRelIntersects", "maxAllowableOffset": SIMPLIFY_DEG}
+           "spatialRel": "esriSpatialRelIntersects", "maxAllowableOffset": simplify}
     # TIGER abbreviates: "Sangamon Riv", "Macoupin Crk", "Salt Fk Sangamon Riv"
     tiger = {abbreviate(n): n for n in RIVERS}
     names = ",".join("'" + n.replace("'", "''") + "'" for n in tiger)
@@ -107,10 +153,13 @@ def main() -> None:
            "rivers": [{"name": n, "lines": ls} for n, ls in sorted(rivers.items()) if ls],
            "water": [{"name": n, "rings": rs} for n, rs in sorted(water.items()) if rs],
            "roads": [{"name": n, "type": t, "lines": ls} for (n, t), ls in sorted(roads.items()) if ls and n]}
-    OUT.write_text(json.dumps(doc, separators=(",", ":")), encoding="utf-8")
-    print(f"{OUT.relative_to(ROOT)}: {len(rows)} places, {len(doc['rivers'])} rivers, {len(doc['water'])} wide rivers, "
-          f"{len(doc['roads'])} roads, {OUT.stat().st_size / 1024:.0f} KB")
+    out.write_text(json.dumps(doc, separators=(",", ":")), encoding="utf-8")
+    print(f"{out.relative_to(ROOT)}: {len(rows)} places, {len(doc['rivers'])} rivers, {len(doc['water'])} wide rivers, "
+          f"{len(doc['roads'])} roads, {out.stat().st_size / 1024:.0f} KB")
 
 
 if __name__ == "__main__":
-    main()
+    if "--counties" in sys.argv[1:]:
+        counties()
+    else:
+        main(detail="--detail" in sys.argv[1:])

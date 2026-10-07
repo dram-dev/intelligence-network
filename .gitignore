@@ -8,6 +8,7 @@ secrets/*
 !secrets/README.md
 *.json
 !config/*.json
+!config/geo/*.json
 !tests/fixtures/*.json
 !docs/data/*.json
 !site/assets/*.json
