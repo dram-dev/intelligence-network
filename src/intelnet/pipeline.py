@@ -91,7 +91,7 @@ def _run(run_type: str, skip_publish: bool, console: Any) -> dict[str, Any]:
 
     console.rule("[bold cyan]stage 4: digest")
     model = digest.build(hours=max(24.0, float(hours)))
-    model.narrative = llm.narrative(model.to_json())
+    model.narrative = llm.narrative(digest.narrative_facts(model))
     console.print(f"  {model.headline}" + ("" if model.narrative else "  (no narrative)"))
     html = digest.render_html(model)
     summary["digest"] = {"date": model.date, "events": len(model.events), "alerts": len(model.alerts)}

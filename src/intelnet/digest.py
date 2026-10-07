@@ -82,6 +82,33 @@ class DigestModel:
                           default=str)
 
 
+def narrative_facts(m: DigestModel) -> str:
+    """What the narrative is written from: the day's facts in a few hundred words (JSON), not
+    the whole model. The reading list alone was three quarters of it, and a long prompt on the
+    shared model server ran past its time."""
+    now = datetime.now(UTC)
+    live = [a for a in m.alerts if a.get("expires") in (None, "—") or (parse_iso(a["expires"]) or now) > now]
+    listed, _ = notable.listing(m.day)
+    v = m.vitals
+    facts = {
+        "state": STATE_NAMES.get(m.state, m.state), "digest_date": _long_date(m.date), "hours": m.hours,
+        "alerts_in_effect": [f"{k['event']}" + (f" ×{k['n']}" if k["n"] > 1 else "") + ": "
+                             + ahead.names(k["counties"], 8) for k in _alert_kinds(live) if k["counties"]][:6],
+        "alerts_ended": len(m.alerts) - len(live),
+        "storms": [f"{st['title'] or 'Storm'}: {st['brief']}" for st in m.storms][:3],
+        "rivers_in_flood": [f"{g.name}: {g.text()}" for g in m.rivers if g.level >= 2][:5],
+        "rivers_near_flood_stage": [g.name for g in m.rivers if g.level == 1][:6],
+        "stood_out": [f"{a}, {b}: {c}" for a, b, c in notable.standouts(m.day)][:6],
+        "news": [f"{st.where}: {st.title}" for st in listed][:6],
+        "network_events": [e["title"] for e in m.events if e.get("title")][:3],
+        "forecast_today": [f"{name}: " + "; ".join(f"{p.name}: {p.text()}" for p in ps)
+                           for name, ps in m.ahead.places],
+        "outlook_risks": [f"{r.name}: {r.text()} for {ahead.names(cs)}" for r, cs in m.ahead.risks],
+        "readings_from_people": f"{v.get('signals_24h_human', 0)} from {v.get('sensors_active_24h', 0)} people",
+    }
+    return json.dumps({k: x for k, x in facts.items() if x}, ensure_ascii=False)
+
+
 def event_phrase(e: dict[str, Any]) -> str:
     """'visibility down to 1/16 mi, Lake County' from an event summary."""
     m = find_metric(str(e.get("metric") or ""))

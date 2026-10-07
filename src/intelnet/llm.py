@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 from typing import Any
 
 from digest_core.summarize.backends import BackendConfig, BackendError, get_backend
@@ -147,28 +148,44 @@ def triage_item(item: dict[str, Any]) -> dict[str, Any] | None:
 
 # ── digest narrative ──────────────────────────────────────────────────────
 
-_NARRATIVE_SYSTEM = """You write the opening of a daily digest for a citizen environmental sensor
-network in {state} (weather, water, soil, agriculture, air). People read it on a phone.
-Two short paragraphs, separated by a blank line, under 110 words in all.
-Paragraph 1, one or two sentences: the most important thing in the last 24 hours (warnings in
-effect, storms, events the network verified), with the places. Paragraph 2, one or two sentences:
-the network itself (readings from people, coverage, where sensors are needed).
-Don't list station highs and lows or river numbers: a table follows. Copy numbers and units
-exactly as the data writes them. Plain text, no markdown, no headings, no hype. Only use facts
-from the data given."""
+_NARRATIVE_SYSTEM = """You write the two-paragraph opening of a daily digest for a citizen sensor
+network in {state} (weather, water, soil, agriculture, air). People read it on a phone first thing
+in the morning.
+Paragraph 1: one or two sentences, at most 30 words: the most important thing in the last day
+(warnings in effect, rivers in flood, storms, the heaviest rain, what stood out), naming places.
+Paragraph 2: one or two sentences, at most 40 words: what today holds, from the forecasts, outlook
+risks and river forecasts given. It is read on the morning of digest_date: that day's daytime
+forecast is "today", its night "tonight".
+Separate the paragraphs with a blank line. Use only facts from the data; copy numbers and units
+exactly as written. Plain text: no markdown, no headings, no lists, no hype. Don't describe the
+network itself unless people's readings are among the day's main facts."""
 
 
-def narrative(digest_json: str) -> str | None:
-    text = call(settings.summarizer_backend, _NARRATIVE_SYSTEM.format(state=settings.geo_state),
-                digest_json, max_tokens=400, temperature=0.3)
+def narrative(facts_json: str) -> str | None:
+    """The digest's opening from its facts (digest.narrative_facts). The summarizer backend
+    first; if it fails or runs past its time (the shared MLX server did, twice in a week), the
+    parser backend, once."""
+    for i, backend in enumerate(dict.fromkeys((settings.summarizer_backend, settings.parser_backend))):
+        system = _NARRATIVE_SYSTEM.format(state=settings.geo_state) + (_AS_JSON if i else "")
+        text = _clean(call(backend, system, facts_json, max_tokens=400, temperature=0.3))
+        if text:
+            return text
+    return None
+
+
+# The parser backend answers in JSON (Ollama's format=json): the paragraphs go in "text".
+_AS_JSON = '\nAnswer as a JSON object: {"text": "<paragraph 1>\\n\\n<paragraph 2>"}.'
+
+
+def _clean(text: str | None) -> str | None:
     if not text:
         return None
-    text = text.strip()
+    text = re.sub(r"(?s)<think>.*?</think>", "", text).strip()
     # A model that answers in JSON by habit: unwrap {"text": ...}
     if text.startswith("{"):
         data = extract_json(text) or {}
         text = str(data.get("text") or data.get("narrative") or "")
-    return text or None
+    return text.strip() or None
 
 
 def probe() -> dict[str, str]:
