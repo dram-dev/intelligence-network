@@ -211,8 +211,9 @@ def _describe(s: Signal, sensors: dict[str, str]) -> tuple[str, str, str | None]
         return ("Airport station", _station(known) if known else code,
                 f"https://mesonet.agron.iastate.edu/sites/site.php?station={code}&network={settings.geo_state}_ASOS"
                 if code else None)
-    if kind == "monitor":
-        return "EPA air monitor", s.location.label or "Air monitor", None
+    if kind == "monitor":                      # agency site names are codes; the county says where
+        c = geo.county(s.location.county_fips)
+        return "EPA air monitor", f"{c.name} County air monitor" if c else "Air monitor", None
     if kind == "observer":
         return "CoCoRaHS observer", _observer(str(ev.get("name") or ""), str(ev.get("station") or "")), None
     if kind == "lsr":
@@ -301,6 +302,20 @@ def _top(m: Metric, sigs: list[Signal]) -> Signal | None:
     return (min if m.event_direction == "below" else max)(vals, key=lambda s: s.value)
 
 
+def _lower(label: str) -> str:
+    """'Rainfall' → 'rainfall'; an acronym stays one: 'PM2.5', 'AQI'."""
+    first = label.split()[0] if label.split() else ""
+    return label if sum(c.isupper() for c in first) >= 2 else label.lower()
+
+
+def _below_min(m: Metric, stat: str, value: float | None) -> bool:
+    """A headline reading short of the pack's `headline_min` isn't news (the state's highest
+    PM2.5 on a clean day)."""
+    if m.headline_min is None or value is None:
+        return False
+    return value < m.headline_min if stat == "max" else value > m.headline_min
+
+
 def _period_hours(period: Any) -> float | None:
     """'1h' → 1, '24h' → 24, '30m' → 0.5; None when there's no period."""
     m = re.fullmatch(r"\s*(\d+(?:\.\d+)?)\s*([hm])\s*", str(period or ""))
@@ -352,7 +367,7 @@ def _reasons(places: list[Place], now: datetime) -> None:
             sev = m.severity(top.value)
             if sev > 0:
                 text = f"{m.label} reported" if m.is_flag else f"{_short(m)} {'well past' if sev >= 0.7 else 'past'}" \
-                    " the network's event threshold"
+                    " the network's event threshold" + (f" ({m.aqi_text(top.value)})" if m.aqi else "")
                 p.whys.append(Why("event", key, sev, text, top.value, top.observed_at))
             humans = [s for s in sigs if s.sensor_kind in (KIND_HUMAN, KIND_BOT)]
             if humans:
@@ -383,12 +398,13 @@ def _reasons(places: list[Place], now: datetime) -> None:
                     v = s.value if stat == "max" else -s.value
                     if best is None or v > best[0]:
                         best = (v, p, s)
-                if best is not None and field_ >= MIN_FIELD:      # "lowest of one" says nothing
+                if best is not None and field_ >= MIN_FIELD and not _below_min(m, stat, best[2].value):
                     _, p, s = best
-                    what = m.label.lower() + (" total" if m.accumulates else "")
+                    what = _lower(m.label) + (" total" if m.accumulates else "")
                     p.whys.append(Why(stat, m.key, W_HEADLINE,
                                       f"{'Highest' if stat == 'max' else 'Lowest'} {what} in Illinois"
-                                      + _window(p.series[m.key], now), s.value, s.observed_at))
+                                      + _window(p.series[m.key], now)
+                                      + (f" ({m.aqi_text(s.value)})" if m.aqi else ""), s.value, s.observed_at))
             if "rise" in m.headline and _linear(m):
                 ups = sorted(((u, p) for p in places if (sigs := p.series.get(m.key)) and (u := rise(m, sigs))),
                              key=lambda x: -x[0])
@@ -655,13 +671,13 @@ def _label(p: Place) -> str:
     sigs = p.series.get(m.key) or []
     up = lead.value if lead.kind == "rise" else rise(m, sigs) if lead.kind == "news" and _rises(m) else None
     if up:
-        return f"▲ {m.display(up)}"
+        return f"▲ {m.display(up, aqi=False)}"
     if m.is_flag:
         return m.label
     names = {k: v for k, v in m.headline.items() if k != "rise"}
     prefix = names.get(lead.kind) or (next(iter(names.values())) if len(names) == 1 else _short(m))
     top = lead.value if lead.value is not None else (t.value if (t := _top(m, sigs)) else None)
-    shown = m.display(top) + ("/hr" if m.accumulates and _hourly(sigs) else "")    # a rate, not a storm total
+    shown = m.display(top, aqi=False) + ("/hr" if m.accumulates and _hourly(sigs) else "")    # a rate, not a total
     return shown if shown.endswith(f" {prefix}") else f"{prefix} {shown}"         # "158 AQI", not "AQI 158 AQI"
 
 

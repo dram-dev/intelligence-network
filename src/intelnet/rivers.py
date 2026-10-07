@@ -38,7 +38,9 @@ def enabled() -> bool:
 
 
 def _get(url: str) -> Any:
-    return fetch.get_json(url)
+    # the gauge listing is large and slow: at 08:00 on 7 Oct it ran past 12 s twice, and the
+    # brief went out without its rivers
+    return fetch.get_json(url, timeout=40)
 
 
 def stage_text(v: float, unit: str = "ft") -> str:

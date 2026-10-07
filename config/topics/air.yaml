@@ -13,6 +13,11 @@ categories:
   reports: Every accepted air reading near you (raw)
   digest:  "The 8:00 morning brief: news tied to the readings behind it, your county, and major readings across every topic"
 
+# The AQI's categories (EPA), by the top of each band. An hourly value is read against the
+# daily standards' breakpoints: a guide to how the air is, not the official daily AQI.
+aqi_categories: [[50, Good], [100, Moderate], [150, Unhealthy for sensitive groups], [200, Unhealthy],
+                 [300, Very unhealthy], [500, Hazardous]]
+
 metrics:
   pm25_ugm3:
     label: PM2.5
@@ -28,6 +33,9 @@ metrics:
     radius_km: 15
     window_min: 120
     event: [[35.5, 0.4], [55.5, 0.7], [125.5, 1.0]]
+    aqi: [[0, 9.0, 0, 50], [9.1, 35.4, 51, 100], [35.5, 55.4, 101, 150], [55.5, 125.4, 151, 200],
+          [125.5, 225.4, 201, 300], [225.5, 325.4, 301, 500]]
+    headline_min: 35.5          # the state's highest only once it's unhealthy for sensitive groups
 
   aqi:
     label: Air Quality Index
@@ -55,6 +63,8 @@ metrics:
     radius_km: 25
     window_min: 120
     event: [[71, 0.5], [86, 0.8]]
+    aqi: [[0, 54, 0, 50], [55, 70, 51, 100], [71, 85, 101, 150], [86, 105, 151, 200], [106, 200, 201, 300]]
+    headline_min: 71
 
   # ── flags ──
   smoke:

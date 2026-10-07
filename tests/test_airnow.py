@@ -1,7 +1,8 @@
 """AirNow: the EPA's hourly monitor values become the air topic's official readings."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from dataclasses import replace
+from datetime import datetime, timedelta, timezone
 
 from intelnet import db
 from intelnet.feeds import airnow
@@ -56,3 +57,33 @@ def test_an_unhealthy_hour_reaches_air_subscribers_and_a_sensitive_one_does_not(
     res = airnow.AirNowFeed().run()
     assert res.events_pushed >= 1 and {c for c, _ in sent} == {"70"}                   # unhealthy: pushed
     assert db.reference_network_sizes().get("airnow") == 1
+
+
+def test_air_reads_on_the_aqi_scale():
+    from intelnet.topics import find_metric
+
+    pm, o3 = find_metric("pm25_ugm3"), find_metric("ozone_ppb")
+    assert [pm.aqi_of(v) for v in (5, 9.0, 35.5, 45, 62.1, 130)] == [28, 50, 101, 124, 156, 205]   # EPA's examples
+    assert pm.display(45) == "45 µg/m³ (AQI 124, unhealthy for sensitive groups)"
+    assert pm.display(45, aqi=False) == "45 µg/m³" and o3.display(72) == "72 ppb (AQI 104, unhealthy for sensitive groups)"
+    assert find_metric("rain_mm").display(25.4) == "1.00 in"                     # no AQI scale, no words
+
+
+def test_air_on_the_map_only_when_it_matters(fresh_db):
+    from intelnet import notable
+
+    def hour(pm25: str) -> list:
+        known = airnow.parse_sites(SITES, "17")
+        known["171670013"] = ["SPFLD_PH", 39.80, -89.60]                       # three PM2.5 sites: a field
+        known["170310001"] = ["ALSIP", 41.67, -87.73]
+        now = datetime.now(timezone.utc).replace(minute=0, second=0, microsecond=0)
+        rows = [f"x|x|170191001|BONDVILLE|-6|PM2.5|UG/M3|{pm25}|EPA", "x|x|171670013|SPFLD_PH|-6|PM2.5|UG/M3|8.2|EPA",
+                "x|x|170310001|ALSIP|-6|PM2.5|UG/M3|7.5|EPA"]
+        return airnow.parse_hourly("\n".join(rows), now - timedelta(hours=2), known)
+
+    db.insert_signals(hour("15.3"))                                             # moderate: no news
+    assert not [p for p in notable.build()["places"] if p["label"].startswith("PM2.5")]
+    db.insert_signals([replace(s, source_id=s.source_id + "b") for s in hour("45.0") if s.value == 45.0])
+    [air] = [p for p in notable.build()["places"] if p["label"].startswith("PM2.5")]
+    assert air["label"] == "PM2.5 45 µg/m³" and air["name"] == "Champaign County air monitor"
+    assert any("Highest PM2.5 in Illinois" in w and "(AQI 124, unhealthy for sensitive groups)" in w for w in air["why"])

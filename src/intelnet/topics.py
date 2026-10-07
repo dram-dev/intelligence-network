@@ -76,6 +76,12 @@ class Metric:
     # A scale read in its own words: corn at "R2", drought "D2", condition "good", not the
     # number each is stored as.
     display_words: bool = False
+    # An air measure on the AQI scale: [[conc lo, conc hi, index lo, index hi], …] in the canonical
+    # unit (EPA breakpoints), and the pack's category names by the top of each band.
+    aqi: list[tuple[float, float, int, int]] = field(default_factory=list)
+    aqi_words: list[tuple[int, str]] = field(default_factory=list)
+    # The state's highest/lowest (`headline`) only from this value: "highest PM2.5 = 9" is no news.
+    headline_min: float | None = None
 
     @property
     def is_flag(self) -> bool:
@@ -127,10 +133,32 @@ class Metric:
     def is_event(self, value: float) -> bool:
         return self.severity(value) > 0
 
-    def display(self, value: float | None) -> str:
+    def aqi_of(self, value: float | None) -> int | None:
+        """The value on the AQI scale (EPA's piecewise breakpoints; concentration truncated to a
+        tenth); None for a measure without one."""
+        if value is None or not self.aqi:
+            return None
+        c = int(value * 10) / 10
+        for lo, hi, i_lo, i_hi in self.aqi:
+            if c <= hi:
+                return round((i_hi - i_lo) / (hi - lo) * (max(c, lo) - lo) + i_lo)
+        return int(self.aqi[-1][3])
+
+    def aqi_text(self, value: float | None) -> str:
+        """'AQI 124, unhealthy for sensitive groups'; '' without an AQI scale."""
+        n = self.aqi_of(value)
+        if n is None:
+            return ""
+        word = next((w for top, w in self.aqi_words if n <= top), self.aqi_words[-1][1] if self.aqi_words else "")
+        return f"AQI {n}" + (f", {word.lower()}" if word else "")
+
+    def display(self, value: float | None, *, aqi: bool = True) -> str:
         """Human-facing rendering, in the display unit when the pack sets one: '1.75 in',
-        '277,000 cfs', '29.92 inHg' (`decimals`), '1/16 mi' (`fractions`). The canonical
-        value stays in the data and the CSVs."""
+        '277,000 cfs', '29.92 inHg' (`decimals`), '1/16 mi' (`fractions`); an air measure adds
+        its AQI ('45 µg/m³ (AQI 124, unhealthy for sensitive groups)') unless `aqi=False` (the
+        map's short labels). The canonical value stays in the data and the CSVs."""
+        if aqi and self.aqi and value is not None:
+            return f"{self.display(value, aqi=False)} ({self.aqi_text(value)})"
         if value is None:
             return "—"
         if self.is_flag:
@@ -274,6 +302,8 @@ def _load_metric(topic: str, key: str, raw: dict[str, Any]) -> Metric:
         county_wide=bool(raw.get("county_wide", False)),
         short=str(raw.get("short") or ""),
         display_words=bool(raw.get("display_words", False)),
+        aqi=[(float(a), float(b), int(c), int(d)) for a, b, c, d in raw.get("aqi") or []],
+        headline_min=float(raw["headline_min"]) if raw.get("headline_min") is not None else None,
     )
 
 
@@ -281,6 +311,10 @@ def load_topic(path: Path) -> Topic:
     raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     name = str(raw.get("topic") or path.stem)
     metrics = {k: _load_metric(name, k, v or {}) for k, v in (raw.get("metrics") or {}).items()}
+    words = [(int(top), str(w)) for top, w in raw.get("aqi_categories") or []]
+    for m in metrics.values():
+        if m.aqi:
+            m.aqi_words = words
     known = {"topic", "label", "description", "categories", "alert_routing", "alert_support",
              "metrics", "lsr_types", "station_fields", "quick_reports", "alert_questions",
              "reference_grids", "cap_category", "card_radar", "alert_colours"}
