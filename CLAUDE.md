@@ -248,10 +248,12 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   it ships (stills, loop frames): see the samples workflow in memory. Dark map (site assets), warning outlined in its event
   colour, NWS motion → dashed track with 10-min times, the reader's blue dot + "storm ~7:04 PM",
   people's reports (cyan, at ZIP centres) and spotters' (white) from the last 2 h, legend,
-  scale, "Lincoln radar · 6:35 PM". 1080×720 JPEG named by scene + radar key; scene kept as
-  JSON. **Loop**: the card goes out with the still at once; an outbox edit (`<thread>:loop:…`,
+  scale, "Lincoln radar · 6:35 PM". Laid out at 1080×720 points, drawn at 2160×1440 (`K` = 2,
+  see "Map detail"): the sweep is read and quality-checked once a point (a point is already
+  finer than a bin) and its values drawn out to the pixels before colouring; JPEG q85 (at 2× as
+  clean as 92 was at 1×), named by scene + radar key; scene kept as JSON. **Loop**: the card goes out with the still at once; an outbox edit (`<thread>:loop:…`,
   priority 7, not sent in the fan-out) swaps in a 45-min H.264 loop (`render_loop`, ffmpeg)
-  rendered lazily at delivery (`cardmap.loop_bytes`), sent as an animation (`tg://video?id=`,
+  rendered lazily at delivery (`cardmap.loop_bytes`; frames as PPM, crf 22: ~3 s, ~1.8 MB), sent as an animation (`tg://video?id=`,
   InputMediaAnimation); `fallback=False`, so a refused loop leaves the still. Radar files cache
   in data/radar/. `CARD_MAPS`, `CARD_MAP_RADAR`, `CARD_MAP_LOOP` (all off in tests; the tests
   build a synthetic N0B file). IBM Plex Sans (OFL) vendored in config/fonts/. numpy is a dep.
@@ -285,10 +287,12 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   `nothing_here` has `scored: false`: an absence report, kept and counted, never
   corroborated, trusted, evented or pushed.
 - **Site hero**: `site/assets/il-counties.geojson` (Census TIGERweb generalized
-  500K counties, shoreline-clipped, D3 winding) and a ZIP → [fips, lat, lon] table
+  500K counties, shoreline-clipped, ~50 m, D3 winding: `scripts/build_map_layers.py --counties`)
+  and a ZIP → [fips, lat, lon] table
   are inlined into the page data by `export._page_geography` (not written as public
   JSON). The map is D3/SVG in Mercator; radar is IEM's NEXRAD WMS in EPSG:3857 cut
-  to the same frame; alerts come live from api.weather.gov (snapshot fallback).
+  to the same frame, asked at the screen's pixels (≤ 2.5×; the mosaic has ~1,100 rows across
+  the state; county pages ≤ 2×); alerts come live from api.weather.gov (snapshot fallback).
   The snapshot carries `feeds` (last good run per source) and `reference_sizes`.
   Grids that collapse to one column use `minmax(0, 1fr)` (plain `1fr` let a long
   code line push the phone layout to 1,240 px).
@@ -317,10 +321,13 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   list beside the map drives the same highlight; on wide screens the map is sticky and sized
   to the viewport. The readings and stories are as of the snapshot; alerts and radar are live.
 - **The brief's map** (`daymap.py`): the masthead map as one picture for the 08:00 brief (a chat
-  can't hover): 1080×1350, the alert cards' dark map with the site's dark topic colours; dots
+  can't hover): laid out at 1080×1350 points, drawn at 2048×2560 (`daymap.K`: the largest
+  picture Telegram keeps whole), the alert cards' dark map with the site's dark topic colours; dots
   and labels as on the site (a rise's ▲ is drawn: IBM Plex has no glyph), numbered story squares
   with arcs to their readings, statewide stories in the key on the right, NWS alerts in their
-  card colours (warnings stronger than watches), the reader's county outlined. No radar: the
+  card colours (warnings stronger than watches), the reader's county outlined; rivers and lakes
+  only as far as the state and `BORDER_KM` (4) past it (the Mississippi and the Wabash whole;
+  Indiana's rivers ran under the key). No radar: the
   brief is about the last day. Built from a fresh `notable.build()` at brief time (fresher than
   the site's 01:10 snapshot), one per county among subscribers, named `dm-<hash>` in
   cardmap's folder so delivery uploads it like a card picture and reuses Telegram's file id;
@@ -333,9 +340,10 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
 - **The digest's map** (the Google Doc and the site's digest.html): `daymap.LIGHT`, the same
   picture in the site's light colours on white (prints, sits on the page), drawn by
   `digest.build` from a fresh `notable.build()` (`model.day`, `model.picture`; both kept out of
-  the narrative's JSON) and embedded as a base64 `data:` image, 384×480 px in the Doc (4 × 5 in)
-  and 432×540 on the site (Drive's HTML import keeps it, sized, and the PDF/Word exports carry
-  it: probed). Page 1 = masthead, lede, "Also as" links, the map, then the numbers: the lede is
+  the narrative's JSON) and embedded as a base64 `data:` image, shown at 384×480 px in the Doc
+  (4 × 5 in) and 432×540 on the site (Drive's HTML import keeps it, sized, and the PDF/Word
+  exports carry it: probed). The bitmap is the 2048×2560 drawing: Docs keeps at most ~1600 px
+  on the long side (1600×1999 = 400 ppi at 4 × 5 in; it was 270), the site and map.png all of it. Page 1 = masthead, lede, "Also as" links, the map, then the numbers: the lede is
   the narrative's first paragraph up to `LEDE_MAX` (200 chars, three lines), else the headline
   (the paragraph opens the body), whose "N NWS alerts in effect" is `vitals.alerts_active` (in
   effect now, as the numbers count them; it once counted the window's 11 over a grid saying 4);
@@ -419,6 +427,16 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
 - **digest-core** is consumed as an editable path dep from
   `../pc-insurance-digest/packages/digest-core` (like macro). CI checks out
   both repos side by side.
+
+- **Map detail** (2026-10-07): the pictures are laid out in points and drawn at `K` pixels a
+  point through `cardmap.Dense` (an ImageDraw that scales every coordinate, width, radius and
+  font, and hands text boxes back in points), so layouts stay put while the detail doubles:
+  day maps 2048×2560 (K = 1.896), cards 2160×1440 (K = 2). Measured: Telegram keeps a picture
+  whole up to a 2560 box (our 1080×1350 maps came back 1080×1350); Docs keeps ≤ ~1600 px.
+  Geometry fine enough to fill it: the shared county outlines (above), and for the pictures
+  alone `config/geo/il-detail.json` (rivers, lakes, roads, towns at ~50 m: `scripts/build_map_layers.py
+  --detail`; 1 MB, never published; `.gitignore` lets `config/geo/*.json` through). The Mini App
+  keeps the light `il-reference.json`. A new still costs ~0.4 s (was 0.27).
 
 ## Schedule (Mac mini launchd; `scripts/install_launchd.sh`)
 
