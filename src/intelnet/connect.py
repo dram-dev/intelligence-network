@@ -119,7 +119,10 @@ def _named(metric: Any, text: str) -> bool:
 
 
 def _site(sig: Any) -> str:
-    """'SALT CREEK AT 22ND STREET AT OAK BROOK, IL' → 'Salt Creek at 22nd Street at Oak Brook'."""
+    """'SALT CREEK AT 22ND STREET AT OAK BROOK, IL' → 'Salt Creek at 22nd Street at Oak Brook';
+    'NEAR MCHENRY' → 'near McHenry'."""
     name = str(sig.evidence.get("name") or "").rsplit(",", 1)[0].title()
+    name = re.sub(r"\bMc([a-z])", lambda m_: "Mc" + m_.group(1).upper(), name)
+    name = re.sub(r"\b(\d+)(St|Nd|Rd|Th)\b", lambda m_: m_.group(1) + m_.group(2).lower(), name)   # 22Nd → 22nd
     name = re.sub(r"\bNr\b", "near", re.sub(r"\bAbv\b", "above", re.sub(r"\bBlw\b", "below", name)))
     return re.sub(r"\b(At|Near|Above|Below|Of|The|And)\b", lambda m_: m_.group(1).lower(), name)

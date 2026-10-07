@@ -31,3 +31,16 @@ def test_a_river_that_rose_is_named_with_its_rise():
 
 def test_a_one_step_jump_is_the_gauge_not_the_river():
     assert notable.rise(find_metric("stage_m"), _stage([7.7, 7.7, 7.8, 17.5, 17.4])) is None   # West Branch DuPage, 30 Sep
+
+
+def test_a_gauges_name_reads_like_a_place():
+    from types import SimpleNamespace
+
+    from intelnet import connect
+
+    def name(raw: str) -> str:
+        return connect._site(SimpleNamespace(evidence={"name": raw}))
+
+    assert name("SALT CREEK AT 22ND STREET AT OAK BROOK, IL") == "Salt Creek at 22nd Street at Oak Brook"
+    assert name("FOX RIVER (TAILWATER) NEAR MCHENRY, IL") == "Fox River (Tailwater) near McHenry"
+    assert name("MACKINAW RIVER NR CONGERVILLE, IL") == "Mackinaw River near Congerville"
