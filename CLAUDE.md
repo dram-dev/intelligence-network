@@ -170,6 +170,13 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   Same shared servers as the other digests → the daily pipeline holds the
   cross-digest run lock (`pipeline_serialize("intelligence-network")`).
   The bot's per-message LLM parse does NOT take the run lock (interactive).
+  **Narrative** (2026-10-06): written from `digest.narrative_facts` (~2 KB: alerts in effect,
+  rivers, storms, what stood out, the stories, the places' forecasts, outlook risks, the
+  digest's date), not the whole model (12 KB, three quarters reading list: MLX timed out at
+  120 s twice); ~12 s on MLX. Prompt: paragraph 1 ≤ 30 words on what mattered, naming places
+  (fits `LEDE_MAX`); paragraph 2 what today holds; the network only when people's readings are
+  news. `llm.narrative` falls back once to the parser backend, told to answer `{"text": …}`
+  (Ollama's format=json echoed the facts back); `<think>` stripped.
 - **Google Drive**: `drive.file` scope; folder + Latest doc ids in `kv`;
   `publish()` creates/updates the day's doc and rewrites Latest;
   `add_reader(email)` shares the folder (`/digest email` on Telegram);
@@ -344,12 +351,34 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   story 1"), which replaces the Doc's "Station extremes" (it gave a station's wettest hour as
   the day's rain); station-extremes.csv stays. "Worth reading" skips the listed stories.
 - **Morning brief** (`brief.py`): replaces the digest-link ping. Per digest
-  subscriber: county from live location, else home, else the state. Lines: alerts
-  in effect (one per event, ×n), alerts ended in 24 h (alert_threads), every metric
-  people reported or whose reading crossed its event threshold (no weather code),
-  network events, a `<blockquote expandable>` statewide summary, the digest's links (the
-  site copy first, made for phones) + county page. Works without Drive. Key
-  `digest:<local date>` = once a day.
+  subscriber: county from live location, else home, else the state. It opens with the
+  reader's day (`today()` + `_in_effect` + `high_water()`): the county's forecast and outlook
+  risks, the alerts in effect there, the river gauges running high nearby; then the state's
+  map and stories; then the rest of the county (alerts ended in 24 h, storms, network events,
+  every metric people reported or whose reading crossed its event threshold — no weather
+  code), the statewide summary, the digest's links (the site copy first, made for phones) +
+  county page. Without a county: outlook risks and rivers in flood first. One forecast per
+  county and one river survey per fan-out. Each brief carries "📣 Invite a neighbor"
+  (`invite_markup`: Telegram's share sheet with t.me/<bot>?start=sub_weather_warnings_<county>).
+  Works without Drive. Key `digest:<local date>` = once a day.
+- **The day ahead** (`ahead.py`, weather pack `ahead`; `AHEAD_ENABLED`, off in tests): the NWS
+  forecast for a point (`points_url` → the forecast URL, kept in kv as `nwsfc:<geohash6>`), from
+  the next daytime period ("Today"/"Tonight" at 08:00, "Tuesday"/"Tuesday Night" at 01:10);
+  periods that already ended are dropped (the API's cache served "This Afternoon" at 6:30 PM).
+  Outlooks (SPC severe, level n of 5; WPC excessive rain, n of 4) are polygons with a level and a
+  valid window: the issuance covering the forecast day's noon is used (at 01:10 Day 1 can be
+  last night's → Day 2); holes respected; counties at risk by centroid. Icons from the pack's
+  `icons` (first match). Digest: "The day ahead" after "What stood out" (risk lines + the
+  pack's eight `places`, north to south). Bot: `/forecast [place]` (three periods from now; in
+  the menu). fetch.py is the shared JSON fetch (twice, kept 30 min per process).
+- **High water** (`rivers.py`, water pack `rivers`, same switch): NWS river gauges (NWPS):
+  the state's, plus the far bank of a border river within `border_km` (5) of the state's
+  outline (`geo.in_or_near_state`: the Wabash at Covington, Indiana, is not the border);
+  tunnel/reservoir levels skipped. Gauges at action stage ("near flood stage") or above, now
+  or forecast, get their flood stage (gauge detail), six-hour trend and the next five days of
+  forecast (`stageflow`: the crest, or the stage it falls to; dates past 5 days read "Tue 13
+  Oct"). Brief: gauges within `near_km` (40) of the county; digest: "High water" (gauge, now,
+  flood stage, forecast) after "The day ahead".
 - **County pages** (`export.render_county_pages`, `site/county.fragment.html`):
   `docs/county/<slug>.html` ×102 + `sitemap.xml` + `robots.txt`. Static HTML for
   search (subscribe links, readings, neighbors), a small script for live alerts
@@ -408,11 +437,19 @@ reads ALL packs at once (scope `*`); aliases must be unique across packs
 (`tests/test_packs.py` enforces). Bare `events` = `weather.events`;
 `soil.events` explicit; `*.events` expands to every pack. Extra mapping
 sections in a pack (`usgs_parameters`, `awdb_elements`) land in
-`Topic.mappings`. New feeds: `usgs_water` (NWIS IV, hourly gate),
-`nrcs_scan` (AWDB, daily; IL has one station), `usdm` (Drought Monitor county
-API, daily; aoi = comma-separated county FIPS). Events anchor on the reading's
-observed time (`find_open_event(around=…)`), so backfills/late readings join
-the right event.
+`Topic.mappings`. New feeds: `usgs_water` (hourly gate; since 2026-10-06 the USGS Water
+Data API: `latest-continuous` in one request + `monitoring-locations` names/counties kept in kv
+for a day; the legacy NWIS IV service answered 503 to most polls), `nrcs_scan` (AWDB, daily;
+IL has one station), `usdm` (Drought Monitor county API, daily; aoi = comma-separated county
+FIPS). Events anchor on the reading's observed time (`find_open_event(around=…)`), so
+backfills/late readings join the right event.
+Wave 3 sources (2026-10-06): `cocorahs` (the volunteer observers' morning 24-hour rain and new
+snow, the pack's `cocorahs_fields`; hourly 7 AM–8 PM; evidence kind "observer", period 24h →
+a total, not a rate (notable: a period under 6 h is a rate); county by outline
+(`geo.county_at`); opens no events and pushes nothing: a report tells of a day that's over) and
+`airnow` (EPA AirNow's public hourly file: PM2.5 and ozone at the state's ~67 monitors, the
+air pack's `airnow_parameters`; county from the AQS id; labelled "<County> County air
+monitor" (site names are agency codes); drives events like any official reading).
 
 ## Site + snapshot
 
@@ -443,6 +480,18 @@ USGS IV (278 IL sites), NRCS SCAN (Mason), USDM county stats, Google News.
 Bot handle `@intelligence_network_bot` exists. **Turn-on checklist** =
 `uv run intelnet setup`: token + admin chat id in `.env`, Google OAuth client
 in `secrets/`, `intelnet drive init`, `bash scripts/install_launchd.sh`.
+
+## Nightly check and news quality (2026-10-06)
+
+`health.py` runs at the end of the nightly pipeline and sends the admin chat one message
+(`health:<date>`, only when there's something): a digest without its narrative (LLM on), a
+failed Drive publish / export / push (`git_push_docs` returns "pushed" | "nothing" | "failed"),
+a feed failing ≥ 50% of its runs in a day (≥ 4), a feed past its cadence (`STALE_HOURS`; a
+feed never run isn't named), a news feed heard in 90 days but not in 21. News: the
+`news_feeds.yaml` `block` list (title patterns: location forecast pages, auto "% chance of"
+posts, IndexBox, …) and `title_key` dedup at ingest (3 days) and at read
+(`db.kept_items_since`). Tests are hermetic: conftest makes `fetch.get_json` raise and stubs
+CoCoRaHS, AirNow and the USGS site list; a test fakes the source it reads.
 
 ## Next ideas
 
