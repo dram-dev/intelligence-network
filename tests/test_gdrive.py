@@ -434,3 +434,26 @@ def test_the_digest_is_rewritten_with_links_to_its_own_downloads(fresh_db, monke
     assert "PDF: https://drive.google.com/file/d/" in files[f"{name}.html"]["content"]
     assert links["downloads"] == seen
     assert len([f for f, _m in svc.exports if f == links["doc_id"]]) == 4      # pdf+docx, twice
+
+
+def test_a_pdf_without_its_fonts_is_exported_again(fresh_db, monkeypatch):
+    from intelnet import gdrive
+
+    html = "<p style=\"font-family:'IBM Plex Sans',Arial;font-size:9pt\">x</p><h1 style=\"font-family:Fraunces\">y</h1>"
+    assert gdrive.html_fonts(html) == {"IBM Plex Sans", "Fraunces"}
+    answers: list[bytes] = []
+
+    class Svc:
+        def files(self):
+            return self
+
+        def export_media(self, fileId=None, mimeType=None):
+            return type("Call", (), {"execute": lambda _: answers.pop(0)})()
+
+    pub = gdrive.DrivePublisher()
+    monkeypatch.setattr(pub, "_svc", lambda: Svc())
+    monkeypatch.setattr(gdrive, "EXPORT_RETRY_SECONDS", 0)
+    answers[:] = [b"%PDF ArialMT", b"%PDF ArialMT", b"%PDF /BaseFont /AAAAAA+Fraunces-Regular"]
+    assert pub._export("d", gdrive.PDF_MIME, {"Fraunces"}).endswith(b"Fraunces-Regular") and not answers
+    answers[:] = [b"PK word", b"never asked"]
+    assert pub._export("d", gdrive.DOCX_MIME, {"Fraunces"}) == b"PK word" and answers == [b"never asked"]

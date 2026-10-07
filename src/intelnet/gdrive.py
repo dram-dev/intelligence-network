@@ -20,6 +20,8 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
+import time
 from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import parse_qs, urlparse
@@ -34,6 +36,8 @@ DOC_MIME = "application/vnd.google-apps.document"
 FOLDER_MIME = "application/vnd.google-apps.folder"
 HTML_MIME = "text/html"
 PDF_MIME = "application/pdf"
+EXPORT_RETRIES = 2
+EXPORT_RETRY_SECONDS = 8
 DOCX_MIME = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 CSV_MIME = "text/csv"
 KV_FOLDER = "gdrive_folder_id"
@@ -202,6 +206,13 @@ def complete_remote_authorization(response: str) -> Any:
     return creds
 
 
+def html_fonts(html: bytes | str) -> set[str]:
+    """The font families a document asks for first ('Fraunces', 'IBM Plex Sans'): what its PDF
+    should embed."""
+    text = html.decode("utf-8", "replace") if isinstance(html, bytes) else html
+    return {m.strip() for m in re.findall(r"font-family:\s*'?([A-Za-z][A-Za-z0-9 ]*[A-Za-z0-9])", text)}
+
+
 class DrivePublisher:
     def __init__(self, service: Any = None) -> None:
         self._service = service
@@ -335,9 +346,19 @@ class DrivePublisher:
             body["mimeType"] = convert_to
         return svc.files().create(body=body, media_body=media, fields="id").execute()["id"]
 
-    def _export(self, doc_id: str, mimetype: str) -> bytes:
-        """Google's own rendering of a Doc — PDF and Word come from here."""
-        return self._svc().files().export_media(fileId=doc_id, mimeType=mimetype).execute()
+    def _export(self, doc_id: str, mimetype: str, fonts: set[str] | None = None) -> bytes:
+        """Google's own rendering of a Doc — PDF and Word come from here. A PDF exported seconds
+        after the Doc is written can render before its web fonts load (all Arial: 2 of 14
+        probes on 3 Oct): when none of the HTML's `fonts` is embedded, wait and export again."""
+        data = self._svc().files().export_media(fileId=doc_id, mimeType=mimetype).execute()
+        wanted = [f.replace(" ", "").encode() for f in fonts or ()]
+        for _ in range(EXPORT_RETRIES if mimetype == PDF_MIME and wanted else 0):
+            if any(w in data for w in wanted):
+                break
+            logger.info("gdrive: the PDF came out without its fonts; exporting again")
+            time.sleep(EXPORT_RETRY_SECONDS)
+            data = self._svc().files().export_media(fileId=doc_id, mimeType=mimetype).execute()
+        return data
 
     def _adopt(self, name: str, from_id: str, to_id: str) -> str | None:
         """Move a digest written before day folders existed into its day folder."""
@@ -385,9 +406,10 @@ class DrivePublisher:
             ).execute()["id"]
 
         written = {"doc": doc_id}
+        fonts = html_fonts(data)
         for suffix, mime in (("pdf", PDF_MIME), ("docx", DOCX_MIME)):
             try:
-                written[suffix] = self._upload(f"{name}.{suffix}", day_id, self._export(doc_id, mime), mime)
+                written[suffix] = self._upload(f"{name}.{suffix}", day_id, self._export(doc_id, mime, fonts), mime)
             except Exception as exc:  # noqa: BLE001 — a missing format must not lose the digest
                 logger.warning("gdrive: %s export failed for %s: %s", suffix, date, exc)
         written["html"] = self._upload(f"{name}.html", day_id, data, HTML_MIME)
@@ -411,7 +433,7 @@ class DrivePublisher:
             for suffix, mime in (("pdf", PDF_MIME), ("docx", DOCX_MIME)):
                 if suffix in written:                  # re-export so the PDF carries the bar too
                     try:
-                        self._upload(f"{name}.{suffix}", day_id, self._export(doc_id, mime), mime)
+                        self._upload(f"{name}.{suffix}", day_id, self._export(doc_id, mime, fonts), mime)
                     except Exception as exc:  # noqa: BLE001
                         logger.warning("gdrive: %s re-export failed for %s: %s", suffix, date, exc)
 
