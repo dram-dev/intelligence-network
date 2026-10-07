@@ -32,7 +32,7 @@ def test_the_parser_model_writes_it_when_the_summarizer_fails(monkeypatch):
         return '{"text": "Floods along the Rock.\\n\\nSunny today, high 76°F."}'
 
     monkeypatch.setattr(llm, "call", call)
-    assert llm.narrative("{}") == "Floods along the Rock.\n\nSunny today, high 76°F."
+    assert llm.narrative('{"forecast": "high 76°F"}') == "Floods along the Rock.\n\nSunny today, high 76°F."
     (first, plain), (second, as_json) = asked
     assert (first, second) == (settings.summarizer_backend, settings.parser_backend)
     assert '{"text"' not in plain and '{"text"' in as_json             # only the JSON model is told JSON
@@ -42,3 +42,16 @@ def test_thinking_and_wrappers_are_cleaned_off():
     assert llm._clean("<think>hmm</think>\n\nFloods.\n\nSun.") == "Floods.\n\nSun."
     assert llm._clean('{"narrative": "Floods."}') == "Floods."
     assert llm._clean("   ") is None and llm._clean(None) is None
+
+
+def test_a_narrative_with_a_number_not_in_the_facts_is_not_kept(monkeypatch):
+    monkeypatch.setattr(settings, "llm_enabled", True)
+    facts = json.dumps({"rivers_in_flood": ["Des Plaines River near Russell: 7.03 ft, steady, minor flooding"],
+                        "forecast_today": ["Chicago: Today: Sunny, high 76°F; Tonight: Clear, low 55°F"]})
+    answers = {settings.summarizer_backend: "The Des Plaines near Russell is at 7 ft.\n\nSunny, high 76°F.",
+               settings.parser_backend: '{"text": "The Des Plaines near Russell is at 7.03 ft.\\n\\nSunny, high 76°F."}'}
+    monkeypatch.setattr(llm, "call", lambda backend, *a, **k: answers[backend])
+    assert llm.narrative(facts) == "The Des Plaines near Russell is at 7.03 ft.\n\nSunny, high 76°F."
+    answers[settings.parser_backend] = '{"text": "Rain totals reached 3.2 in."}'                  # from nowhere
+    assert llm.narrative(facts) is None
+    assert llm.grounded("Highs 76-86°F.", '{"a": "high 76°F", "b": "high 86°F"}')               # a range of known

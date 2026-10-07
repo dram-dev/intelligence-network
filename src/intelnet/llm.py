@@ -168,9 +168,21 @@ def narrative(facts_json: str) -> str | None:
     for i, backend in enumerate(dict.fromkeys((settings.summarizer_backend, settings.parser_backend))):
         system = _NARRATIVE_SYSTEM.format(state=settings.geo_state) + (_AS_JSON if i else "")
         text = _clean(call(backend, system, facts_json, max_tokens=400, temperature=0.3))
-        if text:
+        if text and grounded(text, facts_json):
             return text
+        if text:
+            logger.info("llm: %s narrative rejected, a number not in the facts: %.160s", backend, text)
     return None
+
+
+_NUMBER = re.compile(r"\d+(?:\.\d+)?")
+
+
+def grounded(text: str, facts: str) -> bool:
+    """Every number the narrative writes is one the facts have (as story_brief.valid does for
+    a storm's brief): 7.03 ft written as "7 ft", or a figure from nowhere, isn't kept."""
+    known = set(_NUMBER.findall(facts))
+    return all(n in known for n in _NUMBER.findall(text))
 
 
 # The parser backend answers in JSON (Ollama's format=json): the paragraphs go in "text".
