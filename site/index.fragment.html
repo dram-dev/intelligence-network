@@ -1151,8 +1151,10 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
   const radarSrc = () => {                  // IEM's NEXRAD mosaic, cut to exactly this map's frame (web Mercator)
     const [w, n] = nowProj.invert([0, 0]), [e, s] = nowProj.invert([NW, NH]);
     const R = 6378137, x = (lon) => lon * Math.PI / 180 * R, y = (lat) => Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)) * R;
+    // as many pixels as the screen draws the map with (the mosaic has ~1,100 rows across the state), up to 2.5×
+    const k = Math.min(2.5, Math.max(1, (nowSvg.node().getBoundingClientRect().width || NW) * (window.devicePixelRatio || 1) / NW));
     return 'https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-900913&STYLES='
-      + '&SRS=EPSG:3857&BBOX=' + [x(w), y(s), x(e), y(n)].map(v => v.toFixed(0)).join(',') + '&WIDTH=' + NW + '&HEIGHT=' + NH
+      + '&SRS=EPSG:3857&BBOX=' + [x(w), y(s), x(e), y(n)].map(v => v.toFixed(0)).join(',') + '&WIDTH=' + Math.round(NW * k) + '&HEIGHT=' + Math.round(NH * k)
       + '&FORMAT=image/png&TRANSPARENT=true&t=' + Math.floor(Date.now() / 300000);
   };
   // viewBox units per screen pixel, so a 6 px dot is 6 px on a phone and on a desktop
