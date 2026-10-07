@@ -52,7 +52,7 @@ SS = 2                            # vector layers drawn twice as large, then sca
 PAD = 30
 RAIL = 300                        # the key, right of the state
 KEEP = timedelta(days=3)
-RENDER_VERSION = 2                # part of every name: bump it when the drawing changes
+RENDER_VERSION = 3                # part of every name: bump it when the drawing changes
 
 
 @dataclass(frozen=True)
@@ -175,18 +175,22 @@ def _arc(a: tuple[float, float], b: tuple[float, float], bend: float = .18) -> l
             for t in (i / 24 for i in range(25))]
 
 
+NUDGES = [(0, 0), (30, -22), (-30, -22), (30, 22), (-30, 22), (0, -48), (0, 48), (-60, 0), (60, 0),
+          (-60, -44), (-60, 44), (60, -44), (60, 44)]
+
+
 def _badge_spots(day: dict[str, Any]) -> dict[str, tuple[float, float]]:
-    """Where each located story's square goes: its place, nudged clear of the squares before it."""
+    """Where each located story's square goes: its place, or the nearest spot around it clear of
+    the squares before it, never over the key (a Chicago-area square once sat on "Water")."""
     spots: dict[str, tuple[float, float]] = {}
+    right = W - RAIL - 6 - 28                          # half a two-digit square, and a margin
     for n in day.get("news") or []:
         if n.get("statewide") or n.get("lat") is None:
             continue
-        x, y = px(n["lat"], n["lon"])
-        for _ in range(8):
-            if all(math.hypot(x - a, y - b) >= 52 for a, b in spots.values()):
-                break
-            x, y = x + 30, y - 22
-        spots[n["id"]] = (x, y)
+        x0, y0 = px(n["lat"], n["lon"])
+        tries = [(min(x0 + dx, right), min(max(y0 + dy, 30), H - 30)) for dx, dy in NUDGES]
+        spots[n["id"]] = next((xy for xy in tries
+                               if all(math.hypot(xy[0] - a, xy[1] - b) >= 52 for a, b in spots.values())), tries[0])
     return spots
 
 

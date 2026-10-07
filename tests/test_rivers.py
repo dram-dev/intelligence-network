@@ -122,3 +122,21 @@ def test_off_or_down_means_no_lines(fresh_db, monkeypatch):
 
     monkeypatch.setattr(rivers, "_get", down)
     assert rivers.high_water() == [] and brief.high_water(None) == []
+
+
+def test_a_flooding_gauge_is_on_the_map(fresh_db, monkeypatch):
+    from intelnet import db, geo, notable
+    from intelnet.models import Signal
+
+    here = geo.Location(lat=42.4897, lon=-87.9256, county_fips="17097", precision="point")
+    db.insert_signals([Signal(source="usgs_water", source_id=f"05527800|00065|{h}", sensor_id="gauge:05527800",
+                              sensor_kind="station", topic="water", metric="stage_m", value=v * 0.3048, unit="m",
+                              location=here, quality="reference", observed_at=NOW - timedelta(hours=h),
+                              evidence={"kind": "gauge", "site": "05527800", "name": "DES PLAINES RIVER NEAR RUSSELL"})
+                       for h, v in ((3, 7.0), (1, 7.03))])
+    flooding = rivers.Gauge(lid="RUSI2", name="Des Plaines River near Russell", lat=42.49, lon=-87.93, stage=7.03,
+                            unit="ft", observed=(2, "minor flooding"), forecast=(2, "minor flooding"),
+                            floods_at=7.0, usgs="05527800")
+    monkeypatch.setattr(rivers, "high_water", lambda now=None: [flooding])
+    [place] = [p for p in notable.build()["places"] if p["name"].startswith("Des Plaines")]
+    assert place["label"] == "Flood 7.03 ft" and place["why"][0] == "Minor flooding (flood stage 7 ft)"

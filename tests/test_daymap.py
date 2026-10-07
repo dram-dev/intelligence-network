@@ -37,3 +37,13 @@ def test_a_picture_is_named_by_what_it_shows_and_made_once(fresh_db, make_sensor
     assert cardmap.media_for(f'<img src="tg://photo?id={first}"/>')[first][:2] == b"\xff\xd8"
     monkeypatch.setattr(settings, "card_maps", False)
     assert daymap.prepare(day, "17167") is None                              # pictures off: a brief without one
+
+
+def test_a_story_square_moved_aside_never_sits_on_the_key():
+    from intelnet import daymap
+
+    # three stories at the state's north-east corner: the later ones move, but stay on the map
+    day = {"news": [{"id": f"s{i}", "n": i, "lat": 42.45, "lon": -87.85} for i in range(1, 4)]}
+    spots = daymap._badge_spots(day)
+    xs = [x for x, _ in spots.values()]
+    assert len(set(spots.values())) == 3 and max(xs) <= daymap.W - daymap.RAIL - 6 - 28

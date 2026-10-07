@@ -20,6 +20,7 @@ for a whole county past its threshold (the Drought Monitor) is an area, not a po
 from __future__ import annotations
 
 import json
+import logging
 import re
 from collections import Counter
 from dataclasses import dataclass, field
@@ -28,7 +29,7 @@ from functools import lru_cache
 from itertools import pairwise
 from typing import Any
 
-from intelnet import connect, db, geo, network, opendata
+from intelnet import connect, db, geo, network, opendata, rivers
 from intelnet.config import PROJECT_ROOT, settings
 from intelnet.models import (
     KIND_BOT,
@@ -56,6 +57,7 @@ SPARK_POINTS = 48
 
 # What ranks a place: its strongest reading's event severity (0–1) plus these
 W_HEADLINE = 0.35             # the state's highest or lowest
+W_FLOOD = {1: 0.3, 2: 0.55, 3: 0.75, 4: 0.95}   # NWS flood category: near flood stage … major flooding
 W_RISE = (0.35, 0.25, 0.2)    # the three biggest rises
 W_PEOPLE, W_CHECKED = 0.3, 0.1
 W_REPORT = 0.15
@@ -66,7 +68,9 @@ MIN_FIELD = 3                 # sites a "highest in Illinois" needs to beat to m
 HEADLINE_KINDS = ("max", "min", "rise")
 # The order a place's reasons are told in: "Highest rainfall total in Illinois" says more than
 # "past the network's event threshold" when both hold; ties: the stronger kind leads.
-ORDER = ("max", "min", "event", "rise", "people", "report", "news")
+ORDER = ("max", "min", "flood", "event", "rise", "people", "report", "news")
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -414,6 +418,29 @@ def _reasons(places: list[Place], now: datetime) -> None:
                                       + _window(p.series[m.key], now), u, p.series[m.key][-1].observed_at))
 
 
+def _floods(places: list[Place], now: datetime) -> None:
+    """River gauges the NWS has near flood stage or above (rivers.py), on the map: the USGS
+    gauge's place gets the reason ("Minor flooding (flood stage 7 ft)") and its label says so.
+    Minor flooding outranks the day's biggest rise; near flood stage stays a note."""
+    try:
+        gauges = rivers.high_water(now)
+    except Exception:  # noqa: BLE001 — the map without its floods rather than no map
+        logger.exception("notable: the river survey failed")
+        return
+    by_sensor = {p.key[0]: p for p in places if p.key and isinstance(p.key[0], str)}
+    for g in gauges:
+        p = by_sensor.get(f"gauge:{g.usgs}") if g.usgs else None
+        sigs = p.series.get("stage_m") if p else None
+        m = find_metric("stage_m")
+        if p is None or not sigs or m is None:
+            continue
+        top = sigs[-1]
+        words = g.observed[1] if g.observed[0] else f"forecast {g.forecast[1]}"
+        text = words[:1].upper() + words[1:] + (
+            f" (flood stage {rivers.stage_text(g.floods_at, g.unit)})" if g.floods_at is not None else "")
+        p.whys.append(Why("flood", "stage_m", W_FLOOD.get(g.level, 0.3), text, top.value, top.observed_at))
+
+
 # ── the news ──────────────────────────────────────────────────────────────
 
 @dataclass
@@ -669,6 +696,8 @@ def _label(p: Place) -> str:
     if m is None:
         return p.name
     sigs = p.series.get(m.key) or []
+    if lead.kind == "flood":                         # "Flood 7.03 ft", "Near flood 6.91 ft"
+        return f"{'Flood' if lead.weight >= W_FLOOD[2] else 'Near flood'} {m.display(lead.value, aqi=False)}"
     up = lead.value if lead.kind == "rise" else rise(m, sigs) if lead.kind == "news" and _rises(m) else None
     if up:
         return f"▲ {m.display(up, aqi=False)}"
@@ -825,6 +854,7 @@ def build(now: datetime | None = None) -> dict[str, Any]:
     sigs = _signals(now)
     places = _places(sigs)
     _reasons(places, now)
+    _floods(places, now)
 
     stories = _stories()
     located = _groups(stories)

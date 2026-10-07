@@ -77,6 +77,7 @@ class Gauge:
     trend: str = ""                                 # rising · falling · steady
     crest: tuple[float, datetime] | None = None     # the forecast's high point ahead
     falls_to: tuple[float, datetime] | None = None  # where the forecast ends, when it falls
+    usgs: str = ""                                  # the USGS site number, when the gauge is one
 
     @property
     def level(self) -> int:
@@ -154,6 +155,7 @@ def _details(gauge: Gauge, sp: dict[str, Any], now: datetime) -> bool:
     levels = sp.get("levels") or {}
     detail = _get(str(sp["gauge_url"]).format(lid=gauge.lid)) or {}
     gauge.county = str(detail.get("county") or "")
+    gauge.usgs = str(detail.get("usgsId") or "")
     cats = (detail.get("flood") or {}).get("categories") or {}
     thresholds = {name: v for name in levels if (v := _value((cats.get(name) or {}).get("stage"))) is not None}
     gauge.floods_at = thresholds.get("minor")
