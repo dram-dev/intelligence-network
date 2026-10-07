@@ -17,7 +17,7 @@ from intelnet.models import utcnow
 def _quiet_new_feeds(monkeypatch):
     """The water/soil/drought/quake feeds have their own tests; keep them offline here."""
     monkeypatch.setattr(usgs_quake, "fetch", lambda *a, **k: {"features": []})
-    monkeypatch.setattr(usgs_water, "fetch", lambda *a, **k: {"value": {"timeSeries": []}})
+    monkeypatch.setattr(usgs_water, "fetch", lambda *a, **k: {"features": []})
     monkeypatch.setattr(nrcs_scan, "fetch_stations", lambda *a, **k: {})
     monkeypatch.setattr(usdm_drought, "fetch", lambda *a, **k: [])
 

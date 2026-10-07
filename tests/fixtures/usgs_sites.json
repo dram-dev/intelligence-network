@@ -1,0 +1,50 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "id": "USGS-03612600",
+   "type": "Feature",
+   "properties": {
+    "monitoring_location_name": "OHIO RIVER AT OLMSTED, IL",
+    "county_code": "153"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.0584040037475,
+     37.1792186733202
+    ]
+   }
+  },
+  {
+   "id": "USGS-05529500",
+   "type": "Feature",
+   "properties": {
+    "monitoring_location_name": "MC DONALD CREEK NEAR MOUNT PROSPECT, IL",
+    "county_code": "031"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -87.9128462115334,
+     42.0953049896215
+    ]
+   }
+  },
+  {
+   "id": "USGS-05536500",
+   "type": "Feature",
+   "properties": {
+    "monitoring_location_name": "TINLEY CREEK NEAR PALOS PARK, IL",
+    "county_code": "031"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -87.7664444444444,
+     41.6466388888889
+    ]
+   }
+  }
+ ]
+}

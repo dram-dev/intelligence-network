@@ -79,20 +79,35 @@ def test_cheatsheet_and_metric_descriptions_cover_every_pack():
 
 # ── feeds ──────────────────────────────────────────────────────────────────
 
+def _usgs() -> tuple[dict, dict]:
+    # the USGS Water Data API's latest-continuous items and monitoring-locations, as served
+    return load_fixture("usgs_latest.json"), usgs_water.parse_sites(load_fixture("usgs_sites.json"))
+
+
 def test_usgs_parse():
-    sigs = usgs_water.parse_iv(load_fixture("usgs_iv.json"))
-    assert len(sigs) == 6 and {s.metric for s in sigs} == {"stage_m", "discharge_cms"}
-    s = next(x for x in sigs if x.metric == "stage_m")
-    assert s.sensor_id.startswith("gauge:") and s.location.county_fips.startswith("17")
+    payload, known = _usgs()
+    sigs = usgs_water.parse_latest(payload, known)
+    assert len(sigs) == 8 and {s.metric for s in sigs} == {"stage_m", "discharge_cms", "water_temp_c"}
+    assert {s.sensor_id for s in sigs} == {"gauge:03612600", "gauge:05529500", "gauge:05536500"}   # not across the line
+    s = next(x for x in sigs if x.sensor_id == "gauge:05529500" and x.metric == "stage_m")
+    assert s.location.county_fips == "17031" and s.location.label == "Mc Donald Creek Near Mount Prospect, Il"
     assert s.unit == "m" and 0 < s.value < 10 and s.evidence["url"].startswith("https://waterdata.usgs.gov/")
-    assert s.source_id.count("|") == 2
+    assert s.source_id.count("|") == 2 and s.evidence["raw_unit"] == "ft"
+    assert known["05529500"] == ["MC DONALD CREEK NEAR MOUNT PROSPECT, IL", "031"]
 
 
 def test_usgs_drops_a_parameter_that_stopped_reporting_long_ago():
-    payload = load_fixture("usgs_iv.json")
-    payload["value"]["timeSeries"][0]["values"][0]["value"][-1]["dateTime"] = "1988-08-08T05:45:00.000-05:00"
-    sigs = usgs_water.parse_iv(payload)
-    assert len(sigs) == 5 and all(s.observed_at.year == 2026 for s in sigs)
+    payload, known = _usgs()
+    payload["features"][0]["properties"]["time"] = "1988-08-08T10:45:00+00:00"
+    sigs = usgs_water.parse_latest(payload, known)
+    assert len(sigs) == 7 and all(s.observed_at.year >= 2026 for s in sigs)
+
+
+def test_usgs_sites_are_asked_for_once_a_day(fresh_db, monkeypatch):
+    calls: list[int] = []
+    monkeypatch.setattr(usgs_water, "fetch_sites", lambda: calls.append(1) or load_fixture("usgs_sites.json"))
+    assert "05529500" in usgs_water.sites() and "05529500" in usgs_water.sites()
+    assert calls == [1]
 
 
 def test_scan_parse_takes_shallowest_depth():
@@ -125,14 +140,16 @@ def test_new_feeds_run_through_watch(fresh_db, monkeypatch):
     monkeypatch.setattr(nws_alerts, "fetch", lambda *a, **k: {"features": []})
     monkeypatch.setattr(iem_lsr, "fetch", lambda *a, **k: {"features": []})
     monkeypatch.setattr(iem_asos, "fetch", lambda *a, **k: {"data": []})
-    monkeypatch.setattr(usgs_water, "fetch", lambda *a, **k: load_fixture("usgs_iv.json"))
+    monkeypatch.setattr(usgs_water, "fetch", lambda *a, **k: load_fixture("usgs_latest.json"))
+    monkeypatch.setattr(usgs_water, "fetch_sites", lambda *a, **k: load_fixture("usgs_sites.json"))
     monkeypatch.setattr(nrcs_scan, "fetch_stations", lambda *a, **k: {
         "2004:IL:SCAN": {"name": "Mason #1", "latitude": 40.31314, "longitude": -89.90187, "countyName": "Mason"}})
     monkeypatch.setattr(nrcs_scan, "fetch_data", lambda *a, **k: load_fixture("nrcs_scan.json"))
     monkeypatch.setattr(usdm_drought, "fetch", lambda *a, **k: load_fixture("usdm.json"))
     out = watch.run_once()
     f = out["feeds"]
-    assert f["usgs_water"]["new"] == 6 and f["nrcs_scan"]["new"] == 2 and f["usdm"]["new"] == 1
+    unique = {s.source_id for s in usgs_water.parse_latest(*_usgs())}
+    assert f["usgs_water"]["new"] == len(unique) and f["nrcs_scan"]["new"] == 2 and f["usdm"]["new"] == 1
     assert all(f[n]["status"] == "ok" for n in ("usgs_water", "nrcs_scan", "usdm"))
     assert db.get_sensor("usdm:drought_monitor").kind == "authority"
     assert db.get_sensor("scan:2004").trust == 0.9
