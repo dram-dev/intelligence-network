@@ -198,17 +198,39 @@ def run(run_type: str = "daily", skip_publish: bool = False, console: Any = None
         return _run(run_type, skip_publish, console)
 
 
-def notify_digest(force: bool = False) -> dict[str, Any]:
+def news_pass(console: Any = None, wait_sec: float = 300) -> dict[str, Any]:
+    """The reading list topped up before the 08:00 brief: the nightly run took the news at
+    01:10, seven hours stale by breakfast (and FarmWeekNow's own feed only answers by day).
+    Ingest and triage under the cross-digest lock (triage shares the LLM servers), waiting at
+    most `wait_sec`; a busy lock or a failure skips it: the brief never waits on the news."""
+    if not settings.news_enabled:
+        return {"skipped": "news disabled"}
+    console = console or _Quiet()
+    try:
+        with pipeline_serialize(LOCK_HOLDER, timeout_sec=wait_sec):
+            ingestors = discover_ingestors("intelnet.ingest")
+            fetched, new = run_ingest(ingestors, list(ingestors), "morning", console, per_source_rule=False)
+            return {"fetched": fetched, "new": new, "triage": triage_news(12, console)}
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("notify: the morning news pass was skipped (%s)", type(exc).__name__)
+        return {"skipped": type(exc).__name__}
+
+
+def notify_digest(force: bool = False, news: bool = False) -> dict[str, Any]:
     """The 08:00 morning brief: each digest subscriber's own county, in the chat, with
-    today's Drive links when the digest made it there (quiet-hours aware unless forced)."""
+    today's Drive links when the digest made it there (quiet-hours aware unless forced).
+    `news` first tops up the reading list (the notify job asks for it)."""
     from intelnet import brief, metrics
     from intelnet.models import utcnow
 
     today = utcnow().strftime("%Y-%m-%d")      # the digest's own date (digest.build)
     if not force and not subscriptions_allowed_now():
         return {"sent": 0, "reason": "quiet hours", "date": today}
+    morning = news_pass() if news else None
     links = brief.links_for(today)
     out = {"sent": brief.fanout_brief(today, links), "date": today, "links": bool(links)}
+    if morning is not None:
+        out["news"] = morning
     try:
         out["metrics_sent"] = metrics.send_weekly()          # Mondays, to the admin chat
     except Exception:  # noqa: BLE001 — the measures never stand in the way of the brief

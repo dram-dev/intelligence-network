@@ -109,11 +109,12 @@ def pipeline(run_type: str, skip_publish: bool) -> None:
 
 @main.command()
 @click.option("--force", is_flag=True, help="Ignore quiet hours.")
-def notify(force: bool) -> None:
-    """Telegram ping for the latest digest to `digest` subscribers (08:00 job)."""
+@click.option("--no-news", is_flag=True, help="Skip the morning news pass before the briefs.")
+def notify(force: bool, no_news: bool) -> None:
+    """The morning brief to `digest` subscribers, after a news pass (08:00 job)."""
     from intelnet.pipeline import notify_digest
 
-    out = notify_digest(force=force)
+    out = notify_digest(force=force, news=not no_news)
     console.print(escape(json.dumps(out)))
 
 

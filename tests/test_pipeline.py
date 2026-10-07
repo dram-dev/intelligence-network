@@ -134,3 +134,22 @@ def test_triage_without_llm_keeps_items_unranked(fresh_db):
     counts = pipeline.triage_news(24, pipeline._Quiet())
     assert counts == {"pending": 1, "kept": 0, "dropped": 0, "untriaged": 1}
     assert db.kept_items_since(1)[0]["triage_reason"].startswith("untriaged")
+
+
+def test_the_morning_news_pass_runs_before_the_briefs_and_never_blocks_them(stubbed, monkeypatch):
+    from intelnet import brief
+
+    order: list[str] = []
+    monkeypatch.setattr(pipeline, "run_ingest", lambda *a, **k: order.append("ingest") or (5, 3))
+    monkeypatch.setattr(pipeline, "triage_news", lambda hours, console: order.append("triage") or {"kept": 2})
+    monkeypatch.setattr(brief, "fanout_brief", lambda date, links: order.append("briefs") or 0)
+    out = pipeline.notify_digest(force=True, news=True)
+    assert order == ["ingest", "triage", "briefs"] and out["news"] == {"fetched": 5, "new": 3, "triage": {"kept": 2}}
+
+    def down(*a, **k):
+        raise ConnectionError("feeds down")
+
+    order.clear()
+    monkeypatch.setattr(pipeline, "run_ingest", down)
+    out = pipeline.notify_digest(force=True, news=True)
+    assert order == ["briefs"] and out["news"] == {"skipped": "ConnectionError"}        # the brief still goes
