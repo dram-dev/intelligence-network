@@ -1634,6 +1634,7 @@ window.NETWORK_DATA = /*__NETWORK_DATA__*/null;
     else if (f.nws_alerts) box.append(el('span', {}, 'NWS alerts ' + at(f.nws_alerts)));
     [['iem_lsr', 'storm reports'], ['iem_asos', (size.station ? size.station + ' ' : '') + 'airport stations'],
      ['cocorahs', (size.cocorahs ? size.cocorahs + ' ' : '') + 'rain observers (CoCoRaHS)'],
+     ['airnow', (size.airnow ? size.airnow + ' ' : '') + 'air monitors (EPA AirNow)'],
      ['usgs_water', (size.gauge ? size.gauge + ' ' : '') + 'river gauges'], ['usgs_quake', 'earthquakes'],
      ['nrcs_scan', 'soil station'], ['usdm', 'Drought Monitor'], ['ams_grain', 'grain bids']].forEach(([k, label]) => {
       if (!f[k]) return;

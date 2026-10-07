@@ -211,6 +211,8 @@ def _describe(s: Signal, sensors: dict[str, str]) -> tuple[str, str, str | None]
         return ("Airport station", _station(known) if known else code,
                 f"https://mesonet.agron.iastate.edu/sites/site.php?station={code}&network={settings.geo_state}_ASOS"
                 if code else None)
+    if kind == "monitor":
+        return "EPA air monitor", s.location.label or "Air monitor", None
     if kind == "observer":
         return "CoCoRaHS observer", _observer(str(ev.get("name") or ""), str(ev.get("station") or "")), None
     if kind == "lsr":

@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 # Hours without a good run before a feed counts as stale; the slow ones report daily or weekly,
 # and CoCoRaHS only from 7 AM to 8 PM.
-STALE_HOURS = {"nws_alerts": 1, "iem_lsr": 1, "usgs_quake": 2, "iem_asos": 3, "usgs_water": 3,
+STALE_HOURS = {"nws_alerts": 1, "iem_lsr": 1, "usgs_quake": 2, "iem_asos": 3, "airnow": 4, "usgs_water": 3,
                "cocorahs": 26, "ams_grain": 96, "nrcs_scan": 192, "usdm": 192}
 FAIL_SHARE = 0.5
 MIN_FAILS = 4

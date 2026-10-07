@@ -80,6 +80,11 @@ metrics:
     radius_km: 15
     window_min: 240
 
+# AirNow (feeds/airnow.py): the EPA's hourly monitor values, by the hourly file's parameter name.
+airnow_parameters:
+  PM2.5: {metric: pm25_ugm3, unit: "ug/m3"}
+  OZONE: {metric: ozone_ppb, unit: ppb}
+
 alert_support:
   smoke:      [air_quality_alert, dense_smoke_advisory]
   pm25_ugm3:  [air_quality_alert]

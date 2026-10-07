@@ -52,7 +52,7 @@ def _offline(monkeypatch: pytest.MonkeyPatch, tmp_path_factory: pytest.TempPathF
     monkeypatch.setattr(settings, "network_contact_email", "")
     monkeypatch.setattr(settings, "site_auto_push", False)
     from intelnet import fetch, telegram
-    from intelnet.feeds import cocorahs, usgs_water
+    from intelnet.feeds import airnow, cocorahs, usgs_water
 
     def _offline_fetch(url, **kw):
         raise ConnectionError(f"tests are offline: {url}")
@@ -63,6 +63,8 @@ def _offline(monkeypatch: pytest.MonkeyPatch, tmp_path_factory: pytest.TempPathF
     # Feeds that a watch pass runs and a test may not stub: offline, with nothing to report.
     monkeypatch.setattr(cocorahs, "fetch", lambda *a, **k: "ObservationDate,StationNumber\n")
     monkeypatch.setattr(usgs_water, "fetch_sites", lambda *a, **k: {"features": []})
+    monkeypatch.setattr(airnow, "fetch", lambda *a, **k: (datetime(2026, 1, 1, tzinfo=timezone.utc), ""))
+    monkeypatch.setattr(airnow, "fetch_sites", lambda *a, **k: "")
     monkeypatch.setattr(telegram.bot, "enabled", False)
     # Belt and braces: even with the bot enabled, nothing reaches api.telegram.org —
     # and a test that tries fails here rather than being swallowed as a failed send.

@@ -27,7 +27,7 @@ from intelnet.models import iso, parse_iso, utcnow
 logger = logging.getLogger(__name__)
 
 # Fast products first (alerts, storm reports), then the gated station networks.
-FEED_ORDER = ("nws_alerts", "iem_lsr", "usgs_quake", "iem_asos", "cocorahs", "usgs_water",
+FEED_ORDER = ("nws_alerts", "iem_lsr", "usgs_quake", "iem_asos", "airnow", "cocorahs", "usgs_water",
               "nrcs_scan", "usdm", "ams_grain")
 ALERT_LOOP_HEARTBEAT = "alert_loop:heartbeat"
 ALERT_LOOP_STALE = timedelta(minutes=3)
