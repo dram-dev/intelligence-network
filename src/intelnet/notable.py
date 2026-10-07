@@ -64,7 +64,9 @@ MIN_LABELLED = 0.3
 TWIN_KM = 50                  # a second label for the same measure needs this much room
 MIN_FIELD = 3                 # sites a "highest in Illinois" needs to beat to mean anything
 HEADLINE_KINDS = ("max", "min", "rise")
-ORDER = ("event", "rise", "max", "min", "people", "report", "news")   # ties: the stronger kind leads
+# The order a place's reasons are told in: "Highest rainfall total in Illinois" says more than
+# "past the network's event threshold" when both hold; ties: the stronger kind leads.
+ORDER = ("max", "min", "event", "rise", "people", "report", "news")
 
 
 @dataclass
@@ -181,6 +183,15 @@ def _lsr_place(ev: dict[str, Any]) -> str:
     return f"{m.group(1)} mi {m.group(2)} of {m.group(3)}" if m else city
 
 
+def _observer(name: str, code: str) -> str:
+    """A CoCoRaHS station: 'Rantoul 1.4 NNE' → '1.4 mi NNE of Rantoul'; one with no name
+    (the name is its number) → 'CoCoRaHS IL-LK-144'."""
+    m = re.match(r"^(.+?)\s+(\d+(?:\.\d+)?)\s+([NSEW]{1,3})$", name.strip())
+    if m:
+        return f"{m.group(2)} mi {m.group(3)} of {m.group(1)}"
+    return name if name and name != code else f"CoCoRaHS {code}"
+
+
 def _reporter(ev: dict[str, Any]) -> str:
     who = str(ev.get("reporter") or "").strip()
     return {"cocorahs": "a CoCoRaHS observer", "co-op observer": "a co-op observer",
@@ -200,6 +211,8 @@ def _describe(s: Signal, sensors: dict[str, str]) -> tuple[str, str, str | None]
         return ("Airport station", _station(known) if known else code,
                 f"https://mesonet.agron.iastate.edu/sites/site.php?station={code}&network={settings.geo_state}_ASOS"
                 if code else None)
+    if kind == "observer":
+        return "CoCoRaHS observer", _observer(str(ev.get("name") or ""), str(ev.get("station") or "")), None
     if kind == "lsr":
         return "NWS storm report", _lsr_place(ev) or "Storm report", None
     if kind == "grain_bid":
@@ -286,9 +299,16 @@ def _top(m: Metric, sigs: list[Signal]) -> Signal | None:
     return (min if m.event_direction == "below" else max)(vals, key=lambda s: s.value)
 
 
+def _period_hours(period: Any) -> float | None:
+    """'1h' → 1, '24h' → 24, '30m' → 0.5; None when there's no period."""
+    m = re.fullmatch(r"\s*(\d+(?:\.\d+)?)\s*([hm])\s*", str(period or ""))
+    return (float(m.group(1)) / (60 if m.group(2) == "m" else 1)) if m else None
+
+
 def _hourly(sigs: list[Signal]) -> bool:
-    """Amounts over a short period (a station's rain in the last hour), not a total."""
-    return any(s.evidence.get("period") for s in sigs)
+    """Amounts over a short period (a station's rain in the last hour) are a rate, not a total;
+    a day's amount (a CoCoRaHS observer's 24 hours to 7 AM) is a total."""
+    return any((h := _period_hours(s.evidence.get("period"))) is not None and h < 6 for s in sigs)
 
 
 def _linear(m: Metric) -> bool:

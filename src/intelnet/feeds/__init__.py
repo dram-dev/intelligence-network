@@ -7,6 +7,7 @@ modules so they self-register in `FEEDS`.
 from intelnet.feeds.base import FEEDS, FeedResult, ReferenceFeed  # noqa: F401
 from intelnet.feeds import (  # noqa: F401  (registration)
     ams_grain,
+    cocorahs,
     iem_asos,
     iem_lsr,
     nrcs_scan,

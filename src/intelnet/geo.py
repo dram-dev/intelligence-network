@@ -66,6 +66,26 @@ def county_outlines() -> dict[str, list[list[list[float]]]]:
     return out
 
 
+@lru_cache(maxsize=1)
+def _county_boxes() -> list[tuple[str, float, float, float, float, list[list[list[float]]]]]:
+    out = []
+    for fips, rings in county_outlines().items():
+        xs = [x for r in rings for x, _ in r]
+        ys = [y for r in rings for _, y in r]
+        if xs and ys:
+            out.append((fips, min(xs), min(ys), max(xs), max(ys), rings))
+    return out
+
+
+def county_at(lat: float, lon: float) -> County | None:
+    """The county a point lies in, by the outlines (a station near a county line lands on its
+    own side); the nearest county's centre when no outline holds it (the lake shore)."""
+    for fips, x0, y0, x1, y1, rings in _county_boxes():
+        if x0 <= lon <= x1 and y0 <= lat <= y1 and point_in_polygon(lat, lon, rings):
+            return county(fips)
+    return nearest_county(lat, lon)
+
+
 def in_or_near_state(lat: float, lon: float, km: float) -> bool:
     """Inside the state's outline, or within `km` of it (a gauge on a border river's far bank).
     True when the outline isn't there to say."""

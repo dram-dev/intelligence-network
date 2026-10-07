@@ -562,6 +562,12 @@ lsr_types:
   DENSE FOG:         {metric: visibility_km, unit: mi}
 
 # IEM ASOS "currents" columns → metric (+ the column's unit).
+# CoCoRaHS (feeds/cocorahs.py): the volunteer observers' morning report, the 24 hours to about
+# 7 AM read from a standard 4-inch gauge. Amounts over 24 h: totals, compared only with each other.
+cocorahs_fields:
+  TotalPrecipAmt: {metric: rain_mm, unit: "in", period: 24h}
+  NewSnowDepth:   {metric: snow_cm, unit: "in", period: 24h}
+
 station_fields:
   tmpf:  {metric: temp_c, unit: f}
   dwpf:  {metric: dewpoint_c, unit: f}
