@@ -26,7 +26,7 @@ from typing import Any
 
 import yaml
 
-from intelnet import db, geo, network, notable, opendata, story_brief, trust
+from intelnet import ahead, db, geo, network, notable, opendata, rivers, story_brief, trust
 from intelnet.config import CONFIG_DIR, PROJECT_ROOT, settings
 from intelnet.models import KIND_BOT, KIND_HUMAN, REFERENCE_KINDS, local_time, public_handle, utcnow
 from intelnet.topics import find_metric, topics
@@ -582,6 +582,67 @@ def _readings(c: geo.County, row: dict[str, Any], mesh: list[Any], events: list[
     return "".join(parts)
 
 
+AIR_KM = 40                     # a county without a monitor reads the nearest within this
+
+
+def _air(c: geo.County, now: datetime) -> str:
+    """The latest PM2.5 and ozone at the county's monitor, else the nearest within AIR_KM, each
+    with the county it was read in when that's another: 'PM2.5 7.2 µg/m³ (AQI 40, good) in Cook
+    County · Ozone 31 ppb (AQI 29, good)'."""
+    bits: list[tuple[str, str]] = []
+    for key in ("pm25_ugm3", "ozone_ppb"):
+        m = find_metric(key)
+        near = [s for s in db.signals_near(key, c.lat, c.lon, AIR_KM, now - timedelta(hours=3), now,
+                                           kinds=("station",)) if s.source == "airnow"]
+        if m is None or not near:
+            continue
+        s = min(near, key=lambda x: (geo.haversine_km(c.lat, c.lon, x.location.lat, x.location.lon),
+                                     -x.observed_at.timestamp()))
+        there = geo.county(s.location.county_fips)
+        bits.append((f"{m.short or m.label} {m.display(s.value)}",
+                     f" in {there.name} County" if there and there.fips != c.fips else ""))
+    places = {where for _, where in bits}
+    if len(places) == 1:                              # one place for both: say it once
+        return " · ".join(text for text, _ in bits) + places.pop()
+    return " · ".join(text + where for text, where in bits)
+
+
+def _rain(c: geo.County, now: datetime) -> str:
+    """The county's CoCoRaHS volunteers' latest day totals: 'up to 1.45 in in the 24 hours to
+    7 AM, from 12 volunteers'."""
+    m = find_metric("rain_mm")
+    rows = [s for s in db.recent_signals(30, county_fips=c.fips, metric="rain_mm", limit=500)
+            if s.source == "cocorahs" and s.value is not None]
+    if m is None or not rows:
+        return ""
+    top = max(rows, key=lambda s: s.value)
+    n = len({s.sensor_id for s in rows})
+    return (f"up to {m.display(top.value)} in the 24 hours to {local_time(top.observed_at, '%-I %p')}, "
+            f"from {n} CoCoRaHS volunteer{'s' if n != 1 else ''}")
+
+
+def _today(c: geo.County, gauges: list[rivers.Gauge], snapshot_at: str, now: datetime) -> str:
+    """The county's day on its page: the NWS forecast and outlook risks, rivers running high
+    nearby, the air, the volunteers' rain. Static like the page (rebuilt nightly), so it says
+    when, and links the live forecast."""
+    e = html.escape
+    day = ahead.for_point(c.lat, c.lon, now=now)
+    lines = [f"<p>{ahead.icon(p)} <b>{e(p.name)}</b>: {e(p.text())}</p>" for p in day.periods]
+    lines += [f"<p>{r.emoji} <b>{e(r.name)}</b>: {e(r.text())}</p>" for r in day.risks]
+    lines += [f"<p>🌊 <b>{e(g.name)}</b>: {e(g.text())}</p>" for g in rivers.near(gauges, c)[:3]]
+    if air := _air(c, now):
+        lines.append(f"<p>🌫 <b>Air</b>: {e(air)}</p>")
+    if rain := _rain(c, now):
+        lines.append(f"<p>🌧 <b>Rain</b>: {e(rain)}</p>")
+    if not lines:
+        return ""
+    live = f"https://forecast.weather.gov/MapClick.php?lat={c.lat:.4f}&lon={c.lon:.4f}"
+    return (f'<section class="card today" aria-labelledby="today-h"><h2 id="today-h">Today in {e(c.name)} '
+            f'County</h2>{"".join(lines)}<p class="muted src">Forecast and rivers from the National Weather '
+            f"Service, air from EPA AirNow, rain from CoCoRaHS volunteers; as of {e(snapshot_at)}. "
+            f'<a href="{e(live)}">The latest forecast</a></p></section>')
+
+
 def _subscribe(c: geo.County, handle: str) -> tuple[str, str]:
     """The four subscriptions most people want, as cards; every other topic as a chip."""
     e = html.escape
@@ -622,6 +683,8 @@ def render_county_pages(snap: dict[str, Any], out_dir: Path, template: Path | No
     snapshot_at = local_time(at, "%a %-d %b, %-I:%M %p %Z")
     e = html.escape
     written = []
+    gauges = rivers.high_water()                      # one survey for every county's page
+    now = utcnow()
     for c in sorted(geo.counties().values(), key=lambda x: x.name):
         near = _neighbors(c)
         cards, chips = _subscribe(c, handle)
@@ -637,8 +700,10 @@ def render_county_pages(snap: dict[str, Any], out_dir: Path, template: Path | No
                            "features": [shapes[x.fips] for x in [c, *near] if x.fips in shapes]}}
         values = {
             "{{COUNTY}}": e(c.name), "{{NETWORK_NAME}}": e(str(snap.get("network_name") or "Intelligence Network")),
-            "{{DESCRIPTION}}": e(f"Live NWS alerts, weather radar and neighbors' readings for {c.name} County, "
-                                 f"Illinois. Get {c.name} County warnings in Telegram with one tap."),
+            "{{DESCRIPTION}}": e(f"Today's forecast, live NWS alerts, weather radar, river levels, air quality and "
+                                 f"neighbors' readings for {c.name} County, Illinois. Get {c.name} County "
+                                 "warnings in Telegram with one tap."),
+            "{{TODAY}}": _today(c, gauges, snapshot_at, now),
             "{{CANONICAL}}": e(f"{site}county/{c.slug}.html"), "{{SITE_URL}}": e(site),
             "{{STATIC_STATUS}}": e(status), "{{SNAPSHOT_AT}}": e(snapshot_at), "{{STATIC_ALERTS}}": static_alerts,
             "{{SUBSCRIBE}}": cards, "{{SUBSCRIBE_MORE}}": chips,

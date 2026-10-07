@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from intelnet import db, demo, export, opendata
 
@@ -158,3 +160,28 @@ def test_every_county_gets_a_page_and_the_sitemap_lists_them(fresh_db, tmp_path:
     sitemap = export.write_sitemap(snap, tmp_path, pages).read_text(encoding="utf-8")
     assert sitemap.count("<url>") == 1 + len(export.STATIC_PAGES) + 102 and "county/sangamon.html" in sitemap
     assert "Sitemap:" in (tmp_path / "robots.txt").read_text(encoding="utf-8")
+
+
+def test_a_county_page_tells_its_day(fresh_db, tmp_path):
+    from intelnet.feeds import airnow, cocorahs
+
+    sites = {"170191001": ["BONDVILLE", 40.052241, -88.372549]}
+    hour = datetime.now(timezone.utc).replace(minute=0, second=0, microsecond=0) - timedelta(hours=1)
+    db.insert_signals(airnow.parse_hourly("x|x|170191001|BONDVILLE|-6|PM2.5|UG/M3|12.3|EPA\n"
+                                          "x|x|170191001|BONDVILLE|-6|OZONE|PPB|41|EPA", hour, sites))
+    day = datetime.now(timezone.utc).astimezone(ZoneInfo("America/Chicago")).date().isoformat()
+    head = ("ObservationDate,ObservationTime,EntryDateTime,StationNumber,StationName,Latitude,Longitude,"
+            "TotalPrecipAmt,NewSnowDepth,NewSnowSWE,TotalSnowDepth,TotalSnowSWE,DateTimeStamp")
+    rows = [f"{day}, 07:00 AM, x, IL-CP-1, Urbana 1.0 N, 40.12, -88.21, {v}, NA, NA, NA, NA, x" for v in ("0.80", "1.25")]
+    rows[1] = rows[1].replace("IL-CP-1", "IL-CP-2")
+    sigs = cocorahs.parse("\n".join([head, *rows]))
+    for s in sigs:
+        s.observed_at = datetime.now(timezone.utc) - timedelta(hours=1)
+    db.insert_signals(sigs)
+    export.render_county_pages(export.snapshot(14), tmp_path)
+    page = (tmp_path / "county" / "champaign.html").read_text()
+    assert "Today in Champaign County" in page
+    assert "PM2.5 12.3 µg/m³ (AQI 57, moderate) · Ozone 41 ppb (AQI 38, good)" in page        # its own monitor
+    assert "up to 1.25 in in the 24 hours to " in page and "from 2 CoCoRaHS volunteers" in page
+    assert "in Champaign County" in (tmp_path / "county" / "piatt.html").read_text()      # a neighbor's monitor
+    assert 'class="card today"' not in (tmp_path / "county" / "alexander.html").read_text()   # nothing near: no card
