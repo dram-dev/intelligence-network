@@ -493,6 +493,38 @@ posts, IndexBox, …) and `title_key` dedup at ingest (3 days) and at read
 (`db.kept_items_since`). Tests are hermetic: conftest makes `fetch.get_json` raise and stubs
 CoCoRaHS, AirNow and the USGS site list; a test fakes the source it reads.
 
+## Round 2 (2026-10-07): checks on what the first night showed, and the rest of the list
+
+- **Rivers trust the gauge, not the listing**: NWPS's listing carried Oakwood's creek at 23.4 ft,
+  "minor flooding", while its own series read 0.98 ft, and the digest led with it. `rivers._details`
+  takes "now" as the median of the series' last three readings and the category from the gauge's
+  flood stages (forecast level from its crest); a gauge whose listing and series disagree with no
+  stages is dropped. The listing gets 40 s (it ran past 12 s at 08:00). A gauge's `usgs` id puts
+  its flood status on the map: notable's `_floods` gives the USGS gauge's place a "flood" reason
+  (`W_FLOOD` by category; minor flooding outranks the day's biggest rise) and the label
+  "Flood 7.03 ft" / "Near flood 6.91 ft".
+- **AQI**: a metric's `aqi` breakpoints (EPA; PM2.5 2024 revision, 8-hour ozone) and the pack's
+  `aqi_categories`: `display()` adds "(AQI 124, unhealthy for sensitive groups)"; `aqi=False` for
+  the map's short labels. `headline_min` (PM2.5 35.5, ozone 71): the state's highest only from
+  there. Monitors are "<County> County air monitor" (labels aren't stored; built from the county).
+- **News**: Alliance for the Great Lakes and Great Lakes Now (403 to scripts) come through Google
+  News site searches; a site feed that comes back empty is tried again once (`RETRY_AFTER`); empty
+  runs are counted per feed (kv `news_empty:<name>`). The nightly check names a site feed empty
+  three nights running (not an agency that posts rarely) and a feed only while failing or flaky
+  all day (`CHRONIC_RUNS`; USDM failing through a blip and recovering isn't named).
+- **Narrative**: `llm.grounded`: every number it writes must be in the facts, else the next
+  model, else the headline. **PDF**: `gdrive._export` re-exports (twice, 8 s apart) a PDF that
+  embeds none of the HTML's fonts (`html_fonts`). **Morning news pass**: `intelnet notify` runs
+  `pipeline.news_pass()` (ingest + triage under the run lock, ≤ 5 min wait; failure skips it)
+  before the briefs; `--no-news`.
+- **CoCoRaHS confirms people's rain**: `network.settle_by_daily_total` (radius, the day, the
+  metric's tolerance; confirms only; half a reference); the follow-up names "a CoCoRaHS
+  volunteer's gauge, 0.45 in over the day to 7 AM".
+- **County pages**: a "Today in <County>" card (`export._today`): forecast and risks, rivers within
+  40 km, the nearest monitor's AQI (named when another county's), the volunteers' rain; it says
+  when and links the live NWS forecast. **daymap**: a moved story square tries the spots around its
+  place and stays off the key (RENDER_VERSION 3). Gauge names keep "McHenry" and "22nd".
+
 ## Next ideas
 
 - A second topic pack (air quality / river gauges) to prove the language.
