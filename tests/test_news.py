@@ -141,6 +141,7 @@ JUNK = [
     "USDA Grain Bids Report October 1, 2026: Kansas, Illinois, Gulf, PNW & Futures - News and Statistics - IndexBox",
     "Chicago weather update: 99% chance of rain today, high of 21°C, prepare for heavy downpours - The Times of India",
     "Dangerous Flood Warnings Issued for Illinois, Indiana and Iowa as Conditions Worsen - Traveling Lifestyle",
+    "USDA Grain Bid Reports: Mixed Cash Basis and Futures Settlements - indexbox.io",
 ]
 NEWS = ["Soaked: Flooding in Chicago and Why It's Getting Worse - Chicago Sun-Times",
         "Crop progress report 10/5/26: Corn 36%, soybeans 31% harvested - FarmWeekNow"]

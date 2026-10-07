@@ -17,7 +17,7 @@
 block:
   - "^Weather forecast and conditions for "            # weather.com's page for a place
   - "\\b\\d{1,3}% chance of\\b"                      # auto-written "99% chance of rain today, high of 21°C" posts
-  - " - (IndexBox|The Times of India|Traveling Lifestyle)$"
+  - " - (IndexBox|indexbox\\.io|The Times of India|Traveling Lifestyle)$"
   - "News and Statistics"                              # IndexBox's market pages
 
 # Illinois EPA's air-quality feeds always publish an item, alert or not.
