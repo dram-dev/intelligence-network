@@ -337,7 +337,8 @@ def export(out_dir: str | None, days: int, no_site: bool, sample: bool, push: bo
     res = _export.export_all(Path(out_dir) if out_dir else _export.DOCS_DIR, days, site=not no_site, sample=sample)
     console.print(f"[green]✓[/green] {len(res['json'])} JSON files" + (f" · site → {res['site']}" if res.get("site") else ""))
     if push:
-        console.print("[green]✓[/green] pushed" if _export.git_push_docs() else "[dim]nothing to push[/dim]")
+        console.print({"pushed": "[green]✓[/green] pushed", "nothing": "[dim]nothing to push[/dim]"}.get(
+            _export.git_push_docs(), "[red]✗[/red] push failed (see the log)"))
 
 
 @main.command(name="demo-seed")

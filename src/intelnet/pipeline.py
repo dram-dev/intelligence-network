@@ -17,7 +17,7 @@ from typing import Any, Callable
 from digest_core.cli.base import discover_ingestors, run_ingest
 from digest_core.runlock import PipelineLockTimeout, pipeline_serialize
 
-from intelnet import db, digest, llm, network, watch
+from intelnet import db, digest, health, llm, network, watch
 from intelnet.config import settings
 
 logger = logging.getLogger(__name__)
@@ -142,11 +142,18 @@ def _run(run_type: str, skip_publish: bool, console: Any) -> dict[str, Any]:
         if settings.site_auto_push:
             pushed = export.git_push_docs()
             summary["export"]["pushed"] = pushed
-            console.print("  pushed docs/ to GitHub" if pushed else "  nothing to push")
+            console.print({"pushed": "  pushed docs/ to GitHub", "nothing": "  nothing to push"}.get(
+                pushed, "  [yellow]⚠[/yellow] push failed (logged)"))
     except Exception as exc:  # noqa: BLE001 — the site is best-effort
         logger.exception("pipeline: export failed")
         console.print(f"  [yellow]⚠[/yellow] export skipped: {exc}")
         summary["export_error"] = str(exc)
+    try:
+        summary["health"] = health.nightly(summary, narrative=bool(model.narrative), date=model.date)
+        if summary["health"]:
+            console.print(f"  [yellow]nightly check:[/yellow] {len(summary['health'])} problem(s), sent to the admin")
+    except Exception:  # noqa: BLE001 — the check never fails the run
+        logger.exception("pipeline: nightly check failed")
     db.log_run(run_type=run_type, source="pipeline", items_fetched=0,
                items_new=int(model.vitals.get("signals_24h_human", 0)),
                duration_ms=int((time.perf_counter() - t0) * 1000),

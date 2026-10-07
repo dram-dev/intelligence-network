@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import html
 import json
+import logging
 import re
 import shutil
 from collections import Counter, defaultdict
@@ -38,6 +39,8 @@ DATA_MARK = "/*__NETWORK_DATA__*/null"
 COUNTY_TEMPLATE = SITE_DIR / "county.fragment.html"
 COUNTY_MARK = "/*__COUNTY_DATA__*/null"
 HUMAN_KINDS = (KIND_HUMAN, KIND_BOT)
+
+logger = logging.getLogger(__name__)
 
 
 def handle(sensor_id: str) -> str:
@@ -693,8 +696,9 @@ def write_sitemap(snap: dict[str, Any], out_dir: Path, county_pages: list[Path])
     return dest
 
 
-def git_push_docs(message: str | None = None) -> bool:
-    """Commit + push docs/ (only when SITE_AUTO_PUSH). Best-effort."""
+def git_push_docs(message: str | None = None) -> str:
+    """Commit + push docs/ (only when SITE_AUTO_PUSH). Best-effort: "pushed", "nothing" (no
+    change), or "failed" (logged; the nightly check tells the admin)."""
     import subprocess
 
     msg = message or f"site: snapshot {datetime.now(timezone.utc).strftime('%Y-%m-%d')}"
@@ -702,9 +706,13 @@ def git_push_docs(message: str | None = None) -> bool:
         subprocess.run(["git", "add", "docs"], cwd=PROJECT_ROOT, check=True, capture_output=True)
         diff = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=PROJECT_ROOT)
         if diff.returncode == 0:
-            return False
+            return "nothing"
         subprocess.run(["git", "commit", "-q", "-m", msg], cwd=PROJECT_ROOT, check=True, capture_output=True)
         subprocess.run(["git", "push", "-q"], cwd=PROJECT_ROOT, check=True, capture_output=True)
-        return True
-    except Exception:  # noqa: BLE001
-        return False
+        return "pushed"
+    except subprocess.CalledProcessError as exc:
+        logger.warning("export: %s failed: %s", " ".join(exc.cmd[:2]), (exc.stderr or b"").decode(errors="replace")[:300])
+        return "failed"
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("export: pushing docs/ failed (%s)", type(exc).__name__)
+        return "failed"
