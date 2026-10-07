@@ -28,6 +28,8 @@ GAUGES = {"gauges": [
     _gauge("CVGI3", "Wabash River at Covington", "IN", 40.1406, -87.3947, 10.1, "action"),       # not the border
     _gauge("MCCI2", "Mainstream Deep Tunnel at McCook Reservoir", "IL", 41.80, -87.83, -95.1, "action"),
     _gauge("QUIET", "Sangamon River at Riverton", "IL", 39.84, -89.55, 9.0, "no_flooding", 9.0, "no_flooding"),
+    _gauge("OKWI2", "Middle Fork Vermilion River above Oakwood", "IL", 40.11, -87.78, 23.4, "minor"),   # a glitch
+    _gauge("BADI2", "Some Creek near Nowhere", "IL", 41.9, -87.9, 9.9, "action"),                       # ditto
 ]}
 
 
@@ -37,8 +39,11 @@ def _series(points):
 
 DETAILS = {
     "RUSI2": {"county": "Lake", "flood": {"categories": {"minor": {"stage": 7}, "action": {"stage": 6.5}}}},
-    "CHSI2": {"county": "Randolph", "flood": {"categories": {"minor": {"stage": 27}}}},
-    "HNBM7": {"county": "Marion", "flood": {"categories": {"minor": {"stage": 17}}}},
+    "CHSI2": {"county": "Randolph", "flood": {"categories": {"minor": {"stage": 27}, "action": {"stage": 25}}}},
+    "HNBM7": {"county": "Marion", "flood": {"categories": {"minor": {"stage": 17}, "action": {"stage": 16}}}},
+    "OKWI2": {"county": "Vermilion", "flood": {"categories": {"minor": {"stage": 10}, "action": {"stage": 7},
+                                                              "major": {"stage": -9999}}}},
+    "BADI2": {"county": "Cook", "flood": {"categories": {}}},
 }
 FLOWS = {
     "RUSI2": {"observed": _series([(-7, 7.03), (-1, 7.03)]),
@@ -46,6 +51,9 @@ FLOWS = {
     "CHSI2": {"observed": _series([(-7, 23.9), (-1, 24.36)]),
               "forecast": _series([(12, 25.0), (24, 25.3), (48, 25.1)])},
     "HNBM7": {"observed": _series([(-7, 16.4), (-1, 16.1)]), "forecast": {"data": []}},
+    # 7 Oct: listed at 23.4 ft, "minor flooding", while its own series read 0.98 ft all night
+    "OKWI2": {"observed": _series([(-7, 0.98), (-1.5, 0.98), (-1, 0.98), (-0.5, 0.97)]), "forecast": {"data": []}},
+    "BADI2": {"observed": _series([(-7, 3.0), (-1, 3.1)]), "forecast": {"data": []}},     # no stages to judge by
 }
 
 
@@ -69,6 +77,12 @@ def test_the_states_gauges_and_the_far_bank_of_a_border_river(nwps):
     assert (russell.level, russell.county, russell.trend, russell.floods_at) == (2, "Lake", "steady", 7)
     assert chester.observed == (0, "") and chester.forecast == (1, "near flood stage") and chester.trend == "rising"
     assert hannibal.trend == "falling" and hannibal.crest is None and hannibal.falls_to is None
+
+
+def test_a_listing_glitch_isnt_news(nwps):
+    # the series and the gauge's own flood stages decide, not the listing's figure
+    lids = [g.lid for g in rivers.high_water(NOW)]
+    assert "OKWI2" not in lids and "BADI2" not in lids and lids == ["RUSI2", "CHSI2", "HNBM7"]
 
 
 def test_a_gauge_reads_now_flood_stage_and_the_next_days(nwps):

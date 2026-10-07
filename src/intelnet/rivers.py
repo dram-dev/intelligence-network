@@ -136,15 +136,35 @@ def _series(block: dict[str, Any] | None) -> list[tuple[datetime, float]]:
     return sorted(out)
 
 
-def _details(gauge: Gauge, sp: dict[str, Any], now: datetime) -> None:
-    """The flood stage and county (gauge detail), the trend and the forecast (stageflow)."""
+def _category(levels: dict[str, Any], thresholds: dict[str, float], stage: float) -> tuple[int, str]:
+    """The highest flood category whose stage the reading reaches; (0, "") below action."""
+    reached = [name for name, at in thresholds.items() if stage >= at]
+    return max((_level(levels, name) for name in reached), default=(0, ""))
+
+
+def _details(gauge: Gauge, sp: dict[str, Any], now: datetime) -> bool:
+    """The flood stages and county (gauge detail), the stage, trend and forecast (stageflow).
+
+    "Now" is the median of the series' last three readings, and the category is worked out
+    from the gauge's own flood stages: the listing's figure can be a glitch (Oakwood's creek
+    listed at 23.4 ft, "minor flooding", at 02:27 on 7 Oct while its series read 0.98 ft all
+    night), and the digest led with it. False when the gauge isn't running high after all."""
+    levels = sp.get("levels") or {}
     detail = _get(str(sp["gauge_url"]).format(lid=gauge.lid)) or {}
     gauge.county = str(detail.get("county") or "")
-    minor = ((detail.get("flood") or {}).get("categories") or {}).get("minor") or {}
-    gauge.floods_at = _value(minor.get("stage"))
+    cats = (detail.get("flood") or {}).get("categories") or {}
+    thresholds = {name: v for name in levels if (v := _value((cats.get(name) or {}).get("stage"))) is not None}
+    gauge.floods_at = thresholds.get("minor")
     flows = _get(str(sp["stageflow_url"]).format(lid=gauge.lid)) or {}
     observed = _series(flows.get("observed"))
     if observed:
+        listed = gauge.stage
+        last = sorted(v for _, v in observed[-3:])
+        gauge.stage, gauge.at = last[len(last) // 2], observed[-1][0]
+        if thresholds:
+            gauge.observed = _category(levels, thresholds, gauge.stage)
+        elif listed is not None and abs(listed - gauge.stage) > max(1.0, 0.1 * abs(gauge.stage)):
+            return False                    # the listing and the series disagree, and no stages to judge by
         t_last, v_last = observed[-1]
         earlier = [v for t, v in observed if t <= t_last - timedelta(hours=TREND_HOURS)]
         if earlier:
@@ -157,6 +177,9 @@ def _details(gauge: Gauge, sp: dict[str, Any], now: datetime) -> None:
             gauge.crest = (top[1], top[0])
         elif ahead_[-1][1] < gauge.stage - TREND_STEP:
             gauge.falls_to = (ahead_[-1][1], ahead_[-1][0])
+        if thresholds:
+            gauge.forecast = _category(levels, thresholds, top[1])
+    return gauge.level > 0
 
 
 def high_water(now: datetime | None = None) -> list[Gauge]:
@@ -185,7 +208,9 @@ def high_water(now: datetime | None = None) -> list[Gauge]:
                       stage=_value(obs.get("primary")), unit=str(obs.get("primaryUnit") or "ft"),
                       observed=o, forecast=f, at=parse_iso(obs.get("validTime")))
         try:
-            _details(gauge, sp, now)
+            if not _details(gauge, sp, now):
+                logger.info("rivers: %s isn't running high by its own series (listing glitch)", gauge.lid)
+                continue
         except Exception as exc:  # noqa: BLE001
             logger.warning("rivers: %s details unavailable (%s)", gauge.lid, exc)
         out.append(gauge)
