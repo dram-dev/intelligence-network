@@ -14,6 +14,7 @@ from __future__ import annotations
 import json
 import logging
 import math
+import re
 import sqlite3
 from contextlib import AbstractContextManager
 from datetime import datetime, timedelta
@@ -403,6 +404,14 @@ def lookback_hours(floor_hours: int = 24) -> int:
         return core_db.hours_since_previous_run(conn, floor_hours)
 
 
+def recent_item_titles(days: int = 3) -> list[str]:
+    """Titles of the news items taken in the last `days` (a story's repeats are skipped)."""
+    with get_conn() as conn:
+        rows = conn.execute("SELECT title FROM items WHERE ingested_at >= datetime('now', ?)",
+                            (f"-{int(days)} days",)).fetchall()
+    return [r["title"] for r in rows]
+
+
 def items_needing_triage(hours: int, limit: int = 200) -> list[sqlite3.Row]:
     with get_conn() as conn:
         return conn.execute(
@@ -425,14 +434,27 @@ def update_triage(item_id: int, decision: str, relevance: float | None, topic: s
 
 
 def kept_items_since(hours: int, limit: int = 30) -> list[sqlite3.Row]:
+    """The stories triage kept, best first; never a title the news config blocks (one kept
+    before its pattern was added), and each story once (two queries, the same story)."""
+    from intelnet.ingest.news import blocked, title_key
+
+    block = [re.compile(b, re.I) for b in blocked()]
     with get_conn() as conn:
-        return conn.execute(
+        rows = conn.execute(
             """SELECT id, source, title, url, published_at, relevance, topic, triage_reason,
                       metadata_json
                FROM items WHERE triage_decision = 'keep' AND triaged_at >= datetime('now', ?)
                ORDER BY relevance DESC, published_at DESC LIMIT ?""",
-            (f"-{hours} hours", limit),
+            (f"-{hours} hours", limit * 2),
         ).fetchall()
+    out, seen = [], set()
+    for r in rows:
+        key = title_key(r["title"] or "")
+        if key in seen or any(b.search(r["title"] or "") for b in block):
+            continue
+        seen.add(key)
+        out.append(r)
+    return out[:limit]
 
 
 # ── sensors ───────────────────────────────────────────────────────────────

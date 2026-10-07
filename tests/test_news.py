@@ -134,3 +134,39 @@ def test_headline_spans_wrapped_lines_and_ignores_later_sections():
             "September 9th...\n\nVolunteer observer reports are through 7 A.M.\n\n...Illinois...\n")
     assert nws_statements.headline(text) == (
         "Highest Observed Rainfall from September 8th into the Morning of September 9th")
+
+
+JUNK = [
+    "Weather forecast and conditions for Fox Lake, Illinois, United States - The Weather Channel | weather.com",
+    "USDA Grain Bids Report October 1, 2026: Kansas, Illinois, Gulf, PNW & Futures - News and Statistics - IndexBox",
+    "Chicago weather update: 99% chance of rain today, high of 21°C, prepare for heavy downpours - The Times of India",
+    "Dangerous Flood Warnings Issued for Illinois, Indiana and Iowa as Conditions Worsen - Traveling Lifestyle",
+]
+NEWS = ["Soaked: Flooding in Chicago and Why It's Getting Worse - Chicago Sun-Times",
+        "Crop progress report 10/5/26: Corn 36%, soybeans 31% harvested - FarmWeekNow"]
+
+
+def test_pages_that_are_not_news_are_blocked_whatever_the_feed():
+    # the week of 2026-09-30: what triage had kept that isn't news
+    items = [_item("Google News · Chicago weather", t) for t in JUNK + NEWS]
+    assert [i.title for i in news.apply_filters(items, news.feed_list())] == NEWS
+
+
+def test_a_story_comes_in_once_across_queries_and_nights():
+    a = _item("Google News · Illinois crops", "ILLINOIS CORN, SOYBEAN HARVEST REMAINS AHEAD OF AVERAGE - wfiwradio.com")
+    b = _item("Google News · Illinois soil health", "Illinois corn, soybean harvest remains ahead of average - WFIW")
+    c = _item("AgriNews", "Picking pumpkins, preparing for harvest at northern Illinois farm")
+    seen = {news.title_key("Picking pumpkins, preparing for harvest at northern Illinois farm")}   # yesterday's
+    assert news.fresh([a, b, c], seen) == [a]
+    assert news.title_key("Short - X") == "short x"                      # too short to be "title - publisher"
+
+
+def test_stories_kept_before_a_block_or_twice_are_read_once(fresh_db):
+    titles = [JUNK[0], NEWS[0], NEWS[0].replace(" - Chicago Sun-Times", " - Yahoo News"), NEWS[1]]
+    db.upsert_items([IngestedItem(source="news", source_id=f"s{i}", title=t, url=f"https://ex.test/{i}",
+                                  content="", metadata={"feed": "f"}) for i, t in enumerate(titles)])
+    with db.get_conn() as conn:
+        for (item_id,) in conn.execute("SELECT id FROM items").fetchall():
+            db.update_triage(item_id, "keep", 0.9, "weather", "t")
+    assert [r["title"] for r in db.kept_items_since(24)] == [NEWS[0], NEWS[1]]
+    assert len(db.recent_item_titles(3)) == 4

@@ -15,12 +15,42 @@ logger = logging.getLogger(__name__)
 
 
 @lru_cache(maxsize=1)
-def feed_list() -> list[dict]:
+def _config() -> dict:
     path = CONFIG_DIR / "news_feeds.yaml"
     if not path.exists():
-        return []
-    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-    return list(data.get("feeds") or [])
+        return {}
+    return yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+
+
+def feed_list() -> list[dict]:
+    return list(_config().get("feeds") or [])
+
+
+def blocked() -> list[str]:
+    """Title patterns that are never news, whichever feed carries them (`block`)."""
+    return [str(x) for x in _config().get("block") or []]
+
+
+def title_key(title: str) -> str:
+    """The story, not the copy: lowercase words, a Google News ' - Publisher' tail dropped, so the
+    same story from two queries (or two nights) is one."""
+    head, sep, tail = title.rpartition(" - ")
+    text = head if sep and len(head) >= 12 and len(tail) <= 60 else title
+    return re.sub(r"[^a-z0-9]+", " ", text.lower()).strip()
+
+
+def fresh(items: list[IngestedItem], seen: set[str]) -> list[IngestedItem]:
+    """Each story once: not seen in the last days (`seen`, updated) nor earlier in this batch."""
+    out = []
+    for item in items:
+        key = title_key(item.title)
+        if key and key in seen:
+            continue
+        seen.add(key)
+        out.append(item)
+    if len(out) < len(items):
+        logger.info("news: %d repeats of stories already in", len(items) - len(out))
+    return out
 
 
 def _hits(item: IngestedItem, pattern: str) -> bool:
@@ -37,8 +67,11 @@ def apply_filters(items: list[IngestedItem], feeds: list[dict]) -> list[Ingested
     passes everything through.
     """
     rules = {f.get("name", f.get("url")): (f.get("include"), f.get("exclude")) for f in feeds}
+    block = [re.compile(b, re.I) for b in blocked()]
     kept: list[IngestedItem] = []
     for item in items:
+        if any(b.search(item.title or "") for b in block):
+            continue
         include, exclude = rules.get((item.metadata or {}).get("feed"), (None, None))
         if include and not _hits(item, include):
             continue
@@ -58,5 +91,8 @@ class NewsIngestor(IngestorBase):
     order = 10
 
     def fetch(self) -> list[IngestedItem]:
+        from intelnet import db
+
         feeds = feed_list()
-        return apply_filters(fetch_feeds(feeds, self.name, default_limit=15), feeds)
+        items = apply_filters(fetch_feeds(feeds, self.name, default_limit=15), feeds)
+        return fresh(items, {title_key(t) for t in db.recent_item_titles(days=3)})
