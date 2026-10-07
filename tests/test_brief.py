@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 from datetime import timedelta
 
-from intelnet import contrib, db, geo, network, pipeline
+from intelnet import brief, contrib, db, geo, network, pipeline
 from intelnet.config import settings
 from intelnet.models import KIND_STATION, Signal, iso, utcnow
 
@@ -88,3 +88,23 @@ def test_full_digest_opens_the_phone_friendly_copy_then_the_doc(fresh_db, monkey
     monkeypatch.setattr(settings, "site_url", "")
     monkeypatch.setattr(settings, "github_repo", "")                 # no site at all: the Doc is the digest
     assert brief._digest_links(links)[0] == ("Full digest", "https://docs.google.com/document/d/D/edit")
+
+
+def test_each_brief_carries_a_button_to_invite_a_neighbor(fresh_db, sent, make_sensor, monkeypatch):
+    from urllib.parse import parse_qs, urlparse
+
+    make_sensor("tg:5", zip_code="62704", chat_id="5")                              # Sangamon County
+    db.add_subscription("5", "weather.digest", "il")
+    db.add_subscription("6", "weather.digest", "il")                                # no home
+    monkeypatch.setattr(settings, "telegram_bot_handle", "intelligence_network_bot")
+    pipeline.notify_digest(force=True)
+    buttons = dict(zip([chat for chat, _ in sent], sent.markups, strict=True))
+    [[mine]] = buttons["5"]["inline_keyboard"]
+    assert mine["text"] == "📣 Invite a neighbor" and mine["url"].startswith("https://t.me/share/url?")
+    shared = parse_qs(urlparse(mine["url"]).query)
+    assert shared["url"] == ["https://t.me/intelligence_network_bot?start=sub_weather_warnings_sangamon"]
+    assert shared["text"][0].startswith("Free weather warnings for Sangamon County")
+    [[state]] = buttons["6"]["inline_keyboard"]
+    assert parse_qs(urlparse(state["url"]).query)["url"] == ["https://t.me/intelligence_network_bot?start="]
+    monkeypatch.setattr(settings, "telegram_bot_handle", "")
+    assert brief.invite_markup(None) is None                                        # no handle, no button

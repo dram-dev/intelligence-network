@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 from datetime import datetime, timedelta
 from typing import Any
+from urllib.parse import quote, urlencode
 
 from intelnet import ahead, daymap, db, delivery, geo, network, notable, rivers, story_brief
 from intelnet.config import settings
@@ -153,6 +154,20 @@ def high_water(c: geo.County | None, gauges: list[rivers.Gauge] | None = None) -
     gauges = rivers.high_water() if gauges is None else gauges
     near = rivers.near(gauges, c) if c else [g for g in gauges if g.level >= 2]
     return [f"🌊 <b>{esc(g.name)}</b>: {esc(g.text())}" for g in near[:4]]
+
+
+def invite_markup(c: geo.County | None) -> dict[str, Any] | None:
+    """The button under the brief: Telegram's share sheet with the link that signs a neighbor up
+    for the county's warnings in one tap (without a county, the plain start). The network grows
+    by word of mouth, and the brief is the thing people already pass along."""
+    handle = settings.telegram_bot_handle
+    if not handle:
+        return None
+    link = f"https://t.me/{handle}?start=" + (f"sub_weather_warnings_{c.slug}" if c else "")
+    words = (f"Free weather warnings for {c.label}, and a morning brief on what neighbors and stations measured."
+             if c else f"Free weather warnings for your exact place in {_state()}, and a morning brief.")
+    share = "https://t.me/share/url?" + urlencode({"url": link, "text": words}, quote_via=quote)
+    return {"inline_keyboard": [[{"text": "📣 Invite a neighbor", "url": share}]]}
 
 
 def _digest_links(links: dict[str, str | None]) -> list[tuple[str, str]]:
@@ -341,7 +356,7 @@ def fanout_brief(date: str, links: dict[str, str | None]) -> int:
     chats = sorted({chat for cat in all_categories() if cat.endswith(".digest")
                     for chat in db.matching_chat_ids(cat, [st])})
     key = f"digest:{date}"
-    texts: dict[str | None, tuple[str, str]] = {}
+    texts: dict[str | None, tuple[str, str, dict[str, Any] | None]] = {}
     ids: list[int | None] = []
     day: dict[str, Any] | None = None
     gauges: list[rivers.Gauge] | None = None
@@ -355,9 +370,11 @@ def fanout_brief(date: str, links: dict[str, str | None]) -> int:
             gauges = gauges if gauges is not None else rivers.high_water()   # one river survey
             texts[fips] = (compose(fips, links, day=day, ahead_lines=first, gauges=gauges),
                            compose_rich(fips, links, day=day, picture=daymap.prepare(day, fips),
-                                        ahead_lines=first, gauges=gauges))
-        text, rich = texts[fips]
-        ids.append(db.enqueue(key, chat, text, priority=5, stale_at=utcnow() + timedelta(hours=12), rich=rich))
+                                        ahead_lines=first, gauges=gauges),
+                           invite_markup(geo.county(fips)))
+        text, rich, markup = texts[fips]
+        ids.append(db.enqueue(key, chat, text, priority=5, stale_at=utcnow() + timedelta(hours=12), rich=rich,
+                              markup=markup))
     return delivery.send_now(ids)
 
 
