@@ -171,3 +171,21 @@ def test_stories_kept_before_a_block_or_twice_are_read_once(fresh_db):
             db.update_triage(item_id, "keep", 0.9, "weather", "t")
     assert [r["title"] for r in db.kept_items_since(24)] == [NEWS[0], NEWS[1]]
     assert len(db.recent_item_titles(3)) == 4
+
+
+def test_an_empty_site_feed_is_tried_again(fresh_db, monkeypatch):
+    calls: list[str] = []
+
+    def fetch(feeds, source, default_limit=15):
+        calls.append(feeds[0]["name"])
+        if feeds[0]["name"] == "FarmWeekNow" and calls.count("FarmWeekNow") == 1:
+            return []                                     # 01:xx: nothing, then it answers
+        return [_item(feeds[0]["name"], f"Story from {feeds[0]['name']}")]
+
+    monkeypatch.setattr(news, "feed_list", lambda: [{"name": "FarmWeekNow", "url": "https://fw.test/rss"},
+                                                    {"name": "Google News · x", "url": "https://news.google.com/rss/search?q=x"}])
+    monkeypatch.setattr(news, "fetch_feeds", fetch)
+    monkeypatch.setattr(news, "RETRY_AFTER", 0)
+    items = news.NewsIngestor().fetch()
+    assert calls == ["FarmWeekNow", "FarmWeekNow", "Google News · x"] and len(items) == 2
+    assert db.kv_get("news_empty:FarmWeekNow") == "0"

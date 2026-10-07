@@ -2,10 +2,12 @@
 when there is something to say.
 
 A digest without its narrative, a feed failing most of its runs or gone quiet, the site not
-pushed, a news feed silent for weeks: each surfaces the next morning instead of a week later
+pushed, a news feed empty night after night: each surfaces the next morning instead of a week later
 (in the week to 6 Oct the narrative timed out twice and CI failed for six days, unseen).
-Transient trouble stays out: a feed is named when half or more of its runs failed (and at
-least MIN_FAILS), or when it hasn't had a good run in longer than its cadence allows.
+Transient trouble stays out: a feed is named when half or more of its runs failed (at least
+MIN_FAILS) and it's still failing or was flaky all day (CHRONIC_RUNS), or when it hasn't had a
+good run in longer than its cadence allows (USDM failing through a morning network blip and then
+recovering isn't news); a news feed, when its site came back empty three nights running.
 """
 from __future__ import annotations
 
@@ -26,7 +28,7 @@ STALE_HOURS = {"nws_alerts": 1, "iem_lsr": 1, "usgs_quake": 2, "iem_asos": 3, "a
                "cocorahs": 26, "ams_grain": 96, "nrcs_scan": 192, "usdm": 192}
 FAIL_SHARE = 0.5
 MIN_FAILS = 4
-SILENT_DAYS = 21               # a news feed with nothing new this long is probably dead
+CHRONIC_RUNS = 12              # this many runs in a day, half failing: flaky even if the last one worked
 
 
 def _short(error: str | None) -> str:
@@ -48,11 +50,14 @@ def feed_problems(now: datetime | None = None) -> list[str]:
     with db.get_conn() as conn:
         rows = conn.execute(
             """SELECT source, SUM(status = 'error') AS bad, COUNT(*) AS n,
-                      MAX(CASE WHEN status = 'error' THEN error END) AS err
+                      MAX(CASE WHEN status = 'error' THEN error END) AS err,
+                      (SELECT status FROM run_log r2 WHERE r2.source = run_log.source ORDER BY id DESC LIMIT 1) AS last
                FROM run_log WHERE run_at >= datetime('now', '-1 day') GROUP BY source""").fetchall()
     out = []
     for r in rows:
-        if r["source"] in FEEDS and r["bad"] >= MIN_FAILS and r["bad"] / r["n"] >= FAIL_SHARE:
+        # failing now, or flaky all day; a feed that failed through a blip and recovered isn't named
+        if (r["source"] in FEEDS and r["bad"] >= MIN_FAILS and r["bad"] / r["n"] >= FAIL_SHARE
+                and (r["last"] == "error" or r["n"] >= CHRONIC_RUNS)):
             out.append(f"{r['source']}: {r['bad']} of {r['n']} runs failed in the last day ({_short(r['err'])})")
     fresh = db.feed_freshness()
     for name, hours in STALE_HOURS.items():
@@ -64,19 +69,12 @@ def feed_problems(now: datetime | None = None) -> list[str]:
     return out
 
 
-def silent_news_feeds(days: int = SILENT_DAYS, before: int = 90) -> list[str]:
-    """Reading-list feeds that brought something in the last `before` days but nothing in `days`
-    (one that never has is new or narrow, not dead)."""
-    from intelnet.ingest.news import feed_list
+def broken_news_feeds() -> list[str]:
+    """Site feeds that came back empty three nights running (blocked, moved or down); an agency
+    that posts rarely still lists its old items, so it isn't named."""
+    from intelnet.ingest.news import empty_feeds
 
-    def heard(since: int) -> set[str]:
-        with db.get_conn() as conn:
-            return {r["feed"] for r in conn.execute(
-                """SELECT DISTINCT json_extract(metadata_json, '$.feed') AS feed FROM items
-                   WHERE ingested_at >= datetime('now', ?)""", (f"-{int(since)} days",)).fetchall()}
-
-    lately, earlier = heard(days), heard(before)
-    return [str(f["name"]) for f in feed_list() if f.get("name") in earlier and f.get("name") not in lately]
+    return empty_feeds()
 
 
 def problems(summary: dict[str, Any], *, narrative: bool, now: datetime | None = None) -> list[str]:
@@ -92,9 +90,9 @@ def problems(summary: dict[str, Any], *, narrative: bool, now: datetime | None =
     elif (summary.get("export") or {}).get("pushed") == "failed":
         out.append("The site wasn't pushed to GitHub: git push failed.")
     out += feed_problems(now)
-    silent = silent_news_feeds()
-    if silent:
-        out.append(f"News feeds with nothing new in {SILENT_DAYS} days: " + ", ".join(silent))
+    broken = broken_news_feeds()
+    if broken:
+        out.append("News feeds empty three nights running: " + ", ".join(broken))
     return out
 
 

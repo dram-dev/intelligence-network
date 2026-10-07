@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import logging
 import re
+import time
 from functools import lru_cache
 
 import yaml
@@ -94,5 +95,40 @@ class NewsIngestor(IngestorBase):
         from intelnet import db
 
         feeds = feed_list()
-        items = apply_filters(fetch_feeds(feeds, self.name, default_limit=15), feeds)
+        items: list[IngestedItem] = []
+        for f in feeds:                                   # one at a time: an empty feed is tried again
+            got = fetch_feeds([f], self.name, default_limit=15)
+            if not got and not is_search(f):
+                time.sleep(RETRY_AFTER)
+                got = fetch_feeds([f], self.name, default_limit=15)
+            note_empty(f, empty=not got)
+            items += got
+        items = apply_filters(items, feeds)
         return fresh(items, {title_key(t) for t in db.recent_item_titles(days=3)})
+
+
+RETRY_AFTER = 5                # seconds before a second try: FarmWeekNow fails at 01:xx, then answers
+
+
+def is_search(f: dict) -> bool:
+    """A search (Google News) can rightly come back empty; a site's own feed always lists something."""
+    return "news.google.com/rss/search" in str(f.get("url") or "")
+
+
+def note_empty(f: dict, *, empty: bool) -> None:
+    """Count a feed's empty runs in a row (kv `news_empty:<name>`), for the nightly check."""
+    from intelnet import db
+
+    key = f"news_empty:{f.get('name') or f.get('url')}"
+    try:
+        db.kv_set(key, str(int(db.kv_get(key) or 0) + 1 if empty else 0))
+    except Exception:  # noqa: BLE001 — bookkeeping never stops the ingest
+        pass
+
+
+def empty_feeds(runs: int = 3) -> list[str]:
+    """Site feeds that came back empty `runs` times in a row: blocked, moved or down."""
+    from intelnet import db
+
+    return [str(f.get("name")) for f in feed_list()
+            if not is_search(f) and int(db.kv_get(f"news_empty:{f.get('name') or f.get('url')}") or 0) >= runs]

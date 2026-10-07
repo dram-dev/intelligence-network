@@ -3,7 +3,6 @@ from __future__ import annotations
 
 from intelnet import db, health
 from intelnet.config import settings
-from intelnet.ingest.base import IngestedItem
 
 
 def _runs(source: str, status: str, n: int, hours_ago: float = 1, error: str | None = None) -> None:
@@ -28,14 +27,26 @@ def test_a_feed_quiet_past_its_cadence_is_stale_and_one_never_run_is_not(fresh_d
     assert health.feed_problems() == ["iem_asos: no good run for 5 hours"]          # ams_grain: never run, unnamed
 
 
-def test_a_news_feed_that_went_quiet_is_named(fresh_db):
-    db.upsert_items([IngestedItem(source="news", source_id="fw1", title="Harvest permits help cut fuel costs",
-                                  url="https://ex.test/fw1", content="", metadata={"feed": "FarmWeekNow"}),
-                     IngestedItem(source="news", source_id="ag1", title="Bitter season for sweet corn",
-                                  url="https://ex.test/ag1", content="", metadata={"feed": "AgriNews"})])
-    with db.get_conn() as conn:
-        conn.execute("UPDATE items SET ingested_at = datetime('now', '-30 days') WHERE source_id = 'fw1'")
-    assert health.silent_news_feeds() == ["FarmWeekNow"]                # never-heard feeds aren't "silent"
+def test_a_feed_that_recovered_from_a_blip_is_not_named(fresh_db):
+    _runs("usdm", "error", 6, hours_ago=20, error="ConnectionError: HTTPSConnectionPool(host='x')")
+    _runs("usdm", "ok", 1, hours_ago=19)                 # 6 of 7 failed, then it came back
+    assert health.feed_problems() == []
+    _runs("usdm", "error", 1, hours_ago=0.1)             # failing again now: named
+    assert health.feed_problems()[0].startswith("usdm: 7 of 8 runs failed")
+
+
+def test_a_site_feed_empty_three_nights_is_named_and_a_quiet_agency_is_not(fresh_db, monkeypatch):
+    from intelnet.ingest import news
+
+    blocked = {"name": "Some Blog", "url": "https://blog.test/feed"}
+    search = {"name": "Google News · Illinois blizzard", "url": "https://news.google.com/rss/search?q=x"}
+    monkeypatch.setattr(news, "feed_list", lambda: [blocked, search])
+    for _ in range(3):
+        news.note_empty(blocked, empty=True)
+        news.note_empty(search, empty=True)              # a search can rightly come back empty
+    assert health.broken_news_feeds() == ["Some Blog"]
+    news.note_empty(blocked, empty=False)
+    assert health.broken_news_feeds() == []
 
 
 def test_the_night_is_reported_once_and_only_when_something_is_wrong(fresh_db, sent, monkeypatch):

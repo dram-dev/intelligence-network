@@ -82,12 +82,13 @@ feeds:
     url: "https://prairierivers.org/feed/"
     topic_hint: water
     limit: 5
+  # Both sites answer 403 to scripted fetches (since mid-September); Google News carries them.
   - name: Alliance for the Great Lakes
-    url: "https://greatlakes.org/feed/"
+    url: "https://news.google.com/rss/search?q=site:greatlakes.org+when:14d&hl=en-US&gl=US&ceid=US:en"
     topic_hint: water
     limit: 5
-  - name: Great Lakes Now          # stand-in while greatlakes.org returns 403 to scripted fetches
-    url: "https://www.greatlakesnow.org/feed/"
+  - name: Great Lakes Now
+    url: "https://news.google.com/rss/search?q=site:greatlakesnow.org+when:14d&hl=en-US&gl=US&ceid=US:en"
     topic_hint: water
     limit: 5
   - name: The Waterways Journal
