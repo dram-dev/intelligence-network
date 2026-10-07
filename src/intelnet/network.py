@@ -419,6 +419,38 @@ def settle_by_alert(rows: list[Signal]) -> list[tuple[Signal, Signal]]:
     return out
 
 
+def settle_by_daily_total(ref: Signal) -> list[tuple[Signal, Signal]]:
+    """A volunteer observer's day total (CoCoRaHS, evidence period "24h") confirms the raw
+    readings people sent within the metric's radius over that day, when they agree within its
+    tolerance. It only confirms: a storm total and the day's total needn't match, so a
+    difference flags nothing; and it counts half a reference (trust.GRID_WEIGHT), the gauges
+    being kilometres apart. Returns (reading, report) for each one it confirmed."""
+    metric = find_metric(ref.metric, get_topic(ref.topic))
+    if metric is None or ref.value is None or not ref.location.has_point or not metric.scored:
+        return []
+    period = str(ref.evidence.get("period") or "24h")
+    try:
+        hours = float(period.rstrip("h"))
+    except ValueError:
+        hours = 24.0
+    out: list[tuple[Signal, Signal]] = []
+    for other in db.signals_near(metric.key, ref.location.lat, ref.location.lon, metric.radius_km,
+                                 ref.observed_at - timedelta(hours=hours), ref.observed_at,
+                                 kinds=(KIND_HUMAN, "bot")):
+        if other.id is None or other.value is None or other.quality != QUALITY_RAW:
+            continue
+        if other.evidence.get("period") not in (None, period) or not metric.compatible(ref.value, other.value):
+            continue
+        db.update_assessment(other.id, quality=QUALITY_CORROBORATED, corroboration_n=other.corroboration_n + 1,
+                             contradiction_n=other.contradiction_n, reference_agreement="agree")
+        s = db.get_sensor(other.sensor_id)
+        if s and s.kind == KIND_HUMAN:
+            db.bump_sensor(s.id, corroborated=1)
+            trust.record(s.id, other.topic, agree=trust.GRID_WEIGHT)
+        out.append((other, ref))
+    return out
+
+
 def settle_by_grid(sig: Signal, verdict: str) -> Assessment | None:
     """Apply a radar grid's verdict on a raw reading (grids.py).
 

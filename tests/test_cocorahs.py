@@ -93,3 +93,26 @@ def test_the_map_reads_a_days_total_not_an_hourly_rate(fresh_db):
     assert rain["label"] == "Rain 2.85 in" and rain["name"] == "1.4 mi NNE of Rantoul"
     assert rain["why"][0].startswith("Highest rainfall total in Illinois")     # ahead of the threshold
     assert rain["source"] == "CoCoRaHS observer"
+
+
+def test_a_volunteers_day_total_confirms_peoples_rain_and_says_so(make_sensor, sent, monkeypatch):
+    from intelnet import contrib, network
+    from intelnet.telegram import bot
+
+    monkeypatch.setattr(bot, "enabled", True)
+    ann = make_sensor("tg:5", zip_code="62704", chat_id="5")                       # Springfield
+    now = utcnow()
+    [near] = [s for s in cocorahs.parse(CSV) if s.sensor_id == "cocorahs:il-sg-12" and s.metric == "rain_mm"]
+    contrib.contribute(ann, "rain 0.5in", source_id_base="m1", online=False, use_llm=False)   # 12.7 mm
+    contrib.contribute(ann, "rain 3in", source_id_base="m2", online=False, use_llm=False)     # 76 mm: no match
+    near.observed_at = now + timedelta(minutes=5)                                   # this morning's report
+    [stored] = db.insert_signals([near])
+    confirmed = network.settle_by_daily_total(stored)
+    assert [round(mine.value, 1) for mine, _ in confirmed] == [12.7]               # 0.45 in agrees with 0.5 in
+    rows = {round(s.value, 1): s for s in db.recent_signals(24, metric="rain_mm") if s.sensor_kind == "human"}
+    assert rows[12.7].quality == "corroborated" and rows[76.2].quality == "raw"     # confirms, never flags
+    cocorahs.CoCoRaHSFeed().after_store([stored], None)                            # nothing left to confirm
+    from intelnet import feedback
+    assert feedback.confirmed(confirmed) == 1
+    [(chat, text)] = sent
+    assert chat == "5" and "a CoCoRaHS volunteer's gauge, 0.45 in over the day to" in text

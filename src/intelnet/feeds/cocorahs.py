@@ -6,7 +6,8 @@ report the 24 hours to then; CoCoRaHS publishes every report in a daily CSV. Eac
 amount (the pack's `cocorahs_fields`: rain, new snow) becomes a `station` reading over a
 24-hour period, so it is compared only with other 24-hour amounts and reads as a total, not a
 rate: the map's heaviest rain, "What stood out", a county's rain in the brief. A report tells
-of a day that's over, so it opens no event and pushes nothing (`after_store`). Polled hourly
+of a day that's over, so it opens no event and pushes nothing; it does confirm the rain people
+reported near it that day (`after_store`: network.settle_by_daily_total). Polled hourly
 from 7 AM to 8 PM, today's and yesterday's reports (late ones come in through the day); a
 report read again is ignored (source_id = station|date|metric). Trace and zero amounts aren't
 kept.
@@ -123,5 +124,10 @@ class CoCoRaHSFeed(ReferenceFeed):
         return signals
 
     def after_store(self, new: list[Signal], res: FeedResult) -> None:
-        """A morning report tells of a day that's over: no events, no pushes. The map, the
-        digest and the brief read the readings where they're stored."""
+        """A morning report tells of a day that's over: no events, no pushes (the map, the digest
+        and the brief read the readings where they're stored). It does confirm the rain people
+        reported near it that day, and tells them (feedback.confirmed)."""
+        from intelnet import feedback, network
+
+        for sig in new:
+            feedback.confirmed(network.settle_by_daily_total(sig))

@@ -20,7 +20,7 @@ from datetime import timedelta
 from typing import Any
 
 from intelnet import db, delivery, geo
-from intelnet.models import KIND_HUMAN, KIND_OFFICIAL, KIND_STATION, Signal, utcnow
+from intelnet.models import KIND_HUMAN, KIND_OFFICIAL, KIND_STATION, Signal, local_time, utcnow
 from intelnet.telegram import bot, esc, tg_time
 from intelnet.topics import find_metric, get_topic
 
@@ -78,6 +78,13 @@ def _source(ref: Signal) -> str:
         m = find_metric(ref.metric, get_topic(ref.topic))
         value = f" of {m.display(ref.value).split(' (')[0]}" if m and ref.value is not None else ""
         return f"the {esc(str(ref.evidence.get('label') or 'radar estimate'))}{esc(value)}"
+    if ref.evidence.get("kind") == "observer":         # CoCoRaHS: a volunteer's day total
+        m = find_metric(ref.metric, get_topic(ref.topic))
+        value = (f", {m.display(ref.value)} over the day to {local_time(ref.observed_at, '%-I %p')}"
+                 if m and ref.value is not None else "")
+        return f"a CoCoRaHS volunteer's gauge{esc(value)}"
+    if ref.evidence.get("kind") == "monitor":
+        return "an EPA air monitor"
     if ref.sensor_kind == KIND_OFFICIAL:
         return "an NWS storm report"
     if ref.sensor_kind == KIND_STATION:
