@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Livingston County, Illinois · Intelligence Network</title>
-<meta name="description" content="Live NWS alerts, weather radar and neighbors&#x27; readings for Livingston County, Illinois. Get Livingston County warnings in Telegram with one tap.">
+<meta name="description" content="Today&#x27;s forecast, live NWS alerts, weather radar, river levels, air quality and neighbors&#x27; readings for Livingston County, Illinois. Get Livingston County warnings in Telegram with one tap.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1F3EF">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0F1412">
 <link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Intelligence Network">
 <meta property="og:title" content="Livingston County, Illinois: live alerts and neighbors' readings">
-<meta property="og:description" content="Live NWS alerts, weather radar and neighbors&#x27; readings for Livingston County, Illinois. Get Livingston County warnings in Telegram with one tap.">
+<meta property="og:description" content="Today&#x27;s forecast, live NWS alerts, weather radar, river levels, air quality and neighbors&#x27; readings for Livingston County, Illinois. Get Livingston County warnings in Telegram with one tap.">
 <meta property="og:url" content="https://dram-dev.github.io/intelligence-network/county/livingston.html">
 <meta property="og:image" content="https://dram-dev.github.io/intelligence-network/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -99,6 +99,8 @@
   .sub span { font-size: 13px; color: var(--muted); }
   .sub.primary { background: var(--accent); border-color: var(--accent); }
   .sub.primary b, .sub.primary span { color: var(--accent-ink); }
+  .today p { margin: 7px 0; line-height: 1.45; max-width: 72ch; }
+  .today .src { font-size: 13px; margin-top: 12px; }
   .facts { width: 100%; border-collapse: collapse; font-size: 14.5px; }
   .facts td { padding: 7px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
   .facts td:last-child { text-align: right; font-family: var(--mono); font-size: 13.5px; white-space: nowrap; }
@@ -155,7 +157,7 @@
     <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Illinois</a> · Livingston County</nav>
     <h1>Livingston County</h1>
     <p class="status" id="status">No NWS alerts for Livingston County at the last snapshot.</p>
-    <p class="status-sub" id="status-sub">From the network snapshot of Wed 7 Oct, 2:28 AM CDT.</p>
+    <p class="status-sub" id="status-sub">From the network snapshot of Wed 7 Oct, 1:13 PM CDT.</p>
   </div>
 </header>
 <main class="wrap">
@@ -169,6 +171,7 @@
       <div id="alerts"><p class="muted">None in effect at the last snapshot.</p></div>
     </section>
   </div>
+  <section class="card today" aria-labelledby="today-h"><h2 id="today-h">Today in Livingston County</h2><p>☀️ <b>This Afternoon</b>: Sunny, high 82°F</p><p>🌙 <b>Tonight</b>: Mostly clear, low 51°F</p><p class="muted src">Forecast and rivers from the National Weather Service, air from EPA AirNow, rain from CoCoRaHS volunteers; as of Wed 7 Oct, 1:13 PM CDT. <a href="https://forecast.weather.gov/MapClick.php?lat=40.8944&amp;lon=-88.5529">The latest forecast</a></p></section>
   <section class="card" aria-labelledby="subs-h">
     <div class="join-grid">
       <div>
@@ -186,7 +189,7 @@
   </section>
   <section class="card" aria-labelledby="readings-h">
     <h2 id="readings-h">Readings here</h2>
-    <p class="muted">0 readings from people and 2,937 official readings here in the last 14 days.</p><p style="margin:10px 0 4px"><b>The last day</b></p><table class="facts"><tr><td>Dew point</td><td>42.6 °F to 48.6 °F</td></tr><tr><td>Relative humidity</td><td>30.7% to 98.9%</td></tr><tr><td>Pressure</td><td>29.92 inHg to 30.18 inHg</td></tr><tr><td>Rainfall</td><td>0.00 in</td></tr><tr><td>Temperature</td><td>44 °F to 75.7 °F</td></tr><tr><td>Visibility</td><td>10 mi</td></tr><tr><td>Sustained wind</td><td>0 mph to 12.7 mph</td></tr><tr><td>Streamflow</td><td>72.1 cfs to 85 cfs</td></tr><tr><td>Stage (gauge height)</td><td>3.1 ft to 3.17 ft</td></tr><tr><td>Wind gust</td><td>16.1 mph to 18.4 mph</td></tr></table>
+    <p class="muted">0 readings from people and 2,925 official readings here in the last 14 days.</p><p style="margin:10px 0 4px"><b>The last day</b></p><table class="facts"><tr><td>Pressure</td><td>29.87 inHg to 30.06 inHg</td></tr><tr><td>Rainfall</td><td>0.00 in</td></tr><tr><td>Visibility</td><td>10 mi</td></tr><tr><td>Sustained wind</td><td>0 mph to 11.5 mph</td></tr><tr><td>Dew point</td><td>42.6 °F to 56.3 °F</td></tr><tr><td>Streamflow</td><td>65.2 cfs to 79.3 cfs</td></tr><tr><td>Relative humidity</td><td>30.7% to 67.7%</td></tr><tr><td>Stage (gauge height)</td><td>3.06 ft to 3.14 ft</td></tr><tr><td>Temperature</td><td>57.2 °F to 76 °F</td></tr><tr><td>Wind gust</td><td>16.1 mph to 18.4 mph</td></tr></table>
   </section>
   <section class="card" aria-labelledby="near-h">
     <h2 id="near-h">Nearby counties</h2>
@@ -217,7 +220,7 @@
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-<script>window.COUNTY_DATA = {"fips": "17105", "name": "Livingston", "slug": "livingston", "local_tz": "America/Chicago", "generated_at": "2026-10-07T07:28:54+00:00", "alerts": [], "shapes": {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"fips": "17105", "name": "Livingston"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.931, 40.913], [-88.931, 41.106], [-88.251, 41.114], [-88.235, 40.618], [-88.575, 40.617], [-88.575, 40.671], [-88.582, 40.671], [-88.584, 40.758], [-88.929, 40.753], [-88.931, 40.913]]]}}, {"type": "Feature", "properties": {"fips": "17053", "name": "Ford"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.46, 40.417], [-88.46, 40.617], [-88.235, 40.618], [-88.247, 40.995], [-88.132, 40.998], [-88.118, 40.488], [-87.935, 40.486], [-87.932, 40.399], [-88.46, 40.399], [-88.46, 40.417]]]}}, {"type": "Feature", "properties": {"fips": "17063", "name": "Grundy"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.596, 41.457], [-88.252, 41.463], [-88.241, 41.114], [-88.586, 41.108], [-88.596, 41.457]]]}}, {"type": "Feature", "properties": {"fips": "17113", "name": "McLean"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.269, 40.594], [-89.134, 40.597], [-89.134, 40.611], [-89.101, 40.612], [-89.102, 40.625], [-89.044, 40.627], [-89.045, 40.664], [-88.985, 40.665], [-88.987, 40.752], [-88.584, 40.758], [-88.582, 40.671], [-88.575, 40.671], [-88.575, 40.617], [-88.46, 40.617], [-88.46, 40.282], [-89.263, 40.281], [-89.269, 40.594]]]}}, {"type": "Feature", "properties": {"fips": "17203", "name": "Woodford"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.564, 40.782], [-89.559, 40.799], [-89.527, 40.842], [-89.527, 40.853], [-89.499, 40.874], [-89.491, 40.894], [-89.472, 40.921], [-88.931, 40.928], [-88.929, 40.753], [-88.987, 40.752], [-88.985, 40.665], [-89.045, 40.664], [-89.044, 40.627], [-89.102, 40.625], [-89.101, 40.612], [-89.134, 40.611], [-89.134, 40.597], [-89.269, 40.594], [-89.27, 40.616], [-89.327, 40.616], [-89.33, 40.748], [-89.553, 40.748], [-89.564, 40.782]]]}}, {"type": "Feature", "properties": {"fips": "17099", "name": "LaSalle"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.167, 41.629], [-88.602, 41.631], [-88.586, 41.108], [-88.931, 41.106], [-88.931, 40.928], [-89.048, 40.926], [-89.047, 41.105], [-89.162, 41.104], [-89.167, 41.629]]]}}, {"type": "Feature", "properties": {"fips": "17075", "name": "Iroquois"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.131, 40.998], [-87.526, 41.01], [-87.526, 40.491], [-87.972, 40.486], [-88.118, 40.488], [-88.131, 40.998]]]}}]}};</script>
+<script>window.COUNTY_DATA = {"fips": "17105", "name": "Livingston", "slug": "livingston", "local_tz": "America/Chicago", "generated_at": "2026-10-07T18:13:47+00:00", "alerts": [], "shapes": {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"fips": "17105", "name": "Livingston"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.9315, 40.9135], [-88.9309, 41.1059], [-88.471, 41.1089], [-88.2515, 41.1142], [-88.2412, 40.8203], [-88.237, 40.675], [-88.2363, 40.675], [-88.235, 40.6182], [-88.3472, 40.617], [-88.4585, 40.6174], [-88.5745, 40.6165], [-88.5752, 40.6706], [-88.5823, 40.6707], [-88.5843, 40.7576], [-88.9293, 40.7533], [-88.9315, 40.9135]]]}}, {"type": "Feature", "properties": {"fips": "17053", "name": "Ford"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.4598, 40.4169], [-88.4595, 40.6173], [-88.3472, 40.617], [-88.235, 40.6182], [-88.2363, 40.675], [-88.237, 40.675], [-88.2473, 40.9946], [-88.2282, 40.9956], [-88.1319, 40.9978], [-88.1256, 40.7634], [-88.1224, 40.6767], [-88.1216, 40.6767], [-88.1183, 40.5752], [-88.1179, 40.4879], [-88.0041, 40.4887], [-87.9931, 40.4856], [-87.9353, 40.4859], [-87.9317, 40.3994], [-87.9903, 40.3992], [-88.0023, 40.4005], [-88.1174, 40.4006], [-88.347, 40.3984], [-88.46, 40.3988], [-88.4598, 40.4169]]]}}, {"type": "Feature", "properties": {"fips": "17063", "name": "Grundy"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.596, 41.4571], [-88.4817, 41.4579], [-88.2522, 41.4631], [-88.2409, 41.1144], [-88.471, 41.1089], [-88.5862, 41.1083], [-88.587, 41.2023], [-88.5885, 41.268], [-88.5936, 41.3697], [-88.596, 41.4571]]]}}, {"type": "Feature", "properties": {"fips": "17113", "name": "McLean"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.2694, 40.5943], [-89.1338, 40.5967], [-89.1342, 40.6115], [-89.1011, 40.6123], [-89.1016, 40.625], [-89.0822, 40.6268], [-89.0444, 40.6274], [-89.0453, 40.6639], [-88.9847, 40.665], [-88.9869, 40.7523], [-88.8719, 40.7543], [-88.5843, 40.7576], [-88.5823, 40.6707], [-88.5752, 40.6706], [-88.5745, 40.6165], [-88.4595, 40.6173], [-88.4592, 40.4862], [-88.4604, 40.2819], [-88.4795, 40.2818], [-88.4809, 40.2812], [-89.0542, 40.2831], [-89.2627, 40.2809], [-89.2665, 40.4856], [-89.2694, 40.5943]]]}}, {"type": "Feature", "properties": {"fips": "17203", "name": "Woodford"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.5636, 40.7821], [-89.5595, 40.7991], [-89.5515, 40.8095], [-89.5507, 40.8127], [-89.5481, 40.8163], [-89.5413, 40.8216], [-89.5393, 40.8274], [-89.5267, 40.8423], [-89.5286, 40.8459], [-89.5266, 40.8532], [-89.5248, 40.8541], [-89.524, 40.8567], [-89.5061, 40.8673], [-89.4988, 40.8741], [-89.4957, 40.8787], [-89.4924, 40.8864], [-89.4911, 40.8943], [-89.4886, 40.8988], [-89.4863, 40.8994], [-89.4805, 40.9077], [-89.4756, 40.9121], [-89.474, 40.9156], [-89.4736, 40.9196], [-89.4725, 40.9212], [-89.3903, 40.9219], [-89.1604, 40.9271], [-89.0477, 40.9257], [-88.9314, 40.9277], [-88.9293, 40.7533], [-88.9869, 40.7523], [-88.9847, 40.665], [-89.0453, 40.6639], [-89.0444, 40.6274], [-89.0822, 40.6268], [-89.1016, 40.625], [-89.1011, 40.6123], [-89.1342, 40.6115], [-89.1338, 40.5967], [-89.2694, 40.5943], [-89.2698, 40.6161], [-89.3273, 40.6156], [-89.3287, 40.6608], [-89.3296, 40.6608], [-89.3301, 40.7483], [-89.5534, 40.7476], [-89.556, 40.7534], [-89.5573, 40.7688], [-89.559, 40.7739], [-89.5636, 40.7821]]]}}, {"type": "Feature", "properties": {"fips": "17099", "name": "LaSalle"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.1672, 41.6287], [-89.052, 41.6267], [-88.9387, 41.6283], [-88.8182, 41.6314], [-88.7064, 41.6304], [-88.6022, 41.6314], [-88.6006, 41.5707], [-88.5993, 41.5556], [-88.5965, 41.4751], [-88.5936, 41.3697], [-88.5885, 41.268], [-88.587, 41.2023], [-88.5862, 41.1083], [-88.9309, 41.1059], [-88.9314, 40.9277], [-89.0477, 40.9257], [-89.0471, 40.9805], [-89.0474, 41.1048], [-89.1622, 41.104], [-89.1632, 41.28], [-89.1664, 41.4816], [-89.1672, 41.6287]]]}}, {"type": "Feature", "properties": {"fips": "17075", "name": "Iroquois"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.1311, 40.9979], [-88.002, 41.0001], [-87.8123, 41.0051], [-87.5263, 41.0103], [-87.5258, 40.8536], [-87.5264, 40.4912], [-87.6528, 40.4882], [-87.7635, 40.4882], [-87.9725, 40.4857], [-87.9931, 40.4856], [-88.0041, 40.4887], [-88.1179, 40.4879], [-88.1183, 40.5752], [-88.1216, 40.6767], [-88.1224, 40.6767], [-88.1256, 40.7634], [-88.1307, 40.9392], [-88.1319, 40.9978], [-88.1311, 40.9979]]]}}]}};</script>
 <script>
 (function () {
   const C = window.COUNTY_DATA || {};
@@ -243,9 +246,10 @@
       .attr('fill', f => f.properties.fips === C.fips ? tok('--surface', '#fff') : tok('--ground', '#f1f3ef'));
     const [w, n] = proj.invert([0, 0]), [e, s] = proj.invert([W, H]);
     const R = 6378137, x = (lon) => lon * Math.PI / 180 * R, y = (lat) => Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)) * R;
+    const k = Math.min(2, Math.max(1, (svg.node().getBoundingClientRect().width || W) * (window.devicePixelRatio || 1) / W));   // the screen's pixels
     svg.append('image').attr('x', 0).attr('y', 0).attr('width', W).attr('height', H).attr('opacity', .42).attr('preserveAspectRatio', 'none')
       .attr('href', 'https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-900913&STYLES=&SRS=EPSG:3857&BBOX='
-        + [x(w), y(s), x(e), y(n)].map(v => v.toFixed(0)).join(',') + '&WIDTH=' + W + '&HEIGHT=' + H + '&FORMAT=image/png&TRANSPARENT=true&t=' + Math.floor(Date.now() / 300000))
+        + [x(w), y(s), x(e), y(n)].map(v => v.toFixed(0)).join(',') + '&WIDTH=' + Math.round(W * k) + '&HEIGHT=' + Math.round(H * k) + '&FORMAT=image/png&TRANSPARENT=true&t=' + Math.floor(Date.now() / 300000))
       .on('error', function () { d3.select(this).remove(); });
     alertG = svg.append('g');
     svg.append('path').attr('d', path(C.shapes)).attr('fill', 'none').attr('stroke', tok('--line-strong', '#b9c3bc')).attr('stroke-width', 1);

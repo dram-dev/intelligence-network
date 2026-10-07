@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ogle County, Illinois · Intelligence Network</title>
-<meta name="description" content="Live NWS alerts, weather radar and neighbors&#x27; readings for Ogle County, Illinois. Get Ogle County warnings in Telegram with one tap.">
+<meta name="description" content="Today&#x27;s forecast, live NWS alerts, weather radar, river levels, air quality and neighbors&#x27; readings for Ogle County, Illinois. Get Ogle County warnings in Telegram with one tap.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1F3EF">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0F1412">
 <link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Intelligence Network">
 <meta property="og:title" content="Ogle County, Illinois: live alerts and neighbors' readings">
-<meta property="og:description" content="Live NWS alerts, weather radar and neighbors&#x27; readings for Ogle County, Illinois. Get Ogle County warnings in Telegram with one tap.">
+<meta property="og:description" content="Today&#x27;s forecast, live NWS alerts, weather radar, river levels, air quality and neighbors&#x27; readings for Ogle County, Illinois. Get Ogle County warnings in Telegram with one tap.">
 <meta property="og:url" content="https://dram-dev.github.io/intelligence-network/county/ogle.html">
 <meta property="og:image" content="https://dram-dev.github.io/intelligence-network/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -99,6 +99,8 @@
   .sub span { font-size: 13px; color: var(--muted); }
   .sub.primary { background: var(--accent); border-color: var(--accent); }
   .sub.primary b, .sub.primary span { color: var(--accent-ink); }
+  .today p { margin: 7px 0; line-height: 1.45; max-width: 72ch; }
+  .today .src { font-size: 13px; margin-top: 12px; }
   .facts { width: 100%; border-collapse: collapse; font-size: 14.5px; }
   .facts td { padding: 7px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
   .facts td:last-child { text-align: right; font-family: var(--mono); font-size: 13.5px; white-space: nowrap; }
@@ -155,7 +157,7 @@
     <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Illinois</a> · Ogle County</nav>
     <h1>Ogle County</h1>
     <p class="status" id="status">No NWS alerts for Ogle County at the last snapshot.</p>
-    <p class="status-sub" id="status-sub">From the network snapshot of Wed 7 Oct, 2:28 AM CDT.</p>
+    <p class="status-sub" id="status-sub">From the network snapshot of Wed 7 Oct, 1:13 PM CDT.</p>
   </div>
 </header>
 <main class="wrap">
@@ -169,6 +171,7 @@
       <div id="alerts"><p class="muted">None in effect at the last snapshot.</p></div>
     </section>
   </div>
+  <section class="card today" aria-labelledby="today-h"><h2 id="today-h">Today in Ogle County</h2><p>☀️ <b>This Afternoon</b>: Sunny, high 76°F</p><p>🌙 <b>Tonight</b>: Mostly clear, low 48°F</p><p class="muted src">Forecast and rivers from the National Weather Service, air from EPA AirNow, rain from CoCoRaHS volunteers; as of Wed 7 Oct, 1:13 PM CDT. <a href="https://forecast.weather.gov/MapClick.php?lat=42.0419&amp;lon=-89.3202">The latest forecast</a></p></section>
   <section class="card" aria-labelledby="subs-h">
     <div class="join-grid">
       <div>
@@ -186,7 +189,7 @@
   </section>
   <section class="card" aria-labelledby="readings-h">
     <h2 id="readings-h">Readings here</h2>
-    <p class="muted">0 readings from people and 943 official readings here in the last 14 days.</p><p style="margin:10px 0 4px"><b>The last day</b></p><table class="facts"><tr><td>Streamflow</td><td>9,790 cfs to 10,400 cfs</td></tr><tr><td>Water temperature</td><td>61.3 °F to 63.3 °F</td></tr><tr><td>Stage (gauge height)</td><td>8.46 ft to 8.68 ft</td></tr></table>
+    <p class="muted">0 readings from people and 945 official readings here in the last 14 days.</p><p style="margin:10px 0 4px"><b>The last day</b></p><table class="facts"><tr><td>Streamflow</td><td>9,550 cfs to 10,100 cfs</td></tr><tr><td>Water temperature</td><td>61.5 °F to 63.3 °F</td></tr><tr><td>Stage (gauge height)</td><td>8.37 ft to 8.58 ft</td></tr></table>
   </section>
   <section class="card" aria-labelledby="near-h">
     <h2 id="near-h">Nearby counties</h2>
@@ -217,7 +220,7 @@
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-<script>window.COUNTY_DATA = {"fips": "17141", "name": "Ogle", "slug": "ogle", "local_tz": "America/Chicago", "generated_at": "2026-10-07T07:28:54+00:00", "alerts": [], "shapes": {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"fips": "17141", "name": "Ogle"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.689, 42.199], [-89.173, 42.204], [-89.173, 42.15], [-88.94, 42.152], [-88.941, 41.892], [-89.361, 41.888], [-89.36, 41.903], [-89.399, 41.903], [-89.411, 41.895], [-89.413, 41.886], [-89.432, 41.894], [-89.422, 41.9], [-89.422, 41.906], [-89.465, 41.912], [-89.476, 41.909], [-89.48, 41.903], [-89.629, 41.902], [-89.629, 41.93], [-89.685, 41.93], [-89.689, 42.199]]]}}, {"type": "Feature", "properties": {"fips": "17103", "name": "Lee"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.632, 41.679], [-89.629, 41.902], [-89.48, 41.903], [-89.476, 41.909], [-89.465, 41.912], [-89.422, 41.906], [-89.422, 41.9], [-89.432, 41.894], [-89.413, 41.886], [-89.411, 41.895], [-89.399, 41.903], [-89.36, 41.903], [-89.361, 41.888], [-88.941, 41.892], [-88.939, 41.628], [-89.167, 41.629], [-89.167, 41.585], [-89.632, 41.585], [-89.632, 41.679]]]}}, {"type": "Feature", "properties": {"fips": "17201", "name": "Winnebago"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.401, 42.5], [-88.94, 42.495], [-88.94, 42.152], [-89.173, 42.15], [-89.173, 42.204], [-89.396, 42.202], [-89.401, 42.5]]]}}, {"type": "Feature", "properties": {"fips": "17177", "name": "Stephenson"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.927, 42.506], [-89.401, 42.5], [-89.396, 42.202], [-89.92, 42.197], [-89.927, 42.506]]]}}, {"type": "Feature", "properties": {"fips": "17037", "name": "DeKalb"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.942, 42.065], [-88.939, 42.065], [-88.94, 42.152], [-88.589, 42.154], [-88.588, 42.066], [-88.602, 42.066], [-88.602, 41.631], [-88.939, 41.628], [-88.942, 42.065]]]}}, {"type": "Feature", "properties": {"fips": "17015", "name": "Carroll"}, "geometry": {"type": "Polygon", "coordinates": [[[-90.317, 42.194], [-89.689, 42.199], [-89.685, 41.93], [-90.152, 41.929], [-90.164, 41.945], [-90.164, 41.956], [-90.146, 41.981], [-90.14, 42.003], [-90.152, 42.031], [-90.165, 42.042], [-90.168, 42.076], [-90.162, 42.099], [-90.163, 42.117], [-90.171, 42.125], [-90.191, 42.126], [-90.201, 42.131], [-90.207, 42.149], [-90.216, 42.157], [-90.317, 42.194]]]}}, {"type": "Feature", "properties": {"fips": "17007", "name": "Boone"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.941, 42.239], [-88.94, 42.495], [-88.707, 42.494], [-88.706, 42.154], [-88.94, 42.152], [-88.941, 42.239]]]}}]}};</script>
+<script>window.COUNTY_DATA = {"fips": "17141", "name": "Ogle", "slug": "ogle", "local_tz": "America/Chicago", "generated_at": "2026-10-07T18:13:47+00:00", "alerts": [], "shapes": {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"fips": "17141", "name": "Ogle"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.6885, 42.1991], [-89.6298, 42.2005], [-89.4545, 42.201], [-89.173, 42.2042], [-89.1728, 42.1504], [-88.9397, 42.1523], [-88.9389, 42.0651], [-88.9421, 42.065], [-88.9413, 41.8918], [-89.2834, 41.8879], [-89.3606, 41.888], [-89.3604, 41.9026], [-89.3987, 41.9028], [-89.3987, 41.9023], [-89.4021, 41.9023], [-89.4022, 41.9008], [-89.4054, 41.8974], [-89.4083, 41.8953], [-89.4111, 41.8947], [-89.4121, 41.8934], [-89.4112, 41.8876], [-89.4132, 41.8855], [-89.4148, 41.8856], [-89.4211, 41.8895], [-89.4318, 41.894], [-89.4317, 41.8952], [-89.43, 41.8969], [-89.4249, 41.8982], [-89.4222, 41.8999], [-89.4217, 41.9038], [-89.4224, 41.9056], [-89.4282, 41.9078], [-89.4346, 41.9073], [-89.4465, 41.9098], [-89.4548, 41.9099], [-89.4646, 41.9116], [-89.4715, 41.9113], [-89.4762, 41.9093], [-89.4791, 41.9056], [-89.48, 41.9025], [-89.6293, 41.9016], [-89.6289, 41.93], [-89.6854, 41.9303], [-89.6865, 41.9369], [-89.6853, 42.0243], [-89.6847, 42.0256], [-89.686, 42.112], [-89.6885, 42.1991]]]}}, {"type": "Feature", "properties": {"fips": "17103", "name": "Lee"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.6322, 41.6786], [-89.6293, 41.9016], [-89.48, 41.9025], [-89.4791, 41.9056], [-89.4762, 41.9093], [-89.4715, 41.9113], [-89.4646, 41.9116], [-89.4548, 41.9099], [-89.4465, 41.9098], [-89.4346, 41.9073], [-89.4282, 41.9078], [-89.4224, 41.9056], [-89.4217, 41.9038], [-89.4222, 41.8999], [-89.4249, 41.8982], [-89.43, 41.8969], [-89.4317, 41.8952], [-89.4318, 41.894], [-89.4211, 41.8895], [-89.4148, 41.8856], [-89.4132, 41.8855], [-89.4112, 41.8876], [-89.4121, 41.8934], [-89.4111, 41.8947], [-89.4083, 41.8953], [-89.4054, 41.8974], [-89.4022, 41.9008], [-89.4021, 41.9023], [-89.3987, 41.9023], [-89.3987, 41.9028], [-89.3604, 41.9026], [-89.3606, 41.888], [-89.2834, 41.8879], [-88.9413, 41.8918], [-88.9416, 41.7261], [-88.9413, 41.7172], [-88.9403, 41.7168], [-88.9387, 41.6283], [-89.052, 41.6267], [-89.1672, 41.6287], [-89.1666, 41.5853], [-89.6315, 41.5849], [-89.6322, 41.6786]]]}}, {"type": "Feature", "properties": {"fips": "17201", "name": "Winnebago"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.4014, 42.5004], [-89.2508, 42.498], [-88.9404, 42.495], [-88.9402, 42.3267], [-88.941, 42.2394], [-88.9397, 42.1523], [-89.1728, 42.1504], [-89.173, 42.2042], [-89.3962, 42.2019], [-89.3978, 42.3072], [-89.398, 42.3752], [-89.4014, 42.5004]]]}}, {"type": "Feature", "properties": {"fips": "17177", "name": "Stephenson"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.9265, 42.5058], [-89.6901, 42.5052], [-89.5225, 42.5019], [-89.4014, 42.5004], [-89.398, 42.3752], [-89.3978, 42.3072], [-89.3962, 42.2019], [-89.4545, 42.201], [-89.6298, 42.2005], [-89.7467, 42.198], [-89.8606, 42.198], [-89.8608, 42.1967], [-89.9198, 42.1969], [-89.921, 42.2839], [-89.9205, 42.2839], [-89.9236, 42.3567], [-89.9265, 42.5058]]]}}, {"type": "Feature", "properties": {"fips": "17037", "name": "DeKalb"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.9421, 42.065], [-88.9389, 42.0651], [-88.9397, 42.1523], [-88.7932, 42.1535], [-88.5887, 42.1536], [-88.5883, 42.0665], [-88.602, 42.0665], [-88.6013, 41.9815], [-88.6026, 41.8068], [-88.6019, 41.7196], [-88.6036, 41.7195], [-88.6022, 41.6314], [-88.7064, 41.6304], [-88.8182, 41.6314], [-88.9387, 41.6283], [-88.9403, 41.7168], [-88.9413, 41.7172], [-88.9416, 41.7261], [-88.9413, 41.8918], [-88.9421, 42.065]]]}}, {"type": "Feature", "properties": {"fips": "17015", "name": "Carroll"}, "geometry": {"type": "Polygon", "coordinates": [[[-90.3173, 42.1936], [-90.1555, 42.1968], [-89.8608, 42.1967], [-89.8606, 42.198], [-89.7467, 42.198], [-89.6885, 42.1991], [-89.686, 42.112], [-89.6847, 42.0256], [-89.6853, 42.0243], [-89.6865, 41.9369], [-89.6854, 41.9303], [-89.978, 41.9312], [-90.1518, 41.9289], [-90.1516, 41.931], [-90.1527, 41.9331], [-90.1638, 41.9449], [-90.1649, 41.9489], [-90.1641, 41.9562], [-90.1621, 41.9613], [-90.1538, 41.9741], [-90.1486, 41.9783], [-90.1462, 41.9813], [-90.146, 41.9881], [-90.1406, 41.996], [-90.1401, 42.0033], [-90.1412, 42.0089], [-90.1438, 42.0149], [-90.1481, 42.02], [-90.1516, 42.0306], [-90.1588, 42.0378], [-90.1634, 42.0404], [-90.1645, 42.0421], [-90.1656, 42.0626], [-90.1684, 42.0758], [-90.1634, 42.0876], [-90.1615, 42.0989], [-90.1612, 42.1064], [-90.1619, 42.1138], [-90.1629, 42.1167], [-90.1675, 42.1225], [-90.171, 42.1252], [-90.1905, 42.1258], [-90.1973, 42.1282], [-90.2014, 42.1309], [-90.2054, 42.1391], [-90.2074, 42.1491], [-90.2095, 42.1527], [-90.2161, 42.1567], [-90.2349, 42.1654], [-90.2501, 42.1715], [-90.2691, 42.1745], [-90.2822, 42.1788], [-90.2984, 42.1876], [-90.3173, 42.1936]]]}}, {"type": "Feature", "properties": {"fips": "17007", "name": "Boone"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.941, 42.2394], [-88.9402, 42.3267], [-88.9404, 42.495], [-88.7867, 42.492], [-88.7074, 42.4936], [-88.7059, 42.415], [-88.7056, 42.1535], [-88.9397, 42.1523], [-88.941, 42.2394]]]}}]}};</script>
 <script>
 (function () {
   const C = window.COUNTY_DATA || {};
@@ -243,9 +246,10 @@
       .attr('fill', f => f.properties.fips === C.fips ? tok('--surface', '#fff') : tok('--ground', '#f1f3ef'));
     const [w, n] = proj.invert([0, 0]), [e, s] = proj.invert([W, H]);
     const R = 6378137, x = (lon) => lon * Math.PI / 180 * R, y = (lat) => Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)) * R;
+    const k = Math.min(2, Math.max(1, (svg.node().getBoundingClientRect().width || W) * (window.devicePixelRatio || 1) / W));   // the screen's pixels
     svg.append('image').attr('x', 0).attr('y', 0).attr('width', W).attr('height', H).attr('opacity', .42).attr('preserveAspectRatio', 'none')
       .attr('href', 'https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-900913&STYLES=&SRS=EPSG:3857&BBOX='
-        + [x(w), y(s), x(e), y(n)].map(v => v.toFixed(0)).join(',') + '&WIDTH=' + W + '&HEIGHT=' + H + '&FORMAT=image/png&TRANSPARENT=true&t=' + Math.floor(Date.now() / 300000))
+        + [x(w), y(s), x(e), y(n)].map(v => v.toFixed(0)).join(',') + '&WIDTH=' + Math.round(W * k) + '&HEIGHT=' + Math.round(H * k) + '&FORMAT=image/png&TRANSPARENT=true&t=' + Math.floor(Date.now() / 300000))
       .on('error', function () { d3.select(this).remove(); });
     alertG = svg.append('g');
     svg.append('path').attr('d', path(C.shapes)).attr('fill', 'none').attr('stroke', tok('--line-strong', '#b9c3bc')).attr('stroke-width', 1);

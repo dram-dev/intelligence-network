@@ -1,5 +1,19 @@
 [
  {
+  "metric": "nothing_here",
+  "label": "All quiet",
+  "value": "",
+  "who": "s-1929c",
+  "official": false,
+  "quality": "raw",
+  "agree": "none",
+  "grid": null,
+  "zip5": null,
+  "lat": 40.4946,
+  "lon": -88.8445,
+  "at": "2026-10-07T13:02+00:00"
+ },
+ {
   "metric": "corn_basis",
   "label": "Corn basis",
   "value": "0 \u00a2",

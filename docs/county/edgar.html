@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Edgar County, Illinois · Intelligence Network</title>
-<meta name="description" content="Live NWS alerts, weather radar and neighbors&#x27; readings for Edgar County, Illinois. Get Edgar County warnings in Telegram with one tap.">
+<meta name="description" content="Today&#x27;s forecast, live NWS alerts, weather radar, river levels, air quality and neighbors&#x27; readings for Edgar County, Illinois. Get Edgar County warnings in Telegram with one tap.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1F3EF">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0F1412">
 <link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Intelligence Network">
 <meta property="og:title" content="Edgar County, Illinois: live alerts and neighbors' readings">
-<meta property="og:description" content="Live NWS alerts, weather radar and neighbors&#x27; readings for Edgar County, Illinois. Get Edgar County warnings in Telegram with one tap.">
+<meta property="og:description" content="Today&#x27;s forecast, live NWS alerts, weather radar, river levels, air quality and neighbors&#x27; readings for Edgar County, Illinois. Get Edgar County warnings in Telegram with one tap.">
 <meta property="og:url" content="https://dram-dev.github.io/intelligence-network/county/edgar.html">
 <meta property="og:image" content="https://dram-dev.github.io/intelligence-network/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -99,6 +99,8 @@
   .sub span { font-size: 13px; color: var(--muted); }
   .sub.primary { background: var(--accent); border-color: var(--accent); }
   .sub.primary b, .sub.primary span { color: var(--accent-ink); }
+  .today p { margin: 7px 0; line-height: 1.45; max-width: 72ch; }
+  .today .src { font-size: 13px; margin-top: 12px; }
   .facts { width: 100%; border-collapse: collapse; font-size: 14.5px; }
   .facts td { padding: 7px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
   .facts td:last-child { text-align: right; font-family: var(--mono); font-size: 13.5px; white-space: nowrap; }
@@ -155,7 +157,7 @@
     <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Illinois</a> · Edgar County</nav>
     <h1>Edgar County</h1>
     <p class="status" id="status">No NWS alerts for Edgar County at the last snapshot.</p>
-    <p class="status-sub" id="status-sub">From the network snapshot of Wed 7 Oct, 2:28 AM CDT.</p>
+    <p class="status-sub" id="status-sub">From the network snapshot of Wed 7 Oct, 1:13 PM CDT.</p>
   </div>
 </header>
 <main class="wrap">
@@ -169,6 +171,7 @@
       <div id="alerts"><p class="muted">None in effect at the last snapshot.</p></div>
     </section>
   </div>
+  <section class="card today" aria-labelledby="today-h"><h2 id="today-h">Today in Edgar County</h2><p>☀️ <b>This Afternoon</b>: Sunny, high 84°F</p><p>🌙 <b>Tonight</b>: Mostly clear, low 51°F</p><p class="muted src">Forecast and rivers from the National Weather Service, air from EPA AirNow, rain from CoCoRaHS volunteers; as of Wed 7 Oct, 1:13 PM CDT. <a href="https://forecast.weather.gov/MapClick.php?lat=39.6790&amp;lon=-87.7471">The latest forecast</a></p></section>
   <section class="card" aria-labelledby="subs-h">
     <div class="join-grid">
       <div>
@@ -186,7 +189,7 @@
   </section>
   <section class="card" aria-labelledby="readings-h">
     <h2 id="readings-h">Readings here</h2>
-    <p class="muted">0 readings from people and 2,333 official readings here in the last 14 days.</p><p style="margin:10px 0 4px"><b>The last day</b></p><table class="facts"><tr><td>Dew point</td><td>39.4 °F to 46.4 °F</td></tr><tr><td>Relative humidity</td><td>29% to 98.1%</td></tr><tr><td>Pressure</td><td>29.96 inHg to 30.20 inHg</td></tr><tr><td>Rainfall</td><td>0.00 in</td></tr><tr><td>Temperature</td><td>43 °F to 75 °F</td></tr><tr><td>Visibility</td><td>5 mi to 10 mi</td></tr><tr><td>Sustained wind</td><td>0 mph to 9.21 mph</td></tr></table>
+    <p class="muted">0 readings from people and 2,328 official readings here in the last 14 days.</p><p style="margin:10px 0 4px"><b>The last day</b></p><table class="facts"><tr><td>Dew point</td><td>39.4 °F to 52.3 °F</td></tr><tr><td>Relative humidity</td><td>29% to 80%</td></tr><tr><td>Pressure</td><td>29.89 inHg to 30.09 inHg</td></tr><tr><td>Rainfall</td><td>0.00 in</td></tr><tr><td>Temperature</td><td>49.6 °F to 81.7 °F</td></tr><tr><td>Visibility</td><td>10 mi</td></tr><tr><td>Sustained wind</td><td>4.6 mph to 13.8 mph</td></tr><tr><td>Wind gust</td><td>17.3 mph to 19.6 mph</td></tr></table>
   </section>
   <section class="card" aria-labelledby="near-h">
     <h2 id="near-h">Nearby counties</h2>
@@ -217,7 +220,7 @@
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-<script>window.COUNTY_DATA = {"fips": "17045", "name": "Edgar", "slug": "edgar", "local_tz": "America/Chicago", "generated_at": "2026-10-07T07:28:54+00:00", "alerts": [], "shapes": {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"fips": "17045", "name": "Edgar"}, "geometry": {"type": "Polygon", "coordinates": [[[-87.969, 39.792], [-87.937, 39.792], [-87.938, 39.88], [-87.615, 39.882], [-87.617, 39.869], [-87.558, 39.869], [-87.582, 39.882], [-87.533, 39.883], [-87.532, 39.477], [-87.689, 39.477], [-87.688, 39.487], [-87.96, 39.481], [-87.969, 39.792]]]}}, {"type": "Feature", "properties": {"fips": "17023", "name": "Clark"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.014, 39.481], [-87.688, 39.487], [-87.689, 39.477], [-87.532, 39.477], [-87.532, 39.348], [-87.544, 39.353], [-87.554, 39.34], [-87.585, 39.337], [-87.606, 39.311], [-87.621, 39.304], [-87.598, 39.3], [-87.61, 39.281], [-87.602, 39.275], [-87.605, 39.26], [-87.594, 39.248], [-87.581, 39.255], [-87.571, 39.251], [-87.579, 39.244], [-87.577, 39.211], [-87.605, 39.186], [-87.62, 39.185], [-87.621, 39.17], [-87.64, 39.167], [-87.641, 39.16], [-87.629, 39.157], [-87.657, 39.158], [-87.657, 39.172], [-87.747, 39.172], [-87.746, 39.179], [-88.008, 39.174], [-88.014, 39.481]]]}}, {"type": "Feature", "properties": {"fips": "17041", "name": "Douglas"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.473, 39.792], [-88.462, 39.792], [-88.462, 39.879], [-87.938, 39.88], [-87.937, 39.792], [-87.969, 39.792], [-87.966, 39.686], [-88.063, 39.681], [-88.064, 39.653], [-88.472, 39.652], [-88.473, 39.792]]]}}, {"type": "Feature", "properties": {"fips": "17029", "name": "Coles"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.472, 39.652], [-88.064, 39.653], [-88.063, 39.681], [-87.966, 39.686], [-87.96, 39.481], [-88.014, 39.481], [-88.012, 39.379], [-88.471, 39.374], [-88.472, 39.652]]]}}, {"type": "Feature", "properties": {"fips": "17183", "name": "Vermilion"}, "geometry": {"type": "Polygon", "coordinates": [[[-87.942, 40.225], [-87.929, 40.226], [-87.935, 40.486], [-87.526, 40.491], [-87.533, 39.883], [-87.582, 39.882], [-87.558, 39.869], [-87.617, 39.869], [-87.615, 39.882], [-87.938, 39.88], [-87.942, 40.225]]]}}, {"type": "Feature", "properties": {"fips": "17035", "name": "Cumberland"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.471, 39.356], [-88.471, 39.374], [-88.012, 39.379], [-88.008, 39.174], [-88.471, 39.172], [-88.471, 39.356]]]}}, {"type": "Feature", "properties": {"fips": "17019", "name": "Champaign"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.464, 40.223], [-88.46, 40.399], [-87.932, 40.399], [-87.929, 40.226], [-87.942, 40.225], [-87.938, 39.88], [-88.462, 39.879], [-88.464, 40.223]]]}}]}};</script>
+<script>window.COUNTY_DATA = {"fips": "17045", "name": "Edgar", "slug": "edgar", "local_tz": "America/Chicago", "generated_at": "2026-10-07T18:13:47+00:00", "alerts": [], "shapes": {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"fips": "17045", "name": "Edgar"}, "geometry": {"type": "Polygon", "coordinates": [[[-87.9688, 39.7924], [-87.937, 39.7924], [-87.9376, 39.8798], [-87.6152, 39.8816], [-87.6174, 39.8686], [-87.5575, 39.8688], [-87.5817, 39.8823], [-87.5332, 39.883], [-87.5317, 39.4771], [-87.6893, 39.4768], [-87.6876, 39.4874], [-87.7928, 39.4855], [-87.9039, 39.4819], [-87.9602, 39.4813], [-87.9646, 39.5982], [-87.9688, 39.7924]]]}}, {"type": "Feature", "properties": {"fips": "17023", "name": "Clark"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.0139, 39.4808], [-87.9039, 39.4819], [-87.7928, 39.4855], [-87.6876, 39.4874], [-87.6893, 39.4768], [-87.5317, 39.4771], [-87.5316, 39.3481], [-87.5324, 39.3479], [-87.5373, 39.3521], [-87.544, 39.3529], [-87.5459, 39.3521], [-87.5495, 39.3477], [-87.5503, 39.3433], [-87.5544, 39.3405], [-87.5607, 39.3389], [-87.5741, 39.3414], [-87.5849, 39.3373], [-87.5891, 39.3338], [-87.5967, 39.322], [-87.6007, 39.3185], [-87.6059, 39.3111], [-87.6126, 39.3086], [-87.6205, 39.3071], [-87.6212, 39.3042], [-87.619, 39.3017], [-87.615, 39.3009], [-87.6053, 39.3032], [-87.5984, 39.3001], [-87.5973, 39.297], [-87.5999, 39.2936], [-87.6088, 39.2867], [-87.6099, 39.2814], [-87.6094, 39.2785], [-87.6073, 39.2762], [-87.6019, 39.2752], [-87.6015, 39.2722], [-87.6056, 39.2624], [-87.6049, 39.2602], [-87.5981, 39.2541], [-87.5935, 39.2475], [-87.5911, 39.2473], [-87.5872, 39.2496], [-87.5852, 39.2531], [-87.5807, 39.2552], [-87.5734, 39.2546], [-87.5713, 39.2514], [-87.5731, 39.2467], [-87.5782, 39.2448], [-87.5793, 39.2436], [-87.5776, 39.2392], [-87.5746, 39.2184], [-87.577, 39.2111], [-87.585, 39.2053], [-87.5866, 39.1996], [-87.5942, 39.1949], [-87.6001, 39.1934], [-87.603, 39.1913], [-87.6052, 39.1859], [-87.611, 39.1841], [-87.6186, 39.1864], [-87.6204, 39.1852], [-87.6214, 39.1789], [-87.6208, 39.1748], [-87.6194, 39.1721], [-87.6205, 39.1703], [-87.625, 39.1693], [-87.6365, 39.1688], [-87.6404, 39.1667], [-87.6421, 39.1625], [-87.6414, 39.1604], [-87.6374, 39.159], [-87.6304, 39.1583], [-87.6294, 39.1575], [-87.657, 39.1579], [-87.6569, 39.1722], [-87.7471, 39.1724], [-87.7462, 39.1792], [-88.0078, 39.1739], [-88.0139, 39.4808]]]}}, {"type": "Feature", "properties": {"fips": "17041", "name": "Douglas"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.4732, 39.7918], [-88.4623, 39.7918], [-88.4622, 39.8791], [-88.2364, 39.8791], [-88.1227, 39.8802], [-88.0095, 39.8794], [-87.9376, 39.8798], [-87.937, 39.7924], [-87.9688, 39.7924], [-87.9663, 39.686], [-88.0262, 39.6849], [-88.0262, 39.6817], [-88.063, 39.6813], [-88.0635, 39.6527], [-88.1008, 39.652], [-88.4721, 39.6516], [-88.4732, 39.7918]]]}}, {"type": "Feature", "properties": {"fips": "17029", "name": "Coles"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.4721, 39.6516], [-88.1008, 39.652], [-88.0635, 39.6527], [-88.063, 39.6813], [-88.0262, 39.6817], [-88.0262, 39.6849], [-87.9663, 39.686], [-87.9646, 39.5982], [-87.9602, 39.4813], [-88.0139, 39.4808], [-88.0121, 39.379], [-88.0265, 39.3786], [-88.0265, 39.3775], [-88.1402, 39.3762], [-88.1785, 39.375], [-88.4342, 39.3744], [-88.4532, 39.3736], [-88.4708, 39.3745], [-88.4704, 39.4326], [-88.4721, 39.6516]]]}}, {"type": "Feature", "properties": {"fips": "17183", "name": "Vermilion"}, "geometry": {"type": "Polygon", "coordinates": [[[-87.9421, 40.2255], [-87.9288, 40.2256], [-87.93, 40.3134], [-87.9324, 40.3994], [-87.9317, 40.3994], [-87.9353, 40.4859], [-87.7635, 40.4882], [-87.6528, 40.4882], [-87.5264, 40.4912], [-87.5315, 40.148], [-87.5332, 39.883], [-87.5817, 39.8823], [-87.5575, 39.8688], [-87.6174, 39.8686], [-87.6152, 39.8816], [-87.9376, 39.8798], [-87.9392, 40.0545], [-87.9421, 40.2255]]]}}, {"type": "Feature", "properties": {"fips": "17035", "name": "Cumberland"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.4712, 39.3562], [-88.4708, 39.3745], [-88.4532, 39.3736], [-88.4342, 39.3744], [-88.1785, 39.375], [-88.1402, 39.3762], [-88.0265, 39.3775], [-88.0265, 39.3786], [-88.0121, 39.379], [-88.0078, 39.1739], [-88.1677, 39.1716], [-88.4709, 39.1715], [-88.4712, 39.3562]]]}}, {"type": "Feature", "properties": {"fips": "17019", "name": "Champaign"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.4636, 40.2233], [-88.4607, 40.2233], [-88.46, 40.3988], [-88.347, 40.3984], [-88.1174, 40.4006], [-88.0023, 40.4005], [-87.9903, 40.3992], [-87.9324, 40.3994], [-87.93, 40.3134], [-87.9288, 40.2256], [-87.9421, 40.2255], [-87.9392, 40.0545], [-87.9376, 39.8798], [-88.0095, 39.8794], [-88.1227, 39.8802], [-88.2364, 39.8791], [-88.4622, 39.8791], [-88.4636, 40.2233]]]}}]}};</script>
 <script>
 (function () {
   const C = window.COUNTY_DATA || {};
@@ -243,9 +246,10 @@
       .attr('fill', f => f.properties.fips === C.fips ? tok('--surface', '#fff') : tok('--ground', '#f1f3ef'));
     const [w, n] = proj.invert([0, 0]), [e, s] = proj.invert([W, H]);
     const R = 6378137, x = (lon) => lon * Math.PI / 180 * R, y = (lat) => Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)) * R;
+    const k = Math.min(2, Math.max(1, (svg.node().getBoundingClientRect().width || W) * (window.devicePixelRatio || 1) / W));   // the screen's pixels
     svg.append('image').attr('x', 0).attr('y', 0).attr('width', W).attr('height', H).attr('opacity', .42).attr('preserveAspectRatio', 'none')
       .attr('href', 'https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-900913&STYLES=&SRS=EPSG:3857&BBOX='
-        + [x(w), y(s), x(e), y(n)].map(v => v.toFixed(0)).join(',') + '&WIDTH=' + W + '&HEIGHT=' + H + '&FORMAT=image/png&TRANSPARENT=true&t=' + Math.floor(Date.now() / 300000))
+        + [x(w), y(s), x(e), y(n)].map(v => v.toFixed(0)).join(',') + '&WIDTH=' + Math.round(W * k) + '&HEIGHT=' + Math.round(H * k) + '&FORMAT=image/png&TRANSPARENT=true&t=' + Math.floor(Date.now() / 300000))
       .on('error', function () { d3.select(this).remove(); });
     alertG = svg.append('g');
     svg.append('path').attr('d', path(C.shapes)).attr('fill', 'none').attr('stroke', tok('--line-strong', '#b9c3bc')).attr('stroke-width', 1);

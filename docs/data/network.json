@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-07T07:28:54+00:00",
+ "generated_at": "2026-10-07T18:13:47+00:00",
  "sample": false,
  "days": 14,
  "network_name": "Intelligence Network",
@@ -17,13 +17,13 @@
  },
  "vitals": {
   "sensors_total": 2,
-  "sensors_active_24h": 0,
+  "sensors_active_24h": 1,
   "sensors_active_7d": 2,
-  "signals_24h_human": 0,
-  "signals_24h_reference": 18682,
+  "signals_24h_human": 1,
+  "signals_24h_reference": 19632,
   "corroborated_7d": 1,
   "flagged_7d": 0,
-  "human_7d": 2,
+  "human_7d": 3,
   "events_open": 0,
   "events_24h": 0,
   "alerts_active": 0,
@@ -32,21 +32,22 @@
   "counties_total": 102,
   "counties_covered_7d": 1,
   "counties_reference_7d": 89,
-  "corroboration_rate_7d": 0.5
+  "corroboration_rate_7d": 0.3333333333333333
  },
  "feeds": {
-  "airnow": "2026-10-07T06:39:57+00:00",
-  "ams_grain": "2026-10-07T03:14:06+00:00",
-  "iem_asos": "2026-10-07T06:39:56+00:00",
-  "iem_lsr": "2026-10-07T07:25:06+00:00",
+  "airnow": "2026-10-07T17:42:22+00:00",
+  "ams_grain": "2026-10-07T15:16:49+00:00",
+  "cocorahs": "2026-10-07T18:02:26+00:00",
+  "iem_asos": "2026-10-07T17:42:21+00:00",
+  "iem_lsr": "2026-10-07T18:07:26+00:00",
   "news": "2026-10-07T07:23:40+00:00",
   "nrcs_scan": "2026-10-07T04:49:30+00:00",
-  "nws_alerts": "2026-10-07T07:28:24+00:00",
+  "nws_alerts": "2026-10-07T18:13:32+00:00",
   "nws_statements": "2026-10-07T07:23:42+00:00",
-  "pipeline": "2026-10-06T06:37:44+00:00",
-  "usdm": "2026-10-06T11:34:47+00:00",
-  "usgs_quake": "2026-10-07T07:25:06+00:00",
-  "usgs_water": "2026-10-07T07:25:08+00:00"
+  "pipeline": "2026-10-07T07:29:06+00:00",
+  "usdm": "2026-10-07T07:35:09+00:00",
+  "usgs_quake": "2026-10-07T18:13:07+00:00",
+  "usgs_water": "2026-10-07T17:27:19+00:00"
  },
  "reference_sizes": {
   "airnow": 40,

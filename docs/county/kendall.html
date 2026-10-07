@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kendall County, Illinois · Intelligence Network</title>
-<meta name="description" content="Live NWS alerts, weather radar and neighbors&#x27; readings for Kendall County, Illinois. Get Kendall County warnings in Telegram with one tap.">
+<meta name="description" content="Today&#x27;s forecast, live NWS alerts, weather radar, river levels, air quality and neighbors&#x27; readings for Kendall County, Illinois. Get Kendall County warnings in Telegram with one tap.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1F3EF">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0F1412">
 <link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Intelligence Network">
 <meta property="og:title" content="Kendall County, Illinois: live alerts and neighbors' readings">
-<meta property="og:description" content="Live NWS alerts, weather radar and neighbors&#x27; readings for Kendall County, Illinois. Get Kendall County warnings in Telegram with one tap.">
+<meta property="og:description" content="Today&#x27;s forecast, live NWS alerts, weather radar, river levels, air quality and neighbors&#x27; readings for Kendall County, Illinois. Get Kendall County warnings in Telegram with one tap.">
 <meta property="og:url" content="https://dram-dev.github.io/intelligence-network/county/kendall.html">
 <meta property="og:image" content="https://dram-dev.github.io/intelligence-network/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -99,6 +99,8 @@
   .sub span { font-size: 13px; color: var(--muted); }
   .sub.primary { background: var(--accent); border-color: var(--accent); }
   .sub.primary b, .sub.primary span { color: var(--accent-ink); }
+  .today p { margin: 7px 0; line-height: 1.45; max-width: 72ch; }
+  .today .src { font-size: 13px; margin-top: 12px; }
   .facts { width: 100%; border-collapse: collapse; font-size: 14.5px; }
   .facts td { padding: 7px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
   .facts td:last-child { text-align: right; font-family: var(--mono); font-size: 13.5px; white-space: nowrap; }
@@ -155,7 +157,7 @@
     <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Illinois</a> · Kendall County</nav>
     <h1>Kendall County</h1>
     <p class="status" id="status">No NWS alerts for Kendall County at the last snapshot.</p>
-    <p class="status-sub" id="status-sub">From the network snapshot of Wed 7 Oct, 2:28 AM CDT.</p>
+    <p class="status-sub" id="status-sub">From the network snapshot of Wed 7 Oct, 1:13 PM CDT.</p>
   </div>
 </header>
 <main class="wrap">
@@ -169,6 +171,7 @@
       <div id="alerts"><p class="muted">None in effect at the last snapshot.</p></div>
     </section>
   </div>
+  <section class="card today" aria-labelledby="today-h"><h2 id="today-h">Today in Kendall County</h2><p>☀️ <b>This Afternoon</b>: Sunny, high 78°F</p><p>🌙 <b>Tonight</b>: Mostly clear, low 49°F</p><p>🌫 <b>Air</b>: PM2.5 5.9 µg/m³ (AQI 33, good) in Will County · Ozone 36 ppb (AQI 33, good) in Cook County</p><p class="muted src">Forecast and rivers from the National Weather Service, air from EPA AirNow, rain from CoCoRaHS volunteers; as of Wed 7 Oct, 1:13 PM CDT. <a href="https://forecast.weather.gov/MapClick.php?lat=41.5881&amp;lon=-88.4306">The latest forecast</a></p></section>
   <section class="card" aria-labelledby="subs-h">
     <div class="join-grid">
       <div>
@@ -186,7 +189,7 @@
   </section>
   <section class="card" aria-labelledby="readings-h">
     <h2 id="readings-h">Readings here</h2>
-    <p class="muted">0 readings from people and 2,549 official readings here in the last 14 days.</p><p style="margin:10px 0 4px"><b>The last day</b></p><table class="facts"><tr><td>Stage (gauge height)</td><td>4.57 ft to 13.6 ft</td></tr><tr><td>Streamflow</td><td>40.7 cfs to 3,330 cfs</td></tr></table>
+    <p class="muted">0 readings from people and 2,547 official readings here in the last 14 days.</p><p style="margin:10px 0 4px"><b>The last day</b></p><table class="facts"><tr><td>Stage (gauge height)</td><td>4.51 ft to 13.6 ft</td></tr><tr><td>Streamflow</td><td>37.8 cfs to 3,250 cfs</td></tr></table>
   </section>
   <section class="card" aria-labelledby="near-h">
     <h2 id="near-h">Nearby counties</h2>
@@ -217,7 +220,7 @@
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-<script>window.COUNTY_DATA = {"fips": "17093", "name": "Kendall", "slug": "kendall", "local_tz": "America/Chicago", "generated_at": "2026-10-07T07:28:54+00:00", "alerts": [], "shapes": {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"fips": "17093", "name": "Kendall"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.604, 41.719], [-88.261, 41.725], [-88.252, 41.463], [-88.596, 41.457], [-88.604, 41.719]]]}}, {"type": "Feature", "properties": {"fips": "17063", "name": "Grundy"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.596, 41.457], [-88.252, 41.463], [-88.241, 41.114], [-88.586, 41.108], [-88.596, 41.457]]]}}, {"type": "Feature", "properties": {"fips": "17089", "name": "Kane"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.603, 41.807], [-88.602, 42.066], [-88.588, 42.066], [-88.589, 42.154], [-88.238, 42.154], [-88.238, 42.067], [-88.264, 42.067], [-88.262, 41.725], [-88.602, 41.72], [-88.603, 41.807]]]}}, {"type": "Feature", "properties": {"fips": "17197", "name": "Will"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.261, 41.725], [-88.03, 41.729], [-88.028, 41.642], [-87.912, 41.644], [-87.909, 41.557], [-87.793, 41.559], [-87.79, 41.47], [-87.526, 41.47], [-87.527, 41.298], [-88.014, 41.292], [-88.012, 41.206], [-88.244, 41.202], [-88.261, 41.725]]]}}, {"type": "Feature", "properties": {"fips": "17043", "name": "DuPage"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.263, 41.982], [-88.263, 41.986], [-87.921, 41.994], [-87.914, 41.717], [-87.921, 41.716], [-87.948, 41.695], [-87.967, 41.687], [-88.029, 41.685], [-88.03, 41.729], [-88.262, 41.725], [-88.263, 41.982]]]}}, {"type": "Feature", "properties": {"fips": "17037", "name": "DeKalb"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.942, 42.065], [-88.939, 42.065], [-88.94, 42.152], [-88.589, 42.154], [-88.588, 42.066], [-88.602, 42.066], [-88.602, 41.631], [-88.939, 41.628], [-88.942, 42.065]]]}}, {"type": "Feature", "properties": {"fips": "17099", "name": "LaSalle"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.167, 41.629], [-88.602, 41.631], [-88.586, 41.108], [-88.931, 41.106], [-88.931, 40.928], [-89.048, 40.926], [-89.047, 41.105], [-89.162, 41.104], [-89.167, 41.629]]]}}]}};</script>
+<script>window.COUNTY_DATA = {"fips": "17093", "name": "Kendall", "slug": "kendall", "local_tz": "America/Chicago", "generated_at": "2026-10-07T18:13:47+00:00", "alerts": [], "shapes": {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"fips": "17093", "name": "Kendall"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.6036, 41.7195], [-88.2613, 41.7247], [-88.2594, 41.6435], [-88.2522, 41.4631], [-88.4817, 41.4579], [-88.596, 41.4571], [-88.5993, 41.5556], [-88.6006, 41.5707], [-88.6036, 41.7195]]]}}, {"type": "Feature", "properties": {"fips": "17063", "name": "Grundy"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.596, 41.4571], [-88.4817, 41.4579], [-88.2522, 41.4631], [-88.2409, 41.1144], [-88.471, 41.1089], [-88.5862, 41.1083], [-88.587, 41.2023], [-88.5885, 41.268], [-88.5936, 41.3697], [-88.596, 41.4571]]]}}, {"type": "Feature", "properties": {"fips": "17089", "name": "Kane"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.6026, 41.8068], [-88.6013, 41.9094], [-88.602, 42.0665], [-88.5883, 42.0665], [-88.5887, 42.1536], [-88.2478, 42.1536], [-88.2384, 42.1542], [-88.2382, 42.067], [-88.2636, 42.0669], [-88.262, 41.7247], [-88.6019, 41.7196], [-88.6026, 41.8068]]]}}, {"type": "Feature", "properties": {"fips": "17197", "name": "Will"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.2613, 41.7247], [-88.1506, 41.7261], [-88.0304, 41.7289], [-88.0277, 41.6415], [-87.9119, 41.6439], [-87.9094, 41.5568], [-87.7928, 41.5585], [-87.7921, 41.5383], [-87.7904, 41.5396], [-87.7903, 41.4698], [-87.5257, 41.4703], [-87.5267, 41.2981], [-87.7817, 41.2959], [-88.0139, 41.2924], [-88.0118, 41.2055], [-88.2441, 41.2016], [-88.2501, 41.4045], [-88.2594, 41.6435], [-88.2613, 41.7247]]]}}, {"type": "Feature", "properties": {"fips": "17043", "name": "DuPage"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.2629, 41.9824], [-88.2629, 41.9864], [-88.1451, 41.9882], [-88.0314, 41.9925], [-87.9205, 41.9939], [-87.9205, 41.8678], [-87.9194, 41.854], [-87.9198, 41.8405], [-87.9176, 41.8039], [-87.9143, 41.7166], [-87.9211, 41.7164], [-87.9247, 41.7132], [-87.927, 41.7127], [-87.9301, 41.7102], [-87.9342, 41.7085], [-87.9366, 41.7054], [-87.9421, 41.7027], [-87.9422, 41.6991], [-87.9478, 41.6951], [-87.9554, 41.6931], [-87.9667, 41.6867], [-87.9718, 41.6872], [-87.9754, 41.6865], [-87.9794, 41.6873], [-87.9822, 41.6861], [-88.029, 41.6852], [-88.0304, 41.7289], [-88.1506, 41.7261], [-88.262, 41.7247], [-88.2628, 41.8128], [-88.2629, 41.9824]]]}}, {"type": "Feature", "properties": {"fips": "17037", "name": "DeKalb"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.9421, 42.065], [-88.9389, 42.0651], [-88.9397, 42.1523], [-88.7932, 42.1535], [-88.5887, 42.1536], [-88.5883, 42.0665], [-88.602, 42.0665], [-88.6013, 41.9815], [-88.6026, 41.8068], [-88.6019, 41.7196], [-88.6036, 41.7195], [-88.6022, 41.6314], [-88.7064, 41.6304], [-88.8182, 41.6314], [-88.9387, 41.6283], [-88.9403, 41.7168], [-88.9413, 41.7172], [-88.9416, 41.7261], [-88.9413, 41.8918], [-88.9421, 42.065]]]}}, {"type": "Feature", "properties": {"fips": "17099", "name": "LaSalle"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.1672, 41.6287], [-89.052, 41.6267], [-88.9387, 41.6283], [-88.8182, 41.6314], [-88.7064, 41.6304], [-88.6022, 41.6314], [-88.6006, 41.5707], [-88.5993, 41.5556], [-88.5965, 41.4751], [-88.5936, 41.3697], [-88.5885, 41.268], [-88.587, 41.2023], [-88.5862, 41.1083], [-88.9309, 41.1059], [-88.9314, 40.9277], [-89.0477, 40.9257], [-89.0471, 40.9805], [-89.0474, 41.1048], [-89.1622, 41.104], [-89.1632, 41.28], [-89.1664, 41.4816], [-89.1672, 41.6287]]]}}]}};</script>
 <script>
 (function () {
   const C = window.COUNTY_DATA || {};
@@ -243,9 +246,10 @@
       .attr('fill', f => f.properties.fips === C.fips ? tok('--surface', '#fff') : tok('--ground', '#f1f3ef'));
     const [w, n] = proj.invert([0, 0]), [e, s] = proj.invert([W, H]);
     const R = 6378137, x = (lon) => lon * Math.PI / 180 * R, y = (lat) => Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)) * R;
+    const k = Math.min(2, Math.max(1, (svg.node().getBoundingClientRect().width || W) * (window.devicePixelRatio || 1) / W));   // the screen's pixels
     svg.append('image').attr('x', 0).attr('y', 0).attr('width', W).attr('height', H).attr('opacity', .42).attr('preserveAspectRatio', 'none')
       .attr('href', 'https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-900913&STYLES=&SRS=EPSG:3857&BBOX='
-        + [x(w), y(s), x(e), y(n)].map(v => v.toFixed(0)).join(',') + '&WIDTH=' + W + '&HEIGHT=' + H + '&FORMAT=image/png&TRANSPARENT=true&t=' + Math.floor(Date.now() / 300000))
+        + [x(w), y(s), x(e), y(n)].map(v => v.toFixed(0)).join(',') + '&WIDTH=' + Math.round(W * k) + '&HEIGHT=' + Math.round(H * k) + '&FORMAT=image/png&TRANSPARENT=true&t=' + Math.floor(Date.now() / 300000))
       .on('error', function () { d3.select(this).remove(); });
     alertG = svg.append('g');
     svg.append('path').attr('d', path(C.shapes)).attr('fill', 'none').attr('stroke', tok('--line-strong', '#b9c3bc')).attr('stroke-width', 1);

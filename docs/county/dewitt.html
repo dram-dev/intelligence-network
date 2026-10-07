@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>De Witt County, Illinois · Intelligence Network</title>
-<meta name="description" content="Live NWS alerts, weather radar and neighbors&#x27; readings for De Witt County, Illinois. Get De Witt County warnings in Telegram with one tap.">
+<meta name="description" content="Today&#x27;s forecast, live NWS alerts, weather radar, river levels, air quality and neighbors&#x27; readings for De Witt County, Illinois. Get De Witt County warnings in Telegram with one tap.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1F3EF">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0F1412">
 <link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Intelligence Network">
 <meta property="og:title" content="De Witt County, Illinois: live alerts and neighbors' readings">
-<meta property="og:description" content="Live NWS alerts, weather radar and neighbors&#x27; readings for De Witt County, Illinois. Get De Witt County warnings in Telegram with one tap.">
+<meta property="og:description" content="Today&#x27;s forecast, live NWS alerts, weather radar, river levels, air quality and neighbors&#x27; readings for De Witt County, Illinois. Get De Witt County warnings in Telegram with one tap.">
 <meta property="og:url" content="https://dram-dev.github.io/intelligence-network/county/dewitt.html">
 <meta property="og:image" content="https://dram-dev.github.io/intelligence-network/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -99,6 +99,8 @@
   .sub span { font-size: 13px; color: var(--muted); }
   .sub.primary { background: var(--accent); border-color: var(--accent); }
   .sub.primary b, .sub.primary span { color: var(--accent-ink); }
+  .today p { margin: 7px 0; line-height: 1.45; max-width: 72ch; }
+  .today .src { font-size: 13px; margin-top: 12px; }
   .facts { width: 100%; border-collapse: collapse; font-size: 14.5px; }
   .facts td { padding: 7px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
   .facts td:last-child { text-align: right; font-family: var(--mono); font-size: 13.5px; white-space: nowrap; }
@@ -155,7 +157,7 @@
     <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Illinois</a> · De Witt County</nav>
     <h1>De Witt County</h1>
     <p class="status" id="status">No NWS alerts for De Witt County at the last snapshot.</p>
-    <p class="status-sub" id="status-sub">From the network snapshot of Wed 7 Oct, 2:28 AM CDT.</p>
+    <p class="status-sub" id="status-sub">From the network snapshot of Wed 7 Oct, 1:13 PM CDT.</p>
   </div>
 </header>
 <main class="wrap">
@@ -169,6 +171,7 @@
       <div id="alerts"><p class="muted">None in effect at the last snapshot.</p></div>
     </section>
   </div>
+  <section class="card today" aria-labelledby="today-h"><h2 id="today-h">Today in De Witt County</h2><p>☀️ <b>This Afternoon</b>: Sunny, high 82°F</p><p>🌙 <b>Tonight</b>: Mostly clear, low 52°F</p><p>🌫 <b>Air</b>: PM2.5 6.9 µg/m³ (AQI 38, good) · Ozone 49 ppb (AQI 45, good) in Macon County</p><p class="muted src">Forecast and rivers from the National Weather Service, air from EPA AirNow, rain from CoCoRaHS volunteers; as of Wed 7 Oct, 1:13 PM CDT. <a href="https://forecast.weather.gov/MapClick.php?lat=40.1815&amp;lon=-88.9018">The latest forecast</a></p></section>
   <section class="card" aria-labelledby="subs-h">
     <div class="join-grid">
       <div>
@@ -186,7 +189,7 @@
   </section>
   <section class="card" aria-labelledby="readings-h">
     <h2 id="readings-h">Readings here</h2>
-    <p class="muted">0 readings from people and 2,545 official readings here in the last 14 days.</p><p style="margin:10px 0 4px"><b>The last day</b></p><table class="facts"><tr><td>Streamflow</td><td>8.02 cfs to 24.5 cfs</td></tr><tr><td>Water temperature</td><td>57.6 °F to 68.4 °F</td></tr><tr><td>Stage (gauge height)</td><td>2.51 ft to 9.13 ft</td></tr></table>
+    <p class="muted">0 readings from people and 2,538 official readings here in the last 14 days.</p><p style="margin:10px 0 4px"><b>The last day</b></p><table class="facts"><tr><td>Streamflow</td><td>13.2 cfs to 25.1 cfs</td></tr><tr><td>Water temperature</td><td>58.5 °F to 68.4 °F</td></tr><tr><td>Stage (gauge height)</td><td>2.49 ft to 9.13 ft</td></tr></table>
   </section>
   <section class="card" aria-labelledby="near-h">
     <h2 id="near-h">Nearby counties</h2>
@@ -217,7 +220,7 @@
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-<script>window.COUNTY_DATA = {"fips": "17039", "name": "De Witt", "slug": "dewitt", "local_tz": "America/Chicago", "generated_at": "2026-10-07T07:28:54+00:00", "alerts": [], "shapes": {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"fips": "17039", "name": "De Witt"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.149, 40.282], [-88.575, 40.282], [-88.688, 40.142], [-88.688, 40.099], [-88.745, 40.099], [-88.745, 40.055], [-89.145, 40.049], [-89.149, 40.282]]]}}, {"type": "Feature", "properties": {"fips": "17147", "name": "Piatt"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.746, 39.858], [-88.745, 40.099], [-88.688, 40.099], [-88.688, 40.142], [-88.575, 40.282], [-88.46, 40.282], [-88.462, 39.792], [-88.746, 39.792], [-88.746, 39.858]]]}}, {"type": "Feature", "properties": {"fips": "17113", "name": "McLean"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.269, 40.594], [-89.134, 40.597], [-89.134, 40.611], [-89.101, 40.612], [-89.102, 40.625], [-89.044, 40.627], [-89.045, 40.664], [-88.985, 40.665], [-88.987, 40.752], [-88.584, 40.758], [-88.582, 40.671], [-88.575, 40.671], [-88.575, 40.617], [-88.46, 40.617], [-88.46, 40.282], [-89.263, 40.281], [-89.269, 40.594]]]}}, {"type": "Feature", "properties": {"fips": "17115", "name": "Macon"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.218, 39.917], [-89.144, 39.918], [-89.145, 40.049], [-88.745, 40.055], [-88.746, 39.792], [-88.759, 39.792], [-88.758, 39.74], [-88.813, 39.74], [-88.811, 39.653], [-89.139, 39.655], [-89.142, 39.801], [-89.151, 39.801], [-89.151, 39.805], [-89.161, 39.805], [-89.188, 39.818], [-89.218, 39.814], [-89.218, 39.917]]]}}, {"type": "Feature", "properties": {"fips": "17107", "name": "Logan"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.604, 40.218], [-89.603, 40.32], [-89.264, 40.325], [-89.263, 40.281], [-89.149, 40.282], [-89.144, 39.918], [-89.405, 39.918], [-89.405, 39.933], [-89.484, 39.933], [-89.484, 39.977], [-89.578, 39.976], [-89.579, 40.092], [-89.601, 40.092], [-89.604, 40.218]]]}}, {"type": "Feature", "properties": {"fips": "17019", "name": "Champaign"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.464, 40.223], [-88.46, 40.399], [-87.932, 40.399], [-87.929, 40.226], [-87.942, 40.225], [-87.938, 39.88], [-88.462, 39.879], [-88.464, 40.223]]]}}, {"type": "Feature", "properties": {"fips": "17179", "name": "Tazewell"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.918, 40.438], [-89.888, 40.475], [-89.882, 40.505], [-89.854, 40.523], [-89.775, 40.553], [-89.741, 40.551], [-89.697, 40.562], [-89.681, 40.552], [-89.668, 40.559], [-89.654, 40.574], [-89.658, 40.603], [-89.612, 40.647], [-89.611, 40.652], [-89.617, 40.658], [-89.614, 40.665], [-89.592, 40.684], [-89.554, 40.702], [-89.546, 40.723], [-89.553, 40.748], [-89.33, 40.748], [-89.327, 40.616], [-89.27, 40.616], [-89.264, 40.325], [-89.715, 40.319], [-89.717, 40.436], [-89.925, 40.436], [-89.918, 40.438]]]}}]}};</script>
+<script>window.COUNTY_DATA = {"fips": "17039", "name": "De Witt", "slug": "dewitt", "local_tz": "America/Chicago", "generated_at": "2026-10-07T18:13:47+00:00", "alerts": [], "shapes": {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"fips": "17039", "name": "De Witt"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.1488, 40.282], [-88.9774, 40.2832], [-88.9195, 40.2829], [-88.9196, 40.2823], [-88.8044, 40.2827], [-88.5749, 40.2815], [-88.688, 40.1423], [-88.6882, 40.0986], [-88.7453, 40.0988], [-88.7452, 40.0552], [-88.8033, 40.0553], [-88.9182, 40.0532], [-89.0291, 40.0498], [-89.1448, 40.0489], [-89.1488, 40.282]]]}}, {"type": "Feature", "properties": {"fips": "17147", "name": "Piatt"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.746, 39.8581], [-88.7451, 39.9676], [-88.7453, 40.0988], [-88.6882, 40.0986], [-88.688, 40.1423], [-88.5749, 40.2815], [-88.4809, 40.2812], [-88.4795, 40.2818], [-88.4604, 40.2819], [-88.4607, 40.2233], [-88.4636, 40.2233], [-88.4623, 39.7918], [-88.7457, 39.7921], [-88.746, 39.8581]]]}}, {"type": "Feature", "properties": {"fips": "17113", "name": "McLean"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.2694, 40.5943], [-89.1338, 40.5967], [-89.1342, 40.6115], [-89.1011, 40.6123], [-89.1016, 40.625], [-89.0822, 40.6268], [-89.0444, 40.6274], [-89.0453, 40.6639], [-88.9847, 40.665], [-88.9869, 40.7523], [-88.8719, 40.7543], [-88.5843, 40.7576], [-88.5823, 40.6707], [-88.5752, 40.6706], [-88.5745, 40.6165], [-88.4595, 40.6173], [-88.4592, 40.4862], [-88.4604, 40.2819], [-88.4795, 40.2818], [-88.4809, 40.2812], [-89.0542, 40.2831], [-89.2627, 40.2809], [-89.2665, 40.4856], [-89.2694, 40.5943]]]}}, {"type": "Feature", "properties": {"fips": "17115", "name": "Macon"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.2178, 39.917], [-89.1435, 39.9176], [-89.1448, 40.0489], [-89.0291, 40.0498], [-88.9182, 40.0532], [-88.8033, 40.0553], [-88.7452, 40.0552], [-88.7457, 39.7921], [-88.7587, 39.7921], [-88.7578, 39.7399], [-88.8127, 39.7405], [-88.8106, 39.6532], [-88.9211, 39.6527], [-89.0257, 39.6546], [-89.1391, 39.6551], [-89.142, 39.8013], [-89.1515, 39.8012], [-89.1515, 39.8048], [-89.1607, 39.8047], [-89.1607, 39.8054], [-89.1652, 39.808], [-89.1689, 39.8095], [-89.1703, 39.8119], [-89.1799, 39.8119], [-89.1799, 39.8154], [-89.1846, 39.816], [-89.1882, 39.8175], [-89.1893, 39.8175], [-89.1892, 39.8155], [-89.2128, 39.8155], [-89.2128, 39.8137], [-89.2175, 39.8137], [-89.2178, 39.917]]]}}, {"type": "Feature", "properties": {"fips": "17107", "name": "Logan"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.6036, 40.2184], [-89.601, 40.2184], [-89.603, 40.3203], [-89.2637, 40.3253], [-89.2627, 40.2809], [-89.1488, 40.2825], [-89.146, 40.1364], [-89.1435, 39.9176], [-89.2405, 39.9169], [-89.405, 39.9182], [-89.405, 39.9327], [-89.4835, 39.9332], [-89.4838, 39.9767], [-89.5783, 39.9761], [-89.5794, 40.0488], [-89.5787, 40.0488], [-89.5791, 40.0924], [-89.6011, 40.0923], [-89.6036, 40.2184]]]}}, {"type": "Feature", "properties": {"fips": "17019", "name": "Champaign"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.4636, 40.2233], [-88.4607, 40.2233], [-88.46, 40.3988], [-88.347, 40.3984], [-88.1174, 40.4006], [-88.0023, 40.4005], [-87.9903, 40.3992], [-87.9324, 40.3994], [-87.93, 40.3134], [-87.9288, 40.2256], [-87.9421, 40.2255], [-87.9392, 40.0545], [-87.9376, 39.8798], [-88.0095, 39.8794], [-88.1227, 39.8802], [-88.2364, 39.8791], [-88.4622, 39.8791], [-88.4636, 40.2233]]]}}, {"type": "Feature", "properties": {"fips": "17179", "name": "Tazewell"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.9184, 40.4379], [-89.9143, 40.4403], [-89.9064, 40.4478], [-89.9042, 40.4577], [-89.8988, 40.4651], [-89.8879, 40.4747], [-89.8876, 40.4807], [-89.8844, 40.5], [-89.8822, 40.5054], [-89.8751, 40.5117], [-89.8541, 40.5229], [-89.8337, 40.5303], [-89.8228, 40.5364], [-89.8136, 40.5406], [-89.7842, 40.5493], [-89.7754, 40.5527], [-89.7678, 40.553], [-89.7459, 40.5505], [-89.7414, 40.5509], [-89.7071, 40.5576], [-89.7023, 40.5609], [-89.6971, 40.562], [-89.6918, 40.5604], [-89.6888, 40.5584], [-89.6852, 40.5535], [-89.6811, 40.5523], [-89.6751, 40.5542], [-89.6679, 40.5593], [-89.6576, 40.5684], [-89.6543, 40.5742], [-89.6539, 40.5785], [-89.6588, 40.5892], [-89.6597, 40.5929], [-89.66, 40.5977], [-89.658, 40.6026], [-89.643, 40.6173], [-89.6287, 40.6287], [-89.6247, 40.6336], [-89.6171, 40.64], [-89.6124, 40.6465], [-89.6111, 40.649], [-89.611, 40.6523], [-89.6165, 40.6583], [-89.6164, 40.6608], [-89.6138, 40.6651], [-89.6035, 40.6749], [-89.5919, 40.6845], [-89.5819, 40.6893], [-89.5759, 40.6934], [-89.5672, 40.6963], [-89.5582, 40.6981], [-89.5536, 40.7023], [-89.5493, 40.7128], [-89.5464, 40.723], [-89.5496, 40.73], [-89.5495, 40.7357], [-89.5534, 40.7476], [-89.3301, 40.7483], [-89.3296, 40.6608], [-89.3287, 40.6608], [-89.3273, 40.6156], [-89.2698, 40.6161], [-89.2665, 40.4856], [-89.2637, 40.3253], [-89.3774, 40.3241], [-89.5449, 40.3208], [-89.7149, 40.3192], [-89.7171, 40.4357], [-89.8285, 40.4344], [-89.8662, 40.4357], [-89.9247, 40.4359], [-89.9184, 40.4379]]]}}]}};</script>
 <script>
 (function () {
   const C = window.COUNTY_DATA || {};
@@ -243,9 +246,10 @@
       .attr('fill', f => f.properties.fips === C.fips ? tok('--surface', '#fff') : tok('--ground', '#f1f3ef'));
     const [w, n] = proj.invert([0, 0]), [e, s] = proj.invert([W, H]);
     const R = 6378137, x = (lon) => lon * Math.PI / 180 * R, y = (lat) => Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)) * R;
+    const k = Math.min(2, Math.max(1, (svg.node().getBoundingClientRect().width || W) * (window.devicePixelRatio || 1) / W));   // the screen's pixels
     svg.append('image').attr('x', 0).attr('y', 0).attr('width', W).attr('height', H).attr('opacity', .42).attr('preserveAspectRatio', 'none')
       .attr('href', 'https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-900913&STYLES=&SRS=EPSG:3857&BBOX='
-        + [x(w), y(s), x(e), y(n)].map(v => v.toFixed(0)).join(',') + '&WIDTH=' + W + '&HEIGHT=' + H + '&FORMAT=image/png&TRANSPARENT=true&t=' + Math.floor(Date.now() / 300000))
+        + [x(w), y(s), x(e), y(n)].map(v => v.toFixed(0)).join(',') + '&WIDTH=' + Math.round(W * k) + '&HEIGHT=' + Math.round(H * k) + '&FORMAT=image/png&TRANSPARENT=true&t=' + Math.floor(Date.now() / 300000))
       .on('error', function () { d3.select(this).remove(); });
     alertG = svg.append('g');
     svg.append('path').attr('d', path(C.shapes)).attr('fill', 'none').attr('stroke', tok('--line-strong', '#b9c3bc')).attr('stroke-width', 1);

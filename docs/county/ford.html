@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ford County, Illinois · Intelligence Network</title>
-<meta name="description" content="Live NWS alerts, weather radar and neighbors&#x27; readings for Ford County, Illinois. Get Ford County warnings in Telegram with one tap.">
+<meta name="description" content="Today&#x27;s forecast, live NWS alerts, weather radar, river levels, air quality and neighbors&#x27; readings for Ford County, Illinois. Get Ford County warnings in Telegram with one tap.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F1F3EF">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0F1412">
 <link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Intelligence Network">
 <meta property="og:title" content="Ford County, Illinois: live alerts and neighbors' readings">
-<meta property="og:description" content="Live NWS alerts, weather radar and neighbors&#x27; readings for Ford County, Illinois. Get Ford County warnings in Telegram with one tap.">
+<meta property="og:description" content="Today&#x27;s forecast, live NWS alerts, weather radar, river levels, air quality and neighbors&#x27; readings for Ford County, Illinois. Get Ford County warnings in Telegram with one tap.">
 <meta property="og:url" content="https://dram-dev.github.io/intelligence-network/county/ford.html">
 <meta property="og:image" content="https://dram-dev.github.io/intelligence-network/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -99,6 +99,8 @@
   .sub span { font-size: 13px; color: var(--muted); }
   .sub.primary { background: var(--accent); border-color: var(--accent); }
   .sub.primary b, .sub.primary span { color: var(--accent-ink); }
+  .today p { margin: 7px 0; line-height: 1.45; max-width: 72ch; }
+  .today .src { font-size: 13px; margin-top: 12px; }
   .facts { width: 100%; border-collapse: collapse; font-size: 14.5px; }
   .facts td { padding: 7px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
   .facts td:last-child { text-align: right; font-family: var(--mono); font-size: 13.5px; white-space: nowrap; }
@@ -155,7 +157,7 @@
     <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Illinois</a> · Ford County</nav>
     <h1>Ford County</h1>
     <p class="status" id="status">No NWS alerts for Ford County at the last snapshot.</p>
-    <p class="status-sub" id="status-sub">From the network snapshot of Wed 7 Oct, 2:28 AM CDT.</p>
+    <p class="status-sub" id="status-sub">From the network snapshot of Wed 7 Oct, 1:13 PM CDT.</p>
   </div>
 </header>
 <main class="wrap">
@@ -169,6 +171,7 @@
       <div id="alerts"><p class="muted">None in effect at the last snapshot.</p></div>
     </section>
   </div>
+  <section class="card today" aria-labelledby="today-h"><h2 id="today-h">Today in Ford County</h2><p>☀️ <b>This Afternoon</b>: Sunny, high 81°F, wind WNW 10–15 mph</p><p>🌙 <b>Tonight</b>: Mostly clear, low 51°F</p><p>🌫 <b>Air</b>: Ozone 49 ppb (AQI 45, good) in Champaign County</p><p class="muted src">Forecast and rivers from the National Weather Service, air from EPA AirNow, rain from CoCoRaHS volunteers; as of Wed 7 Oct, 1:13 PM CDT. <a href="https://forecast.weather.gov/MapClick.php?lat=40.5965&amp;lon=-88.2246">The latest forecast</a></p></section>
   <section class="card" aria-labelledby="subs-h">
     <div class="join-grid">
       <div>
@@ -217,7 +220,7 @@
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-<script>window.COUNTY_DATA = {"fips": "17053", "name": "Ford", "slug": "ford", "local_tz": "America/Chicago", "generated_at": "2026-10-07T07:28:54+00:00", "alerts": [], "shapes": {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"fips": "17053", "name": "Ford"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.46, 40.417], [-88.46, 40.617], [-88.235, 40.618], [-88.247, 40.995], [-88.132, 40.998], [-88.118, 40.488], [-87.935, 40.486], [-87.932, 40.399], [-88.46, 40.399], [-88.46, 40.417]]]}}, {"type": "Feature", "properties": {"fips": "17075", "name": "Iroquois"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.131, 40.998], [-87.526, 41.01], [-87.526, 40.491], [-87.972, 40.486], [-88.118, 40.488], [-88.131, 40.998]]]}}, {"type": "Feature", "properties": {"fips": "17105", "name": "Livingston"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.931, 40.913], [-88.931, 41.106], [-88.251, 41.114], [-88.235, 40.618], [-88.575, 40.617], [-88.575, 40.671], [-88.582, 40.671], [-88.584, 40.758], [-88.929, 40.753], [-88.931, 40.913]]]}}, {"type": "Feature", "properties": {"fips": "17019", "name": "Champaign"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.464, 40.223], [-88.46, 40.399], [-87.932, 40.399], [-87.929, 40.226], [-87.942, 40.225], [-87.938, 39.88], [-88.462, 39.879], [-88.464, 40.223]]]}}, {"type": "Feature", "properties": {"fips": "17113", "name": "McLean"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.269, 40.594], [-89.134, 40.597], [-89.134, 40.611], [-89.101, 40.612], [-89.102, 40.625], [-89.044, 40.627], [-89.045, 40.664], [-88.985, 40.665], [-88.987, 40.752], [-88.584, 40.758], [-88.582, 40.671], [-88.575, 40.671], [-88.575, 40.617], [-88.46, 40.617], [-88.46, 40.282], [-89.263, 40.281], [-89.269, 40.594]]]}}, {"type": "Feature", "properties": {"fips": "17183", "name": "Vermilion"}, "geometry": {"type": "Polygon", "coordinates": [[[-87.942, 40.225], [-87.929, 40.226], [-87.935, 40.486], [-87.526, 40.491], [-87.533, 39.883], [-87.582, 39.882], [-87.558, 39.869], [-87.617, 39.869], [-87.615, 39.882], [-87.938, 39.88], [-87.942, 40.225]]]}}, {"type": "Feature", "properties": {"fips": "17091", "name": "Kankakee"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.251, 41.114], [-88.241, 41.114], [-88.244, 41.202], [-88.012, 41.206], [-88.014, 41.292], [-87.527, 41.298], [-87.526, 41.01], [-88.247, 40.995], [-88.251, 41.114]]]}}]}};</script>
+<script>window.COUNTY_DATA = {"fips": "17053", "name": "Ford", "slug": "ford", "local_tz": "America/Chicago", "generated_at": "2026-10-07T18:13:47+00:00", "alerts": [], "shapes": {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"fips": "17053", "name": "Ford"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.4598, 40.4169], [-88.4595, 40.6173], [-88.3472, 40.617], [-88.235, 40.6182], [-88.2363, 40.675], [-88.237, 40.675], [-88.2473, 40.9946], [-88.2282, 40.9956], [-88.1319, 40.9978], [-88.1256, 40.7634], [-88.1224, 40.6767], [-88.1216, 40.6767], [-88.1183, 40.5752], [-88.1179, 40.4879], [-88.0041, 40.4887], [-87.9931, 40.4856], [-87.9353, 40.4859], [-87.9317, 40.3994], [-87.9903, 40.3992], [-88.0023, 40.4005], [-88.1174, 40.4006], [-88.347, 40.3984], [-88.46, 40.3988], [-88.4598, 40.4169]]]}}, {"type": "Feature", "properties": {"fips": "17075", "name": "Iroquois"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.1311, 40.9979], [-88.002, 41.0001], [-87.8123, 41.0051], [-87.5263, 41.0103], [-87.5258, 40.8536], [-87.5264, 40.4912], [-87.6528, 40.4882], [-87.7635, 40.4882], [-87.9725, 40.4857], [-87.9931, 40.4856], [-88.0041, 40.4887], [-88.1179, 40.4879], [-88.1183, 40.5752], [-88.1216, 40.6767], [-88.1224, 40.6767], [-88.1256, 40.7634], [-88.1307, 40.9392], [-88.1319, 40.9978], [-88.1311, 40.9979]]]}}, {"type": "Feature", "properties": {"fips": "17105", "name": "Livingston"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.9315, 40.9135], [-88.9309, 41.1059], [-88.471, 41.1089], [-88.2515, 41.1142], [-88.2412, 40.8203], [-88.237, 40.675], [-88.2363, 40.675], [-88.235, 40.6182], [-88.3472, 40.617], [-88.4585, 40.6174], [-88.5745, 40.6165], [-88.5752, 40.6706], [-88.5823, 40.6707], [-88.5843, 40.7576], [-88.9293, 40.7533], [-88.9315, 40.9135]]]}}, {"type": "Feature", "properties": {"fips": "17019", "name": "Champaign"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.4636, 40.2233], [-88.4607, 40.2233], [-88.46, 40.3988], [-88.347, 40.3984], [-88.1174, 40.4006], [-88.0023, 40.4005], [-87.9903, 40.3992], [-87.9324, 40.3994], [-87.93, 40.3134], [-87.9288, 40.2256], [-87.9421, 40.2255], [-87.9392, 40.0545], [-87.9376, 39.8798], [-88.0095, 39.8794], [-88.1227, 39.8802], [-88.2364, 39.8791], [-88.4622, 39.8791], [-88.4636, 40.2233]]]}}, {"type": "Feature", "properties": {"fips": "17113", "name": "McLean"}, "geometry": {"type": "Polygon", "coordinates": [[[-89.2694, 40.5943], [-89.1338, 40.5967], [-89.1342, 40.6115], [-89.1011, 40.6123], [-89.1016, 40.625], [-89.0822, 40.6268], [-89.0444, 40.6274], [-89.0453, 40.6639], [-88.9847, 40.665], [-88.9869, 40.7523], [-88.8719, 40.7543], [-88.5843, 40.7576], [-88.5823, 40.6707], [-88.5752, 40.6706], [-88.5745, 40.6165], [-88.4595, 40.6173], [-88.4592, 40.4862], [-88.4604, 40.2819], [-88.4795, 40.2818], [-88.4809, 40.2812], [-89.0542, 40.2831], [-89.2627, 40.2809], [-89.2665, 40.4856], [-89.2694, 40.5943]]]}}, {"type": "Feature", "properties": {"fips": "17183", "name": "Vermilion"}, "geometry": {"type": "Polygon", "coordinates": [[[-87.9421, 40.2255], [-87.9288, 40.2256], [-87.93, 40.3134], [-87.9324, 40.3994], [-87.9317, 40.3994], [-87.9353, 40.4859], [-87.7635, 40.4882], [-87.6528, 40.4882], [-87.5264, 40.4912], [-87.5315, 40.148], [-87.5332, 39.883], [-87.5817, 39.8823], [-87.5575, 39.8688], [-87.6174, 39.8686], [-87.6152, 39.8816], [-87.9376, 39.8798], [-87.9392, 40.0545], [-87.9421, 40.2255]]]}}, {"type": "Feature", "properties": {"fips": "17091", "name": "Kankakee"}, "geometry": {"type": "Polygon", "coordinates": [[[-88.2515, 41.1142], [-88.2409, 41.1144], [-88.2441, 41.2016], [-88.0118, 41.2055], [-88.0139, 41.2924], [-87.7817, 41.2959], [-87.5267, 41.2981], [-87.5263, 41.0103], [-87.8123, 41.0051], [-88.002, 41.0001], [-88.2282, 40.9956], [-88.2473, 40.9946], [-88.2515, 41.1142]]]}}]}};</script>
 <script>
 (function () {
   const C = window.COUNTY_DATA || {};
@@ -243,9 +246,10 @@
       .attr('fill', f => f.properties.fips === C.fips ? tok('--surface', '#fff') : tok('--ground', '#f1f3ef'));
     const [w, n] = proj.invert([0, 0]), [e, s] = proj.invert([W, H]);
     const R = 6378137, x = (lon) => lon * Math.PI / 180 * R, y = (lat) => Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)) * R;
+    const k = Math.min(2, Math.max(1, (svg.node().getBoundingClientRect().width || W) * (window.devicePixelRatio || 1) / W));   // the screen's pixels
     svg.append('image').attr('x', 0).attr('y', 0).attr('width', W).attr('height', H).attr('opacity', .42).attr('preserveAspectRatio', 'none')
       .attr('href', 'https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-900913&STYLES=&SRS=EPSG:3857&BBOX='
-        + [x(w), y(s), x(e), y(n)].map(v => v.toFixed(0)).join(',') + '&WIDTH=' + W + '&HEIGHT=' + H + '&FORMAT=image/png&TRANSPARENT=true&t=' + Math.floor(Date.now() / 300000))
+        + [x(w), y(s), x(e), y(n)].map(v => v.toFixed(0)).join(',') + '&WIDTH=' + Math.round(W * k) + '&HEIGHT=' + Math.round(H * k) + '&FORMAT=image/png&TRANSPARENT=true&t=' + Math.floor(Date.now() / 300000))
       .on('error', function () { d3.select(this).remove(); });
     alertG = svg.append('g');
     svg.append('path').attr('d', path(C.shapes)).attr('fill', 'none').attr('stroke', tok('--line-strong', '#b9c3bc')).attr('stroke-width', 1);
