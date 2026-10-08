@@ -69,15 +69,16 @@ class Palette:
     alert_alpha: tuple[int, int]        # a watch or advisory's tint, a warning's
 
 
-# The site's topic colours (site/index.fragment.html tokens), dark and light. The dark ground
-# and land are lighter than the cards' (whose radar wants them dark): on the cards' 1.15:1 the
-# state sank into its surroundings on a phone; this is 1.5:1, with water, rivers and county
-# lines lifted to keep their contrast on it.
+# The site's topic colours (site/index.fragment.html tokens), dark and light. The state stands
+# off its ground in both: the dark land is lighter than the cards' (whose radar wants it dark),
+# 1.5:1 where the cards' 1.15:1 sank into its surroundings on a phone; the light land is toned,
+# 1.35:1 on the white page where it was 1.12:1. Water, rivers and county lines move with the land
+# to keep their contrast on it.
 DARK = Palette((10, 12, 14), (44, 52, 58), (40, 74, 94), (56, 108, 136), (76, 90, 86),
                TEXT, TEXT_DIM, HALO, TEXT, (16, 20, 23),
                {"weather": "#5FB4C0", "soil": "#C08A5A", "water": "#7FA6E8", "agriculture": "#8BBF63",
                 "air": "#B1A2E3", "quake": "#E5786A", "nature": "#D9C45A", "markets": "#D28CC8"}, (46, 86))
-LIGHT = Palette((255, 255, 255), (241, 243, 239), (213, 226, 234), (123, 160, 191), (206, 213, 208),
+LIGHT = Palette((255, 255, 255), (218, 223, 216), (202, 219, 232), (108, 148, 182), (186, 194, 189),
                 (26, 31, 28), (91, 101, 95), (255, 255, 255), (26, 31, 28), (255, 255, 255),
                 {"weather": "#1D6E7A", "soil": "#7A4E24", "water": "#2B5FAD", "agriculture": "#4F7F2F",
                  "air": "#6E5E9A", "quake": "#B33A2B", "nature": "#8A7A1F", "markets": "#8E4585"}, (52, 92))

@@ -340,7 +340,8 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   "Across Illinois" is the map's labelled readings; a story's further headlines (`more`)
   stay out of "Also worth reading". The picture's ▲ is sized from the font's digits.
 - **The digest's map** (the Google Doc and the site's digest.html): `daymap.LIGHT`, the same
-  picture in the site's light colours on white (prints, sits on the page), drawn by
+  picture in the site's light colours on white (prints, sits on the page; the state toned 1.35:1
+  off the white, where 1.12:1 all but vanished, 8 Oct), drawn by
   `digest.build` from a fresh `notable.build()` (`model.day`, `model.picture`; both kept out of
   the narrative's JSON) and embedded as a base64 `data:` image, shown at 384×480 px in the Doc
   (4 × 5 in) and 432×540 on the site (Drive's HTML import keeps it, sized, and the PDF/Word

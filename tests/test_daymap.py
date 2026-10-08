@@ -81,10 +81,11 @@ def test_the_pictures_draw_finer_rivers_than_the_app_downloads():
 
 
 def test_the_state_stands_off_its_ground():
-    """The dark map's Illinois reads against what's around it (at 1.15:1 it sank, 8 Oct)."""
+    """Illinois reads against what's around it on either map (dark 1.15:1 and light 1.12:1 sank, 8 Oct)."""
     def luminance(rgb: tuple[int, int, int]) -> float:
         lin = [(c / 255 / 12.92) if c <= 10 else ((c / 255 + 0.055) / 1.055) ** 2.4 for c in rgb]
         return 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2]
 
-    land, ground = luminance(daymap.DARK.land), luminance(daymap.DARK.ground)
-    assert (land + 0.05) / (ground + 0.05) >= 1.4
+    for pal, least in ((daymap.DARK, 1.4), (daymap.LIGHT, 1.3)):
+        a, b = sorted((luminance(pal.land), luminance(pal.ground)))
+        assert (b + 0.05) / (a + 0.05) >= least
