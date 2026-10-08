@@ -1,83 +1,86 @@
 {
- "as_of": "2026-10-07T18:13:49+00:00",
+ "as_of": "2026-10-08T07:28:33+00:00",
  "hours": 24,
  "places": [
   {
    "id": "p1",
    "topic": "weather",
    "source": "Airport station",
-   "name": "Centralia (ENL)",
-   "county": "Marion",
+   "name": "Mount Vernon (MVN)",
+   "county": "Jefferson",
    "zip": null,
-   "lat": 38.5151,
-   "lon": -89.0911,
+   "lat": 38.3233,
+   "lon": -88.8583,
    "person": false,
-   "label": "High 86 \u00b0F",
+   "label": "High 90 \u00b0F",
    "lines": [
     {
      "metric": "temp_c",
      "name": "Temperature",
-     "value": "86 \u00b0F",
+     "value": "90 \u00b0F",
      "note": null,
-     "at": "2026-10-07T17:15+00:00",
+     "at": "2026-10-07T19:56+00:00",
      "sev": 0.0
     }
    ],
    "why": [
     "Highest temperature in Illinois in the last 24 hours",
+    "Lowest temperature in Illinois in the last 24 hours",
     "In the news: \u201cPRELIMINARY LOW TEMPERATURES FOR OCTOBER 6th 2026 (NWS St. Louis)\u201d"
    ],
    "status": "official",
-   "at": "2026-10-07T17:15+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=ENL&network=IL_ASOS",
+   "at": "2026-10-08T05:56+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=MVN&network=IL_ASOS",
    "spark": {
     "name": "Temperature",
     "unit": "\u00b0F",
     "t": [
-     -1380,
      -1320,
-     -1265,
+     -1260,
+     -1200,
      -1140,
+     -1080,
      -1020,
-     -960,
      -900,
      -840,
      -780,
      -720,
-     -640,
+     -660,
      -600,
-     -520,
-     -460,
-     -400,
-     -340,
-     -280,
+     -540,
+     -441,
+     -420,
+     -360,
+     -300,
      -240,
-     -100,
-     -40,
+     -180,
+     -120,
+     -60,
      0
     ],
     "v": [
-     77.0,
-     78.8,
-     79.7,
-     78.3,
-     59.4,
-     55.4,
-     53.4,
-     52.5,
-     51.0,
-     53.2,
-     56.3,
-     57.2,
-     52.3,
+     43.0,
+     42.0,
+     43.0,
+     44.0,
+     44.0,
      50.0,
-     55.0,
-     54.0,
-     57.0,
-     62.8,
-     77.5,
-     83.7,
-     86.0
+     73.0,
+     78.0,
+     83.0,
+     86.0,
+     87.0,
+     90.0,
+     89.0,
+     87.8,
+     84.0,
+     75.0,
+     72.0,
+     66.0,
+     64.0,
+     60.0,
+     56.0,
+     55.0
     ]
    },
    "event": null,
@@ -96,23 +99,32 @@
    "lat": 40.931,
    "lon": -90.2138,
    "person": false,
-   "label": "Soybeans -44 \u00a2",
+   "label": "Corn -31 \u00a2",
    "lines": [
+    {
+     "metric": "corn_basis",
+     "name": "Corn basis",
+     "value": "-31 \u00a2",
+     "note": "country elevators",
+     "at": "2026-10-07T17:51+00:00",
+     "sev": 0.0
+    },
     {
      "metric": "soy_basis",
      "name": "Soybean basis",
      "value": "-44 \u00a2",
      "note": "country elevators",
-     "at": "2026-10-06T18:16+00:00",
+     "at": "2026-10-07T17:51+00:00",
      "sev": 0.0
     }
    ],
    "why": [
+    "Lowest corn basis in Illinois in the last 24 hours",
     "Lowest soybean basis in Illinois in the last 24 hours",
     "In the news: \u201cHarvest basis dip shifts patterns in Corn Belt\u201d"
    ],
    "status": "official",
-   "at": "2026-10-06T18:16+00:00",
+   "at": "2026-10-07T17:51+00:00",
    "url": null,
    "spark": null,
    "event": null,
@@ -123,57 +135,30 @@
   },
   {
    "id": "p3",
-   "topic": "markets",
-   "source": "USDA grain bids",
-   "name": "North Illinois River district",
-   "county": "Peoria",
-   "zip": null,
-   "lat": 40.786,
-   "lon": -89.767,
-   "person": false,
-   "label": "Corn -32 \u00a2",
-   "lines": [
-    {
-     "metric": "corn_basis",
-     "name": "Corn basis",
-     "value": "-32 \u00a2",
-     "note": "barge loading elevators",
-     "at": "2026-10-06T18:16+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Lowest corn basis in Illinois in the last 24 hours",
-    "In the news: \u201cHarvest basis dip shifts patterns in Corn Belt\u201d"
-   ],
-   "status": "official",
-   "at": "2026-10-06T18:16+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [
-    "n10"
-   ],
-   "tier": 1
-  },
-  {
-   "id": "p4",
    "topic": "water",
    "source": "USGS stream gauge",
-   "name": "Big Muddy River at Rte 127 at Murphysboro",
-   "county": "Jackson",
+   "name": "Mississippi River at Thebes",
+   "county": "Alexander",
    "zip": null,
-   "lat": 37.7583,
-   "lon": -89.3278,
+   "lat": 37.2203,
+   "lon": -89.4632,
    "person": false,
-   "label": "\u25b2 1.78 ft",
+   "label": "\u25b2 0.59 ft",
    "lines": [
     {
      "metric": "stage_m",
      "name": "Stage (gauge height)",
-     "value": "12.2 ft",
-     "note": "up 1.78 ft in 24 hours",
-     "at": "2026-10-07T17:00+00:00",
+     "value": "27.7 ft",
+     "note": "up 0.59 ft in 24 hours",
+     "at": "2026-10-08T06:00+00:00",
+     "sev": 0.0
+    },
+    {
+     "metric": "discharge_cms",
+     "name": "Streamflow",
+     "value": "404,000 cfs",
+     "note": "up 14,000 cfs in 24 hours",
+     "at": "2026-10-08T06:00+00:00",
      "sev": 0.0
     }
    ],
@@ -181,15 +166,15 @@
     "Biggest rise in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-10-07T17:00+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/05599490/",
+   "at": "2026-10-08T06:00+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/07022000/",
    "spark": {
     "name": "Stage (gauge height)",
     "unit": "ft",
     "t": [
-     -1350,
-     -1290,
-     -1230,
+     -1320,
+     -1260,
+     -1200,
      -1140,
      -1080,
      -1020,
@@ -212,29 +197,29 @@
      0
     ],
     "v": [
-     10.39,
-     10.51,
-     10.65,
-     10.84,
-     10.96,
-     11.07,
-     11.17,
-     11.26,
-     11.36,
-     11.45,
-     11.53,
-     11.61,
-     11.69,
-     11.76,
-     11.83,
-     11.89,
-     11.94,
-     12.0,
-     12.04,
-     12.09,
-     12.12,
-     12.15,
-     12.17
+     27.13,
+     27.22,
+     27.26,
+     27.31,
+     27.38,
+     27.41,
+     27.44,
+     27.49,
+     27.54,
+     27.53,
+     27.61,
+     27.64,
+     27.63,
+     27.65,
+     27.7,
+     27.74,
+     27.73,
+     27.73,
+     27.73,
+     27.77,
+     27.77,
+     27.72,
+     27.72
     ]
    },
    "event": null,
@@ -242,90 +227,7 @@
    "tier": 1
   },
   {
-   "id": "p5",
-   "topic": "weather",
-   "source": "Airport station",
-   "name": "Mount Vernon (MVN)",
-   "county": "Jefferson",
-   "zip": null,
-   "lat": 38.3233,
-   "lon": -88.8583,
-   "person": false,
-   "label": "Low 42 \u00b0F",
-   "lines": [
-    {
-     "metric": "temp_c",
-     "name": "Temperature",
-     "value": "42 \u00b0F",
-     "note": "the day's low",
-     "at": "2026-10-07T08:56+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Lowest temperature in Illinois in the last 24 hours"
-   ],
-   "status": "official",
-   "at": "2026-10-07T16:56+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=MVN&network=IL_ASOS",
-   "spark": {
-    "name": "Temperature",
-    "unit": "\u00b0F",
-    "t": [
-     -1320,
-     -1260,
-     -1200,
-     -1140,
-     -1080,
-     -1020,
-     -960,
-     -900,
-     -840,
-     -780,
-     -720,
-     -660,
-     -600,
-     -540,
-     -480,
-     -420,
-     -360,
-     -300,
-     -240,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     78.0,
-     79.0,
-     80.0,
-     79.0,
-     75.0,
-     62.0,
-     52.0,
-     50.0,
-     51.0,
-     46.0,
-     47.0,
-     45.0,
-     43.0,
-     43.0,
-     42.0,
-     43.0,
-     44.0,
-     44.0,
-     50.0,
-     73.0,
-     78.0,
-     83.0
-    ]
-   },
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
-   "id": "p6",
+   "id": "p4",
    "topic": "weather",
    "source": "NWS storm report",
    "name": "NWS Chicago-Romeoville",
@@ -362,7 +264,7 @@
    "tier": 1
   },
   {
-   "id": "p7",
+   "id": "p5",
    "topic": "soil",
    "source": "NRCS soil station",
    "name": "Mason #1 soil station",
@@ -387,7 +289,7 @@
     "In the news: \u201cIllinois crop progress for week ending Oct. 4\u201d"
    ],
    "status": "official",
-   "at": "2026-10-05T12:00+00:00",
+   "at": "2026-10-06T12:00+00:00",
    "url": "https://wcc.sc.egov.usda.gov/nwcc/site?sitenum=2004",
    "spark": null,
    "event": null,
@@ -397,185 +299,7 @@
    "tier": 1
   },
   {
-   "id": "p8",
-   "topic": "water",
-   "source": "USGS stream gauge",
-   "name": "Fox River (Tailwater) near McHenry",
-   "county": "McHenry",
-   "zip": null,
-   "lat": 42.3092,
-   "lon": -88.2515,
-   "person": false,
-   "label": "Near flood 3.21 ft",
-   "lines": [
-    {
-     "metric": "stage_m",
-     "name": "Stage (gauge height)",
-     "value": "3.21 ft",
-     "note": null,
-     "at": "2026-10-07T16:15+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Near flood stage (flood stage 4 ft)"
-   ],
-   "status": "official",
-   "at": "2026-10-07T16:15+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/05549501/",
-   "spark": {
-    "name": "Stage (gauge height)",
-    "unit": "ft",
-    "t": [
-     -1320,
-     -1260,
-     -1200,
-     -1140,
-     -1080,
-     -1020,
-     -960,
-     -900,
-     -840,
-     -780,
-     -720,
-     -660,
-     -600,
-     -540,
-     -480,
-     -420,
-     -360,
-     -300,
-     -240,
-     -180,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     3.32,
-     3.28,
-     3.31,
-     3.25,
-     3.23,
-     3.21,
-     3.2,
-     3.2,
-     3.2,
-     3.2,
-     3.2,
-     3.18,
-     3.19,
-     3.18,
-     3.19,
-     3.17,
-     3.17,
-     3.17,
-     3.15,
-     3.17,
-     3.15,
-     3.17,
-     3.21
-    ]
-   },
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
-   "id": "p9",
-   "topic": "water",
-   "source": "USGS stream gauge",
-   "name": "Edwards River near New Boston",
-   "county": "Mercer",
-   "zip": null,
-   "lat": 41.187,
-   "lon": -90.9674,
-   "person": false,
-   "label": "Near flood 15.7 ft",
-   "lines": [
-    {
-     "metric": "stage_m",
-     "name": "Stage (gauge height)",
-     "value": "15.7 ft",
-     "note": null,
-     "at": "2026-10-07T16:30+00:00",
-     "sev": 0.0
-    },
-    {
-     "metric": "discharge_cms",
-     "name": "Streamflow",
-     "value": "681 cfs",
-     "note": null,
-     "at": "2026-10-07T16:30+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Near flood stage (flood stage 17 ft)"
-   ],
-   "status": "official",
-   "at": "2026-10-07T16:30+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/05466500/",
-   "spark": {
-    "name": "Stage (gauge height)",
-    "unit": "ft",
-    "t": [
-     -1320,
-     -1260,
-     -1200,
-     -1140,
-     -1080,
-     -1020,
-     -960,
-     -900,
-     -840,
-     -780,
-     -720,
-     -660,
-     -600,
-     -540,
-     -480,
-     -420,
-     -360,
-     -300,
-     -240,
-     -180,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     16.06,
-     16.03,
-     16.02,
-     16.0,
-     15.99,
-     15.97,
-     15.95,
-     15.93,
-     15.92,
-     15.9,
-     15.89,
-     15.88,
-     15.87,
-     15.85,
-     15.84,
-     15.83,
-     15.82,
-     15.8,
-     15.79,
-     15.77,
-     15.75,
-     15.74,
-     15.73
-    ]
-   },
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
-   "id": "p10",
+   "id": "p6",
    "topic": "water",
    "source": "USGS stream gauge",
    "name": "Des Plaines River at Russell",
@@ -584,22 +308,22 @@
    "lat": 42.4894,
    "lon": -87.9259,
    "person": false,
-   "label": "Near flood 6.88 ft",
+   "label": "Near flood 6.75 ft",
    "lines": [
     {
      "metric": "stage_m",
      "name": "Stage (gauge height)",
-     "value": "6.88 ft",
+     "value": "6.75 ft",
      "note": null,
-     "at": "2026-10-07T16:30+00:00",
+     "at": "2026-10-08T05:30+00:00",
      "sev": 0.0
     },
     {
      "metric": "discharge_cms",
      "name": "Streamflow",
-     "value": "399 cfs",
+     "value": "362 cfs",
      "note": null,
-     "at": "2026-10-07T16:30+00:00",
+     "at": "2026-10-08T05:30+00:00",
      "sev": 0.0
     }
    ],
@@ -607,7 +331,7 @@
     "Near flood stage (flood stage 7 ft)"
    ],
    "status": "official",
-   "at": "2026-10-07T16:30+00:00",
+   "at": "2026-10-08T05:30+00:00",
    "url": "https://waterdata.usgs.gov/monitoring-location/05527800/",
    "spark": {
     "name": "Stage (gauge height)",
@@ -638,19 +362,6 @@
      0
     ],
     "v": [
-     7.06,
-     7.05,
-     7.04,
-     7.04,
-     7.03,
-     7.01,
-     7.01,
-     7.0,
-     6.99,
-     6.98,
-     6.98,
-     6.97,
-     6.96,
      6.95,
      6.95,
      6.94,
@@ -660,54 +371,67 @@
      6.9,
      6.9,
      6.89,
-     6.88
+     6.88,
+     6.87,
+     6.86,
+     6.85,
+     6.84,
+     6.83,
+     6.82,
+     6.8,
+     6.8,
+     6.78,
+     6.78,
+     6.77,
+     6.76,
+     6.75
     ]
    },
    "event": null,
    "news": [],
-   "tier": 2
+   "tier": 1
   },
   {
-   "id": "p11",
+   "id": "p7",
    "topic": "water",
    "source": "USGS stream gauge",
-   "name": "Mississippi River at Thebes",
-   "county": "Alexander",
+   "name": "Edwards River near New Boston",
+   "county": "Mercer",
    "zip": null,
-   "lat": 37.2203,
-   "lon": -89.4632,
+   "lat": 41.187,
+   "lon": -90.9674,
    "person": false,
-   "label": "\u25b2 1.71 ft",
+   "label": "Near flood 15.5 ft",
    "lines": [
     {
      "metric": "stage_m",
      "name": "Stage (gauge height)",
-     "value": "27.5 ft",
-     "note": "up 1.71 ft in 24 hours",
-     "at": "2026-10-07T17:00+00:00",
+     "value": "15.5 ft",
+     "note": null,
+     "at": "2026-10-08T05:30+00:00",
      "sev": 0.0
     },
     {
      "metric": "discharge_cms",
      "name": "Streamflow",
-     "value": "400,000 cfs",
-     "note": "up 36,000 cfs in 24 hours",
-     "at": "2026-10-07T17:00+00:00",
+     "value": "639 cfs",
+     "note": null,
+     "at": "2026-10-08T05:30+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Second-biggest rise in Illinois in the last 24 hours"
+    "Near flood stage (flood stage 17 ft)"
    ],
    "status": "official",
-   "at": "2026-10-07T17:00+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/07022000/",
+   "at": "2026-10-08T05:30+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05466500/",
    "spark": {
     "name": "Stage (gauge height)",
     "unit": "ft",
     "t": [
-     -1350,
-     -1290,
+     -1320,
+     -1260,
      -1200,
      -1140,
      -1080,
@@ -731,68 +455,82 @@
      0
     ],
     "v": [
-     25.82,
-     25.99,
-     26.16,
-     26.28,
-     26.39,
-     26.46,
-     26.56,
-     26.64,
-     26.77,
-     26.83,
-     26.94,
-     27.01,
-     27.05,
-     27.13,
-     27.22,
-     27.26,
-     27.31,
-     27.38,
-     27.41,
-     27.44,
-     27.49,
-     27.54,
-     27.53
+     15.85,
+     15.84,
+     15.83,
+     15.82,
+     15.8,
+     15.79,
+     15.77,
+     15.75,
+     15.74,
+     15.73,
+     15.71,
+     15.7,
+     15.68,
+     15.67,
+     15.66,
+     15.64,
+     15.62,
+     15.61,
+     15.6,
+     15.58,
+     15.56,
+     15.55,
+     15.54
     ]
    },
    "event": null,
    "news": [],
-   "tier": 2
+   "tier": 1
   },
   {
-   "id": "p12",
+   "id": "p8",
    "topic": "water",
    "source": "USGS stream gauge",
-   "name": "Ohio River at Cairo",
-   "county": "Alexander",
+   "name": "Fox River (Tailwater) near McHenry",
+   "county": "McHenry",
    "zip": null,
-   "lat": 37.0001,
-   "lon": -89.1626,
+   "lat": 42.3092,
+   "lon": -88.2515,
    "person": false,
-   "label": "\u25b2 1.35 ft",
+   "label": "Near flood 3.16 ft",
    "lines": [
     {
      "metric": "stage_m",
      "name": "Stage (gauge height)",
-     "value": "23.2 ft",
-     "note": "up 1.35 ft in 24 hours",
-     "at": "2026-10-07T03:00+00:00",
+     "value": "3.16 ft",
+     "note": null,
+     "at": "2026-10-08T06:15+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Third-biggest rise in Illinois in the last 24 hours"
+    "Near flood stage (flood stage 4 ft)"
    ],
    "status": "official",
-   "at": "2026-10-07T03:00+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/370000089094501/",
+   "at": "2026-10-08T06:15+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05549501/",
    "spark": {
     "name": "Stage (gauge height)",
     "unit": "ft",
     "t": [
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -540,
      -480,
      -420,
+     -360,
      -300,
      -240,
      -180,
@@ -801,14 +539,28 @@
      0
     ],
     "v": [
-     21.88,
-     22.12,
-     22.5,
-     22.65,
-     22.79,
-     22.96,
-     23.1,
-     23.23
+     3.19,
+     3.17,
+     3.17,
+     3.17,
+     3.15,
+     3.17,
+     3.15,
+     3.17,
+     3.21,
+     3.17,
+     3.2,
+     3.18,
+     3.22,
+     3.18,
+     3.18,
+     3.18,
+     3.18,
+     3.17,
+     3.17,
+     3.15,
+     3.15,
+     3.16
     ]
    },
    "event": null,
@@ -849,7 +601,7 @@
    ],
    "more": [],
    "links": [
-    "p6"
+    "p4"
    ],
    "alerts": []
   },
@@ -874,14 +626,14 @@
    ],
    "more": [],
    "links": [
-    "p6"
+    "p4"
    ],
    "alerts": []
   },
   {
    "id": "n3",
    "n": 3,
-   "topic": "water",
+   "topic": "weather",
    "place": "Chicago",
    "statewide": false,
    "lat": 41.837,
@@ -891,22 +643,16 @@
    ],
    "stories": [
     {
-     "title": "Soaked: Flooding in Chicago and Why It's Getting Worse",
-     "source": "Chicago Sun-Times",
-     "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTFBtMkZYdXRkUlZEQmlfTWhzeVJrTmJlZTRoYlNMbHZOZVUxaVpBX3JTTHg5dDNZTGFKQXptTVpTRkhwbk9GdUtSOXlfdw?oc=5",
-     "at": "2026-10-05T16:08:43"
+     "title": "Chicago weather: Major temperature swing, rain from Tropical Storm Isaias on the horizon",
+     "source": "NBC 5 Chicago",
+     "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxOY3NlLWpId1JrQkpXODV3bGtkU3hjOERzeEdINjdRbnhaRUpfWHpORUNvLXZXSF9Lc0FOTG5SajE2TkhDeC1tV29CMnFtZlVveW5mTi1TQ3FfajJ2QVdBbnNPclJsVG1hSF9TZE9oS0ZXVGtWVjE4U3g1d1hQMW1SS282QnRrT3RlOWZaUUFyOVdTMEpXY3pndkFoUXpJN1U2MGFNakF4UDhaVkg1Und2ZXdKY25SbUx4ck5HRWhvSXc2Qks5NHdWeGRkZ9IB0wFBVV95cUxPY1pSU1JqQ2JqNFRYeXZYcDFHNHVheUhLMEt6aGJmY0RPUDVoTUM4dXM5bXFLa3FEMjNYY3Fnd3NqcjNMRFMzbWpHWnhHSUQ0NGF2Zm9UNXVZNnJmOW54bGJnSHgzei1xc3VsZTN4enhiY0NnV0JQZUdKMGg5ZTJ6TFRBdzlsR1NjUzZhSDVGYmVqMVQ5MEoyYlJOMTFVdW5NdW81bXJIZkxqWXlRZzVQejQxZUU5ZkVQczN2UnRIMTZZUWZVWTlaVld3XzMyN3lrSDU0?oc=5",
+     "at": "2026-10-07T12:02:29"
     },
     {
      "title": "Cook County pledges $8 million to help south suburban communities clean summer storm damage",
      "source": "Chicago Sun-Times",
      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQODBDcVZMUVpHODBKM1lidlpvM1hwMjVDOUFyRDNBTGxESUxJQU9xT3BBazdzMkZBS3VhOEZQV2pMaXFPRDE0N094cXA5SllQT3hDM0xJUzF6a1BxR2JMWmhqbFJlR2xCX3ZEQWZ6TkZKVW1pRGZFQkd2Y2l3WWlTQ1lJdXkyN0kwdmpvM0NYbmFob01yN2lQUE1CTVB0N2xEbG9ROUlxRjhGRjRJOFNwTUo0MjhYQQ?oc=5",
      "at": "2026-10-06T17:54:00"
-    },
-    {
-     "title": "No Rain In Sight, 'Quiet' Weather For Chicago Area This Week",
-     "source": "Patch",
-     "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNZ2FmYjl3ZGNFVHpmMWRIQjZMeEtab2VITTlkdDhmMElMVUJ0U1EzdUdtY2UzalozRUNZc2puckVwLS1UTjdWWUxfUUNYRWVPcEpNMHJwRTZxUnItVUZKR0xXT1EwQlc4UF90b3hjb1Z6ZWJIaGVoZVZpS2ozX1VsODJSMW56Z1d1eHfSAasBQVVfeXFMT0RTbGZobXd3Q3NnZHZYbWN1UzZPWFgxV2dTWnpyd0JENUM4Q3VZZUdEaVQ0cGdpejdDY2lFY1ZwS0o1Rm5jS2NpUEtZbFZuTWVzWkV3Rm04Y2VWbURzVHpwWFg1RzNzeDZpWFpDc25HR1F1NjFhaU5FeVhXdkttLWRyRUVJbXd4SXpqeWkyMnhhQjBkaFFxUnZ0S3dBZGViYm9CcXc2M05EYWU4?oc=5",
-     "at": "2026-10-05T14:25:16"
     }
    ],
    "more": [],
@@ -916,34 +662,6 @@
   {
    "id": "n4",
    "n": 4,
-   "topic": "agriculture",
-   "place": "Central Illinois",
-   "statewide": false,
-   "lat": 39.7569,
-   "lon": -89.6624,
-   "counties": [
-    "17019",
-    "17113",
-    "17115",
-    "17143",
-    "17167",
-    "17179"
-   ],
-   "stories": [
-    {
-     "title": "Central Illinois farmer says excess rain and high heat impacted corn yields",
-     "source": "Brownfield Ag News",
-     "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOVFVEZlJXQmNGWWt2VGxhdnVWOHZ1bW5XRm9FSkF0OHBueVB6bFdYU2pXSlFBanBPdGQtdHpfdGxEazh6Q3dURElOZWowN0M2ZmRXUXphamFHOFEtdjhkUEgtamVCU0d0enlaLVhHSnIydjBhaFVWcHFkUk81bURtZDBId0tuMjg5eUVDT0c1eDFCUk05Yk5KcjVVUUNMa2d5VF9sYTFmWnd2cXdOakU0M0FjTHk?oc=5",
-     "at": "2026-10-06T03:39:56"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n5",
-   "n": 5,
    "topic": "landuse",
    "place": "Mahomet",
    "statewide": false,
@@ -977,32 +695,9 @@
    "alerts": []
   },
   {
-   "id": "n6",
-   "n": 6,
-   "topic": "landuse",
-   "place": "Tazewell County",
-   "statewide": false,
-   "lat": 40.5081,
-   "lon": -89.5163,
-   "counties": [
-    "17179"
-   ],
-   "stories": [
-    {
-     "title": "Tazewell County data center moratorium makes final steps for approval",
-     "source": "CIProud.com",
-     "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPSGlVTzdqY2s0VkZTazdNSEpuSW9oVDAwVWxvVy1BV0EtdDlsUi13UzRSZUpCXzVPcS15Q0Ewb3Jmb2d0TzB6ZHZ6MEVzSFRmcGtSZHZwMzFuZmhLV2RENTF2b0hfUVpXQlRiVUdwZ1gxTFBSS3Bjckt2bWR3cmp2UWtwX2YxUVVvSWt2eW5R0gGTAUFVX3lxTE00R2NUS2dDVERLbXhhUDczdXY3d0RNWWJGb1Bfdkhtb1JHNWhUYU5nb1RlSVA0a0wxeUhqQlJHZHhKTUN5M1pjWllNdHNsRkNmUmpTUjJOdllvc0wyRlZYUmVzUGNPZEQyUDhRcE5hMUxVXzZMeDBSMFJxZnNMZGw2RXcwV0ZCdDVSdHlwQk1qOXRwUQ?oc=5",
-     "at": "2026-10-06T00:49:13"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n7",
-   "n": 7,
-   "topic": "weather",
+   "id": "n5",
+   "n": 5,
+   "topic": "agriculture",
    "place": "Quad Cities",
    "statewide": false,
    "lat": 41.4684,
@@ -1014,10 +709,62 @@
    ],
    "stories": [
     {
+     "title": "Rain delays, rising fuel costs slow corn harvest for Quad Cities area farmers",
+     "source": "KWQC",
+     "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNNmk3Yk0wN0FvTm5kdHBWMWpTR05feE9qUlVXa0Y0dUo0Uzh0YWM3c3RxOVdzYUU2Xzd0eUYzUlRmOVR2RjE2RGQ0V3EtMENsZlZaMWJ4MGJMQ2ZWWTBKcnM2dk1ka3pqY203N05NUkhoMFl6NGdTNkZ3NU40bVdRd1lvQ293ZC1HWmVvaDVKbXNSTkp1RmJsTFQ2Rm11eUM1TFlUWkw3TE3SAbwBQVVfeXFMUG1WRlp3NEQtbnY1bmtkWjNxNzZrWTlILWFpQTdfaFA0M0ZLVnIyWUYyZDlVUl9ncXo4VU5SbFJSa3ZBNDU3SXVPSzJsR1EtbHk2ZUNZcjN6anZrcFhyZXlyTEtRa2ZUcDlmYzJ2cXJab2pWQjVUVFN5VEV3eE5FZVF1MGprYVl0S01SUV9xbjZMN1QwcHRGVmR3b2ZzNUNaeVlFeUk2c1hvV0RSSzVVZkNPZExXaml4d09oa1g?oc=5",
+     "at": "2026-10-08T01:11:00"
+    },
+    {
      "title": "Field forecast looking great for farmers this week around the Quad Cities and all of Iowa and Illinois",
      "source": "OurQuadCities",
      "url": "https://www.ourquadcities.com/news/local-news/field-forecast-looking-great-for-farmers-this-week-around-the-quad-cities-and-all-of-iowa-and-illinois/",
      "at": "2026-10-06T23:19:46"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n6",
+   "n": 6,
+   "topic": "landuse",
+   "place": "McLean County",
+   "statewide": false,
+   "lat": 40.4946,
+   "lon": -88.8445,
+   "counties": [
+    "17113"
+   ],
+   "stories": [
+    {
+     "title": "McLean County solar farm now operational",
+     "source": "Chronicle Media",
+     "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQMHd4X3RQWVM5c013VFVxV004VDI2M0ViTWp1bE5EaFIwUGNDTk5TV3NqUFlRdXp1aHl5Z1FFRkJOb1hPRmVtclNCd2R4MEV2bVlycWxzSjNsdDQ4UlgzV3FvMFFQN0FwMlJpbFdKNEtnaW9LV29HdnJpRXhsWkJSTWFZUHhKQ2VyNGFfMzAxODlPR0VQQkVkcmdhMA?oc=5",
+     "at": "2026-10-06T23:19:50"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n7",
+   "n": 7,
+   "topic": "emergency",
+   "place": "Springfield",
+   "statewide": false,
+   "lat": 39.7911,
+   "lon": -89.6446,
+   "counties": [
+    "17167"
+   ],
+   "stories": [
+    {
+     "title": "Springfield animal shelter continuing rebuild efforts months after tornado",
+     "source": "WCIA.com",
+     "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPT1VWak05bFlKSmtkXzlTV0l6bE9BZ0EtenhXUWY3YTBwRGdDZ0dkTE1CUG5ERDJXWHVCcFFTYzFCT1pZTTRXSU9LWUQwS0VYdWpncHZmOE9iclpZMnFETF8tSHBUOC1ocGd5OVRhY1hVbVJjSGlROE5GYS1LN2wxZnBqR2NYRjlXTUdGLXNpZDNreWEwN0loYzI5ZWVKRWp6ZVZ0TmxETTBNUlRyZ0J3QUg3ZTIwNnBPZVVhMFBn0gG-AUFVX3lxTE9PVVZqTTlsWUpKa2RfOVNXSXpsT0FnQS16eFdRZjdhMHBEZ0NnR2RMTUJQbkREMldYdUJwUVNjMUJPWllNNFdJT0tZRDBLRVh1amdwdmY4T2JyWlkycURMXy1IcFQ4LWhwZ3k5VGFjWFVtUmNIaVE4TkZhLUs3bDFmcGpHY1hGOVdNR0Ytc2lkM2t5YTA3SWhjMjllZUpFanplVnRObERNME1SVHJnQndBSDdlMjA2cE9lVWEwUGc?oc=5",
+     "at": "2026-10-07T21:38:00"
     }
    ],
    "more": [],
@@ -1043,7 +790,7 @@
    ],
    "more": [],
    "links": [
-    "p7"
+    "p5"
    ],
    "alerts": []
   },
@@ -1089,7 +836,6 @@
    ],
    "more": [],
    "links": [
-    "p3",
     "p2"
    ],
    "alerts": []

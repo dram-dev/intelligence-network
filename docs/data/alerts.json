@@ -1,1 +1,25 @@
-[]
+[
+ {
+  "event": "Special Weather Statement",
+  "severity": "Moderate",
+  "counties": [
+   "Jefferson",
+   "Wayne",
+   "Edwards",
+   "Wabash",
+   "Perry",
+   "Franklin",
+   "Hamilton",
+   "White",
+   "Jackson",
+   "Williamson",
+   "Saline",
+   "Gallatin",
+   "Hardin"
+  ],
+  "sender": "NWS Paducah KY",
+  "headline": "Elevated Fire Danger This Afternoon",
+  "expires": "2026-10-08T22:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.0d81ba6c7d75b40e27e0b70470217fafa28a102b.001.1"
+ }
+]
