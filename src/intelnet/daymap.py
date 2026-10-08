@@ -5,9 +5,9 @@ readings as dots in their topic's colour, the stand-outs labelled; the stories a
 squares, under the same numbers the brief and the digest list them by, each drawn to the
 readings it's about; the NWS alerts in effect, in their alert cards' colours; the reader's
 county outlined. Stories about the whole state have no place on it, so they wait in the key
-beside it. Two palettes: `DARK`, the alert cards' dark map with the site's dark topic
-colours, reads the same in a light chat or a dark one; `LIGHT`, the site's light colours on
-a white ground, sits on the digest's page and prints.
+beside it. Two palettes: `DARK`, the alert cards' dark map with the state lifted off its
+ground and the site's dark topic colours, reads the same in a light chat or a dark one;
+`LIGHT`, the site's light colours on a white ground, sits on the digest's page and prints.
 
 A picture is named by what it shows (`dm-<hash>`) and kept with the alert cards' pictures,
 so delivery attaches it like theirs, and a brief that draws the same picture as an earlier
@@ -30,15 +30,10 @@ from PIL import Image, ImageChops, ImageDraw
 
 from intelnet import cardmap, geo, notable
 from intelnet.cardmap import (
-    BEYOND,
-    COUNTY,
-    Dense,
     HALO,
-    LAND,
-    RIVER,
     TEXT,
     TEXT_DIM,
-    WATER,
+    Dense,
     _font,
     _hex,
     _merc,
@@ -55,7 +50,7 @@ PAD = 30
 RAIL = 300                        # the key, right of the state
 BORDER_KM = 4                     # rivers and lakes drawn this far past the state: border rivers whole
 KEEP = timedelta(days=3)
-RENDER_VERSION = 4                # part of every name: bump it when the drawing changes (4: 2048 × 2560)
+RENDER_VERSION = 5                # part of every name: bump it when the drawing changes (5: the state lifted)
 
 
 @dataclass(frozen=True)
@@ -74,8 +69,12 @@ class Palette:
     alert_alpha: tuple[int, int]        # a watch or advisory's tint, a warning's
 
 
-# The site's topic colours (site/index.fragment.html tokens), dark and light
-DARK = Palette(BEYOND, LAND, WATER, RIVER, COUNTY, TEXT, TEXT_DIM, HALO, TEXT, (16, 20, 23),
+# The site's topic colours (site/index.fragment.html tokens), dark and light. The dark ground
+# and land are lighter than the cards' (whose radar wants them dark): on the cards' 1.15:1 the
+# state sank into its surroundings on a phone; this is 1.5:1, with water, rivers and county
+# lines lifted to keep their contrast on it.
+DARK = Palette((10, 12, 14), (44, 52, 58), (40, 74, 94), (56, 108, 136), (76, 90, 86),
+               TEXT, TEXT_DIM, HALO, TEXT, (16, 20, 23),
                {"weather": "#5FB4C0", "soil": "#C08A5A", "water": "#7FA6E8", "agriculture": "#8BBF63",
                 "air": "#B1A2E3", "quake": "#E5786A", "nature": "#D9C45A", "markets": "#D28CC8"}, (46, 86))
 LIGHT = Palette((255, 255, 255), (241, 243, 239), (213, 226, 234), (123, 160, 191), (206, 213, 208),

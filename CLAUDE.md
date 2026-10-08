@@ -322,7 +322,9 @@ notify (08:00) ──▶ brief.fanout_brief (one morning brief per subscriber's 
   to the viewport. The readings and stories are as of the snapshot; alerts and radar are live.
 - **The brief's map** (`daymap.py`): the masthead map as one picture for the 08:00 brief (a chat
   can't hover): laid out at 1080×1350 points, drawn at 2048×2560 (`daymap.K`: the largest
-  picture Telegram keeps whole), the alert cards' dark map with the site's dark topic colours; dots
+  picture Telegram keeps whole), the alert cards' dark map with the state lifted off its ground
+  (land 1.5:1 over the ground; on the cards' 1.15:1 Illinois sank into it on a phone, 8 Oct) and
+  the site's dark topic colours; dots
   and labels as on the site (a rise's ▲ is drawn: IBM Plex has no glyph), numbered story squares
   with arcs to their readings, statewide stories in the key on the right, NWS alerts in their
   card colours (warnings stronger than watches), the reader's county outlined; rivers and lakes
