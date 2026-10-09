@@ -1,1 +1,23 @@
-[]
+[
+ {
+  "id": 24,
+  "topic": "air",
+  "title": "PM2.5 54.4 \u00b5g/m\u00b3 (AQI 148, unhealthy for sensitive groups) \u2014 Randolph County",
+  "severity": 0.4,
+  "status": "closed",
+  "counties": [
+   "Randolph"
+  ],
+  "fips": [
+   "17157"
+  ],
+  "opened_at": "2026-10-08T07:00:00+00:00",
+  "updated_at": "2026-10-08T10:00:00+00:00",
+  "lat": 38.176,
+  "lon": -89.788,
+  "brief": "PM2.5 levels peaked at 54.4 \u00b5g/m\u00b3 in Randolph County [1]. This reading was verified by three official sources [1].",
+  "facts": [
+   "PM2.5 peak 54.4 \u00b5g/m\u00b3 in Randolph County, from -2 people and 3 official sources, verified"
+  ]
+ }
+]

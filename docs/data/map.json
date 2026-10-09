@@ -1,92 +1,42 @@
 {
- "as_of": "2026-10-08T07:28:33+00:00",
+ "as_of": "2026-10-09T07:43:28+00:00",
  "hours": 24,
  "places": [
   {
    "id": "p1",
-   "topic": "weather",
-   "source": "Airport station",
-   "name": "Mount Vernon (MVN)",
-   "county": "Jefferson",
+   "topic": "air",
+   "source": "EPA air monitor",
+   "name": "Randolph County air monitor",
+   "county": "Randolph",
    "zip": null,
-   "lat": 38.3233,
-   "lon": -88.8583,
+   "lat": 38.1761,
+   "lon": -89.7883,
    "person": false,
-   "label": "High 90 \u00b0F",
+   "label": "PM2.5 54.4 \u00b5g/m\u00b3",
    "lines": [
     {
-     "metric": "temp_c",
-     "name": "Temperature",
-     "value": "90 \u00b0F",
+     "metric": "pm25_ugm3",
+     "name": "PM2.5",
+     "value": "54.4 \u00b5g/m\u00b3 (AQI 148, unhealthy for sensitive groups)",
      "note": null,
-     "at": "2026-10-07T19:56+00:00",
-     "sev": 0.0
+     "at": "2026-10-08T10:00+00:00",
+     "sev": 0.4
     }
    ],
    "why": [
-    "Highest temperature in Illinois in the last 24 hours",
-    "Lowest temperature in Illinois in the last 24 hours",
-    "In the news: \u201cPRELIMINARY LOW TEMPERATURES FOR OCTOBER 6th 2026 (NWS St. Louis)\u201d"
+    "Highest PM2.5 in Illinois in the last 24 hours (AQI 148, unhealthy for sensitive groups)",
+    "PM2.5 past the network's event threshold (AQI 148, unhealthy for sensitive groups)"
    ],
    "status": "official",
-   "at": "2026-10-08T05:56+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=MVN&network=IL_ASOS",
-   "spark": {
-    "name": "Temperature",
-    "unit": "\u00b0F",
-    "t": [
-     -1320,
-     -1260,
-     -1200,
-     -1140,
-     -1080,
-     -1020,
-     -900,
-     -840,
-     -780,
-     -720,
-     -660,
-     -600,
-     -540,
-     -441,
-     -420,
-     -360,
-     -300,
-     -240,
-     -180,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     43.0,
-     42.0,
-     43.0,
-     44.0,
-     44.0,
-     50.0,
-     73.0,
-     78.0,
-     83.0,
-     86.0,
-     87.0,
-     90.0,
-     89.0,
-     87.8,
-     84.0,
-     75.0,
-     72.0,
-     66.0,
-     64.0,
-     60.0,
-     56.0,
-     55.0
-    ]
+   "at": "2026-10-09T06:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": {
+    "title": "PM2.5 54.4 \u00b5g/m\u00b3 (AQI 148, unhealthy for sensitive groups) \u2014 Randolph County",
+    "verified": true,
+    "score": 0.95
    },
-   "event": null,
-   "news": [
-    "n9"
-   ],
+   "news": [],
    "tier": 1
   },
   {
@@ -106,7 +56,7 @@
      "name": "Corn basis",
      "value": "-31 \u00a2",
      "note": "country elevators",
-     "at": "2026-10-07T17:51+00:00",
+     "at": "2026-10-08T18:03+00:00",
      "sev": 0.0
     },
     {
@@ -114,22 +64,22 @@
      "name": "Soybean basis",
      "value": "-44 \u00a2",
      "note": "country elevators",
-     "at": "2026-10-07T17:51+00:00",
+     "at": "2026-10-08T18:03+00:00",
      "sev": 0.0
     }
    ],
    "why": [
     "Lowest corn basis in Illinois in the last 24 hours",
     "Lowest soybean basis in Illinois in the last 24 hours",
-    "In the news: \u201cHarvest basis dip shifts patterns in Corn Belt\u201d"
+    "In the news: \u201cSeptember basis offers insight\u201d"
    ],
    "status": "official",
-   "at": "2026-10-07T17:51+00:00",
+   "at": "2026-10-08T18:03+00:00",
    "url": null,
    "spark": null,
    "event": null,
    "news": [
-    "n10"
+    "n9"
    ],
    "tier": 1
   },
@@ -137,28 +87,20 @@
    "id": "p3",
    "topic": "water",
    "source": "USGS stream gauge",
-   "name": "Mississippi River at Thebes",
-   "county": "Alexander",
+   "name": "Rock River above Dam at Rockford",
+   "county": "Winnebago",
    "zip": null,
-   "lat": 37.2203,
-   "lon": -89.4632,
+   "lat": 42.2665,
+   "lon": -89.096,
    "person": false,
-   "label": "\u25b2 0.59 ft",
+   "label": "\u25b2 1.12 ft",
    "lines": [
     {
      "metric": "stage_m",
      "name": "Stage (gauge height)",
-     "value": "27.7 ft",
-     "note": "up 0.59 ft in 24 hours",
-     "at": "2026-10-08T06:00+00:00",
-     "sev": 0.0
-    },
-    {
-     "metric": "discharge_cms",
-     "name": "Streamflow",
-     "value": "404,000 cfs",
-     "note": "up 14,000 cfs in 24 hours",
-     "at": "2026-10-08T06:00+00:00",
+     "value": "3 ft",
+     "note": "up 1.12 ft in 24 hours",
+     "at": "2026-10-09T07:00+00:00",
      "sev": 0.0
     }
    ],
@@ -166,11 +108,98 @@
     "Biggest rise in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-10-08T06:00+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/07022000/",
+   "at": "2026-10-09T07:00+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05437645/",
    "spark": {
     "name": "Stage (gauge height)",
     "unit": "ft",
+    "t": [
+     -1380,
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -600,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     2.0,
+     1.99,
+     1.88,
+     1.9,
+     1.9,
+     2.04,
+     1.92,
+     2.32,
+     2.44,
+     2.55,
+     2.59,
+     2.77,
+     2.68,
+     2.74,
+     2.79,
+     2.84,
+     2.89,
+     2.94,
+     2.94,
+     2.91,
+     2.93,
+     2.95,
+     2.97,
+     3.0
+    ]
+   },
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p4",
+   "topic": "weather",
+   "source": "Airport station",
+   "name": "Rochelle (RPJ)",
+   "county": "Lee",
+   "zip": null,
+   "lat": 41.893,
+   "lon": -89.0783,
+   "person": false,
+   "label": "Low 41.4 \u00b0F",
+   "lines": [
+    {
+     "metric": "temp_c",
+     "name": "Temperature",
+     "value": "41.4 \u00b0F",
+     "note": "the day's low",
+     "at": "2026-10-08T11:35+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Lowest temperature in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-10-09T06:35+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=RPJ&network=IL_ASOS",
+   "spark": {
+    "name": "Temperature",
+    "unit": "\u00b0F",
     "t": [
      -1320,
      -1260,
@@ -197,29 +226,29 @@
      0
     ],
     "v": [
-     27.13,
-     27.22,
-     27.26,
-     27.31,
-     27.38,
-     27.41,
-     27.44,
-     27.49,
-     27.54,
-     27.53,
-     27.61,
-     27.64,
-     27.63,
-     27.65,
-     27.7,
-     27.74,
-     27.73,
-     27.73,
-     27.73,
-     27.77,
-     27.77,
-     27.72,
-     27.72
+     43.0,
+     43.0,
+     43.0,
+     41.4,
+     42.6,
+     51.0,
+     59.0,
+     64.6,
+     68.0,
+     69.6,
+     71.0,
+     71.8,
+     71.8,
+     69.4,
+     68.5,
+     62.6,
+     54.5,
+     54.5,
+     48.2,
+     47.0,
+     45.5,
+     47.3,
+     48.4
     ]
    },
    "event": null,
@@ -227,7 +256,92 @@
    "tier": 1
   },
   {
-   "id": "p4",
+   "id": "p5",
+   "topic": "weather",
+   "source": "Airport station",
+   "name": "Cairo (CIR)",
+   "county": "Alexander",
+   "zip": null,
+   "lat": 37.0647,
+   "lon": -89.2196,
+   "person": false,
+   "label": "High 87 \u00b0F",
+   "lines": [
+    {
+     "metric": "temp_c",
+     "name": "Temperature",
+     "value": "87 \u00b0F",
+     "note": "the day's high",
+     "at": "2026-10-08T20:35+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Highest temperature in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-10-09T06:35+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=CIR&network=IL_ASOS",
+   "spark": {
+    "name": "Temperature",
+    "unit": "\u00b0F",
+    "t": [
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -600,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     57.6,
+     56.3,
+     55.2,
+     55.0,
+     56.5,
+     65.3,
+     73.0,
+     78.4,
+     81.7,
+     85.5,
+     85.3,
+     86.0,
+     87.0,
+     86.0,
+     83.5,
+     72.7,
+     64.6,
+     61.5,
+     57.4,
+     56.7,
+     56.3,
+     53.8,
+     53.8
+    ]
+   },
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p6",
    "topic": "weather",
    "source": "NWS storm report",
    "name": "NWS Chicago-Romeoville",
@@ -249,22 +363,18 @@
    ],
    "why": [
     "Flooding reported",
-    "Reported to the NWS by NWS Employee",
-    "In the news: \u201cChicagoland\u2019s McHenry County Weighs Data Center Moratorium\u201d"
+    "Reported to the NWS by NWS Employee"
    ],
    "status": "official",
    "at": "2026-10-01T23:45+00:00",
    "url": null,
    "spark": null,
    "event": null,
-   "news": [
-    "n1",
-    "n2"
-   ],
+   "news": [],
    "tier": 1
   },
   {
-   "id": "p5",
+   "id": "p7",
    "topic": "soil",
    "source": "NRCS soil station",
    "name": "Mason #1 soil station",
@@ -273,126 +383,30 @@
    "lat": 40.3131,
    "lon": -89.9019,
    "person": false,
-   "label": "Soil moisture 9.2 %",
+   "label": "Soil moisture 10 %",
    "lines": [
     {
      "metric": "soil_moisture_pct",
      "name": "Soil moisture",
-     "value": "9.2 %",
+     "value": "10 %",
      "note": null,
-     "at": "2026-10-05T12:00+00:00",
+     "at": "2026-10-07T12:00+00:00",
      "sev": 0.4
     }
    ],
    "why": [
-    "Soil moisture past the network's event threshold",
-    "In the news: \u201cIllinois crop progress for week ending Oct. 4\u201d"
+    "Soil moisture past the network's event threshold"
    ],
    "status": "official",
-   "at": "2026-10-06T12:00+00:00",
+   "at": "2026-10-07T12:00+00:00",
    "url": "https://wcc.sc.egov.usda.gov/nwcc/site?sitenum=2004",
    "spark": null,
-   "event": null,
-   "news": [
-    "n8"
-   ],
-   "tier": 1
-  },
-  {
-   "id": "p6",
-   "topic": "water",
-   "source": "USGS stream gauge",
-   "name": "Des Plaines River at Russell",
-   "county": "Lake",
-   "zip": null,
-   "lat": 42.4894,
-   "lon": -87.9259,
-   "person": false,
-   "label": "Near flood 6.75 ft",
-   "lines": [
-    {
-     "metric": "stage_m",
-     "name": "Stage (gauge height)",
-     "value": "6.75 ft",
-     "note": null,
-     "at": "2026-10-08T05:30+00:00",
-     "sev": 0.0
-    },
-    {
-     "metric": "discharge_cms",
-     "name": "Streamflow",
-     "value": "362 cfs",
-     "note": null,
-     "at": "2026-10-08T05:30+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Near flood stage (flood stage 7 ft)"
-   ],
-   "status": "official",
-   "at": "2026-10-08T05:30+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/05527800/",
-   "spark": {
-    "name": "Stage (gauge height)",
-    "unit": "ft",
-    "t": [
-     -1320,
-     -1260,
-     -1200,
-     -1140,
-     -1080,
-     -1020,
-     -960,
-     -900,
-     -840,
-     -780,
-     -720,
-     -660,
-     -600,
-     -540,
-     -480,
-     -420,
-     -360,
-     -300,
-     -240,
-     -180,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     6.95,
-     6.95,
-     6.94,
-     6.93,
-     6.92,
-     6.91,
-     6.9,
-     6.9,
-     6.89,
-     6.88,
-     6.87,
-     6.86,
-     6.85,
-     6.84,
-     6.83,
-     6.82,
-     6.8,
-     6.8,
-     6.78,
-     6.78,
-     6.77,
-     6.76,
-     6.75
-    ]
-   },
    "event": null,
    "news": [],
    "tier": 1
   },
   {
-   "id": "p7",
+   "id": "p8",
    "topic": "water",
    "source": "USGS stream gauge",
    "name": "Edwards River near New Boston",
@@ -401,22 +415,22 @@
    "lat": 41.187,
    "lon": -90.9674,
    "person": false,
-   "label": "Near flood 15.5 ft",
+   "label": "Near flood 15.2 ft",
    "lines": [
     {
      "metric": "stage_m",
      "name": "Stage (gauge height)",
-     "value": "15.5 ft",
+     "value": "15.2 ft",
      "note": null,
-     "at": "2026-10-08T05:30+00:00",
+     "at": "2026-10-09T06:30+00:00",
      "sev": 0.0
     },
     {
      "metric": "discharge_cms",
      "name": "Streamflow",
-     "value": "639 cfs",
+     "value": "563 cfs",
      "note": null,
-     "at": "2026-10-08T05:30+00:00",
+     "at": "2026-10-09T06:30+00:00",
      "sev": 0.0
     }
    ],
@@ -424,7 +438,7 @@
     "Near flood stage (flood stage 17 ft)"
    ],
    "status": "official",
-   "at": "2026-10-08T05:30+00:00",
+   "at": "2026-10-09T06:30+00:00",
    "url": "https://waterdata.usgs.gov/monitoring-location/05466500/",
    "spark": {
     "name": "Stage (gauge height)",
@@ -455,29 +469,29 @@
      0
     ],
     "v": [
-     15.85,
-     15.84,
-     15.83,
-     15.82,
-     15.8,
-     15.79,
-     15.77,
-     15.75,
-     15.74,
-     15.73,
-     15.71,
-     15.7,
-     15.68,
-     15.67,
-     15.66,
-     15.64,
-     15.62,
-     15.61,
-     15.6,
-     15.58,
-     15.56,
-     15.55,
-     15.54
+     15.52,
+     15.5,
+     15.49,
+     15.47,
+     15.46,
+     15.45,
+     15.44,
+     15.42,
+     15.41,
+     15.39,
+     15.39,
+     15.37,
+     15.36,
+     15.35,
+     15.33,
+     15.32,
+     15.31,
+     15.3,
+     15.3,
+     15.28,
+     15.27,
+     15.26,
+     15.24
     ]
    },
    "event": null,
@@ -485,32 +499,40 @@
    "tier": 1
   },
   {
-   "id": "p8",
+   "id": "p9",
    "topic": "water",
    "source": "USGS stream gauge",
-   "name": "Fox River (Tailwater) near McHenry",
-   "county": "McHenry",
+   "name": "Des Plaines River at Russell",
+   "county": "Lake",
    "zip": null,
-   "lat": 42.3092,
-   "lon": -88.2515,
+   "lat": 42.4894,
+   "lon": -87.9259,
    "person": false,
-   "label": "Near flood 3.16 ft",
+   "label": "Near flood 6.49 ft",
    "lines": [
     {
      "metric": "stage_m",
      "name": "Stage (gauge height)",
-     "value": "3.16 ft",
+     "value": "6.49 ft",
      "note": null,
-     "at": "2026-10-08T06:15+00:00",
+     "at": "2026-10-09T06:30+00:00",
+     "sev": 0.0
+    },
+    {
+     "metric": "discharge_cms",
+     "name": "Streamflow",
+     "value": "293 cfs",
+     "note": null,
+     "at": "2026-10-09T06:30+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Near flood stage (flood stage 4 ft)"
+    "Near flood stage (flood stage 7 ft)"
    ],
    "status": "official",
-   "at": "2026-10-08T06:15+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/05549501/",
+   "at": "2026-10-09T06:30+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05527800/",
    "spark": {
     "name": "Stage (gauge height)",
     "unit": "ft",
@@ -527,6 +549,7 @@
      -780,
      -720,
      -660,
+     -600,
      -540,
      -480,
      -420,
@@ -539,28 +562,201 @@
      0
     ],
     "v": [
-     3.19,
+     6.72,
+     6.71,
+     6.7,
+     6.7,
+     6.69,
+     6.68,
+     6.67,
+     6.66,
+     6.65,
+     6.63,
+     6.62,
+     6.61,
+     6.6,
+     6.59,
+     6.58,
+     6.57,
+     6.55,
+     6.54,
+     6.53,
+     6.52,
+     6.51,
+     6.5,
+     6.49
+    ]
+   },
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p10",
+   "topic": "water",
+   "source": "USGS stream gauge",
+   "name": "Rock River at Auburn St at Rockford",
+   "county": "Winnebago",
+   "zip": null,
+   "lat": 42.2887,
+   "lon": -89.0644,
+   "person": false,
+   "label": "\u25b2 0.96 ft",
+   "lines": [
+    {
+     "metric": "stage_m",
+     "name": "Stage (gauge height)",
+     "value": "3.28 ft",
+     "note": "up 0.96 ft in 24 hours",
+     "at": "2026-10-09T06:45+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Second-biggest rise in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-10-09T06:45+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05437641/",
+   "spark": {
+    "name": "Stage (gauge height)",
+    "unit": "ft",
+    "t": [
+     -1380,
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -600,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     2.32,
+     2.34,
+     2.35,
+     2.37,
+     2.37,
+     2.39,
+     2.39,
+     2.63,
+     2.79,
+     2.89,
+     2.96,
+     3.01,
+     3.06,
+     3.11,
      3.17,
-     3.17,
-     3.17,
-     3.15,
-     3.17,
-     3.15,
-     3.17,
-     3.21,
-     3.17,
-     3.2,
-     3.18,
      3.22,
-     3.18,
-     3.18,
-     3.18,
-     3.18,
-     3.17,
-     3.17,
-     3.15,
-     3.15,
-     3.16
+     3.26,
+     3.28,
+     3.28,
+     3.27,
+     3.25,
+     3.24,
+     3.26,
+     3.28
+    ]
+   },
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p11",
+   "topic": "water",
+   "source": "USGS stream gauge",
+   "name": "Rock River at Latham Park",
+   "county": "Winnebago",
+   "zip": null,
+   "lat": 42.3686,
+   "lon": -89.0573,
+   "person": false,
+   "label": "\u25b2 0.68 ft",
+   "lines": [
+    {
+     "metric": "stage_m",
+     "name": "Stage (gauge height)",
+     "value": "5.83 ft",
+     "note": "up 0.68 ft in 24 hours",
+     "at": "2026-10-09T06:30+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Third-biggest rise in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-10-09T06:30+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05437610/",
+   "spark": {
+    "name": "Stage (gauge height)",
+    "unit": "ft",
+    "t": [
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -600,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     5.15,
+     5.17,
+     5.18,
+     5.2,
+     5.21,
+     5.21,
+     5.22,
+     5.27,
+     5.36,
+     5.43,
+     5.49,
+     5.55,
+     5.64,
+     5.73,
+     5.8,
+     5.84,
+     5.83,
+     5.8,
+     5.77,
+     5.75,
+     5.77,
+     5.81,
+     5.83
     ]
    },
    "event": null,
@@ -572,67 +768,34 @@
   {
    "id": "n1",
    "n": 1,
-   "topic": "landuse",
-   "place": "Chicagoland",
+   "topic": "agriculture",
+   "place": "Central Illinois",
    "statewide": false,
-   "lat": 41.8943,
-   "lon": -87.6454,
+   "lat": 39.7569,
+   "lon": -89.6624,
    "counties": [
-    "17031",
-    "17043",
-    "17089",
-    "17097",
-    "17111",
-    "17197"
+    "17019",
+    "17113",
+    "17115",
+    "17143",
+    "17167",
+    "17179"
    ],
    "stories": [
     {
-     "title": "Chicagoland\u2019s McHenry County Weighs Data Center Moratorium",
-     "source": "The Real Deal",
-     "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPTUxOZTU0Y0RFMkNjcUpHTDZ5dkQ1LVRxUTl4VFVGWXpvQ2VzMXJmSDFpeldSZllDV25VekhxeVd2UHB5NFBScGhhbF95NlNMaXh6YkpQMkFnTVA0VHZobVdVWjJHcTJTOVBJR2lGOGZLaHRCRmY4bnlLM0l4RG9rQmFCNG1sekU4Yk1hZ2ZPLWxjcHV6UjgtN1B0WkZaUlBjOS1F?oc=5",
-     "at": "2026-10-06T18:45:00"
-    },
-    {
-     "title": "Sunshine, summerlike temps ahead for Chicago area",
-     "source": "FOX 32 Chicago",
-     "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxObHhRbDdNblJjOGZmX19fSHphQ0FEWktWejBEU0kxVUpCTUo2LUpYdTNISVNib3dyTFp3a1N4TEI3REhfSWwwekdvN3loRVItTU1MWEhZMlZlWnNfdXJ1NVE5YjlpaUtGal9RcnpuN2M1V2pHWEplT0g2ckRXclZ1R0FPVzlOWUNoSURtbVJONGfSAZYBQVVfeXFMTVgyQXZYYWY4bzRFa1VZOENMYzM3TmQtVFNTQkZxQVd0dTFMLXN5WHVBcWZWS25CYWRtTTd0YWdJVlB1RmR3enNIYXQzQmhadDFzOTVFSjF0RXlBeW1sb09PY29WaVdrSG0xR2xBVFRPeEJuRVdmdUc4STdzS1M1T3pRcVdwS3h2cHFTaXltVENUZkEwSnZR?oc=5",
-     "at": "2026-10-06T11:48:50"
+     "title": "Central Illinois farmer says excess rain and high heat impacted corn yields",
+     "source": "Brownfield Ag News",
+     "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOVFVEZlJXQmNGWWt2VGxhdnVWOHZ1bW5XRm9FSkF0OHBueVB6bFdYU2pXSlFBanBPdGQtdHpfdGxEazh6Q3dURElOZWowN0M2ZmRXUXphamFHOFEtdjhkUEgtamVCU0d0enlaLVhHSnIydjBhaFVWcHFkUk81bURtZDBId0tuMjg5eUVDT0c1eDFCUk05Yk5KcjVVUUNMa2d5VF9sYTFmWnd2cXdOakU0M0FjTHk?oc=5",
+     "at": "2026-10-06T03:39:56"
     }
    ],
    "more": [],
-   "links": [
-    "p4"
-   ],
+   "links": [],
    "alerts": []
   },
   {
    "id": "n2",
    "n": 2,
-   "topic": "research",
-   "place": "Will",
-   "statewide": false,
-   "lat": 41.4485,
-   "lon": -87.9785,
-   "counties": [
-    "17197"
-   ],
-   "stories": [
-    {
-     "title": "Major Field Campaign With Argonne Will Study Severe Midwestern Storms and Their Connection to Land Characteristics",
-     "source": "Lelezard",
-     "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxQclR5U2NaekV3R2kyQjRWVzFvY0dMaUlIdmdUQ2JwTHNhenB0MmdoclZaVW1NUG1uV0g1UFhobjJ3eHlRNmhRWjJvQW05SGZNTVNrQkducWxIVUpNWEFYT3VpdExNb0hqUjd5d3B2TUxlSjV6bjVFVHVFQzdickc1R0RNcTZ2emdNOGRRTFJ5OG91NDQ3dHo4WWkwQUFDM2xNcllsTW1wdlg3QnlkdERweFFITnYySVNOdUFmdUI0NGtCSlBjZ0VVdkhWTjZsQnZZN29BZ3UwbWZ2UkM1amc?oc=5",
-     "at": "2026-10-05T23:22:29"
-    }
-   ],
-   "more": [],
-   "links": [
-    "p4"
-   ],
-   "alerts": []
-  },
-  {
-   "id": "n3",
-   "n": 3,
    "topic": "weather",
    "place": "Chicago",
    "statewide": false,
@@ -647,12 +810,6 @@
      "source": "NBC 5 Chicago",
      "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxOY3NlLWpId1JrQkpXODV3bGtkU3hjOERzeEdINjdRbnhaRUpfWHpORUNvLXZXSF9Lc0FOTG5SajE2TkhDeC1tV29CMnFtZlVveW5mTi1TQ3FfajJ2QVdBbnNPclJsVG1hSF9TZE9oS0ZXVGtWVjE4U3g1d1hQMW1SS282QnRrT3RlOWZaUUFyOVdTMEpXY3pndkFoUXpJN1U2MGFNakF4UDhaVkg1Und2ZXdKY25SbUx4ck5HRWhvSXc2Qks5NHdWeGRkZ9IB0wFBVV95cUxPY1pSU1JqQ2JqNFRYeXZYcDFHNHVheUhLMEt6aGJmY0RPUDVoTUM4dXM5bXFLa3FEMjNYY3Fnd3NqcjNMRFMzbWpHWnhHSUQ0NGF2Zm9UNXVZNnJmOW54bGJnSHgzei1xc3VsZTN4enhiY0NnV0JQZUdKMGg5ZTJ6TFRBdzlsR1NjUzZhSDVGYmVqMVQ5MEoyYlJOMTFVdW5NdW81bXJIZkxqWXlRZzVQejQxZUU5ZkVQczN2UnRIMTZZUWZVWTlaVld3XzMyN3lrSDU0?oc=5",
      "at": "2026-10-07T12:02:29"
-    },
-    {
-     "title": "Cook County pledges $8 million to help south suburban communities clean summer storm damage",
-     "source": "Chicago Sun-Times",
-     "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQODBDcVZMUVpHODBKM1lidlpvM1hwMjVDOUFyRDNBTGxESUxJQU9xT3BBazdzMkZBS3VhOEZQV2pMaXFPRDE0N094cXA5SllQT3hDM0xJUzF6a1BxR2JMWmhqbFJlR2xCX3ZEQWZ6TkZKVW1pRGZFQkd2Y2l3WWlTQ1lJdXkyN0kwdmpvM0NYbmFob01yN2lQUE1CTVB0N2xEbG9ROUlxRjhGRjRJOFNwTUo0MjhYQQ?oc=5",
-     "at": "2026-10-06T17:54:00"
     }
    ],
    "more": [],
@@ -660,43 +817,8 @@
    "alerts": []
   },
   {
-   "id": "n4",
-   "n": 4,
-   "topic": "landuse",
-   "place": "Mahomet",
-   "statewide": false,
-   "lat": 40.1901,
-   "lon": -88.3895,
-   "counties": [
-    "17019"
-   ],
-   "stories": [
-    {
-     "title": "Mahomet ends talks with data center developer after community backlash",
-     "source": "Illinois Newsroom",
-     "url": "https://ipmnewsroom.org/mahomet-ends-talks-with-data-center-developer-after-community-backlash/",
-     "at": "2026-10-06T18:06:12"
-    },
-    {
-     "title": "How Champaign County residents organized an AI data center resistance",
-     "source": "CU-CitizenAccess.org",
-     "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPY3ExbXZwdlRmM212WVB3ckhVRU1zdHJSZVJsQWh4NTVJZDJUdFhsU1cyYlozVzIyZnBSQWp5dUJPaDdrSlNuUWF6SkNKM3BQOGNwaGNkMHVHTm5Cd3ZWZVNSdm5icmFNd2VDdTNhWHRBRjQ4ZGd4UHgyV1RWOEpySTAxWW43QVh4ZW01TnVBcTk2Q2pOdGlWWFUtU1czb3pUelhnMGFaWHZCQjg?oc=5",
-     "at": "2026-10-06T17:23:15"
-    },
-    {
-     "title": "Mahomet ends talks on data center, cites community feedback",
-     "source": "The News-Gazette",
-     "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPaDVVd0llMmdWOFdoODZsTG1rdUdscDdDYUM5ZG5ub2VtOXpfS0pzdXVMdWZqMkpFbEdnaV95VWR0VUw3WlhiZTdLaUhjZHhZbGQtTk9aclVISlk4dmhHNFRzeVRlcDVNVUZTMjdrbExVNGM1SGQ0VjVUTFFBSTE4NEhvVG5jNzVFUjhnQ3F6YV9qb1BtMTFuMWF1X2ZOVThPNTREcDBmNHdrdTgyTkd3ajdDMzBUdG90ZVhkU0R5WGtIMm5wYndxR3dRaGg5dFdfYVdISUpOcDQtbVRxQUFv?oc=5",
-     "at": "2026-10-05T21:53:00"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n5",
-   "n": 5,
+   "id": "n3",
+   "n": 3,
    "topic": "agriculture",
    "place": "Quad Cities",
    "statewide": false,
@@ -713,12 +835,52 @@
      "source": "KWQC",
      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNNmk3Yk0wN0FvTm5kdHBWMWpTR05feE9qUlVXa0Y0dUo0Uzh0YWM3c3RxOVdzYUU2Xzd0eUYzUlRmOVR2RjE2RGQ0V3EtMENsZlZaMWJ4MGJMQ2ZWWTBKcnM2dk1ka3pqY203N05NUkhoMFl6NGdTNkZ3NU40bVdRd1lvQ293ZC1HWmVvaDVKbXNSTkp1RmJsTFQ2Rm11eUM1TFlUWkw3TE3SAbwBQVVfeXFMUG1WRlp3NEQtbnY1bmtkWjNxNzZrWTlILWFpQTdfaFA0M0ZLVnIyWUYyZDlVUl9ncXo4VU5SbFJSa3ZBNDU3SXVPSzJsR1EtbHk2ZUNZcjN6anZrcFhyZXlyTEtRa2ZUcDlmYzJ2cXJab2pWQjVUVFN5VEV3eE5FZVF1MGprYVl0S01SUV9xbjZMN1QwcHRGVmR3b2ZzNUNaeVlFeUk2c1hvV0RSSzVVZkNPZExXaml4d09oa1g?oc=5",
      "at": "2026-10-08T01:11:00"
-    },
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n4",
+   "n": 4,
+   "topic": "landuse",
+   "place": "Champaign County",
+   "statewide": false,
+   "lat": 40.139,
+   "lon": -88.197,
+   "counties": [
+    "17019"
+   ],
+   "stories": [
     {
-     "title": "Field forecast looking great for farmers this week around the Quad Cities and all of Iowa and Illinois",
-     "source": "OurQuadCities",
-     "url": "https://www.ourquadcities.com/news/local-news/field-forecast-looking-great-for-farmers-this-week-around-the-quad-cities-and-all-of-iowa-and-illinois/",
-     "at": "2026-10-06T23:19:46"
+     "title": "Data center companies have approached Champaign County for projects in Sidney, Tolono",
+     "source": "IPM Newsroom",
+     "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOZzliSEpWZ0NrU1NHZDE0cTNWa0Zld3BUanFWc3ZYNEJxR01Ibk9kZVNUZmh5S2VIbmt6TnlXcW8wUnY5SkNsc1o4ejJUQWxSLTN1NHRBUVdxa0tiTm1zbjNZMEVYQWNVMUd4UVZkMTlTVTl6a3c2aTFxOFIwQ25KMXhXZjNLUlA4dHBPT0pQUUtVemRoRDUycHVlTlMxcGFtQUlNaFh5cXlzenRsdVE?oc=5",
+     "at": "2026-10-08T19:44:32"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n5",
+   "n": 5,
+   "topic": "weather",
+   "place": "Morris",
+   "statewide": false,
+   "lat": 41.3802,
+   "lon": -88.4243,
+   "counties": [
+    "17063"
+   ],
+   "stories": [
+    {
+     "title": "Morris, Illinois, United States Precipitation Map | MSN Weather",
+     "source": "MSN",
+     "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9TNUFCckduamt6OTdJaW42dUNLNHhqTE5xM2dtVGJYU0JhOEo4R0x6azQ2VDRTYzU1d1ZQX3lFVFlaZUE0NFk0eFJPSTMzQ29FRXlFdFprT2Foc0lKcndJVS1WaWdPcFZuMVNFLWoxbHEtUkx5Q3Z6R0RuRQ?oc=5",
+     "at": "2026-10-07T13:28:02"
     }
    ],
    "more": [],
@@ -729,19 +891,19 @@
    "id": "n6",
    "n": 6,
    "topic": "landuse",
-   "place": "McLean County",
+   "place": "Bloomington",
    "statewide": false,
-   "lat": 40.4946,
-   "lon": -88.8445,
+   "lat": 40.4758,
+   "lon": -88.9699,
    "counties": [
     "17113"
    ],
    "stories": [
     {
-     "title": "McLean County solar farm now operational",
-     "source": "Chronicle Media",
-     "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQMHd4X3RQWVM5c013VFVxV004VDI2M0ViTWp1bE5EaFIwUGNDTk5TV3NqUFlRdXp1aHl5Z1FFRkJOb1hPRmVtclNCd2R4MEV2bVlycWxzSjNsdDQ4UlgzV3FvMFFQN0FwMlJpbFdKNEtnaW9LV29HdnJpRXhsWkJSTWFZUHhKQ2VyNGFfMzAxODlPR0VQQkVkcmdhMA?oc=5",
-     "at": "2026-10-06T23:19:50"
+     "title": "Draft of Bloomington data center regulations to be made public next week",
+     "source": "WGLT",
+     "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNeUlWbVp1NEF0Ulp6amZIaEx0UVZOOXFBRmtBM2tfQ0JUdGVsaHdlU0tBRm84Z2NfVlMxZ3JzTVlJcW1XN3RuTU1pbTN6eFZxdVNFLUR4b0J5RnVFS193eXVhR3I0bmlpd1hqOG9EYjFjZldPWi1wRl9IQ1BJM2dMVm9TZHJYZ3A5TmdzamgxbXZrZDRGTnRSNF9RUng3YXpzRDBLekV0WkN2N0t0VTNmMVMyclZidw?oc=5",
+     "at": "2026-10-02T19:43:00"
     }
    ],
    "more": [],
@@ -774,7 +936,7 @@
   {
    "id": "n8",
    "n": 8,
-   "topic": "agriculture",
+   "topic": "emergency",
    "place": null,
    "statewide": true,
    "lat": null,
@@ -782,44 +944,19 @@
    "counties": [],
    "stories": [
     {
-     "title": "Illinois crop progress for week ending Oct. 4",
-     "source": "Agri News",
-     "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNYmtXWE13ejFYSVVwclg2WndvSVVIV2trUW5aZjV6N1c0U0FvaXlYb3h1Wk1HZVlRNkFlXzlPUS15X1BYU2RheTVucFdDVzFqTGM3LVZrbTM5S2Z6UU1fZ0xTYkZZNEVJcEJDVVR1RVd2dHpVUGtRbWYtX1Y1UzFCRm1FbWxsa0syQk5uSHowdjY3eVNIaXd6T01PaVphSUF5U0tDV19NYXRpNVFx?oc=5",
-     "at": "2026-10-06T20:30:00"
+     "title": "Trump denies Illinois disaster relief request for summer storms",
+     "source": "Chicago Sun-Times",
+     "url": "https://chicago.suntimes.com/news/2026/10/08/trump-denies-disaster-relief-for-illinois-summer-storms",
+     "at": "2026-10-09T04:19:00"
     }
    ],
    "more": [],
-   "links": [
-    "p5"
-   ],
+   "links": [],
    "alerts": []
   },
   {
    "id": "n9",
    "n": 9,
-   "topic": "weather",
-   "place": null,
-   "statewide": true,
-   "lat": null,
-   "lon": null,
-   "counties": [],
-   "stories": [
-    {
-     "title": "PRELIMINARY LOW TEMPERATURES FOR OCTOBER 6th 2026 (NWS St. Louis)",
-     "source": "NWS St. Louis statements",
-     "url": "https://mesonet.agron.iastate.edu/p.php?pid=202610061332-KLSX-NOUS43-PNSLSX",
-     "at": "2026-10-06T13:32:00+00:00"
-    }
-   ],
-   "more": [],
-   "links": [
-    "p1"
-   ],
-   "alerts": []
-  },
-  {
-   "id": "n10",
-   "n": 10,
    "topic": "markets",
    "place": null,
    "statewide": true,
@@ -828,10 +965,10 @@
    "counties": [],
    "stories": [
     {
-     "title": "Harvest basis dip shifts patterns in Corn Belt",
-     "source": "FarmWeekNow",
-     "url": "https://www.farmweeknow.com/harvest-basis-dip-shifts-patterns-in-corn-belt/article_cd38dbeb-47a6-45ef-aca8-9b847ed84500.html",
-     "at": "2026-10-06T07:00:00"
+     "title": "September basis offers insight",
+     "source": "AgUpdate",
+     "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOeFRJZVlhWlFzZVR5Z3JhZHpmWkdqbl93T0V4OUtQLUd0cHl6VkhIZl9fMzNQLTRLWGQwZWFFdW40SGVILVg1QXl4b3o2aExhQXNUMXg3TklKdzZaRXQ3MDhWeGlualUwVXQ5Y21rcGozU1lTeXhxSy1VM0Z5cUsya1k0R05TYXFkYUdFcGY3S0o?oc=5",
+     "at": "2026-10-05T07:00:00"
     }
    ],
    "more": [],
@@ -839,12 +976,32 @@
     "p2"
    ],
    "alerts": []
+  },
+  {
+   "id": "n10",
+   "n": 10,
+   "topic": "landuse",
+   "place": null,
+   "statewide": true,
+   "lat": null,
+   "lon": null,
+   "counties": [],
+   "stories": [
+    {
+     "title": "Clock ticking for Illinois data center regulation",
+     "source": "WAND",
+     "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQSlRyQkdacmQwSkFvOHJidU9aZzZjdVlycExBWDIwXzBSQ3VCa3hXblI1Vks4QlJ5ZHFMWmNuUDczNkFWajduUmllWmVrUzJRNHpyVlN1WVpHcnJxTVR1eXRodnNyN1BnT09RUGl4ZWMzM0pkQkxYSmxtVk80X1NFMi0zRlFBRjjSAZsBQVVfeXFMTmNubVdMaV85SnJ2VjUtNDJ0Sy1oNngteDM4bHd1SUZ2cGhZOW43OHhJdEcwWm5iOUt3d3RNeENuMjlMdTVRSGo2R0dQN2s2MXNFbzhNREdsVDBndnZiUWFrQ2xNV09TeGw0RlRPTXVhQ1ZsSXVleXJSWmJra2dfTl82cDBfZl9tZzEtQWdUTWRBQzhWRjVCcUxHX0k?oc=5",
+     "at": "2026-10-08T00:25:00"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
   }
  ],
  "areas": [],
  "quiet": [
   "Agriculture",
-  "Air",
   "Seasons & nature",
   "Earthquakes"
  ]

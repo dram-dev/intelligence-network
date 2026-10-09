@@ -160,6 +160,26 @@
   "verified": true
  },
  {
+  "id": 83,
+  "topic": "air",
+  "metric": "pm25_ugm3",
+  "metric_label": "PM2.5",
+  "title": "PM2.5 54.4 \u00b5g/m\u00b3 (AQI 148, unhealthy for sensitive groups) \u2014 Randolph County",
+  "county_fips": "17157",
+  "county_label": "Randolph County",
+  "peak_display": "54.4 \u00b5g/m\u00b3 (AQI 148, unhealthy for sensitive groups)",
+  "n_signals": 3,
+  "n_sensors": 1,
+  "n_reference": 3,
+  "severity": 0.4,
+  "score": 0.95,
+  "status": "closed",
+  "opened_at": "2026-10-08T07:00:00+00:00",
+  "updated_at": "2026-10-08T10:00:00+00:00",
+  "source_url": null,
+  "verified": true
+ },
+ {
   "id": 80,
   "topic": "weather",
   "metric": "rain_mm",
@@ -497,6 +517,26 @@
   "opened_at": "2026-09-30T23:25:00+00:00",
   "updated_at": "2026-09-30T23:25:00+00:00",
   "source_url": "https://mesonet.agron.iastate.edu/lsr/#DVN",
+  "verified": true
+ },
+ {
+  "id": 84,
+  "topic": "soil",
+  "metric": "soil_moisture_pct",
+  "metric_label": "Soil moisture",
+  "title": "Soil moisture down to 10 % \u2014 Mason County",
+  "county_fips": "17125",
+  "county_label": "Mason County",
+  "peak_display": "10 %",
+  "n_signals": 1,
+  "n_sensors": 1,
+  "n_reference": 1,
+  "severity": 0.4,
+  "score": 0.9,
+  "status": "closed",
+  "opened_at": "2026-10-07T12:00:00+00:00",
+  "updated_at": "2026-10-07T12:00:00+00:00",
+  "source_url": "https://wcc.sc.egov.usda.gov/nwcc/site?sitenum=2004",
   "verified": true
  },
  {
