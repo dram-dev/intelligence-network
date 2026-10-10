@@ -1,23 +1,26 @@
 [
  {
-  "id": 24,
+  "id": 27,
   "topic": "air",
-  "title": "PM2.5 54.4 \u00b5g/m\u00b3 (AQI 148, unhealthy for sensitive groups) \u2014 Randolph County",
-  "severity": 0.4,
+  "title": "Ozone 77 ppb (AQI 122, unhealthy for sensitive groups) \u2014 Jersey County",
+  "severity": 0.5,
   "status": "closed",
   "counties": [
-   "Randolph"
+   "Jersey",
+   "Madison"
   ],
   "fips": [
-   "17157"
+   "17083",
+   "17119"
   ],
-  "opened_at": "2026-10-08T07:00:00+00:00",
-  "updated_at": "2026-10-08T10:00:00+00:00",
-  "lat": 38.176,
-  "lon": -89.788,
-  "brief": "PM2.5 levels peaked at 54.4 \u00b5g/m\u00b3 in Randolph County [1]. This reading was verified by three official sources [1].",
+  "opened_at": "2026-10-09T19:00:00+00:00",
+  "updated_at": "2026-10-09T23:00:00+00:00",
+  "lat": 38.981,
+  "lon": -90.225,
+  "brief": "Ozone peaked at 76 ppb in Madison County, verified by three official sources [1]. Jersey County recorded a verified ozone peak of 77 ppb from five official sources [2].",
   "facts": [
-   "PM2.5 peak 54.4 \u00b5g/m\u00b3 in Randolph County, from -2 people and 3 official sources, verified"
+   "Ozone peak 76 ppb in Madison County, from -2 people and 3 official sources, verified",
+   "Ozone peak 77 ppb in Jersey County, from -4 people and 5 official sources, verified"
   ]
  }
 ]
