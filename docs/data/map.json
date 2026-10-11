@@ -1,117 +1,41 @@
 {
- "as_of": "2026-10-10T07:15:09+00:00",
+ "as_of": "2026-10-11T06:50:16+00:00",
  "hours": 24,
  "places": [
   {
    "id": "p1",
-   "topic": "air",
-   "source": "EPA air monitor",
-   "name": "Jersey County air monitor",
-   "county": "Jersey",
-   "zip": null,
-   "lat": 39.1014,
-   "lon": -90.3445,
-   "person": false,
-   "label": "Ozone 77 ppb",
-   "lines": [
-    {
-     "metric": "ozone_ppb",
-     "name": "Ozone",
-     "value": "77 ppb (AQI 122, unhealthy for sensitive groups)",
-     "note": null,
-     "at": "2026-10-09T22:00+00:00",
-     "sev": 0.5
-    }
-   ],
-   "why": [
-    "Highest ozone in Illinois in the last 24 hours (AQI 122, unhealthy for sensitive groups)",
-    "Ozone past the network's event threshold (AQI 122, unhealthy for sensitive groups)",
-    "In the news: \u201cJeff Guilander, Jerseyville, 10/10/26\u201d"
-   ],
-   "status": "official",
-   "at": "2026-10-10T06:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Ozone 77 ppb (AQI 122, unhealthy for sensitive groups) \u2014 Jersey County",
-    "verified": true,
-    "score": 1.19
-   },
-   "news": [
-    "n2"
-   ],
-   "tier": 1
-  },
-  {
-   "id": "p2",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "0.4 mi SE of Monmouth",
-   "county": "Warren",
-   "zip": null,
-   "lat": 40.9087,
-   "lon": -90.6371,
-   "person": false,
-   "label": "Rain 0.54 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "0.54 in",
-     "note": null,
-     "at": "2026-10-09T13:15+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Highest rainfall total in Illinois in the last 24 hours",
-    "In the news: \u201cRainfall dictates harvest progress\u201d"
-   ],
-   "status": "official",
-   "at": "2026-10-09T13:15+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [
-    "n9"
-   ],
-   "tier": 1
-  },
-  {
-   "id": "p3",
    "topic": "weather",
    "source": "Airport station",
-   "name": "Mount Vernon (MVN)",
-   "county": "Jefferson",
+   "name": "Macomb Muni (MQB)",
+   "county": "McDonough",
    "zip": null,
-   "lat": 38.3233,
-   "lon": -88.8583,
+   "lat": 40.52,
+   "lon": -90.65,
    "person": false,
-   "label": "High 90 \u00b0F",
+   "label": "High 85.6 \u00b0F",
    "lines": [
     {
      "metric": "temp_c",
      "name": "Temperature",
-     "value": "90 \u00b0F",
-     "note": "the day's high",
-     "at": "2026-10-09T18:56+00:00",
+     "value": "85.6 \u00b0F",
+     "note": null,
+     "at": "2026-10-10T19:55+00:00",
      "sev": 0.0
     }
    ],
    "why": [
     "Highest temperature in Illinois in the last 24 hours",
-    "Lowest temperature in Illinois in the last 24 hours"
+    "In the news: \u201cHeat surges before rain, storms and a sharp cooldown\u201d"
    ],
    "status": "official",
-   "at": "2026-10-10T06:56+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=MVN&network=IL_ASOS",
+   "at": "2026-10-11T05:55+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=MQB&network=IL_ASOS",
    "spark": {
     "name": "Temperature",
     "unit": "\u00b0F",
     "t": [
-     -1380,
-     -1320,
-     -1260,
+     -1340,
+     -1280,
      -1200,
      -1140,
      -1080,
@@ -127,95 +51,7 @@
      -480,
      -420,
      -360,
-     -240,
-     -120,
-     0
-    ],
-    "v": [
-     45.0,
-     45.0,
-     45.0,
-     44.0,
-     46.0,
-     49.0,
-     65.0,
-     75.0,
-     82.0,
-     86.0,
-     89.0,
-     90.0,
-     90.0,
-     90.0,
-     89.0,
-     84.0,
-     76.0,
-     67.0,
-     70.0,
-     68.0,
-     55.0
-    ]
-   },
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
-   "id": "p4",
-   "topic": "water",
-   "source": "USGS stream gauge",
-   "name": "Illinois River at Morris",
-   "county": "Grundy",
-   "zip": null,
-   "lat": 41.3546,
-   "lon": -88.4285,
-   "person": false,
-   "label": "\u25b2 1.04 ft",
-   "lines": [
-    {
-     "metric": "stage_m",
-     "name": "Stage (gauge height)",
-     "value": "6.16 ft",
-     "note": "up 1.04 ft in 24 hours",
-     "at": "2026-10-10T05:45+00:00",
-     "sev": 0.0
-    },
-    {
-     "metric": "discharge_cms",
-     "name": "Streamflow",
-     "value": "9,070 cfs",
-     "note": "up 4,120 cfs in 24 hours",
-     "at": "2026-10-10T05:45+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Biggest rise in Illinois in the last 24 hours"
-   ],
-   "status": "official",
-   "at": "2026-10-10T05:45+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/05542500/",
-   "spark": {
-    "name": "Stage (gauge height)",
-    "unit": "ft",
-    "t": [
-     -1320,
-     -1260,
-     -1200,
-     -1140,
-     -1080,
-     -1020,
-     -960,
-     -900,
-     -840,
-     -780,
-     -720,
-     -660,
-     -600,
-     -540,
-     -480,
-     -420,
-     -360,
-     -300,
+     -320,
      -240,
      -180,
      -120,
@@ -223,37 +59,74 @@
      0
     ],
     "v": [
-     5.68,
-     5.7,
-     5.7,
-     5.62,
-     5.6,
-     5.56,
-     5.44,
-     5.36,
-     5.32,
-     5.26,
-     5.23,
-     5.19,
-     5.15,
-     5.12,
-     5.22,
-     5.44,
-     5.62,
-     5.8,
-     5.92,
-     6.03,
-     6.11,
-     6.14,
-     6.16
+     56.0,
+     55.6,
+     56.0,
+     55.0,
+     50.4,
+     54.0,
+     60.8,
+     65.7,
+     73.0,
+     80.0,
+     84.4,
+     85.5,
+     85.6,
+     84.7,
+     82.6,
+     79.3,
+     71.2,
+     67.0,
+     61.5,
+     60.8,
+     60.8,
+     58.6,
+     55.0
     ]
    },
    "event": null,
-   "news": [],
+   "news": [
+    "n10"
+   ],
    "tier": 1
   },
   {
-   "id": "p5",
+   "id": "p2",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.1 mi NNW of St. Augustine",
+   "county": "Knox",
+   "zip": null,
+   "lat": 40.7216,
+   "lon": -90.4095,
+   "person": false,
+   "label": "Rain 0.37 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "0.37 in",
+     "note": null,
+     "at": "2026-10-10T12:00+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Highest rainfall total in Illinois in the last 24 hours",
+    "In the news: \u201cHeat surges before rain, storms and a sharp cooldown\u201d"
+   ],
+   "status": "official",
+   "at": "2026-10-10T12:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [
+    "n10"
+   ],
+   "tier": 1
+  },
+  {
+   "id": "p3",
    "topic": "markets",
    "source": "USDA grain bids",
    "name": "West district",
@@ -282,13 +155,187 @@
     }
    ],
    "why": [
-    "Lowest corn basis in Illinois in the last 24 hours",
-    "Lowest soybean basis in Illinois in the last 24 hours"
+    "Lowest corn basis in Illinois in the latest reports (Oct 9)",
+    "Lowest soybean basis in Illinois in the latest reports (Oct 9)"
    ],
    "status": "official",
    "at": "2026-10-09T18:09+00:00",
    "url": null,
    "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p4",
+   "topic": "weather",
+   "source": "Airport station",
+   "name": "Decatur (DEC)",
+   "county": "Macon",
+   "zip": null,
+   "lat": 39.8346,
+   "lon": -88.8657,
+   "person": false,
+   "label": "Low 48 \u00b0F",
+   "lines": [
+    {
+     "metric": "temp_c",
+     "name": "Temperature",
+     "value": "48 \u00b0F",
+     "note": "the day's low",
+     "at": "2026-10-10T10:54+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Lowest temperature in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-10-11T05:54+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=DEC&network=IL_ASOS",
+   "spark": {
+    "name": "Temperature",
+    "unit": "\u00b0F",
+    "t": [
+     -1380,
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -600,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     61.0,
+     52.0,
+     53.0,
+     50.0,
+     48.0,
+     49.0,
+     50.0,
+     56.0,
+     65.0,
+     69.0,
+     73.0,
+     78.0,
+     78.0,
+     81.0,
+     79.0,
+     78.0,
+     73.0,
+     68.0,
+     64.0,
+     60.0,
+     56.0,
+     56.0,
+     55.0,
+     54.0
+    ]
+   },
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p5",
+   "topic": "water",
+   "source": "USGS stream gauge",
+   "name": "Mississippi River Pool Lock and Dam 26 at Alton",
+   "county": "Madison",
+   "zip": null,
+   "lat": 38.8873,
+   "lon": -90.184,
+   "person": false,
+   "label": "\u25b2 1.55 ft",
+   "lines": [
+    {
+     "metric": "stage_m",
+     "name": "Stage (gauge height)",
+     "value": "16.2 ft",
+     "note": "up 1.55 ft in 24 hours",
+     "at": "2026-10-11T06:30+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Biggest rise in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-10-11T06:30+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05587498/",
+   "spark": {
+    "name": "Stage (gauge height)",
+    "unit": "ft",
+    "t": [
+     -1410,
+     -1350,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -600,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     15.07,
+     15.02,
+     14.93,
+     14.88,
+     14.83,
+     14.79,
+     14.7,
+     15.18,
+     15.4,
+     15.53,
+     15.64,
+     15.68,
+     15.72,
+     15.77,
+     15.79,
+     15.78,
+     15.95,
+     16.09,
+     16.11,
+     16.1,
+     16.22,
+     16.21,
+     16.24,
+     16.25
+    ]
+   },
    "event": null,
    "news": [],
    "tier": 1
@@ -303,14 +350,14 @@
    "lat": 40.3131,
    "lon": -89.9019,
    "person": false,
-   "label": "Soil moisture 9.7 %",
+   "label": "Soil moisture 9.2 %",
    "lines": [
     {
      "metric": "soil_moisture_pct",
      "name": "Soil moisture",
-     "value": "9.7 %",
+     "value": "9.2 %",
      "note": null,
-     "at": "2026-10-08T12:00+00:00",
+     "at": "2026-10-09T12:00+00:00",
      "sev": 0.4
     }
    ],
@@ -318,7 +365,7 @@
     "Soil moisture past the network's event threshold"
    ],
    "status": "official",
-   "at": "2026-10-08T12:00+00:00",
+   "at": "2026-10-09T12:00+00:00",
    "url": "https://wcc.sc.egov.usda.gov/nwcc/site?sitenum=2004",
    "spark": null,
    "event": null,
@@ -327,32 +374,86 @@
   },
   {
    "id": "p7",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "0.4 mi W of Elmwood",
-   "county": "Peoria",
+   "topic": "water",
+   "source": "USGS stream gauge",
+   "name": "Chicago Sanitary and Ship Canal at Stickney",
+   "county": "Cook",
    "zip": null,
-   "lat": 40.7788,
-   "lon": -89.9749,
+   "lat": 41.8167,
+   "lon": -87.7535,
    "person": false,
-   "label": "Rain 0.11 in",
+   "label": "\u25b2 0.51 ft",
    "lines": [
     {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "0.11 in",
-     "note": null,
-     "at": "2026-10-09T12:00+00:00",
+     "metric": "stage_m",
+     "name": "Stage (gauge height)",
+     "value": "-1.75 ft",
+     "note": "up 0.51 ft in 24 hours",
+     "at": "2026-10-11T06:00+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "In the news: \u201cCentral Illinois farmer says excess rain and high heat impacted corn yields\u201d"
+    "Second-biggest rise in Illinois in the last 24 hours",
+    "In the news: \u201cCook County pledges $8 million to help south suburban communities clean summer storm damage\u201d"
    ],
    "status": "official",
-   "at": "2026-10-09T12:00+00:00",
-   "url": null,
-   "spark": null,
+   "at": "2026-10-11T06:00+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05536140/",
+   "spark": {
+    "name": "Stage (gauge height)",
+    "unit": "ft",
+    "t": [
+     -1380,
+     -1320,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -600,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     -2.07,
+     -2.1,
+     -2.22,
+     -2.13,
+     -2.07,
+     -2.21,
+     -2.1,
+     -2.15,
+     -2.11,
+     -2.13,
+     -2.17,
+     -2.26,
+     -2.02,
+     -1.95,
+     -1.95,
+     -1.94,
+     -1.89,
+     -1.79,
+     -1.75,
+     -1.67,
+     -1.65,
+     -1.63,
+     -1.75
+    ]
+   },
    "event": null,
    "news": [
     "n1"
@@ -361,168 +462,70 @@
   },
   {
    "id": "p8",
-   "topic": "water",
-   "source": "USGS stream gauge",
-   "name": "Edwards River near New Boston",
-   "county": "Mercer",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.8 mi NNW of Arlington Heights",
+   "county": "Cook",
    "zip": null,
-   "lat": 41.187,
-   "lon": -90.9674,
+   "lat": 42.1048,
+   "lon": -87.99,
    "person": false,
-   "label": "Near flood 15.1 ft",
+   "label": "Rain 0.04 in",
    "lines": [
     {
-     "metric": "stage_m",
-     "name": "Stage (gauge height)",
-     "value": "15.1 ft",
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "0.04 in",
      "note": null,
-     "at": "2026-10-10T05:30+00:00",
-     "sev": 0.0
-    },
-    {
-     "metric": "discharge_cms",
-     "name": "Streamflow",
-     "value": "528 cfs",
-     "note": null,
-     "at": "2026-10-10T05:30+00:00",
+     "at": "2026-10-10T12:00+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Near flood stage (flood stage 17 ft)"
+    "In the news: \u201cCook County pledges $8 million to help south suburban communities clean summer storm damage\u201d"
    ],
    "status": "official",
-   "at": "2026-10-10T05:30+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/05466500/",
-   "spark": {
-    "name": "Stage (gauge height)",
-    "unit": "ft",
-    "t": [
-     -1320,
-     -1260,
-     -1200,
-     -1140,
-     -1080,
-     -1020,
-     -960,
-     -900,
-     -840,
-     -780,
-     -720,
-     -660,
-     -600,
-     -540,
-     -480,
-     -420,
-     -360,
-     -300,
-     -240,
-     -180,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     15.23,
-     15.22,
-     15.21,
-     15.21,
-     15.16,
-     15.16,
-     15.12,
-     15.17,
-     15.11,
-     15.08,
-     15.15,
-     15.14,
-     15.16,
-     15.15,
-     15.14,
-     15.14,
-     15.13,
-     15.13,
-     15.12,
-     15.11,
-     15.11,
-     15.11,
-     15.1
-    ]
-   },
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
-   "id": "p9",
-   "topic": "air",
-   "source": "EPA air monitor",
-   "name": "Madison County air monitor",
-   "county": "Madison",
-   "zip": null,
-   "lat": 38.8606,
-   "lon": -90.1058,
-   "person": false,
-   "label": "Ozone 76 ppb",
-   "lines": [
-    {
-     "metric": "ozone_ppb",
-     "name": "Ozone",
-     "value": "76 ppb (AQI 118, unhealthy for sensitive groups)",
-     "note": "up 40 ppb (AQI 37, good) in 24 hours",
-     "at": "2026-10-09T21:00+00:00",
-     "sev": 0.5
-    }
-   ],
-   "why": [
-    "Ozone past the network's event threshold (AQI 118, unhealthy for sensitive groups)",
-    "In the news: \u201cAmeren Illinois begins major power grid upgrades in Granite City after tornado damage\u201d"
-   ],
-   "status": "official",
-   "at": "2026-10-10T06:00+00:00",
+   "at": "2026-10-10T12:00+00:00",
    "url": null,
    "spark": null,
-   "event": {
-    "title": "Ozone 76 ppb (AQI 118, unhealthy for sensitive groups) \u2014 Madison County",
-    "verified": true,
-    "score": 1.19
-   },
+   "event": null,
    "news": [
-    "n3"
+    "n1"
    ],
    "tier": 2
   },
   {
-   "id": "p10",
+   "id": "p9",
    "topic": "water",
    "source": "USGS stream gauge",
-   "name": "Illinois River at Seneca",
-   "county": "LaSalle",
+   "name": "Chicago S & S Canal at Western Ave at Chicago",
+   "county": "Cook",
    "zip": null,
-   "lat": 41.2999,
-   "lon": -88.6142,
+   "lat": 41.8372,
+   "lon": -87.6854,
    "person": false,
-   "label": "\u25b2 0.58 ft",
+   "label": "\u25b2 0.51 ft",
    "lines": [
     {
      "metric": "stage_m",
      "name": "Stage (gauge height)",
-     "value": "20.9 ft",
-     "note": "up 0.58 ft in 24 hours",
-     "at": "2026-10-10T05:45+00:00",
+     "value": "-1.62 ft",
+     "note": "up 0.51 ft in 24 hours",
+     "at": "2026-10-11T06:00+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Second-biggest rise in Illinois in the last 24 hours"
+    "Third-biggest rise in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-10-10T05:45+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/05543010/",
+   "at": "2026-10-11T06:00+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05536137/",
    "spark": {
     "name": "Stage (gauge height)",
     "unit": "ft",
     "t": [
-     -1320,
+     -1350,
      -1260,
      -1200,
      -1140,
@@ -547,29 +550,29 @@
      0
     ],
     "v": [
-     20.63,
-     20.63,
-     20.64,
-     20.63,
-     20.59,
-     20.58,
-     20.57,
-     20.57,
-     20.57,
-     20.52,
-     20.44,
-     20.34,
-     20.37,
-     20.47,
-     20.52,
-     20.57,
-     20.74,
-     20.76,
-     20.84,
-     20.73,
-     20.82,
-     20.85,
-     20.92
+     -2.04,
+     -2.03,
+     -2.04,
+     -2.02,
+     -2.04,
+     -2.02,
+     -2.04,
+     -2.13,
+     -2.06,
+     -2.07,
+     -2.1,
+     -2.08,
+     -2.08,
+     -1.92,
+     -1.89,
+     -1.82,
+     -1.81,
+     -1.74,
+     -1.71,
+     -1.6,
+     -1.63,
+     -1.57,
+     -1.62
     ]
    },
    "event": null,
@@ -581,95 +584,21 @@
   {
    "id": "n1",
    "n": 1,
-   "topic": "agriculture",
-   "place": "Central Illinois",
-   "statewide": false,
-   "lat": 39.7569,
-   "lon": -89.6624,
-   "counties": [
-    "17019",
-    "17113",
-    "17115",
-    "17143",
-    "17167",
-    "17179"
-   ],
-   "stories": [
-    {
-     "title": "Central Illinois farmer says excess rain and high heat impacted corn yields",
-     "source": "Brownfield Ag News",
-     "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOVFVEZlJXQmNGWWt2VGxhdnVWOHZ1bW5XRm9FSkF0OHBueVB6bFdYU2pXSlFBanBPdGQtdHpfdGxEazh6Q3dURElOZWowN0M2ZmRXUXphamFHOFEtdjhkUEgtamVCU0d0enlaLVhHSnIydjBhaFVWcHFkUk81bURtZDBId0tuMjg5eUVDT0c1eDFCUk05Yk5KcjVVUUNMa2d5VF9sYTFmWnd2cXdOakU0M0FjTHk?oc=5",
-     "at": "2026-10-06T03:39:56"
-    }
-   ],
-   "more": [],
-   "links": [
-    "p7"
-   ],
-   "alerts": []
-  },
-  {
-   "id": "n2",
-   "n": 2,
-   "topic": "agriculture",
-   "place": "Jerseyville",
-   "statewide": false,
-   "lat": 39.1172,
-   "lon": -90.3267,
-   "counties": [
-    "17083"
-   ],
-   "stories": [
-    {
-     "title": "Jeff Guilander, Jerseyville, 10/10/26",
-     "source": "FarmWeekNow",
-     "url": "https://www.farmweeknow.com/crop_conditions/cropwatchers/jersey_county/jeff-guilander-jerseyville-10-10-26/article_6cbd47cb-2372-4943-bbb2-6fbe005d6b51.html",
-     "at": "2026-10-10T07:00:00"
-    }
-   ],
-   "more": [],
-   "links": [
-    "p1"
-   ],
-   "alerts": []
-  },
-  {
-   "id": "n3",
-   "n": 3,
    "topic": "emergency",
-   "place": "Granite City",
+   "place": "Cook County",
    "statewide": false,
-   "lat": 38.7293,
-   "lon": -90.1255,
-   "counties": [
-    "17119"
-   ],
-   "stories": [
-    {
-     "title": "Ameren Illinois begins major power grid upgrades in Granite City after tornado damage",
-     "source": "KSDK",
-     "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxNa0FKWEFuT1FSRXhvX3ZJQzI3dWxMb0I5Qkt2T0lya21VdHl1RjA2Yzk0RGpLb1FVVDFxUnJjMFFZRTdFN3otTER3ZVlYaDhXSmtmWG4xTl95QV9iMTVhV0hzd0tMcDFFcGpHTEFJQ2lsWFc0M19Qd3ZrZjJEbG5rZnlzcXg3VzZrcUY3a1JOYm5EcmRXRDAwNThfYmhYdHA5a1VSRFhNLV9YWDd3Zm9NSWxhRXZidVRHYWtNakNubEoyZjl6QVN0cG9xUXpwQk5oUHBfN0llcGpzamVwYUF5d2lqemlhS2hTZnpmOA?oc=5",
-     "at": "2026-10-09T15:16:00"
-    }
-   ],
-   "more": [],
-   "links": [
-    "p9"
-   ],
-   "alerts": []
-  },
-  {
-   "id": "n4",
-   "n": 4,
-   "topic": "weather",
-   "place": "Chicago",
-   "statewide": false,
-   "lat": 41.837,
-   "lon": -87.6849,
+   "lat": 41.8943,
+   "lon": -87.6454,
    "counties": [
     "17031"
    ],
    "stories": [
+    {
+     "title": "Cook County pledges $8 million to help south suburban communities clean summer storm damage",
+     "source": "Chicago Sun-Times",
+     "url": "https://chicago.suntimes.com/news/2026/10/06/storm-damage-tornados-cleanup-8-million-pledge-cook-county-preckwinkle",
+     "at": "2026-10-06T17:54:31"
+    },
     {
      "title": "Chicago weather: Tracking rain this weekend",
      "source": "CBS News",
@@ -681,21 +610,20 @@
      "source": "Patch",
      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPQWNnNGw4ZHhXeG44cTFnZVdrV3JmckVqM01WNjEtOEhzVXBSNWpOTFdjWEU3akgxNVlOSzVjdS1EZVNiTTJpcmtjVTN2eC1taFNQa3AydlUtcjFhWlZZcXVFc2g0YlJ3dmVtQnQyVDBiU2gwRG1WdE5qWXNnLU1JWHFFMGotMThLUWZZRFZ6Q3lmb1hvV2UxRnZjYjhiWDNDRlgw0gG-AUFVX3lxTE5XYTUyQkVfcEM2cF9WZFQ5SVFOczRxUkVHM0NxUWdpMjFOajhJNTA3TXBaWGY0ZDhoU1RrQ2wxa2tCam04Umh5eWQxUU1lcDFkdHdJVlpILThZbWRtWXRjeHYxSnVKRF9ZUzBid2FYLXd4ZFRiSW5LYlZfaElnWnJ0dF90cERJU25WaXZwbmt3SEdURVZsZnhEbVBQN2FtaXNkV1JlMmNUaVQxbUZnbkhVVEQyZFlTcTB3WEphVEE?oc=5",
      "at": "2026-10-09T19:31:38"
-    },
-    {
-     "title": "\"From 'great open sewer' to swimming spot: How the Chicago River was saved,\" CNN - Metropolitan Water Reclamation District of Greater Chicago",
-     "source": "MWRD Greater Chicago",
-     "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOZ1UtekRKb0w3S1lhM1pzM3h5bk80Y3FTa0k0V3Z6czdoWWs4OTVYZkVvZHdfZDR3TzJ2R2NtRXF2OHlhV3c2ZDJhaUlQMjU2dS1zMFViZkc2cXFGaFhUQkc1TFhpOFppSFRhZUt3ZGV6RGpnbDZZZGptcklpYjdjMWZadTkwaEFhbmFLeUkzRk4?oc=5",
-     "at": "2026-10-06T05:18:45"
     }
    ],
-   "more": [],
-   "links": [],
+   "more": [
+    "\"From 'great open sewer' to swimming spot: How the Chicago River was saved,\" CNN - Metropolitan Water Reclamation District of Greater Chicago"
+   ],
+   "links": [
+    "p7",
+    "p8"
+   ],
    "alerts": []
   },
   {
-   "id": "n5",
-   "n": 5,
+   "id": "n2",
+   "n": 2,
    "topic": "agriculture",
    "place": "Gilman",
    "statewide": false,
@@ -717,32 +645,8 @@
    "alerts": []
   },
   {
-   "id": "n6",
-   "n": 6,
-   "topic": "agriculture",
-   "place": "Vermilion",
-   "statewide": false,
-   "lat": 39.5802,
-   "lon": -87.588,
-   "counties": [
-    "17045",
-    "17183"
-   ],
-   "stories": [
-    {
-     "title": "HARVEST \u2013 Vermilion Co Farmers Take Advantage of Warm, Low Moisture Weather While Trying to Navigate Diesel Fuel Issues",
-     "source": "Vermilion County First",
-     "url": "https://news.google.com/rss/articles/CBMi8wFBVV95cUxNQzYtWEM0TktFckgwVkJIQUZvUnFnYU1rTVpzOF8zSmd0eE9mU2lyNHQyanVzNndHc1F3WTV2T01DU3lmTk0tVmtqakc0SGN5S2V3aUZLWk9lQnh1ZUlGbldwXzdWejVYTEJMTzQ4RVJzUnlFb2VSbGwwbEdqd2FNc3VNUnZ1WkxrYzN6ZjB5U1h6MkZyNGZXNGRVN3g4R1lsa3dNdmJSY25oT2Z2ZVJxb3RabkdrOFEyVm1CdVdIUDlhQVR0ZnpPRk9HamtoNnFEaVRFWmsxREVXRDFaNTBBQnY4SFg2RkYzU05LUkRLdUlYZUE?oc=5",
-     "at": "2026-10-08T23:34:45"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n7",
-   "n": 7,
+   "id": "n3",
+   "n": 3,
    "topic": "agriculture",
    "place": "Savanna",
    "statewide": false,
@@ -764,6 +668,98 @@
    "alerts": []
   },
   {
+   "id": "n4",
+   "n": 4,
+   "topic": "agriculture",
+   "place": "Chandlerville",
+   "statewide": false,
+   "lat": 40.047,
+   "lon": -90.1513,
+   "counties": [
+    "17017"
+   ],
+   "stories": [
+    {
+     "title": "Courtney Sandidge, Chandlerville, 10/10/26",
+     "source": "FarmWeekNow",
+     "url": "https://www.farmweeknow.com/crop_conditions/cropwatchers/mason_county/courtney-sandidge-chandlerville-10-10-26/article_feaa07e9-cc8e-46b2-b3c5-275c21f4d9e4.html",
+     "at": "2026-10-10T07:00:00"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n5",
+   "n": 5,
+   "topic": "agriculture",
+   "place": "Brownstown",
+   "statewide": false,
+   "lat": 38.9942,
+   "lon": -88.9553,
+   "counties": [
+    "17051"
+   ],
+   "stories": [
+    {
+     "title": "A.J. Tackett, Brownstown, 10/10/26",
+     "source": "FarmWeekNow",
+     "url": "https://www.farmweeknow.com/crop_conditions/cropwatchers/fayette_county/a-j-tackett-brownstown-10-10-26/article_8a5f7656-72d4-43f2-9a40-52baa7f6e8af.html",
+     "at": "2026-10-10T07:00:00"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n6",
+   "n": 6,
+   "topic": "agriculture",
+   "place": "Jerseyville",
+   "statewide": false,
+   "lat": 39.1172,
+   "lon": -90.3267,
+   "counties": [
+    "17083"
+   ],
+   "stories": [
+    {
+     "title": "Jeff Guilander, Jerseyville, 10/10/26",
+     "source": "FarmWeekNow",
+     "url": "https://www.farmweeknow.com/crop_conditions/cropwatchers/jersey_county/jeff-guilander-jerseyville-10-10-26/article_6cbd47cb-2372-4943-bbb2-6fbe005d6b51.html",
+     "at": "2026-10-10T07:00:00"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n7",
+   "n": 7,
+   "topic": "emergency",
+   "place": "Granite City",
+   "statewide": false,
+   "lat": 38.7293,
+   "lon": -90.1255,
+   "counties": [
+    "17119"
+   ],
+   "stories": [
+    {
+     "title": "Ameren Illinois begins major power grid upgrades in Granite City after tornado damage",
+     "source": "KSDK",
+     "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxNa0FKWEFuT1FSRXhvX3ZJQzI3dWxMb0I5Qkt2T0lya21VdHl1RjA2Yzk0RGpLb1FVVDFxUnJjMFFZRTdFN3otTER3ZVlYaDhXSmtmWG4xTl95QV9iMTVhV0hzd0tMcDFFcGpHTEFJQ2lsWFc0M19Qd3ZrZjJEbG5rZnlzcXg3VzZrcUY3a1JOYm5EcmRXRDAwNThfYmhYdHA5a1VSRFhNLV9YWDd3Zm9NSWxhRXZidVRHYWtNakNubEoyZjl6QVN0cG9xUXpwQk5oUHBfN0llcGpzamVwYUF5d2lqemlhS2hTZnpmOA?oc=5",
+     "at": "2026-10-09T15:16:00"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
    "id": "n8",
    "n": 8,
    "topic": "emergency",
@@ -774,10 +770,10 @@
    "counties": [],
    "stories": [
     {
-     "title": "Trump administration denies Illinois\u2019 request for disaster relief",
-     "source": "commercial-news.com",
-     "url": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxOZHRiVWRXVTEyeV9vRzBYS3ZZZ0ZSd2pJNGx6cy00WE91WWh4ZGhVbVRCNWdqRUZVTExfN2llM0JQd3BRTS1ReThmMzVpQkNQLW5XdjJYaGc2U0t3ekRqRnEyZzk5SDhaR1JhMU9GYjhiQzFSVzNCSzdiNFhzd3lMUDdRSlc2dDRTczF1TnpTZDNobURCQnBDcG9HU1cwdzFkX3I2VWQ0LVc2SmVlTE4xcmdSc2xxUEc2aFBnbWduSTFFNDF1RW5XV3NqbzcwZkk5TEg3UFk5RmoyN3U3UFpHZmVrUDRNUQ?oc=5",
-     "at": "2026-10-10T05:15:00"
+     "title": "Trump administration denies Illinois request for FEMA aid for 8 counties hit by August storms",
+     "source": "WAND",
+     "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPb0NJYWJhNmFRakZzbExfdTBkRjk1OFNoY3lIempTWWFYd0R5b2JQSVVqT3dDVmowNi1WWm9vOUstY21tTHQ5aDFObnhRM2g1OGY1RWo0NDEtNFhCWHIzLXVVYjZOSkhjR2pLcmxOM2JZcFRFNDl6bEZ1aGxwQ2tDWmFKMFFIVVRMekI3a3hBWVMwUXFVMk9jVVhUUk1rRlh0VGZFcFpJRV9LVzctVXBXRS01N3lWTGJQV0Y2bNIB0AFBVV95cUxOVVBybmc5S3dRTnJKZk5fMnItWDBLcUY1Tzc2ckpRb2VGNnhuZTdSVXl2LWlBa0NPNnBlajZQZUx4VUwyc25kWWo0NnJfTlNVUDl0Sk8yX3JpcjhUajBXZXBHeGpnOGFrMDcxVHVja2RrQ3FfZ3RLMWlmczhUOGw0dU1kbmE0MFZjMUtidHpqM085VG5XeGFVQVl3N3dEdW1DSzhOZkFacE9JbHF6aGxLLUR0MEhTcF8wQnFRcGYyT3FVUEoycXRlQzJsZy1HdzNm?oc=5",
+     "at": "2026-10-11T01:38:00"
     }
    ],
    "more": [],
@@ -795,22 +791,20 @@
    "counties": [],
    "stories": [
     {
-     "title": "Rainfall dictates harvest progress",
-     "source": "FarmWeekNow",
-     "url": "https://www.farmweeknow.com/crop_conditions/rainfall-dictates-harvest-progress/article_20b80046-d7f8-4380-b93d-8ade46d47e40.html",
-     "at": "2026-10-09T07:15:00"
+     "title": "Corn yields not meeting expectations",
+     "source": "AgriNews",
+     "url": "https://www.agrinews-pubs.com/news/science/2026/10/09/corn-yields-not-meeting-expectations/",
+     "at": "2026-10-10T00:50:00"
     }
    ],
    "more": [],
-   "links": [
-    "p2"
-   ],
+   "links": [],
    "alerts": []
   },
   {
    "id": "n10",
    "n": 10,
-   "topic": "landuse",
+   "topic": "weather",
    "place": null,
    "statewide": true,
    "lat": null,
@@ -818,20 +812,24 @@
    "counties": [],
    "stories": [
     {
-     "title": "Jobs, tax benefits and backlash: Report sheds light on data centers in Illinois",
-     "source": "Peoria Journal Star",
-     "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQazhHNDVXcmdpamFLeTJFMkJON0RGYWl4QWdZa3BQdG5pZ1VieENkUUYxWmliY3BNd2c3MTdya29pYVhYQnVoZVQ5QVN3d3R4SjFRc0RqX1V5U084Z2tjeWY3WWJIa3JVX194QTlOcVlCNDN5T3gzZDJOSHJuN1p1V0tlbkthV1d0b1hac3hJQmx4bHZORzc4czFUQlB4QWoyWXpBLXpDeTRVQmI0NktjUlozc0s0UHR4dEE?oc=5",
-     "at": "2026-10-03T09:01:00"
+     "title": "Heat surges before rain, storms and a sharp cooldown",
+     "source": "WEEK | 25 News Now",
+     "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQOGJTS3BOSUtsY0RGRkxrWUlnaEpXQWk4aDZIaWFCbFdwWmhlUDFqM3J5eDFzeUg0Y3FwWS1Zd0ZtdUU4X3NxSDBkZXozTUNxT1lRcVFXNmNQUVdVZC1ycEN5RW5PQURNNnBtZDZrTUVuaDFMd0o2ZHh2bkxvcHJxY2w4QjNvSmxrUnpz?oc=5",
+     "at": "2026-10-10T23:25:00"
     }
    ],
    "more": [],
-   "links": [],
+   "links": [
+    "p2",
+    "p1"
+   ],
    "alerts": []
   }
  ],
  "areas": [],
  "quiet": [
   "Agriculture",
+  "Air",
   "Seasons & nature",
   "Earthquakes"
  ]
