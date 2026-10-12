@@ -678,25 +678,5 @@
   "updated_at": "2026-09-29T12:00:00+00:00",
   "source_url": "https://wcc.sc.egov.usda.gov/nwcc/site?sitenum=2004",
   "verified": true
- },
- {
-  "id": 54,
-  "topic": "weather",
-  "metric": "visibility_km",
-  "metric_label": "Visibility",
-  "title": "Visibility 0.125 mi (0.2012 km) \u2014 DuPage County",
-  "county_fips": "17043",
-  "county_label": "DuPage County",
-  "peak_display": "1/8 mi",
-  "n_signals": 2,
-  "n_sensors": 1,
-  "n_reference": 2,
-  "severity": 0.4,
-  "score": 0.9,
-  "status": "closed",
-  "opened_at": "2026-09-27T12:33:00+00:00",
-  "updated_at": "2026-09-27T13:17:00+00:00",
-  "source_url": "https://mesonet.agron.iastate.edu/sites/site.php?station=DPA&network=IL_ASOS",
-  "verified": true
  }
 ]
