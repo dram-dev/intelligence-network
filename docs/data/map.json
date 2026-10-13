@@ -1,58 +1,113 @@
 {
- "as_of": "2026-10-12T06:17:32+00:00",
+ "as_of": "2026-10-13T06:52:35+00:00",
  "hours": 24,
  "places": [
   {
    "id": "p1",
-   "topic": "air",
-   "source": "EPA air monitor",
-   "name": "Jersey County air monitor",
-   "county": "Jersey",
+   "topic": "water",
+   "source": "USGS stream gauge",
+   "name": "Mississippi River Pool Lock and Dam 26 at Alton",
+   "county": "Madison",
    "zip": null,
-   "lat": 39.1014,
-   "lon": -90.3445,
+   "lat": 38.8873,
+   "lon": -90.184,
    "person": false,
-   "label": "Ozone 77 ppb",
+   "label": "\u25b2 3.17 ft",
    "lines": [
     {
-     "metric": "ozone_ppb",
-     "name": "Ozone",
-     "value": "77 ppb (AQI 122, unhealthy for sensitive groups)",
-     "note": null,
-     "at": "2026-10-09T22:00+00:00",
-     "sev": 0.5
+     "metric": "stage_m",
+     "name": "Stage (gauge height)",
+     "value": "19 ft",
+     "note": "up 3.17 ft in 24 hours",
+     "at": "2026-10-13T06:00+00:00",
+     "sev": 0.0
     }
    ],
    "why": [
-    "Highest ozone in Illinois in the latest reports (Oct 10) (AQI 122, unhealthy for sensitive groups)",
-    "Ozone past the network's event threshold (AQI 122, unhealthy for sensitive groups)"
+    "Biggest rise in Illinois in the last 24 hours",
+    "In the news: \u201cIllinois Storm and Flood Victims May Qualify for Red Cross Financial Assistance\u201d"
    ],
    "status": "official",
-   "at": "2026-10-10T08:00+00:00",
-   "url": null,
-   "spark": null,
+   "at": "2026-10-13T06:00+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05587498/",
+   "spark": {
+    "name": "Stage (gauge height)",
+    "unit": "ft",
+    "t": [
+     -1350,
+     -1290,
+     -1230,
+     -1170,
+     -1110,
+     -1050,
+     -990,
+     -930,
+     -870,
+     -810,
+     -750,
+     -690,
+     -630,
+     -570,
+     -510,
+     -450,
+     -390,
+     -330,
+     -270,
+     -210,
+     -150,
+     -60,
+     0
+    ],
+    "v": [
+     15.97,
+     15.93,
+     15.89,
+     15.87,
+     15.8,
+     15.79,
+     15.83,
+     16.35,
+     16.6,
+     16.75,
+     16.9,
+     17.01,
+     17.14,
+     17.57,
+     17.87,
+     18.17,
+     18.39,
+     18.58,
+     18.76,
+     18.91,
+     18.76,
+     18.91,
+     18.96
+    ]
+   },
    "event": null,
-   "news": [],
+   "news": [
+    "n9"
+   ],
    "tier": 1
   },
   {
    "id": "p2",
    "topic": "weather",
    "source": "CoCoRaHS observer",
-   "name": "1.9 mi SW of Crystal Lake",
-   "county": "McHenry",
+   "name": "7.8 mi SE of McLeansboro",
+   "county": "Hamilton",
    "zip": null,
-   "lat": 42.2147,
-   "lon": -88.3588,
+   "lat": 38.0201,
+   "lon": -88.4227,
    "person": false,
-   "label": "Rain 0.04 in",
+   "label": "Rain 0.98 in",
    "lines": [
     {
      "metric": "rain_mm",
      "name": "Rainfall",
-     "value": "0.04 in",
+     "value": "0.98 in",
      "note": null,
-     "at": "2026-10-11T12:00+00:00",
+     "at": "2026-10-12T13:30+00:00",
      "sev": 0.0
     }
    ],
@@ -61,17 +116,191 @@
     "In the news: \u201cRain getting back into the forecast\u201d"
    ],
    "status": "official",
-   "at": "2026-10-11T12:00+00:00",
+   "at": "2026-10-12T13:30+00:00",
    "url": null,
    "spark": null,
    "event": null,
    "news": [
-    "n5"
+    "n10"
    ],
    "tier": 1
   },
   {
    "id": "p3",
+   "topic": "weather",
+   "source": "Airport station",
+   "name": "Robinson (RSV)",
+   "county": "Crawford",
+   "zip": null,
+   "lat": 39.016,
+   "lon": -87.6498,
+   "person": false,
+   "label": "Low 50 \u00b0F",
+   "lines": [
+    {
+     "metric": "temp_c",
+     "name": "Temperature",
+     "value": "50 \u00b0F",
+     "note": "the day's low",
+     "at": "2026-10-12T07:55+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Lowest temperature in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-10-13T06:15+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=RSV&network=IL_ASOS",
+   "spark": {
+    "name": "Temperature",
+    "unit": "\u00b0F",
+    "t": [
+     -1400,
+     -1340,
+     -1280,
+     -1220,
+     -1160,
+     -1100,
+     -1040,
+     -980,
+     -920,
+     -860,
+     -800,
+     -740,
+     -680,
+     -620,
+     -560,
+     -500,
+     -440,
+     -380,
+     -320,
+     -260,
+     -200,
+     -120,
+     -80,
+     0
+    ],
+    "v": [
+     51.8,
+     50.0,
+     57.2,
+     57.2,
+     57.2,
+     57.2,
+     60.8,
+     71.6,
+     77.0,
+     82.4,
+     86.0,
+     87.8,
+     89.6,
+     91.4,
+     89.6,
+     89.6,
+     84.2,
+     77.0,
+     75.2,
+     73.4,
+     73.4,
+     71.6,
+     71.6,
+     69.8
+    ]
+   },
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p4",
+   "topic": "weather",
+   "source": "Airport station",
+   "name": "Belleville - Scott AFB (BLV)",
+   "county": "St. Clair",
+   "zip": null,
+   "lat": 38.5454,
+   "lon": -89.8515,
+   "person": false,
+   "label": "High 93.6 \u00b0F",
+   "lines": [
+    {
+     "metric": "temp_c",
+     "name": "Temperature",
+     "value": "93.6 \u00b0F",
+     "note": "the day's high",
+     "at": "2026-10-12T19:55+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Highest temperature in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-10-13T05:55+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=BLV&network=IL_ASOS",
+   "spark": {
+    "name": "Temperature",
+    "unit": "\u00b0F",
+    "t": [
+     -1380,
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -600,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     64.4,
+     62.8,
+     63.0,
+     62.2,
+     59.5,
+     59.4,
+     60.8,
+     70.0,
+     79.5,
+     85.6,
+     89.2,
+     92.0,
+     93.0,
+     93.6,
+     93.6,
+     92.0,
+     88.7,
+     78.8,
+     77.0,
+     78.3,
+     75.2,
+     76.0,
+     74.0,
+     70.3
+    ]
+   },
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p5",
    "topic": "markets",
    "source": "USDA grain bids",
    "name": "West district",
@@ -87,24 +316,24 @@
      "name": "Corn basis",
      "value": "-31 \u00a2",
      "note": "country elevators",
-     "at": "2026-10-09T18:09+00:00",
+     "at": "2026-10-12T18:11+00:00",
      "sev": 0.0
     },
     {
      "metric": "soy_basis",
      "name": "Soybean basis",
-     "value": "-44 \u00a2",
+     "value": "-45 \u00a2",
      "note": "country elevators",
-     "at": "2026-10-09T18:09+00:00",
+     "at": "2026-10-12T18:11+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Lowest corn basis in Illinois in the latest reports (Oct 9)",
-    "Lowest soybean basis in Illinois in the latest reports (Oct 9)"
+    "Lowest corn basis in Illinois in the last 24 hours",
+    "Lowest soybean basis in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-10-09T18:09+00:00",
+   "at": "2026-10-12T18:11+00:00",
    "url": null,
    "spark": null,
    "event": null,
@@ -112,206 +341,168 @@
    "tier": 1
   },
   {
-   "id": "p4",
-   "topic": "weather",
-   "source": "Airport station",
-   "name": "Jacksonville (IJX)",
-   "county": "Morgan",
-   "zip": null,
-   "lat": 39.7746,
-   "lon": -90.2383,
-   "person": false,
-   "label": "Low 45.5 \u00b0F",
-   "lines": [
-    {
-     "metric": "temp_c",
-     "name": "Temperature",
-     "value": "45.5 \u00b0F",
-     "note": "the day's low",
-     "at": "2026-10-11T11:55+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Lowest temperature in Illinois in the last 24 hours"
-   ],
-   "status": "official",
-   "at": "2026-10-12T05:55+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=IJX&network=IL_ASOS",
-   "spark": {
-    "name": "Temperature",
-    "unit": "\u00b0F",
-    "t": [
-     -1380,
-     -1320,
-     -1260,
-     -1200,
-     -1140,
-     -1080,
-     -1020,
-     -960,
-     -900,
-     -840,
-     -780,
-     -720,
-     -660,
-     -600,
-     -540,
-     -480,
-     -420,
-     -360,
-     -300,
-     -240,
-     -180,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     50.7,
-     52.0,
-     49.0,
-     49.6,
-     48.0,
-     45.5,
-     49.5,
-     59.4,
-     65.5,
-     70.0,
-     75.0,
-     78.8,
-     82.0,
-     84.0,
-     85.5,
-     85.0,
-     81.0,
-     75.7,
-     73.6,
-     72.5,
-     72.0,
-     72.0,
-     71.0,
-     69.3
-    ]
-   },
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
-   "id": "p5",
-   "topic": "weather",
-   "source": "Airport station",
-   "name": "Pittsfield (PPQ)",
-   "county": "Pike",
-   "zip": null,
-   "lat": 39.6389,
-   "lon": -90.7784,
-   "person": false,
-   "label": "High 87.3 \u00b0F",
-   "lines": [
-    {
-     "metric": "temp_c",
-     "name": "Temperature",
-     "value": "87.3 \u00b0F",
-     "note": "the day's high",
-     "at": "2026-10-11T21:55+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Highest temperature in Illinois in the last 24 hours"
-   ],
-   "status": "official",
-   "at": "2026-10-12T05:55+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=PPQ&network=IL_ASOS",
-   "spark": {
-    "name": "Temperature",
-    "unit": "\u00b0F",
-    "t": [
-     -1380,
-     -1320,
-     -1260,
-     -1200,
-     -1140,
-     -1080,
-     -1020,
-     -960,
-     -900,
-     -840,
-     -780,
-     -720,
-     -660,
-     -600,
-     -540,
-     -480,
-     -420,
-     -360,
-     -300,
-     -240,
-     -180,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     57.7,
-     56.0,
-     52.5,
-     51.3,
-     50.4,
-     49.6,
-     53.0,
-     61.5,
-     66.6,
-     72.0,
-     77.5,
-     81.3,
-     83.7,
-     86.0,
-     87.0,
-     87.3,
-     83.3,
-     75.7,
-     72.5,
-     70.5,
-     68.0,
-     68.5,
-     68.0,
-     68.7
-    ]
-   },
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
    "id": "p6",
+   "topic": "soil",
+   "source": "NRCS soil station",
+   "name": "Mason #1 soil station",
+   "county": "Mason",
+   "zip": null,
+   "lat": 40.3131,
+   "lon": -89.9019,
+   "person": false,
+   "label": "Soil moisture 8.3 %",
+   "lines": [
+    {
+     "metric": "soil_moisture_pct",
+     "name": "Soil moisture",
+     "value": "8.3 %",
+     "note": null,
+     "at": "2026-10-11T12:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Soil moisture past the network's event threshold",
+    "In the news: \u201cRFD-TV Weekly State-by-State Crop Progress and Livestock Production Report \u2014 Monday, October 12, 2026\u201d"
+   ],
+   "status": "official",
+   "at": "2026-10-11T12:00+00:00",
+   "url": "https://wcc.sc.egov.usda.gov/nwcc/site?sitenum=2004",
+   "spark": null,
+   "event": null,
+   "news": [
+    "n8"
+   ],
+   "tier": 1
+  },
+  {
+   "id": "p7",
    "topic": "water",
    "source": "USGS stream gauge",
-   "name": "Ohio River at Dam 51 at Golconda",
-   "county": "Pope",
+   "name": "Mississippi River at Grafton",
+   "county": "Jersey",
    "zip": null,
-   "lat": 37.3578,
-   "lon": -88.4825,
+   "lat": 38.968,
+   "lon": -90.429,
    "person": false,
-   "label": "\u25b2 0.67 ft",
+   "label": "\u25b2 1.33 ft",
    "lines": [
     {
      "metric": "stage_m",
      "name": "Stage (gauge height)",
-     "value": "30.4 ft",
-     "note": "up 0.67 ft in 24 hours",
-     "at": "2026-10-12T05:00+00:00",
+     "value": "16.8 ft",
+     "note": "up 1.33 ft in 24 hours",
+     "at": "2026-10-13T06:00+00:00",
+     "sev": 0.0
+    },
+    {
+     "metric": "discharge_cms",
+     "name": "Streamflow",
+     "value": "137,000 cfs",
+     "note": "up 54,200 cfs in 24 hours",
+     "at": "2026-10-13T06:00+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Biggest rise in Illinois in the last 24 hours"
+    "Second-biggest rise in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-10-12T05:00+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/03384500/",
+   "at": "2026-10-13T06:00+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05587450/",
+   "spark": {
+    "name": "Stage (gauge height)",
+    "unit": "ft",
+    "t": [
+     -1350,
+     -1290,
+     -1230,
+     -1170,
+     -1110,
+     -1050,
+     -990,
+     -930,
+     -870,
+     -810,
+     -750,
+     -690,
+     -630,
+     -570,
+     -510,
+     -450,
+     -390,
+     -330,
+     -270,
+     -210,
+     -150,
+     -90,
+     0
+    ],
+    "v": [
+     15.63,
+     15.6,
+     15.58,
+     15.54,
+     15.52,
+     15.5,
+     15.47,
+     15.44,
+     15.51,
+     15.61,
+     15.65,
+     15.71,
+     15.78,
+     15.81,
+     15.97,
+     16.12,
+     16.24,
+     16.39,
+     16.5,
+     16.61,
+     16.7,
+     16.7,
+     16.77
+    ]
+   },
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p8",
+   "topic": "water",
+   "source": "USGS stream gauge",
+   "name": "Silver Creek near Troy",
+   "county": "Madison",
+   "zip": null,
+   "lat": 38.7164,
+   "lon": -89.8292,
+   "person": false,
+   "label": "\u25b2 0.89 ft",
+   "lines": [
+    {
+     "metric": "stage_m",
+     "name": "Stage (gauge height)",
+     "value": "3.85 ft",
+     "note": "up 0.89 ft in 24 hours",
+     "at": "2026-10-13T05:15+00:00",
+     "sev": 0.0
+    },
+    {
+     "metric": "discharge_cms",
+     "name": "Streamflow",
+     "value": "3.94 cfs",
+     "note": null,
+     "at": "2026-10-13T05:15+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Third-biggest rise in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-10-13T05:15+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05594450/",
    "spark": {
     "name": "Stage (gauge height)",
     "unit": "ft",
@@ -341,95 +532,31 @@
      0
     ],
     "v": [
-     29.69,
-     29.71,
-     29.69,
-     29.73,
-     29.73,
-     29.79,
-     29.83,
-     29.86,
-     29.9,
-     29.95,
-     29.99,
-     29.99,
-     30.07,
-     30.12,
-     30.16,
-     30.19,
-     30.21,
-     30.23,
-     30.25,
-     30.27,
-     30.29,
-     30.32,
-     30.36
+     3.01,
+     3.01,
+     3.01,
+     3.0,
+     3.0,
+     2.99,
+     2.97,
+     2.96,
+     2.98,
+     2.99,
+     2.99,
+     3.0,
+     3.08,
+     3.24,
+     3.42,
+     3.54,
+     3.61,
+     3.72,
+     3.74,
+     3.77,
+     3.79,
+     3.82,
+     3.85
     ]
    },
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
-   "id": "p7",
-   "topic": "soil",
-   "source": "NRCS soil station",
-   "name": "Mason #1 soil station",
-   "county": "Mason",
-   "zip": null,
-   "lat": 40.3131,
-   "lon": -89.9019,
-   "person": false,
-   "label": "Soil moisture 9.2 %",
-   "lines": [
-    {
-     "metric": "soil_moisture_pct",
-     "name": "Soil moisture",
-     "value": "9.2 %",
-     "note": null,
-     "at": "2026-10-09T12:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Soil moisture past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-10-09T12:00+00:00",
-   "url": "https://wcc.sc.egov.usda.gov/nwcc/site?sitenum=2004",
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
-   "id": "p8",
-   "topic": "air",
-   "source": "EPA air monitor",
-   "name": "Madison County air monitor",
-   "county": "Madison",
-   "zip": null,
-   "lat": 38.8606,
-   "lon": -90.1058,
-   "person": false,
-   "label": "Ozone 76 ppb",
-   "lines": [
-    {
-     "metric": "ozone_ppb",
-     "name": "Ozone",
-     "value": "76 ppb (AQI 118, unhealthy for sensitive groups)",
-     "note": "up 39 ppb (AQI 36, good) in 24 hours",
-     "at": "2026-10-09T21:00+00:00",
-     "sev": 0.5
-    }
-   ],
-   "why": [
-    "Ozone past the network's event threshold (AQI 118, unhealthy for sensitive groups)"
-   ],
-   "status": "official",
-   "at": "2026-10-10T08:00+00:00",
-   "url": null,
-   "spark": null,
    "event": null,
    "news": [],
    "tier": 2
@@ -440,7 +567,7 @@
    "id": "n1",
    "n": 1,
    "topic": "weather",
-   "place": "Chicagoland",
+   "place": "Chicago area",
    "statewide": false,
    "lat": 41.837,
    "lon": -87.6849,
@@ -454,25 +581,32 @@
    ],
    "stories": [
     {
-     "title": "Possible record heat on Monday in Chicago",
+     "title": "Chicago area smashes heat record previously set in 2008 for Oct. 12, with highs of 87",
      "source": "CBS News",
-     "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQN2tTWVFwbFl3RjZNQ0dMaFJhYmp3OEh2OTRTYjAwYnBvaThhOW81SUlKS1Nrcml4a1BBeDNXRmNuWGNjdnNCVXpQZktRaXY5MUMza3ZZRlEzeEhJYXVNTUxiUTR0UlY2UzVHcUxFc1lUNzVYcTFObG5MbGI4LUNPb01QblY2NGM?oc=5",
-     "at": "2026-10-11T12:44:00"
+     "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNeWxRSnZWNDd3YmxyRTNuc3QyTE1nZ0h0dXVTZjR5WF82RXhSb1FnRG9vZG5MU3o0NUJ4QldzVlFkdjB2ei1YX3BJWUl1ODJ5TmpsWF80am51TG5rZFMtaXM4MUdESDlKT1lwbVBST0FIX0xkdmNTbUFkTVh5cmZacFlMQjZjR29wRkVZejltUGpiZmZF?oc=5",
+     "at": "2026-10-12T21:51:00"
     },
     {
-     "title": "Monday forecast: Record warmth possible across Chicagoland",
-     "source": "WGN-TV",
-     "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBGQ0liWHpOa1RuMDhFRnBjUGlMdFBDSjZ0VHBBNXFlUkNya3E1dTJ6RWFtd2M5OXVrTGJSMlg3bkFBOEZablp2ZEUwbHVGelVqemRMMHhFUjNuUU9QQTN5NlR3TmFyY0hVUVJWS2VMc9IBb0FVX3lxTFBGQ0liWHpOa1RuMDhFRnBjUGlMdFBDSjZ0VHBBNXFlUkNya3E1dTJ6RWFtd2M5OXVrTGJSMlg3bkFBOEZablp2ZEUwbHVGelVqemRMMHhFUjNuUU9QQTN5NlR3TmFyY0hVUVJWS2VMcw?oc=5",
-     "at": "2026-10-11T20:45:12"
-    },
-    {
-     "title": "Warm weekend ahead as temperatures reach the 80s across the Chicago area",
+     "title": "Summer in October? Chicago area could see record warmth before plummeting nearly 30 degrees",
      "source": "NBC 5 Chicago",
-     "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQcFZFeVpjT0M1eHRuOE1XUkFTdTZPR0VUSWxSY2NJWmwwaktjbF9vcWlvZVZkTV9sMnZ0ZEZOVDJoYXpxX0lNUlZBTmxqUDc3UlBCcW9DVjBrQUxyQnRiWEE3dERTZW5oMzNwMk1sakltazFCOHF5N1JHODhQVTFQOTdySlFmc0txSXV3UkdXbHpGRUNRQkNWakc4SFZIcHAxX2k2dmlYYnUwYTJRandPaE1lSzVYc1BZV2tR0gHDAUFVX3lxTFBreTBUeWI1MmdmTFRKSFdCTXJlTkpiWWFVaUtlV1R1Q2dNbkRkakFWcjJJR3hrY1A0eVJ3U2JtOHVFRWRSREg3RzdiYUw1dEdiX3kyY3c4UG5wb05nQUtHSGo3Undqa1BPOS13Z2FSdEx4Mks1SDhTSHRNdWw0ZHZDVGxwZm1nY0M3YlNjMXFvUVl2Y3NLYVEyMTlzSWtCU05WbUlHalk4VzYzVTlITW43cFg1X1BDeFdOdFZ6amg3c1FyYw?oc=5",
-     "at": "2026-10-10T15:04:26"
+     "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPZWRScTFTT3ZPV3labWZlTXJTVGtwVVkxbUdwc0Q5WF9wTDduUDhWZzR6dWVCX181ZDluaVVFYnBScDBSVVZlY2d4LU51T2M1STIxM1JhRnRLM0ltdnJLdV9VWmItei1Qa2tfRVJSN1NjMnlRU0JvSXR6Q2RJeVkwRE95dzNqeEZoeDNBOEZzVFZrdjF5a0tnZnlHTk53NktkT0FoZkx4UlhPUmVzVnZVeHFn0gG6AUFVX3lxTE5uVTQzeUJuTHJONUxfTGFrZXNHaUNteDlJLUZwLTVFVjRBeWIybXVkdm1vRzFvSnFWTnkzMDNtNnMwSVRoV19NTWNwcWJiV2o1aG5OYW9PUFVscEdpaXhYSEY2eThsOWpwUUtkb2lKOGtLbDR4c01XY0xRdWFxV1lma0ZPcFQxdnRDMjB6dFprVHZ2aUpwSnI0eTlHdVdSYmZNYVJmdkJ1RE9Ra3p2VTZIRmxsU0RIY2NJZw?oc=5",
+     "at": "2026-10-12T11:52:28"
+    },
+    {
+     "title": "Monday forecast: Record warmth possible across Chicagoland, with high temperatures surging into the mid-80s",
+     "source": "WGN-TV Weather Blog",
+     "url": "https://wgntv.com/weather/chicago-weather-monday-10122026/",
+     "at": "2026-10-12T01:45:12"
     }
    ],
    "more": [
+    "Chicago Breaks Daily Heat Record Monday, But Temperatures Will Soon Plummet",
+    "Chicago weather: Record high temperatures today, storms return Tuesday night",
+    "Chicago sets new daily temperature record as mercury soars Monday",
+    "Chicago could tie record high before cooler weather arrives",
+    "80-degree temps will near in Chicago area, maybe breaking record highs to start the work week",
+    "Monday forecast: Record warmth possible across Chicagoland",
+    "Warm weekend ahead as temperatures reach the 80s across the Chicago area",
     "Sunday forecast: A sunny and warm Chicago Marathon Sunday, then possible record warmth to start the work week"
    ],
    "links": [],
@@ -481,15 +615,92 @@
   {
    "id": "n2",
    "n": 2,
-   "topic": "landuse",
-   "place": "Mahomet",
+   "topic": "weather",
+   "place": "Central Illinois",
    "statewide": false,
-   "lat": 40.1901,
-   "lon": -88.3895,
+   "lat": 39.7569,
+   "lon": -89.6624,
+   "counties": [
+    "17019",
+    "17113",
+    "17115",
+    "17143",
+    "17167",
+    "17179"
+   ],
+   "stories": [
+    {
+     "title": "Record heat hits Central Illinois early this week",
+     "source": "FOX Illinois",
+     "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOX0hMb0J5cjltaW5jYWlNdnZ5dEdpMWpWazhxUE5fd2ZnTS1SYjgzRTZKZW1DRG1MM0U0eHhmOXczSXVpMU5zbS0zX0NFZGFuNGZUZFpPN2hqYnFGVnNIa3ZiVWhkWnQ4eTBINVRLY2VIcHhGUTBOMG1tUnNqOGtVVEZLeXEzWnozSGxDTGxvdXpRSEU1dTRVUHdaTjVqaXU1Xzh5bEdOVlJHbVg4OVlCUjZmR3RKVm93cWF0SXVEaThGSlRuMlhINEdaVkJYd1pX?oc=5",
+     "at": "2026-10-12T23:43:00"
+    },
+    {
+     "title": "Central Illinois harvest update",
+     "source": "CIProud.com",
+     "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQYWJDR1Y3N0ZXZHQwWFg4SVU4Y3NiN0lxV0plQTVURWx0MmtjMVV5NmlrMldCVjROdG9VdjdoZmVROS1vOEdNejdVbGlHb0RSZXF5U3hnQ3JWZm9WNXkzb1dYajl2YTBGYmt6YlVnVWNubmtHanhqcTZsa1lLMkJURlhtbTJvbnNSWFo2bQ?oc=5",
+     "at": "2026-10-13T00:41:00"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n3",
+   "n": 3,
+   "topic": "weather",
+   "place": "Quad Cities",
+   "statewide": false,
+   "lat": 41.4684,
+   "lon": -90.5721,
+   "counties": [
+    "17073",
+    "17131",
+    "17161"
+   ],
+   "stories": [
+    {
+     "title": "Record high temperature set Monday in Quad Cities",
+     "source": "OurQuadCities",
+     "url": "https://www.ourquadcities.com/news/local-news/record-high-temperature-set-monday-in-quad-cities/",
+     "at": "2026-10-13T00:51:23"
+    },
+    {
+     "title": "Record warmth today in the Quad Cities",
+     "source": "OurQuadCities",
+     "url": "https://www.ourquadcities.com/news/local-news/record-warmth-today-in-the-quad-cities/",
+     "at": "2026-10-12T13:30:02"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n4",
+   "n": 4,
+   "topic": "landuse",
+   "place": "Champaign County",
+   "statewide": false,
+   "lat": 40.139,
+   "lon": -88.197,
    "counties": [
     "17019"
    ],
    "stories": [
+    {
+     "title": "After Mahomet ends data center talks, some Champaign County residents hope for strict guardrails",
+     "source": "IPM Newsroom",
+     "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNazZkZ081SXRlYjhBY3VnekRPNU5MQlRTa3VrZ3dFdW41TzZtRW1XekJGSjBFcHdmLUhwWHF5MGExOHBzVFJTTldtaVdYSlE4R3Jzck1mS0Zta2Fwb0ZJd3hrWmJYX2hCNGljMHpGNjVLODd0Rk96TzhMRkFPUk0tWEtKRjN3QzFaX2YwWUZJTElDcTM5cmN0Z0x0SExfNUhyR3J2LTZkeXhpQVpPVkVqZkhUOC03VVRvWkJ6Zg?oc=5",
+     "at": "2026-10-10T01:46:16"
+    },
+    {
+     "title": "Data center companies have approached Champaign County for projects in Sidney, Tolono",
+     "source": "Illinois Newsroom",
+     "url": "https://ipmnewsroom.org/data-center-companies-have-approached-champaign-county-for-projects-in-sidney-tolono/",
+     "at": "2026-10-08T19:44:32"
+    },
     {
      "title": "Mahomet ends talks with data center developer",
      "source": "WCIA.com",
@@ -502,8 +713,37 @@
    "alerts": []
   },
   {
-   "id": "n3",
-   "n": 3,
+   "id": "n5",
+   "n": 5,
+   "topic": "landuse",
+   "place": "Bloomington",
+   "statewide": false,
+   "lat": 40.4758,
+   "lon": -88.9699,
+   "counties": [
+    "17113"
+   ],
+   "stories": [
+    {
+     "title": "What's in Bloomington's draft data center regulations",
+     "source": "WGLT",
+     "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOWW1EOE93NkdYb2doMlN4TnprUFVEQkpmR05jNURDWEo4RWd5eHc3eC1weDlCVDRuU3JEcThWRjI2QUVTMUttYWt5d1czM3E3MDRJNnprVWREX2J6T2xyY2JBZTA5dEdOdXplZ0ZlVTczLWlMenRCNEtqVF9ocUU5N0x2RTNBTXR6TkEzcUJCby10VlRlVGtLR3Fn?oc=5",
+     "at": "2026-10-09T23:37:00"
+    },
+    {
+     "title": "Bloomington releases proposed data center regulations",
+     "source": "CIProud.com",
+     "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNQmV1RXFWM01vS1I5S1FRdTY4ZUFSNkFHMkFQbWJRRHMzMGdYNEswTkNsVHlzaE41TGxJaFBYY0N4RDYzT25QUy0zNzRMTmhBRWxNMGJDeFBlbFlUaXlHdW9kbXFSYnlJZkxFMWhJang5bXNvVW04UXR3Q2VGRHZtRWlJX2FnYVN0RVBBVUlZdFBVQXV5WllzS1FCb1BzMknSAaQBQVVfeXFMTm04TXJpcl9GVEgzZ3B5SWpVZGc1OVZXVWhfOXpRRktTSTFDN3JjVWlZN1pMSlZiMjZVT29zd0tVN1RuN0U4MHpReFZOWk80ZDlVVFZxbzFXc09XVG9fNWY3UUYwV0wxeWhTdERlMXV2VmVUYWdtNVBhd0hOWkE5Tlh4TkYySjdfLTlGVGdFZUMxVXp3dklGelBORjdPQ1d1cWliX1k?oc=5",
+     "at": "2026-10-09T23:04:42"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n6",
+   "n": 6,
    "topic": "air",
    "place": "Tuscola",
    "statewide": false,
@@ -525,8 +765,54 @@
    "alerts": []
   },
   {
-   "id": "n4",
-   "n": 4,
+   "id": "n7",
+   "n": 7,
+   "topic": "landuse",
+   "place": "Tazewell County",
+   "statewide": false,
+   "lat": 40.5081,
+   "lon": -89.5163,
+   "counties": [
+    "17179"
+   ],
+   "stories": [
+    {
+     "title": "Tazewell County data center moratorium approval nears the finish line",
+     "source": "NPR Illinois",
+     "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxORzNPVVBPZzgzMDJsZVMxQkFzVElQNEZqTG80VHVsLTNYVFhYUy1ic3hKejNlNFBtSlFmdzdtNkMwR0xCUkw3eGtMa040dmRWQ3gycXdGRWFZYlJpMXhsRkdNZEJpTGlJYksyRzlNOUxoMDB0NUwxMHdoeDh4YVRXNm9sb3dOZWFKTVk0OFZNaTZma2NMZ0lqblg5WHhEOUI0bnZKbmtfVGN4ZkVRZ1lyaFpRR1pyUzAt?oc=5",
+     "at": "2026-10-12T20:02:00"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n8",
+   "n": 8,
+   "topic": "agriculture",
+   "place": null,
+   "statewide": true,
+   "lat": null,
+   "lon": null,
+   "counties": [],
+   "stories": [
+    {
+     "title": "RFD-TV Weekly State-by-State Crop Progress and Livestock Production Report \u2014 Monday, October 12, 2026",
+     "source": "RFD-TV",
+     "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOUU9XQS1idlhxRDAxS2VlT2JZLXNmQ0xRSU1pZVFXTTgzSHlDZlhuNjJpMzZrdnRwcUZsUWZIQXIydzJYNlZ1NWpHbC1odnNFcGtsNWxNMWF2akFRQnlVT2t0Ml9rb0JybDBJWklCV1gyaTlUUzRhUkRsaHAxcU1XQkRCTnYzOGtvRmdEOVB0Rk5KOFMwNmR4cjFxT1JtVGtmaHBqOXZVaFJEdWZmX0ZEZUMzSFpzRXFUQ2k0?oc=5",
+     "at": "2026-10-12T16:51:05"
+    }
+   ],
+   "more": [],
+   "links": [
+    "p6"
+   ],
+   "alerts": []
+  },
+  {
+   "id": "n9",
+   "n": 9,
    "topic": "emergency",
    "place": null,
    "statewide": true,
@@ -535,19 +821,21 @@
    "counties": [],
    "stories": [
     {
-     "title": "Trump administration denies Illinois request for FEMA aid for 8 counties hit by August storms",
-     "source": "WAND",
-     "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPb0NJYWJhNmFRakZzbExfdTBkRjk1OFNoY3lIempTWWFYd0R5b2JQSVVqT3dDVmowNi1WWm9vOUstY21tTHQ5aDFObnhRM2g1OGY1RWo0NDEtNFhCWHIzLXVVYjZOSkhjR2pLcmxOM2JZcFRFNDl6bEZ1aGxwQ2tDWmFKMFFIVVRMekI3a3hBWVMwUXFVMk9jVVhUUk1rRlh0VGZFcFpJRV9LVzctVXBXRS01N3lWTGJQV0Y2bNIB0AFBVV95cUxOVVBybmc5S3dRTnJKZk5fMnItWDBLcUY1Tzc2ckpRb2VGNnhuZTdSVXl2LWlBa0NPNnBlajZQZUx4VUwyc25kWWo0NnJfTlNVUDl0Sk8yX3JpcjhUajBXZXBHeGpnOGFrMDcxVHVja2RrQ3FfZ3RLMWlmczhUOGw0dU1kbmE0MFZjMUtidHpqM085VG5XeGFVQVl3N3dEdW1DSzhOZkFacE9JbHF6aGxLLUR0MEhTcF8wQnFRcGYyT3FVUEoycXRlQzJsZy1HdzNm?oc=5",
-     "at": "2026-10-11T01:38:00"
+     "title": "Illinois Storm and Flood Victims May Qualify for Red Cross Financial Assistance",
+     "source": "Low Income Relief",
+     "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFBwTEFfV0NSekF2ZTJUVnlTUXp6OU82MDhteXFsX2xGN0RocUVyNUF0U25Ec0hfMU9TOE9xX3hfY0hleW1QdDJVQWFZNVdJSHVIN1ktTjk5RGNIc3JGTlJGVEtVVGxMMnlfcURNYUZ6Y0xla3FSXzJRSmNR?oc=5",
+     "at": "2026-10-12T16:05:56"
     }
    ],
    "more": [],
-   "links": [],
+   "links": [
+    "p1"
+   ],
    "alerts": []
   },
   {
-   "id": "n5",
-   "n": 5,
+   "id": "n10",
+   "n": 10,
    "topic": "weather",
    "place": null,
    "statewide": true,
@@ -567,32 +855,12 @@
     "p2"
    ],
    "alerts": []
-  },
-  {
-   "id": "n6",
-   "n": 6,
-   "topic": "landuse",
-   "place": null,
-   "statewide": true,
-   "lat": null,
-   "lon": null,
-   "counties": [],
-   "stories": [
-    {
-     "title": "Clock ticking for Illinois data center regulation",
-     "source": "Capitol City Now",
-     "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPdHczZnBEUUIwNXNEWXhRMEk3WWZtTjN2M1dGUDNBZV9ZMWJoM2NiRGl4aWduQkt5azZnWm1XOHE4UFk3S2RJdkVWeE5hSWg3MlRwV1YtQjBnMjAtZjNNZnlDYUF4ekNnOWU4LWstZ2dRV28tUGk0bjR3V1VuTktydUZQb0ZNRXFXN3RKay0waW12ek0?oc=5",
-     "at": "2026-10-08T12:12:30"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
   }
  ],
  "areas": [],
  "quiet": [
   "Agriculture",
+  "Air",
   "Seasons & nature",
   "Earthquakes"
  ]
