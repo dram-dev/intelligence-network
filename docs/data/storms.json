@@ -1,1 +1,26 @@
-[]
+[
+ {
+  "id": 31,
+  "topic": "weather",
+  "title": "Special Weather Statement",
+  "severity": 0.5,
+  "status": "open",
+  "counties": [
+   "Menard",
+   "Schuyler"
+  ],
+  "fips": [
+   "17129",
+   "17169"
+  ],
+  "opened_at": "2026-10-14T04:16:00+00:00",
+  "updated_at": "2026-10-14T04:51:00+00:00",
+  "lat": 40.151,
+  "lon": -90.12,
+  "brief": "A Special Weather Statement was issued at 11:16 PM and ended at 11:45 PM [1]. Another statement was issued at 11:51 PM and is currently in effect [2].",
+  "facts": [
+   "NWS Special Weather Statement, issued 11:16 PM, ended 11:45 PM",
+   "NWS Special Weather Statement, issued 11:51 PM, ended 12:15 AM"
+  ]
+ }
+]

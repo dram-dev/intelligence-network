@@ -124,14 +124,14 @@
    "kind": "topic",
    "label": "Air",
    "topic": "air",
-   "n": 895
+   "n": 1208
   },
   {
    "id": "metric:pm25_ugm3",
    "kind": "metric",
    "label": "PM2.5",
    "topic": "air",
-   "n": 396,
+   "n": 534,
    "flag": false
   },
   {
@@ -147,7 +147,7 @@
    "kind": "metric",
    "label": "Ozone",
    "topic": "air",
-   "n": 499,
+   "n": 674,
    "flag": false
   },
   {
@@ -455,14 +455,14 @@
    "kind": "topic",
    "label": "Water",
    "topic": "water",
-   "n": 9909
+   "n": 9892
   },
   {
    "id": "metric:stage_m",
    "kind": "metric",
    "label": "Stage (gauge height)",
    "topic": "water",
-   "n": 5162,
+   "n": 5156,
    "flag": false
   },
   {
@@ -470,7 +470,7 @@
    "kind": "metric",
    "label": "Streamflow",
    "topic": "water",
-   "n": 4204,
+   "n": 4218,
    "flag": false
   },
   {
@@ -478,7 +478,7 @@
    "kind": "metric",
    "label": "Water temperature",
    "topic": "water",
-   "n": 543,
+   "n": 518,
    "flag": false
   },
   {
@@ -574,14 +574,14 @@
    "kind": "topic",
    "label": "Weather",
    "topic": "weather",
-   "n": 9157
+   "n": 8851
   },
   {
    "id": "metric:temp_c",
    "kind": "metric",
    "label": "Temperature",
    "topic": "weather",
-   "n": 1275,
+   "n": 1250,
    "flag": false
   },
   {
@@ -589,7 +589,7 @@
    "kind": "metric",
    "label": "Dew point",
    "topic": "weather",
-   "n": 1273,
+   "n": 1250,
    "flag": false
   },
   {
@@ -597,7 +597,7 @@
    "kind": "metric",
    "label": "Relative humidity",
    "topic": "weather",
-   "n": 1273,
+   "n": 1249,
    "flag": false
   },
   {
@@ -605,7 +605,7 @@
    "kind": "metric",
    "label": "Pressure",
    "topic": "weather",
-   "n": 1274,
+   "n": 1251,
    "flag": false
   },
   {
@@ -613,7 +613,7 @@
    "kind": "metric",
    "label": "Sustained wind",
    "topic": "weather",
-   "n": 1242,
+   "n": 1228,
    "flag": false
   },
   {
@@ -621,7 +621,7 @@
    "kind": "metric",
    "label": "Wind gust",
    "topic": "weather",
-   "n": 268,
+   "n": 116,
    "flag": false
   },
   {
@@ -629,7 +629,7 @@
    "kind": "metric",
    "label": "Rainfall",
    "topic": "weather",
-   "n": 1278,
+   "n": 1257,
    "flag": false
   },
   {
@@ -653,7 +653,7 @@
    "kind": "metric",
    "label": "Visibility",
    "topic": "weather",
-   "n": 1274,
+   "n": 1250,
    "flag": false
   },
   {
@@ -716,31 +716,31 @@
    "id": "feed:iem_asos",
    "kind": "feed",
    "label": "iem_asos",
-   "n": 9154
+   "n": 8845
   },
   {
    "id": "feed:usgs_water",
    "kind": "feed",
    "label": "usgs_water",
-   "n": 9909
+   "n": 9892
   },
   {
    "id": "feed:airnow",
    "kind": "feed",
    "label": "airnow",
-   "n": 895
+   "n": 1208
+  },
+  {
+   "id": "feed:cocorahs",
+   "kind": "feed",
+   "label": "cocorahs",
+   "n": 6
   },
   {
    "id": "feed:ams_grain",
    "kind": "feed",
    "label": "ams_grain",
    "n": 25
-  },
-  {
-   "id": "feed:cocorahs",
-   "kind": "feed",
-   "label": "cocorahs",
-   "n": 3
   },
   {
    "id": "event:81",
@@ -1105,9 +1105,9 @@
    "verified": true
   },
   {
-   "id": "event:89",
+   "id": "event:90",
    "kind": "event",
-   "label": "Soil moisture down to 8.3 % \u2014 Mason County",
+   "label": "Soil moisture down to 7.5 % \u2014 Mason County",
    "topic": "soil",
    "n": 1,
    "score": 0.9,
@@ -1117,6 +1117,15 @@
    "id": "county:17125",
    "kind": "county",
    "label": "Mason"
+  },
+  {
+   "id": "event:89",
+   "kind": "event",
+   "label": "Soil moisture down to 8.3 % \u2014 Mason County",
+   "topic": "soil",
+   "n": 1,
+   "score": 0.9,
+   "verified": true
   },
   {
    "id": "event:88",
@@ -1149,29 +1158,6 @@
    "id": "event:82",
    "kind": "event",
    "label": "Soil moisture down to 9.2 % \u2014 Mason County",
-   "topic": "soil",
-   "n": 1,
-   "score": 0.9,
-   "verified": true
-  },
-  {
-   "id": "event:55",
-   "kind": "event",
-   "label": "Visibility 0.0625 mi (0.1006 km) \u2014 Lake County",
-   "topic": "weather",
-   "n": 1,
-   "score": 0.9,
-   "verified": true
-  },
-  {
-   "id": "county:17097",
-   "kind": "county",
-   "label": "Lake"
-  },
-  {
-   "id": "event:56",
-   "kind": "event",
-   "label": "Soil moisture 8.3 pct \u2014 Mason County",
    "topic": "soil",
    "n": 1,
    "score": 0.9,
@@ -1675,85 +1661,85 @@
    "source": "feed:iem_asos",
    "target": "metric:temp_c",
    "kind": "reports",
-   "weight": 1275
+   "weight": 1250
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:dewpoint_c",
    "kind": "reports",
-   "weight": 1273
+   "weight": 1250
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:humidity_pct",
    "kind": "reports",
-   "weight": 1273
+   "weight": 1249
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:wind_ms",
    "kind": "reports",
-   "weight": 1242
+   "weight": 1228
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:rain_mm",
    "kind": "reports",
-   "weight": 1275
+   "weight": 1251
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:pressure_hpa",
    "kind": "reports",
-   "weight": 1274
+   "weight": 1251
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:visibility_km",
    "kind": "reports",
-   "weight": 1274
+   "weight": 1250
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:wind_gust_ms",
    "kind": "reports",
-   "weight": 268
+   "weight": 116
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:discharge_cms",
    "kind": "reports",
-   "weight": 4204
+   "weight": 4218
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:stage_m",
    "kind": "reports",
-   "weight": 5162
+   "weight": 5156
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:water_temp_c",
    "kind": "reports",
-   "weight": 543
+   "weight": 518
   },
   {
    "source": "feed:airnow",
    "target": "metric:ozone_ppb",
    "kind": "reports",
-   "weight": 499
+   "weight": 674
   },
   {
    "source": "feed:airnow",
    "target": "metric:pm25_ugm3",
    "kind": "reports",
-   "weight": 396
+   "weight": 534
   },
   {
-   "source": "feed:ams_grain",
-   "target": "metric:soy_basis",
+   "source": "feed:cocorahs",
+   "target": "metric:rain_mm",
    "kind": "reports",
-   "weight": 12
+   "weight": 6
   },
   {
    "source": "feed:ams_grain",
@@ -1768,10 +1754,10 @@
    "weight": 12
   },
   {
-   "source": "feed:cocorahs",
-   "target": "metric:rain_mm",
+   "source": "feed:ams_grain",
+   "target": "metric:soy_basis",
    "kind": "reports",
-   "weight": 3
+   "weight": 12
   },
   {
    "source": "event:81",
@@ -2110,6 +2096,18 @@
    "weight": 1
   },
   {
+   "source": "event:90",
+   "target": "metric:soil_moisture_pct",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:90",
+   "target": "county:17125",
+   "kind": "in",
+   "weight": 1
+  },
+  {
    "source": "event:89",
    "target": "metric:soil_moisture_pct",
    "kind": "about",
@@ -2165,30 +2163,6 @@
   },
   {
    "source": "event:82",
-   "target": "county:17125",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:55",
-   "target": "metric:visibility_km",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:55",
-   "target": "county:17097",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:56",
-   "target": "metric:soil_moisture_pct",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:56",
    "target": "county:17125",
    "kind": "in",
    "weight": 1
