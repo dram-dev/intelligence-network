@@ -540,26 +540,6 @@
   "verified": true
  },
  {
-  "id": 57,
-  "topic": "weather",
-  "metric": "rain_mm",
-  "metric_label": "Rainfall",
-  "title": "Rainfall 1.4 in \u2014 Henry County",
-  "county_fips": "17073",
-  "county_label": "Henry County",
-  "peak_display": "1.40 in",
-  "n_signals": 1,
-  "n_sensors": 1,
-  "n_reference": 1,
-  "severity": 0.4,
-  "score": 0.95,
-  "status": "closed",
-  "opened_at": "2026-09-30T23:25:00+00:00",
-  "updated_at": "2026-09-30T23:25:00+00:00",
-  "source_url": "https://mesonet.agron.iastate.edu/lsr/#DVN",
-  "verified": true
- },
- {
   "id": 90,
   "topic": "soil",
   "metric": "soil_moisture_pct",
