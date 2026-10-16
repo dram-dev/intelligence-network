@@ -1,1 +1,77 @@
-[]
+[
+ {
+  "id": 34,
+  "topic": "weather",
+  "title": "Severe Thunderstorm Warning",
+  "severity": 0.75,
+  "status": "closed",
+  "counties": [
+   "Edwards",
+   "Lawrence",
+   "Wabash"
+  ],
+  "fips": [
+   "17047",
+   "17101",
+   "17185"
+  ],
+  "opened_at": "2026-10-15T22:34:00+00:00",
+  "updated_at": "2026-10-15T23:07:00+00:00",
+  "lat": 38.591,
+  "lon": -87.735,
+  "brief": "A verified funnel cloud was reported in Lawrence County [6]. Multiple NWS Severe Thunderstorm Warnings remain in effect, issued between 5:34 PM and 6:07 PM [1][2][3][4][5].",
+  "facts": [
+   "NWS Severe Thunderstorm Warning, issued 5:34 PM, ended 6:15 PM",
+   "NWS Severe Thunderstorm Warning, issued 5:44 PM, ended 6:15 PM",
+   "NWS Severe Thunderstorm Warning, issued 5:52 PM, ended 6:22 PM",
+   "NWS Severe Thunderstorm Warning, issued 5:52 PM, ended 6:16 PM",
+   "NWS Severe Thunderstorm Warning, issued 6:07 PM, ended 6:32 PM",
+   "Funnel cloud peak reported in Lawrence County, from 1 official source, verified"
+  ]
+ },
+ {
+  "id": 33,
+  "topic": "weather",
+  "title": "Rainfall 1.07 in \u2014 Cumberland County",
+  "severity": 0.4,
+  "status": "closed",
+  "counties": [
+   "Cumberland",
+   "Effingham"
+  ],
+  "fips": [
+   "17035",
+   "17049"
+  ],
+  "opened_at": "2026-10-15T19:44:00+00:00",
+  "updated_at": "2026-10-15T22:04:00+00:00",
+  "lat": 39.16,
+  "lon": -88.345,
+  "brief": "Effingham County recorded a verified rainfall peak of 1.34 inches [1]. Cumberland County saw a verified peak of 1.07 inches [2].",
+  "facts": [
+   "Rainfall peak 1.34 in in Effingham County, from -2 people and 3 official sources, verified",
+   "Rainfall peak 1.07 in in Cumberland County, from -1 people and 2 official sources, verified"
+  ]
+ },
+ {
+  "id": 32,
+  "topic": "weather",
+  "title": "Rainfall 1.01 in \u2014 Christian County",
+  "severity": 0.4,
+  "status": "closed",
+  "counties": [
+   "Christian"
+  ],
+  "fips": [
+   "17021"
+  ],
+  "opened_at": "2026-10-15T19:46:00+00:00",
+  "updated_at": "2026-10-15T19:46:00+00:00",
+  "lat": 39.37,
+  "lon": -89.17,
+  "brief": "Rainfall peaked at 1.01 inches in Christian County [1]. This measurement came from one official source [1]. The data has been verified [1].",
+  "facts": [
+   "Rainfall peak 1.01 in in Christian County, from 1 official source, verified"
+  ]
+ }
+]

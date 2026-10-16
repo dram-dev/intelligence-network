@@ -1,25 +1,121 @@
 [
  {
-  "event": "Dense Fog Advisory",
-  "severity": "Moderate",
+  "event": "Freeze Warning",
+  "severity": "Severe",
   "counties": [
-   "Wayne",
-   "Edwards",
-   "Wabash",
-   "Franklin",
-   "Hamilton",
-   "White",
-   "Williamson",
-   "Saline",
-   "Gallatin",
-   "Johnson",
-   "Pope",
-   "Hardin",
-   "Massac"
+   "Whiteside",
+   "Rock Island"
   ],
-  "sender": "NWS Paducah KY",
-  "headline": "DENSE FOG ADVISORY IN EFFECT UNTIL 8 AM CDT /9 AM EDT/ THURSDAY",
-  "expires": "2026-10-15T13:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.4b6515574b10e92bb773eec0a7a03ce74a34c61d.001.1"
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FREEZE WARNING IN EFFECT FROM 1 AM TO 9 AM CDT SATURDAY",
+  "expires": "2026-10-17T14:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.12a2abfe7230ae810972ab599ee05d3573eb65ea.002.1"
+ },
+ {
+  "event": "Freeze Warning",
+  "severity": "Severe",
+  "counties": [
+   "Jo Daviess",
+   "Stephenson",
+   "Carroll"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FREEZE WARNING IN EFFECT FROM 1 AM TO 9 AM CDT SATURDAY",
+  "expires": "2026-10-17T14:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.12a2abfe7230ae810972ab599ee05d3573eb65ea.001.2"
+ },
+ {
+  "event": "Freeze Warning",
+  "severity": "Severe",
+  "counties": [
+   "Winnebago",
+   "Boone",
+   "Ogle"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "FREEZE WARNING IN EFFECT FROM 5 AM TO 8 AM CDT SATURDAY",
+  "expires": "2026-10-17T13:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a809bf5bff37f0d107bbda8e339a8335a5ae0656.001.2"
+ },
+ {
+  "event": "Freeze Warning",
+  "severity": "Severe",
+  "counties": [
+   "McHenry",
+   "Lee",
+   "DeKalb",
+   "Kane"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "FREEZE WARNING IN EFFECT FROM 5 AM TO 8 AM CDT SATURDAY",
+  "expires": "2026-10-17T13:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a809bf5bff37f0d107bbda8e339a8335a5ae0656.002.1"
+ },
+ {
+  "event": "Frost Advisory",
+  "severity": "Minor",
+  "counties": [
+   "Henry",
+   "Bureau",
+   "Putnam",
+   "Mercer",
+   "Henderson",
+   "Warren",
+   "Hancock",
+   "McDonough"
+  ],
+  "sender": "NWS Quad Cities IA IL",
+  "headline": "FROST ADVISORY IN EFFECT FROM 1 AM TO 9 AM CDT SATURDAY",
+  "expires": "2026-10-17T14:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.12a2abfe7230ae810972ab599ee05d3573eb65ea.003.1"
+ },
+ {
+  "event": "Frost Advisory",
+  "severity": "Minor",
+  "counties": [
+   "Knox",
+   "Stark",
+   "Peoria",
+   "Marshall",
+   "Woodford",
+   "Fulton",
+   "Tazewell",
+   "Schuyler",
+   "Mason",
+   "Logan",
+   "Cass",
+   "Menard",
+   "Scott",
+   "Morgan",
+   "Sangamon",
+   "Christian"
+  ],
+  "sender": "NWS Lincoln IL",
+  "headline": "FROST ADVISORY IN EFFECT FROM 1 AM TO 9 AM CDT SATURDAY",
+  "expires": "2026-10-17T14:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.2c2be1e586a9f232db577beee8977cae5445ffe3.001.1"
+ },
+ {
+  "event": "Frost Advisory",
+  "severity": "Minor",
+  "counties": [
+   "LaSalle",
+   "Kendall"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "FROST ADVISORY IN EFFECT FROM 5 AM TO 8 AM CDT SATURDAY",
+  "expires": "2026-10-17T13:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a809bf5bff37f0d107bbda8e339a8335a5ae0656.004.1"
+ },
+ {
+  "event": "Frost Advisory",
+  "severity": "Minor",
+  "counties": [
+   "Lake"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "FROST ADVISORY IN EFFECT FROM 5 AM TO 8 AM CDT SATURDAY AWAY FROM LAKE MICHIGAN",
+  "expires": "2026-10-17T13:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a809bf5bff37f0d107bbda8e339a8335a5ae0656.003.1"
  }
 ]
