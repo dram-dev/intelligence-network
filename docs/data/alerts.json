@@ -3,26 +3,16 @@
   "event": "Freeze Warning",
   "severity": "Severe",
   "counties": [
+   "Jo Daviess",
+   "Stephenson",
+   "Carroll",
    "Whiteside",
    "Rock Island"
   ],
   "sender": "NWS Quad Cities IA IL",
-  "headline": "FREEZE WARNING IN EFFECT FROM 1 AM TO 9 AM CDT SATURDAY",
+  "headline": "FREEZE WARNING REMAINS IN EFFECT FROM 1 AM TO 9 AM CDT SATURDAY",
   "expires": "2026-10-17T14:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.12a2abfe7230ae810972ab599ee05d3573eb65ea.002.1"
- },
- {
-  "event": "Freeze Warning",
-  "severity": "Severe",
-  "counties": [
-   "Jo Daviess",
-   "Stephenson",
-   "Carroll"
-  ],
-  "sender": "NWS Quad Cities IA IL",
-  "headline": "FREEZE WARNING IN EFFECT FROM 1 AM TO 9 AM CDT SATURDAY",
-  "expires": "2026-10-17T14:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.12a2abfe7230ae810972ab599ee05d3573eb65ea.001.2"
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b5877ced7c36688a52e063e4224c37c4771ad407.001.1"
  },
  {
   "event": "Freeze Warning",
@@ -30,26 +20,34 @@
   "counties": [
    "Winnebago",
    "Boone",
-   "Ogle"
-  ],
-  "sender": "NWS Chicago IL",
-  "headline": "FREEZE WARNING IN EFFECT FROM 5 AM TO 8 AM CDT SATURDAY",
-  "expires": "2026-10-17T13:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a809bf5bff37f0d107bbda8e339a8335a5ae0656.001.2"
- },
- {
-  "event": "Freeze Warning",
-  "severity": "Severe",
-  "counties": [
    "McHenry",
+   "Ogle",
    "Lee",
    "DeKalb",
    "Kane"
   ],
   "sender": "NWS Chicago IL",
-  "headline": "FREEZE WARNING IN EFFECT FROM 5 AM TO 8 AM CDT SATURDAY",
+  "headline": "FREEZE WARNING REMAINS IN EFFECT FROM 5 AM TO 8 AM CDT SATURDAY",
   "expires": "2026-10-17T13:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a809bf5bff37f0d107bbda8e339a8335a5ae0656.002.1"
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.7167846bc769d3fad840ee53e85ef1fb90bfe357.002.1"
+ },
+ {
+  "event": "Frost Advisory",
+  "severity": "Minor",
+  "counties": [
+   "Greene",
+   "Macoupin",
+   "Montgomery",
+   "Adams",
+   "Brown",
+   "Pike",
+   "Calhoun",
+   "Jersey"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "FROST ADVISORY REMAINS IN EFFECT FROM 1 AM TO 9 AM CDT SATURDAY",
+  "expires": "2026-10-17T14:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.02433403d67da49b5cc2423968056bfc67d0b03d.001.1"
  },
  {
   "event": "Frost Advisory",
@@ -65,35 +63,9 @@
    "McDonough"
   ],
   "sender": "NWS Quad Cities IA IL",
-  "headline": "FROST ADVISORY IN EFFECT FROM 1 AM TO 9 AM CDT SATURDAY",
+  "headline": "FROST ADVISORY REMAINS IN EFFECT FROM 1 AM TO 9 AM CDT SATURDAY",
   "expires": "2026-10-17T14:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.12a2abfe7230ae810972ab599ee05d3573eb65ea.003.1"
- },
- {
-  "event": "Frost Advisory",
-  "severity": "Minor",
-  "counties": [
-   "Knox",
-   "Stark",
-   "Peoria",
-   "Marshall",
-   "Woodford",
-   "Fulton",
-   "Tazewell",
-   "Schuyler",
-   "Mason",
-   "Logan",
-   "Cass",
-   "Menard",
-   "Scott",
-   "Morgan",
-   "Sangamon",
-   "Christian"
-  ],
-  "sender": "NWS Lincoln IL",
-  "headline": "FROST ADVISORY IN EFFECT FROM 1 AM TO 9 AM CDT SATURDAY",
-  "expires": "2026-10-17T14:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.2c2be1e586a9f232db577beee8977cae5445ffe3.001.1"
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b5877ced7c36688a52e063e4224c37c4771ad407.002.1"
  },
  {
   "event": "Frost Advisory",
@@ -103,9 +75,9 @@
    "Kendall"
   ],
   "sender": "NWS Chicago IL",
-  "headline": "FROST ADVISORY IN EFFECT FROM 5 AM TO 8 AM CDT SATURDAY",
+  "headline": "FROST ADVISORY REMAINS IN EFFECT FROM 5 AM TO 8 AM CDT SATURDAY",
   "expires": "2026-10-17T13:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a809bf5bff37f0d107bbda8e339a8335a5ae0656.004.1"
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.7167846bc769d3fad840ee53e85ef1fb90bfe357.004.1"
  },
  {
   "event": "Frost Advisory",
@@ -114,8 +86,77 @@
    "Lake"
   ],
   "sender": "NWS Chicago IL",
-  "headline": "FROST ADVISORY IN EFFECT FROM 5 AM TO 8 AM CDT SATURDAY AWAY FROM LAKE MICHIGAN",
+  "headline": "FROST ADVISORY REMAINS IN EFFECT FROM 5 AM TO 8 AM CDT SATURDAY",
   "expires": "2026-10-17T13:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a809bf5bff37f0d107bbda8e339a8335a5ae0656.003.1"
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.7167846bc769d3fad840ee53e85ef1fb90bfe357.003.1"
+ },
+ {
+  "event": "Frost Advisory",
+  "severity": "Minor",
+  "counties": [
+   "Jefferson",
+   "Wayne",
+   "Edwards",
+   "Wabash",
+   "Perry",
+   "Franklin",
+   "Hamilton",
+   "White",
+   "Jackson",
+   "Williamson",
+   "Saline",
+   "Gallatin",
+   "Union",
+   "Johnson",
+   "Pope",
+   "Hardin",
+   "Alexander",
+   "Pulaski",
+   "Massac"
+  ],
+  "sender": "NWS Paducah KY",
+  "headline": "FROST ADVISORY IN EFFECT FROM 9 PM CDT /10 PM EDT/ THIS EVENING TO 8 AM CDT /9 AM EDT/ SUNDAY",
+  "expires": "2026-10-18T13:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.60cb798ac79f728675378e6a73c828fb61800da6.001.1"
+ },
+ {
+  "event": "Frost Advisory",
+  "severity": "Minor",
+  "counties": [
+   "Christian"
+  ],
+  "sender": "NWS Lincoln IL",
+  "headline": "FROST ADVISORY IN EFFECT FROM 1 AM TO 9 AM CDT SUNDAY... ...FROST ADVISORY REMAINS IN EFFECT UNTIL 9 AM CDT THIS MORNING",
+  "expires": "2026-10-18T14:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ded520c2a26f3475c306a58eb8a5875e206244d5.001.1"
+ },
+ {
+  "event": "Frost Advisory",
+  "severity": "Minor",
+  "counties": [
+   "McLean",
+   "De Witt",
+   "Piatt",
+   "Champaign",
+   "Vermilion",
+   "Macon",
+   "Moultrie",
+   "Douglas",
+   "Coles",
+   "Edgar",
+   "Shelby",
+   "Cumberland",
+   "Clark",
+   "Effingham",
+   "Jasper",
+   "Crawford",
+   "Clay",
+   "Richland",
+   "Lawrence"
+  ],
+  "sender": "NWS Lincoln IL",
+  "headline": "FROST ADVISORY IN EFFECT FROM 1 AM TO 9 AM CDT SUNDAY",
+  "expires": "2026-10-18T14:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ded520c2a26f3475c306a58eb8a5875e206244d5.002.1"
  }
 ]
