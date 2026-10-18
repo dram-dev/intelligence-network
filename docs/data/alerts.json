@@ -1,96 +1,5 @@
 [
  {
-  "event": "Freeze Warning",
-  "severity": "Severe",
-  "counties": [
-   "Jo Daviess",
-   "Stephenson",
-   "Carroll",
-   "Whiteside",
-   "Rock Island"
-  ],
-  "sender": "NWS Quad Cities IA IL",
-  "headline": "FREEZE WARNING REMAINS IN EFFECT FROM 1 AM TO 9 AM CDT SATURDAY",
-  "expires": "2026-10-17T14:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b5877ced7c36688a52e063e4224c37c4771ad407.001.1"
- },
- {
-  "event": "Freeze Warning",
-  "severity": "Severe",
-  "counties": [
-   "Winnebago",
-   "Boone",
-   "McHenry",
-   "Ogle",
-   "Lee",
-   "DeKalb",
-   "Kane"
-  ],
-  "sender": "NWS Chicago IL",
-  "headline": "FREEZE WARNING REMAINS IN EFFECT FROM 5 AM TO 8 AM CDT SATURDAY",
-  "expires": "2026-10-17T13:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.7167846bc769d3fad840ee53e85ef1fb90bfe357.002.1"
- },
- {
-  "event": "Frost Advisory",
-  "severity": "Minor",
-  "counties": [
-   "Greene",
-   "Macoupin",
-   "Montgomery",
-   "Adams",
-   "Brown",
-   "Pike",
-   "Calhoun",
-   "Jersey"
-  ],
-  "sender": "NWS St Louis MO",
-  "headline": "FROST ADVISORY REMAINS IN EFFECT FROM 1 AM TO 9 AM CDT SATURDAY",
-  "expires": "2026-10-17T14:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.02433403d67da49b5cc2423968056bfc67d0b03d.001.1"
- },
- {
-  "event": "Frost Advisory",
-  "severity": "Minor",
-  "counties": [
-   "Henry",
-   "Bureau",
-   "Putnam",
-   "Mercer",
-   "Henderson",
-   "Warren",
-   "Hancock",
-   "McDonough"
-  ],
-  "sender": "NWS Quad Cities IA IL",
-  "headline": "FROST ADVISORY REMAINS IN EFFECT FROM 1 AM TO 9 AM CDT SATURDAY",
-  "expires": "2026-10-17T14:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b5877ced7c36688a52e063e4224c37c4771ad407.002.1"
- },
- {
-  "event": "Frost Advisory",
-  "severity": "Minor",
-  "counties": [
-   "LaSalle",
-   "Kendall"
-  ],
-  "sender": "NWS Chicago IL",
-  "headline": "FROST ADVISORY REMAINS IN EFFECT FROM 5 AM TO 8 AM CDT SATURDAY",
-  "expires": "2026-10-17T13:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.7167846bc769d3fad840ee53e85ef1fb90bfe357.004.1"
- },
- {
-  "event": "Frost Advisory",
-  "severity": "Minor",
-  "counties": [
-   "Lake"
-  ],
-  "sender": "NWS Chicago IL",
-  "headline": "FROST ADVISORY REMAINS IN EFFECT FROM 5 AM TO 8 AM CDT SATURDAY",
-  "expires": "2026-10-17T13:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.7167846bc769d3fad840ee53e85ef1fb90bfe357.003.1"
- },
- {
   "event": "Frost Advisory",
   "severity": "Minor",
   "counties": [
@@ -115,20 +24,21 @@
    "Massac"
   ],
   "sender": "NWS Paducah KY",
-  "headline": "FROST ADVISORY IN EFFECT FROM 9 PM CDT /10 PM EDT/ THIS EVENING TO 8 AM CDT /9 AM EDT/ SUNDAY",
+  "headline": "FROST ADVISORY NOW IN EFFECT FROM 1 AM CDT /2 AM EDT/ TO 8 AM CDT /9 AM EDT/ SUNDAY",
   "expires": "2026-10-18T13:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.60cb798ac79f728675378e6a73c828fb61800da6.001.1"
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.423d6c5cf025b50ca0e96dde83e8c896b3f7d758.001.1"
  },
  {
   "event": "Frost Advisory",
   "severity": "Minor",
   "counties": [
-   "Christian"
+   "Logan",
+   "Sangamon"
   ],
   "sender": "NWS Lincoln IL",
-  "headline": "FROST ADVISORY IN EFFECT FROM 1 AM TO 9 AM CDT SUNDAY... ...FROST ADVISORY REMAINS IN EFFECT UNTIL 9 AM CDT THIS MORNING",
+  "headline": "FROST ADVISORY IN EFFECT FROM 1 AM TO 9 AM CDT SUNDAY",
   "expires": "2026-10-18T14:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ded520c2a26f3475c306a58eb8a5875e206244d5.001.1"
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.4551577f4e35ab761de3b9fabd70b5eb2c460181.001.1"
  },
  {
   "event": "Frost Advisory",
@@ -139,6 +49,7 @@
    "Piatt",
    "Champaign",
    "Vermilion",
+   "Christian",
    "Macon",
    "Moultrie",
    "Douglas",
@@ -155,8 +66,57 @@
    "Lawrence"
   ],
   "sender": "NWS Lincoln IL",
-  "headline": "FROST ADVISORY IN EFFECT FROM 1 AM TO 9 AM CDT SUNDAY",
+  "headline": "FROST ADVISORY REMAINS IN EFFECT FROM 1 AM TO 9 AM CDT SUNDAY",
   "expires": "2026-10-18T14:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ded520c2a26f3475c306a58eb8a5875e206244d5.002.1"
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.4551577f4e35ab761de3b9fabd70b5eb2c460181.002.1"
+ },
+ {
+  "event": "Frost Advisory",
+  "severity": "Minor",
+  "counties": [
+   "Greene",
+   "Macoupin",
+   "Calhoun",
+   "Jersey"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "FROST ADVISORY IN EFFECT UNTIL 9 AM CDT SUNDAY",
+  "expires": "2026-10-18T14:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.d12544b3f735997cc81255a488d9ecb3552054d6.001.1"
+ },
+ {
+  "event": "Frost Advisory",
+  "severity": "Minor",
+  "counties": [
+   "Montgomery",
+   "Bond",
+   "Fayette",
+   "Clinton",
+   "Marion",
+   "Washington",
+   "Randolph",
+   "Madison",
+   "St. Clair",
+   "Monroe"
+  ],
+  "sender": "NWS St Louis MO",
+  "headline": "FROST ADVISORY REMAINS IN EFFECT UNTIL 9 AM CDT SUNDAY",
+  "expires": "2026-10-18T14:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.d12544b3f735997cc81255a488d9ecb3552054d6.002.1"
+ },
+ {
+  "event": "Frost Advisory",
+  "severity": "Minor",
+  "counties": [
+   "Kankakee",
+   "Livingston",
+   "Iroquois",
+   "Ford",
+   "Will"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "FROST ADVISORY REMAINS IN EFFECT FROM 3 AM CDT TO 8 AM CDT SUNDAY",
+  "expires": "2026-10-18T13:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.7fdbfb99560560250cab1339ca104421861e1678.001.1"
  }
 ]
