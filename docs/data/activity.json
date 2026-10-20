@@ -1,18 +1,5 @@
 [
  {
-  "date": "2026-10-06",
-  "agriculture": 0,
-  "air": 0,
-  "markets": 0,
-  "nature": 0,
-  "quake": 0,
-  "soil": 0,
-  "water": 0,
-  "weather": 0,
-  "reference": 18390,
-  "alerts": 2
- },
- {
   "date": "2026-10-07",
   "agriculture": 0,
   "air": 0,
@@ -165,7 +152,7 @@
   "soil": 0,
   "water": 0,
   "weather": 0,
-  "reference": 19827,
+  "reference": 19831,
   "alerts": 4
  },
  {
@@ -178,7 +165,20 @@
   "soil": 0,
   "water": 0,
   "weather": 0,
-  "reference": 4727,
+  "reference": 19453,
+  "alerts": 0
+ },
+ {
+  "date": "2026-10-20",
+  "agriculture": 0,
+  "air": 0,
+  "markets": 0,
+  "nature": 0,
+  "quake": 0,
+  "soil": 0,
+  "water": 0,
+  "weather": 0,
+  "reference": 5150,
   "alerts": 0
  }
 ]
