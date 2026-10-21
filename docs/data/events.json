@@ -1,5 +1,25 @@
 [
  {
+  "id": 96,
+  "topic": "air",
+  "metric": "pm25_ugm3",
+  "metric_label": "PM2.5",
+  "title": "PM2.5 39.8 \u00b5g/m\u00b3 (AQI 112, unhealthy for sensitive groups) \u2014 Cook County",
+  "county_fips": "17031",
+  "county_label": "Cook County",
+  "peak_display": "39.8 \u00b5g/m\u00b3 (AQI 112, unhealthy for sensitive groups)",
+  "n_signals": 2,
+  "n_sensors": 2,
+  "n_reference": 2,
+  "severity": 0.4,
+  "score": 1.279,
+  "status": "closed",
+  "opened_at": "2026-10-20T15:00:00+00:00",
+  "updated_at": "2026-10-20T16:00:00+00:00",
+  "source_url": null,
+  "verified": true
+ },
+ {
   "id": 94,
   "topic": "weather",
   "metric": "funnel_cloud",
@@ -137,6 +157,26 @@
   "opened_at": "2026-10-08T07:00:00+00:00",
   "updated_at": "2026-10-08T10:00:00+00:00",
   "source_url": null,
+  "verified": true
+ },
+ {
+  "id": 95,
+  "topic": "weather",
+  "metric": "visibility_km",
+  "metric_label": "Visibility",
+  "title": "Visibility down to 1/8 mi \u2014 DuPage County",
+  "county_fips": "17043",
+  "county_label": "DuPage County",
+  "peak_display": "1/8 mi",
+  "n_signals": 1,
+  "n_sensors": 1,
+  "n_reference": 1,
+  "severity": 0.4,
+  "score": 0.9,
+  "status": "closed",
+  "opened_at": "2026-10-20T10:16:00+00:00",
+  "updated_at": "2026-10-20T10:16:00+00:00",
+  "source_url": "https://mesonet.agron.iastate.edu/sites/site.php?station=ORD&network=IL_ASOS",
   "verified": true
  },
  {

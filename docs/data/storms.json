@@ -1,1 +1,44 @@
-[]
+[
+ {
+  "id": 36,
+  "topic": "air",
+  "title": "PM2.5 39.8 \u00b5g/m\u00b3 (AQI 112, unhealthy for sensitive groups) \u2014 Cook County",
+  "severity": 0.4,
+  "status": "closed",
+  "counties": [
+   "Cook"
+  ],
+  "fips": [
+   "17031"
+  ],
+  "opened_at": "2026-10-20T15:00:00+00:00",
+  "updated_at": "2026-10-20T16:00:00+00:00",
+  "lat": 41.671,
+  "lon": -87.733,
+  "brief": "PM2.5 levels peaked at 39.8 \u00b5g/m\u00b3 in Cook County [1]. This data comes from two official sources [1]. The readings have been verified [1].",
+  "facts": [
+   "PM2.5 peak 39.8 \u00b5g/m\u00b3 in Cook County, from 2 official sources, verified"
+  ]
+ },
+ {
+  "id": 35,
+  "topic": "weather",
+  "title": "Visibility down to 1/8 mi \u2014 DuPage County",
+  "severity": 0.4,
+  "status": "closed",
+  "counties": [
+   "DuPage"
+  ],
+  "fips": [
+   "17043"
+  ],
+  "opened_at": "2026-10-20T10:16:00+00:00",
+  "updated_at": "2026-10-20T10:16:00+00:00",
+  "lat": 41.96,
+  "lon": -87.932,
+  "brief": "Visibility in DuPage County dropped to 1/8 mile [1]. This observation was verified by one official source [1].",
+  "facts": [
+   "Visibility peak 1/8 mi in DuPage County, from 1 official source, verified"
+  ]
+ }
+]
