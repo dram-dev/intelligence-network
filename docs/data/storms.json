@@ -1,44 +1,44 @@
 [
  {
-  "id": 39,
-  "topic": "air",
-  "title": "PM2.5 35.8 \u00b5g/m\u00b3 (AQI 102, unhealthy for sensitive groups) \u2014 Madison County",
-  "severity": 0.4,
+  "id": 40,
+  "topic": "weather",
+  "title": "Flooding \u2014 McLean County",
+  "severity": 0.7,
   "status": "closed",
   "counties": [
-   "Madison"
+   "McLean"
   ],
   "fips": [
-   "17119"
+   "17113"
   ],
-  "opened_at": "2026-10-21T16:00:00+00:00",
-  "updated_at": "2026-10-21T16:00:00+00:00",
-  "lat": 38.705,
-  "lon": -90.14,
-  "brief": "PM2.5 levels peaked at 35.8 \u00b5g/m\u00b3 in Madison County [1]. This data comes from one official source and has been verified [1].",
+  "opened_at": "2026-10-22T22:10:59+00:00",
+  "updated_at": "2026-10-22T22:10:59+00:00",
+  "lat": 40.495,
+  "lon": -88.845,
+  "brief": "Flooding peaked in McLean County [1]. One person reported this event [1]. The report remains unverified [1].",
   "facts": [
-   "PM2.5 peak 35.8 \u00b5g/m\u00b3 in Madison County, from 1 official source, verified"
+   "Flooding peak reported in McLean County, from 1 person, not yet verified"
   ]
  },
  {
-  "id": 38,
+  "id": 42,
   "topic": "air",
-  "title": "PM2.5 48.3 \u00b5g/m\u00b3 (AQI 133, unhealthy for sensitive groups) \u2014 Cook County",
+  "title": "PM2.5 55.2 \u00b5g/m\u00b3 (AQI 150, unhealthy for sensitive groups) \u2014 Cook County",
   "severity": 0.4,
-  "status": "closed",
+  "status": "open",
   "counties": [
    "Cook"
   ],
   "fips": [
    "17031"
   ],
-  "opened_at": "2026-10-21T12:00:00+00:00",
-  "updated_at": "2026-10-21T14:00:00+00:00",
-  "lat": 41.965,
-  "lon": -87.876,
-  "brief": "PM2.5 levels peaked at 48.3 \u00b5g/m\u00b3 in Cook County [1]. This data was verified using three official sources [1].",
+  "opened_at": "2026-10-23T02:00:00+00:00",
+  "updated_at": "2026-10-23T06:00:00+00:00",
+  "lat": 41.688,
+  "lon": -87.539,
+  "brief": "PM2.5 levels peaked at 55.2 \u00b5g/m\u00b3 in Cook County [1]. This data was verified using inputs from 13 official sources and 9 citizen reports [1].",
   "facts": [
-   "PM2.5 peak 48.3 \u00b5g/m\u00b3 in Cook County, from -2 people and 3 official sources, verified"
+   "PM2.5 peak 55.2 \u00b5g/m\u00b3 in Cook County, from -9 people and 13 official sources, verified"
   ]
  }
 ]
