@@ -1,44 +1,47 @@
 [
  {
-  "id": 40,
-  "topic": "weather",
-  "title": "Flooding \u2014 McLean County",
+  "id": 42,
+  "topic": "air",
+  "title": "PM2.5 79 \u00b5g/m\u00b3 (AQI 167, unhealthy) \u2014 Cook County",
   "severity": 0.7,
   "status": "closed",
   "counties": [
-   "McLean"
+   "Cook",
+   "DuPage"
   ],
   "fips": [
-   "17113"
+   "17031",
+   "17043"
   ],
-  "opened_at": "2026-10-22T22:10:59+00:00",
-  "updated_at": "2026-10-22T22:10:59+00:00",
-  "lat": 40.495,
-  "lon": -88.845,
-  "brief": "Flooding peaked in McLean County [1]. One person reported this event [1]. The report remains unverified [1].",
+  "opened_at": "2026-10-23T02:00:00+00:00",
+  "updated_at": "2026-10-23T15:00:00+00:00",
+  "lat": 41.73,
+  "lon": -87.846,
+  "brief": "PM2.5 peaked at 79 \u00b5g/m\u00b3 in Cook County, verified by 40 official sources and 35 citizen reports [1]. In DuPage County, a verified peak of 36.2 \u00b5g/m\u00b3 was recorded by one official source [2].",
   "facts": [
-   "Flooding peak reported in McLean County, from 1 person, not yet verified"
+   "PM2.5 peak 79 \u00b5g/m\u00b3 in Cook County, from -35 people and 40 official sources, verified",
+   "PM2.5 peak 36.2 \u00b5g/m\u00b3 in DuPage County, from 1 official source, verified"
   ]
  },
  {
-  "id": 42,
+  "id": 43,
   "topic": "air",
-  "title": "PM2.5 55.2 \u00b5g/m\u00b3 (AQI 150, unhealthy for sensitive groups) \u2014 Cook County",
-  "severity": 0.4,
-  "status": "open",
+  "title": "Ozone 75 ppb (AQI 115, unhealthy for sensitive groups) \u2014 Jersey County",
+  "severity": 0.5,
+  "status": "closed",
   "counties": [
-   "Cook"
+   "Jersey"
   ],
   "fips": [
-   "17031"
+   "17083"
   ],
-  "opened_at": "2026-10-23T02:00:00+00:00",
-  "updated_at": "2026-10-23T06:00:00+00:00",
-  "lat": 41.688,
-  "lon": -87.539,
-  "brief": "PM2.5 levels peaked at 55.2 \u00b5g/m\u00b3 in Cook County [1]. This data was verified using inputs from 13 official sources and 9 citizen reports [1].",
+  "opened_at": "2026-10-23T20:00:00+00:00",
+  "updated_at": "2026-10-23T22:00:00+00:00",
+  "lat": 39.101,
+  "lon": -90.344,
+  "brief": "Ozone levels peaked at 75 ppb in Jersey County [1]. This data was verified by three official sources and two citizen reports [1].",
   "facts": [
-   "PM2.5 peak 55.2 \u00b5g/m\u00b3 in Cook County, from -9 people and 13 official sources, verified"
+   "Ozone peak 75 ppb in Jersey County, from -2 people and 3 official sources, verified"
   ]
  }
 ]

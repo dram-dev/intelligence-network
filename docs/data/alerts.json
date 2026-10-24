@@ -1,13 +1,1 @@
-[
- {
-  "event": "Dense Fog Advisory",
-  "severity": "Moderate",
-  "counties": [
-   "Lake"
-  ],
-  "sender": "NWS Chicago IL",
-  "headline": "DENSE FOG ADVISORY IN EFFECT UNTIL 9 AM CDT THIS MORNING",
-  "expires": "2026-10-23T14:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.d137374cac1d5cd1d337530847ec1e52d1f103b3.001.1"
- }
-]
+[]
