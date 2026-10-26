@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-25T06:27:39+00:00",
+ "generated_at": "2026-10-26T08:04:29+00:00",
  "sample": false,
  "days": 14,
  "network_name": "Intelligence Network",
@@ -13,14 +13,14 @@
  "links": {
   "folder": "https://drive.google.com/drive/folders/10LXhVLmbA6xekUOXLUgVO_JFM9BjCw6d",
   "latest": "https://docs.google.com/document/d/1pU_qedEUjRd5C6kZpRF3w-_njpS6_zsmQIqwBUvN0kw/edit",
-  "digest": "https://docs.google.com/document/d/1eStG3R1nPVkIEq1p1zFZHQ7ytDap1uHPrZMaxch3nxI/edit"
+  "digest": "https://docs.google.com/document/d/1gbQDqSt7LDeEZCVLQy-0rYDwrBsXjOjWGPcbW6n835Q/edit"
  },
  "vitals": {
   "sensors_total": 2,
   "sensors_active_24h": 0,
   "sensors_active_7d": 1,
   "signals_24h_human": 0,
-  "signals_24h_reference": 20485,
+  "signals_24h_reference": 19175,
   "corroborated_7d": 0,
   "flagged_7d": 0,
   "human_7d": 1,
@@ -35,19 +35,19 @@
   "corroboration_rate_7d": 0.0
  },
  "feeds": {
-  "airnow": "2026-10-25T06:01:05+00:00",
-  "ams_grain": "2026-10-25T05:15:54+00:00",
-  "cocorahs": "2026-10-25T00:04:44+00:00",
-  "iem_asos": "2026-10-25T06:01:04+00:00",
-  "iem_lsr": "2026-10-25T06:26:09+00:00",
-  "news": "2026-10-25T06:23:55+00:00",
-  "nrcs_scan": "2026-10-24T17:23:04+00:00",
-  "nws_alerts": "2026-10-25T06:27:31+00:00",
-  "nws_statements": "2026-10-25T06:23:56+00:00",
-  "pipeline": "2026-10-24T08:00:57+00:00",
-  "usdm": "2026-10-24T20:08:45+00:00",
-  "usgs_quake": "2026-10-25T06:21:08+00:00",
-  "usgs_water": "2026-10-25T05:46:01+00:00"
+  "airnow": "2026-10-26T07:07:15+00:00",
+  "ams_grain": "2026-10-26T05:21:28+00:00",
+  "cocorahs": "2026-10-26T00:05:20+00:00",
+  "iem_asos": "2026-10-26T07:07:14+00:00",
+  "iem_lsr": "2026-10-26T08:02:26+00:00",
+  "news": "2026-10-26T08:00:54+00:00",
+  "nrcs_scan": "2026-10-25T13:27:45+00:00",
+  "nws_alerts": "2026-10-26T08:04:20+00:00",
+  "nws_statements": "2026-10-26T08:00:55+00:00",
+  "pipeline": "2026-10-25T06:28:37+00:00",
+  "usdm": "2026-10-25T16:13:30+00:00",
+  "usgs_quake": "2026-10-26T07:57:25+00:00",
+  "usgs_water": "2026-10-26T07:52:24+00:00"
  },
  "reference_sizes": {
   "airnow": 40,

@@ -1,5 +1,5 @@
 {
- "as_of": "2026-10-25T06:27:40+00:00",
+ "as_of": "2026-10-26T08:04:31+00:00",
  "hours": 24,
  "places": [
   {
@@ -83,7 +83,7 @@
      "name": "Temperature",
      "value": "39.2 \u00b0F",
      "note": "the day's low",
-     "at": "2026-10-24T09:35+00:00",
+     "at": "2026-10-25T10:35+00:00",
      "sev": 0.0
     }
    ],
@@ -91,16 +91,15 @@
     "Lowest temperature in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-10-25T05:35+00:00",
+   "at": "2026-10-26T06:55+00:00",
    "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=RSV&network=IL_ASOS",
    "spark": {
     "name": "Temperature",
     "unit": "\u00b0F",
     "t": [
-     -1380,
-     -1320,
-     -1260,
-     -1200,
+     -1340,
+     -1280,
+     -1220,
      -1140,
      -1080,
      -1020,
@@ -112,7 +111,7 @@
      -660,
      -600,
      -540,
-     -480,
+     -500,
      -420,
      -360,
      -300,
@@ -125,28 +124,27 @@
     "v": [
      42.8,
      41.0,
+     39.2,
+     39.2,
      41.0,
-     39.2,
-     41.0,
-     39.2,
-     39.2,
      48.2,
-     55.4,
-     62.6,
+     59.0,
      68.0,
+     73.4,
+     75.2,
+     75.2,
+     77.0,
+     75.2,
      71.6,
-     71.6,
-     73.4,
-     73.4,
-     73.4,
-     69.8,
-     60.8,
+     68.0,
+     57.2,
      53.6,
      50.0,
      48.2,
+     48.2,
      46.4,
      46.4,
-     44.6
+     46.4
     ]
    },
    "event": null,
@@ -157,20 +155,20 @@
    "id": "p4",
    "topic": "weather",
    "source": "Airport station",
-   "name": "Cairo (CIR)",
-   "county": "Alexander",
+   "name": "Carbondale (MDH)",
+   "county": "Jackson",
    "zip": null,
-   "lat": 37.0647,
-   "lon": -89.2196,
+   "lat": 37.78,
+   "lon": -89.25,
    "person": false,
-   "label": "High 78 \u00b0F",
+   "label": "High 79 \u00b0F",
    "lines": [
     {
      "metric": "temp_c",
      "name": "Temperature",
-     "value": "78 \u00b0F",
+     "value": "79 \u00b0F",
      "note": "the day's high",
-     "at": "2026-10-24T19:35+00:00",
+     "at": "2026-10-25T19:52+00:00",
      "sev": 0.0
     }
    ],
@@ -178,102 +176,15 @@
     "Highest temperature in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-10-25T05:35+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=CIR&network=IL_ASOS",
+   "at": "2026-10-26T06:52+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=MDH&network=IL_ASOS",
    "spark": {
     "name": "Temperature",
     "unit": "\u00b0F",
     "t": [
-     -1380,
      -1320,
      -1260,
      -1200,
-     -1140,
-     -1080,
-     -1020,
-     -980,
-     -900,
-     -840,
-     -780,
-     -720,
-     -660,
-     -600,
-     -540,
-     -460,
-     -400,
-     -340,
-     -300,
-     -220,
-     -180,
-     -100,
-     -40,
-     0
-    ],
-    "v": [
-     48.4,
-     49.3,
-     47.5,
-     44.0,
-     45.7,
-     44.8,
-     43.5,
-     48.0,
-     60.0,
-     64.4,
-     69.6,
-     75.2,
-     76.3,
-     78.0,
-     78.0,
-     77.7,
-     71.6,
-     63.0,
-     59.0,
-     55.4,
-     52.5,
-     51.6,
-     51.6,
-     50.4
-    ]
-   },
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
-   "id": "p5",
-   "topic": "water",
-   "source": "USGS stream gauge",
-   "name": "Mississippi River Pool Lock and Dam 26 at Alton",
-   "county": "Madison",
-   "zip": null,
-   "lat": 38.8873,
-   "lon": -90.184,
-   "person": false,
-   "label": "\u25b2 0.81 ft",
-   "lines": [
-    {
-     "metric": "stage_m",
-     "name": "Stage (gauge height)",
-     "value": "19.2 ft",
-     "note": "up 0.81 ft in 24 hours",
-     "at": "2026-10-25T05:30+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Biggest rise in Illinois in the last 24 hours"
-   ],
-   "status": "official",
-   "at": "2026-10-25T05:30+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/05587498/",
-   "spark": {
-    "name": "Stage (gauge height)",
-    "unit": "ft",
-    "t": [
-     -1350,
-     -1290,
-     -1230,
      -1140,
      -1080,
      -1020,
@@ -296,29 +207,29 @@
      0
     ],
     "v": [
-     18.47,
-     18.45,
-     18.43,
-     18.41,
-     18.4,
-     18.39,
-     18.45,
-     18.43,
-     18.5,
-     18.51,
-     18.52,
-     18.73,
-     18.83,
-     18.89,
-     18.95,
-     19.0,
-     19.06,
-     19.08,
-     19.12,
-     19.11,
-     19.17,
-     19.19,
-     19.2
+     46.0,
+     44.0,
+     44.0,
+     45.0,
+     45.0,
+     53.0,
+     64.0,
+     72.0,
+     75.0,
+     76.0,
+     78.0,
+     79.0,
+     79.0,
+     77.0,
+     71.0,
+     67.0,
+     64.0,
+     60.0,
+     57.0,
+     55.0,
+     54.0,
+     53.0,
+     50.0
     ]
    },
    "event": null,
@@ -326,7 +237,7 @@
    "tier": 1
   },
   {
-   "id": "p6",
+   "id": "p5",
    "topic": "weather",
    "source": "Network member",
    "name": "s-1929c",
@@ -349,79 +260,10 @@
    "why": [
     "Flooding reported",
     "Reported by a network member",
-    "In the news: \u201cDave Mool, Lexington, 10/24/26\u201d"
+    "In the news: \u201cDry weather helps Central Illinois farmers catch up on harvest\u201d"
    ],
    "status": "unverified",
    "at": "2026-10-22T22:10+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [
-    "n2"
-   ],
-   "tier": 1
-  },
-  {
-   "id": "p7",
-   "topic": "soil",
-   "source": "NRCS soil station",
-   "name": "Mason #1 soil station",
-   "county": "Mason",
-   "zip": null,
-   "lat": 40.3131,
-   "lon": -89.9019,
-   "person": false,
-   "label": "Soil moisture 8.5 %",
-   "lines": [
-    {
-     "metric": "soil_moisture_pct",
-     "name": "Soil moisture",
-     "value": "8.5 %",
-     "note": null,
-     "at": "2026-10-22T12:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Soil moisture past the network's event threshold",
-    "In the news: \u201cIllinois crop progress for week ending Oct. 18\u201d"
-   ],
-   "status": "official",
-   "at": "2026-10-22T12:00+00:00",
-   "url": "https://wcc.sc.egov.usda.gov/nwcc/site?sitenum=2004",
-   "spark": null,
-   "event": null,
-   "news": [
-    "n8"
-   ],
-   "tier": 1
-  },
-  {
-   "id": "p8",
-   "topic": "air",
-   "source": "EPA air monitor",
-   "name": "Cook County air monitor",
-   "county": "Cook",
-   "zip": null,
-   "lat": 41.965,
-   "lon": -87.8761,
-   "person": false,
-   "label": "\u25b2 16.9 \u00b5g/m\u00b3",
-   "lines": [
-    {
-     "metric": "pm25_ugm3",
-     "name": "PM2.5",
-     "value": "27.2 \u00b5g/m\u00b3 (AQI 85, moderate)",
-     "note": "up 16.9 \u00b5g/m\u00b3 (AQI 66, moderate) in 24 hours",
-     "at": "2026-10-25T02:00+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "In the news: \u201cChicago's forecast: Mild Saturday ahead\u201d"
-   ],
-   "status": "official",
-   "at": "2026-10-25T02:00+00:00",
    "url": null,
    "spark": null,
    "event": null,
@@ -431,103 +273,75 @@
    "tier": 1
   },
   {
-   "id": "p9",
-   "topic": "water",
-   "source": "USGS stream gauge",
-   "name": "Mississippi River at Grafton",
-   "county": "Jersey",
+   "id": "p6",
+   "topic": "soil",
+   "source": "NRCS soil station",
+   "name": "Mason #1 soil station",
+   "county": "Mason",
    "zip": null,
-   "lat": 38.968,
-   "lon": -90.429,
+   "lat": 40.3131,
+   "lon": -89.9019,
    "person": false,
-   "label": "\u25b2 0.53 ft",
+   "label": "Soil moisture 8.1 %",
    "lines": [
     {
-     "metric": "stage_m",
-     "name": "Stage (gauge height)",
-     "value": "16.1 ft",
-     "note": "up 0.53 ft in 24 hours",
-     "at": "2026-10-25T05:30+00:00",
-     "sev": 0.0
-    },
-    {
-     "metric": "discharge_cms",
-     "name": "Streamflow",
-     "value": "106,000 cfs",
+     "metric": "soil_moisture_pct",
+     "name": "Soil moisture",
+     "value": "8.1 %",
      "note": null,
-     "at": "2026-10-25T05:30+00:00",
-     "sev": 0.0
+     "at": "2026-10-24T12:00+00:00",
+     "sev": 0.4
     }
    ],
    "why": [
-    "Second-biggest rise in Illinois in the last 24 hours"
+    "Soil moisture past the network's event threshold",
+    "In the news: \u201cUnseasonably warm, dry weather sticks around through the weekend\u201d"
    ],
    "status": "official",
-   "at": "2026-10-25T05:30+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/05587450/",
-   "spark": {
-    "name": "Stage (gauge height)",
-    "unit": "ft",
-    "t": [
-     -1350,
-     -1290,
-     -1230,
-     -1140,
-     -1080,
-     -1020,
-     -960,
-     -900,
-     -840,
-     -780,
-     -720,
-     -660,
-     -600,
-     -540,
-     -480,
-     -420,
-     -360,
-     -300,
-     -240,
-     -180,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     15.61,
-     15.6,
-     15.59,
-     15.55,
-     15.53,
-     15.53,
-     15.52,
-     15.55,
-     15.58,
-     15.6,
-     15.58,
-     15.61,
-     15.72,
-     15.78,
-     15.83,
-     15.86,
-     15.91,
-     15.94,
-     15.97,
-     15.99,
-     16.0,
-     16.04,
-     16.05
-    ]
-   },
+   "at": "2026-10-24T12:00+00:00",
+   "url": "https://wcc.sc.egov.usda.gov/nwcc/site?sitenum=2004",
+   "spark": null,
    "event": null,
-   "news": [],
-   "tier": 2
+   "news": [
+    "n6"
+   ],
+   "tier": 1
   }
  ],
  "news": [
   {
    "id": "n1",
    "n": 1,
+   "topic": "agriculture",
+   "place": "Central Illinois",
+   "statewide": false,
+   "lat": 39.7569,
+   "lon": -89.6624,
+   "counties": [
+    "17019",
+    "17113",
+    "17115",
+    "17143",
+    "17167",
+    "17179"
+   ],
+   "stories": [
+    {
+     "title": "Dry weather helps Central Illinois farmers catch up on harvest",
+     "source": "1470 & 100.3 WMBD",
+     "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNLWlqT3NhM3M0N1UyaHRyXzlQZVhnY3JmNFFrQkJNdVhZVUltaVBhN3U0aG1ScmM0NXUxZVZ3eXhKYVpyV0RLRTVCa3NvVUc2bEhRZG9kZ1lscTZ2MGJHRlBWazR2RXlXSjBHRG1PWmlaWE5Ic2lpU3BydTdRNnpSSUo2Y3NGN1BXazFfQV82amtLV3ROb1YxS3g5NXU?oc=5",
+     "at": "2026-10-23T15:56:45"
+    }
+   ],
+   "more": [],
+   "links": [
+    "p5"
+   ],
+   "alerts": []
+  },
+  {
+   "id": "n2",
+   "n": 2,
    "topic": "weather",
    "place": "Chicago",
    "statewide": false,
@@ -538,73 +352,50 @@
    ],
    "stories": [
     {
-     "title": "Chicago's forecast: Mild Saturday ahead",
-     "source": "NBC 5 Chicago",
-     "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOYTdOb0drTG9Ic0pYb2U2ZnQtb3QtRGtfdDczTFVhVkdwY1dNWm04ckxqVGZEbnY4dUZ2YmhqSXZaV1IybXI3OHZKdVJvY1N6bVd0ZGpYaHJya19hVU16SS1jdUJQaGRrWkZZU2JQMkpxOEVtY2U2ajliQmZZbmhCX21HT0gxY0ZGamR0c0RsaDbSAZgBQVVfeXFMUG1iLTBwa24xOXRIYVpYSVVoYm9FdlNFOU5McWZadmY2djNzUE5qeWlRVjFOaEVFZDZTa1lOOEFiUGFVZjhFTUxITGRpRnNvNnZoanNPZUcwX3c3a2l3SXF5QVBTRnVRMjBzNHZxRGhmenJhUmh4X3psRndqZDV6WGt6VVVrU00yb2QxMEJjTFkzeVlxNlR6TG0?oc=5",
-     "at": "2026-10-23T23:41:34"
+     "title": "Chicago facing last week of warm weather before temperature drops",
+     "source": "Chicago Tribune",
+     "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1IakJlYkhBZXA3RDlSYmtGbE5hQzhvdHpCVlFRMml1ZEFGVzhRNXp0dWJnN1p4RGZZQzZTOXc0NVFZSF8zU2d4RGkxUzB3SVE1M1N6bUk0anNJckEwMS1heHkxem9JSnRMc2hkSFl4dndCbmdTUi0zY01KNA?oc=5",
+     "at": "2026-10-25T21:13:38"
     },
     {
-     "title": "Air quality in Calumet Park",
-     "source": "IQAir",
-     "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE8tVVZGS2tQajByLVcyQ1hpU0ZzdXdhMnFaNG9hNUNYWU5RUUJITjFvNE0yXzBLZjF6VmV5TzJNSWdiQnZ4aG41bGhlWU9JRFFHOERPZzUxVkpuRkI4dWhPNHFUQkFRdkFEVVRqSlVTdw?oc=5",
-     "at": "2026-10-23T10:24:28"
-    }
-   ],
-   "more": [],
-   "links": [
-    "p8"
-   ],
-   "alerts": []
-  },
-  {
-   "id": "n2",
-   "n": 2,
-   "topic": "agriculture",
-   "place": "Lexington",
-   "statewide": false,
-   "lat": 40.647,
-   "lon": -88.7841,
-   "counties": [
-    "17113"
-   ],
-   "stories": [
+     "title": "Warm October weather continues in Chicago forecast, but is rain looming?",
+     "source": "NBC 5 Chicago",
+     "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPT0J2N0t3RHZuc0xLdnU0S08tcGk5OVZQYXJJOUN1aEZGMHcxU1N2endaa0t4THN2YWY0U214RE5ubUpQaV80LUNEUWdPOHJXYnFzbExaWi1EZVdpZURZZ1M5R28tMEgzaVdEQnBCNTFKalJOT0xkSEt4VV9hWkg1SVQ0dHNMbkp2bDdGRFNDQUJHQzcydDRwUkNYYmpHYTl5ZmJnNGJQT0VMR3VsTE4xZ0pZRjBjOW5x0gHAAUFVX3lxTE1vR2hqbmo3Q3lLcWRXM0pFVWVkYk5lT2ZoRS15Nlk0TGladjFVaDBLS0pucDhuZ2Q2dURNdEtqYUIyQ1lSbVIwdG1mNUFfWXRtMG5nbjExUEo4NXFhSVd1RHRHeWIwUjBwR0ZtOGJjWnVvQ1pUVlhFV3c3SUg5N3duS1hQdUFCYTdoRE1IM000MlFqY2RpUUxmemFwdUNtQzMxNDVTUVZ6ak5JZFRVeHhwa0xPWl9pQ0g0TlV4ZjBlRA?oc=5",
+     "at": "2026-10-25T15:56:02"
+    },
     {
-     "title": "Dave Mool, Lexington, 10/24/26",
-     "source": "FarmWeekNow",
-     "url": "https://www.farmweeknow.com/crop_conditions/cropwatchers/mclean_county/dave-mool-lexington-10-24-26/article_04277329-ba6a-483e-a14c-164d706b3f7a.html",
-     "at": "2026-10-24T07:00:00"
+     "title": "Chicago weather: Cool and mostly clear with patchy fog Friday night",
+     "source": "CBS News",
+     "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOMFhCWV9DNV93TkJyN25QMm5JOVpNdGNaelFBNW1ZU1hTTW5oMnlsWF9TVG1JQlItMWZRQWNVOXV1MGpfbkxOVVNXTmlLeE5ZRjYweGV6MEJON2lSX2s4d25EVDF1VVNXcHFKenZSZHNIazlQVlFlbXM2SGRYaVdrTXBodEVWVzJNUFpnU2FrS2ZrcDdla2xrNkFFTnFGc3ZyTTBZQUtTdl8?oc=5",
+     "at": "2026-10-24T04:22:00"
     }
    ],
    "more": [],
-   "links": [
-    "p6"
-   ],
+   "links": [],
    "alerts": []
   },
   {
    "id": "n3",
    "n": 3,
-   "topic": "agriculture",
-   "place": "Morrisonville",
+   "topic": "weather",
+   "place": "Chicago area",
    "statewide": false,
-   "lat": 39.7006,
-   "lon": -89.1185,
+   "lat": 41.8943,
+   "lon": -87.6454,
    "counties": [
-    "17021",
-    "17139"
+    "17031",
+    "17043",
+    "17089",
+    "17097",
+    "17111",
+    "17197"
    ],
    "stories": [
     {
-     "title": "Josh Sullivan, Morrisonville, 10/24/26",
-     "source": "FarmWeekNow",
-     "url": "https://www.farmweeknow.com/crop_conditions/cropwatchers/christian_county/josh-sullivan-morrisonville-10-24-26/article_4b85caa5-81da-40a1-ab59-1f60f8c1b90b.html",
-     "at": "2026-10-24T07:00:00"
-    },
-    {
-     "title": "Cory Ritter, Blue Mound, 10/24/26",
-     "source": "FarmWeekNow",
-     "url": "https://www.farmweeknow.com/crop_conditions/cropwatchers/macon_county/cory-ritter-blue-mound-10-24-26/article_e5ace727-0629-4c7a-840e-6b1848228a2d.html",
-     "at": "2026-10-24T07:00:00"
+     "title": "Mold in Chicago-area schools is a growing problem as climate change intensifies summer storms",
+     "source": "Chicago Tribune",
+     "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxONElpU0NRdkJldWJUbThXb0V2ODhrcy01Y3N5bFVjWWxSVk5EZTQtS0dvaG9jZk1KUmZMYUhKcTRpR0ZWNXpnSlU5SDRZZW8zTGQ3M3k1SS1HUE9tYmE2eUZqU2I2VzZBLXNmb01rdU5keURwbDhxUFFQUk5KVENDc1NRZ3lDYkt0akNvRUdjYXZ3UQ?oc=5",
+     "at": "2026-10-25T12:00:40"
     }
    ],
    "more": [],
@@ -614,52 +405,6 @@
   {
    "id": "n4",
    "n": 4,
-   "topic": "agriculture",
-   "place": "Savanna",
-   "statewide": false,
-   "lat": 42.0939,
-   "lon": -90.1388,
-   "counties": [
-    "17015"
-   ],
-   "stories": [
-    {
-     "title": "Leroy Getz, Savanna, 10/24/26",
-     "source": "FarmWeekNow",
-     "url": "https://www.farmweeknow.com/crop_conditions/cropwatchers/carroll_county/leroy-getz-savanna-10-24-26/article_ba104fd7-b2c7-4d55-8887-8ac1462af042.html",
-     "at": "2026-10-24T07:00:00"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n5",
-   "n": 5,
-   "topic": "agriculture",
-   "place": "Waterman",
-   "statewide": false,
-   "lat": 41.7656,
-   "lon": -88.7631,
-   "counties": [
-    "17037"
-   ],
-   "stories": [
-    {
-     "title": "Ryan Frieders, Waterman, 10/24/26",
-     "source": "FarmWeekNow",
-     "url": "https://www.farmweeknow.com/crop_conditions/cropwatchers/dekalb_county/ryan-frieders-waterman-10-24-26/article_90b07134-4a57-4f99-a962-410d3d01df5d.html",
-     "at": "2026-10-24T07:00:00"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n6",
-   "n": 6,
    "topic": "air",
    "place": "Lake",
    "statewide": false,
@@ -681,22 +426,66 @@
    "alerts": []
   },
   {
-   "id": "n7",
-   "n": 7,
-   "topic": "weather",
-   "place": "Edwardsville",
+   "id": "n5",
+   "n": 5,
+   "topic": "landuse",
+   "place": "Alton",
    "statewide": false,
-   "lat": 38.7908,
-   "lon": -89.9886,
+   "lat": 38.9039,
+   "lon": -90.1512,
    "counties": [
     "17119"
    ],
    "stories": [
     {
-     "title": "First frost could follow Edwardsville\u2019s record 93-degree day",
-     "source": "The Edwardsville Intelligencer",
-     "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOeW9LTTd0WkNIRkcxaWlJaDBKb3NSVXJEdFJVYndBSjhQaVBtVEIzNmw5dXVBU1JsUUc1TVBPc01BMlJWX016Sm5HOEw0ZXpFeXFFcHpkajNaMUpNUFNJb2F2akI0TG9VZDlyUndOVXJZWnk1Z1NMcm5FRVU2Z0NURXVBekFkSUE2UFN3ak5rejh3VnNRX1otUDV4NA?oc=5",
-     "at": "2026-10-17T11:14:06"
+     "title": "St. Louis data center developer proposes similar project for shuttered Alton Steel site",
+     "source": "STLPR",
+     "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxOSGJRbk1PSmhzaUpBR3ZKVkRyWG14VFh2c2lvS0hnV2ZOX09tZ0lLQUJpaWk4czZWZHNZOTZBRHV0SzZ4aEI1WjY4dF9CTTNBQVZrRXo4MFEtMWU4NHE4Zks3bTVTUUdIdkFJVXJyZmREbUJBQnAyb0F1OHY5STNPdG9B?oc=5",
+     "at": "2026-10-21T18:44:00"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n6",
+   "n": 6,
+   "topic": "weather",
+   "place": null,
+   "statewide": true,
+   "lat": null,
+   "lon": null,
+   "counties": [],
+   "stories": [
+    {
+     "title": "Unseasonably warm, dry weather sticks around through the weekend",
+     "source": "NBC 5 Chicago",
+     "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPRTRDY0dBS0M5V0tfZVBQV01mbFdZTXBxazNrM0cxM0xhOG5GS19TWFU3dzlXdlF3SmxuU2ZqWU41SU9uVUVRSXFLa1JqWFpabE1vNVB1Ql82em5xVVVjNkRoOG9GZE5hVFREVE9aZk5oeVVJcTFtenVfNGRENi00SG9TMWRGWTJKeVJTUUFBX3VkRTY5eEQ3UkRRVmdIV0UzYzhfNTNlSzVETlp0bXVn0gG3AUFVX3lxTE5VYVo3aDJhM1RqbzBTSFQ1NFBjZ2lFY1NiUC03bVZLb3Y2SDl3NGJBRnNfdFp1NVNBalMzNjc5c1J4NGExczhoSzJtUjRzM3hBeXF4cVpvYVpvU1dSaUNHQ2JaVGJYNE5qSFROTE4zWDg1c3hpekt3eHdlZWctMFFsZDNWNzZLalVQX1NKMXJpUHpaTTJFM3M1SnczckxUT21peExhU1hzY3pyMEFLcXlMbkljcTZYbw?oc=5",
+     "at": "2026-10-24T14:45:30"
+    }
+   ],
+   "more": [],
+   "links": [
+    "p6"
+   ],
+   "alerts": []
+  },
+  {
+   "id": "n7",
+   "n": 7,
+   "topic": "agriculture",
+   "place": null,
+   "statewide": true,
+   "lat": null,
+   "lon": null,
+   "counties": [],
+   "stories": [
+    {
+     "title": "Beans stay green on northeast Illinois farm",
+     "source": "AgUpdate",
+     "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNNThQVTdsX3dkSFRpQThTbzNPRC1RZEFOckxpcktmNkkwaGhPX2JCdWJkdUxMem13MWo5QjRGeTdRTjRRRGlxMDJjTk5LMzFwaXhlWGUzWVRpS1lOU3RfSjFoM21kaWRzTzYwZ2lQVDg5WS1VQ1h5OFdRZEZyblFEempJZnBsNVNFWWJvcXhOQUJuaUJ4ekpuQ2h4RTF3NkdTS3c?oc=5",
+     "at": "2026-10-24T12:45:00"
     }
    ],
    "more": [],
@@ -706,50 +495,6 @@
   {
    "id": "n8",
    "n": 8,
-   "topic": "agriculture",
-   "place": null,
-   "statewide": true,
-   "lat": null,
-   "lon": null,
-   "counties": [],
-   "stories": [
-    {
-     "title": "Illinois crop progress for week ending Oct. 18",
-     "source": "Agri News",
-     "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPRTNmaXNIU1hqNGZiX3VVUDJqSnFCcWhVTVp0Z2VzUWRqajBXLWtkSlpYdDY3RlZTUjhDRmJibmVtbjJCa2FSTjV1T21sYU5SQXRJeU1ZcHplX0I3R2tpaWd4dkg4YnRyLXZ2bFFQOGdSamo4cUVBci1haDhSMVV6eWRvNm9JQUpEaTNPS3M2ZnhudkpMMzRCYUdOY0VCODVUV3B4U0M2ZWxicTU0U1E?oc=5",
-     "at": "2026-10-23T18:50:00"
-    }
-   ],
-   "more": [],
-   "links": [
-    "p7"
-   ],
-   "alerts": []
-  },
-  {
-   "id": "n9",
-   "n": 9,
-   "topic": "weather",
-   "place": null,
-   "statewide": true,
-   "lat": null,
-   "lon": null,
-   "counties": [],
-   "stories": [
-    {
-     "title": "Change in the weather a welcome harvest respite for central Illinois farmer",
-     "source": "Brownfield Ag News",
-     "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPbG0zaGVLU3FSLVdsa3M4ZlpIeEtZenRZaUw4TkRYemRuOE1zamp0S05kOC1FUk9SZGNqSG1aTTgtVDhtam9OOUxIQ09uNHpUUzZQdmtLa2czQUxRaF85YU9FRkFLWEJpbWZQQnJ5aTBfVmlpeUdjNFE3dUpEYjdRbkpsMS14cWlubHl3ME1fM2ptQVFRX3o4c2RKUXZjNDMxTllIc3FsRXZCNk14dXBN?oc=5",
-     "at": "2026-10-24T03:19:13"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n10",
-   "n": 10,
    "topic": "landuse",
    "place": null,
    "statewide": true,
@@ -758,10 +503,10 @@
    "counties": [],
    "stories": [
     {
-     "title": "Gigawatt-scale data center proposed for steel mill in Illinois",
-     "source": "Data Center Dynamics",
-     "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPVExnVlV1LVg4QWUwLWJ0cFdtb0t1T0xORjhhSF9xcjJBVks2UUotbHJocXNFazBOSnNxWmlrOVF0a2J4VUFDcVI0dUlGS0p2Z0xZeTZNN3diRjhWZG5XN3J5ejg1eFlTZ3BiWjNKem9HeG0xZFRHRW9NR1loaDZxRGpRUmVwa0NPc0V4WGl5cFkyS2xLWHkxZHZxbjZleHY1WWRzYjZXek85dw?oc=5",
-     "at": "2026-10-23T10:47:13"
+     "title": "Data centers will cost ComEd $3 billion but consumer groups worry Illinois households will be on the hook",
+     "source": "Illinois Newsroom",
+     "url": "https://ipmnewsroom.org/data-centers-will-cost-comed-3-billion-but-consumer-groups-worry-illinois-households-will-be-on-the-hook/",
+     "at": "2026-10-22T23:00:00"
     }
    ],
    "more": [],
@@ -772,7 +517,9 @@
  "areas": [],
  "quiet": [
   "Agriculture",
+  "Air",
   "Seasons & nature",
-  "Earthquakes"
+  "Earthquakes",
+  "Water"
  ]
 }
