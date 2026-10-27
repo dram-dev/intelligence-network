@@ -200,6 +200,26 @@
   "verified": true
  },
  {
+  "id": 107,
+  "topic": "soil",
+  "metric": "soil_moisture_pct",
+  "metric_label": "Soil moisture",
+  "title": "Soil moisture down to 7.8 % \u2014 Mason County",
+  "county_fips": "17125",
+  "county_label": "Mason County",
+  "peak_display": "7.8 %",
+  "n_signals": 1,
+  "n_sensors": 1,
+  "n_reference": 1,
+  "severity": 0.4,
+  "score": 0.9,
+  "status": "closed",
+  "opened_at": "2026-10-25T12:00:00+00:00",
+  "updated_at": "2026-10-25T12:00:00+00:00",
+  "source_url": "https://wcc.sc.egov.usda.gov/nwcc/site?sitenum=2004",
+  "verified": true
+ },
+ {
   "id": 106,
   "topic": "soil",
   "metric": "soil_moisture_pct",
@@ -297,26 +317,6 @@
   "opened_at": "2026-10-20T10:16:00+00:00",
   "updated_at": "2026-10-20T10:16:00+00:00",
   "source_url": "https://mesonet.agron.iastate.edu/sites/site.php?station=ORD&network=IL_ASOS",
-  "verified": true
- },
- {
-  "id": 90,
-  "topic": "soil",
-  "metric": "soil_moisture_pct",
-  "metric_label": "Soil moisture",
-  "title": "Soil moisture down to 7.5 % \u2014 Mason County",
-  "county_fips": "17125",
-  "county_label": "Mason County",
-  "peak_display": "7.5 %",
-  "n_signals": 1,
-  "n_sensors": 1,
-  "n_reference": 1,
-  "severity": 0.4,
-  "score": 0.9,
-  "status": "closed",
-  "opened_at": "2026-10-12T12:00:00+00:00",
-  "updated_at": "2026-10-12T12:00:00+00:00",
-  "source_url": "https://wcc.sc.egov.usda.gov/nwcc/site?sitenum=2004",
   "verified": true
  },
  {
