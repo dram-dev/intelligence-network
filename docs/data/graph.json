@@ -124,14 +124,14 @@
    "kind": "topic",
    "label": "Air",
    "topic": "air",
-   "n": 689
+   "n": 1166
   },
   {
    "id": "metric:pm25_ugm3",
    "kind": "metric",
    "label": "PM2.5",
    "topic": "air",
-   "n": 312,
+   "n": 528,
    "flag": false
   },
   {
@@ -147,7 +147,7 @@
    "kind": "metric",
    "label": "Ozone",
    "topic": "air",
-   "n": 377,
+   "n": 638,
    "flag": false
   },
   {
@@ -179,14 +179,14 @@
    "kind": "topic",
    "label": "Farm markets",
    "topic": "markets",
-   "n": 25
+   "n": 0
   },
   {
    "id": "metric:corn_basis",
    "kind": "metric",
    "label": "Corn basis",
    "topic": "markets",
-   "n": 12,
+   "n": 0,
    "flag": false
   },
   {
@@ -194,7 +194,7 @@
    "kind": "metric",
    "label": "Soybean basis",
    "topic": "markets",
-   "n": 12,
+   "n": 0,
    "flag": false
   },
   {
@@ -210,7 +210,7 @@
    "kind": "metric",
    "label": "Wheat basis",
    "topic": "markets",
-   "n": 1,
+   "n": 0,
    "flag": false
   },
   {
@@ -455,14 +455,14 @@
    "kind": "topic",
    "label": "Water",
    "topic": "water",
-   "n": 10264
+   "n": 10116
   },
   {
    "id": "metric:stage_m",
    "kind": "metric",
    "label": "Stage (gauge height)",
    "topic": "water",
-   "n": 5367,
+   "n": 5278,
    "flag": false
   },
   {
@@ -470,7 +470,7 @@
    "kind": "metric",
    "label": "Streamflow",
    "topic": "water",
-   "n": 4347,
+   "n": 4289,
    "flag": false
   },
   {
@@ -478,7 +478,7 @@
    "kind": "metric",
    "label": "Water temperature",
    "topic": "water",
-   "n": 550,
+   "n": 549,
    "flag": false
   },
   {
@@ -574,14 +574,14 @@
    "kind": "topic",
    "label": "Weather",
    "topic": "weather",
-   "n": 9022
+   "n": 8718
   },
   {
    "id": "metric:temp_c",
    "kind": "metric",
    "label": "Temperature",
    "topic": "weather",
-   "n": 1291,
+   "n": 1249,
    "flag": false
   },
   {
@@ -589,7 +589,7 @@
    "kind": "metric",
    "label": "Dew point",
    "topic": "weather",
-   "n": 1285,
+   "n": 1243,
    "flag": false
   },
   {
@@ -597,7 +597,7 @@
    "kind": "metric",
    "label": "Relative humidity",
    "topic": "weather",
-   "n": 1285,
+   "n": 1243,
    "flag": false
   },
   {
@@ -605,7 +605,7 @@
    "kind": "metric",
    "label": "Pressure",
    "topic": "weather",
-   "n": 1291,
+   "n": 1250,
    "flag": false
   },
   {
@@ -613,7 +613,7 @@
    "kind": "metric",
    "label": "Sustained wind",
    "topic": "weather",
-   "n": 1266,
+   "n": 1227,
    "flag": false
   },
   {
@@ -621,7 +621,7 @@
    "kind": "metric",
    "label": "Wind gust",
    "topic": "weather",
-   "n": 21,
+   "n": 6,
    "flag": false
   },
   {
@@ -629,7 +629,7 @@
    "kind": "metric",
    "label": "Rainfall",
    "topic": "weather",
-   "n": 1292,
+   "n": 1250,
    "flag": false
   },
   {
@@ -653,7 +653,7 @@
    "kind": "metric",
    "label": "Visibility",
    "topic": "weather",
-   "n": 1291,
+   "n": 1250,
    "flag": false
   },
   {
@@ -716,31 +716,19 @@
    "id": "feed:iem_asos",
    "kind": "feed",
    "label": "iem_asos",
-   "n": 9021
-  },
-  {
-   "id": "feed:airnow",
-   "kind": "feed",
-   "label": "airnow",
-   "n": 689
+   "n": 8718
   },
   {
    "id": "feed:usgs_water",
    "kind": "feed",
    "label": "usgs_water",
-   "n": 10264
+   "n": 10116
   },
   {
-   "id": "feed:ams_grain",
+   "id": "feed:airnow",
    "kind": "feed",
-   "label": "ams_grain",
-   "n": 25
-  },
-  {
-   "id": "feed:cocorahs",
-   "kind": "feed",
-   "label": "cocorahs",
-   "n": 1
+   "label": "airnow",
+   "n": 1166
   },
   {
    "id": "event:102",
@@ -1443,103 +1431,79 @@
    "source": "feed:iem_asos",
    "target": "metric:temp_c",
    "kind": "reports",
-   "weight": 1291
+   "weight": 1249
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:dewpoint_c",
    "kind": "reports",
-   "weight": 1285
+   "weight": 1243
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:humidity_pct",
    "kind": "reports",
-   "weight": 1285
+   "weight": 1243
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:wind_ms",
    "kind": "reports",
-   "weight": 1266
+   "weight": 1227
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:rain_mm",
    "kind": "reports",
-   "weight": 1291
+   "weight": 1250
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:pressure_hpa",
    "kind": "reports",
-   "weight": 1291
+   "weight": 1250
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:visibility_km",
    "kind": "reports",
-   "weight": 1291
-  },
-  {
-   "source": "feed:airnow",
-   "target": "metric:ozone_ppb",
-   "kind": "reports",
-   "weight": 377
-  },
-  {
-   "source": "feed:airnow",
-   "target": "metric:pm25_ugm3",
-   "kind": "reports",
-   "weight": 312
-  },
-  {
-   "source": "feed:usgs_water",
-   "target": "metric:discharge_cms",
-   "kind": "reports",
-   "weight": 4347
+   "weight": 1250
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:stage_m",
    "kind": "reports",
-   "weight": 5367
+   "weight": 5278
+  },
+  {
+   "source": "feed:usgs_water",
+   "target": "metric:discharge_cms",
+   "kind": "reports",
+   "weight": 4289
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:water_temp_c",
    "kind": "reports",
-   "weight": 550
+   "weight": 549
+  },
+  {
+   "source": "feed:airnow",
+   "target": "metric:ozone_ppb",
+   "kind": "reports",
+   "weight": 638
+  },
+  {
+   "source": "feed:airnow",
+   "target": "metric:pm25_ugm3",
+   "kind": "reports",
+   "weight": 528
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:wind_gust_ms",
    "kind": "reports",
-   "weight": 21
-  },
-  {
-   "source": "feed:ams_grain",
-   "target": "metric:soy_basis",
-   "kind": "reports",
-   "weight": 12
-  },
-  {
-   "source": "feed:ams_grain",
-   "target": "metric:wheat_basis",
-   "kind": "reports",
-   "weight": 1
-  },
-  {
-   "source": "feed:ams_grain",
-   "target": "metric:corn_basis",
-   "kind": "reports",
-   "weight": 12
-  },
-  {
-   "source": "feed:cocorahs",
-   "target": "metric:rain_mm",
-   "kind": "reports",
-   "weight": 1
+   "weight": 6
   },
   {
    "source": "event:102",

@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-27T08:21:30+00:00",
+ "generated_at": "2026-10-28T06:57:11+00:00",
  "sample": false,
  "days": 14,
  "network_name": "Intelligence Network",
@@ -13,14 +13,14 @@
  "links": {
   "folder": "https://drive.google.com/drive/folders/10LXhVLmbA6xekUOXLUgVO_JFM9BjCw6d",
   "latest": "https://docs.google.com/document/d/1pU_qedEUjRd5C6kZpRF3w-_njpS6_zsmQIqwBUvN0kw/edit",
-  "digest": "https://docs.google.com/document/d/1v7lB7C-jvYhgi-_SAdXz8xTejaRYF7bLYFE4F1WG5hc/edit"
+  "digest": "https://docs.google.com/document/d/11nC4CC7SIjzfSb_updCgoZLwSz-qdE42oath1r2CvtQ/edit"
  },
  "vitals": {
   "sensors_total": 2,
   "sensors_active_24h": 0,
   "sensors_active_7d": 1,
   "signals_24h_human": 0,
-  "signals_24h_reference": 20251,
+  "signals_24h_reference": 20763,
   "corroborated_7d": 0,
   "flagged_7d": 0,
   "human_7d": 1,
@@ -35,19 +35,19 @@
   "corroboration_rate_7d": 0.0
  },
  "feeds": {
-  "airnow": "2026-10-27T08:16:46+00:00",
-  "ams_grain": "2026-10-27T05:31:08+00:00",
-  "cocorahs": "2026-10-27T00:09:50+00:00",
-  "iem_asos": "2026-10-27T08:16:45+00:00",
-  "iem_lsr": "2026-10-27T08:16:44+00:00",
-  "news": "2026-10-27T08:16:36+00:00",
+  "airnow": "2026-10-28T06:23:47+00:00",
+  "ams_grain": "2026-10-28T05:38:37+00:00",
+  "cocorahs": "2026-10-28T00:06:21+00:00",
+  "iem_asos": "2026-10-28T06:23:47+00:00",
+  "iem_lsr": "2026-10-28T06:53:52+00:00",
+  "news": "2026-10-28T06:53:02+00:00",
   "nrcs_scan": "2026-10-27T05:36:10+00:00",
-  "nws_alerts": "2026-10-27T08:21:21+00:00",
-  "nws_statements": "2026-10-27T08:16:37+00:00",
-  "pipeline": "2026-10-26T08:05:21+00:00",
-  "usdm": "2026-10-26T12:18:27+00:00",
-  "usgs_quake": "2026-10-27T08:06:43+00:00",
-  "usgs_water": "2026-10-27T08:01:42+00:00"
+  "nws_alerts": "2026-10-28T06:56:44+00:00",
+  "nws_statements": "2026-10-28T06:53:03+00:00",
+  "pipeline": "2026-10-27T08:22:20+00:00",
+  "usdm": "2026-10-28T04:22:52+00:00",
+  "usgs_quake": "2026-10-28T06:53:53+00:00",
+  "usgs_water": "2026-10-28T06:08:44+00:00"
  },
  "reference_sizes": {
   "airnow": 40,
