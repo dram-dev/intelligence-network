@@ -1,38 +1,74 @@
 {
- "as_of": "2026-10-28T06:57:13+00:00",
+ "as_of": "2026-10-29T06:16:48+00:00",
  "hours": 24,
  "places": [
   {
    "id": "p1",
-   "topic": "water",
-   "source": "USGS stream gauge",
-   "name": "Little Wabash River near Golden Gate",
-   "county": "Wayne",
+   "topic": "air",
+   "source": "EPA air monitor",
+   "name": "Madison County air monitor",
+   "county": "Madison",
    "zip": null,
-   "lat": 38.3719,
-   "lon": -88.2331,
+   "lat": 38.7045,
+   "lon": -90.1397,
    "person": false,
-   "label": "\u25b2 0.92 ft",
+   "label": "PM2.5 42.9 \u00b5g/m\u00b3",
    "lines": [
     {
-     "metric": "stage_m",
-     "name": "Stage (gauge height)",
-     "value": "5.54 ft",
-     "note": "up 0.92 ft in 24 hours",
-     "at": "2026-10-28T05:30+00:00",
+     "metric": "pm25_ugm3",
+     "name": "PM2.5",
+     "value": "42.9 \u00b5g/m\u00b3 (AQI 119, unhealthy for sensitive groups)",
+     "note": null,
+     "at": "2026-10-28T16:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Highest PM2.5 in Illinois in the last 24 hours (AQI 119, unhealthy for sensitive groups)",
+    "PM2.5 past the network's event threshold (AQI 119, unhealthy for sensitive groups)"
+   ],
+   "status": "official",
+   "at": "2026-10-29T05:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": {
+    "title": "PM2.5 42.9 \u00b5g/m\u00b3 (AQI 119, unhealthy for sensitive groups) \u2014 Madison County",
+    "verified": true,
+    "score": 0.95
+   },
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p2",
+   "topic": "weather",
+   "source": "Airport station",
+   "name": "Springfield (SPI)",
+   "county": "Sangamon",
+   "zip": null,
+   "lat": 39.8447,
+   "lon": -89.6839,
+   "person": false,
+   "label": "High 80 \u00b0F",
+   "lines": [
+    {
+     "metric": "temp_c",
+     "name": "Temperature",
+     "value": "80 \u00b0F",
+     "note": "the day's high",
+     "at": "2026-10-28T19:52+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Biggest rise in Illinois in the last 24 hours",
-    "In the news: \u201cFlood warning lingers in Four Corners as soaked towns face sewage-tainted waters. 1 death reported\u201d"
+    "Highest temperature in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-10-28T05:30+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/03380000/",
+   "at": "2026-10-29T04:52+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=SPI&network=IL_ASOS",
    "spark": {
-    "name": "Stage (gauge height)",
-    "unit": "ft",
+    "name": "Temperature",
+    "unit": "\u00b0F",
     "t": [
      -1320,
      -1260,
@@ -59,103 +95,37 @@
      0
     ],
     "v": [
-     4.64,
-     4.65,
-     4.66,
-     4.66,
-     4.67,
-     4.66,
-     4.65,
-     4.65,
-     4.64,
-     4.64,
-     4.64,
-     4.64,
-     4.63,
-     4.62,
-     4.62,
-     4.64,
-     4.69,
-     4.82,
-     4.98,
-     5.17,
-     5.33,
-     5.46,
-     5.54
+     61.0,
+     60.0,
+     57.0,
+     57.0,
+     55.0,
+     54.0,
+     54.0,
+     60.0,
+     64.0,
+     69.0,
+     75.0,
+     78.0,
+     79.0,
+     80.0,
+     79.0,
+     76.0,
+     72.0,
+     68.0,
+     67.0,
+     66.0,
+     65.0,
+     66.0,
+     63.0
     ]
    },
-   "event": null,
-   "news": [
-    "n8"
-   ],
-   "tier": 1
-  },
-  {
-   "id": "p2",
-   "topic": "markets",
-   "source": "USDA grain bids",
-   "name": "North district",
-   "county": "DeKalb",
-   "zip": null,
-   "lat": 41.8946,
-   "lon": -88.769,
-   "person": false,
-   "label": "Soybeans -40 \u00a2",
-   "lines": [
-    {
-     "metric": "soy_basis",
-     "name": "Soybean basis",
-     "value": "-40 \u00a2",
-     "note": "country elevators",
-     "at": "2026-10-26T18:17+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Lowest soybean basis in Illinois in the latest reports (Oct 26)"
-   ],
-   "status": "official",
-   "at": "2026-10-26T18:17+00:00",
-   "url": null,
-   "spark": null,
    "event": null,
    "news": [],
    "tier": 1
   },
   {
    "id": "p3",
-   "topic": "markets",
-   "source": "USDA grain bids",
-   "name": "North Central district",
-   "county": "McLean",
-   "zip": null,
-   "lat": 40.4946,
-   "lon": -88.8445,
-   "person": false,
-   "label": "Corn -30 \u00a2",
-   "lines": [
-    {
-     "metric": "corn_basis",
-     "name": "Corn basis",
-     "value": "-30 \u00a2",
-     "note": "country elevators",
-     "at": "2026-10-26T18:17+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Lowest corn basis in Illinois in the latest reports (Oct 26)"
-   ],
-   "status": "official",
-   "at": "2026-10-26T18:17+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
-   "id": "p4",
    "topic": "weather",
    "source": "Airport station",
    "name": "Robinson (RSV)",
@@ -164,14 +134,14 @@
    "lat": 39.016,
    "lon": -87.6498,
    "person": false,
-   "label": "Low 42.8 \u00b0F",
+   "label": "Low 41 \u00b0F",
    "lines": [
     {
      "metric": "temp_c",
      "name": "Temperature",
-     "value": "42.8 \u00b0F",
+     "value": "41 \u00b0F",
      "note": "the day's low",
-     "at": "2026-10-27T09:55+00:00",
+     "at": "2026-10-28T10:15+00:00",
      "sev": 0.0
     }
    ],
@@ -179,105 +149,20 @@
     "Lowest temperature in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-10-28T06:15+00:00",
+   "at": "2026-10-29T05:15+00:00",
    "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=RSV&network=IL_ASOS",
    "spark": {
     "name": "Temperature",
     "unit": "\u00b0F",
     "t": [
-     -1340,
-     -1280,
-     -1220,
-     -1160,
-     -1100,
-     -1040,
-     -980,
-     -920,
-     -860,
-     -799,
-     -740,
-     -680,
-     -620,
-     -560,
-     -500,
-     -440,
-     -380,
-     -300,
-     -260,
-     -180,
-     -120,
-     -80,
-     0
-    ],
-    "v": [
-     44.6,
-     44.6,
-     42.8,
-     42.8,
-     42.8,
-     42.8,
-     50.0,
-     60.8,
-     68.0,
-     71.6,
-     73.4,
-     73.4,
-     73.4,
-     71.6,
-     71.6,
-     64.4,
-     60.8,
-     55.4,
-     57.2,
-     51.8,
-     51.8,
-     50.0,
-     46.4
-    ]
-   },
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
-   "id": "p5",
-   "topic": "weather",
-   "source": "Airport station",
-   "name": "Mount Carmel (AJG)",
-   "county": "Knox",
-   "zip": null,
-   "lat": 38.6065,
-   "lon": -87.7267,
-   "person": false,
-   "label": "High 75 \u00b0F",
-   "lines": [
-    {
-     "metric": "temp_c",
-     "name": "Temperature",
-     "value": "75 \u00b0F",
-     "note": "the day's high",
-     "at": "2026-10-27T19:15+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Highest temperature in Illinois in the last 24 hours"
-   ],
-   "status": "official",
-   "at": "2026-10-28T06:15+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=AJG&network=IL_ASOS",
-   "spark": {
-    "name": "Temperature",
-    "unit": "\u00b0F",
-    "t": [
-     -1340,
-     -1280,
-     -1220,
-     -1160,
-     -1100,
-     -1040,
-     -980,
-     -920,
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
      -840,
      -780,
      -720,
@@ -295,31 +180,95 @@
      0
     ],
     "v": [
-     48.2,
-     46.2,
-     48.7,
-     46.0,
-     47.0,
-     46.6,
-     55.0,
-     62.2,
-     68.0,
-     72.0,
-     74.3,
-     75.0,
-     75.0,
+     46.4,
+     46.4,
+     42.8,
+     41.0,
+     42.8,
+     42.8,
+     46.4,
+     55.4,
+     66.2,
+     69.8,
      73.4,
-     72.0,
-     66.0,
-     63.0,
-     60.0,
-     58.5,
-     57.6,
-     54.3,
-     53.0,
+     75.2,
+     77.0,
+     77.0,
+     75.2,
+     73.4,
+     66.2,
+     57.2,
+     55.4,
+     51.8,
+     51.8,
+     51.8,
      50.0
     ]
    },
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p4",
+   "topic": "markets",
+   "source": "USDA grain bids",
+   "name": "West district",
+   "county": "Knox",
+   "zip": null,
+   "lat": 40.931,
+   "lon": -90.2138,
+   "person": false,
+   "label": "Soybeans -36 \u00a2",
+   "lines": [
+    {
+     "metric": "soy_basis",
+     "name": "Soybean basis",
+     "value": "-36 \u00a2",
+     "note": "country elevators",
+     "at": "2026-10-28T18:01+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Lowest soybean basis in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-10-28T18:01+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p5",
+   "topic": "markets",
+   "source": "USDA grain bids",
+   "name": "North Central district",
+   "county": "McLean",
+   "zip": null,
+   "lat": 40.4946,
+   "lon": -88.8445,
+   "person": false,
+   "label": "Corn -25 \u00a2",
+   "lines": [
+    {
+     "metric": "corn_basis",
+     "name": "Corn basis",
+     "value": "-25 \u00a2",
+     "note": "country elevators",
+     "at": "2026-10-28T18:01+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Lowest corn basis in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-10-28T18:01+00:00",
+   "url": null,
+   "spark": null,
    "event": null,
    "news": [],
    "tier": 1
@@ -348,7 +297,7 @@
    "why": [
     "Flooding reported",
     "Reported by a network member",
-    "In the news: \u201cWell Above Normal Temperatures Continue, Except for Slight Dip Monday and Tuesday; Compare Chicago Weather to Phoenix, Miami, LA, Wash DC\u201d"
+    "In the news: \u201cLaHood optimistic for successful appeal after McLean County denied FEMA storm recovery aid\u201d"
    ],
    "status": "unverified",
    "at": "2026-10-22T22:10+00:00",
@@ -356,9 +305,7 @@
    "spark": null,
    "event": null,
    "news": [
-    "n1",
-    "n2",
-    "n8"
+    "n2"
    ],
    "tier": 1
   },
@@ -372,14 +319,14 @@
    "lat": 40.3131,
    "lon": -89.9019,
    "person": false,
-   "label": "Soil moisture 7.8 %",
+   "label": "Soil moisture 7.1 %",
    "lines": [
     {
      "metric": "soil_moisture_pct",
      "name": "Soil moisture",
-     "value": "7.8 %",
+     "value": "7.1 %",
      "note": null,
-     "at": "2026-10-25T12:00+00:00",
+     "at": "2026-10-27T12:00+00:00",
      "sev": 0.4
     }
    ],
@@ -388,7 +335,7 @@
     "In the news: \u201cIllinois crop progress for week ending Oct. 25\u201d"
    ],
    "status": "official",
-   "at": "2026-10-25T12:00+00:00",
+   "at": "2026-10-27T12:00+00:00",
    "url": "https://wcc.sc.egov.usda.gov/nwcc/site?sitenum=2004",
    "spark": null,
    "event": null,
@@ -399,179 +346,112 @@
   },
   {
    "id": "p8",
-   "topic": "water",
-   "source": "USGS stream gauge",
-   "name": "Mississippi River Pool Lock and Dam 26 at Alton",
-   "county": "Madison",
+   "topic": "air",
+   "source": "EPA air monitor",
+   "name": "Cook County air monitor",
+   "county": "Cook",
    "zip": null,
-   "lat": 38.8873,
-   "lon": -90.184,
+   "lat": 41.7547,
+   "lon": -87.7136,
    "person": false,
-   "label": "\u25b2 0.74 ft",
+   "label": "PM2.5 40.6 \u00b5g/m\u00b3",
    "lines": [
     {
-     "metric": "stage_m",
-     "name": "Stage (gauge height)",
-     "value": "19.2 ft",
-     "note": "up 0.74 ft in 24 hours",
-     "at": "2026-10-28T06:00+00:00",
-     "sev": 0.0
+     "metric": "pm25_ugm3",
+     "name": "PM2.5",
+     "value": "40.6 \u00b5g/m\u00b3 (AQI 114, unhealthy for sensitive groups)",
+     "note": null,
+     "at": "2026-10-28T14:00+00:00",
+     "sev": 0.4
     }
    ],
    "why": [
-    "Second-biggest rise in Illinois in the last 24 hours"
+    "PM2.5 past the network's event threshold (AQI 114, unhealthy for sensitive groups)",
+    "In the news: \u201cChicago weather: Shower chances move in Thursday and linger through the weekend\u201d"
    ],
    "status": "official",
-   "at": "2026-10-28T06:00+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/05587498/",
-   "spark": {
-    "name": "Stage (gauge height)",
-    "unit": "ft",
-    "t": [
-     -1350,
-     -1290,
-     -1230,
-     -1170,
-     -1110,
-     -1050,
-     -990,
-     -930,
-     -870,
-     -810,
-     -750,
-     -690,
-     -630,
-     -570,
-     -510,
-     -450,
-     -390,
-     -300,
-     -240,
-     -180,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     18.44,
-     18.47,
-     18.5,
-     18.55,
-     18.6,
-     18.67,
-     18.7,
-     18.77,
-     18.84,
-     18.75,
-     18.88,
-     18.9,
-     18.84,
-     18.94,
-     19.01,
-     18.96,
-     18.99,
-     19.03,
-     19.03,
-     19.06,
-     19.1,
-     19.09,
-     19.18
-    ]
+   "at": "2026-10-29T05:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": {
+    "title": "PM2.5 40.6 \u00b5g/m\u00b3 (AQI 114, unhealthy for sensitive groups) \u2014 Cook County",
+    "verified": true,
+    "score": 0.95
    },
-   "event": null,
-   "news": [],
-   "tier": 2
+   "news": [
+    "n1"
+   ],
+   "tier": 1
   },
   {
    "id": "p9",
-   "topic": "water",
-   "source": "USGS stream gauge",
-   "name": "Mississippi River at Grafton",
-   "county": "Jersey",
+   "topic": "air",
+   "source": "EPA air monitor",
+   "name": "Macon County air monitor",
+   "county": "Macon",
    "zip": null,
-   "lat": 38.968,
-   "lon": -90.429,
+   "lat": 39.8669,
+   "lon": -88.9256,
    "person": false,
-   "label": "\u25b2 0.57 ft",
+   "label": "PM2.5 37.4 \u00b5g/m\u00b3",
    "lines": [
     {
-     "metric": "stage_m",
-     "name": "Stage (gauge height)",
-     "value": "15.8 ft",
-     "note": "up 0.57 ft in 24 hours",
-     "at": "2026-10-28T06:00+00:00",
-     "sev": 0.0
-    },
-    {
-     "metric": "discharge_cms",
-     "name": "Streamflow",
-     "value": "88,900 cfs",
+     "metric": "pm25_ugm3",
+     "name": "PM2.5",
+     "value": "37.4 \u00b5g/m\u00b3 (AQI 106, unhealthy for sensitive groups)",
      "note": null,
-     "at": "2026-10-28T06:00+00:00",
-     "sev": 0.0
+     "at": "2026-10-28T16:00+00:00",
+     "sev": 0.4
     }
    ],
    "why": [
-    "Third-biggest rise in Illinois in the last 24 hours"
+    "PM2.5 past the network's event threshold (AQI 106, unhealthy for sensitive groups)"
    ],
    "status": "official",
-   "at": "2026-10-28T06:00+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/05587450/",
-   "spark": {
-    "name": "Stage (gauge height)",
-    "unit": "ft",
-    "t": [
-     -1350,
-     -1290,
-     -1230,
-     -1170,
-     -1110,
-     -1050,
-     -990,
-     -930,
-     -870,
-     -810,
-     -750,
-     -690,
-     -630,
-     -570,
-     -510,
-     -450,
-     -360,
-     -300,
-     -240,
-     -180,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     15.18,
-     15.2,
-     15.24,
-     15.28,
-     15.35,
-     15.4,
-     15.46,
-     15.48,
-     15.52,
-     15.55,
-     15.55,
-     15.58,
-     15.58,
-     15.52,
-     15.55,
-     15.57,
-     15.6,
-     15.61,
-     15.64,
-     15.66,
-     15.72,
-     15.71,
-     15.75
-    ]
+   "at": "2026-10-29T05:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": {
+    "title": "PM2.5 37.4 \u00b5g/m\u00b3 (AQI 106, unhealthy for sensitive groups) \u2014 Macon County",
+    "verified": true,
+    "score": 0.95
    },
-   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p10",
+   "topic": "air",
+   "source": "EPA air monitor",
+   "name": "Champaign County air monitor",
+   "county": "Champaign",
+   "zip": null,
+   "lat": 40.0522,
+   "lon": -88.3725,
+   "person": false,
+   "label": "PM2.5 37.6 \u00b5g/m\u00b3",
+   "lines": [
+    {
+     "metric": "pm25_ugm3",
+     "name": "PM2.5",
+     "value": "37.6 \u00b5g/m\u00b3 (AQI 106, unhealthy for sensitive groups)",
+     "note": null,
+     "at": "2026-10-28T17:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "PM2.5 past the network's event threshold (AQI 106, unhealthy for sensitive groups)"
+   ],
+   "status": "official",
+   "at": "2026-10-29T05:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": {
+    "title": "PM2.5 37.6 \u00b5g/m\u00b3 (AQI 106, unhealthy for sensitive groups) \u2014 Champaign County",
+    "verified": true,
+    "score": 0.95
+   },
    "news": [],
    "tier": 2
   }
@@ -586,60 +466,51 @@
    "lat": 41.837,
    "lon": -87.6849,
    "counties": [
-    "17031",
-    "17113"
+    "17031"
    ],
    "stories": [
     {
-     "title": "Well Above Normal Temperatures Continue, Except for Slight Dip Monday and Tuesday; Compare Chicago Weather to Phoenix, Miami, LA, Wash DC",
-     "source": "www.arlingtoncardinal.com",
-     "url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxNczl4NEd4aWQxeWE4MFpxMEl4Q3hFMmFvOEgtN1dpTXNVSlZBMk5zMlQwZGlvTngzQWJ0WV9OWmJzc0MwdmlRRkdEMkVMM2NaZHZRaXh2RHV2YWl2dTloSmUzcUM3eWw4bzYwaHh1YmlTZVdRVC1uNzdFSzdLREt3WldBTzVxczZSTFVwbTlLSVVneXlQY1ZvczlvYjF2dVhmVzcyUldveFJfYVQ1V0xpdmg1dERvU3RvWmE1b3pKYS1OX2VHQV9hUXZLcHV5cjQ2Rk5abl9KYnpYdlplLXllSXZDMVliVkxpa2tKOXRTSi1JVmpHNmtIMF9EQVRSLW9DbDRNT3RR?oc=5",
-     "at": "2026-10-25T23:06:46"
-    },
-    {
-     "title": "Chicago warm stretch continues through Halloween",
+     "title": "Chicago weather: Shower chances move in Thursday and linger through the weekend",
      "source": "FOX 32 Chicago",
-     "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQSlAwNjhrcEJmNGdJV21DUjIxVkZrMHZlTXlFUC11NFI4YU1hRi0xUW04ZzZud2FNRDU4LWZVN18xemotMnpYaE1RSmdWOF9lU2NUZWpDbHpzRG9XWWxaNldPZm94UjVEQTdlR3hvODRzRERmU1duZ01FMnIxbGxjX3kyVE9RcE1wbE440gGQAUFVX3lxTE5VWFF5NkU1cENFaDMxNVhKb1FGNnl6Qmxac1BHQmFvS09kNlRITEVXTlRqSnAwOVMwN0dIUU90QXRyeTFDZHZUaExjdXQtcGtqVTZQUjJ6TXhDaWtXazhIY0dVOUZKQWZWYjFMaHhDRWUtaHNBV2xJQ2VuTzdsOWc0TnFfdXFITE9JZ2I3dERVbg?oc=5",
-     "at": "2026-10-27T11:59:19"
+     "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNejJ6NVBZTm8xc1BONE5HSU84YTM1OHd2UEJQeDlISmVzVVQxOGlsYjQtNGd5aUd6YlNSQTFmQVFQb2NUU05CYXdYMThwejdsYUM3b0FtNWptMjFqLUdDcTJNYkJ1SnBHNm9aZjU0ODNLb0xzZkdHLU1CTnhWbUM1MW9tRDR4Q2prT3NFRjZZSDZkQkFQMTZJc0tNWWVmeGsyYjJB?oc=5",
+     "at": "2026-10-29T00:27:26"
     },
     {
-     "title": "Chicago weather: Warm temperatures continue through Halloween",
-     "source": "Yahoo",
-     "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQOXNodDZKUlNnYzNwVHQxTjBhSldESTRjdzRBRk1wMF9kY2VLZnRZZDFrMHVObUNSSGoxVnVhWGNyOUdTVUM3WE5LQkNVMUIzNllQbFNFeGJQekhFT3R1M1VYMXBZaWNkZ3VIdGNoQlFKTFpXNjZySU1ReTJhWHFLZGZpMmk2VTk5MlVkWmp6X2FyLWVJcTFNZG9RM2NHbE9qN2F1ckYwR05mQQ?oc=5",
-     "at": "2026-10-26T11:51:34"
+     "title": "Chicago October ranks among warmest on record; mild weather continues",
+     "source": "FOX 32 Chicago",
+     "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTFBqcjlOS0M1SmFZMzRtREFXMFFXNUFwQ2FQVUVqRG1VRFdCcXFhN0FvM09EOTZ2UDhmRmZ6bVRlQk1DSjIzYnZ2LTZlZnlPVGhQbnVpbU1lSG4xNEd1bm05ZXJwX0wyTU8tMDVJZmJCdjg0eGYzSUxaeWlTSEPSAYIBQVVfeXFMT0pFem55WURraC1ub2tGSG1uOE0zTGppRWdLdTBZaWRGRTc0djF5LU5TSlhWYjVUNGJ1YkpHakV3bEFtLUxDYU85M1ppaEZ2d3M5TVJiMC04c19jMkxEMGlRR1VSSkZNRTh1VGVMNUtKTkZmNFYwMHk4RmxEN2hBUUhIUQ?oc=5",
+     "at": "2026-10-28T11:54:58"
+    },
+    {
+     "title": "Overflow Action - Metropolitan Water Reclamation District of Greater Chicago",
+     "source": "MWRD Greater Chicago",
+     "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE0tdk9obVk4N2pYYl9hd0VXN1ZPVDBfbWFycjcyMl9RdlN1Mi1KLWxZVG9WajYwUWVXZl9ZSmdWbXd5OWUwOEs5V2FNQVBCNHdERGM5MS0wdERmR2tVRnJNZy1B?oc=5",
+     "at": "2024-11-24T12:20:17"
     }
    ],
-   "more": [
-    "After a year of unusual weather in Chicago, should you brace for winter?"
-   ],
+   "more": [],
    "links": [
-    "p6"
+    "p8"
    ],
    "alerts": []
   },
   {
    "id": "n2",
    "n": 2,
-   "topic": "weather",
-   "place": "Central Illinois",
+   "topic": "emergency",
+   "place": "McLean County",
    "statewide": false,
-   "lat": 39.7569,
-   "lon": -89.6624,
+   "lat": 40.4946,
+   "lon": -88.8445,
    "counties": [
-    "17019",
-    "17031",
-    "17113",
-    "17115",
-    "17143",
-    "17167",
-    "17179"
+    "17113"
    ],
    "stories": [
     {
-     "title": "All-Hazard Severe Storm Risk Could Target Chicago, Peoria, and Central Illinois in Early November as Strong Low Pulls Humid Gulf Air North",
-     "source": "NewsBreak: Local News & Alerts",
-     "url": "https://news.google.com/rss/articles/CBMijgJBVV95cUxQXzdZNDc1SW1fQi1NQ25DcjZ0STEtbXdRRzFZWmRaUDlCM1E1WUs2aC1RVGZ3TjZaNjUxckl4SUlGMHowZEVTUVhSSGJMdldPVFVYUFRHM0M1Tjg0S2oxcHBZdVZoQWlySFFZTXd2QUR3UG1UeEtNczQxUEZEcmhDYy1mRVp3WG9jbVN4RmFMVWpkS20xYnk2eXQ3XzktMjdKbjJFMzhuOU9KQUViTHNNMGpHdFNmSEp4S1g5bUpyeG13YWFNR2NtUDhkV19iSXJSNW9aSW51bXF6bkthdmNoc250UWRtOXVFQ19EYnAxbXlnOHEyamhEbHBmTTZDUUE1V3JpWEVNRFQzN2N4aXc?oc=5",
-     "at": "2026-10-25T03:30:44"
+     "title": "LaHood optimistic for successful appeal after McLean County denied FEMA storm recovery aid",
+     "source": "WGLT",
+     "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNX0l0bElzemJnd0RTT2ktaC1SWUZuOThMQ3ZKWWdhb254Tm9kdUVNWUYzYld5MkJvTF9Bd2puTHlQV1JxMlN3WTZOX2JIX0xUTkhQdTFCejQ3RjhNNDJoUXp2ZXBycEkzVUF1RGQ2WWNaUFpTanhYUUtQNWp5bW1Hb1B5UkZtaXR4Wm9iTWdfa0xFcUxTc003cEwyU2U4emdxUnl0ZjdQal9tb3U5LWZmYlF6YW13NGZBTVp3QXF6TjNzTDU3aDBENHhabjRRUQ?oc=5",
+     "at": "2026-10-29T01:41:00"
     }
    ],
    "more": [],
@@ -651,54 +522,6 @@
   {
    "id": "n3",
    "n": 3,
-   "topic": "weather",
-   "place": "Lincoln",
-   "statewide": false,
-   "lat": 40.1507,
-   "lon": -89.3703,
-   "counties": [
-    "17107"
-   ],
-   "stories": [
-    {
-     "title": "NWS Lincoln, IL -- SWOP event summary",
-     "source": "National Weather Service (.gov)",
-     "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE5wbUw5c3NtVkdCRDBmUERWZF9EaXdIVHh4R3FHck9sVXB5aHk3SkpYS2J5X2FCRG5pSk1lVGhZYVQzMjF6Y1VLcVl6Xy15cHRN?oc=5",
-     "at": "2026-10-26T08:00:00"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n4",
-   "n": 4,
-   "topic": "weather",
-   "place": "Quad Cities",
-   "statewide": false,
-   "lat": 41.4684,
-   "lon": -90.5721,
-   "counties": [
-    "17073",
-    "17131",
-    "17161"
-   ],
-   "stories": [
-    {
-     "title": "After 10 straight days with no rain, wet weather is possible later this week in Quad Cities",
-     "source": "OurQuadCities",
-     "url": "https://www.ourquadcities.com/news/local-news/after-10-straight-days-with-no-rain-wet-weather-is-possible-later-this-week-in-quad-cities/",
-     "at": "2026-10-26T23:53:20"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n5",
-   "n": 5,
    "topic": "landuse",
    "place": "Jersey County",
    "statewide": false,
@@ -720,22 +543,68 @@
    "alerts": []
   },
   {
-   "id": "n6",
-   "n": 6,
-   "topic": "landuse",
-   "place": "Madison County",
+   "id": "n4",
+   "n": 4,
+   "topic": "emergency",
+   "place": "Streator",
    "statewide": false,
-   "lat": 38.8271,
-   "lon": -89.9002,
+   "lat": 41.125,
+   "lon": -88.8296,
    "counties": [
-    "17119"
+    "17099"
    ],
    "stories": [
     {
-     "title": "Madison County board bars data centers from receiving tax incentives through Illinois program",
-     "source": "STLPR",
-     "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQUy03dllIVVhvY1FZVGo1ZEpHeVd2UFNiQnZrUE1UU1AzUGxXNkVUSE5ocC1ieVNTbXlQaDBmR3piN2JsTV9pd3FQSndGOXRqRHRPcWtpempmZzhJTEVmX1RQY0NudEYxdXRiYkVoN2c2LS1OdmZrSmFCdGt0dHBZTF91WXhURzFZZkFQUTNHeFpVcF9tNHBMdWtQdWljYXllU1hfZEhRRGhhbkpvaVJUN25yampmd01IempxRUYtdzFuLVBvTTNXU0lzN3M?oc=5",
-     "at": "2026-10-26T11:00:00"
+     "title": "Illinois Valley Symphony Orchestra to give part of Streator concert ticket sales to tornado relief",
+     "source": "Shaw Local",
+     "url": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxQNlFNQXI5UkVENW95YUU1emxuVWszWFc0S3NFRWdYTEdMeTk5V0ZlcUdkQjVMZk5ueWFWOTlja01EYTJBTXZwR3ZkT09fSXEteVV2aGh5XzhvSTRaaXdzMDJQRk02YmJ6akk3cFFLYTNDZkdFT3R6OHlNWG00dzd4bHFvQUt3QzBibWVLRjNNd3R2RTYtQi1EbjZSX296cTQwNllTZHlfRFFhWk0tUEM4VDkxeGFNS05Yb0pwd0M3WGkybmR0a1otSl9raWRGY29iUDNncEtHWERtaDkxbVctOWExVmdrYnM?oc=5",
+     "at": "2026-10-29T00:00:00"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n5",
+   "n": 5,
+   "topic": "emergency",
+   "place": "Lincoln",
+   "statewide": false,
+   "lat": 40.1507,
+   "lon": -89.3703,
+   "counties": [
+    "17107"
+   ],
+   "stories": [
+    {
+     "title": "SHELBYVILLE NOAA WEATHER RADIO BACK ONLINE (NWS Lincoln)",
+     "source": "NWS Lincoln statements",
+     "url": "https://mesonet.agron.iastate.edu/p.php?pid=202610281705-KILX-NOUS43-PNSILX",
+     "at": "2026-10-28T17:05:00+00:00"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n6",
+   "n": 6,
+   "topic": "landuse",
+   "place": "Morgan County",
+   "statewide": false,
+   "lat": 39.7177,
+   "lon": -90.205,
+   "counties": [
+    "17137"
+   ],
+   "stories": [
+    {
+     "title": "Morgan County ballot question seeks public input on data center rules",
+     "source": "WAND",
+     "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOYWgxNXJxdWp6aVktY1FHUm84WVpTUGd2bV9kUXh3ZUhfQjlwNkJud1VPajdfWl9kdkhhT0FsUUxRU1gxYXBZbW9jUlQ2NG5QdnpiQmluekh2cXlVT2VrN25MSWRLbzBXajJoZnhTTjcydmdLT21pbWhNWnhLNDUyMEs5UFFCWFZZblZRMkhKYUs1US1VQ0FjWjU3YVFyR3hOekFV0gG3AUFVX3lxTFBmYkU1dGtJbmc5dzY3MDBFQ1NkT2w0NzVvNTAzaFIxNm9kS2tUQ2ptUjNXSzNyR01FY1hWcUVZY2ZBUXRXemVNd04wd1pIN3B5enVYS1VvdzZlZk9TaWRyOEg4bFZtb1FSeW1sTGJxRnYzZUlwY2cyZFlJV3Z2SXVNUDhaanJHWUZrQXlSck5PbHlrMmYtX2duWjVFSTY4dF8xV2xXQ3A5eGg3N3drTzMwVElkNGdQYw?oc=5",
+     "at": "2026-10-29T04:19:00"
     }
    ],
    "more": [],
@@ -768,30 +637,6 @@
   {
    "id": "n8",
    "n": 8,
-   "topic": "water",
-   "place": null,
-   "statewide": true,
-   "lat": null,
-   "lon": null,
-   "counties": [],
-   "stories": [
-    {
-     "title": "Flood warning lingers in Four Corners as soaked towns face sewage-tainted waters. 1 death reported",
-     "source": "FOX Illinois",
-     "url": "https://news.google.com/rss/articles/CBMikgJBVV95cUxNTkNiTFhIeG8yTUlNdm5tWjF3MzR3clFYcllxYzFRTHFRUUVLdjZTOHF2TkVIa0I2R2g5OVZDQlhvM2VNWkwwWGtHdkF6WDNXWkI4cXU2WUZMdzFXWXVNbEZhWXRjTUptRGhfa2NJaUJIbnI5YXhrbWRvSHZhZmZhRHpra1M0ODFTOXRPdlJoYVlWUjFIMTh0SEFYUnhBZXQ5b3BPU2FCQnNKS1pmbmllWVRETUJkbGxkdWgwLVg3MTNaUmVQVkpENklrMnZ2VWdlRzVycEt2di0ybkdnQlFoVXRXbVREaVVGWlZ6ZHFtTmFWdmZmQ0ZscFE2ZDZ4eng5N29Kc1MzQ0lHUEpFcXRjSWZR?oc=5",
-     "at": "2026-10-26T17:48:42"
-    }
-   ],
-   "more": [],
-   "links": [
-    "p1",
-    "p6"
-   ],
-   "alerts": []
-  },
-  {
-   "id": "n9",
-   "n": 9,
    "topic": "emergency",
    "place": null,
    "statewide": true,
@@ -800,10 +645,31 @@
    "counties": [],
    "stories": [
     {
-     "title": "Recently filed bill carves path to grant funding for Illinois communities denied FEMA relief",
-     "source": "WCIA.com",
-     "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQdmVBRnZWSERTRC0yTTBEWFB6Yzg1cDEtejQxc1JfSU5FTWxfYmhLMVZ3MzFSeERmMEtzWVM1TzJPbnl3aDZuU3FNb0JxSmp1VVl1RXFfMUJodUpQazRULWFPcEVWZ3pkaFVETUUxX1h6a0l6RTdfZ3hIYXhQT2Z0ME1Qb3JJVXhpRjQ2d2R4T0V0ajFHZG5PMFlYanhhWTVoc0NMSDkxUnFTRGxQdkZudkdwcGU4Y0NFZlpxc0FYYjZac0liRGtjOHM4Mmo1YV9kdGVBd1FzMNIB1wFBVV95cUxQdmVBRnZWSERTRC0yTTBEWFB6Yzg1cDEtejQxc1JfSU5FTWxfYmhLMVZ3MzFSeERmMEtzWVM1TzJPbnl3aDZuU3FNb0JxSmp1VVl1RXFfMUJodUpQazRULWFPcEVWZ3pkaFVETUUxX1h6a0l6RTdfZ3hIYXhQT2Z0ME1Qb3JJVXhpRjQ2d2R4T0V0ajFHZG5PMFlYanhhWTVoc0NMSDkxUnFTRGxQdkZudkdwcGU4Y0NFZlpxc0FYYjZac0liRGtjOHM4Mmo1YV9kdGVBd1FzMA?oc=5",
-     "at": "2026-10-27T21:55:22"
+     "title": "Trump's FEMA denials put Illinois Republicans in a bind",
+     "source": "Axios",
+     "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOdmxleWhiYk0xbE1fYk40eThVRnFQcXI4OXlJWTVOaE9vSGM2QlJZZU9Bc3k0dkd4QU9leFp4cFhZUUEtOU8tam1ESDRjMjVXZ2V0RGxfWlhrN0czUk1uZTlvUXBsOXJ6ajQyWV8ySnM3RDVGVWFDbllzbWppNTZWeFpLVHRGQ2g1R05lTDBkQmR5ZWt1NGVETWx6UXY1ZXpqRXhpTXp6d1NaRHJfWmxPZ3N4SzhOOEVKbl9V?oc=5",
+     "at": "2026-10-28T18:57:40"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n9",
+   "n": 9,
+   "topic": "landuse",
+   "place": null,
+   "statewide": true,
+   "lat": null,
+   "lon": null,
+   "counties": [],
+   "stories": [
+    {
+     "title": "Illinois bill would mandate data centers pay host cities",
+     "source": "WGN-TV Weather Blog",
+     "url": "https://wgntv.com/news/illinois/illinois-data-center-community-benefit-agreement-senate-bill-4203/",
+     "at": "2026-10-28T18:42:51"
     }
    ],
    "more": [],
@@ -814,8 +680,8 @@
  "areas": [],
  "quiet": [
   "Agriculture",
-  "Air",
   "Seasons & nature",
-  "Earthquakes"
+  "Earthquakes",
+  "Water"
  ]
 }

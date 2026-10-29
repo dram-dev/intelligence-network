@@ -1,1 +1,68 @@
-[]
+[
+ {
+  "id": 48,
+  "topic": "air",
+  "title": "PM2.5 37.6 \u00b5g/m\u00b3 (AQI 106, unhealthy for sensitive groups) \u2014 Champaign County",
+  "severity": 0.4,
+  "status": "closed",
+  "counties": [
+   "Champaign",
+   "Macon"
+  ],
+  "fips": [
+   "17019",
+   "17115"
+  ],
+  "opened_at": "2026-10-28T16:00:00+00:00",
+  "updated_at": "2026-10-28T17:00:00+00:00",
+  "lat": 39.96,
+  "lon": -88.649,
+  "brief": "PM2.5 peaked at 37.4 \u00b5g/m\u00b3 in Macon County [1]. Champaign County recorded a verified peak of 37.6 \u00b5g/m\u00b3 [2].",
+  "facts": [
+   "PM2.5 peak 37.4 \u00b5g/m\u00b3 in Macon County, from 1 official source, verified",
+   "PM2.5 peak 37.6 \u00b5g/m\u00b3 in Champaign County, from 1 official source, verified"
+  ]
+ },
+ {
+  "id": 49,
+  "topic": "air",
+  "title": "PM2.5 42.9 \u00b5g/m\u00b3 (AQI 119, unhealthy for sensitive groups) \u2014 Madison County",
+  "severity": 0.4,
+  "status": "closed",
+  "counties": [
+   "Madison"
+  ],
+  "fips": [
+   "17119"
+  ],
+  "opened_at": "2026-10-28T16:00:00+00:00",
+  "updated_at": "2026-10-28T16:00:00+00:00",
+  "lat": 38.705,
+  "lon": -90.14,
+  "brief": "PM2.5 levels peaked at 42.9 \u00b5g/m\u00b3 in Madison County [1]. This data comes from one official source [1]. The reading has been verified [1].",
+  "facts": [
+   "PM2.5 peak 42.9 \u00b5g/m\u00b3 in Madison County, from 1 official source, verified"
+  ]
+ },
+ {
+  "id": 47,
+  "topic": "air",
+  "title": "PM2.5 40.6 \u00b5g/m\u00b3 (AQI 114, unhealthy for sensitive groups) \u2014 Cook County",
+  "severity": 0.4,
+  "status": "closed",
+  "counties": [
+   "Cook"
+  ],
+  "fips": [
+   "17031"
+  ],
+  "opened_at": "2026-10-28T14:00:00+00:00",
+  "updated_at": "2026-10-28T14:00:00+00:00",
+  "lat": 41.755,
+  "lon": -87.714,
+  "brief": "PM2.5 levels peaked at 40.6 \u00b5g/m\u00b3 in Cook County [1]. This data comes from one official source and is verified [1].",
+  "facts": [
+   "PM2.5 peak 40.6 \u00b5g/m\u00b3 in Cook County, from 1 official source, verified"
+  ]
+ }
+]
