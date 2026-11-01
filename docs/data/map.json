@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-01T06:54:11+00:00",
+ "as_of": "2026-11-01T07:37:40+00:00",
  "hours": 24,
  "places": [
   {
@@ -101,93 +101,6 @@
   },
   {
    "id": "p4",
-   "topic": "weather",
-   "source": "Airport station",
-   "name": "Olney-Noble (OLY)",
-   "county": "Richland",
-   "zip": null,
-   "lat": 38.7218,
-   "lon": -88.1764,
-   "person": false,
-   "label": "High 73.8 \u00b0F",
-   "lines": [
-    {
-     "metric": "temp_c",
-     "name": "Temperature",
-     "value": "73.8 \u00b0F",
-     "note": "the day's high",
-     "at": "2026-10-31T18:30+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Highest temperature in Illinois in the last 24 hours"
-   ],
-   "status": "official",
-   "at": "2026-11-01T06:30+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=OLY&network=IL_ASOS",
-   "spark": {
-    "name": "Temperature",
-    "unit": "\u00b0F",
-    "t": [
-     -1380,
-     -1340,
-     -1260,
-     -1220,
-     -1160,
-     -1100,
-     -1020,
-     -960,
-     -900,
-     -840,
-     -780,
-     -720,
-     -660,
-     -600,
-     -540,
-     -480,
-     -420,
-     -360,
-     -300,
-     -240,
-     -180,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     58.3,
-     58.0,
-     56.5,
-     54.7,
-     56.0,
-     56.5,
-     59.0,
-     61.7,
-     64.2,
-     66.6,
-     69.3,
-     73.8,
-     72.3,
-     71.0,
-     69.4,
-     67.0,
-     65.5,
-     64.2,
-     62.8,
-     62.0,
-     61.0,
-     60.0,
-     60.3,
-     59.0
-    ]
-   },
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
-   "id": "p5",
    "topic": "water",
    "source": "USGS stream gauge",
    "name": "Spoon River at London Mills",
@@ -280,7 +193,7 @@
    "tier": 1
   },
   {
-   "id": "p6",
+   "id": "p5",
    "topic": "weather",
    "source": "Airport station",
    "name": "Palwaukee (PWK)",
@@ -358,6 +271,91 @@
      53.0,
      52.0,
      53.0
+    ]
+   },
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p6",
+   "topic": "weather",
+   "source": "Airport station",
+   "name": "Olney-Noble (OLY)",
+   "county": "Richland",
+   "zip": null,
+   "lat": 38.7218,
+   "lon": -88.1764,
+   "person": false,
+   "label": "High 73.8 \u00b0F",
+   "lines": [
+    {
+     "metric": "temp_c",
+     "name": "Temperature",
+     "value": "73.8 \u00b0F",
+     "note": "the day's high",
+     "at": "2026-10-31T18:30+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Highest temperature in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-11-01T06:30+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=OLY&network=IL_ASOS",
+   "spark": {
+    "name": "Temperature",
+    "unit": "\u00b0F",
+    "t": [
+     -1340,
+     -1260,
+     -1220,
+     -1160,
+     -1100,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -600,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     58.0,
+     56.5,
+     54.7,
+     56.0,
+     56.5,
+     59.0,
+     61.7,
+     64.2,
+     66.6,
+     69.3,
+     73.8,
+     72.3,
+     71.0,
+     69.4,
+     67.0,
+     65.5,
+     64.2,
+     62.8,
+     62.0,
+     61.0,
+     60.0,
+     60.3,
+     59.0
     ]
    },
    "event": null,
@@ -570,13 +568,13 @@
    "lat": 41.0014,
    "lon": -90.8543,
    "person": false,
-   "label": "\u25b2 0.7 ft",
+   "label": "\u25b2 0.65 ft",
    "lines": [
     {
      "metric": "stage_m",
      "name": "Stage (gauge height)",
      "value": "15.7 ft",
-     "note": "up 0.7 ft in 24 hours",
+     "note": "up 0.65 ft in 24 hours",
      "at": "2026-11-01T06:30+00:00",
      "sev": 0.0
     },
@@ -584,7 +582,7 @@
      "metric": "discharge_cms",
      "name": "Streamflow",
      "value": "450 cfs",
-     "note": "up 148 cfs in 24 hours",
+     "note": "up 133 cfs in 24 hours",
      "at": "2026-11-01T06:30+00:00",
      "sev": 0.0
     }
@@ -599,7 +597,6 @@
     "name": "Stage (gauge height)",
     "unit": "ft",
     "t": [
-     -1380,
      -1320,
      -1260,
      -1200,
@@ -625,7 +622,6 @@
      0
     ],
     "v": [
-     14.96,
      15.01,
      15.04,
      15.08,
