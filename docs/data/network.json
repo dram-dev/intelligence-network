@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-01T07:37:38+00:00",
+ "generated_at": "2026-11-02T07:32:15+00:00",
  "sample": false,
  "days": 14,
  "network_name": "Intelligence Network",
@@ -13,14 +13,14 @@
  "links": {
   "folder": "https://drive.google.com/drive/folders/10LXhVLmbA6xekUOXLUgVO_JFM9BjCw6d",
   "latest": "https://docs.google.com/document/d/1pU_qedEUjRd5C6kZpRF3w-_njpS6_zsmQIqwBUvN0kw/edit",
-  "digest": "https://docs.google.com/document/d/11EhBwktadW-GracRAGxTVkSkgvvHRRzgNf7OxRQFfRo/edit"
+  "digest": "https://docs.google.com/document/d/1Bx5sLUrrIeMLtTMFcCrZILDnYAnvTNdn2j7Ur5LO3zs/edit"
  },
  "vitals": {
   "sensors_total": 2,
   "sensors_active_24h": 0,
   "sensors_active_7d": 0,
   "signals_24h_human": 0,
-  "signals_24h_reference": 21071,
+  "signals_24h_reference": 21182,
   "corroborated_7d": 0,
   "flagged_7d": 0,
   "human_7d": 0,
@@ -35,24 +35,24 @@
   "corroboration_rate_7d": 0.0
  },
  "feeds": {
-  "airnow": "2026-11-01T06:50:38+00:00",
-  "ams_grain": "2026-11-01T06:00:28+00:00",
-  "cocorahs": "2026-11-01T00:03:50+00:00",
-  "iem_asos": "2026-11-01T06:50:37+00:00",
-  "iem_lsr": "2026-11-01T07:35:47+00:00",
-  "news": "2026-11-01T07:36:10+00:00",
-  "nrcs_scan": "2026-11-01T05:55:06+00:00",
-  "nws_alerts": "2026-11-01T07:37:35+00:00",
-  "nws_statements": "2026-11-01T07:36:11+00:00",
-  "pipeline": "2026-11-01T06:55:04+00:00",
-  "usdm": "2026-10-31T12:36:07+00:00",
-  "usgs_quake": "2026-11-01T07:35:47+00:00",
-  "usgs_water": "2026-11-01T06:50:40+00:00"
+  "airnow": "2026-11-02T06:58:20+00:00",
+  "ams_grain": "2026-11-02T06:08:11+00:00",
+  "cocorahs": "2026-11-02T01:06:57+00:00",
+  "iem_asos": "2026-11-02T07:03:23+00:00",
+  "iem_lsr": "2026-11-02T07:28:46+00:00",
+  "news": "2026-11-02T07:29:31+00:00",
+  "nrcs_scan": "2026-11-02T01:57:08+00:00",
+  "nws_alerts": "2026-11-02T07:31:53+00:00",
+  "nws_statements": "2026-11-02T07:29:33+00:00",
+  "pipeline": "2026-11-01T07:38:08+00:00",
+  "usdm": "2026-11-02T04:42:49+00:00",
+  "usgs_quake": "2026-11-02T07:28:28+00:00",
+  "usgs_water": "2026-11-02T06:58:21+00:00"
  },
  "reference_sizes": {
   "airnow": 40,
   "ams": 1,
-  "cocorahs": 666,
+  "cocorahs": 676,
   "gauge": 275,
   "lsr": 4,
   "nws": 6,
