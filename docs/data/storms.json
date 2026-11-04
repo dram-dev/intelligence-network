@@ -1,1 +1,23 @@
-[]
+[
+ {
+  "id": 61,
+  "topic": "weather",
+  "title": "Special Weather Statement",
+  "severity": 0.5,
+  "status": "closed",
+  "counties": [
+   "Mercer"
+  ],
+  "fips": [
+   "17131"
+  ],
+  "opened_at": "2026-11-04T00:22:00+00:00",
+  "updated_at": "2026-11-04T00:22:00+00:00",
+  "lat": 41.062,
+  "lon": -90.932,
+  "brief": "A NWS Special Weather Statement is in effect [1]. It was issued at 6:22 PM [1].",
+  "facts": [
+   "NWS Special Weather Statement, issued 6:22 PM, ended 7:15 PM"
+  ]
+ }
+]
