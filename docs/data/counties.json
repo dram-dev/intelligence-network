@@ -7,7 +7,7 @@
   "lon": -91.19496,
   "human": 0,
   "reference": 3084,
-  "alerts": 1,
+  "alerts": 0,
   "events": 0,
   "top_metric": null
  },
@@ -19,7 +19,7 @@
   "lon": -89.34952,
   "human": 0,
   "reference": 3036,
-  "alerts": 2,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -30,8 +30,8 @@
   "lat": 38.88592,
   "lon": -89.43659,
   "human": 0,
-  "reference": 674,
-  "alerts": 1,
+  "reference": 672,
+  "alerts": 0,
   "events": 0,
   "top_metric": null
  },
@@ -42,7 +42,7 @@
   "lat": 42.31898,
   "lon": -88.8243,
   "human": 0,
-  "reference": 678,
+  "reference": 680,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -54,8 +54,8 @@
   "lat": 39.96207,
   "lon": -90.75031,
   "human": 0,
-  "reference": 3045,
-  "alerts": 1,
+  "reference": 3043,
+  "alerts": 0,
   "events": 0,
   "top_metric": null
  },
@@ -66,7 +66,7 @@
   "lat": 41.4013,
   "lon": -89.52838,
   "human": 0,
-  "reference": 684,
+  "reference": 682,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -79,7 +79,7 @@
   "lon": -90.6663,
   "human": 0,
   "reference": 5,
-  "alerts": 1,
+  "alerts": 0,
   "events": 0,
   "top_metric": null
  },
@@ -114,7 +114,7 @@
   "lat": 40.13898,
   "lon": -88.19697,
   "human": 0,
-  "reference": 10949,
+  "reference": 10940,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -150,7 +150,7 @@
   "lat": 38.74682,
   "lon": -88.48233,
   "human": 0,
-  "reference": 2917,
+  "reference": 2919,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -163,7 +163,7 @@
   "lon": -89.42623,
   "human": 0,
   "reference": 2015,
-  "alerts": 1,
+  "alerts": 0,
   "events": 0,
   "top_metric": null
  },
@@ -174,7 +174,7 @@
   "lat": 39.51368,
   "lon": -88.22078,
   "human": 0,
-  "reference": 3056,
+  "reference": 3065,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -186,7 +186,7 @@
   "lat": 41.89429,
   "lon": -87.64545,
   "human": 0,
-  "reference": 32581,
+  "reference": 32419,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -198,7 +198,7 @@
   "lat": 39.00279,
   "lon": -87.76062,
   "human": 0,
-  "reference": 3033,
+  "reference": 3031,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -222,7 +222,7 @@
   "lat": 40.1815,
   "lon": -88.90185,
   "human": 0,
-  "reference": 2332,
+  "reference": 2334,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -246,7 +246,7 @@
   "lat": 39.76608,
   "lon": -88.22287,
   "human": 0,
-  "reference": 1339,
+  "reference": 1335,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -258,7 +258,7 @@
   "lat": 41.85206,
   "lon": -88.08604,
   "human": 0,
-  "reference": 12516,
+  "reference": 12502,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -282,8 +282,8 @@
   "lat": 38.4171,
   "lon": -88.04794,
   "human": 0,
-  "reference": 676,
-  "alerts": 2,
+  "reference": 674,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -294,7 +294,7 @@
   "lat": 39.04794,
   "lon": -88.59285,
   "human": 0,
-  "reference": 3287,
+  "reference": 3272,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -307,7 +307,7 @@
   "lon": -89.01792,
   "human": 0,
   "reference": 2010,
-  "alerts": 1,
+  "alerts": 0,
   "events": 0,
   "top_metric": null
  },
@@ -330,8 +330,8 @@
   "lat": 37.99185,
   "lon": -88.92632,
   "human": 0,
-  "reference": 1349,
-  "alerts": 2,
+  "reference": 1350,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -342,7 +342,7 @@
   "lat": 40.46524,
   "lon": -90.20227,
   "human": 0,
-  "reference": 1675,
+  "reference": 1671,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -355,7 +355,7 @@
   "lon": -88.22796,
   "human": 0,
   "reference": 9,
-  "alerts": 2,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -366,8 +366,8 @@
   "lat": 39.35544,
   "lon": -90.38768,
   "human": 0,
-  "reference": 668,
-  "alerts": 1,
+  "reference": 670,
+  "alerts": 0,
   "events": 0,
   "top_metric": null
  },
@@ -378,7 +378,7 @@
   "lat": 41.29241,
   "lon": -88.40105,
   "human": 0,
-  "reference": 2730,
+  "reference": 2724,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -390,8 +390,8 @@
   "lat": 38.08523,
   "lon": -88.53901,
   "human": 0,
-  "reference": 434,
-  "alerts": 2,
+  "reference": 419,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -402,7 +402,7 @@
   "lat": 40.40132,
   "lon": -91.1688,
   "human": 0,
-  "reference": 18,
+  "reference": 19,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -415,7 +415,7 @@
   "lon": -88.26615,
   "human": 0,
   "reference": 7,
-  "alerts": 2,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -426,7 +426,7 @@
   "lat": 40.81447,
   "lon": -90.94125,
   "human": 0,
-  "reference": 671,
+  "reference": 674,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -438,7 +438,7 @@
   "lat": 41.35002,
   "lon": -90.13084,
   "human": 0,
-  "reference": 709,
+  "reference": 711,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -450,7 +450,7 @@
   "lat": 40.74887,
   "lon": -87.8336,
   "human": 0,
-  "reference": 1364,
+  "reference": 1361,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -462,8 +462,8 @@
   "lat": 37.7861,
   "lon": -89.38121,
   "human": 0,
-  "reference": 3307,
-  "alerts": 2,
+  "reference": 3319,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -474,7 +474,7 @@
   "lat": 39.00489,
   "lon": -88.15072,
   "human": 0,
-  "reference": 670,
+  "reference": 668,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -486,8 +486,8 @@
   "lat": 38.30078,
   "lon": -88.92421,
   "human": 0,
-  "reference": 3690,
-  "alerts": 2,
+  "reference": 3704,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -498,8 +498,8 @@
   "lat": 39.0802,
   "lon": -90.36138,
   "human": 0,
-  "reference": 1091,
-  "alerts": 1,
+  "reference": 1077,
+  "alerts": 0,
   "events": 0,
   "top_metric": null
  },
@@ -510,7 +510,7 @@
   "lat": 42.36239,
   "lon": -90.21147,
   "human": 0,
-  "reference": 1473,
+  "reference": 1454,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -522,8 +522,8 @@
   "lat": 37.46071,
   "lon": -88.88213,
   "human": 0,
-  "reference": 680,
-  "alerts": 2,
+  "reference": 678,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -534,7 +534,7 @@
   "lat": 41.93959,
   "lon": -88.42804,
   "human": 0,
-  "reference": 6825,
+  "reference": 6812,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -546,7 +546,7 @@
   "lat": 41.13951,
   "lon": -87.86112,
   "human": 0,
-  "reference": 3733,
+  "reference": 3731,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -558,7 +558,7 @@
   "lat": 41.58814,
   "lon": -88.43063,
   "human": 0,
-  "reference": 2729,
+  "reference": 2737,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -570,7 +570,7 @@
   "lat": 40.93095,
   "lon": -90.21379,
   "human": 0,
-  "reference": 7156,
+  "reference": 7174,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -582,7 +582,7 @@
   "lat": 41.34334,
   "lon": -88.88593,
   "human": 0,
-  "reference": 2921,
+  "reference": 2918,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -594,7 +594,7 @@
   "lat": 42.18597,
   "lon": -87.80594,
   "human": 0,
-  "reference": 9912,
+  "reference": 9895,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -606,7 +606,7 @@
   "lat": 38.71895,
   "lon": -87.73022,
   "human": 0,
-  "reference": 677,
+  "reference": 675,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -618,7 +618,7 @@
   "lat": 41.74745,
   "lon": -89.29936,
   "human": 0,
-  "reference": 3078,
+  "reference": 3076,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -630,7 +630,7 @@
   "lat": 40.89438,
   "lon": -88.55285,
   "human": 0,
-  "reference": 3030,
+  "reference": 3029,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -642,7 +642,7 @@
   "lat": 40.12928,
   "lon": -89.36531,
   "human": 0,
-  "reference": 2376,
+  "reference": 2540,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -654,9 +654,9 @@
   "lat": 39.86024,
   "lon": -88.96153,
   "human": 0,
-  "reference": 3458,
+  "reference": 3463,
   "alerts": 0,
-  "events": 0,
+  "events": 1,
   "top_metric": null
  },
  {
@@ -666,8 +666,8 @@
   "lat": 39.26591,
   "lon": -89.92633,
   "human": 0,
-  "reference": 188,
-  "alerts": 1,
+  "reference": 170,
+  "alerts": 0,
   "events": 0,
   "top_metric": null
  },
@@ -678,8 +678,8 @@
   "lat": 38.82712,
   "lon": -89.90023,
   "human": 0,
-  "reference": 5633,
-  "alerts": 1,
+  "reference": 5603,
+  "alerts": 0,
   "events": 0,
   "top_metric": null
  },
@@ -690,8 +690,8 @@
   "lat": 38.64824,
   "lon": -88.92036,
   "human": 0,
-  "reference": 5040,
-  "alerts": 1,
+  "reference": 5047,
+  "alerts": 0,
   "events": 0,
   "top_metric": null
  },
@@ -702,7 +702,7 @@
   "lat": 41.03112,
   "lon": -89.34237,
   "human": 0,
-  "reference": 3391,
+  "reference": 3388,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -714,7 +714,7 @@
   "lat": 40.23699,
   "lon": -89.91357,
   "human": 0,
-  "reference": 1687,
+  "reference": 1682,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -726,8 +726,8 @@
   "lat": 37.21612,
   "lon": -88.70566,
   "human": 0,
-  "reference": 2369,
-  "alerts": 2,
+  "reference": 2370,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -738,7 +738,7 @@
   "lat": 40.45581,
   "lon": -90.67895,
   "human": 0,
-  "reference": 3045,
+  "reference": 3043,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -750,7 +750,7 @@
   "lat": 42.3243,
   "lon": -88.45225,
   "human": 0,
-  "reference": 5417,
+  "reference": 5396,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -762,7 +762,7 @@
   "lat": 40.49456,
   "lon": -88.84454,
   "human": 0,
-  "reference": 5849,
+  "reference": 5846,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -774,7 +774,7 @@
   "lat": 40.02257,
   "lon": -89.79413,
   "human": 0,
-  "reference": 1356,
+  "reference": 1351,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -786,7 +786,7 @@
   "lat": 41.2056,
   "lon": -90.74177,
   "human": 0,
-  "reference": 1344,
+  "reference": 1348,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -799,7 +799,7 @@
   "lon": -90.17908,
   "human": 0,
   "reference": 7,
-  "alerts": 1,
+  "alerts": 0,
   "events": 0,
   "top_metric": null
  },
@@ -810,8 +810,8 @@
   "lat": 39.22807,
   "lon": -89.47814,
   "human": 0,
-  "reference": 3044,
-  "alerts": 1,
+  "reference": 3042,
+  "alerts": 0,
   "events": 0,
   "top_metric": null
  },
@@ -846,7 +846,7 @@
   "lat": 42.04188,
   "lon": -89.32018,
   "human": 0,
-  "reference": 1008,
+  "reference": 1005,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -858,7 +858,7 @@
   "lat": 40.78597,
   "lon": -89.76699,
   "human": 0,
-  "reference": 3719,
+  "reference": 3707,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -871,7 +871,7 @@
   "lon": -89.36853,
   "human": 0,
   "reference": 2,
-  "alerts": 2,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -882,7 +882,7 @@
   "lat": 40.00903,
   "lon": -88.59235,
   "human": 0,
-  "reference": 1024,
+  "reference": 1022,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -894,8 +894,8 @@
   "lat": 39.62511,
   "lon": -90.88903,
   "human": 0,
-  "reference": 3045,
-  "alerts": 1,
+  "reference": 3043,
+  "alerts": 0,
   "events": 0,
   "top_metric": null
  },
@@ -907,7 +907,7 @@
   "lon": -88.54237,
   "human": 0,
   "reference": 1583,
-  "alerts": 2,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -918,8 +918,8 @@
   "lat": 37.21561,
   "lon": -89.12775,
   "human": 0,
-  "reference": 1017,
-  "alerts": 2,
+  "reference": 1014,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -942,8 +942,8 @@
   "lat": 38.05651,
   "lon": -89.82121,
   "human": 0,
-  "reference": 3787,
-  "alerts": 1,
+  "reference": 3773,
+  "alerts": 0,
   "events": 0,
   "top_metric": null
  },
@@ -954,7 +954,7 @@
   "lat": 38.71219,
   "lon": -88.08545,
   "human": 0,
-  "reference": 2371,
+  "reference": 2378,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -966,7 +966,7 @@
   "lat": 41.46842,
   "lon": -90.57212,
   "human": 0,
-  "reference": 4138,
+  "reference": 4132,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -978,8 +978,8 @@
   "lat": 37.75151,
   "lon": -88.54502,
   "human": 0,
-  "reference": 3220,
-  "alerts": 2,
+  "reference": 3221,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -990,7 +990,7 @@
   "lat": 39.75689,
   "lon": -89.66244,
   "human": 0,
-  "reference": 8139,
+  "reference": 8129,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -1038,8 +1038,8 @@
   "lat": 38.4702,
   "lon": -89.92855,
   "human": 0,
-  "reference": 7282,
-  "alerts": 1,
+  "reference": 7226,
+  "alerts": 0,
   "events": 0,
   "top_metric": null
  },
@@ -1050,7 +1050,7 @@
   "lat": 41.09691,
   "lon": -89.79741,
   "human": 0,
-  "reference": 672,
+  "reference": 670,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -1062,7 +1062,7 @@
   "lat": 42.34973,
   "lon": -89.66599,
   "human": 0,
-  "reference": 3086,
+  "reference": 3085,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -1074,7 +1074,7 @@
   "lat": 40.50807,
   "lon": -89.51626,
   "human": 0,
-  "reference": 1776,
+  "reference": 1793,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -1087,7 +1087,7 @@
   "lon": -89.24464,
   "human": 0,
   "reference": 22,
-  "alerts": 2,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -1098,7 +1098,7 @@
   "lat": 40.18675,
   "lon": -87.72678,
   "human": 0,
-  "reference": 1699,
+  "reference": 1692,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -1110,8 +1110,8 @@
   "lat": 38.44582,
   "lon": -87.83917,
   "human": 0,
-  "reference": 694,
-  "alerts": 2,
+  "reference": 692,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -1134,8 +1134,8 @@
   "lat": 38.35314,
   "lon": -89.41719,
   "human": 0,
-  "reference": 1346,
-  "alerts": 1,
+  "reference": 1342,
+  "alerts": 0,
   "events": 0,
   "top_metric": null
  },
@@ -1146,8 +1146,8 @@
   "lat": 38.43186,
   "lon": -88.43243,
   "human": 0,
-  "reference": 3063,
-  "alerts": 2,
+  "reference": 3086,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -1158,8 +1158,8 @@
   "lat": 38.08733,
   "lon": -88.17862,
   "human": 0,
-  "reference": 1004,
-  "alerts": 2,
+  "reference": 1002,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -1170,7 +1170,7 @@
   "lat": 41.75067,
   "lon": -89.91101,
   "human": 0,
-  "reference": 4695,
+  "reference": 4706,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -1182,7 +1182,7 @@
   "lat": 41.44847,
   "lon": -87.97846,
   "human": 0,
-  "reference": 13052,
+  "reference": 13043,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -1194,8 +1194,8 @@
   "lat": 37.73035,
   "lon": -88.93002,
   "human": 0,
-  "reference": 2932,
-  "alerts": 2,
+  "reference": 2931,
+  "alerts": 1,
   "events": 0,
   "top_metric": null
  },
@@ -1206,7 +1206,7 @@
   "lat": 42.3374,
   "lon": -89.1612,
   "human": 0,
-  "reference": 5561,
+  "reference": 5567,
   "alerts": 0,
   "events": 0,
   "top_metric": null
@@ -1218,7 +1218,7 @@
   "lat": 40.78979,
   "lon": -89.21059,
   "human": 0,
-  "reference": 1031,
+  "reference": 1030,
   "alerts": 0,
   "events": 0,
   "top_metric": null

@@ -3,56 +3,19 @@
   "event": "Freeze Warning",
   "severity": "Severe",
   "counties": [
-   "Greene",
-   "Macoupin",
-   "Montgomery",
-   "Bond",
-   "Fayette",
-   "Clinton",
-   "Marion",
-   "Washington",
-   "Randolph",
-   "Adams",
-   "Brown",
-   "Pike",
-   "Calhoun",
-   "Jersey",
-   "Madison",
-   "St. Clair",
-   "Monroe"
-  ],
-  "sender": "NWS St Louis MO",
-  "headline": "FREEZE WARNING REMAINS IN EFFECT FROM MIDNIGHT TONIGHT TO 8 AM CST SATURDAY",
-  "expires": "2026-11-07T14:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ca1fc2dffe07516651b858de841aee4a43ebad1e.001.1"
- },
- {
-  "event": "Freeze Warning",
-  "severity": "Severe",
-  "counties": [
    "Jefferson",
    "Wayne",
+   "Edwards",
+   "Wabash",
    "Perry",
    "Franklin",
    "Hamilton",
+   "White",
    "Jackson",
    "Williamson",
    "Saline",
-   "Union"
-  ],
-  "sender": "NWS Paducah KY",
-  "headline": "FREEZE WARNING IN EFFECT FROM 11 PM SATURDAY TO 8 AM CST SUNDAY... ...FREEZE WARNING REMAINS IN EFFECT UNTIL 8 AM CST SATURDAY",
-  "expires": "2026-11-07T14:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.73e8bd76c8756004c29617ff8231429d1d1707bf.001.3"
- },
- {
-  "event": "Freeze Warning",
-  "severity": "Severe",
-  "counties": [
-   "Edwards",
-   "Wabash",
-   "White",
    "Gallatin",
+   "Union",
    "Johnson",
    "Pope",
    "Hardin",
@@ -61,47 +24,8 @@
    "Massac"
   ],
   "sender": "NWS Paducah KY",
-  "headline": "FREEZE WARNING IN EFFECT FROM 11 PM CST /MIDNIGHT EST/ SATURDAY TO 8 AM CST /9 AM EST/ SUNDAY... ...FROST ADVISORY REMAINS IN EFFECT UNTIL 8 AM CST /9 AM EST/ SATURDAY",
+  "headline": "FREEZE WARNING REMAINS IN EFFECT UNTIL 8 AM CST /9 AM EST/ SUNDAY",
   "expires": "2026-11-08T14:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.73e8bd76c8756004c29617ff8231429d1d1707bf.002.2"
- },
- {
-  "event": "Freeze Warning",
-  "severity": "Severe",
-  "counties": [
-   "Jefferson",
-   "Wayne",
-   "Perry",
-   "Franklin",
-   "Hamilton",
-   "Jackson",
-   "Williamson",
-   "Saline",
-   "Union"
-  ],
-  "sender": "NWS Paducah KY",
-  "headline": "FREEZE WARNING IN EFFECT FROM 11 PM SATURDAY TO 8 AM CST SUNDAY... ...FREEZE WARNING REMAINS IN EFFECT UNTIL 8 AM CST SATURDAY",
-  "expires": "2026-11-08T14:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.73e8bd76c8756004c29617ff8231429d1d1707bf.001.2"
- },
- {
-  "event": "Frost Advisory",
-  "severity": "Minor",
-  "counties": [
-   "Edwards",
-   "Wabash",
-   "White",
-   "Gallatin",
-   "Johnson",
-   "Pope",
-   "Hardin",
-   "Alexander",
-   "Pulaski",
-   "Massac"
-  ],
-  "sender": "NWS Paducah KY",
-  "headline": "FREEZE WARNING IN EFFECT FROM 11 PM CST /MIDNIGHT EST/ SATURDAY TO 8 AM CST /9 AM EST/ SUNDAY... ...FROST ADVISORY REMAINS IN EFFECT UNTIL 8 AM CST /9 AM EST/ SATURDAY",
-  "expires": "2026-11-07T14:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.73e8bd76c8756004c29617ff8231429d1d1707bf.002.3"
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.8a8be440e14d77a6bb44a32baa25106a58f2b42d.001.1"
  }
 ]
