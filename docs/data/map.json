@@ -1,198 +1,43 @@
 {
- "as_of": "2026-11-09T07:31:14+00:00",
+ "as_of": "2026-11-10T07:54:30+00:00",
  "hours": 24,
  "places": [
   {
    "id": "p1",
    "topic": "weather",
    "source": "Airport station",
-   "name": "Cahokia (CPS)",
-   "county": "St. Clair",
+   "name": "Rochelle (RPJ)",
+   "county": "Lee",
    "zip": null,
-   "lat": 38.5707,
-   "lon": -90.1562,
+   "lat": 41.893,
+   "lon": -89.0783,
    "person": false,
-   "label": "High 67 \u00b0F",
+   "label": "Low 29 \u00b0F",
    "lines": [
     {
      "metric": "temp_c",
      "name": "Temperature",
-     "value": "67 \u00b0F",
-     "note": null,
-     "at": "2026-11-08T20:53+00:00",
+     "value": "29 \u00b0F",
+     "note": "the day's low",
+     "at": "2026-11-09T12:35+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Highest temperature in Illinois in the last 24 hours",
-    "In the news: \u201cChilly, sunny Saturday ahead before temperatures climb near 60\u201d"
+    "Lowest temperature in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-11-09T05:53+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=CPS&network=IL_ASOS",
+   "at": "2026-11-10T07:35+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=RPJ&network=IL_ASOS",
    "spark": {
     "name": "Temperature",
     "unit": "\u00b0F",
     "t": [
-     -1320,
-     -1222,
-     -960,
-     -900,
-     -840,
-     -780,
-     -720,
-     -660,
-     -600,
-     -540,
-     -480,
-     -180,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     32.0,
-     30.0,
-     38.0,
-     42.0,
-     48.0,
-     53.0,
-     59.0,
-     62.0,
-     65.0,
-     67.0,
-     66.0,
-     46.0,
-     44.0,
-     44.0,
-     42.0
-    ]
-   },
-   "event": null,
-   "news": [
-    "n6"
-   ],
-   "tier": 1
-  },
-  {
-   "id": "p2",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "3.9 mi WNW of Kankakee",
-   "county": "Kankakee",
-   "zip": null,
-   "lat": 41.1465,
-   "lon": -87.9245,
-   "person": false,
-   "label": "Rain 0.21 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "0.21 in",
-     "note": null,
-     "at": "2026-11-08T22:30+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Highest rainfall total in Illinois in the last 24 hours",
-    "In the news: \u201cHarvest nearing finish line; rain delays northern farmers again\u201d"
-   ],
-   "status": "official",
-   "at": "2026-11-08T22:30+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [
-    "n5"
-   ],
-   "tier": 1
-  },
-  {
-   "id": "p3",
-   "topic": "markets",
-   "source": "USDA grain bids",
-   "name": "North district",
-   "county": "DeKalb",
-   "zip": null,
-   "lat": 41.8946,
-   "lon": -88.769,
-   "person": false,
-   "label": "Corn -15 \u00a2",
-   "lines": [
-    {
-     "metric": "corn_basis",
-     "name": "Corn basis",
-     "value": "-15 \u00a2",
-     "note": "country elevators",
-     "at": "2026-11-06T18:57+00:00",
-     "sev": 0.0
-    },
-    {
-     "metric": "soy_basis",
-     "name": "Soybean basis",
-     "value": "-35 \u00a2",
-     "note": "country elevators",
-     "at": "2026-11-06T18:57+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Lowest corn basis in Illinois in the latest reports (Nov 6)",
-    "Lowest soybean basis in Illinois in the latest reports (Nov 6)"
-   ],
-   "status": "official",
-   "at": "2026-11-06T18:57+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
-   "id": "p4",
-   "topic": "water",
-   "source": "USGS stream gauge",
-   "name": "Mississippi River at Chester",
-   "county": "Randolph",
-   "zip": null,
-   "lat": 37.9008,
-   "lon": -89.8302,
-   "person": false,
-   "label": "\u25b2 2 ft",
-   "lines": [
-    {
-     "metric": "stage_m",
-     "name": "Stage (gauge height)",
-     "value": "13.4 ft",
-     "note": "up 2 ft in 24 hours",
-     "at": "2026-11-09T06:30+00:00",
-     "sev": 0.0
-    },
-    {
-     "metric": "discharge_cms",
-     "name": "Streamflow",
-     "value": "210,000 cfs",
-     "note": "up 26,000 cfs in 24 hours",
-     "at": "2026-11-09T06:30+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Biggest rise in Illinois in the last 24 hours"
-   ],
-   "status": "official",
-   "at": "2026-11-09T06:30+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/07020500/",
-   "spark": {
-    "name": "Stage (gauge height)",
-    "unit": "ft",
-    "t": [
+     -1380,
      -1320,
      -1260,
      -1200,
-     -1170,
+     -1140,
      -1080,
      -1020,
      -960,
@@ -214,114 +59,30 @@
      0
     ],
     "v": [
-     11.41,
-     11.53,
-     11.41,
-     11.64,
-     11.55,
-     11.69,
-     11.83,
-     11.92,
-     12.15,
-     12.24,
-     12.32,
-     12.47,
-     12.66,
-     12.83,
-     12.87,
-     12.83,
-     12.83,
-     12.91,
-     12.97,
-     13.09,
-     13.1,
-     13.25,
-     13.41
-    ]
-   },
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
-   "id": "p5",
-   "topic": "weather",
-   "source": "Airport station",
-   "name": "Mount Vernon (MVN)",
-   "county": "Jefferson",
-   "zip": null,
-   "lat": 38.3233,
-   "lon": -88.8583,
-   "person": false,
-   "label": "Low 26.6 \u00b0F",
-   "lines": [
-    {
-     "metric": "temp_c",
-     "name": "Temperature",
-     "value": "26.6 \u00b0F",
-     "note": "the day's low",
-     "at": "2026-11-08T11:35+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Lowest temperature in Illinois in the last 24 hours"
-   ],
-   "status": "official",
-   "at": "2026-11-09T05:56+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=MVN&network=IL_ASOS",
-   "spark": {
-    "name": "Temperature",
-    "unit": "\u00b0F",
-    "t": [
-     -1279,
-     -1225,
-     -1200,
-     -1101,
-     -1055,
-     -1001,
-     -960,
-     -900,
-     -840,
-     -780,
-     -720,
-     -660,
-     -600,
-     -540,
-     -480,
-     -420,
-     -360,
-     -300,
-     -240,
-     -180,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     28.4,
-     28.4,
-     27.0,
-     26.6,
-     26.6,
-     28.4,
      32.0,
-     46.0,
-     52.0,
-     55.0,
-     57.0,
-     60.0,
-     63.0,
-     63.0,
-     62.0,
+     32.0,
+     31.0,
+     30.7,
+     29.0,
+     32.0,
+     40.3,
+     47.7,
      54.0,
-     52.0,
-     47.0,
-     46.0,
+     57.0,
+     58.6,
+     59.0,
+     60.3,
+     58.3,
+     52.7,
+     46.2,
+     44.6,
+     44.2,
      43.0,
-     39.0,
-     38.0,
-     39.0
+     44.6,
+     42.3,
+     41.0,
+     42.3,
+     44.4
     ]
    },
    "event": null,
@@ -329,7 +90,7 @@
    "tier": 1
   },
   {
-   "id": "p6",
+   "id": "p2",
    "topic": "water",
    "source": "USGS stream gauge",
    "name": "Mississippi River at Thebes",
@@ -338,39 +99,40 @@
    "lat": 37.2203,
    "lon": -89.4632,
    "person": false,
-   "label": "\u25b2 1.79 ft",
+   "label": "\u25b2 2.04 ft",
    "lines": [
     {
      "metric": "stage_m",
      "name": "Stage (gauge height)",
-     "value": "15.8 ft",
-     "note": "up 1.79 ft in 24 hours",
-     "at": "2026-11-09T06:30+00:00",
+     "value": "17.9 ft",
+     "note": "up 2.04 ft in 24 hours",
+     "at": "2026-11-10T07:30+00:00",
      "sev": 0.0
     },
     {
      "metric": "discharge_cms",
      "name": "Streamflow",
-     "value": "182,000 cfs",
-     "note": "up 21,000 cfs in 24 hours",
-     "at": "2026-11-09T06:00+00:00",
+     "value": "212,000 cfs",
+     "note": "up 28,000 cfs in 24 hours",
+     "at": "2026-11-10T07:30+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Second-biggest rise in Illinois in the last 24 hours"
+    "Biggest rise in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-11-09T06:30+00:00",
+   "at": "2026-11-10T07:30+00:00",
    "url": "https://waterdata.usgs.gov/monitoring-location/07022000/",
    "spark": {
     "name": "Stage (gauge height)",
     "unit": "ft",
     "t": [
-     -1350,
-     -1290,
+     -1380,
+     -1320,
+     -1260,
      -1200,
-     -1170,
+     -1140,
      -1080,
      -1020,
      -960,
@@ -392,29 +154,367 @@
      0
     ],
     "v": [
-     13.97,
-     14.06,
-     14.2,
-     14.24,
-     14.37,
-     14.47,
-     14.55,
-     14.64,
-     14.72,
-     14.78,
-     14.89,
-     14.95,
+     15.89,
+     16.01,
+     16.09,
+     16.16,
+     16.25,
+     16.34,
+     16.42,
+     16.49,
+     16.62,
+     16.69,
+     16.78,
+     16.88,
+     16.98,
+     17.07,
+     17.16,
+     17.24,
+     17.33,
+     17.43,
+     17.53,
+     17.59,
+     17.67,
+     17.76,
+     17.84,
+     17.93
+    ]
+   },
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p3",
+   "topic": "weather",
+   "source": "Airport station",
+   "name": "Carbondale (MDH)",
+   "county": "Jackson",
+   "zip": null,
+   "lat": 37.78,
+   "lon": -89.25,
+   "person": false,
+   "label": "High 72 \u00b0F",
+   "lines": [
+    {
+     "metric": "temp_c",
+     "name": "Temperature",
+     "value": "72 \u00b0F",
+     "note": "the day's high",
+     "at": "2026-11-09T20:52+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Highest temperature in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-11-10T06:52+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=MDH&network=IL_ASOS",
+   "spark": {
+    "name": "Temperature",
+    "unit": "\u00b0F",
+    "t": [
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -600,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     38.0,
+     40.0,
+     38.0,
+     38.0,
+     36.0,
+     43.0,
+     51.0,
+     58.0,
+     63.0,
+     66.0,
+     70.0,
+     71.0,
+     72.0,
+     70.0,
+     63.0,
+     58.0,
+     59.0,
+     53.0,
+     50.0,
+     46.0,
+     48.0,
+     49.0,
+     50.0
+    ]
+   },
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p4",
+   "topic": "markets",
+   "source": "USDA grain bids",
+   "name": "West district",
+   "county": "Knox",
+   "zip": null,
+   "lat": 40.931,
+   "lon": -90.2138,
+   "person": false,
+   "label": "Corn -15 \u00a2",
+   "lines": [
+    {
+     "metric": "corn_basis",
+     "name": "Corn basis",
+     "value": "-15 \u00a2",
+     "note": "country elevators",
+     "at": "2026-11-09T19:18+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Lowest corn basis in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-11-09T19:18+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p5",
+   "topic": "markets",
+   "source": "USDA grain bids",
+   "name": "North district",
+   "county": "DeKalb",
+   "zip": null,
+   "lat": 41.8946,
+   "lon": -88.769,
+   "person": false,
+   "label": "Soybeans -35 \u00a2",
+   "lines": [
+    {
+     "metric": "soy_basis",
+     "name": "Soybean basis",
+     "value": "-35 \u00a2",
+     "note": "country elevators",
+     "at": "2026-11-09T19:18+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Lowest soybean basis in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-11-09T19:18+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p6",
+   "topic": "water",
+   "source": "USGS stream gauge",
+   "name": "Sangamon River at Route 48 at Decatur",
+   "county": "Macon",
+   "zip": null,
+   "lat": 39.8311,
+   "lon": -88.9764,
+   "person": false,
+   "label": "\u25b2 1.42 ft",
+   "lines": [
+    {
+     "metric": "stage_m",
+     "name": "Stage (gauge height)",
+     "value": "3.2 ft",
+     "note": "up 1.42 ft in 24 hours",
+     "at": "2026-11-10T06:45+00:00",
+     "sev": 0.0
+    },
+    {
+     "metric": "discharge_cms",
+     "name": "Streamflow",
+     "value": "222 cfs",
+     "note": null,
+     "at": "2026-11-10T06:45+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Second-biggest rise in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-11-10T06:45+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05573540/",
+   "spark": {
+    "name": "Stage (gauge height)",
+    "unit": "ft",
+    "t": [
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -600,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     1.78,
+     1.78,
+     1.78,
+     1.78,
+     1.78,
+     1.78,
+     1.78,
+     1.79,
+     1.94,
+     2.17,
+     2.28,
+     2.33,
+     2.35,
+     2.37,
+     2.45,
+     3.0,
+     3.16,
+     3.19,
+     3.19,
+     3.16,
+     3.13,
+     3.19,
+     3.2
+    ]
+   },
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p7",
+   "topic": "water",
+   "source": "USGS stream gauge",
+   "name": "Mississippi River at Chester",
+   "county": "Randolph",
+   "zip": null,
+   "lat": 37.9008,
+   "lon": -89.8302,
+   "person": false,
+   "label": "\u25b2 1.42 ft",
+   "lines": [
+    {
+     "metric": "stage_m",
+     "name": "Stage (gauge height)",
+     "value": "15.1 ft",
+     "note": "up 1.42 ft in 24 hours",
+     "at": "2026-11-10T07:30+00:00",
+     "sev": 0.0
+    },
+    {
+     "metric": "discharge_cms",
+     "name": "Streamflow",
+     "value": "233,000 cfs",
+     "note": "up 20,000 cfs in 24 hours",
+     "at": "2026-11-10T07:30+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Third-biggest rise in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-11-10T07:30+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/07020500/",
+   "spark": {
+    "name": "Stage (gauge height)",
+    "unit": "ft",
+    "t": [
+     -1380,
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -600,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     13.63,
+     13.72,
+     13.78,
+     13.81,
+     13.91,
+     14.02,
+     14.14,
+     14.34,
+     14.51,
+     14.69,
+     14.83,
+     14.84,
+     14.96,
+     15.01,
+     15.1,
+     15.04,
+     15.01,
+     15.02,
+     15.06,
      15.03,
-     15.09,
-     15.16,
-     15.23,
-     15.3,
-     15.38,
-     15.44,
-     15.52,
-     15.61,
-     15.68,
-     15.76
+     15.08,
+     15.11,
+     15.17,
+     15.05
     ]
    },
    "event": null,
@@ -427,7 +527,7 @@
    "id": "n1",
    "n": 1,
    "topic": "weather",
-   "place": "Chicagoland",
+   "place": "Chicago area",
    "statewide": false,
    "lat": 41.8943,
    "lon": -87.6454,
@@ -441,10 +541,22 @@
    ],
    "stories": [
     {
+     "title": "Chicago-area could see first snowflakes of the season this week as temperatures tumble",
+     "source": "NBC 5 Chicago",
+     "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxORm9NTmVxN2ljOTllYlFDWXQteEhVOVYyUW1HcmJnUE0tbUc1SVdlang4U1dwWGNpX005TGxfX1JveHp5c3ZaemhZWVFuUFA2cUQ5QkUwTGIwSjBlbzFzbHRFSmp2allpUUlKbldpU1FQenBFUEFEcWNSQlJUeGh6dFZ4RFg0UzZ0WkZ3TjJhTGJLUkVNeFFibzh6STNSSEloUVo1ODNvdUJISWhBeU9CMGxCZFN2Z0Mtc1dPdnF2QnFILUdXRmx4dNIB0AFBVV95cUxNbzFQci1SV3ZVNHotS0dOU1dOUUU0elBROVdTSDM4VzlKMS1uVmZHNGNZX1J0M1Z6TEc1NE55TzZsdTBrNzUtckl6ZHJRTDNCRkhPeFFsNlVVMDQtMUt6QlU4RnVNTnZ6MFFwSlFjNXZMQzdwLS1IU2RibXRzRlJncVdleHVjV1F2NEd1Q2JuMVlSWWlTajJ0TG00b2tHWWlybkI1c3Riai1EcmRoVGhrcHBtRFZobWlMdi1abG1faWFfWG9VT0FrMWVuWi1QWG1P?oc=5",
+     "at": "2026-11-09T12:01:24"
+    },
+    {
      "title": "More November weather whiplash ahead for Chicagoland | Weekly Climate Report | 8 November",
      "source": "WGN-TV",
      "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNVEpzZVBVMmdRZ0UyTkRBd0NNRzdTM3NtdUNtNzRjZ3U1MWhJYUZFdGNHQXYwR3ljZ01WMVptNEdxZlFaVlJlc2tnZ2MyTmJrQ0VtVktncHhtOXBuTG4tNWdsbzF6UEVJMlNVN3cwWm9qZGFsNUNOeXVHSFo3TUZZU1hQSkZtLWx3ZHN5LVphcjZ2SVJQTWtQUnl4WjJpS2d3Y2tlOWZKazVEd2pXSlR4Nm9JRGU3Zm96ZW9KLUtCbjlqak3SAcgBQVVfeXFMTmpKWmxjdFJwUXh4eDloV2FhZ18zSGlQQUZkTUxCM1dCLXdZYXNJYWZHaXZSVkt0alJMWFhycHVHcDFnYXg3WkQ3WFkzSmowVERmRmpQa0JLUncwVldxa2RyV0ZSclczNXkyZWVZN1lUcjNEODFXMHhMRkNlaVBEaXIyU1NucEl0eFpPc2dMckpOM0JJMFdIZzY2N0JUb2Z6MHpGdFVRR2paVGFBQy1CcW9KcXRZVUlOUTJ1amNtd0FGQ2R6azhMRU4?oc=5",
      "at": "2026-11-08T20:12:01"
+    },
+    {
+     "title": "Chicago area could see first snowflakes of the season Friday",
+     "source": "Chicago Sun-Times",
+     "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxNOVU1dlAxTFpGNXNERjc0NGxJZ1RNaXBNbUFKQUR6T2FlZEx0T2F0eFRPLUNyZExzMTJrdzFGajlTdEotVHY1QkRuTDN0Q3N0V0p1UTN3cDhfRnBBX3NpZ3lITWFXemsycmpEY2NSZHBwVXNhWFRpWTduYUx5ejBJbzdTOEEyLXBtbWw1WXlqazF4aFJwMmMyX3ZUdU9xdjhmejRIZjBKY2JfR0JSaWFVYlZUVGVIdUFRSldyNUozLWlaWHJLRzh5dG9mbXdpMWphbFI4YU1ZT3Q?oc=5",
+     "at": "2026-11-09T16:55:00"
     }
    ],
    "more": [],
@@ -464,22 +576,48 @@
    ],
    "stories": [
     {
-     "title": "Chicago Sunday forecast calls for plenty of sunshine, warmer temps",
-     "source": "NBC 5 Chicago",
-     "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOOGh2QmlPLUtPdnRvRVd6QVBwemhhMHl0N05TeVA4SXNYM1NBelJ2RkV0MnZIbFkwQXhoSlpONDBtcFJ2a3lxWFZ1ekNYWVdBeWRsaG1vSU1OR3YwWHd2NWtVQUFsZE1FWEVjWllqYWM4ZmJfRmlvSWx5M05WbEhlaGc1TXhLNjN4U0dfMkQxSkEybU56MmdaWGg2U2RIUnZYQ204SEV0MFo0SEk0ckHSAbYBQVVfeXFMTlNtdFdUQkZZRUdjWXZDdUN0el94TExTMTQ5a18wdFBBVGJwbHcxcFRycTJxLTJjUG9wTUY5YUEzYzdIa3MwZ0s0MGlMaGhjRW9TRUtaLWNfWWFlbkwzTXZNTkhBUjZPTkhQZEtjOEY5a3BnN3FUQlJDMTJLTEhMeExab0RRdGtpZTNEYVFGU0w0Ynl6U2VwLVZoV1JlYnB4bklZODdyMV90QUNVMUYyTTExQlRiMEE?oc=5",
-     "at": "2026-11-08T14:53:31"
-    },
-    {
-     "title": "Chicago Weather Forecast: Sunny Weekend Before Rain Returns",
-     "source": "Hoodline",
-     "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOdngyT2dFTzQ5MHI0UEhHZktaMG5laWxlc2hUY3NfaTEyeDFGSmFndjRRMnQza19CTEZDZUIycHBFZzNpSVc2RnNlZGpqa0VjQnh0V2VJVDJtaWlSOFY4WVBoOWRaa3EtV0FsY3BBSGJwVm54cW1vYS1BYkcwcExNU3JxdEVtSmNCMUxRNUw3ckNJOHBUWG1EcWowYmY1NVV4?oc=5",
-     "at": "2026-11-08T14:07:10"
-    },
-    {
-     "title": "Chicago weather: Freeze possible tonight before sunny, milder weekend",
+     "title": "Chicago weather: First snowflakes of season possible later this week",
      "source": "FOX 32 Chicago",
-     "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9FbG5VU0F0bjEtb3ZjdThGeDdxV3o2VS14a1o2SktQZ2hGNDFKWENMMDNmX1FUUThkclFyUFZUSVlRM3JKSHRJY29KVXFCcy1lUlVhakhhYkJZT3dNZG9Td3l5Smpaem9jRTJlVVlVMmdhV25fX3ZSTHptTDJvZw?oc=5",
-     "at": "2026-11-06T12:16:50"
+     "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQVFpoUUY4UktnTGhoOXRuMkFWUXFXSVREYlN6dEVLYmh3NFN1dTdHVW5tcTdZQkZWWFBqV0dHUjRnOGh0dmR2R1Zlanh6YnoyNHpmLU5PTm9wYXE2MVNJa0xpU2VtYk5od2Q5akhndUJzNHVuQXIyU2ZYaHZMQUpzOGdiSWhvVUdRNDVzZ1dualpPZWhZckJYREkxYm0?oc=5",
+     "at": "2026-11-10T00:29:14"
+    },
+    {
+     "title": "1st Snow Possible, Rain And Colder Temps To Hit Chicago Area",
+     "source": "Patch",
+     "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPY05rUFFFQ0NTUm5GaE4yNUpaRFF2QjB0OU0xNUZaanFTNzc3eEdUMEU2bnpMWmhhVzhmSWI4X19rbjIzYjg5eTlMWWZZcVN3dEdHUXpISElrOTAzanh6Z19ldWdWS1RsNGJMYXoyODc1ZFVJYk5PWHFycU9tZHlpUFp0WlUzcExwMHpDaU4ydVpDX2vSAa4BQVVfeXFMTWhZZXQ3Z2p4aVhyQlYyTFRFREtKdHlEbEZFX2J4aG5HZlhGcnNRV1FqLVF5N1owUlAzZ1Z4TzRnR0J5NzBya0dwNk5kM0hEemNBbnJWTTB4cFdPd0Qtby1EMXRPNHdWSXpkOGp3R3I1ZnlLeHFLTzNub2lOMkJzRE91NmNhLVc2R2EyOU9UUzQzSEtrUXhhRjFkS3JuN2s2WHhCU2NqaXpuck9OZzZ3?oc=5",
+     "at": "2026-11-09T14:21:00"
+    },
+    {
+     "title": "Chicago weather: Sunshine and 60s kick off the week before colder air arrives",
+     "source": "FOX 32 Chicago",
+     "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNTWtrQXZfUVpQV1BFUWU4R0IwMXktcTJqTzhEQ3QzcFU2MVdNa0VKTnFWaUxlT04xMkNNNEdzckxLZ2JUd3BnTEtmN2Z1VWNiSlE0UXdNOUZycDgxT1IxVEEydE80RllJc2ZGTk9kRi1nZkFGa3hTRmhnbjR6czl6N01Cb3BCc3Y0YnljTjV4dXNFVU9IV0s1bDlEU2NyNUppVF9vVTc4azk?oc=5",
+     "at": "2026-11-09T12:25:56"
+    }
+   ],
+   "more": [
+    "Chicago Sunday forecast calls for plenty of sunshine, warmer temps",
+    "Chicago Weather Forecast: Sunny Weekend Before Rain Returns"
+   ],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n3",
+   "n": 3,
+   "topic": "landuse",
+   "place": "Morgan County",
+   "statewide": false,
+   "lat": 39.7177,
+   "lon": -90.205,
+   "counties": [
+    "17137"
+   ],
+   "stories": [
+    {
+     "title": "Morgan County votes for data center restrictions",
+     "source": "Jacksonville Journal-Courier",
+     "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOdFg1LURwR0tBM1p1WW1WQmdyUUU3bVBWX1FFU212VmQyR0xWOHJuZTFIUmxwYjR3WDdLdjllbk1vdmxwNG1zTUoxRFNXel94eEFqenlFSWtyRVQzOTZyUkRqejYtamVUc0ZjVmo3Z2NlMTlENFgwdzVOUTdKeHdDRFRmNllTbktteFcxU2RKNTZDSjNLQlQ5bTNHYnpmdU00Yk1ULWp3?oc=5",
+     "at": "2026-11-04T03:31:57"
     }
    ],
    "more": [],
@@ -487,8 +625,37 @@
    "alerts": []
   },
   {
-   "id": "n3",
-   "n": 3,
+   "id": "n4",
+   "n": 4,
+   "topic": "landuse",
+   "place": "Peoria County",
+   "statewide": false,
+   "lat": 40.786,
+   "lon": -89.767,
+   "counties": [
+    "17143"
+   ],
+   "stories": [
+    {
+     "title": "Peoria County solar farm among impacted by severe weather",
+     "source": "WEEK | 25 News Now",
+     "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQQWhhLWg1VDg0bHRDZ29tUXBLb1BHMF9EakZLRjNTQXhmY2ZDb09wMXRoYWdwWmJYa0VMYV9LdFZoZjJvcEhNa085ZVo5ajU3RG5fUlUzdmZOWnFkWjdDdjE2bXFZakoxdGROQmtTY0pRZy1BbUw5bEdfOENJdGtCOXBfdjNsRkswZGFLVVdCZ0x1MGlEMktrUkh6ZlhQVENvVmxR?oc=5",
+     "at": "2026-11-10T01:01:00"
+    },
+    {
+     "title": "Peoria County commercial wind farm project faces two more committees on Thursday",
+     "source": "WEEK | 25 News Now",
+     "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQVDhRcFlGUUFpV2h6THhYdDNXSzU3QVpkN0RYMnAzV2YtTjJpTS12anFnaExFeWtNOFhINFR4eldVczUxZ3Q4RHJtMGtvR3YxTXoybmVHVVJuWURBZjVtdURlS01JWjRwak1QNTMzN0xJa1hRZXNVOGxZU2pWb3p3enRGSkZwcEtodERua2VsSlo5S0xjZ1JocTNyNHBncVRDZ3diX3BGT0wtZUk4dWR2aFNLTXBuUdIBygFBVV95cUxPdHN5bXdrVXhob0ZMUjU0Y2lmT1VvTm92TUJoZE01T3NtODYzV1NKeGJjUW9wMk1PRUxWTGpDd2NVZkpMZGlXemJrT0I4dWFRX3ZmRTNxeEI4VUNIVGlfcm05T0dDNjhkcXQ0YkV4dm85WW9KczZHMVhVOUZsXzcyenl6NlFiQmJPYnJJbC1kVlhVYUlyc2NwLTVkYVdrS2FrOWFXVDdwQUhOX3FJcnNVb0p2WFNzanVwd19ickhOXzZjNExmWEF2WGh3?oc=5",
+     "at": "2026-11-05T19:42:00"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n5",
+   "n": 5,
    "topic": "emergency",
    "place": "Streator",
    "statewide": false,
@@ -510,31 +677,8 @@
    "alerts": []
   },
   {
-   "id": "n4",
-   "n": 4,
-   "topic": "landuse",
-   "place": "Peoria County",
-   "statewide": false,
-   "lat": 40.786,
-   "lon": -89.767,
-   "counties": [
-    "17143"
-   ],
-   "stories": [
-    {
-     "title": "Peoria County commercial wind farm project faces two more committees on Thursday",
-     "source": "WEEK | 25 News Now",
-     "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQVDhRcFlGUUFpV2h6THhYdDNXSzU3QVpkN0RYMnAzV2YtTjJpTS12anFnaExFeWtNOFhINFR4eldVczUxZ3Q4RHJtMGtvR3YxTXoybmVHVVJuWURBZjVtdURlS01JWjRwak1QNTMzN0xJa1hRZXNVOGxZU2pWb3p3enRGSkZwcEtodERua2VsSlo5S0xjZ1JocTNyNHBncVRDZ3diX3BGT0wtZUk4dWR2aFNLTXBuUdIBygFBVV95cUxPdHN5bXdrVXhob0ZMUjU0Y2lmT1VvTm92TUJoZE01T3NtODYzV1NKeGJjUW9wMk1PRUxWTGpDd2NVZkpMZGlXemJrT0I4dWFRX3ZmRTNxeEI4VUNIVGlfcm05T0dDNjhkcXQ0YkV4dm85WW9KczZHMVhVOUZsXzcyenl6NlFiQmJPYnJJbC1kVlhVYUlyc2NwLTVkYVdrS2FrOWFXVDdwQUhOX3FJcnNVb0p2WFNzanVwd19ickhOXzZjNExmWEF2WGh3?oc=5",
-     "at": "2026-11-05T19:42:00"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n5",
-   "n": 5,
+   "id": "n6",
+   "n": 6,
    "topic": "agriculture",
    "place": null,
    "statewide": true,
@@ -543,39 +687,14 @@
    "counties": [],
    "stories": [
     {
-     "title": "Harvest nearing finish line; rain delays northern farmers again",
-     "source": "FarmWeekNow",
-     "url": "https://www.farmweeknow.com/crop_conditions/harvest-nearing-finish-line-rain-delays-northern-farmers-again/article_41e0b8fb-46ef-4c9d-ac44-77f5f14a46c1.html",
-     "at": "2026-11-09T07:00:00"
+     "title": "Red Crown Rot Has a Look-Alike. Illinois Confirms Its First Case",
+     "source": "Successful Farming",
+     "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNX2F1WmZkUTljaFA5aE5Ddmh5UUdnaG45QWdkUjBhckhJbE14UHdhSlUwVXJ0V3pZZXRLbTRPb2RTSzBuSHRBU2w5OWp0TlZkMk4xNDRTd2t2cFE0NnZqTFVjcUlNb0pEMS1lRm9hVnQ2X1cwTkZHOGE2dEU0ZHFMM2NIa18zMnJtNFFEeVA4YlBiWUlHWFZReGxzZURyZ1lhUEE?oc=5",
+     "at": "2026-11-09T12:02:00"
     }
    ],
    "more": [],
-   "links": [
-    "p2"
-   ],
-   "alerts": []
-  },
-  {
-   "id": "n6",
-   "n": 6,
-   "topic": "weather",
-   "place": null,
-   "statewide": true,
-   "lat": null,
-   "lon": null,
-   "counties": [],
-   "stories": [
-    {
-     "title": "Chilly, sunny Saturday ahead before temperatures climb near 60",
-     "source": "NBC 5 Chicago",
-     "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOTzRrTEhaSF83dnN5MzFrSGMzRW1sZDFKTlprQjd2TDV4R084aU1EdEMzYkwwMjVHYko0YS1uNWh0R1I4djcyeXRmX1RHbDhzRFNoODdKRnctTWZ3MGhrVTg1SjdJdjNuR1JwbW1qZUFXdE9BSUczV2lRMWRQN0FOY3dsZDJnbkFGN1JBTE13SVhPSHB0YVhHZldXV0pxQm5IMm04NWxVRTI1dHNu0gG0AUFVX3lxTE01aWpqMVhYSVV6Wmc4bmwyRkdvZy14ZG9BeG01QnQ0ZC1OOVhOQm01TTJSbXRkQnpwUUpjT2JwTzBBdFJQV0ZZV2NEZlZLQVlrYVZHNmlhR01KSDltLUwzQlB5X1hucnk2NVRHdHpiWkQ5SVJoR1hkQ29MUkhmU01qWGxWRThyVzIydnZGaVVzUXRENlYtcEpaRkw5ZDRyaXJlRDZxWU9rTk9zU2lvYmFnWFpWWQ?oc=5",
-     "at": "2026-11-07T14:46:54"
-    }
-   ],
-   "more": [],
-   "links": [
-    "p1"
-   ],
+   "links": [],
    "alerts": []
   },
   {
@@ -589,10 +708,31 @@
    "counties": [],
    "stories": [
     {
-     "title": "Capitol News Illinois | Pritzker appeals FEMA\u2019s decision to deny Illinois disaster aid",
-     "source": "The News-Gazette",
-     "url": "https://news.google.com/rss/articles/CBMikAJBVV95cUxQcVhZVHdZY0IxYnQyUGk2NFZNQ3B5bmxPRGR0SDJaUHd0NFZBMWItZEtTVlFHSldjZ0M3QWpTZ01pNjRJNy1BSFNmdGRiVGJOc2xHdXBncm9OS3FpYzJoc1dtZ0JCaUJtMUQtMW1aaS0xaXNPejdzZXFLTDdFUV9EWVR5bTF5NmJvNXJvQWNBSnBWNkZDNmVTX2NONlJ6OVZvRW5rYWdmNVNrWTBTUWpHeVYtQkpBVnFCa2dPLV9pa2d2clpVdXBpX09XZXV5NTI4anpCRkJ2V2tpNTJFSVNnMjBiS3NUQzVYTmpYZGx5LXZ1WXlPd2t3dFRFZlB6NHYtY0NkTHhJY2l1WW02ajhGeA?oc=5",
-     "at": "2026-11-07T10:40:00"
+     "title": "Illinois appeals FEMA denial of disaster assistance from summer storms",
+     "source": "Daily Herald",
+     "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQdHF4YVBXQzZtZWxNMllJbUExV0NBT1hKYTBKRndKY0g5bmVtZlIwcHI5MTZOSVVpbUxfcHFSWHBmM1J4eHVnTnZEaERPd0d5SUhNWUFzaVAyeE05d2g4VkVLdEIxMGc2WFpfMkVlWTBfUXRjQmNZcUtaRFZsaC02dTlVWkJQczFCNW4wamxFV2J1MmRNcWFEbXBzTU9nZ05MeDJhQTJiZHI0bzB1cGs5dHNUdnlYeUE?oc=5",
+     "at": "2026-11-08T18:21:33"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n8",
+   "n": 8,
+   "topic": "weather",
+   "place": null,
+   "statewide": true,
+   "lat": null,
+   "lon": null,
+   "counties": [],
+   "stories": [
+    {
+     "title": "A Warm and Dry October Continues a Record Mild Fall",
+     "source": "Illinois State Climatologist",
+     "url": "https://stateclimatologist.isws.illinois.edu/2026/11/09/a-warm-and-dry-october-continues-a-record-mild-fall/",
+     "at": "2026-11-09T14:25:09"
     }
    ],
    "more": [],
