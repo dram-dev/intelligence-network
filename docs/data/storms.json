@@ -1,86 +1,122 @@
 [
  {
-  "id": 71,
-  "topic": "air",
-  "title": "PM2.5 39.8 \u00b5g/m\u00b3 (AQI 112, unhealthy for sensitive groups) \u2014 Madison County",
-  "severity": 0.4,
-  "status": "open",
+  "id": 79,
+  "topic": "weather",
+  "title": "Severe Thunderstorm Warning",
+  "severity": 0.75,
+  "status": "closed",
   "counties": [
-   "Madison"
+   "White"
   ],
   "fips": [
-   "17119"
+   "17193"
   ],
-  "opened_at": "2026-11-11T01:00:00+00:00",
-  "updated_at": "2026-11-11T04:00:00+00:00",
-  "lat": 38.705,
-  "lon": -90.14,
-  "brief": "PM2.5 levels peaked at 39.8 \u00b5g/m\u00b3 in Madison County [1]. This reading was verified by three official sources and two citizen reports [1].",
+  "opened_at": "2026-11-11T21:39:00+00:00",
+  "updated_at": "2026-11-11T22:11:00+00:00",
+  "lat": 38.208,
+  "lon": -88.09,
+  "brief": "The NWS issued a Special Weather Statement at 3:39 PM [1]. A Severe Thunderstorm Warning followed at 3:56 PM [2]. Verified hail reached 1.00 inch in White County [3].",
   "facts": [
-   "PM2.5 peak 39.8 \u00b5g/m\u00b3 in Madison County, from -2 people and 3 official sources, verified"
+   "NWS Special Weather Statement, issued 3:39 PM, ended 4:30 PM",
+   "NWS Severe Thunderstorm Warning, issued 3:56 PM, ended 4:40 PM",
+   "Hail size peak 1.00 in in White County, from 1 official source, verified"
   ]
  },
  {
-  "id": 73,
+  "id": 78,
+  "topic": "weather",
+  "title": "Severe Thunderstorm Warning",
+  "severity": 0.75,
+  "status": "closed",
+  "counties": [
+   "Clark",
+   "Edgar"
+  ],
+  "fips": [
+   "17023",
+   "17045"
+  ],
+  "opened_at": "2026-11-11T21:17:00+00:00",
+  "updated_at": "2026-11-11T21:57:00+00:00",
+  "lat": 39.543,
+  "lon": -87.631,
+  "brief": "A Special Weather Statement was issued at 3:17 PM and remains in effect [1]. Another Special Weather Statement was issued at 3:49 PM and is also in effect [2]. A Severe Thunderstorm Warning was issued at 3:57 PM and is currently in effect [3].",
+  "facts": [
+   "NWS Special Weather Statement, issued 3:17 PM, ended 4:00 PM",
+   "NWS Special Weather Statement, issued 3:49 PM, ended 4:15 PM",
+   "NWS Severe Thunderstorm Warning, issued 3:57 PM, ended 4:08 PM"
+  ]
+ },
+ {
+  "id": 76,
+  "topic": "weather",
+  "title": "Severe Thunderstorm Warning",
+  "severity": 0.75,
+  "status": "closed",
+  "counties": [
+   "Henry",
+   "Rock Island",
+   "Whiteside"
+  ],
+  "fips": [
+   "17073",
+   "17161",
+   "17195"
+  ],
+  "opened_at": "2026-11-11T13:37:00+00:00",
+  "updated_at": "2026-11-11T16:30:00+00:00",
+  "lat": 41.541,
+  "lon": -90.491,
+  "brief": "A Special Weather Statement was issued at 7:37 AM and ended at 8:15 AM [1]. Three Severe Thunderstorm Warnings were issued between 7:59 AM and 8:30 AM, ending by 9:15 AM [2][3][4]. Verified hail reached 1.00 inch in Rock Island County [6].",
+  "facts": [
+   "NWS Special Weather Statement, issued 7:37 AM, ended 8:15 AM",
+   "NWS Severe Thunderstorm Warning, issued 7:59 AM, ended 9:00 AM",
+   "NWS Severe Thunderstorm Warning, issued 8:18 AM, ended 9:15 AM",
+   "NWS Severe Thunderstorm Warning, issued 8:30 AM, ended 9:04 AM",
+   "NWS Special Weather Statement, issued 10:30 AM, ended 11:15 AM",
+   "Hail size peak 1.00 in in Rock Island County, from -3 people and 4 official sources, verified"
+  ]
+ },
+ {
+  "id": 75,
   "topic": "air",
-  "title": "PM2.5 39.3 \u00b5g/m\u00b3 (AQI 110, unhealthy for sensitive groups) \u2014 Cook County",
-  "severity": 0.4,
-  "status": "open",
+  "title": "PM2.5 55.6 \u00b5g/m\u00b3 (AQI 151, unhealthy) \u2014 Cook County",
+  "severity": 0.7,
+  "status": "closed",
   "counties": [
    "Cook"
   ],
   "fips": [
    "17031"
   ],
-  "opened_at": "2026-11-11T04:00:00+00:00",
-  "updated_at": "2026-11-11T04:00:00+00:00",
-  "lat": 41.671,
-  "lon": -87.733,
-  "brief": "PM2.5 levels peaked at 39.3 \u00b5g/m\u00b3 in Cook County [1]. This data comes from one official source and is verified [1].",
+  "opened_at": "2026-11-11T09:00:00+00:00",
+  "updated_at": "2026-11-11T16:00:00+00:00",
+  "lat": 41.688,
+  "lon": -87.539,
+  "brief": "PM2.5 levels peaked at 55.6 \u00b5g/m\u00b3 in Cook County [1]. This data was verified using reports from 12 official sources and 9 citizen observers [1].",
   "facts": [
-   "PM2.5 peak 39.3 \u00b5g/m\u00b3 in Cook County, from 1 official source, verified"
+   "PM2.5 peak 55.6 \u00b5g/m\u00b3 in Cook County, from -9 people and 12 official sources, verified"
   ]
  },
  {
-  "id": 74,
-  "topic": "air",
-  "title": "PM2.5 39.8 \u00b5g/m\u00b3 (AQI 112, unhealthy for sensitive groups) \u2014 Peoria County",
-  "severity": 0.4,
-  "status": "open",
+  "id": 77,
+  "topic": "weather",
+  "title": "Special Weather Statement",
+  "severity": 0.5,
+  "status": "closed",
   "counties": [
-   "Peoria"
+   "Bureau"
   ],
   "fips": [
-   "17143"
+   "17011"
   ],
-  "opened_at": "2026-11-11T04:00:00+00:00",
-  "updated_at": "2026-11-11T04:00:00+00:00",
-  "lat": 40.698,
-  "lon": -89.589,
-  "brief": "PM2.5 levels peaked at 39.8 \u00b5g/m\u00b3 in Peoria County [1]. This data comes from one official source and is verified [1].",
+  "opened_at": "2026-11-11T15:18:00+00:00",
+  "updated_at": "2026-11-11T15:18:00+00:00",
+  "lat": 41.503,
+  "lon": -89.76,
+  "brief": "A Special Weather Statement from the NWS is in effect [1]. It was issued at 9:18 AM [1].",
   "facts": [
-   "PM2.5 peak 39.8 \u00b5g/m\u00b3 in Peoria County, from 1 official source, verified"
-  ]
- },
- {
-  "id": 72,
-  "topic": "air",
-  "title": "PM2.5 35.9 \u00b5g/m\u00b3 (AQI 102, unhealthy for sensitive groups) \u2014 Sangamon County",
-  "severity": 0.4,
-  "status": "open",
-  "counties": [
-   "Sangamon"
-  ],
-  "fips": [
-   "17167"
-  ],
-  "opened_at": "2026-11-11T03:00:00+00:00",
-  "updated_at": "2026-11-11T03:00:00+00:00",
-  "lat": 39.832,
-  "lon": -89.644,
-  "brief": "PM2.5 levels peaked at 35.9 \u00b5g/m\u00b3 in Sangamon County [1]. This data comes from one official source and is verified [1].",
-  "facts": [
-   "PM2.5 peak 35.9 \u00b5g/m\u00b3 in Sangamon County, from 1 official source, verified"
+   "NWS Special Weather Statement, issued 9:18 AM, ended 10:15 AM"
   ]
  }
 ]
