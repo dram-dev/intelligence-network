@@ -1,201 +1,5 @@
 [
  {
-  "metric": "hail_mm",
-  "label": "Hail size",
-  "value": "0.70 in",
-  "who": "NWS storm report",
-  "official": true,
-  "quality": "reference",
-  "agree": "none",
-  "grid": null,
-  "zip5": "62827",
-  "lat": 38.16,
-  "lon": -88.05,
-  "at": "2026-11-11T22:16+00:00"
- },
- {
-  "metric": "hail_mm",
-  "label": "Hail size",
-  "value": "1.00 in",
-  "who": "NWS storm report",
-  "official": true,
-  "quality": "reference",
-  "agree": "none",
-  "grid": null,
-  "zip5": "62827",
-  "lat": 38.19,
-  "lon": -88.04,
-  "at": "2026-11-11T22:11+00:00"
- },
- {
-  "metric": "soy_basis",
-  "label": "Soybean basis",
-  "value": "35 \u00a2",
-  "who": "NWS storm report",
-  "official": true,
-  "quality": "reference",
-  "agree": "none",
-  "grid": null,
-  "zip5": null,
-  "lat": 41.8943,
-  "lon": -87.6454,
-  "at": "2026-11-11T19:08+00:00"
- },
- {
-  "metric": "soy_basis",
-  "label": "Soybean basis",
-  "value": "15 \u00a2",
-  "who": "NWS storm report",
-  "official": true,
-  "quality": "reference",
-  "agree": "none",
-  "grid": null,
-  "zip5": null,
-  "lat": 39.7569,
-  "lon": -89.6624,
-  "at": "2026-11-11T19:08+00:00"
- },
- {
-  "metric": "soy_basis",
-  "label": "Soybean basis",
-  "value": "-23 \u00a2",
-  "who": "NWS storm report",
-  "official": true,
-  "quality": "reference",
-  "agree": "none",
-  "grid": null,
-  "zip5": null,
-  "lat": 40.931,
-  "lon": -90.2138,
-  "at": "2026-11-11T19:08+00:00"
- },
- {
-  "metric": "soy_basis",
-  "label": "Soybean basis",
-  "value": "-25 \u00a2",
-  "who": "NWS storm report",
-  "official": true,
-  "quality": "reference",
-  "agree": "none",
-  "grid": null,
-  "zip5": null,
-  "lat": 38.4458,
-  "lon": -87.8392,
-  "at": "2026-11-11T19:08+00:00"
- },
- {
-  "metric": "soy_basis",
-  "label": "Soybean basis",
-  "value": "3 \u00a2",
-  "who": "NWS storm report",
-  "official": true,
-  "quality": "reference",
-  "agree": "none",
-  "grid": null,
-  "zip5": null,
-  "lat": 38.8271,
-  "lon": -89.9002,
-  "at": "2026-11-11T19:08+00:00"
- },
- {
-  "metric": "soy_basis",
-  "label": "Soybean basis",
-  "value": "-18 \u00a2",
-  "who": "NWS storm report",
-  "official": true,
-  "quality": "reference",
-  "agree": "none",
-  "grid": null,
-  "zip5": null,
-  "lat": 39.0479,
-  "lon": -88.5928,
-  "at": "2026-11-11T19:08+00:00"
- },
- {
-  "metric": "soy_basis",
-  "label": "Soybean basis",
-  "value": "-18 \u00a2",
-  "who": "NWS storm report",
-  "official": true,
-  "quality": "reference",
-  "agree": "none",
-  "grid": null,
-  "zip5": null,
-  "lat": 40.4946,
-  "lon": -88.8445,
-  "at": "2026-11-11T19:08+00:00"
- },
- {
-  "metric": "soy_basis",
-  "label": "Soybean basis",
-  "value": "-30 \u00a2",
-  "who": "NWS storm report",
-  "official": true,
-  "quality": "reference",
-  "agree": "none",
-  "grid": null,
-  "zip5": null,
-  "lat": 41.8946,
-  "lon": -88.769,
-  "at": "2026-11-11T19:08+00:00"
- },
- {
-  "metric": "soy_basis",
-  "label": "Soybean basis",
-  "value": "35 \u00a2",
-  "who": "NWS storm report",
-  "official": true,
-  "quality": "reference",
-  "agree": "none",
-  "grid": null,
-  "zip5": null,
-  "lat": 37.7304,
-  "lon": -88.93,
-  "at": "2026-11-11T19:08+00:00"
- },
- {
-  "metric": "soy_basis",
-  "label": "Soybean basis",
-  "value": "5 \u00a2",
-  "who": "NWS storm report",
-  "official": true,
-  "quality": "reference",
-  "agree": "none",
-  "grid": null,
-  "zip5": null,
-  "lat": 39.9692,
-  "lon": -90.2457,
-  "at": "2026-11-11T19:08+00:00"
- },
- {
-  "metric": "soy_basis",
-  "label": "Soybean basis",
-  "value": "0 \u00a2",
-  "who": "NWS storm report",
-  "official": true,
-  "quality": "reference",
-  "agree": "none",
-  "grid": null,
-  "zip5": null,
-  "lat": 40.786,
-  "lon": -89.767,
-  "at": "2026-11-11T19:08+00:00"
- },
- {
-  "metric": "soy_basis",
-  "label": "Soybean basis",
-  "value": "32 \u00a2",
-  "who": "NWS storm report",
-  "official": true,
-  "quality": "reference",
-  "agree": "none",
-  "grid": null,
-  "zip5": null,
-  "lat": 39.986,
-  "lon": -91.195,
-  "at": "2026-11-11T19:08+00:00"
- },
- {
   "metric": "corn_basis",
   "label": "Corn basis",
   "value": "25 \u00a2",
@@ -207,7 +11,7 @@
   "zip5": null,
   "lat": 41.8943,
   "lon": -87.6454,
-  "at": "2026-11-11T19:08+00:00"
+  "at": "2026-11-12T19:08+00:00"
  },
  {
   "metric": "corn_basis",
@@ -221,7 +25,7 @@
   "zip5": null,
   "lat": 39.7569,
   "lon": -89.6624,
-  "at": "2026-11-11T19:08+00:00"
+  "at": "2026-11-12T19:08+00:00"
  },
  {
   "metric": "corn_basis",
@@ -235,7 +39,7 @@
   "zip5": null,
   "lat": 40.931,
   "lon": -90.2138,
-  "at": "2026-11-11T19:08+00:00"
+  "at": "2026-11-12T19:08+00:00"
  },
  {
   "metric": "corn_basis",
@@ -249,7 +53,7 @@
   "zip5": null,
   "lat": 38.4458,
   "lon": -87.8392,
-  "at": "2026-11-11T19:08+00:00"
+  "at": "2026-11-12T19:08+00:00"
  },
  {
   "metric": "corn_basis",
@@ -263,7 +67,7 @@
   "zip5": null,
   "lat": 38.8271,
   "lon": -89.9002,
-  "at": "2026-11-11T19:08+00:00"
+  "at": "2026-11-12T19:08+00:00"
  },
  {
   "metric": "corn_basis",
@@ -277,7 +81,7 @@
   "zip5": null,
   "lat": 39.0479,
   "lon": -88.5928,
-  "at": "2026-11-11T19:08+00:00"
+  "at": "2026-11-12T19:08+00:00"
  },
  {
   "metric": "corn_basis",
@@ -291,7 +95,7 @@
   "zip5": null,
   "lat": 40.4946,
   "lon": -88.8445,
-  "at": "2026-11-11T19:08+00:00"
+  "at": "2026-11-12T19:08+00:00"
  },
  {
   "metric": "corn_basis",
@@ -305,7 +109,7 @@
   "zip5": null,
   "lat": 41.8946,
   "lon": -88.769,
-  "at": "2026-11-11T19:08+00:00"
+  "at": "2026-11-12T19:08+00:00"
  },
  {
   "metric": "corn_basis",
@@ -319,7 +123,7 @@
   "zip5": null,
   "lat": 37.7304,
   "lon": -88.93,
-  "at": "2026-11-11T19:08+00:00"
+  "at": "2026-11-12T19:08+00:00"
  },
  {
   "metric": "corn_basis",
@@ -333,7 +137,7 @@
   "zip5": null,
   "lat": 39.9692,
   "lon": -90.2457,
-  "at": "2026-11-11T19:08+00:00"
+  "at": "2026-11-12T19:08+00:00"
  },
  {
   "metric": "corn_basis",
@@ -347,12 +151,12 @@
   "zip5": null,
   "lat": 40.786,
   "lon": -89.767,
-  "at": "2026-11-11T19:08+00:00"
+  "at": "2026-11-12T19:08+00:00"
  },
  {
   "metric": "corn_basis",
   "label": "Corn basis",
-  "value": "24 \u00a2",
+  "value": "27 \u00a2",
   "who": "NWS storm report",
   "official": true,
   "quality": "reference",
@@ -361,7 +165,7 @@
   "zip5": null,
   "lat": 39.986,
   "lon": -91.195,
-  "at": "2026-11-11T19:08+00:00"
+  "at": "2026-11-12T19:08+00:00"
  },
  {
   "metric": "wheat_basis",
@@ -375,132 +179,174 @@
   "zip5": null,
   "lat": 41.8943,
   "lon": -87.6454,
-  "at": "2026-11-11T19:08+00:00"
+  "at": "2026-11-12T19:08+00:00"
  },
  {
-  "metric": "hail_mm",
-  "label": "Hail size",
-  "value": "0.25 in",
+  "metric": "soy_basis",
+  "label": "Soybean basis",
+  "value": "35 \u00a2",
   "who": "NWS storm report",
   "official": true,
   "quality": "reference",
   "agree": "none",
   "grid": null,
-  "zip5": "61238",
-  "lat": 41.31,
-  "lon": -90.19,
-  "at": "2026-11-11T16:23+00:00"
+  "zip5": null,
+  "lat": 41.8943,
+  "lon": -87.6454,
+  "at": "2026-11-12T19:08+00:00"
  },
  {
-  "metric": "hail_mm",
-  "label": "Hail size",
-  "value": "0.25 in",
+  "metric": "soy_basis",
+  "label": "Soybean basis",
+  "value": "8 \u00a2",
   "who": "NWS storm report",
   "official": true,
   "quality": "reference",
   "agree": "none",
   "grid": null,
-  "zip5": "61254",
-  "lat": 41.44,
-  "lon": -90.16,
-  "at": "2026-11-11T15:01+00:00"
+  "zip5": null,
+  "lat": 39.7569,
+  "lon": -89.6624,
+  "at": "2026-11-12T19:08+00:00"
  },
  {
-  "metric": "hail_mm",
-  "label": "Hail size",
-  "value": "0.25 in",
+  "metric": "soy_basis",
+  "label": "Soybean basis",
+  "value": "-21 \u00a2",
   "who": "NWS storm report",
   "official": true,
   "quality": "reference",
   "agree": "none",
   "grid": null,
-  "zip5": "61254",
-  "lat": 41.44,
-  "lon": -90.16,
-  "at": "2026-11-11T15:01+00:00"
+  "zip5": null,
+  "lat": 40.931,
+  "lon": -90.2138,
+  "at": "2026-11-12T19:08+00:00"
  },
  {
-  "metric": "hail_mm",
-  "label": "Hail size",
-  "value": "0.25 in",
+  "metric": "soy_basis",
+  "label": "Soybean basis",
+  "value": "-25 \u00a2",
   "who": "NWS storm report",
   "official": true,
   "quality": "reference",
   "agree": "none",
   "grid": null,
-  "zip5": "61241",
-  "lat": 41.47,
-  "lon": -90.29,
-  "at": "2026-11-11T14:40+00:00"
+  "zip5": null,
+  "lat": 38.4458,
+  "lon": -87.8392,
+  "at": "2026-11-12T19:08+00:00"
  },
  {
-  "metric": "hail_mm",
-  "label": "Hail size",
-  "value": "0.25 in",
+  "metric": "soy_basis",
+  "label": "Soybean basis",
+  "value": "2 \u00a2",
   "who": "NWS storm report",
   "official": true,
   "quality": "reference",
   "agree": "none",
   "grid": null,
-  "zip5": "61241",
-  "lat": 41.47,
-  "lon": -90.29,
-  "at": "2026-11-11T14:40+00:00"
+  "zip5": null,
+  "lat": 38.8271,
+  "lon": -89.9002,
+  "at": "2026-11-12T19:08+00:00"
  },
  {
-  "metric": "hail_mm",
-  "label": "Hail size",
-  "value": "1.00 in",
+  "metric": "soy_basis",
+  "label": "Soybean basis",
+  "value": "-18 \u00a2",
   "who": "NWS storm report",
   "official": true,
   "quality": "reference",
   "agree": "none",
   "grid": null,
-  "zip5": "61265",
-  "lat": 41.48,
-  "lon": -90.46,
-  "at": "2026-11-11T14:19+00:00"
+  "zip5": null,
+  "lat": 39.0479,
+  "lon": -88.5928,
+  "at": "2026-11-12T19:08+00:00"
  },
  {
-  "metric": "hail_mm",
-  "label": "Hail size",
-  "value": "1.00 in",
+  "metric": "soy_basis",
+  "label": "Soybean basis",
+  "value": "-18 \u00a2",
   "who": "NWS storm report",
   "official": true,
   "quality": "reference",
   "agree": "none",
   "grid": null,
-  "zip5": "61265",
-  "lat": 41.48,
-  "lon": -90.46,
-  "at": "2026-11-11T14:19+00:00"
+  "zip5": null,
+  "lat": 40.4946,
+  "lon": -88.8445,
+  "at": "2026-11-12T19:08+00:00"
  },
  {
-  "metric": "hail_mm",
-  "label": "Hail size",
-  "value": "1.00 in",
+  "metric": "soy_basis",
+  "label": "Soybean basis",
+  "value": "-33 \u00a2",
   "who": "NWS storm report",
   "official": true,
   "quality": "reference",
   "agree": "none",
   "grid": null,
-  "zip5": "61276",
-  "lat": 41.35,
-  "lon": -90.57,
-  "at": "2026-11-11T14:09+00:00"
+  "zip5": null,
+  "lat": 41.8946,
+  "lon": -88.769,
+  "at": "2026-11-12T19:08+00:00"
  },
  {
-  "metric": "hail_mm",
-  "label": "Hail size",
-  "value": "1.00 in",
+  "metric": "soy_basis",
+  "label": "Soybean basis",
+  "value": "35 \u00a2",
   "who": "NWS storm report",
   "official": true,
   "quality": "reference",
   "agree": "none",
   "grid": null,
-  "zip5": "61276",
-  "lat": 41.35,
-  "lon": -90.57,
-  "at": "2026-11-11T14:09+00:00"
+  "zip5": null,
+  "lat": 37.7304,
+  "lon": -88.93,
+  "at": "2026-11-12T19:08+00:00"
+ },
+ {
+  "metric": "soy_basis",
+  "label": "Soybean basis",
+  "value": "5 \u00a2",
+  "who": "NWS storm report",
+  "official": true,
+  "quality": "reference",
+  "agree": "none",
+  "grid": null,
+  "zip5": null,
+  "lat": 39.9692,
+  "lon": -90.2457,
+  "at": "2026-11-12T19:08+00:00"
+ },
+ {
+  "metric": "soy_basis",
+  "label": "Soybean basis",
+  "value": "-2 \u00a2",
+  "who": "NWS storm report",
+  "official": true,
+  "quality": "reference",
+  "agree": "none",
+  "grid": null,
+  "zip5": null,
+  "lat": 40.786,
+  "lon": -89.767,
+  "at": "2026-11-12T19:08+00:00"
+ },
+ {
+  "metric": "soy_basis",
+  "label": "Soybean basis",
+  "value": "33 \u00a2",
+  "who": "NWS storm report",
+  "official": true,
+  "quality": "reference",
+  "agree": "none",
+  "grid": null,
+  "zip5": null,
+  "lat": 39.986,
+  "lon": -91.195,
+  "at": "2026-11-12T19:08+00:00"
  }
 ]

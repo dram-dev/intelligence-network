@@ -1,1 +1,14 @@
-[]
+[
+ {
+  "event": "Winter Weather Advisory",
+  "severity": "Moderate",
+  "counties": [
+   "Cook",
+   "Will"
+  ],
+  "sender": "NWS Chicago IL",
+  "headline": "WINTER WEATHER ADVISORY NOW IN EFFECT UNTIL NOON CST TODAY",
+  "expires": "2026-11-13T18:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.6183af3667d980cf254c9584c416b70df4079377.001.1"
+ }
+]
