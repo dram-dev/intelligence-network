@@ -124,14 +124,14 @@
    "kind": "topic",
    "label": "Air",
    "topic": "air",
-   "n": 0
+   "n": 196
   },
   {
    "id": "metric:pm25_ugm3",
    "kind": "metric",
    "label": "PM2.5",
    "topic": "air",
-   "n": 0,
+   "n": 188,
    "flag": false
   },
   {
@@ -147,7 +147,7 @@
    "kind": "metric",
    "label": "Ozone",
    "topic": "air",
-   "n": 0,
+   "n": 8,
    "flag": false
   },
   {
@@ -455,14 +455,14 @@
    "kind": "topic",
    "label": "Water",
    "topic": "water",
-   "n": 10431
+   "n": 10438
   },
   {
    "id": "metric:stage_m",
    "kind": "metric",
    "label": "Stage (gauge height)",
    "topic": "water",
-   "n": 5469,
+   "n": 5463,
    "flag": false
   },
   {
@@ -470,7 +470,7 @@
    "kind": "metric",
    "label": "Streamflow",
    "topic": "water",
-   "n": 4434,
+   "n": 4451,
    "flag": false
   },
   {
@@ -478,7 +478,7 @@
    "kind": "metric",
    "label": "Water temperature",
    "topic": "water",
-   "n": 528,
+   "n": 524,
    "flag": false
   },
   {
@@ -574,14 +574,14 @@
    "kind": "topic",
    "label": "Weather",
    "topic": "weather",
-   "n": 9532
+   "n": 9337
   },
   {
    "id": "metric:temp_c",
    "kind": "metric",
    "label": "Temperature",
    "topic": "weather",
-   "n": 1245,
+   "n": 1283,
    "flag": false
   },
   {
@@ -589,7 +589,7 @@
    "kind": "metric",
    "label": "Dew point",
    "topic": "weather",
-   "n": 1245,
+   "n": 1283,
    "flag": false
   },
   {
@@ -597,7 +597,7 @@
    "kind": "metric",
    "label": "Relative humidity",
    "topic": "weather",
-   "n": 1245,
+   "n": 1283,
    "flag": false
   },
   {
@@ -605,7 +605,7 @@
    "kind": "metric",
    "label": "Pressure",
    "topic": "weather",
-   "n": 1246,
+   "n": 1284,
    "flag": false
   },
   {
@@ -613,7 +613,7 @@
    "kind": "metric",
    "label": "Sustained wind",
    "topic": "weather",
-   "n": 1223,
+   "n": 1259,
    "flag": false
   },
   {
@@ -621,7 +621,7 @@
    "kind": "metric",
    "label": "Wind gust",
    "topic": "weather",
-   "n": 515,
+   "n": 243,
    "flag": false
   },
   {
@@ -629,7 +629,7 @@
    "kind": "metric",
    "label": "Rainfall",
    "topic": "weather",
-   "n": 1567,
+   "n": 1418,
    "flag": false
   },
   {
@@ -637,7 +637,7 @@
    "kind": "metric",
    "label": "Snowfall",
    "topic": "weather",
-   "n": 0,
+   "n": 1,
    "flag": false
   },
   {
@@ -653,7 +653,7 @@
    "kind": "metric",
    "label": "Visibility",
    "topic": "weather",
-   "n": 1246,
+   "n": 1283,
    "flag": false
   },
   {
@@ -713,16 +713,22 @@
    "flag": true
   },
   {
-   "id": "feed:usgs_water",
-   "kind": "feed",
-   "label": "usgs_water",
-   "n": 10431
-  },
-  {
    "id": "feed:iem_asos",
    "kind": "feed",
    "label": "iem_asos",
-   "n": 9211
+   "n": 9202
+  },
+  {
+   "id": "feed:usgs_water",
+   "kind": "feed",
+   "label": "usgs_water",
+   "n": 10438
+  },
+  {
+   "id": "feed:airnow",
+   "kind": "feed",
+   "label": "airnow",
+   "n": 196
   },
   {
    "id": "feed:ams_grain",
@@ -734,7 +740,13 @@
    "id": "feed:cocorahs",
    "kind": "feed",
    "label": "cocorahs",
-   "n": 321
+   "n": 134
+  },
+  {
+   "id": "feed:iem_lsr",
+   "kind": "feed",
+   "label": "iem_lsr",
+   "n": 1
   },
   {
    "id": "event:149",
@@ -749,34 +761,6 @@
    "id": "county:17031",
    "kind": "county",
    "label": "Cook"
-  },
-  {
-   "id": "event:121",
-   "kind": "event",
-   "label": "Rainfall 2.36 in \u2014 Macon County",
-   "topic": "weather",
-   "n": 3,
-   "score": 1.662,
-   "verified": true
-  },
-  {
-   "id": "county:17115",
-   "kind": "county",
-   "label": "Macon"
-  },
-  {
-   "id": "event:122",
-   "kind": "event",
-   "label": "Rainfall 2.25 in \u2014 Knox County",
-   "topic": "weather",
-   "n": 2,
-   "score": 1.662,
-   "verified": true
-  },
-  {
-   "id": "county:17095",
-   "kind": "county",
-   "label": "Knox"
   },
   {
    "id": "event:151",
@@ -1292,6 +1276,11 @@
    "verified": true
   },
   {
+   "id": "county:17115",
+   "kind": "county",
+   "label": "Macon"
+  },
+  {
    "id": "event:126",
    "kind": "event",
    "label": "Rainfall 1.54 in \u2014 Peoria County",
@@ -1348,15 +1337,6 @@
    "label": "Rainfall 1.13 in \u2014 Clay County",
    "topic": "weather",
    "n": 3,
-   "score": 0.95,
-   "verified": true
-  },
-  {
-   "id": "event:119",
-   "kind": "event",
-   "label": "PM2.5 44.4 \u00b5g/m\u00b3 (AQI 123, unhealthy for sensitive groups) \u2014 Cook County",
-   "topic": "air",
-   "n": 1,
    "score": 0.95,
    "verified": true
   },
@@ -1887,70 +1867,82 @@
    "weight": 1
   },
   {
-   "source": "feed:usgs_water",
-   "target": "metric:stage_m",
-   "kind": "reports",
-   "weight": 5469
-  },
-  {
-   "source": "feed:usgs_water",
-   "target": "metric:discharge_cms",
-   "kind": "reports",
-   "weight": 4434
-  },
-  {
-   "source": "feed:usgs_water",
-   "target": "metric:water_temp_c",
-   "kind": "reports",
-   "weight": 528
-  },
-  {
    "source": "feed:iem_asos",
    "target": "metric:temp_c",
    "kind": "reports",
-   "weight": 1245
+   "weight": 1283
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:dewpoint_c",
    "kind": "reports",
-   "weight": 1245
+   "weight": 1283
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:humidity_pct",
    "kind": "reports",
-   "weight": 1245
+   "weight": 1283
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:wind_ms",
    "kind": "reports",
-   "weight": 1223
+   "weight": 1259
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:rain_mm",
    "kind": "reports",
-   "weight": 1246
+   "weight": 1284
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:pressure_hpa",
    "kind": "reports",
-   "weight": 1246
+   "weight": 1284
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:visibility_km",
    "kind": "reports",
-   "weight": 1246
+   "weight": 1283
+  },
+  {
+   "source": "feed:usgs_water",
+   "target": "metric:stage_m",
+   "kind": "reports",
+   "weight": 5463
+  },
+  {
+   "source": "feed:usgs_water",
+   "target": "metric:discharge_cms",
+   "kind": "reports",
+   "weight": 4451
+  },
+  {
+   "source": "feed:usgs_water",
+   "target": "metric:water_temp_c",
+   "kind": "reports",
+   "weight": 524
+  },
+  {
+   "source": "feed:airnow",
+   "target": "metric:pm25_ugm3",
+   "kind": "reports",
+   "weight": 188
+  },
+  {
+   "source": "feed:airnow",
+   "target": "metric:ozone_ppb",
+   "kind": "reports",
+   "weight": 8
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:wind_gust_ms",
    "kind": "reports",
-   "weight": 515
+   "weight": 243
   },
   {
    "source": "feed:ams_grain",
@@ -1974,7 +1966,13 @@
    "source": "feed:cocorahs",
    "target": "metric:rain_mm",
    "kind": "reports",
-   "weight": 321
+   "weight": 134
+  },
+  {
+   "source": "feed:iem_lsr",
+   "target": "metric:snow_cm",
+   "kind": "reports",
+   "weight": 1
   },
   {
    "source": "event:149",
@@ -1985,30 +1983,6 @@
   {
    "source": "event:149",
    "target": "county:17031",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:121",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:121",
-   "target": "county:17115",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:122",
-   "target": "metric:rain_mm",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:122",
-   "target": "county:17095",
    "kind": "in",
    "weight": 1
   },
@@ -2573,18 +2547,6 @@
   {
    "source": "event:127",
    "target": "county:17025",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:119",
-   "target": "metric:pm25_ugm3",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:119",
-   "target": "county:17031",
    "kind": "in",
    "weight": 1
   },
