@@ -1,9 +1,50 @@
 {
- "as_of": "2026-11-15T08:14:36+00:00",
+ "as_of": "2026-11-16T07:46:26+00:00",
  "hours": 24,
  "places": [
   {
    "id": "p1",
+   "topic": "air",
+   "source": "EPA air monitor",
+   "name": "Will County air monitor",
+   "county": "Will",
+   "zip": null,
+   "lat": 41.5269,
+   "lon": -88.1165,
+   "person": false,
+   "label": "PM2.5 44.8 \u00b5g/m\u00b3",
+   "lines": [
+    {
+     "metric": "pm25_ugm3",
+     "name": "PM2.5",
+     "value": "44.8 \u00b5g/m\u00b3 (AQI 124, unhealthy for sensitive groups)",
+     "note": "up 42 \u00b5g/m\u00b3 (AQI 117, unhealthy for sensitive groups) in 24 hours",
+     "at": "2026-11-16T07:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Highest PM2.5 in Illinois in the last 24 hours (AQI 124, unhealthy for sensitive groups)",
+    "PM2.5 past the network's event threshold (AQI 124, unhealthy for sensitive groups)",
+    "In the news: \u201cSome frosty and frozen precip firsts for Chicagoland last week\u2013 but \u2018Mild-vember\u2019 returns (again) | Weekly Climate Report | 15 November 2026\u201d"
+   ],
+   "status": "official",
+   "at": "2026-11-16T07:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": {
+    "title": "PM2.5 44.8 \u00b5g/m\u00b3 (AQI 124, unhealthy for sensitive groups) \u2014 Will County",
+    "verified": true,
+    "score": 0.95
+   },
+   "news": [
+    "n2",
+    "n3"
+   ],
+   "tier": 1
+  },
+  {
+   "id": "p2",
    "topic": "weather",
    "source": "NWS storm report",
    "name": "3 mi N of Preemption",
@@ -37,23 +78,23 @@
    "tier": 1
   },
   {
-   "id": "p2",
+   "id": "p3",
    "topic": "weather",
    "source": "Airport station",
-   "name": "Cairo (CIR)",
-   "county": "Alexander",
+   "name": "Metropolis (M30)",
+   "county": "Massac",
    "zip": null,
-   "lat": 37.0647,
-   "lon": -89.2196,
+   "lat": 37.1859,
+   "lon": -88.7506,
    "person": false,
-   "label": "High 51.4 \u00b0F",
+   "label": "High 55.6 \u00b0F",
    "lines": [
     {
      "metric": "temp_c",
      "name": "Temperature",
-     "value": "51.4 \u00b0F",
+     "value": "55.6 \u00b0F",
      "note": null,
-     "at": "2026-11-14T20:15+00:00",
+     "at": "2026-11-15T20:35+00:00",
      "sev": 0.0
     }
    ],
@@ -62,72 +103,70 @@
     "In the news: \u201cCOLD WEATHER FOR A FEW DAYS AND CONTINUED DRY CONDITIONS\u201d"
    ],
    "status": "official",
-   "at": "2026-11-15T07:35+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=CIR&network=IL_ASOS",
+   "at": "2026-11-16T06:35+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=M30&network=IL_ASOS",
    "spark": {
     "name": "Temperature",
     "unit": "\u00b0F",
     "t": [
-     -1400,
-     -1340,
-     -1280,
-     -1220,
-     -1160,
-     -1100,
-     -1040,
-     -980,
-     -920,
-     -860,
-     -800,
-     -740,
-     -680,
-     -620,
-     -560,
-     -500,
-     -440,
-     -380,
-     -320,
-     -260,
-     -200,
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -600,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
      -120,
      -60,
      0
     ],
     "v": [
-     33.0,
-     32.5,
-     32.0,
-     31.0,
-     31.6,
-     32.0,
-     38.3,
-     42.6,
+     28.0,
+     27.7,
+     26.6,
+     26.2,
+     26.6,
+     30.0,
+     38.0,
      46.0,
-     47.7,
-     48.7,
-     50.4,
-     51.4,
-     51.0,
-     49.6,
-     43.3,
+     50.0,
+     51.6,
+     53.2,
+     54.5,
+     55.6,
+     55.0,
+     51.8,
+     47.3,
+     45.0,
+     42.0,
+     40.0,
      39.2,
-     34.5,
-     34.7,
-     33.6,
-     31.5,
-     30.6,
-     30.2,
-     30.0
+     37.0,
+     35.0,
+     34.0
     ]
    },
    "event": null,
    "news": [
-    "n9"
+    "n5"
    ],
    "tier": 1
   },
   {
-   "id": "p3",
+   "id": "p4",
    "topic": "markets",
    "source": "USDA grain bids",
    "name": "North district",
@@ -168,23 +207,23 @@
    "tier": 1
   },
   {
-   "id": "p4",
+   "id": "p5",
    "topic": "weather",
    "source": "Airport station",
-   "name": "Galesburg (GBG)",
-   "county": "Knox",
+   "name": "Mount Vernon (MVN)",
+   "county": "Jefferson",
    "zip": null,
-   "lat": 40.938,
-   "lon": -90.4311,
+   "lat": 38.3233,
+   "lon": -88.8583,
    "person": false,
-   "label": "Low 21.2 \u00b0F",
+   "label": "Low 21 \u00b0F",
    "lines": [
     {
      "metric": "temp_c",
      "name": "Temperature",
-     "value": "21.2 \u00b0F",
+     "value": "21 \u00b0F",
      "note": "the day's low",
-     "at": "2026-11-14T12:15+00:00",
+     "at": "2026-11-15T10:56+00:00",
      "sev": 0.0
     }
    ],
@@ -192,13 +231,12 @@
     "Lowest temperature in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-11-15T07:15+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=GBG&network=IL_ASOS",
+   "at": "2026-11-16T05:56+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=MVN&network=IL_ASOS",
    "spark": {
     "name": "Temperature",
     "unit": "\u00b0F",
     "t": [
-     -1380,
      -1320,
      -1260,
      -1200,
@@ -224,30 +262,29 @@
      0
     ],
     "v": [
-     23.4,
-     21.4,
+     23.0,
+     23.0,
      22.0,
-     22.3,
-     21.2,
-     21.7,
-     28.8,
-     33.8,
-     39.2,
-     42.0,
-     43.0,
-     44.0,
-     44.6,
-     44.2,
-     42.4,
-     37.4,
-     33.0,
-     31.5,
-     30.7,
-     29.7,
+     21.0,
+     21.0,
+     23.0,
+     28.0,
+     41.0,
+     46.0,
+     48.0,
+     51.0,
+     52.0,
+     54.0,
+     53.0,
+     52.0,
+     48.0,
+     37.0,
+     32.0,
+     30.0,
      29.0,
      28.0,
      27.0,
-     27.0
+     26.0
     ]
    },
    "event": null,
@@ -255,7 +292,213 @@
    "tier": 1
   },
   {
-   "id": "p5",
+   "id": "p6",
+   "topic": "water",
+   "source": "USGS stream gauge",
+   "name": "Illinois River at Morris",
+   "county": "Grundy",
+   "zip": null,
+   "lat": 41.3546,
+   "lon": -88.4285,
+   "person": false,
+   "label": "\u25b2 0.53 ft",
+   "lines": [
+    {
+     "metric": "stage_m",
+     "name": "Stage (gauge height)",
+     "value": "5.23 ft",
+     "note": "up 0.53 ft in 24 hours",
+     "at": "2026-11-16T06:45+00:00",
+     "sev": 0.0
+    },
+    {
+     "metric": "discharge_cms",
+     "name": "Streamflow",
+     "value": "5,370 cfs",
+     "note": "up 3,470 cfs in 24 hours",
+     "at": "2026-11-16T06:45+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Biggest rise in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-11-16T06:45+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05542500/",
+   "spark": {
+    "name": "Stage (gauge height)",
+    "unit": "ft",
+    "t": [
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -600,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     5.01,
+     4.92,
+     4.87,
+     4.82,
+     4.76,
+     4.74,
+     4.75,
+     4.74,
+     4.74,
+     4.73,
+     4.72,
+     4.7,
+     4.73,
+     4.86,
+     4.92,
+     5.02,
+     5.1,
+     5.23,
+     5.24,
+     5.29,
+     5.33,
+     5.31,
+     5.23
+    ]
+   },
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p7",
+   "topic": "air",
+   "source": "EPA air monitor",
+   "name": "St. Clair County air monitor",
+   "county": "St. Clair",
+   "zip": null,
+   "lat": 38.6119,
+   "lon": -90.1606,
+   "person": false,
+   "label": "PM2.5 40.3 \u00b5g/m\u00b3",
+   "lines": [
+    {
+     "metric": "pm25_ugm3",
+     "name": "PM2.5",
+     "value": "40.3 \u00b5g/m\u00b3 (AQI 113, unhealthy for sensitive groups)",
+     "note": "up 32.7 \u00b5g/m\u00b3 (AQI 95, moderate) in 24 hours",
+     "at": "2026-11-15T14:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "PM2.5 past the network's event threshold (AQI 113, unhealthy for sensitive groups)"
+   ],
+   "status": "official",
+   "at": "2026-11-16T07:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": {
+    "title": "PM2.5 37.9 \u00b5g/m\u00b3 (AQI 107, unhealthy for sensitive groups) \u2014 St. Clair County",
+    "verified": true,
+    "score": 0.95
+   },
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p8",
+   "topic": "air",
+   "source": "EPA air monitor",
+   "name": "Peoria County air monitor",
+   "county": "Peoria",
+   "zip": null,
+   "lat": 40.6978,
+   "lon": -89.5889,
+   "person": false,
+   "label": "PM2.5 36.2 \u00b5g/m\u00b3",
+   "lines": [
+    {
+     "metric": "pm25_ugm3",
+     "name": "PM2.5",
+     "value": "36.2 \u00b5g/m\u00b3 (AQI 103, unhealthy for sensitive groups)",
+     "note": "up 33 \u00b5g/m\u00b3 (AQI 96, moderate) in 24 hours",
+     "at": "2026-11-16T07:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "PM2.5 past the network's event threshold (AQI 103, unhealthy for sensitive groups)"
+   ],
+   "status": "official",
+   "at": "2026-11-16T07:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": {
+    "title": "PM2.5 36.2 \u00b5g/m\u00b3 (AQI 103, unhealthy for sensitive groups) \u2014 Peoria County",
+    "verified": true,
+    "score": 0.95
+   },
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p9",
+   "topic": "air",
+   "source": "EPA air monitor",
+   "name": "Cook County air monitor",
+   "county": "Cook",
+   "zip": null,
+   "lat": 41.6708,
+   "lon": -87.7325,
+   "person": false,
+   "label": "PM2.5 43 \u00b5g/m\u00b3",
+   "lines": [
+    {
+     "metric": "pm25_ugm3",
+     "name": "PM2.5",
+     "value": "43 \u00b5g/m\u00b3 (AQI 119, unhealthy for sensitive groups)",
+     "note": "up 31.9 \u00b5g/m\u00b3 (AQI 93, moderate) in 24 hours",
+     "at": "2026-11-16T06:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "PM2.5 past the network's event threshold (AQI 119, unhealthy for sensitive groups)",
+    "In the news: \u201cChicago Could See Temps Bounce Back Into The 60s By Thursday, Weather Service Says\u201d"
+   ],
+   "status": "official",
+   "at": "2026-11-16T07:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": {
+    "title": "PM2.5 43 \u00b5g/m\u00b3 (AQI 119, unhealthy for sensitive groups) \u2014 Cook County",
+    "verified": true,
+    "score": 0.95
+   },
+   "news": [
+    "n1",
+    "n2",
+    "n3"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "p10",
    "topic": "weather",
    "source": "NWS storm report",
    "name": "2 mi N of Coal Valley",
@@ -288,7 +531,7 @@
    "tier": 2
   },
   {
-   "id": "p6",
+   "id": "p11",
    "topic": "weather",
    "source": "NWS storm report",
    "name": "2 mi NE of Crossville",
@@ -321,39 +564,7 @@
    "tier": 2
   },
   {
-   "id": "p7",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "2.2 mi SSE of Champaign",
-   "county": "Champaign",
-   "zip": null,
-   "lat": 40.0821,
-   "lon": -88.2565,
-   "person": false,
-   "label": "Rain 0.07 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "0.07 in",
-     "note": null,
-     "at": "2026-11-14T13:00+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Highest rainfall total in Illinois in the last 24 hours"
-   ],
-   "status": "official",
-   "at": "2026-11-14T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p8",
+   "id": "p12",
    "topic": "weather",
    "source": "NWS storm report",
    "name": "2 mi SE of Dayton",
@@ -385,7 +596,7 @@
    "tier": 2
   },
   {
-   "id": "p9",
+   "id": "p13",
    "topic": "weather",
    "source": "NWS storm report",
    "name": "1 mi S of Geneseo",
@@ -417,7 +628,7 @@
    "tier": 2
   },
   {
-   "id": "p10",
+   "id": "p14",
    "topic": "weather",
    "source": "NWS storm report",
    "name": "Cambridge",
@@ -449,7 +660,7 @@
    "tier": 2
   },
   {
-   "id": "p11",
+   "id": "p15",
    "topic": "weather",
    "source": "NWS storm report",
    "name": "1 mi E of Crossville",
@@ -479,84 +690,83 @@
    "event": null,
    "news": [],
    "tier": 2
+  },
+  {
+   "id": "p16",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "Mahomet",
+   "county": "Champaign",
+   "zip": null,
+   "lat": 40.19,
+   "lon": -88.41,
+   "person": false,
+   "label": "Snow 0.4 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "0.4 in",
+     "note": null,
+     "at": "2026-11-13T14:00+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by Broadcast Media"
+   ],
+   "status": "official",
+   "at": "2026-11-13T14:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
   }
  ],
  "news": [
   {
    "id": "n1",
    "n": 1,
-   "topic": "emergency",
-   "place": "East Peoria",
-   "statewide": false,
-   "lat": 40.7516,
-   "lon": -89.6172,
-   "counties": [
-    "17143",
-    "17179"
-   ],
-   "stories": [
-    {
-     "title": "Evacuation order to remain in place in Illinois\u2019 Peoria, East Peoria after \u2018credible threat\u2019",
-     "source": "NewsNation",
-     "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQa1RnSHlVczBKQThnN0FWTlNsVEFLSVdIRXdCUHR1b09aYUctX3NMYXZvVW5UNC1wR2xaUmN4ZHlyY3NsOTZ3SmRUSFhoTUYwbEpJM0k0VnNIQ0Nsa0hrcWhuWnVNTThUaGo0Q29FWFZKc09hNE5FdTlBYTFNTGFSWU1PZ3N6WmhVWmxUWlhKUHYzLVRiMmZiRjdweHNpcnB6Vm53dWlHMElmamZpMFVsNmRUYzZnUnEtLUZDSHZXWDHSAcYBQVVfeXFMT1RfVHFGS215M0JmUDlhYWNtX2xPNmkzOGExZjhjVjkzdTU2MVJtUjE2TnhhamZEb0U1VmF2ZDc2SGhxSmFpVkN2Q1ZxWnZ0bjhBVGM2ZDJIelh1Wnlpa0dRRzY0WEZTM0RJeXhXRHE3ME96cFExaUNjOTZwWHpmUzUzWmY5R3daQ3lBSjV2d3NfNWlhQzAtdVNuRmlxWUFNV185SVZidzJST1dQSmd1dTBJOWZFN1B4Nnl6a25fOVlOT3I3YjFB?oc=5",
-     "at": "2026-11-14T12:37:49"
-    },
-    {
-     "title": "Evacuation order issued in Illinois\u2019 Peoria, East Peoria after \u2018credible threat\u2019",
-     "source": "FOX 56 News",
-     "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQdEIyaVNBcVBXMUdDN1prbXphaGtrMTVTV0pkbHBSRURCVE5LaUR2ZmhDckxwME1nelBHU2RGMGpZdXlvTVAwcjFCR0JtWGdYVURsdVZmXzhJVFV4WXJwaEdLUm9uRWZqRkhPa3dDaXhYYWZMZHE1NExuV0c4dVQ3aXBBMVljRkFxR1FBTzBCVmwxUEpfdVhxckExYm00OXVyS1VoNjBUONIBrAFBVV95cUxQLUszV2lKSXRpQkdYbEVfUHFvZ0paTzJsOWh2dHB2YjRLLUU3UG1xd1lxbHNlWUpSMEk1TmtCRExnWnA0eUhuNUxqZzN0N3FQU3hCamhmQVBLYzN4STl3eXctNktWdGRPcGJoUkQ1LTVHNlNNd2dPX2xwNkRfVHM3NDRfWVJRVnFxT2F3ODdmSFVXaHZhajFwOVN6VkpOWHVMX3lFdjNkMHdzeXpj?oc=5",
-     "at": "2026-11-14T02:35:23"
-    },
-    {
-     "title": "UPDATE: Evacuation order issued for Downtown Peoria and East Peoria",
-     "source": "CIProud.com",
-     "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOOVhIbjgzbFptMXVNX0poMnhTZ3UwdHI5MVoyRVhuWXF6WHFjell2TkR2LW5rNmVEOHdxSGhRWVUtcVJSV3BnUGNRRlJzbzRzTURuaUZNb1dnLTlCVnhoYkQ0cUkyUFRzam5Edmk2d2hZSkdBb0hZallxT09qcGU5dUM4aTkxX2RxRVFfWU1nREJuQ29qV1lha2hhS0tsbTEyOHdMdU9FODQzdVVxTVl1TlVMNVNIT3g3MjZZMtIBwgFBVV95cUxQOFp0RnRTdjlhTlRyV292aTRuLU45U0lPZ3NXTEF3bER3WDZmZGxSQXIzWXY1clEzRUJvZ0dSbTFYVFN2ZXFPQU9lXy1XSlFnTkZxdTZFRHh6Y2pWQ1VLTkpJTmlBM1FxNFdBNGMwd2s2Q2dyTWhLTmx0ZVl6MjNsVkRrS05oM1FucjJsbTZqTGpFWGxMQW1kZVZEb3RKSFBvS3NQZFBwTjEyU0JrejExVlNldlQzS3ptNWE4VGUzeFZQdw?oc=5",
-     "at": "2026-11-14T01:05:05"
-    }
-   ],
-   "more": [
-    "Evacuation order issued in Peoria, Illinois",
-    "Peoria Police releases immediate evacuation warning",
-    "Peoria County solar farm undergoing repairs months after severe weather damage"
-   ],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n2",
-   "n": 2,
    "topic": "weather",
    "place": "Chicago",
    "statewide": false,
    "lat": 41.837,
    "lon": -87.6849,
    "counties": [
-    "17031",
-    "17097"
+    "17031"
    ],
    "stories": [
     {
-     "title": "Chicago weather: Lake effect snow, wind chills in the 20s overnight",
-     "source": "CBS News",
-     "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQelV3ZzZvX2FyZnFKZ3lUS1I5UHEta3ZycnBNMmx3azNMU2ZtY090cWh1eDktWU9iRnRLdzhuUUlnOTRDTWF4YmtzaXBteUROSHA1Z05yTXQzUHFPSVZSdHhxN2YxX0JlRGIxcHRuN2VFOVpPbXQ3VDU1TExJX2R0bG9NdWtkZWxVWE9ZbGplYXlqcC1pWGFib200U2NwNmsxS1ZkbUhSdw?oc=5",
-     "at": "2026-11-13T04:23:00"
+     "title": "Chicago Could See Temps Bounce Back Into The 60s By Thursday, Weather Service Says",
+     "source": "Block Club Chicago",
+     "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOSy1FdUE3ZGt6dTYwTktMdGhybFFxM19aMUMyQjFNTUVfNlBhdl9TQnZfbDZ2bGNxZ05lOEdZd0V0ZXBwbWdiQzF2M1FJUF9BZnpudE5rRGNKNHN2UkstalVZd3h2MHBtZGhmYkRJMURWVTE4bDZyVzdYTjVpc2ZhLWNvSmJOTWNiNk1jWTNjNnRnVFRZalBDNktNeVlHOEt5QkFIeXVweV9idVJ4am1NckRIQXZTemNLd1dpWTF1Yw?oc=5",
+     "at": "2026-11-15T23:58:24"
     },
     {
-     "title": "Chicago weather: Lake-effect showers possible before weekend warmup",
-     "source": "Yahoo",
-     "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPM3hmT3o2SWozTXZZaUlmZ0tOSXFjNTIzYUV2X3ZYRUNQZ3NCT3Q0cTNlcUhucWs5MXA1a3BtV21RUHNuOWVRVVBPNGRFWDNmUHNXNWxDaEpzNFRobnlzLVFOZnNSUnp1LWFDOEJqS3Nrc0lLdFl3alU2eWE4NDlTRHM2VzhMeThnTnRBRXFJN0lSXzRDVFA3VUhjd0RLY0VC?oc=5",
-     "at": "2026-11-13T19:40:27"
+     "title": "First cold-related death of the season reported in Cook County",
+     "source": "Chicago Sun-Times",
+     "url": "https://chicago.suntimes.com/health/2026/11/15/first-cold-related-death-of-the-season-reported-in-cook-county",
+     "at": "2026-11-15T17:26:55"
+    },
+    {
+     "title": "Chicago's Forecast: Sunday Sunshine",
+     "source": "NBC 5 Chicago",
+     "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQNWtWaDlMdGdkcVNEdXhBNlNNU2hNb1NiRmlRZ3ZSUVRpWDI3TWNWZ09EZG45Zm1GRlIzWk54ZFVxTW5fbGk4YU5LR2NPRFBTRmJYME00Q3hHejBHdlFsWlFGMWxIWTlvZk9FVmRzNW0tYWVEM0h6WFBxX3QxNU50WTV4SkU3blk3N29QVHZB0gGWAUFVX3lxTFBZN2twd0c0TlhPV1RMSGl2THlpZUwtaXI0cng2SEdVdXByZWs2VVlEWVN6dVJHR3hTUUNhZTc1U3hmcTBfaV9NSzh0M2JrZWdPRTBOcVVyMTNuTmhSUXRjajBNMFFYLXFQd09fcDVjSVJNTVFNVFBxZHNfTFVUOHR1eGNpa0RXQVJrc2VqSlNXNUVDSTItUQ?oc=5",
+     "at": "2026-11-15T12:23:09"
     }
    ],
    "more": [],
-   "links": [],
+   "links": [
+    "p9"
+   ],
    "alerts": []
   },
   {
-   "id": "n3",
-   "n": 3,
+   "id": "n2",
+   "n": 2,
    "topic": "weather",
-   "place": "Chicago area",
+   "place": "Chicagoland",
    "statewide": false,
    "lat": 41.8943,
    "lon": -87.6454,
@@ -570,6 +780,12 @@
    ],
    "stories": [
     {
+     "title": "Some frosty and frozen precip firsts for Chicagoland last week\u2013 but \u2018Mild-vember\u2019 returns (again) | Weekly Climate Report | 15 November 2026",
+     "source": "WGN-TV",
+     "url": "https://news.google.com/rss/articles/CBMigAJBVV95cUxOVlBSOGJwc0lyTEF0SnU3eFcteGNQdU16NF9pbFBueVRBUGE5QXhVSElOSlpqdHRndUZYRHI2dEZlUDBFV0t1bGlwRTh6QXcyWWxET3FUTU5OSlFSOGZmX2xqeFRBcDNTQmhQS0xKeE94WU83VVlJalZIU1hQV21WR1NjWWJrWmwtbGtudWNrWF95bnJjdjJOTldCb2hDMmhncG9OWGpYLS0yLVJ1aEVSc2hXODJZMWloVTUyUkdaeUhfMTd0SVczc2NmcHVJYS02eTVMQnY3WmozYXE4WG5LUFNZLUhiM3FRTktCZDZjcFgzTWxBd1NRTkdoZVlqMFI40gGGAkFVX3lxTE0tekZrWHlJbXZwMjYzMUNWTWh3ejR4M0xoUjJWMldwUldvSnlSY0pEWjJJdW80WGNiaVNWYkRYSF9seVVpaFJzWHFDdnA0RGk1a0RJb1hhdU5qeU5xdUI5OUh3LXRXcGxVTHB6Q2NRb0RDMDRBaURmTklOOXlyZ0NCSW5ZbW56eUk2eENxRm5obkc0aXFBMFFPcV9Ec29BTHBrbXlPSXgtU3cxWWdFSUE1dC0zUUI2aU40VmNweVlPdzJVamNVSWZ6cDh5YW1ZV2hiOF9nQUZ3d3hTcG1YMENDZzNuZmYybEVmZTM3NUEyN1ZIVmRXaU5JSWR2VUdBRzdnR3NZZXc?oc=5",
+     "at": "2026-11-15T19:32:44"
+    },
+    {
      "title": "Chilly start gives way to plenty of sunshine across the Chicago area this weekend",
      "source": "NBC 5 Chicago",
      "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOVnlHUnZPV2JuWjBuYkZCRjg1NXhBOEhka2dTWWpFdjNfZkJ1eWNjUUd5ekgzSElNUHFDZndOTVdlaHlsd2VVOXFHS2VwY2JMR1VST1hEMWxKU2JzcEZoeDNuaUdDdnRKTmU3MVg2d3hLWTNjczZ6LWpXTDd6a1dqNDVpQklJMXhyZGNlSEhnMFl5bHEzTkhSdXhVazVEdUpRVHVoVkowMzR2b29ZZ3RGWVU3YnZibk1aclBvSEgtQy1ZTE01VmpJ0gHPAUFVX3lxTFA2R3AxNzZONmd6aEpIRmU0NmZmeU1ubTlhWWpfQl9pWnpYYXRLaWRtMFppUnhUOHVNVnREODVLY2J1S2h1S3k0ZVZLaHNwdVhqZm5lb1BBYmNSbVJHSzdhZjFaclBMTHVFMWxwTE9DZjBIckhfUGI2YXdyNnpuM2JueHZDQm05WWVmM2t0Z0kwNjRQQk1hVjN6TjJkdnJWNHl1S1F2eFVzN3g3RUUwMll0SlM4eGdZaDhjMmFQcE5kNWRtQTdkN0taLUJaLU5ycw?oc=5",
@@ -577,26 +793,56 @@
     }
    ],
    "more": [],
-   "links": [],
+   "links": [
+    "p1",
+    "p9"
+   ],
+   "alerts": []
+  },
+  {
+   "id": "n3",
+   "n": 3,
+   "topic": "weather",
+   "place": "Chicago",
+   "statewide": false,
+   "lat": 41.837,
+   "lon": -87.6849,
+   "counties": [
+    "17031",
+    "17197"
+   ],
+   "stories": [
+    {
+     "title": "Will Chicago see its first snow this week? The latest timing and projections",
+     "source": "Head Topics",
+     "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQWkxSLTAyN2NKNHJvRlVVcTVSUUNEY0p0cUhOSHl4cjVsSGR2TG9GaWY5VVpfWnZ1dTBIdVlMZnJLZTNZQ3ZGT0Q4Q2ltNktKZVV0Tnl4Z09qMVh4eXRrWktwdmo1YTdncjUwX0ExdlhPZjNObW9RSmJ3cWcyQ0ZnQUpabFd0S3p2RFRlSDdwdzFZdm55LXBJ?oc=5",
+     "at": "2026-11-14T23:48:14"
+    }
+   ],
+   "more": [],
+   "links": [
+    "p1",
+    "p9"
+   ],
    "alerts": []
   },
   {
    "id": "n4",
    "n": 4,
-   "topic": "air",
-   "place": "Morrisonville",
+   "topic": "research",
+   "place": "Alma",
    "statewide": false,
-   "lat": 39.4217,
-   "lon": -89.459,
+   "lat": 38.7229,
+   "lon": -88.9117,
    "counties": [
-    "17021"
+    "17121"
    ],
    "stories": [
     {
-     "title": "Air quality in Morrisonville",
-     "source": "IQAir",
-     "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE93dmVrRkJDaWZ2RUVCUVE5dW1NVmt3WmhPcmQ2cGdyQnR5UTNKWEZFeFVzSllQRVNSTjZ0MFEzb3g5cHhkYTR6NlVVc3Nib3pGTDk1STFmX3RfcUJMekZSUnY3WGtLRnRhVEJ4X3VQQjQ?oc=5",
-     "at": "2026-11-14T08:46:49"
+     "title": "Alma Mater Plots debut at U of I",
+     "source": "AgriNews",
+     "url": "https://www.agrinews-pubs.com/news/science/2026/11/16/alma-mater-plots-debut-at-u-of-i/",
+     "at": "2026-11-16T00:50:00"
     }
    ],
    "more": [],
@@ -606,94 +852,6 @@
   {
    "id": "n5",
    "n": 5,
-   "topic": "air",
-   "place": "Lake",
-   "statewide": false,
-   "lat": 42.186,
-   "lon": -87.8059,
-   "counties": [
-    "17097"
-   ],
-   "stories": [
-    {
-     "title": "Air quality in McCullom Lake",
-     "source": "IQAir",
-     "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE95MXFqN2tmc0NzNVV1a1FUdVgzRWUxRnlTakZ2SEJXYXVGdDM3OHJ5YXk5UGphRzFpY2lRc2VfVVhDUFMwMHpEWmpEWmQyVzkwWm1tTnp6LW1vQTVmUE1DVE9VR0RsQTFscDNBQlJzZXI?oc=5",
-     "at": "2026-11-14T06:28:29"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n6",
-   "n": 6,
-   "topic": "landuse",
-   "place": "Madison County",
-   "statewide": false,
-   "lat": 38.8271,
-   "lon": -89.9002,
-   "counties": [
-    "17119"
-   ],
-   "stories": [
-    {
-     "title": "Madison County reduces data center incentives",
-     "source": "The Troy Times Tribune",
-     "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOQXdaSlhaclZubWVKRGV1VUNOdXd3dUNJODgwaUlJb1ExZS1CUnNuOFZBU2JxYXNtTmVFZkVNV1JrcTQya2ktY3pPS1Q2eXBNb2xWS0pibU83VWUwcEZfU1AyNi1nTG5Cb09oZzN0VnB5SzE2MTZ1bEhoY05oRUVWdEx0cUQ1c0Z5UlpsTjFSMnlXSDRY?oc=5",
-     "at": "2026-11-13T21:05:49"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n7",
-   "n": 7,
-   "topic": "emergency",
-   "place": null,
-   "statewide": true,
-   "lat": null,
-   "lon": null,
-   "counties": [],
-   "stories": [
-    {
-     "title": "Bomb found at ethanol plant in Illinois, forcing evacuations, officials say",
-     "source": "CNN",
-     "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQVFJLZ3RTczhKcWNLeHdQNy12NVJfc2hzS3l1ckZBTUdINWlJMExMWmxJekp0V1JCYk5wc0p2QzRzZWF3b3dOMXRIZDVCTE1SdzBmY08xS2ZKbDMzVmswZFY4blZPWlVNNVFlcTNENkY5NUhVSi1ldTl4S2VweDhLZ0dzUFRoUEVucUlUZWpGaw?oc=5",
-     "at": "2026-11-14T09:39:54"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n8",
-   "n": 8,
-   "topic": "agriculture",
-   "place": null,
-   "statewide": true,
-   "lat": null,
-   "lon": null,
-   "counties": [],
-   "stories": [
-    {
-     "title": "New soybean pathogen confirmed in Illinois",
-     "source": "Brownfield Ag News",
-     "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOVm94dC11M1M4eUVvbnVDVWxteUpBM09ob1UzMmdhbjVhS2lTbkt1LUVVdzNWVnp5eUdONEZwaGtxU0VRaGdqSHhCTXk4Wi1EQVdSX2ttQjg1OW9OOFhOaE9CWFZpYnFUZ0ZueTM5QWRScFg4Q2ZBNk8wdjltWTdkeUI1RQ?oc=5",
-     "at": "2026-11-13T20:54:39"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n9",
-   "n": 9,
    "topic": "weather",
    "place": null,
    "statewide": true,
@@ -710,18 +868,58 @@
    ],
    "more": [],
    "links": [
-    "p2"
+    "p3"
    ],
+   "alerts": []
+  },
+  {
+   "id": "n6",
+   "n": 6,
+   "topic": "emergency",
+   "place": null,
+   "statewide": true,
+   "lat": null,
+   "lon": null,
+   "counties": [],
+   "stories": [
+    {
+     "title": "Bomb found near ethanol plant in central Illinois forces evacuations as authorities investigate",
+     "source": "WFTV",
+     "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOTUpHdThRaksyUks5bm53S1FLUFFRSFA4cjkyMzFuaTk2bm5CSVFubE9nOG4za2RPUDdrTng0TTZCOFZ5dE9yaXd1ekxSRFFHSXFoRHJwNFNpa1VxeFZaYjg0am43cDlQRkp6VlRma3dDMldrVTFxNzhyb2pTT2doU25ZcXnSAZgBQVVfeXFMUG8zUVAwckVkTmc1MWNzY1ZCeW15M3ZIa0x2a1R4QnQ1a2M3MHhIcEY1SUwtNlN1X3ZuQXBpXzdiQ1pCbGtNc0d2Q3VOMkFSd0loOERwcThDZzktYU5YaGtTZUJMSDdscHp4eVVxMmNvYmIxZ0lDWUtsRlBUQ1d3Vi1KRzlOb1FuckJ3WE9pRU9xUkdhYVM3U2M?oc=5",
+     "at": "2026-11-14T14:42:51"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n7",
+   "n": 7,
+   "topic": "agriculture",
+   "place": null,
+   "statewide": true,
+   "lat": null,
+   "lon": null,
+   "counties": [],
+   "stories": [
+    {
+     "title": "Red Crown Rot of Soybean: Can We Suppress It?",
+     "source": "Morning Ag Clips",
+     "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPOEVIb05IczVqN0xoVDVwT3FwdEVMVjl2akNCeXhlSXRSUDZlempEV1pMSjVPeFpCWjZYZE94dkRyc0FyZzhWdHlLTXhHenVoMTF1eGJUMWYzNm1LZEgzX2NBMDlKVWZyTlJoVUlJTkRNZGtVcWhDYy1kSGRBMjZNbQ?oc=5",
+     "at": "2026-11-15T23:05:51"
+    }
+   ],
+   "more": [],
+   "links": [],
    "alerts": []
   }
  ],
  "areas": [],
  "quiet": [
   "Agriculture",
-  "Air",
   "Seasons & nature",
   "Earthquakes",
-  "Soil",
-  "Water"
+  "Soil"
  ]
 }

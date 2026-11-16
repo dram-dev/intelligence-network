@@ -124,14 +124,14 @@
    "kind": "topic",
    "label": "Air",
    "topic": "air",
-   "n": 558
+   "n": 578
   },
   {
    "id": "metric:pm25_ugm3",
    "kind": "metric",
    "label": "PM2.5",
    "topic": "air",
-   "n": 550,
+   "n": 573,
    "flag": false
   },
   {
@@ -147,7 +147,7 @@
    "kind": "metric",
    "label": "Ozone",
    "topic": "air",
-   "n": 8,
+   "n": 5,
    "flag": false
   },
   {
@@ -368,14 +368,14 @@
    "kind": "topic",
    "label": "Soil",
    "topic": "soil",
-   "n": 0
+   "n": 2
   },
   {
    "id": "metric:soil_moisture_pct",
    "kind": "metric",
    "label": "Soil moisture",
    "topic": "soil",
-   "n": 0,
+   "n": 1,
    "flag": false
   },
   {
@@ -383,7 +383,7 @@
    "kind": "metric",
    "label": "Soil temperature",
    "topic": "soil",
-   "n": 0,
+   "n": 1,
    "flag": false
   },
   {
@@ -455,14 +455,14 @@
    "kind": "topic",
    "label": "Water",
    "topic": "water",
-   "n": 10411
+   "n": 10519
   },
   {
    "id": "metric:stage_m",
    "kind": "metric",
    "label": "Stage (gauge height)",
    "topic": "water",
-   "n": 5451,
+   "n": 5509,
    "flag": false
   },
   {
@@ -470,7 +470,7 @@
    "kind": "metric",
    "label": "Streamflow",
    "topic": "water",
-   "n": 4446,
+   "n": 4490,
    "flag": false
   },
   {
@@ -478,7 +478,7 @@
    "kind": "metric",
    "label": "Water temperature",
    "topic": "water",
-   "n": 514,
+   "n": 520,
    "flag": false
   },
   {
@@ -574,14 +574,14 @@
    "kind": "topic",
    "label": "Weather",
    "topic": "weather",
-   "n": 9031
+   "n": 8882
   },
   {
    "id": "metric:temp_c",
    "kind": "metric",
    "label": "Temperature",
    "topic": "weather",
-   "n": 1285,
+   "n": 1271,
    "flag": false
   },
   {
@@ -589,7 +589,7 @@
    "kind": "metric",
    "label": "Dew point",
    "topic": "weather",
-   "n": 1285,
+   "n": 1271,
    "flag": false
   },
   {
@@ -597,7 +597,7 @@
    "kind": "metric",
    "label": "Relative humidity",
    "topic": "weather",
-   "n": 1285,
+   "n": 1271,
    "flag": false
   },
   {
@@ -605,7 +605,7 @@
    "kind": "metric",
    "label": "Pressure",
    "topic": "weather",
-   "n": 1285,
+   "n": 1273,
    "flag": false
   },
   {
@@ -613,7 +613,7 @@
    "kind": "metric",
    "label": "Sustained wind",
    "topic": "weather",
-   "n": 1263,
+   "n": 1249,
    "flag": false
   },
   {
@@ -621,7 +621,7 @@
    "kind": "metric",
    "label": "Wind gust",
    "topic": "weather",
-   "n": 13,
+   "n": 0,
    "flag": false
   },
   {
@@ -629,7 +629,7 @@
    "kind": "metric",
    "label": "Rainfall",
    "topic": "weather",
-   "n": 1328,
+   "n": 1274,
    "flag": false
   },
   {
@@ -637,7 +637,7 @@
    "kind": "metric",
    "label": "Snowfall",
    "topic": "weather",
-   "n": 1,
+   "n": 0,
    "flag": false
   },
   {
@@ -653,7 +653,7 @@
    "kind": "metric",
    "label": "Visibility",
    "topic": "weather",
-   "n": 1286,
+   "n": 1273,
    "flag": false
   },
   {
@@ -713,28 +713,34 @@
    "flag": true
   },
   {
-   "id": "feed:iem_asos",
-   "kind": "feed",
-   "label": "iem_asos",
-   "n": 8993
-  },
-  {
    "id": "feed:usgs_water",
    "kind": "feed",
    "label": "usgs_water",
-   "n": 10411
+   "n": 10519
   },
   {
    "id": "feed:airnow",
    "kind": "feed",
    "label": "airnow",
-   "n": 558
+   "n": 578
+  },
+  {
+   "id": "feed:iem_asos",
+   "kind": "feed",
+   "label": "iem_asos",
+   "n": 8881
   },
   {
    "id": "feed:cocorahs",
    "kind": "feed",
    "label": "cocorahs",
-   "n": 38
+   "n": 1
+  },
+  {
+   "id": "feed:nrcs_scan",
+   "kind": "feed",
+   "label": "nrcs_scan",
+   "n": 2
   },
   {
    "id": "event:149",
@@ -1204,6 +1210,66 @@
    "verified": true
   },
   {
+   "id": "event:175",
+   "kind": "event",
+   "label": "PM2.5 44.8 \u00b5g/m\u00b3 (AQI 124, unhealthy for sensitive groups) \u2014 Will County",
+   "topic": "air",
+   "n": 3,
+   "score": 0.95,
+   "verified": true
+  },
+  {
+   "id": "county:17197",
+   "kind": "county",
+   "label": "Will"
+  },
+  {
+   "id": "event:177",
+   "kind": "event",
+   "label": "PM2.5 36.2 \u00b5g/m\u00b3 (AQI 103, unhealthy for sensitive groups) \u2014 Peoria County",
+   "topic": "air",
+   "n": 1,
+   "score": 0.95,
+   "verified": true
+  },
+  {
+   "id": "county:17143",
+   "kind": "county",
+   "label": "Peoria"
+  },
+  {
+   "id": "event:178",
+   "kind": "event",
+   "label": "PM2.5 37.9 \u00b5g/m\u00b3 (AQI 107, unhealthy for sensitive groups) \u2014 St. Clair County",
+   "topic": "air",
+   "n": 1,
+   "score": 0.95,
+   "verified": true
+  },
+  {
+   "id": "county:17163",
+   "kind": "county",
+   "label": "St. Clair"
+  },
+  {
+   "id": "event:176",
+   "kind": "event",
+   "label": "PM2.5 43 \u00b5g/m\u00b3 (AQI 119, unhealthy for sensitive groups) \u2014 Cook County",
+   "topic": "air",
+   "n": 2,
+   "score": 0.95,
+   "verified": true
+  },
+  {
+   "id": "event:174",
+   "kind": "event",
+   "label": "PM2.5 40.3 \u00b5g/m\u00b3 (AQI 113, unhealthy for sensitive groups) \u2014 St. Clair County",
+   "topic": "air",
+   "n": 2,
+   "score": 0.95,
+   "verified": true
+  },
+  {
    "id": "event:145",
    "kind": "event",
    "label": "PM2.5 39.8 \u00b5g/m\u00b3 (AQI 112, unhealthy for sensitive groups) \u2014 Madison County",
@@ -1234,11 +1300,6 @@
    "n": 1,
    "score": 0.95,
    "verified": true
-  },
-  {
-   "id": "county:17143",
-   "kind": "county",
-   "label": "Peoria"
   },
   {
    "id": "event:146",
@@ -1341,15 +1402,6 @@
    "id": "county:17125",
    "kind": "county",
    "label": "Mason"
-  },
-  {
-   "id": "event:124",
-   "kind": "event",
-   "label": "Soil moisture down to 6.2 % \u2014 Mason County",
-   "topic": "soil",
-   "n": 1,
-   "score": 0.9,
-   "verified": true
   }
  ],
  "links": [
@@ -1846,92 +1898,92 @@
    "weight": 1
   },
   {
-   "source": "feed:iem_asos",
-   "target": "metric:temp_c",
+   "source": "feed:usgs_water",
+   "target": "metric:stage_m",
    "kind": "reports",
-   "weight": 1285
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:dewpoint_c",
-   "kind": "reports",
-   "weight": 1285
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:humidity_pct",
-   "kind": "reports",
-   "weight": 1285
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:wind_ms",
-   "kind": "reports",
-   "weight": 1263
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:rain_mm",
-   "kind": "reports",
-   "weight": 1291
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:pressure_hpa",
-   "kind": "reports",
-   "weight": 1285
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:visibility_km",
-   "kind": "reports",
-   "weight": 1286
+   "weight": 5509
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:discharge_cms",
    "kind": "reports",
-   "weight": 4446
-  },
-  {
-   "source": "feed:usgs_water",
-   "target": "metric:stage_m",
-   "kind": "reports",
-   "weight": 5451
+   "weight": 4490
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:water_temp_c",
    "kind": "reports",
-   "weight": 514
-  },
-  {
-   "source": "feed:airnow",
-   "target": "metric:pm25_ugm3",
-   "kind": "reports",
-   "weight": 550
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:wind_gust_ms",
-   "kind": "reports",
-   "weight": 13
+   "weight": 520
   },
   {
    "source": "feed:airnow",
    "target": "metric:ozone_ppb",
    "kind": "reports",
-   "weight": 8
+   "weight": 5
+  },
+  {
+   "source": "feed:airnow",
+   "target": "metric:pm25_ugm3",
+   "kind": "reports",
+   "weight": 573
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:temp_c",
+   "kind": "reports",
+   "weight": 1271
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:dewpoint_c",
+   "kind": "reports",
+   "weight": 1271
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:humidity_pct",
+   "kind": "reports",
+   "weight": 1271
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:wind_ms",
+   "kind": "reports",
+   "weight": 1249
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:rain_mm",
+   "kind": "reports",
+   "weight": 1273
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:pressure_hpa",
+   "kind": "reports",
+   "weight": 1273
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:visibility_km",
+   "kind": "reports",
+   "weight": 1273
   },
   {
    "source": "feed:cocorahs",
    "target": "metric:rain_mm",
    "kind": "reports",
-   "weight": 37
+   "weight": 1
   },
   {
-   "source": "feed:cocorahs",
-   "target": "metric:snow_cm",
+   "source": "feed:nrcs_scan",
+   "target": "metric:soil_moisture_pct",
+   "kind": "reports",
+   "weight": 1
+  },
+  {
+   "source": "feed:nrcs_scan",
+   "target": "metric:soil_temp_c",
    "kind": "reports",
    "weight": 1
   },
@@ -2392,6 +2444,66 @@
    "weight": 1
   },
   {
+   "source": "event:175",
+   "target": "metric:pm25_ugm3",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:175",
+   "target": "county:17197",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:177",
+   "target": "metric:pm25_ugm3",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:177",
+   "target": "county:17143",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:178",
+   "target": "metric:pm25_ugm3",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:178",
+   "target": "county:17163",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:176",
+   "target": "metric:pm25_ugm3",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:176",
+   "target": "county:17031",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:174",
+   "target": "metric:pm25_ugm3",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:174",
+   "target": "county:17163",
+   "kind": "in",
+   "weight": 1
+  },
+  {
    "source": "event:145",
    "target": "metric:pm25_ugm3",
    "kind": "about",
@@ -2519,18 +2631,6 @@
   },
   {
    "source": "event:125",
-   "target": "county:17125",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:124",
-   "target": "metric:soil_moisture_pct",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:124",
    "target": "county:17125",
    "kind": "in",
    "weight": 1
