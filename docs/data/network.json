@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-17T08:12:26+00:00",
+ "generated_at": "2026-11-18T07:56:43+00:00",
  "sample": false,
  "days": 14,
  "network_name": "Intelligence Network",
@@ -13,19 +13,19 @@
  "links": {
   "folder": "https://drive.google.com/drive/folders/10LXhVLmbA6xekUOXLUgVO_JFM9BjCw6d",
   "latest": "https://docs.google.com/document/d/1pU_qedEUjRd5C6kZpRF3w-_njpS6_zsmQIqwBUvN0kw/edit",
-  "digest": "https://docs.google.com/document/d/12IpVVRso_27m09Y2FAG-jGkm3HYophNHGhYwIvAT2II/edit"
+  "digest": "https://docs.google.com/document/d/11AFaENsdgcJoyKWI9CmNZJk0nZimlmFt_TPyrhxmSlI/edit"
  },
  "vitals": {
   "sensors_total": 2,
   "sensors_active_24h": 0,
   "sensors_active_7d": 0,
   "signals_24h_human": 0,
-  "signals_24h_reference": 20250,
+  "signals_24h_reference": 19650,
   "corroborated_7d": 0,
   "flagged_7d": 0,
   "human_7d": 0,
-  "events_open": 0,
-  "events_24h": 1,
+  "events_open": 1,
+  "events_24h": 2,
   "alerts_active": 0,
   "subscriptions": 3,
   "subscribers": 2,
@@ -35,19 +35,19 @@
   "corroboration_rate_7d": 0.0
  },
  "feeds": {
-  "airnow": "2026-11-17T07:39:37+00:00",
-  "ams_grain": "2026-11-17T07:49:41+00:00",
-  "cocorahs": "2026-11-17T01:07:54+00:00",
-  "iem_asos": "2026-11-17T07:54:43+00:00",
-  "iem_lsr": "2026-11-17T08:09:45+00:00",
-  "news": "2026-11-17T08:09:02+00:00",
-  "nrcs_scan": "2026-11-16T06:42:58+00:00",
-  "nws_alerts": "2026-11-17T08:12:10+00:00",
-  "nws_statements": "2026-11-17T08:09:03+00:00",
-  "pipeline": "2026-11-16T07:47:22+00:00",
-  "usdm": "2026-11-17T05:19:06+00:00",
-  "usgs_quake": "2026-11-17T08:09:45+00:00",
-  "usgs_water": "2026-11-17T07:39:39+00:00"
+  "airnow": "2026-11-18T07:46:04+00:00",
+  "ams_grain": "2026-11-18T07:56:10+00:00",
+  "cocorahs": "2026-11-18T01:04:28+00:00",
+  "iem_asos": "2026-11-18T07:00:56+00:00",
+  "iem_lsr": "2026-11-18T07:56:08+00:00",
+  "news": "2026-11-18T07:53:29+00:00",
+  "nrcs_scan": "2026-11-17T22:43:52+00:00",
+  "nws_alerts": "2026-11-18T07:56:40+00:00",
+  "nws_statements": "2026-11-18T07:53:30+00:00",
+  "pipeline": "2026-11-17T08:13:15+00:00",
+  "usdm": "2026-11-18T01:19:31+00:00",
+  "usgs_quake": "2026-11-18T07:46:04+00:00",
+  "usgs_water": "2026-11-18T07:46:07+00:00"
  },
  "reference_sizes": {
   "airnow": 40,
