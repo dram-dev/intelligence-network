@@ -124,14 +124,14 @@
    "kind": "topic",
    "label": "Air",
    "topic": "air",
-   "n": 619
+   "n": 613
   },
   {
    "id": "metric:pm25_ugm3",
    "kind": "metric",
    "label": "PM2.5",
    "topic": "air",
-   "n": 551,
+   "n": 550,
    "flag": false
   },
   {
@@ -147,7 +147,7 @@
    "kind": "metric",
    "label": "Ozone",
    "topic": "air",
-   "n": 68,
+   "n": 63,
    "flag": false
   },
   {
@@ -455,14 +455,14 @@
    "kind": "topic",
    "label": "Water",
    "topic": "water",
-   "n": 10102
+   "n": 10161
   },
   {
    "id": "metric:stage_m",
    "kind": "metric",
    "label": "Stage (gauge height)",
    "topic": "water",
-   "n": 5288,
+   "n": 5328,
    "flag": false
   },
   {
@@ -470,7 +470,7 @@
    "kind": "metric",
    "label": "Streamflow",
    "topic": "water",
-   "n": 4314,
+   "n": 4331,
    "flag": false
   },
   {
@@ -478,7 +478,7 @@
    "kind": "metric",
    "label": "Water temperature",
    "topic": "water",
-   "n": 500,
+   "n": 502,
    "flag": false
   },
   {
@@ -574,14 +574,14 @@
    "kind": "topic",
    "label": "Weather",
    "topic": "weather",
-   "n": 9254
+   "n": 9201
   },
   {
    "id": "metric:temp_c",
    "kind": "metric",
    "label": "Temperature",
    "topic": "weather",
-   "n": 1305,
+   "n": 1303,
    "flag": false
   },
   {
@@ -605,7 +605,7 @@
    "kind": "metric",
    "label": "Pressure",
    "topic": "weather",
-   "n": 1306,
+   "n": 1304,
    "flag": false
   },
   {
@@ -613,7 +613,7 @@
    "kind": "metric",
    "label": "Sustained wind",
    "topic": "weather",
-   "n": 1282,
+   "n": 1280,
    "flag": false
   },
   {
@@ -621,7 +621,7 @@
    "kind": "metric",
    "label": "Wind gust",
    "topic": "weather",
-   "n": 144,
+   "n": 101,
    "flag": false
   },
   {
@@ -629,7 +629,7 @@
    "kind": "metric",
    "label": "Rainfall",
    "topic": "weather",
-   "n": 1306,
+   "n": 1304,
    "flag": false
   },
   {
@@ -653,7 +653,7 @@
    "kind": "metric",
    "label": "Visibility",
    "topic": "weather",
-   "n": 1305,
+   "n": 1303,
    "flag": false
   },
   {
@@ -716,19 +716,19 @@
    "id": "feed:iem_asos",
    "kind": "feed",
    "label": "iem_asos",
-   "n": 9254
+   "n": 9201
   },
   {
    "id": "feed:usgs_water",
    "kind": "feed",
    "label": "usgs_water",
-   "n": 10102
+   "n": 10161
   },
   {
    "id": "feed:airnow",
    "kind": "feed",
    "label": "airnow",
-   "n": 619
+   "n": 613
   },
   {
    "id": "feed:ams_grain",
@@ -760,6 +760,34 @@
    "verified": true
   },
   {
+   "id": "event:199",
+   "kind": "event",
+   "label": "Drought category (USDM) D3 \u2014 Jackson County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.75,
+   "verified": true
+  },
+  {
+   "id": "county:17077",
+   "kind": "county",
+   "label": "Jackson"
+  },
+  {
+   "id": "event:219",
+   "kind": "event",
+   "label": "PM2.5 60 \u00b5g/m\u00b3 (AQI 154, unhealthy) \u2014 St. Clair County",
+   "topic": "air",
+   "n": 2,
+   "score": 1.662,
+   "verified": true
+  },
+  {
+   "id": "county:17163",
+   "kind": "county",
+   "label": "St. Clair"
+  },
+  {
    "id": "event:151",
    "kind": "event",
    "label": "Hail size 1.00 in \u2014 White County",
@@ -788,7 +816,7 @@
    "label": "Rock Island"
   },
   {
-   "id": "event:152",
+   "id": "event:183",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Bond County",
    "topic": "agriculture",
@@ -802,7 +830,35 @@
    "label": "Bond"
   },
   {
-   "id": "event:153",
+   "id": "event:184",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Calhoun County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "county:17013",
+   "kind": "county",
+   "label": "Calhoun"
+  },
+  {
+   "id": "event:185",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Christian County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "county:17021",
+   "kind": "county",
+   "label": "Christian"
+  },
+  {
+   "id": "event:186",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Clark County",
    "topic": "agriculture",
@@ -816,7 +872,7 @@
    "label": "Clark"
   },
   {
-   "id": "event:154",
+   "id": "event:187",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Clay County",
    "topic": "agriculture",
@@ -830,7 +886,7 @@
    "label": "Clay"
   },
   {
-   "id": "event:155",
+   "id": "event:188",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Clinton County",
    "topic": "agriculture",
@@ -844,7 +900,7 @@
    "label": "Clinton"
   },
   {
-   "id": "event:156",
+   "id": "event:189",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Coles County",
    "topic": "agriculture",
@@ -858,7 +914,7 @@
    "label": "Coles"
   },
   {
-   "id": "event:157",
+   "id": "event:190",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Crawford County",
    "topic": "agriculture",
@@ -872,7 +928,7 @@
    "label": "Crawford"
   },
   {
-   "id": "event:158",
+   "id": "event:191",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Cumberland County",
    "topic": "agriculture",
@@ -886,7 +942,35 @@
    "label": "Cumberland"
   },
   {
-   "id": "event:159",
+   "id": "event:192",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Douglas County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "county:17041",
+   "kind": "county",
+   "label": "Douglas"
+  },
+  {
+   "id": "event:193",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Edgar County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "county:17045",
+   "kind": "county",
+   "label": "Edgar"
+  },
+  {
+   "id": "event:194",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Effingham County",
    "topic": "agriculture",
@@ -900,7 +984,7 @@
    "label": "Effingham"
   },
   {
-   "id": "event:160",
+   "id": "event:195",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Fayette County",
    "topic": "agriculture",
@@ -914,7 +998,7 @@
    "label": "Fayette"
   },
   {
-   "id": "event:161",
+   "id": "event:196",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Franklin County",
    "topic": "agriculture",
@@ -928,21 +1012,35 @@
    "label": "Franklin"
   },
   {
-   "id": "event:162",
+   "id": "event:197",
    "kind": "event",
-   "label": "Drought category (USDM) D2 \u2014 Jackson County",
+   "label": "Drought category (USDM) D2 \u2014 Greene County",
    "topic": "agriculture",
    "n": 1,
    "score": 1.0,
    "verified": true
   },
   {
-   "id": "county:17077",
+   "id": "county:17061",
    "kind": "county",
-   "label": "Jackson"
+   "label": "Greene"
   },
   {
-   "id": "event:163",
+   "id": "event:198",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Hamilton County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "county:17065",
+   "kind": "county",
+   "label": "Hamilton"
+  },
+  {
+   "id": "event:200",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Jasper County",
    "topic": "agriculture",
@@ -956,7 +1054,7 @@
    "label": "Jasper"
   },
   {
-   "id": "event:164",
+   "id": "event:201",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Jefferson County",
    "topic": "agriculture",
@@ -970,7 +1068,21 @@
    "label": "Jefferson"
   },
   {
-   "id": "event:165",
+   "id": "event:202",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Jersey County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "county:17083",
+   "kind": "county",
+   "label": "Jersey"
+  },
+  {
+   "id": "event:203",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Lawrence County",
    "topic": "agriculture",
@@ -984,7 +1096,49 @@
    "label": "Lawrence"
   },
   {
-   "id": "event:166",
+   "id": "event:204",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Macon County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "county:17115",
+   "kind": "county",
+   "label": "Macon"
+  },
+  {
+   "id": "event:205",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Macoupin County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "county:17117",
+   "kind": "county",
+   "label": "Macoupin"
+  },
+  {
+   "id": "event:206",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Madison County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "county:17119",
+   "kind": "county",
+   "label": "Madison"
+  },
+  {
+   "id": "event:207",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Marion County",
    "topic": "agriculture",
@@ -998,7 +1152,7 @@
    "label": "Marion"
   },
   {
-   "id": "event:167",
+   "id": "event:208",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Montgomery County",
    "topic": "agriculture",
@@ -1012,7 +1166,21 @@
    "label": "Montgomery"
   },
   {
-   "id": "event:168",
+   "id": "event:209",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Moultrie County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "county:17139",
+   "kind": "county",
+   "label": "Moultrie"
+  },
+  {
+   "id": "event:210",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Perry County",
    "topic": "agriculture",
@@ -1026,7 +1194,35 @@
    "label": "Perry"
   },
   {
-   "id": "event:169",
+   "id": "event:211",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Piatt County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "county:17147",
+   "kind": "county",
+   "label": "Piatt"
+  },
+  {
+   "id": "event:212",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Randolph County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "county:17157",
+   "kind": "county",
+   "label": "Randolph"
+  },
+  {
+   "id": "event:213",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Richland County",
    "topic": "agriculture",
@@ -1040,7 +1236,7 @@
    "label": "Richland"
   },
   {
-   "id": "event:170",
+   "id": "event:214",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Shelby County",
    "topic": "agriculture",
@@ -1054,7 +1250,7 @@
    "label": "Shelby"
   },
   {
-   "id": "event:171",
+   "id": "event:215",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Union County",
    "topic": "agriculture",
@@ -1068,7 +1264,21 @@
    "label": "Union"
   },
   {
-   "id": "event:172",
+   "id": "event:216",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Washington County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "county:17189",
+   "kind": "county",
+   "label": "Washington"
+  },
+  {
+   "id": "event:217",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Wayne County",
    "topic": "agriculture",
@@ -1082,7 +1292,7 @@
    "label": "Wayne"
   },
   {
-   "id": "event:173",
+   "id": "event:218",
    "kind": "event",
    "label": "Drought category (USDM) D2 \u2014 Williamson County",
    "topic": "agriculture",
@@ -1096,150 +1306,174 @@
    "label": "Williamson"
   },
   {
-   "id": "event:182",
+   "id": "event:152",
    "kind": "event",
-   "label": "PM2.5 39 \u00b5g/m\u00b3 (AQI 110, unhealthy for sensitive groups) \u2014 Cook County",
-   "topic": "air",
+   "label": "Drought category (USDM) D2 \u2014 Bond County",
+   "topic": "agriculture",
    "n": 1,
-   "score": 0.95,
+   "score": 1.0,
    "verified": true
   },
   {
-   "id": "event:181",
+   "id": "event:153",
    "kind": "event",
-   "label": "PM2.5 50.3 \u00b5g/m\u00b3 (AQI 137, unhealthy for sensitive groups) \u2014 Cook County",
-   "topic": "air",
+   "label": "Drought category (USDM) D2 \u2014 Clark County",
+   "topic": "agriculture",
    "n": 1,
-   "score": 0.95,
+   "score": 1.0,
    "verified": true
   },
   {
-   "id": "event:179",
+   "id": "event:154",
    "kind": "event",
-   "label": "PM2.5 36.7 \u00b5g/m\u00b3 (AQI 104, unhealthy for sensitive groups) \u2014 Macon County",
-   "topic": "air",
+   "label": "Drought category (USDM) D2 \u2014 Clay County",
+   "topic": "agriculture",
    "n": 1,
-   "score": 0.95,
+   "score": 1.0,
    "verified": true
   },
   {
-   "id": "county:17115",
-   "kind": "county",
-   "label": "Macon"
-  },
-  {
-   "id": "event:175",
+   "id": "event:155",
    "kind": "event",
-   "label": "PM2.5 44.8 \u00b5g/m\u00b3 (AQI 124, unhealthy for sensitive groups) \u2014 Will County",
-   "topic": "air",
-   "n": 4,
-   "score": 0.95,
-   "verified": true
-  },
-  {
-   "id": "county:17197",
-   "kind": "county",
-   "label": "Will"
-  },
-  {
-   "id": "event:177",
-   "kind": "event",
-   "label": "PM2.5 36.2 \u00b5g/m\u00b3 (AQI 103, unhealthy for sensitive groups) \u2014 Peoria County",
-   "topic": "air",
+   "label": "Drought category (USDM) D2 \u2014 Clinton County",
+   "topic": "agriculture",
    "n": 1,
-   "score": 0.95,
+   "score": 1.0,
    "verified": true
   },
   {
-   "id": "county:17143",
-   "kind": "county",
-   "label": "Peoria"
-  },
-  {
-   "id": "event:178",
+   "id": "event:156",
    "kind": "event",
-   "label": "PM2.5 37.9 \u00b5g/m\u00b3 (AQI 107, unhealthy for sensitive groups) \u2014 St. Clair County",
-   "topic": "air",
+   "label": "Drought category (USDM) D2 \u2014 Coles County",
+   "topic": "agriculture",
    "n": 1,
-   "score": 0.95,
+   "score": 1.0,
    "verified": true
   },
   {
-   "id": "county:17163",
-   "kind": "county",
-   "label": "St. Clair"
-  },
-  {
-   "id": "event:176",
+   "id": "event:157",
    "kind": "event",
-   "label": "PM2.5 43 \u00b5g/m\u00b3 (AQI 119, unhealthy for sensitive groups) \u2014 Cook County",
-   "topic": "air",
-   "n": 2,
-   "score": 0.95,
-   "verified": true
-  },
-  {
-   "id": "event:174",
-   "kind": "event",
-   "label": "PM2.5 40.3 \u00b5g/m\u00b3 (AQI 113, unhealthy for sensitive groups) \u2014 St. Clair County",
-   "topic": "air",
-   "n": 2,
-   "score": 0.95,
-   "verified": true
-  },
-  {
-   "id": "event:145",
-   "kind": "event",
-   "label": "PM2.5 39.8 \u00b5g/m\u00b3 (AQI 112, unhealthy for sensitive groups) \u2014 Madison County",
-   "topic": "air",
-   "n": 3,
-   "score": 0.95,
-   "verified": true
-  },
-  {
-   "id": "county:17119",
-   "kind": "county",
-   "label": "Madison"
-  },
-  {
-   "id": "event:147",
-   "kind": "event",
-   "label": "PM2.5 39.3 \u00b5g/m\u00b3 (AQI 110, unhealthy for sensitive groups) \u2014 Cook County",
-   "topic": "air",
+   "label": "Drought category (USDM) D2 \u2014 Crawford County",
+   "topic": "agriculture",
    "n": 1,
-   "score": 0.95,
+   "score": 1.0,
    "verified": true
   },
   {
-   "id": "event:148",
+   "id": "event:158",
    "kind": "event",
-   "label": "PM2.5 39.8 \u00b5g/m\u00b3 (AQI 112, unhealthy for sensitive groups) \u2014 Peoria County",
-   "topic": "air",
+   "label": "Drought category (USDM) D2 \u2014 Cumberland County",
+   "topic": "agriculture",
    "n": 1,
-   "score": 0.95,
+   "score": 1.0,
    "verified": true
   },
   {
-   "id": "event:146",
+   "id": "event:159",
    "kind": "event",
-   "label": "PM2.5 35.9 \u00b5g/m\u00b3 (AQI 102, unhealthy for sensitive groups) \u2014 Sangamon County",
-   "topic": "air",
+   "label": "Drought category (USDM) D2 \u2014 Effingham County",
+   "topic": "agriculture",
    "n": 1,
-   "score": 0.95,
+   "score": 1.0,
    "verified": true
   },
   {
-   "id": "county:17167",
-   "kind": "county",
-   "label": "Sangamon"
+   "id": "event:160",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Fayette County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
   },
   {
-   "id": "event:144",
+   "id": "event:161",
    "kind": "event",
-   "label": "PM2.5 39.8 \u00b5g/m\u00b3 (AQI 112, unhealthy for sensitive groups) \u2014 Macon County",
-   "topic": "air",
+   "label": "Drought category (USDM) D2 \u2014 Franklin County",
+   "topic": "agriculture",
    "n": 1,
-   "score": 0.95,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "event:162",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Jackson County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "event:163",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Jasper County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "event:164",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Jefferson County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "event:165",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Lawrence County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "event:166",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Marion County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "event:167",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Montgomery County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "event:168",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Perry County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "event:169",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Richland County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "event:170",
+   "kind": "event",
+   "label": "Drought category (USDM) D2 \u2014 Shelby County",
+   "topic": "agriculture",
+   "n": 1,
+   "score": 1.0,
    "verified": true
   }
  ],
@@ -1740,7 +1974,7 @@
    "source": "feed:iem_asos",
    "target": "metric:temp_c",
    "kind": "reports",
-   "weight": 1305
+   "weight": 1303
   },
   {
    "source": "feed:iem_asos",
@@ -1758,61 +1992,61 @@
    "source": "feed:iem_asos",
    "target": "metric:wind_ms",
    "kind": "reports",
-   "weight": 1282
+   "weight": 1280
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:rain_mm",
    "kind": "reports",
-   "weight": 1306
+   "weight": 1304
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:pressure_hpa",
    "kind": "reports",
-   "weight": 1306
+   "weight": 1304
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:visibility_km",
    "kind": "reports",
-   "weight": 1305
-  },
-  {
-   "source": "feed:iem_asos",
-   "target": "metric:wind_gust_ms",
-   "kind": "reports",
-   "weight": 144
+   "weight": 1303
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:stage_m",
    "kind": "reports",
-   "weight": 5288
+   "weight": 5328
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:discharge_cms",
    "kind": "reports",
-   "weight": 4314
+   "weight": 4331
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:water_temp_c",
    "kind": "reports",
-   "weight": 500
+   "weight": 502
   },
   {
    "source": "feed:airnow",
    "target": "metric:ozone_ppb",
    "kind": "reports",
-   "weight": 68
+   "weight": 63
   },
   {
    "source": "feed:airnow",
    "target": "metric:pm25_ugm3",
    "kind": "reports",
-   "weight": 551
+   "weight": 550
+  },
+  {
+   "source": "feed:iem_asos",
+   "target": "metric:wind_gust_ms",
+   "kind": "reports",
+   "weight": 101
   },
   {
    "source": "feed:ams_grain",
@@ -1857,6 +2091,30 @@
    "weight": 1
   },
   {
+   "source": "event:199",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:199",
+   "target": "county:17077",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:219",
+   "target": "metric:pm25_ugm3",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:219",
+   "target": "county:17163",
+   "kind": "in",
+   "weight": 1
+  },
+  {
    "source": "event:151",
    "target": "metric:hail_mm",
    "kind": "about",
@@ -1877,6 +2135,426 @@
   {
    "source": "event:150",
    "target": "county:17161",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:183",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:183",
+   "target": "county:17005",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:184",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:184",
+   "target": "county:17013",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:185",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:185",
+   "target": "county:17021",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:186",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:186",
+   "target": "county:17023",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:187",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:187",
+   "target": "county:17025",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:188",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:188",
+   "target": "county:17027",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:189",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:189",
+   "target": "county:17029",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:190",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:190",
+   "target": "county:17033",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:191",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:191",
+   "target": "county:17035",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:192",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:192",
+   "target": "county:17041",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:193",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:193",
+   "target": "county:17045",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:194",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:194",
+   "target": "county:17049",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:195",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:195",
+   "target": "county:17051",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:196",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:196",
+   "target": "county:17055",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:197",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:197",
+   "target": "county:17061",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:198",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:198",
+   "target": "county:17065",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:200",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:200",
+   "target": "county:17079",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:201",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:201",
+   "target": "county:17081",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:202",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:202",
+   "target": "county:17083",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:203",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:203",
+   "target": "county:17101",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:204",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:204",
+   "target": "county:17115",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:205",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:205",
+   "target": "county:17117",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:206",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:206",
+   "target": "county:17119",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:207",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:207",
+   "target": "county:17121",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:208",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:208",
+   "target": "county:17135",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:209",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:209",
+   "target": "county:17139",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:210",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:210",
+   "target": "county:17145",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:211",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:211",
+   "target": "county:17147",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:212",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:212",
+   "target": "county:17157",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:213",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:213",
+   "target": "county:17159",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:214",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:214",
+   "target": "county:17173",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:215",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:215",
+   "target": "county:17181",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:216",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:216",
+   "target": "county:17189",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:217",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:217",
+   "target": "county:17191",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:218",
+   "target": "metric:drought_category",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:218",
+   "target": "county:17199",
    "kind": "in",
    "weight": 1
   },
@@ -2105,198 +2783,6 @@
   {
    "source": "event:170",
    "target": "county:17173",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:171",
-   "target": "metric:drought_category",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:171",
-   "target": "county:17181",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:172",
-   "target": "metric:drought_category",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:172",
-   "target": "county:17191",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:173",
-   "target": "metric:drought_category",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:173",
-   "target": "county:17199",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:182",
-   "target": "metric:pm25_ugm3",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:182",
-   "target": "county:17031",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:181",
-   "target": "metric:pm25_ugm3",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:181",
-   "target": "county:17031",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:179",
-   "target": "metric:pm25_ugm3",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:179",
-   "target": "county:17115",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:175",
-   "target": "metric:pm25_ugm3",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:175",
-   "target": "county:17197",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:177",
-   "target": "metric:pm25_ugm3",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:177",
-   "target": "county:17143",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:178",
-   "target": "metric:pm25_ugm3",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:178",
-   "target": "county:17163",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:176",
-   "target": "metric:pm25_ugm3",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:176",
-   "target": "county:17031",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:174",
-   "target": "metric:pm25_ugm3",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:174",
-   "target": "county:17163",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:145",
-   "target": "metric:pm25_ugm3",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:145",
-   "target": "county:17119",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:147",
-   "target": "metric:pm25_ugm3",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:147",
-   "target": "county:17031",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:148",
-   "target": "metric:pm25_ugm3",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:148",
-   "target": "county:17143",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:146",
-   "target": "metric:pm25_ugm3",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:146",
-   "target": "county:17167",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:144",
-   "target": "metric:pm25_ugm3",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:144",
-   "target": "county:17115",
    "kind": "in",
    "weight": 1
   }
