@@ -1,31 +1,10 @@
 [
  {
-  "id": 106,
-  "topic": "air",
-  "title": "PM2.5 60 \u00b5g/m\u00b3 (AQI 154, unhealthy) \u2014 St. Clair County",
-  "severity": 0.7,
-  "status": "open",
-  "counties": [
-   "St. Clair"
-  ],
-  "fips": [
-   "17163"
-  ],
-  "opened_at": "2026-11-20T04:00:00+00:00",
-  "updated_at": "2026-11-20T05:00:00+00:00",
-  "lat": 38.612,
-  "lon": -90.161,
-  "brief": "PM2.5 levels peaked at 60 \u00b5g/m\u00b3 in St. Clair County [1]. This data was verified by two official sources [1].",
-  "facts": [
-   "PM2.5 peak 60 \u00b5g/m\u00b3 in St. Clair County, from -1 people and 2 official sources, verified"
-  ]
- },
- {
   "id": 107,
   "topic": "air",
   "title": "PM2.5 48.2 \u00b5g/m\u00b3 (AQI 132, unhealthy for sensitive groups) \u2014 Cook County",
   "severity": 0.4,
-  "status": "open",
+  "status": "closed",
   "counties": [
    "Lake"
   ],
@@ -33,12 +12,12 @@
    "17097"
   ],
   "opened_at": "2026-11-20T06:00:00+00:00",
-  "updated_at": "2026-11-20T07:00:00+00:00",
+  "updated_at": "2026-11-20T10:00:00+00:00",
   "lat": 42.141,
   "lon": -87.799,
-  "brief": "PM2.5 levels peaked at 48.2 \u00b5g/m\u00b3 in Cook County [1]. This data is verified by two official sources [1].",
+  "brief": "PM2.5 levels peaked at 48.2 \u00b5g/m\u00b3 in Cook County [1]. This data was verified using inputs from three citizen reporters and four official sources [1].",
   "facts": [
-   "PM2.5 peak 48.2 \u00b5g/m\u00b3 in Cook County, from -1 people and 2 official sources, verified"
+   "PM2.5 peak 48.2 \u00b5g/m\u00b3 in Cook County, from -3 people and 4 official sources, verified"
   ]
  }
 ]
