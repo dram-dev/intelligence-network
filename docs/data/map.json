@@ -1,134 +1,72 @@
 {
- "as_of": "2026-11-21T07:35:52+00:00",
+ "as_of": "2026-11-22T07:46:59+00:00",
  "hours": 24,
  "places": [
   {
    "id": "p1",
    "topic": "air",
    "source": "EPA air monitor",
-   "name": "Cook County air monitor",
-   "county": "Cook",
+   "name": "St. Clair County air monitor",
+   "county": "St. Clair",
    "zip": null,
-   "lat": 42.1406,
-   "lon": -87.7994,
+   "lat": 38.6119,
+   "lon": -90.1606,
    "person": false,
-   "label": "PM2.5 42.7 \u00b5g/m\u00b3",
+   "label": "PM2.5 60 \u00b5g/m\u00b3",
    "lines": [
     {
      "metric": "pm25_ugm3",
      "name": "PM2.5",
-     "value": "42.7 \u00b5g/m\u00b3 (AQI 119, unhealthy for sensitive groups)",
+     "value": "60 \u00b5g/m\u00b3 (AQI 154, unhealthy)",
      "note": null,
-     "at": "2026-11-20T10:00+00:00",
-     "sev": 0.4
+     "at": "2026-11-20T04:00+00:00",
+     "sev": 0.7
     }
    ],
    "why": [
-    "Highest PM2.5 in Illinois in the last 24 hours (AQI 119, unhealthy for sensitive groups)",
-    "PM2.5 past the network's event threshold (AQI 119, unhealthy for sensitive groups)",
-    "In the news: \u201cChicago weather: Warm Saturday before pattern changes\u201d"
+    "Highest PM2.5 in Illinois in the latest reports (Nov 20) (AQI 154, unhealthy)",
+    "PM2.5 well past the network's event threshold (AQI 154, unhealthy)"
    ],
    "status": "official",
    "at": "2026-11-20T11:00+00:00",
    "url": null,
    "spark": null,
-   "event": {
-    "title": "PM2.5 48.2 \u00b5g/m\u00b3 (AQI 132, unhealthy for sensitive groups) \u2014 Cook County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [
-    "n1"
-   ],
+   "event": null,
+   "news": [],
    "tier": 1
   },
   {
    "id": "p2",
-   "topic": "weather",
-   "source": "Airport station",
-   "name": "Belleville - Scott AFB (BLV)",
-   "county": "St. Clair",
+   "topic": "markets",
+   "source": "USDA grain bids",
+   "name": "North district",
+   "county": "DeKalb",
    "zip": null,
-   "lat": 38.5454,
-   "lon": -89.8515,
+   "lat": 41.8946,
+   "lon": -88.769,
    "person": false,
-   "label": "High 75.2 \u00b0F",
+   "label": "Soybeans -32 \u00a2",
    "lines": [
     {
-     "metric": "temp_c",
-     "name": "Temperature",
-     "value": "75.2 \u00b0F",
-     "note": null,
-     "at": "2026-11-20T18:55+00:00",
+     "metric": "soy_basis",
+     "name": "Soybean basis",
+     "value": "-32 \u00a2",
+     "note": "country elevators",
+     "at": "2026-11-20T18:51+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Highest temperature in Illinois in the last 24 hours",
-    "In the news: \u201cUnseasonably high temperatures tie nearly century-old record\u201d"
+    "Lowest soybean basis in Illinois in the latest reports (Nov 20)",
+    "In the news: \u201cNovember 2026 Corn and Soybean Basis Update | Purdue - Purdue University\u201d"
    ],
    "status": "official",
-   "at": "2026-11-21T06:55+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=BLV&network=IL_ASOS",
-   "spark": {
-    "name": "Temperature",
-    "unit": "\u00b0F",
-    "t": [
-     -1380,
-     -1320,
-     -1260,
-     -1200,
-     -1140,
-     -1080,
-     -1020,
-     -960,
-     -900,
-     -840,
-     -780,
-     -720,
-     -660,
-     -600,
-     -565,
-     -480,
-     -420,
-     -360,
-     -300,
-     -240,
-     -180,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     41.4,
-     40.0,
-     40.0,
-     40.5,
-     39.4,
-     38.0,
-     44.0,
-     54.0,
-     62.2,
-     68.4,
-     73.6,
-     75.2,
-     75.0,
-     74.3,
-     73.4,
-     65.3,
-     61.5,
-     53.0,
-     50.0,
-     47.5,
-     42.6,
-     43.3,
-     41.7,
-     41.0
-    ]
-   },
+   "at": "2026-11-20T18:51+00:00",
+   "url": null,
+   "spark": null,
    "event": null,
    "news": [
-    "n7"
+    "n6"
    ],
    "tier": 1
   },
@@ -154,7 +92,7 @@
     }
    ],
    "why": [
-    "Lowest corn basis in Illinois in the last 24 hours",
+    "Lowest corn basis in Illinois in the latest reports (Nov 20)",
     "In the news: \u201cNovember 2026 Corn and Soybean Basis Update | Purdue - Purdue University\u201d"
    ],
    "status": "official",
@@ -163,42 +101,97 @@
    "spark": null,
    "event": null,
    "news": [
-    "n8"
+    "n6"
    ],
    "tier": 1
   },
   {
    "id": "p4",
-   "topic": "markets",
-   "source": "USDA grain bids",
-   "name": "North district",
-   "county": "DeKalb",
+   "topic": "weather",
+   "source": "Airport station",
+   "name": "Belleville - Scott AFB (BLV)",
+   "county": "St. Clair",
    "zip": null,
-   "lat": 41.8946,
-   "lon": -88.769,
+   "lat": 38.5454,
+   "lon": -89.8515,
    "person": false,
-   "label": "Soybeans -32 \u00a2",
+   "label": "High 74.3 \u00b0F",
    "lines": [
     {
-     "metric": "soy_basis",
-     "name": "Soybean basis",
-     "value": "-32 \u00a2",
-     "note": "country elevators",
-     "at": "2026-11-20T18:51+00:00",
+     "metric": "temp_c",
+     "name": "Temperature",
+     "value": "74.3 \u00b0F",
+     "note": null,
+     "at": "2026-11-21T19:55+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Lowest soybean basis in Illinois in the last 24 hours",
-    "In the news: \u201cNovember 2026 Corn and Soybean Basis Update | Purdue - Purdue University\u201d"
+    "Highest temperature in Illinois in the last 24 hours",
+    "In the news: \u201cUnseasonably high temperatures tie nearly century-old record\u201d"
    ],
    "status": "official",
-   "at": "2026-11-20T18:51+00:00",
-   "url": null,
-   "spark": null,
+   "at": "2026-11-22T06:55+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=BLV&network=IL_ASOS",
+   "spark": {
+    "name": "Temperature",
+    "unit": "\u00b0F",
+    "t": [
+     -1380,
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -600,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     39.4,
+     39.0,
+     36.0,
+     36.7,
+     36.7,
+     36.0,
+     40.5,
+     51.0,
+     60.4,
+     67.0,
+     71.0,
+     73.8,
+     74.3,
+     73.8,
+     71.0,
+     66.2,
+     64.4,
+     61.0,
+     59.0,
+     58.3,
+     57.4,
+     54.0,
+     55.4,
+     54.0
+    ]
+   },
    "event": null,
    "news": [
-    "n8"
+    "n5"
    ],
    "tier": 1
   },
@@ -212,14 +205,14 @@
    "lat": 38.3233,
    "lon": -88.8583,
    "person": false,
-   "label": "Low 32 \u00b0F",
+   "label": "Low 31 \u00b0F",
    "lines": [
     {
      "metric": "temp_c",
      "name": "Temperature",
-     "value": "32 \u00b0F",
+     "value": "31 \u00b0F",
      "note": "the day's low",
-     "at": "2026-11-20T12:56+00:00",
+     "at": "2026-11-21T11:56+00:00",
      "sev": 0.0
     }
    ],
@@ -227,7 +220,7 @@
     "Lowest temperature in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-11-21T06:56+00:00",
+   "at": "2026-11-22T06:56+00:00",
    "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=MVN&network=IL_ASOS",
    "spark": {
     "name": "Temperature",
@@ -259,30 +252,30 @@
      0
     ],
     "v": [
+     41.0,
+     43.0,
      35.0,
      34.0,
-     34.0,
-     34.0,
-     33.0,
-     32.0,
-     41.0,
+     31.0,
+     31.0,
+     39.0,
      56.0,
-     63.0,
+     64.0,
+     67.0,
      70.0,
      72.0,
      73.0,
-     74.0,
-     73.0,
-     70.0,
-     63.0,
-     60.0,
-     58.0,
-     57.0,
-     48.0,
-     38.0,
-     36.0,
-     36.0,
-     43.0
+     72.0,
+     69.0,
+     64.0,
+     56.0,
+     59.0,
+     59.0,
+     50.0,
+     49.0,
+     45.0,
+     44.0,
+     42.0
     ]
    },
    "event": null,
@@ -291,6 +284,41 @@
   },
   {
    "id": "p6",
+   "topic": "air",
+   "source": "EPA air monitor",
+   "name": "Cook County air monitor",
+   "county": "Cook",
+   "zip": null,
+   "lat": 42.1406,
+   "lon": -87.7994,
+   "person": false,
+   "label": "PM2.5 48.2 \u00b5g/m\u00b3",
+   "lines": [
+    {
+     "metric": "pm25_ugm3",
+     "name": "PM2.5",
+     "value": "48.2 \u00b5g/m\u00b3 (AQI 132, unhealthy for sensitive groups)",
+     "note": null,
+     "at": "2026-11-20T07:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "PM2.5 past the network's event threshold (AQI 132, unhealthy for sensitive groups)",
+    "In the news: \u201cChicago reaches third warmest fall in 150 years, says National Weather Service\u201d"
+   ],
+   "status": "official",
+   "at": "2026-11-20T11:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [
+    "n1"
+   ],
+   "tier": 1
+  },
+  {
+   "id": "p7",
    "topic": "weather",
    "source": "NWS storm report",
    "name": "Mahomet",
@@ -336,35 +364,61 @@
    ],
    "stories": [
     {
-     "title": "Chicago weather: Warm Saturday before pattern changes",
-     "source": "CBS News",
-     "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOWnpvanJFbXdOdlpWRjg2eUxLdXFla3Btb3F1NnQzTkFFQWFGeG9kRW1DRzZ4OVdjMlBUWklhTkZYQTFxY0xneUVKRTZZSlVTdURiaVdJUVZjQnJsZnNsVUtGT0cxcUM5a3kyc1hHa3BUaGtXWXVuWTZmSmJjU0hqS2xDNGZIdlF4UGsxTkRvR2RhY2ZHRkE?oc=5",
-     "at": "2026-11-21T04:37:00"
+     "title": "Chicago reaches third warmest fall in 150 years, says National Weather Service",
+     "source": "Chicago Sun-Times",
+     "url": "https://chicago.suntimes.com/weather/2026/11/21/chicago-reaches-third-warmest-fall-on-record",
+     "at": "2026-11-21T22:59:30"
     },
     {
-     "title": "Chicago Weather: Near-record warmth Friday, with very mild night",
-     "source": "CBS News",
-     "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOcnRkeWdUS1Z5dUVnR05nVXVjZVNuNS0wRWY1dGdiYmIxR1RkSS1sS3c2cEtINEgtamgya0JKSm9JX1RJeXh6WmF2M0xlYUtITHBFb3c5WE1pdWFLZ29IUUh1emMyRmdvZ1VUTjY0SW9wTWdqcGZXdjhJc0Q2VTlKWVRKajlmMlFYRkhpNDdRMGxhRV84V1JfNFpUbmpDLUdCNGcw?oc=5",
-     "at": "2026-11-20T19:02:00"
-    },
-    {
-     "title": "Chicago forecast: Near-record temps expected, but changes loom",
+     "title": "Chicago Forecast: Cold front Sunday",
      "source": "NBC 5 Chicago",
-     "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQMUtaZ3p4REI1Q2VuN1oxdnBDUEdKd3dVZ1dseGtYVUZMUVIzNzdwYkVnUHFWQndlWWVNUlZGajVmV2RWLUhvYzRob09xenJSVi1GWlVfdUhkX0QwM3FkVmhpV1hsZlotRUpEellqcmgzTVc0LURmd3BVRUtwZlFuOC16akRYbER4Z0lqRXhNeUNzLS1fM2xYWVdpNEJYQUo3US1oTmFCbWtrRnlQSFFSYzl0OHZvU0ZpR3NhTVFVX3IxbFXSAcsBQVVfeXFMUDZMSU5BakdzbWpaRmZNOGh1c3VjZUtCMzRwQm5fY2RfeVRzU2w0b1ExY2czdXoyT191OGMxeFhGU0hyR3hleGFtTURhZjB3LXFCWjFFanVDaG5Rbk5CRXA3NDlWUzlCdkg5bmd0VFI5QTNqYWNUU1VCOFhnWE5Kajh5S0hzMm1sVldBLUxPWk9LQ0lIVU10ZnI1dnNVSE8xdmM1cG1KU3V5UnpqdTJhZEt1Vkk4OUxSOE4wYnRIMThwYUdOWEpTSUhTekU?oc=5",
-     "at": "2026-11-19T18:51:34"
+     "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQZzZSWmJuTXFwZFl6NFBvWk14dmdhbnAwa2ZZQTZ0TlM1SkN1bzVUNXNlT2gtTTlwYkdzcmluOXJXZkM3SDdqNWtmSkZMenlwa2JGemQyZ3dRZnFTS01tNVd3V2QyUHZCWk5kdzY0VFBzRVpkelk0Mk5OaUpUMFBidmtwS3pZdVhLeGFqStIBlAFBVV95cUxQODBvWDdjNmEtT1c3X0JFMFpfUGRueFBONmtOby0wd3lTYkVxbW5ET2hGbG5tSnJ6b0poTkh5X2RZWjI1X2VxZ210bmhpcm8wX3M5b0lNUU1ZRWkwSFNvWV9YX1NDcmF3MW9mZll0Q3htS25XVHc3SnlrOFpDaEwzM25ZSlN5T2xPSjZ3QVVneGFCLXpj?oc=5",
+     "at": "2026-11-22T04:48:23"
+    },
+    {
+     "title": "Chicago Ties 1930 Heat Record Before Cold Front Arrives",
+     "source": "Demokratis.co.id",
+     "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1wV0RCa3RKYU8xdXg4cFMtb0tHUW9YaUE2VlBGaG42NkVyQ3k4VWhLdVdocG1XNG1vQ3lfd1JPeDRpNVlKVUxoYzZNVTFNRDk0bFZ0VC1rdkZXcXZ5alJnQWZSejFQZDZGTEwtR05n?oc=5",
+     "at": "2026-11-21T17:22:00"
     }
    ],
    "more": [
-    "Record warmth possible in Chicago, but forecast is about to change dramatically"
+    "Chicago's Forecast: One More Warm Day",
+    "Chicago weather: Warm Saturday before pattern changes",
+    "Chicago Weather: Near-record warmth Friday, with very mild night"
    ],
    "links": [
-    "p1"
+    "p6"
    ],
    "alerts": []
   },
   {
    "id": "n2",
    "n": 2,
+   "topic": "landuse",
+   "place": "Elk Grove Village",
+   "statewide": false,
+   "lat": 42.005,
+   "lon": -87.992,
+   "counties": [
+    "17037",
+    "17043"
+   ],
+   "stories": [
+    {
+     "title": "Lessons from 3 communities: Report details resident concerns about data centers in Aurora, DeKalb, Elk Grove Village",
+     "source": "ABC7 Chicago",
+     "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxORDhEOWlmRDRibkFsdHRHZTRTbEllZVVmVmVYaVN0WHFiMzhMRm15TENkZUF3aDRoZlBadGxTRHF5QUxvUnYyVnlPU21PVHY1NHVEX1NYUmpzMkVZOXRiNjZYMXlyNVRLbWJBMW1qS2N6eTZtSHJqRnJQOTBVUGZ0ZDBSbWZXWnRXSGlOZjc5Qm5mcTlrcGZqbm1MM3VFckhZZ2NHc3NiMFdrdTNjdFlCamtJRjVUNDBNUmFsenI0N1NFelBGWUZIZnhJeks2SWlXZmhWbw?oc=5",
+     "at": "2026-11-21T03:34:18"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n3",
+   "n": 3,
    "topic": "landuse",
    "place": "Champaign County",
    "statewide": false,
@@ -386,45 +440,22 @@
    "alerts": []
   },
   {
-   "id": "n3",
-   "n": 3,
-   "topic": "weather",
-   "place": "Crawford County",
-   "statewide": false,
-   "lat": 39.0028,
-   "lon": -87.7606,
-   "counties": [
-    "17033"
-   ],
-   "stories": [
-    {
-     "title": "Burn ban declared in Crawford County, Illinois",
-     "source": "WTHI-TV",
-     "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQZEpRN0c2M0NvcDQycDh2dy1FdkNoS2xpdm0zVGtxVE5vN0RGdkNJQ1h0Xzc0M01YMEIyRzRnRDAwQ3pwNmt3WHJ0Sm4xbEFfX1NfTW85eDBGcVc2eTlIMEpzaUpVVFVRSjdTSjRYVXpkam9IRnhGNHhpMjVSNHN5alo1SdIBlwFBVV95cUxPMVp6UXQ2NjgzMmZXN21RZkp3ZjZONUpGX0V4SnZ6eU9vNzlZRk5icklmZ0oxU2p2bHJNMjE2dEdxVVJrNWw0RjFiZTFDOGN5WkxOTU8yd2ZZbHpDMVZYVUhNa01rbTQ5ajVDSGY5SGxHeThSQzk1aFlWSDlVNVZhX1JNbkp4eWJRUEd0ZkEwM3hJanhxMG9z?oc=5",
-     "at": "2026-11-19T23:53:00"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
    "id": "n4",
    "n": 4,
    "topic": "landuse",
-   "place": "Stephenson County",
+   "place": "Madison County",
    "statewide": false,
-   "lat": 42.3497,
-   "lon": -89.666,
+   "lat": 38.8271,
+   "lon": -89.9002,
    "counties": [
-    "17177"
+    "17119"
    ],
    "stories": [
     {
-     "title": "Freeport News: Improving graduation rates in Freeport schools, questions about financial oversight at the Stephenson County Sheriff's Office and growing concerns over data center development",
-     "source": "Northern Public Radio",
-     "url": "https://news.google.com/rss/articles/CBMi4gJBVV95cUxPM2UzYWZpTU5UM0lrQjVUc25oQjMzamZBY1J4YUF4a2lmcDdBTHNrMGZKWU4zWW10VTAtQ2FIc2d2c2xPU3VUa3pMUEpnejZzb0VQNG5rejMyNlZVYnFvSjBSdGNVbnk5dzlrUlMxLTVoN1lUV3lJTkNzM3dwYlQxRkotaDd1OFRLQmVQcHktSVg0ci1KN2N3c0pCdUl0RFFKRHVKejJlRHRHNjJvNWtvZ29OZW43ckIzb0tpYU9pRU5iR1VaTjJqU3N4OUpEQ1YtdFpEMXc4RXljNy11ZlFnZ29oMGdROFFOeVBfME12bmZRU1pMTUYxSjBmR0NDVlFLa1doaXZqeDhZUTRENFJWdm1ER1gxekMtRGViUDBpbmRwMUpLcHR1M0cyOERhMDlGMlNkekpSb0J0MGxsaWUzeFl0TDVUZDR6MnkyYzRtSnd1Y2J1TVJfcDdCWUdXZkZ1Qnc?oc=5",
-     "at": "2026-11-19T18:00:30"
+     "title": "Madison County bars data center tax abatements in Riverbend zone",
+     "source": "Alton Telegraph",
+     "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNbnExZWcyUm5GdFlpVmNQMWUtZm53UWVSaUVWX2FjQzl6bDhOWko0N1RtckU4Vkgyc1JwbmIzZEstRE9FZ0RJWEp5OUI5d20wZnEyQVh0dm4zVng4WVhtdk50cmpqbE5sa2ZyajFuSkJxWEd3UWc4RUl5bk1ONUhyN2xfSElYQlBWb2pZdjA0UTRHd1pBSFNFWUF4N2Q4RXoxUFpj?oc=5",
+     "at": "2026-11-20T18:35:00"
     }
    ],
    "more": [],
@@ -434,52 +465,6 @@
   {
    "id": "n5",
    "n": 5,
-   "topic": "landuse",
-   "place": "Tazewell County",
-   "statewide": false,
-   "lat": 40.5081,
-   "lon": -89.5163,
-   "counties": [
-    "17179"
-   ],
-   "stories": [
-    {
-     "title": "Tazewell County Board quietly approves $400M solar farm project",
-     "source": "WCBU Peoria",
-     "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNTlVNdldYVWxDd2RFZUxidjFQcUk0Z05IMndQSVZCczRQTDhyU2tuMEE1al9vdjBjWjdWa3FudkU1MXRRaGZia1pqNkg3NDltYWJjcy1yS09Ha3VVT1hReS00cHg4LXJYdjQzSVZFQ1hrMkRpZFZPc245OWZfQ0MzNU9Cc1B2cy1KN1JtNnZyeUp4SXJZbVZJN3Brdmc2dHBKZ1VUOGZXcjI?oc=5",
-     "at": "2026-11-19T22:01:25"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n6",
-   "n": 6,
-   "topic": "landuse",
-   "place": "Rockford",
-   "statewide": false,
-   "lat": 42.2593,
-   "lon": -89.0635,
-   "counties": [
-    "17201"
-   ],
-   "stories": [
-    {
-     "title": "Microsoft looks to develop data center in Rockford, Illinois",
-     "source": "Data Center Dynamics",
-     "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNbkpaSk9mMElIRXN2ZXdmTmZaMEZValo0ZXpWVy1USGtWQjU1bk9kWG9ZQ3NMZlhsOWRxUkJlbFhFdjZlRUswdlBwRmNsZ0xxbDVNbEdqcUtiSWJDRWxJRlQ0SVpZOTNIb3lSc1dsTFZpZ2M1UlpPVGVkandqaDJBN2RfdjV6aEkydXVlQ041Y3NpbHZTOVlpbXpON25jQmJ6TEROZFRn?oc=5",
-     "at": "2026-11-16T15:23:15"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n7",
-   "n": 7,
    "topic": "weather",
    "place": null,
    "statewide": true,
@@ -496,13 +481,13 @@
    ],
    "more": [],
    "links": [
-    "p2"
+    "p4"
    ],
    "alerts": []
   },
   {
-   "id": "n8",
-   "n": 8,
+   "id": "n6",
+   "n": 6,
    "topic": "markets",
    "place": null,
    "statewide": true,
@@ -520,14 +505,14 @@
    "more": [],
    "links": [
     "p3",
-    "p4"
+    "p2"
    ],
    "alerts": []
   },
   {
-   "id": "n9",
-   "n": 9,
-   "topic": "air",
+   "id": "n7",
+   "n": 7,
+   "topic": "agriculture",
    "place": null,
    "statewide": true,
    "lat": null,
@@ -535,10 +520,10 @@
    "counties": [],
    "stories": [
     {
-     "title": "Illinois officials fear a toxic lead-dust plume may spread from Army site explosion in Iowa",
-     "source": "WBEZ",
-     "url": "https://www.wbez.org/environment/2026/11/19/illinois-toxic-lead-dust-plume-army-site-explosion-iowa",
-     "at": "2026-11-19T20:21:54"
+     "title": "Illinois Yields in 2026 Below Trend",
+     "source": "farmdoc daily",
+     "url": "https://farmdocdaily.illinois.edu/2026/11/illinois-yields-in-2026-below-trend.html",
+     "at": "2026-11-18T01:38:30"
     }
    ],
    "more": [],
