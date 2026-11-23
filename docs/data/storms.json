@@ -1,1 +1,23 @@
-[]
+[
+ {
+  "id": 108,
+  "topic": "quake",
+  "title": "Magnitude 3.12 M \u2014 Alexander County",
+  "severity": 0.4,
+  "status": "closed",
+  "counties": [
+   "Alexander"
+  ],
+  "fips": [
+   "17003"
+  ],
+  "opened_at": "2026-11-22T15:04:19+00:00",
+  "updated_at": "2026-11-22T15:04:19+00:00",
+  "lat": 36.019,
+  "lon": -89.509,
+  "brief": "A storm reached a peak magnitude of 3.12 M in Alexander County [1]. This measurement was verified by one official source [1].",
+  "facts": [
+   "Magnitude peak 3.12 M in Alexander County, from 1 official source, verified"
+  ]
+ }
+]

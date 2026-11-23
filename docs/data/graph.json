@@ -124,14 +124,14 @@
    "kind": "topic",
    "label": "Air",
    "topic": "air",
-   "n": 0
+   "n": 275
   },
   {
    "id": "metric:pm25_ugm3",
    "kind": "metric",
    "label": "PM2.5",
    "topic": "air",
-   "n": 0,
+   "n": 264,
    "flag": false
   },
   {
@@ -147,7 +147,7 @@
    "kind": "metric",
    "label": "Ozone",
    "topic": "air",
-   "n": 0,
+   "n": 11,
    "flag": false
   },
   {
@@ -329,14 +329,14 @@
    "kind": "topic",
    "label": "Earthquakes",
    "topic": "quake",
-   "n": 0
+   "n": 3
   },
   {
    "id": "metric:felt_intensity",
    "kind": "metric",
    "label": "Felt intensity",
    "topic": "quake",
-   "n": 0,
+   "n": 1,
    "flag": false
   },
   {
@@ -344,7 +344,7 @@
    "kind": "metric",
    "label": "Magnitude",
    "topic": "quake",
-   "n": 0,
+   "n": 2,
    "flag": false
   },
   {
@@ -455,14 +455,14 @@
    "kind": "topic",
    "label": "Water",
    "topic": "water",
-   "n": 10551
+   "n": 10167
   },
   {
    "id": "metric:stage_m",
    "kind": "metric",
    "label": "Stage (gauge height)",
    "topic": "water",
-   "n": 5506,
+   "n": 5306,
    "flag": false
   },
   {
@@ -470,7 +470,7 @@
    "kind": "metric",
    "label": "Streamflow",
    "topic": "water",
-   "n": 4497,
+   "n": 4335,
    "flag": false
   },
   {
@@ -478,7 +478,7 @@
    "kind": "metric",
    "label": "Water temperature",
    "topic": "water",
-   "n": 548,
+   "n": 526,
    "flag": false
   },
   {
@@ -574,14 +574,14 @@
    "kind": "topic",
    "label": "Weather",
    "topic": "weather",
-   "n": 9449
+   "n": 9555
   },
   {
    "id": "metric:temp_c",
    "kind": "metric",
    "label": "Temperature",
    "topic": "weather",
-   "n": 1345,
+   "n": 1295,
    "flag": false
   },
   {
@@ -589,7 +589,7 @@
    "kind": "metric",
    "label": "Dew point",
    "topic": "weather",
-   "n": 1343,
+   "n": 1291,
    "flag": false
   },
   {
@@ -597,7 +597,7 @@
    "kind": "metric",
    "label": "Relative humidity",
    "topic": "weather",
-   "n": 1343,
+   "n": 1291,
    "flag": false
   },
   {
@@ -605,7 +605,7 @@
    "kind": "metric",
    "label": "Pressure",
    "topic": "weather",
-   "n": 1344,
+   "n": 1295,
    "flag": false
   },
   {
@@ -613,7 +613,7 @@
    "kind": "metric",
    "label": "Sustained wind",
    "topic": "weather",
-   "n": 1319,
+   "n": 1270,
    "flag": false
   },
   {
@@ -621,7 +621,7 @@
    "kind": "metric",
    "label": "Wind gust",
    "topic": "weather",
-   "n": 67,
+   "n": 363,
    "flag": false
   },
   {
@@ -629,7 +629,7 @@
    "kind": "metric",
    "label": "Rainfall",
    "topic": "weather",
-   "n": 1344,
+   "n": 1457,
    "flag": false
   },
   {
@@ -653,7 +653,7 @@
    "kind": "metric",
    "label": "Visibility",
    "topic": "weather",
-   "n": 1344,
+   "n": 1293,
    "flag": false
   },
   {
@@ -716,13 +716,31 @@
    "id": "feed:iem_asos",
    "kind": "feed",
    "label": "iem_asos",
-   "n": 9449
+   "n": 9394
   },
   {
    "id": "feed:usgs_water",
    "kind": "feed",
    "label": "usgs_water",
-   "n": 10551
+   "n": 10167
+  },
+  {
+   "id": "feed:airnow",
+   "kind": "feed",
+   "label": "airnow",
+   "n": 275
+  },
+  {
+   "id": "feed:usgs_quake",
+   "kind": "feed",
+   "label": "usgs_quake",
+   "n": 3
+  },
+  {
+   "id": "feed:cocorahs",
+   "kind": "feed",
+   "label": "cocorahs",
+   "n": 161
   },
   {
    "id": "event:180",
@@ -802,6 +820,20 @@
    "id": "county:17161",
    "kind": "county",
    "label": "Rock Island"
+  },
+  {
+   "id": "event:221",
+   "kind": "event",
+   "label": "Magnitude 3.12 M \u2014 Alexander County",
+   "topic": "quake",
+   "n": 1,
+   "score": 1.0,
+   "verified": true
+  },
+  {
+   "id": "county:17003",
+   "kind": "county",
+   "label": "Alexander"
   },
   {
    "id": "event:183",
@@ -1454,15 +1486,6 @@
    "n": 1,
    "score": 1.0,
    "verified": true
-  },
-  {
-   "id": "event:170",
-   "kind": "event",
-   "label": "Drought category (USDM) D2 \u2014 Shelby County",
-   "topic": "agriculture",
-   "n": 1,
-   "score": 1.0,
-   "verified": true
   }
  ],
  "links": [
@@ -1962,67 +1985,97 @@
    "source": "feed:iem_asos",
    "target": "metric:temp_c",
    "kind": "reports",
-   "weight": 1345
+   "weight": 1295
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:dewpoint_c",
    "kind": "reports",
-   "weight": 1343
+   "weight": 1291
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:humidity_pct",
    "kind": "reports",
-   "weight": 1343
+   "weight": 1291
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:wind_ms",
    "kind": "reports",
-   "weight": 1319
+   "weight": 1270
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:rain_mm",
    "kind": "reports",
-   "weight": 1344
+   "weight": 1296
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:pressure_hpa",
    "kind": "reports",
-   "weight": 1344
+   "weight": 1295
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:visibility_km",
    "kind": "reports",
-   "weight": 1344
+   "weight": 1293
   },
   {
    "source": "feed:iem_asos",
    "target": "metric:wind_gust_ms",
    "kind": "reports",
-   "weight": 67
+   "weight": 363
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:stage_m",
    "kind": "reports",
-   "weight": 5506
+   "weight": 5306
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:discharge_cms",
    "kind": "reports",
-   "weight": 4497
+   "weight": 4335
   },
   {
    "source": "feed:usgs_water",
    "target": "metric:water_temp_c",
    "kind": "reports",
-   "weight": 548
+   "weight": 526
+  },
+  {
+   "source": "feed:airnow",
+   "target": "metric:pm25_ugm3",
+   "kind": "reports",
+   "weight": 264
+  },
+  {
+   "source": "feed:airnow",
+   "target": "metric:ozone_ppb",
+   "kind": "reports",
+   "weight": 11
+  },
+  {
+   "source": "feed:usgs_quake",
+   "target": "metric:magnitude",
+   "kind": "reports",
+   "weight": 2
+  },
+  {
+   "source": "feed:cocorahs",
+   "target": "metric:rain_mm",
+   "kind": "reports",
+   "weight": 161
+  },
+  {
+   "source": "feed:usgs_quake",
+   "target": "metric:felt_intensity",
+   "kind": "reports",
+   "weight": 1
   },
   {
    "source": "event:180",
@@ -2093,6 +2146,18 @@
   {
    "source": "event:150",
    "target": "county:17161",
+   "kind": "in",
+   "weight": 1
+  },
+  {
+   "source": "event:221",
+   "target": "metric:magnitude",
+   "kind": "about",
+   "weight": 1
+  },
+  {
+   "source": "event:221",
+   "target": "county:17003",
    "kind": "in",
    "weight": 1
   },
@@ -2729,18 +2794,6 @@
   {
    "source": "event:169",
    "target": "county:17159",
-   "kind": "in",
-   "weight": 1
-  },
-  {
-   "source": "event:170",
-   "target": "metric:drought_category",
-   "kind": "about",
-   "weight": 1
-  },
-  {
-   "source": "event:170",
-   "target": "county:17173",
    "kind": "in",
    "weight": 1
   }
