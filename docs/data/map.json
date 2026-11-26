@@ -1,46 +1,85 @@
 {
- "as_of": "2026-11-25T08:08:40+00:00",
+ "as_of": "2026-11-26T08:09:03+00:00",
  "hours": 24,
  "places": [
   {
    "id": "p1",
    "topic": "weather",
-   "source": "Airport station",
-   "name": "Metropolis (M30)",
-   "county": "Massac",
+   "source": "NWS storm report",
+   "name": "Waterloo",
+   "county": "Monroe",
    "zip": null,
-   "lat": 37.1859,
-   "lon": -88.7506,
+   "lat": 38.33,
+   "lon": -90.15,
    "person": false,
-   "label": "High 47.7 \u00b0F",
+   "label": "Snow 8.0 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "8.0 in",
+     "note": null,
+     "at": "2026-11-26T05:30+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Highest snowfall total in Illinois in the last 24 hours",
+    "Snowfall past the network's event threshold",
+    "Reported to the NWS by a trained spotter"
+   ],
+   "status": "official",
+   "at": "2026-11-26T05:30+00:00",
+   "url": null,
+   "spark": null,
+   "event": {
+    "title": "Snowfall 8.0 in \u2014 Monroe County",
+    "verified": true,
+    "score": 0.95
+   },
+   "news": [
+    "n5"
+   ],
+   "tier": 1
+  },
+  {
+   "id": "p2",
+   "topic": "weather",
+   "source": "Airport station",
+   "name": "Mount Carmel (AJG)",
+   "county": "Knox",
+   "zip": null,
+   "lat": 38.6065,
+   "lon": -87.7267,
+   "person": false,
+   "label": "High 45.5 \u00b0F",
    "lines": [
     {
      "metric": "temp_c",
      "name": "Temperature",
-     "value": "47.7 \u00b0F",
-     "note": null,
-     "at": "2026-11-24T19:35+00:00",
+     "value": "45.5 \u00b0F",
+     "note": "the day's high",
+     "at": "2026-11-26T06:35+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Highest temperature in Illinois in the last 24 hours",
-    "In the news: \u201cForecast: Clearing, cold; fall\u2019s chilliest temps yet\u201d"
+    "Highest temperature in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-11-25T07:35+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=M30&network=IL_ASOS",
+   "at": "2026-11-26T07:35+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=AJG&network=IL_ASOS",
    "spark": {
     "name": "Temperature",
     "unit": "\u00b0F",
     "t": [
-     -1400,
-     -1340,
-     -1280,
-     -1220,
-     -1160,
+     -1380,
+     -1320,
+     -1260,
+     -1200,
+     -1140,
      -1080,
-     -1040,
+     -1020,
      -960,
      -900,
      -840,
@@ -60,126 +99,54 @@
      0
     ],
     "v": [
-     33.0,
-     32.0,
-     31.3,
-     31.0,
-     30.2,
-     31.5,
-     33.4,
-     39.7,
+     33.8,
+     33.8,
+     33.8,
+     34.0,
+     35.0,
+     35.0,
+     36.0,
+     37.8,
+     39.6,
+     40.0,
+     40.6,
+     41.4,
+     42.0,
+     42.3,
+     42.4,
+     42.6,
      43.3,
+     44.0,
+     44.6,
+     44.6,
      45.0,
-     47.0,
-     47.7,
-     46.6,
-     45.0,
-     43.0,
-     40.5,
-     39.2,
-     37.2,
-     35.8,
-     35.6,
-     34.7,
-     36.5,
-     38.0,
-     38.3
+     44.8,
+     45.5,
+     42.8
     ]
    },
    "event": null,
-   "news": [
-    "n8"
-   ],
-   "tier": 1
-  },
-  {
-   "id": "p2",
-   "topic": "markets",
-   "source": "USDA grain bids",
-   "name": "West district",
-   "county": "Knox",
-   "zip": null,
-   "lat": 40.931,
-   "lon": -90.2138,
-   "person": false,
-   "label": "Corn -15 \u00a2",
-   "lines": [
-    {
-     "metric": "corn_basis",
-     "name": "Corn basis",
-     "value": "-15 \u00a2",
-     "note": "country elevators",
-     "at": "2026-11-24T19:09+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Lowest corn basis in Illinois in the last 24 hours",
-    "In the news: \u201cNovember 2026 Corn and Soybean Basis Update | Purdue - Purdue University\u201d"
-   ],
-   "status": "official",
-   "at": "2026-11-24T19:09+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [
-    "n9"
-   ],
+   "news": [],
    "tier": 1
   },
   {
    "id": "p3",
-   "topic": "markets",
-   "source": "USDA grain bids",
-   "name": "North district",
-   "county": "DeKalb",
-   "zip": null,
-   "lat": 41.8946,
-   "lon": -88.769,
-   "person": false,
-   "label": "Soybeans -32 \u00a2",
-   "lines": [
-    {
-     "metric": "soy_basis",
-     "name": "Soybean basis",
-     "value": "-32 \u00a2",
-     "note": "country elevators",
-     "at": "2026-11-24T19:09+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Lowest soybean basis in Illinois in the last 24 hours",
-    "In the news: \u201cNovember 2026 Corn and Soybean Basis Update | Purdue - Purdue University\u201d"
-   ],
-   "status": "official",
-   "at": "2026-11-24T19:09+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [
-    "n9"
-   ],
-   "tier": 1
-  },
-  {
-   "id": "p4",
    "topic": "weather",
    "source": "Airport station",
-   "name": "Rockford (RFD)",
-   "county": "Winnebago",
+   "name": "Mattoon (MTO)",
+   "county": "Coles",
    "zip": null,
-   "lat": 42.1915,
-   "lon": -89.0876,
+   "lat": 39.4779,
+   "lon": -88.2792,
    "person": false,
-   "label": "Low 19 \u00b0F",
+   "label": "Low 23 \u00b0F",
    "lines": [
     {
      "metric": "temp_c",
      "name": "Temperature",
-     "value": "19 \u00b0F",
+     "value": "23 \u00b0F",
      "note": "the day's low",
-     "at": "2026-11-24T11:54+00:00",
+     "at": "2026-11-25T10:53+00:00",
      "sev": 0.0
     }
    ],
@@ -187,11 +154,104 @@
     "Lowest temperature in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-11-25T06:54+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=RFD&network=IL_ASOS",
+   "at": "2026-11-26T06:53+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=MTO&network=IL_ASOS",
    "spark": {
     "name": "Temperature",
     "unit": "\u00b0F",
+    "t": [
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -578,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     25.0,
+     26.0,
+     23.0,
+     27.0,
+     29.0,
+     30.0,
+     32.0,
+     34.0,
+     35.0,
+     35.0,
+     36.0,
+     35.0,
+     35.0,
+     35.0,
+     35.0,
+     35.0,
+     36.0,
+     37.0,
+     38.0,
+     39.0,
+     38.0,
+     38.0,
+     38.0
+    ]
+   },
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p4",
+   "topic": "water",
+   "source": "USGS stream gauge",
+   "name": "Casey Fork at Mount Vernon",
+   "county": "Jefferson",
+   "zip": null,
+   "lat": 38.2867,
+   "lon": -88.8722,
+   "person": false,
+   "label": "\u25b2 0.66 ft",
+   "lines": [
+    {
+     "metric": "stage_m",
+     "name": "Stage (gauge height)",
+     "value": "2.24 ft",
+     "note": "up 0.66 ft in 24 hours",
+     "at": "2026-11-26T07:00+00:00",
+     "sev": 0.0
+    },
+    {
+     "metric": "discharge_cms",
+     "name": "Streamflow",
+     "value": "11.8 cfs",
+     "note": null,
+     "at": "2026-11-26T07:00+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Biggest rise in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-11-26T07:00+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/05595820/",
+   "spark": {
+    "name": "Stage (gauge height)",
+    "unit": "ft",
     "t": [
      -1320,
      -1260,
@@ -213,39 +273,775 @@
      -300,
      -240,
      -180,
-     -81,
+     -120,
      -60,
      0
     ],
     "v": [
-     22.0,
-     22.0,
-     21.0,
-     19.0,
-     19.0,
-     23.0,
-     28.0,
-     31.0,
-     34.0,
-     37.0,
-     38.0,
-     40.0,
-     39.0,
-     35.0,
-     33.0,
-     33.0,
-     32.0,
-     31.0,
-     31.0,
-     31.0,
-     31.0,
-     32.0,
-     31.0
+     1.65,
+     1.64,
+     1.63,
+     1.61,
+     1.6,
+     1.59,
+     1.58,
+     1.58,
+     1.58,
+     1.6,
+     1.63,
+     1.66,
+     1.69,
+     1.73,
+     1.78,
+     1.84,
+     1.9,
+     1.94,
+     2.03,
+     2.1,
+     2.14,
+     2.2,
+     2.24
     ]
    },
    "event": null,
    "news": [],
    "tier": 1
+  },
+  {
+   "id": "p5",
+   "topic": "markets",
+   "source": "USDA grain bids",
+   "name": "West district",
+   "county": "Knox",
+   "zip": null,
+   "lat": 40.931,
+   "lon": -90.2138,
+   "person": false,
+   "label": "Corn -15 \u00a2",
+   "lines": [
+    {
+     "metric": "corn_basis",
+     "name": "Corn basis",
+     "value": "-15 \u00a2",
+     "note": "country elevators",
+     "at": "2026-11-25T19:00+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Lowest corn basis in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-11-25T19:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p6",
+   "topic": "markets",
+   "source": "USDA grain bids",
+   "name": "North district",
+   "county": "DeKalb",
+   "zip": null,
+   "lat": 41.8946,
+   "lon": -88.769,
+   "person": false,
+   "label": "Soybeans -30 \u00a2",
+   "lines": [
+    {
+     "metric": "soy_basis",
+     "name": "Soybean basis",
+     "value": "-30 \u00a2",
+     "note": "country elevators",
+     "at": "2026-11-25T19:00+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Lowest soybean basis in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-11-25T19:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p7",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "3.5 mi ESE of Thompsonville",
+   "county": "Saline",
+   "zip": null,
+   "lat": 37.8896,
+   "lon": -88.7059,
+   "person": false,
+   "label": "Rain 0.01 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "0.01 in",
+     "note": null,
+     "at": "2026-11-25T13:00+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Highest rainfall total in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-11-25T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p8",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "1 mi SW of Glen Carbon",
+   "county": "Madison",
+   "zip": null,
+   "lat": 38.75,
+   "lon": -89.98,
+   "person": false,
+   "label": "Snow 1.8 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "1.8 in",
+     "note": null,
+     "at": "2026-11-26T01:10+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by a trained spotter"
+   ],
+   "status": "official",
+   "at": "2026-11-26T01:10+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p9",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "1 mi N of Glen Carbon",
+   "county": "Madison",
+   "zip": null,
+   "lat": 38.77,
+   "lon": -89.98,
+   "person": false,
+   "label": "Snow 2.0 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "2.0 in",
+     "note": null,
+     "at": "2026-11-26T01:10+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by the public"
+   ],
+   "status": "official",
+   "at": "2026-11-26T01:10+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p10",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "Carlinville",
+   "county": "Macoupin",
+   "zip": null,
+   "lat": 39.29,
+   "lon": -89.88,
+   "person": false,
+   "label": "Snow 1.7 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "1.7 in",
+     "note": null,
+     "at": "2026-11-26T01:54+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by a trained spotter"
+   ],
+   "status": "official",
+   "at": "2026-11-26T01:54+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p11",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "O'Fallon",
+   "county": "St. Clair",
+   "zip": null,
+   "lat": 38.59,
+   "lon": -89.91,
+   "person": false,
+   "label": "Snow 2.5 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "2.5 in",
+     "note": null,
+     "at": "2026-11-26T02:55+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by Broadcast Media"
+   ],
+   "status": "official",
+   "at": "2026-11-26T02:55+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p12",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "2 mi S of Quincy",
+   "county": "Adams",
+   "zip": null,
+   "lat": 39.91,
+   "lon": -91.39,
+   "person": false,
+   "label": "Snow 0.8 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "0.8 in",
+     "note": null,
+     "at": "2026-11-26T02:55+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by Local Official"
+   ],
+   "status": "official",
+   "at": "2026-11-26T02:55+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p13",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "2 mi NE of Columbia",
+   "county": "Monroe",
+   "zip": null,
+   "lat": 38.47,
+   "lon": -90.21,
+   "person": false,
+   "label": "Snow 2.3 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "2.3 in",
+     "note": null,
+     "at": "2026-11-26T03:00+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by the public"
+   ],
+   "status": "official",
+   "at": "2026-11-26T03:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p14",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "2 mi E of Chatham",
+   "county": "Sangamon",
+   "zip": null,
+   "lat": 39.67,
+   "lon": -89.67,
+   "person": false,
+   "label": "Snow 1.2 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "1.2 in",
+     "note": null,
+     "at": "2026-11-26T03:00+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by a CoCoRaHS observer"
+   ],
+   "status": "official",
+   "at": "2026-11-26T03:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p15",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "Smithton",
+   "county": "St. Clair",
+   "zip": null,
+   "lat": 38.41,
+   "lon": -89.99,
+   "person": false,
+   "label": "Snow 2.5 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "2.5 in",
+     "note": null,
+     "at": "2026-11-26T03:30+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by the public"
+   ],
+   "status": "official",
+   "at": "2026-11-26T03:30+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p16",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "2 mi SE of Swansea",
+   "county": "St. Clair",
+   "zip": null,
+   "lat": 38.52,
+   "lon": -89.96,
+   "person": false,
+   "label": "Snow 4.5 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "4.5 in",
+     "note": null,
+     "at": "2026-11-26T03:35+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by a trained spotter"
+   ],
+   "status": "official",
+   "at": "2026-11-26T03:35+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p17",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "2 mi SE of Belleville",
+   "county": "St. Clair",
+   "zip": null,
+   "lat": 38.51,
+   "lon": -89.98,
+   "person": false,
+   "label": "Snow 4.2 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "4.2 in",
+     "note": null,
+     "at": "2026-11-26T03:40+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by a trained spotter"
+   ],
+   "status": "official",
+   "at": "2026-11-26T03:40+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p18",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "5 mi W of Springfield",
+   "county": "Sangamon",
+   "zip": null,
+   "lat": 39.77,
+   "lon": -89.76,
+   "person": false,
+   "label": "Snow 1.8 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "1.8 in",
+     "note": null,
+     "at": "2026-11-26T03:45+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by the public"
+   ],
+   "status": "official",
+   "at": "2026-11-26T03:45+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p19",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "Waverly",
+   "county": "Morgan",
+   "zip": null,
+   "lat": 39.59,
+   "lon": -89.95,
+   "person": false,
+   "label": "Snow 2.5 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "2.5 in",
+     "note": null,
+     "at": "2026-11-26T03:45+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by an emergency manager"
+   ],
+   "status": "official",
+   "at": "2026-11-26T03:45+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p20",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "Jacksonville",
+   "county": "Morgan",
+   "zip": null,
+   "lat": 39.73,
+   "lon": -90.23,
+   "person": false,
+   "label": "Snow 1.0 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "1.0 in",
+     "note": null,
+     "at": "2026-11-26T03:45+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by an emergency manager"
+   ],
+   "status": "official",
+   "at": "2026-11-26T03:45+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p21",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "Glen Carbon",
+   "county": "Madison",
+   "zip": null,
+   "lat": 38.76,
+   "lon": -89.98,
+   "person": false,
+   "label": "Snow 4.0 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "4.0 in",
+     "note": null,
+     "at": "2026-11-26T04:00+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by the public"
+   ],
+   "status": "official",
+   "at": "2026-11-26T04:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p22",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "1 mi NE of Edwardsville",
+   "county": "Madison",
+   "zip": null,
+   "lat": 38.81,
+   "lon": -89.96,
+   "person": false,
+   "label": "Snow 3.3 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "3.3 in",
+     "note": null,
+     "at": "2026-11-26T04:02+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by an emergency manager"
+   ],
+   "status": "official",
+   "at": "2026-11-26T04:02+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p23",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "1 mi SE of Collinsville",
+   "county": "Madison",
+   "zip": null,
+   "lat": 38.67,
+   "lon": -89.98,
+   "person": false,
+   "label": "Snow 4.0 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "4.0 in",
+     "note": null,
+     "at": "2026-11-26T04:02+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by the public"
+   ],
+   "status": "official",
+   "at": "2026-11-26T04:02+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p24",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "Red Bud",
+   "county": "Randolph",
+   "zip": null,
+   "lat": 38.21,
+   "lon": -89.99,
+   "person": false,
+   "label": "Snow 3.0 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "3.0 in",
+     "note": null,
+     "at": "2026-11-26T04:12+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by the public"
+   ],
+   "status": "official",
+   "at": "2026-11-26T04:12+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p25",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "Medora",
+   "county": "Macoupin",
+   "zip": null,
+   "lat": 39.18,
+   "lon": -90.14,
+   "person": false,
+   "label": "Snow 4.0 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "4.0 in",
+     "note": null,
+     "at": "2026-11-26T05:15+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by a co-op observer"
+   ],
+   "status": "official",
+   "at": "2026-11-26T05:15+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p26",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "1 mi E of Troy",
+   "county": "Madison",
+   "zip": null,
+   "lat": 38.73,
+   "lon": -89.88,
+   "person": false,
+   "label": "Snow 3.5 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "3.5 in",
+     "note": null,
+     "at": "2026-11-26T05:33+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by a trained spotter"
+   ],
+   "status": "official",
+   "at": "2026-11-26T05:33+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p27",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "1 mi N of Springfield",
+   "county": "Sangamon",
+   "zip": null,
+   "lat": 39.82,
+   "lon": -89.65,
+   "person": false,
+   "label": "Snow 1.1 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "1.1 in",
+     "note": null,
+     "at": "2026-11-26T06:05+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by Official NWS Obs"
+   ],
+   "status": "official",
+   "at": "2026-11-26T06:05+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
   }
  ],
  "news": [
@@ -258,39 +1054,31 @@
    "lat": 41.837,
    "lon": -87.6849,
    "counties": [
-    "17031",
-    "17197"
+    "17031"
    ],
    "stories": [
     {
-     "title": "Chicago weather: Arctic chill leads up to Thanksgiving storms",
-     "source": "FOX 32 Chicago",
-     "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5jUTJTSjVhaFdiQlBCRkFZeXg0VW41Ym1FT0s2azNrTl9HTFVSMHY0MEgwR0tTQUFqdDA5RXZZb0JqeXRFWi1DY25pal9hdE1Vc09GY2phb0NFY29wNU1sWm1sQzlwSGtTeXVuY2N1Y0Vya1RkaXpkNndKNA?oc=5",
-     "at": "2026-11-24T11:57:20"
+     "title": "Winter storm warning issued in parts of Illinois, Chicago could see Thanksgiving rain",
+     "source": "NBC Chicago",
+     "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNOTYwQTEyM3M0MFhWX1d2dW1KVWdLekkxM091WDRoUDhWbThDU0tYZEpMdTYxN3YwWHVZR0psN0JvbWQzZk4wNVdyVERsejdJQjZnbm5VWUtFdkNnRGJkQ256bXhyV0JvemdXQy1EWVUyc3k2bEdNUGFISUNCNUYzaFB3eGVuRjU4TE9aR2RLUWw1cUpxNW1La2IyWWFqa0wzS2RKdFA0ZC1xWXdCV3B1bE10X2R0aFh0MGfSAcIBQVVfeXFMTXQ1bmFRNHJGc01ja1dnZWprdEFSUktyVF9MdVdKc2JzNlg0RUZneEFneWhmOHRoS0pLcXViMFd0RTljMEN3NkpLbUk0cF9MVzNsemFxN0Z0UW9oN1VPLXh2VUFzTFhJTmR0Wk1WUDJBckY4cWhZRUZ1Tmg1ZmJiYzNUVGVldjJ2aUdxbzV3SnEwSVkzME5nUjNuTTBlcEtqU19zYTkxNTktTHUtRWR1QlZKeExBbGE4WUh2d0FhRXhtWFE?oc=5",
+     "at": "2026-11-25T19:01:22"
     },
     {
-     "title": "Chicago Records Thanksgiving Weather Extremes Since 1872",
-     "source": "cwibc.co.id",
-     "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE44aXg2eWp5V0VFNlE3c2xmMU1rN0NDUS1JQlhOTWNIZFQ2SUdBWE44dmZkVjE1eU5yZG5ZMXhMLUtGUldIN09idE5wc3dLdk5CZGpPTjJ6cGdTUDV0RXZaR3ctM1BRRFNDRUFz?oc=5",
-     "at": "2026-11-24T04:11:21"
+     "title": "Thanksgiving Nor'Easter Brings Rain, Cold To Chicago, Snow To Southwest Illinois",
+     "source": "Patch",
+     "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNNUNGZkF2akZING9VUldPSEk0QzhaUmw2VzdYLTNEcTBJdEJ1UFJwSjM5Q1FVcElmY0hfekFEX2FFZGxiOGU2ekp2QVdVd2tRUUhzdGVCVmlGSzhWUVRTRmE0ZlRsV0g4UFVuRkhKTWxzZTlsOUZvbENYRUhtSEdoUGNDcU9pM3NuRVBNVlhMSTFQMlBqazV2MlN3T3p4cHl5TE1mZWVR0gHGAUFVX3lxTE13UGFONUZoUy1ZZnRUalY5aGo2LWk5S2Y1ZDQ5MUFSOVBOdGxkVVFLNUhlSjVVR21uOUZfWDVFTnBmOXA5WUVGR1hhMU1WZTFpYXFtQkZFU3FvM0poMzJoV1o1TXJKSzdXajhCSzd1d3J5N2hmWnNveFRuUGcwX3pINnFBMFBqMF9KSTROSkZqcGlBT2R6VU1zalVYOXBEUmtvamZKMndqdXNoZHNYOEw4c3FBcllYM1lTQURVOFluZnF6UlBXZw?oc=5",
+     "at": "2026-11-25T15:41:14"
     },
     {
-     "title": "Holiday storm timeline: When rain moves into Chicago before Thanksgiving",
+     "title": "Chicago weather: Wednesday afternoon forecast",
      "source": "FOX 32 Chicago",
-     "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNdl9JeHMzQkdHbDg4WVQyNklDTEZpNWQweG0tdk9abmNiS2JmV2lyQU5xVk1tQ3ZZNzBzdjhMNXhicWV5NHl0cnV1bXVTazFTQWJ5S1RrUFhqRExBTzJ3TklRWEJQay1sY3YydHhmdmRIVFF1S0ttRzhmbHh2a3ZBMFYxOXdJOV82RUU5Y1FNakpEdmE5a2V4eGZ5UnFUTjNJYkE?oc=5",
-     "at": "2026-11-24T01:29:48"
+     "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9XaWxQam1SWno2dWN0bHR6dGJ6MjM5SGNBRmhqR0NUenRBQTBQYU5TSjhHRGlnLTE0REdONEdMWFRabXFFU2VaNy1uQXd4bUlvMkU5UnZGbXNJdTY3bDVBekc3Wno1UdIBa0FVX3lxTFBGREx1Y3pOTVVSanJNZi1rWGhGVmh0MEgxanE5d3FseFdTb0wtX1hQazFlRUlhTEVJMlc2MWFFR01LS21lOVFRVlhvczRhSXhHRWNXdHFnaXpQT2E4RUZLMnU0dWxWZkx0blFR?oc=5",
+     "at": "2026-11-25T17:47:00"
     }
    ],
    "more": [
-    "Thanksgiving Storm System: Latest Updates On Rain, Possible Snow That Will Hit IL",
-    "Thanksgiving Will Be Chilly And Rainy In Chicago, But Snow Unlikely",
-    "Thanksgiving Nor'Easter Will Bring Rain, Possible Snow To Chicago Area",
     "Chicago O'Hare airport ground stop lifted amid equipment issue during Thanksgiving 2026 travel rush; snow possible Wednesday",
-    "Could nasty weather spoil Thanksgiving parades in Chicago, New York?",
-    "Chicago weather: Thanksgiving forecast calls for rain with a chance of wet snow",
-    "Calm before the storm for Thanksgiving holiday travel in Chicago",
-    "MWRD, IDNR convene agencies for flood preparedness workshop - Metropolitan Water Reclamation District of Greater Chicago",
-    "\"Why does Chicago keep flooding?\" Austin Weekly News - Metropolitan Water Reclamation District of Greater Chicago"
+    "Could nasty weather spoil Thanksgiving parades in Chicago, New York?"
    ],
    "links": [],
    "alerts": []
@@ -312,6 +1100,18 @@
      "source": "NPR Illinois",
      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPN1E5cVM1V0padWJTeE4tcVRCeWkyTlBnektHLURBM2tFUExOUWhkOE1Ya29oUGwwbDFjUG9GTzlmejI1b0loanM5aFpka2RveHhyWWZmNkJoQzQyN3pqRnR2d21WcXNBazVYeGVMbHUzcXVNMEd6MGszamxnMDFCRkZ4dDBjZm9uU0t0N1Z6enBsYy1rSkJwUS1WdUoteVJRUk1PNlRyS3ppd3B0RkRrR3gwVQ?oc=5",
      "at": "2026-11-25T03:01:21"
+    },
+    {
+     "title": "Springfield rally puts pressure on Illinois over data center rules",
+     "source": "Yahoo",
+     "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQR0R0S1lYd25Zb29ZSm9MWHlaQ0VkN3E0N1hmclFJaTNaZGhhSDIyamNLSEdQcXdob1dqSm5JdjdVU1ZpbTE1ZzVqbXZudG5zLVVDeThrdkdnQXRCRExjTVVNbXcza2lLVnh3c2ZOaU4wMmJLRy15ejdTYk5BeXZIUlpTdkhmRllfWFJjcEF2MDA2RVpndE5WVUdNb1dzQTQzbnc?oc=5",
+     "at": "2026-11-25T17:40:00"
+    },
+    {
+     "title": "\u2018Time is up\u2019: Advocates rally in Springfield for data center reforms in Illinois",
+     "source": "Shaw Local",
+     "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNUlByTGhzZTNaQ1o0Uk8yT2ptWGxXWk5zalpPcGZ6Z2VuN1gzMk9PM0hveXN1QTgtbjBmZnhvY2pjNW1jRjRqU1hqVUlSV2hSSXhTYXl6WW1FQnN3VDJZWGpaN3VkcGMzc3JESlBYTHlWSmU2SXpNUTJTbDNtd1ZqbXFKNi1sTGRKblpQbUZGQjQ0LV9RbUhSeFdrTWN3YnU4ejVwTVpBczFMS0UxVm9udUdrcXl1eml0Mm85RA?oc=5",
+     "at": "2026-11-19T12:00:01"
     }
    ],
    "more": [],
@@ -323,6 +1123,29 @@
   {
    "id": "n3",
    "n": 3,
+   "topic": "weather",
+   "place": "Will",
+   "statewide": false,
+   "lat": 41.4485,
+   "lon": -87.9785,
+   "counties": [
+    "17197"
+   ],
+   "stories": [
+    {
+     "title": "Thanksgiving Storm System: Latest Updates On Rain, Possible Snow That Will Hit IL",
+     "source": "Patch",
+     "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOUk1FN3NLZWZXcFM4dlUwVGItSGZsZlY2TEJ3QWJkMFoxQlpJRXRISmJ0ekRuY0hLMl9IZzNmaG1FMXJEQXNHeTZXWXVrM3U2OVZqUlhJV283dFZ1cndQWXJlUTNsUTJqVHNuMDJPUzNSTU1sOHYwQk5GN3M3ZHFZS0tjQlh6Y2h5clRHNDl0TTBVZ0didkRZalJCa19EMjFGTmfSAcgBQVVfeXFMTWxWNGJXWktGWFdwbE9Ea2VOblBvM1BFRENZbGd5YWZINXVmUjg5ZUwzNTI5MFllM2ZGRzVjbUdlNHpvQTlFVFFJRk9DQ1NkdHg2ektwVDd0bkxfeVBwRkJuZEhDRWRaMzFZWVltakZDRHpuU3FMUC1tU0dPU1hSYW9vV0xkLVg4cGI5VEh0R3Q0NUlCZ0hrc0gxRmhsWDZoU1VwZ1NqODhramw3bldmX053NkU5MnlidmVFZGNjU3BoRmwtNVMzNzM?oc=5",
+     "at": "2026-11-24T15:00:06"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n4",
+   "n": 4,
    "topic": "agriculture",
    "place": "Kendall",
    "statewide": false,
@@ -346,104 +1169,8 @@
    "alerts": []
   },
   {
-   "id": "n4",
-   "n": 4,
-   "topic": "weather",
-   "place": "Quad Cities",
-   "statewide": false,
-   "lat": 41.4684,
-   "lon": -90.5721,
-   "counties": [
-    "17073",
-    "17131",
-    "17161"
-   ],
-   "stories": [
-    {
-     "title": "Big temperature turnaround this week in the Quad Cities",
-     "source": "OurQuadCities",
-     "url": "https://www.ourquadcities.com/news/local-news/big-temperature-turnaround-this-week-in-the-quad-cities/",
-     "at": "2026-11-24T01:40:06"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
    "id": "n5",
    "n": 5,
-   "topic": "emergency",
-   "place": "Fulton County",
-   "statewide": false,
-   "lat": 40.4652,
-   "lon": -90.2023,
-   "counties": [
-    "17057"
-   ],
-   "stories": [
-    {
-     "title": "Fulton County prepares for potential impact of Iowa explosives detonation",
-     "source": "WEEK | 25 News Now",
-     "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQU3l3RWRHTVR6dDROZS0yOVdtd3NnSUJJamlCZ3p1UXFMZWlUVm5kT1pHZkdOM3MycmlwTFFUOUFsMmlIUUZ3bmFQZ0NaeXZpWC1nTXBMS05relBtSUgwNXctQm1VT2lKRFZiSnFCU2dIeFhPMWpwaFZNeVZoR1VNNGpVSnU3WmtRMnlnOXRkQlRpU0pkX0l4M0hBQ01HZGU5cFB3SWdkb9IBuwFBVV95cUxPN1lRU2lQaElsMDR1MklSYnRTbFl6YWJRY1JRbmN0NWZSVkF2Qlp6UHJrN0E4R05UZGNnc3drejV0QnBjTWxoYU5fN3lCMFFlVjR2SHI1NnpxUzFZU0w0MTktOFdxUDlLTC1JNXl0UFR4dEJxeGlQeVpMYzU1NTFrbVROYTZsanNtdkZHS2VMMHJIRlhEUlBHLUlQVHVHaGdaYlFFZWF6QVgxcElCdXFCU2VGQ19jazdsN3NR?oc=5",
-     "at": "2026-11-24T00:42:00"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": [
-    "Winter Weather Advisory"
-   ]
-  },
-  {
-   "id": "n6",
-   "n": 6,
-   "topic": "landuse",
-   "place": "McHenry County",
-   "statewide": false,
-   "lat": 42.3243,
-   "lon": -88.4523,
-   "counties": [
-    "17111"
-   ],
-   "stories": [
-    {
-     "title": "McHenry County Board approves year-long data center moratorium",
-     "source": "Shaw Local",
-     "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNUEVIUGxtZzJ5a1RaaUZlUWdUdUtITEd2TDFRM09wd3gzLXVhWEpvUFRjWnk1TGxNUFdJbE9IV3FBNzZBM21hNThtLXVuRTNyY1N1c0lqQy1TeXJ4TkM0cGx2VnBQU2N4UERsOHhvaG9yOGtPb0hPNWQ4dlRWRHo1WTdaMWlFNXF1cVhhNFFqSWtteEcyZlFPeHk0ZG1pSzl3M0V3SlR3amR2Mm1ZQ180RGl5OFhZNHBX?oc=5",
-     "at": "2026-11-22T23:10:36"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n7",
-   "n": 7,
-   "topic": "landuse",
-   "place": "Decatur",
-   "statewide": false,
-   "lat": 39.856,
-   "lon": -88.9337,
-   "counties": [
-    "17115"
-   ],
-   "stories": [
-    {
-     "title": "Decatur locals fight Google\u2019s planned fossil fuel-powered data center",
-     "source": "Chicago Reader",
-     "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPOFJCSnZxc0I1UE90QkhQeXFBV3pXNzBxeXhuZEpwMml6SG1zT0ZMR0ZpaDNmeVQ2RDNGdVE4UzZpbU9qLV9nNnZhekRuSmZTdlRQb21HVHBycHE5SDNXa3MtTGNXQUJaWklTYnpwQ2hFaGhqUFlZTzF3d1I1SnNPcXlyT2dlZzR0TXp1SmRkb18wVW9LdDJlQW9LR0xleFhPTEE?oc=5",
-     "at": "2026-11-23T18:31:35"
-    }
-   ],
-   "more": [],
-   "links": [],
-   "alerts": []
-  },
-  {
-   "id": "n8",
-   "n": 8,
    "topic": "weather",
    "place": null,
    "statewide": true,
@@ -452,10 +1179,10 @@
    "counties": [],
    "stories": [
     {
-     "title": "Forecast: Clearing, cold; fall\u2019s chilliest temps yet",
-     "source": "WGN-TV Weather Blog",
-     "url": "https://wgntv.com/weather/chicago-weather-tuesday-11242026/",
-     "at": "2026-11-24T01:54:57"
+     "title": "Illinois winter storm set to bring several inches of snow for Thanksgiving",
+     "source": "Alton Telegraph",
+     "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOcVZPcUlILVM3VExpXzFIRkotZDV0RVZuTXRHNy1YVE1wdTAyZEpPVWl0dW5EWUtJUkdZOURqZ0ZlbkV4MGhLUU5Xbk1lVXdVRktZYXpGOW9sdk9jUk9mSTNIY0diRGVvYXdJbXl0MUJEckFaZmVWa1J1NUxhR3I3anFJbFBIRDUwQ3lFdEE2YjVhMFhadFg2a2dtemY0dw?oc=5",
+     "at": "2026-11-25T17:58:33"
     }
    ],
    "more": [],
@@ -465,32 +1192,8 @@
    "alerts": []
   },
   {
-   "id": "n9",
-   "n": 9,
-   "topic": "markets",
-   "place": null,
-   "statewide": true,
-   "lat": null,
-   "lon": null,
-   "counties": [],
-   "stories": [
-    {
-     "title": "November 2026 Corn and Soybean Basis Update | Purdue - Purdue University",
-     "source": "College of Agriculture",
-     "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNak5rVkRKQ1ozT1hMSzRfUGtYWlNYOXFBZWtLd0ZxXzdlNEZURmNXdkhhcWdxOTFSSmU4RVRqUlNqcTVjcjdxTllaa2xnV0lNcUdoUTJjMHh5VmFleUx2VVdReG5ieG9jY1NTRDJJMThhSmlMQ2NKdWk4QWRtVW5UNG1WU0N2OEN0cDBiLXBhb1daVkNOSmVxMlk3cC0wUQ?oc=5",
-     "at": "2026-11-20T15:38:14"
-    }
-   ],
-   "more": [],
-   "links": [
-    "p2",
-    "p3"
-   ],
-   "alerts": []
-  },
-  {
-   "id": "n10",
-   "n": 10,
+   "id": "n6",
+   "n": 6,
    "topic": "agriculture",
    "place": null,
    "statewide": true,
@@ -508,6 +1211,27 @@
    "more": [],
    "links": [],
    "alerts": []
+  },
+  {
+   "id": "n7",
+   "n": 7,
+   "topic": "air",
+   "place": null,
+   "statewide": true,
+   "lat": null,
+   "lon": null,
+   "counties": [],
+   "stories": [
+    {
+     "title": "No ill effects from Iowa lead detonation reported in Illinois",
+     "source": "The State Journal-Register",
+     "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPSTd3RjF4X3lzYkhJTnpwWG95VjRVZkRXdC1ZVEs1SzR0OUtRRUUyR2dfX3NjS2h3eDhnSl9tUDgyT3dlc1FnZjhQa05IenlYVDZXRzdHeTNiYzRydGZ3TVB4Z3pfM3M3cmZfVERLbmRCODlORWMyWUdfVmMzdC14d0tQcUVMa3pkQWY3c0NjZWRQR1UxeVFRZndTZy1JUGxhYVJMbkszSTA4OU1PZXhDZThsT3FOeWtlNDduNlNZUEg?oc=5",
+     "at": "2026-11-25T20:31:00"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
   }
  ],
  "areas": [],
@@ -516,7 +1240,6 @@
   "Air",
   "Seasons & nature",
   "Earthquakes",
-  "Soil",
-  "Water"
+  "Soil"
  ]
 }

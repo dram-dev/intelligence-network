@@ -3,55 +3,30 @@
   "event": "Winter Storm Warning",
   "severity": "Severe",
   "counties": [
-   "Scott",
-   "Morgan"
-  ],
-  "sender": "NWS Lincoln IL",
-  "headline": "WINTER STORM WARNING IN EFFECT FROM NOON WEDNESDAY TO 6 PM CST THURSDAY",
-  "expires": "2026-11-27T00:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.532fb99de36b481a3f1e40c8d49283475c3344b0.002.2"
- },
- {
-  "event": "Winter Storm Warning",
-  "severity": "Severe",
-  "counties": [
    "Greene",
    "Randolph",
    "Pike",
    "Calhoun",
    "Jersey",
+   "St. Clair",
    "Monroe"
   ],
   "sender": "NWS St Louis MO",
-  "headline": "WINTER STORM WARNING REMAINS IN EFFECT FROM NOON TODAY TO 6 PM CST THURSDAY",
-  "expires": "2026-11-27T00:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.e78b4ef22ab18520b1c2a5ce9b1474089f337c1e.004.1"
+  "headline": "WINTER STORM WARNING REMAINS IN EFFECT UNTIL NOON CST THURSDAY",
+  "expires": "2026-11-26T18:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.5ffff647c85f23ef6ecab73c488ae02703a11155.003.1"
  },
  {
-  "event": "Winter Weather Advisory",
-  "severity": "Moderate",
+  "event": "Winter Storm Warning",
+  "severity": "Severe",
   "counties": [
-   "Fulton",
-   "Schuyler",
-   "Mason"
+   "Macoupin",
+   "Madison"
   ],
-  "sender": "NWS Lincoln IL",
-  "headline": "WINTER WEATHER ADVISORY IN EFFECT FROM NOON WEDNESDAY TO 6 PM CST THURSDAY",
-  "expires": "2026-11-27T00:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.532fb99de36b481a3f1e40c8d49283475c3344b0.004.1"
- },
- {
-  "event": "Winter Weather Advisory",
-  "severity": "Moderate",
-  "counties": [
-   "Cass",
-   "Menard",
-   "Sangamon"
-  ],
-  "sender": "NWS Lincoln IL",
-  "headline": "WINTER WEATHER ADVISORY IN EFFECT FROM NOON WEDNESDAY TO 6 PM CST THURSDAY",
-  "expires": "2026-11-27T00:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.532fb99de36b481a3f1e40c8d49283475c3344b0.003.2"
+  "sender": "NWS St Louis MO",
+  "headline": "WINTER STORM WARNING IN EFFECT UNTIL NOON CST THURSDAY",
+  "expires": "2026-11-26T18:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.5ffff647c85f23ef6ecab73c488ae02703a11155.001.2"
  },
  {
   "event": "Winter Weather Advisory",
@@ -61,9 +36,9 @@
    "McDonough"
   ],
   "sender": "NWS Quad Cities IA IL",
-  "headline": "WINTER WEATHER ADVISORY IN EFFECT FROM NOON WEDNESDAY TO 6 PM CST THURSDAY",
-  "expires": "2026-11-27T00:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.337ec74b656be98cdcf765bacdd0376ce111822e.001.1"
+  "headline": "WINTER WEATHER ADVISORY REMAINS IN EFFECT UNTIL NOON CST TODAY",
+  "expires": "2026-11-26T18:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.771e1fce3e1e3c1fc65a3d78e7e34b0b089efd57.001.1"
  },
  {
   "event": "Winter Weather Advisory",
@@ -75,22 +50,46 @@
    "Alexander"
   ],
   "sender": "NWS Paducah KY",
-  "headline": "WINTER WEATHER ADVISORY IN EFFECT FROM 3 PM THIS AFTERNOON TO NOON CST THURSDAY",
+  "headline": "WINTER WEATHER ADVISORY REMAINS IN EFFECT UNTIL NOON CST TODAY",
   "expires": "2026-11-26T18:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.1c5a361d611f5e16df0ce51a0ef2cb45bff7f5a3.003.2"
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ffb4f26e6c149f76500fafdd1b649a1a8f1e4152.002.1"
  },
  {
   "event": "Winter Weather Advisory",
   "severity": "Moderate",
   "counties": [
-   "Montgomery",
-   "Bond",
-   "Clinton",
-   "Washington"
+   "Scott",
+   "Morgan"
   ],
-  "sender": "NWS St Louis MO",
-  "headline": "WINTER WEATHER ADVISORY IN EFFECT FROM NOON TODAY TO 6 PM CST THURSDAY",
+  "sender": "NWS Lincoln IL",
+  "headline": "WINTER STORM WARNING IS CANCELLED... ...WINTER WEATHER ADVISORY IN EFFECT UNTIL NOON CST TODAY",
+  "expires": "2026-11-26T18:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ae2efb6fc825bc334e43cd016f825eff8544c41c.001.2"
+ },
+ {
+  "event": "Winter Weather Advisory",
+  "severity": "Moderate",
+  "counties": [
+   "Schuyler",
+   "Cass",
+   "Menard",
+   "Sangamon"
+  ],
+  "sender": "NWS Lincoln IL",
+  "headline": "WINTER WEATHER ADVISORY NOW IN EFFECT UNTIL NOON CST TODAY",
+  "expires": "2026-11-26T18:00:00+00:00",
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.ae2efb6fc825bc334e43cd016f825eff8544c41c.002.1"
+ },
+ {
+  "event": "Winter Weather Advisory",
+  "severity": "Minor",
+  "counties": [
+   "Fulton",
+   "Mason"
+  ],
+  "sender": "NWS Lincoln IL",
+  "headline": "WINTER WEATHER ADVISORY IS CANCELLED",
   "expires": "2026-11-27T00:00:00+00:00",
-  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.e78b4ef22ab18520b1c2a5ce9b1474089f337c1e.005.2"
+  "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.d9351e34b4dfe644738213fa38f7f5b8c231b2fc.001.1"
  }
 ]

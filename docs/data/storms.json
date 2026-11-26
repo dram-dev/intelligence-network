@@ -1,1 +1,23 @@
-[]
+[
+ {
+  "id": 121,
+  "topic": "weather",
+  "title": "Snowfall 8.0 in \u2014 Monroe County",
+  "severity": 0.4,
+  "status": "open",
+  "counties": [
+   "Monroe"
+  ],
+  "fips": [
+   "17133"
+  ],
+  "opened_at": "2026-11-26T05:30:00+00:00",
+  "updated_at": "2026-11-26T05:30:00+00:00",
+  "lat": 38.33,
+  "lon": -90.15,
+  "brief": "Snowfall peaked at 8.0 inches in Monroe County [1]. This measurement comes from one official source [1]. The data has been verified [1].",
+  "facts": [
+   "Snowfall peak 8.0 in in Monroe County, from 1 official source, verified"
+  ]
+ }
+]
