@@ -1,23 +1,29 @@
 [
  {
-  "id": 121,
+  "id": 122,
   "topic": "weather",
-  "title": "Snowfall 8.0 in \u2014 Monroe County",
+  "title": "Snowfall 6.4 in \u2014 Randolph County",
   "severity": 0.4,
-  "status": "open",
+  "status": "closed",
   "counties": [
-   "Monroe"
+   "Monroe",
+   "Randolph",
+   "St. Clair"
   ],
   "fips": [
-   "17133"
+   "17133",
+   "17157",
+   "17163"
   ],
-  "opened_at": "2026-11-26T05:30:00+00:00",
-  "updated_at": "2026-11-26T05:30:00+00:00",
-  "lat": 38.33,
-  "lon": -90.15,
-  "brief": "Snowfall peaked at 8.0 inches in Monroe County [1]. This measurement comes from one official source [1]. The data has been verified [1].",
+  "opened_at": "2026-11-26T13:00:00+00:00",
+  "updated_at": "2026-11-26T14:08:00+00:00",
+  "lat": 38.2,
+  "lon": -90.067,
+  "brief": "St. Clair County recorded a verified snowfall peak of 8.7 inches [1]. Monroe County saw a verified peak of 10.3 inches [2]. Randolph County reported a verified peak of 6.4 inches [3].",
   "facts": [
-   "Snowfall peak 8.0 in in Monroe County, from 1 official source, verified"
+   "Snowfall peak 8.7 in in St. Clair County, from 1 official source, verified",
+   "Snowfall peak 10.3 in in Monroe County, from 1 official source, verified",
+   "Snowfall peak 6.4 in in Randolph County, from 1 official source, verified"
   ]
  }
 ]
