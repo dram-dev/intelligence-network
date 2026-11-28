@@ -1,9 +1,45 @@
 {
- "as_of": "2026-11-27T08:00:58+00:00",
+ "as_of": "2026-11-28T07:59:27+00:00",
  "hours": 24,
  "places": [
   {
    "id": "p1",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "1.2 mi ESE of Flossmoor",
+   "county": "Cook",
+   "zip": null,
+   "lat": 41.5319,
+   "lon": -87.6641,
+   "person": false,
+   "label": "Rain 2.23 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "2.23 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.7
+    }
+   ],
+   "why": [
+    "Highest rainfall total in Illinois in the last 24 hours",
+    "Rainfall well past the network's event threshold",
+    "In the news: \u201cHighest Rainfall Reports from Thanksgiving Day 11/26 thru Morning of 11/27 (NWS Chicago)\u201d"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [
+    "n1"
+   ],
+   "tier": 1
+  },
+  {
+   "id": "p2",
    "topic": "weather",
    "source": "CoCoRaHS observer",
    "name": "3.7 mi ENE of Fults",
@@ -21,121 +57,17 @@
      "note": null,
      "at": "2026-11-26T13:00+00:00",
      "sev": 0.4
-    },
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.54 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
     }
    ],
    "why": [
-    "Highest snowfall total in Illinois in the last 24 hours",
+    "Highest snowfall total in Illinois in the latest reports (Nov 26)",
     "Snowfall past the network's event threshold",
-    "Rainfall past the network's event threshold"
+    "In the news: \u201cWatch Surprise Thanksgiving snowfall accumulates across Missouri and Illinois - FWX\u201d"
    ],
    "status": "official",
-   "at": "2026-11-26T13:00+00:00",
+   "at": "2026-11-27T13:00+00:00",
    "url": null,
    "spark": null,
-   "event": null,
-   "news": [
-    "n4"
-   ],
-   "tier": 1
-  },
-  {
-   "id": "p2",
-   "topic": "water",
-   "source": "USGS stream gauge",
-   "name": "Richland Creek near Hecker",
-   "county": "St. Clair",
-   "zip": null,
-   "lat": 38.3239,
-   "lon": -89.9706,
-   "person": false,
-   "label": "\u25b2 9.15 ft",
-   "lines": [
-    {
-     "metric": "stage_m",
-     "name": "Stage (gauge height)",
-     "value": "36.6 ft",
-     "note": "up 9.15 ft in 24 hours",
-     "at": "2026-11-27T07:30+00:00",
-     "sev": 0.0
-    },
-    {
-     "metric": "discharge_cms",
-     "name": "Streamflow",
-     "value": "1,350 cfs",
-     "note": "up 1,327 cfs in 24 hours",
-     "at": "2026-11-27T07:30+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Biggest rise in Illinois in the last 24 hours",
-    "In the news: \u201cAncient Cahokia was transformed amid droughts and flooding \u2013 climate change is reshaping modern communities in similar ways\u201d"
-   ],
-   "status": "official",
-   "at": "2026-11-27T07:30+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/05595200/",
-   "spark": {
-    "name": "Stage (gauge height)",
-    "unit": "ft",
-    "t": [
-     -1350,
-     -1290,
-     -1230,
-     -1170,
-     -1110,
-     -1050,
-     -990,
-     -930,
-     -870,
-     -810,
-     -750,
-     -660,
-     -600,
-     -540,
-     -480,
-     -420,
-     -360,
-     -300,
-     -240,
-     -180,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     27.47,
-     27.48,
-     27.5,
-     27.51,
-     27.55,
-     27.56,
-     27.62,
-     27.67,
-     27.74,
-     27.81,
-     27.89,
-     28.06,
-     28.19,
-     28.39,
-     28.82,
-     29.87,
-     31.52,
-     33.05,
-     34.24,
-     35.1,
-     35.8,
-     36.32,
-     36.62
-    ]
-   },
    "event": null,
    "news": [
     "n5"
@@ -144,2672 +76,71 @@
   },
   {
    "id": "p3",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "0.8 mi N of Cairo",
-   "county": "Alexander",
+   "topic": "air",
+   "source": "EPA air monitor",
+   "name": "St. Clair County air monitor",
+   "county": "St. Clair",
    "zip": null,
-   "lat": 37.0092,
-   "lon": -89.1779,
+   "lat": 38.6119,
+   "lon": -90.1606,
    "person": false,
-   "label": "Rain 1.85 in",
+   "label": "PM2.5 41.3 \u00b5g/m\u00b3",
    "lines": [
     {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.85 in",
+     "metric": "pm25_ugm3",
+     "name": "PM2.5",
+     "value": "41.3 \u00b5g/m\u00b3 (AQI 115, unhealthy for sensitive groups)",
      "note": null,
-     "at": "2026-11-26T13:00+00:00",
+     "at": "2026-11-28T07:00+00:00",
      "sev": 0.4
     }
    ],
    "why": [
-    "Highest rainfall total in Illinois in the last 24 hours",
-    "Rainfall past the network's event threshold"
+    "Highest PM2.5 in Illinois in the last 24 hours (AQI 115, unhealthy for sensitive groups)",
+    "PM2.5 past the network's event threshold (AQI 115, unhealthy for sensitive groups)",
+    "In the news: \u201cIllinois monitors air quality after Iowa lead detonation\u201d"
    ],
    "status": "official",
-   "at": "2026-11-26T13:00+00:00",
+   "at": "2026-11-28T07:00+00:00",
    "url": null,
    "spark": null,
-   "event": null,
-   "news": [],
+   "event": {
+    "title": "PM2.5 41.3 \u00b5g/m\u00b3 (AQI 115, unhealthy for sensitive groups) \u2014 St. Clair County",
+    "verified": true,
+    "score": 0.95
+   },
+   "news": [
+    "n7"
+   ],
    "tier": 1
   },
   {
    "id": "p4",
-   "topic": "markets",
-   "source": "USDA grain bids",
-   "name": "North district",
-   "county": "DeKalb",
-   "zip": null,
-   "lat": 41.8946,
-   "lon": -88.769,
-   "person": false,
-   "label": "Soybeans -32 \u00a2",
-   "lines": [
-    {
-     "metric": "soy_basis",
-     "name": "Soybean basis",
-     "value": "-32 \u00a2",
-     "note": "country elevators",
-     "at": "2026-11-24T19:09+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Lowest soybean basis in Illinois in the latest reports (Nov 25)"
-   ],
-   "status": "official",
-   "at": "2026-11-25T19:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
-   "id": "p5",
-   "topic": "markets",
-   "source": "USDA grain bids",
-   "name": "West district",
-   "county": "Knox",
-   "zip": null,
-   "lat": 40.931,
-   "lon": -90.2138,
-   "person": false,
-   "label": "Corn -15 \u00a2",
-   "lines": [
-    {
-     "metric": "corn_basis",
-     "name": "Corn basis",
-     "value": "-15 \u00a2",
-     "note": "country elevators",
-     "at": "2026-11-24T19:09+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Lowest corn basis in Illinois in the latest reports (Nov 25)"
-   ],
-   "status": "official",
-   "at": "2026-11-25T19:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
-   "id": "p6",
-   "topic": "weather",
-   "source": "Airport station",
-   "name": "Mount Sterling (I63)",
-   "county": "Brown",
-   "zip": null,
-   "lat": 39.9875,
-   "lon": -90.8042,
-   "person": false,
-   "label": "Low 32 \u00b0F",
-   "lines": [
-    {
-     "metric": "temp_c",
-     "name": "Temperature",
-     "value": "32 \u00b0F",
-     "note": "the day's low",
-     "at": "2026-11-26T08:35+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Lowest temperature in Illinois in the last 24 hours"
-   ],
-   "status": "official",
-   "at": "2026-11-27T06:55+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=I63&network=IL_ASOS",
-   "spark": {
-    "name": "Temperature",
-    "unit": "\u00b0F",
-    "t": [
-     -1340,
-     -1280,
-     -1220,
-     -1160,
-     -1100,
-     -1040,
-     -980,
-     -920,
-     -860,
-     -800,
-     -740,
-     -680,
-     -620,
-     -560,
-     -500,
-     -440,
-     -380,
-     -320,
-     -260,
-     -180,
-     -140,
-     -60,
-     0
-    ],
-    "v": [
-     32.0,
-     32.0,
-     32.5,
-     33.0,
-     33.4,
-     33.8,
-     34.0,
-     34.0,
-     34.5,
-     34.0,
-     35.0,
-     35.6,
-     35.6,
-     35.6,
-     35.8,
-     36.0,
-     36.0,
-     36.0,
-     36.0,
-     36.5,
-     36.0,
-     35.6,
-     35.0
-    ]
-   },
-   "event": null,
-   "news": [],
-   "tier": 1
-  },
-  {
-   "id": "p7",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "2 mi NW of Renault",
-   "county": "Monroe",
-   "zip": null,
-   "lat": 38.17,
-   "lon": -90.15,
-   "person": false,
-   "label": "Snow 10.3 in",
-   "lines": [
-    {
-     "metric": "snow_cm",
-     "name": "Snowfall",
-     "value": "10.3 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Snowfall past the network's event threshold",
-    "Reported to the NWS by a CoCoRaHS observer"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Snowfall 10.3 in \u2014 Monroe County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p8",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "2 mi SW of Millstadt",
-   "county": "St. Clair",
-   "zip": null,
-   "lat": 38.44,
-   "lon": -90.12,
-   "person": false,
-   "label": "Snow 8.7 in",
-   "lines": [
-    {
-     "metric": "snow_cm",
-     "name": "Snowfall",
-     "value": "8.7 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Snowfall past the network's event threshold",
-    "Reported to the NWS by a co-op observer"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Snowfall 8.7 in \u2014 St. Clair County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p9",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "2 mi SW of Ellis Grove",
-   "county": "Randolph",
-   "zip": null,
-   "lat": 37.99,
-   "lon": -89.93,
-   "person": false,
-   "label": "Snow 6.4 in",
-   "lines": [
-    {
-     "metric": "snow_cm",
-     "name": "Snowfall",
-     "value": "6.4 in",
-     "note": null,
-     "at": "2026-11-26T14:08+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Snowfall past the network's event threshold",
-    "Reported to the NWS by a CoCoRaHS observer"
-   ],
-   "status": "official",
-   "at": "2026-11-26T14:08+00:00",
-   "url": null,
-   "spark": null,
-   "event": {
-    "title": "Snowfall 6.4 in \u2014 Randolph County",
-    "verified": true,
-    "score": 0.95
-   },
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p10",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.1 mi ENE of Edwardsville",
-   "county": "Madison",
-   "zip": null,
-   "lat": 38.8041,
-   "lon": -89.9477,
-   "person": false,
-   "label": "Rain 1.20 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.20 in",
-     "note": null,
-     "at": "2026-11-26T11:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T11:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p11",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "2.0 mi ENE of Fairview Heights",
-   "county": "St. Clair",
-   "zip": null,
-   "lat": 38.6049,
-   "lon": -89.9685,
-   "person": false,
-   "label": "Rain 1.42 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.42 in",
-     "note": null,
-     "at": "2026-11-26T12:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T12:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p12",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "7.5 mi E of West Frankfort",
-   "county": "Franklin",
-   "zip": null,
-   "lat": 37.8998,
-   "lon": -88.7912,
-   "person": false,
-   "label": "Rain 1.15 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.15 in",
-     "note": null,
-     "at": "2026-11-26T12:30+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T12:30+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p13",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.2 mi ENE of Edwardsville",
-   "county": "Madison",
-   "zip": null,
-   "lat": 38.8029,
-   "lon": -89.9445,
-   "person": false,
-   "label": "Rain 1.19 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.19 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p14",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.4 mi ENE of Granite City",
-   "county": "Madison",
-   "zip": null,
-   "lat": 38.7245,
-   "lon": -90.1069,
-   "person": false,
-   "label": "Rain 1.62 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.62 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p15",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "0.3 mi NE of Dongola",
-   "county": "Union",
-   "zip": null,
-   "lat": 37.3633,
-   "lon": -89.1609,
-   "person": false,
-   "label": "Rain 1.36 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.36 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p16",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "0.2 mi NE of Murphysboro",
-   "county": "Jackson",
-   "zip": null,
-   "lat": 37.7703,
-   "lon": -89.3348,
-   "person": false,
-   "label": "Rain 1.84 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.84 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p17",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "2.8 mi NNE of Murphysboro",
-   "county": "Jackson",
-   "zip": null,
-   "lat": 37.8068,
-   "lon": -89.3245,
-   "person": false,
-   "label": "Rain 1.65 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.65 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p18",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "2.4 mi NW of Sparta",
-   "county": "Randolph",
-   "zip": null,
-   "lat": 38.1398,
-   "lon": -89.7393,
-   "person": false,
-   "label": "Rain 1.52 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.52 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p19",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "3.1 mi WSW of Shawneetown",
-   "county": "Gallatin",
-   "zip": null,
-   "lat": 37.6946,
-   "lon": -88.2165,
-   "person": false,
-   "label": "Rain 1.20 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.20 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p20",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.9 mi WNW of Belleville",
-   "county": "St. Clair",
-   "zip": null,
-   "lat": 38.5427,
-   "lon": -90.0353,
-   "person": false,
-   "label": "Snow 7.2 in",
-   "lines": [
-    {
-     "metric": "snow_cm",
-     "name": "Snowfall",
-     "value": "7.2 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    },
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.66 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Snowfall past the network's event threshold",
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p21",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "4.8 mi S of Marion",
-   "county": "Williamson",
-   "zip": null,
-   "lat": 37.6634,
-   "lon": -88.9485,
-   "person": false,
-   "label": "Rain 1.39 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.39 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p22",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.1 mi NNW of Christopher",
-   "county": "Franklin",
-   "zip": null,
-   "lat": 37.9875,
-   "lon": -89.0602,
-   "person": false,
-   "label": "Rain 1.58 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.58 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p23",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "0.7 mi ESE of Swansea",
-   "county": "St. Clair",
-   "zip": null,
-   "lat": 38.5378,
-   "lon": -89.9766,
-   "person": false,
-   "label": "Rain 1.64 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.64 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p24",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "3.8 mi NE of Goreville",
-   "county": "Johnson",
-   "zip": null,
-   "lat": 37.5855,
-   "lon": -88.9164,
-   "person": false,
-   "label": "Rain 1.34 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.34 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p25",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.9 mi S of Troy",
-   "county": "Madison",
-   "zip": null,
-   "lat": 38.7033,
-   "lon": -89.8979,
-   "person": false,
-   "label": "Rain 1.22 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.22 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p26",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "2.9 mi ESE of Eldorado",
-   "county": "Saline",
-   "zip": null,
-   "lat": 37.7997,
-   "lon": -88.3901,
-   "person": false,
-   "label": "Rain 1.05 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.05 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p27",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "0.3 mi NE of Lebanon",
-   "county": "St. Clair",
-   "zip": null,
-   "lat": 38.6064,
-   "lon": -89.8108,
-   "person": false,
-   "label": "Rain 1.33 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.33 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p28",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "3.5 mi NNE of Harrisburg",
-   "county": "Saline",
-   "zip": null,
-   "lat": 37.7826,
-   "lon": -88.5219,
-   "person": false,
-   "label": "Rain 1.16 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.16 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p29",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "0.4 mi WSW of Ullin",
-   "county": "Pulaski",
-   "zip": null,
-   "lat": 37.2788,
-   "lon": -89.1894,
-   "person": false,
-   "label": "Rain 1.74 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.74 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p30",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.8 mi NW of Simpson",
-   "county": "Johnson",
-   "zip": null,
-   "lat": 37.4848,
-   "lon": -88.7805,
-   "person": false,
-   "label": "Rain 1.12 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.12 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p31",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "5.7 mi SW of Addieville",
-   "county": "Washington",
-   "zip": null,
-   "lat": 38.3272,
-   "lon": -89.5531,
-   "person": false,
-   "label": "Rain 1.41 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.41 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p32",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.5 mi SSE of Mascoutah",
-   "county": "St. Clair",
-   "zip": null,
-   "lat": 38.488,
-   "lon": -89.796,
-   "person": false,
-   "label": "Rain 1.42 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.42 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p33",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.4 mi ESE of Highland",
-   "county": "Madison",
-   "zip": null,
-   "lat": 38.7308,
-   "lon": -89.6532,
-   "person": false,
-   "label": "Rain 1.29 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.29 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p34",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "0.2 mi SSW of Ina",
-   "county": "Jefferson",
-   "zip": null,
-   "lat": 38.1499,
-   "lon": -88.9056,
-   "person": false,
-   "label": "Rain 1.49 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.49 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p35",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "2.2 mi W of Creal Springs",
-   "county": "Williamson",
-   "zip": null,
-   "lat": 37.6134,
-   "lon": -88.8766,
-   "person": false,
-   "label": "Rain 1.36 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.36 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p36",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.7 mi NNE of Belle Rive",
-   "county": "Jefferson",
-   "zip": null,
-   "lat": 38.2558,
-   "lon": -88.7299,
-   "person": false,
-   "label": "Rain 1.17 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.17 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p37",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "0.3 mi ESE of De Soto",
-   "county": "Jackson",
-   "zip": null,
-   "lat": 37.8141,
-   "lon": -89.2231,
-   "person": false,
-   "label": "Rain 1.40 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.40 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p38",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "5.3 mi NNW of Vienna",
-   "county": "Johnson",
-   "zip": null,
-   "lat": 37.4799,
-   "lon": -88.9431,
-   "person": false,
-   "label": "Rain 1.31 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.31 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p39",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.7 mi E of Bartelso",
-   "county": "Clinton",
-   "zip": null,
-   "lat": 38.5403,
-   "lon": -89.4374,
-   "person": false,
-   "label": "Rain 1.41 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.41 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p40",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "2.6 mi SW of Omaha",
-   "county": "Gallatin",
-   "zip": null,
-   "lat": 37.867,
-   "lon": -88.3433,
-   "person": false,
-   "label": "Rain 1.04 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.04 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p41",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "4.1 mi ENE of Herod",
-   "county": "Hardin",
-   "zip": null,
-   "lat": 37.5955,
-   "lon": -88.3655,
-   "person": false,
-   "label": "Rain 1.02 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.02 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p42",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.1 mi NNW of New Grand Chain",
-   "county": "Pulaski",
-   "zip": null,
-   "lat": 37.2692,
-   "lon": -89.0211,
-   "person": false,
-   "label": "Rain 1.55 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.55 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p43",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.6 mi SSE of Carterville",
-   "county": "Williamson",
-   "zip": null,
-   "lat": 37.7387,
-   "lon": -89.0756,
-   "person": false,
-   "label": "Rain 1.40 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.40 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p44",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "8.0 mi SSW of Marion",
-   "county": "Williamson",
-   "zip": null,
-   "lat": 37.6283,
-   "lon": -89.0039,
-   "person": false,
-   "label": "Rain 1.45 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.45 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p45",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "0.8 mi SSE of Cobden",
-   "county": "Union",
-   "zip": null,
-   "lat": 37.5223,
-   "lon": -89.2485,
-   "person": false,
-   "label": "Rain 1.65 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.65 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p46",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "3.6 mi NW of Carterville",
-   "county": "Williamson",
-   "zip": null,
-   "lat": 37.8024,
-   "lon": -89.1248,
-   "person": false,
-   "label": "Rain 1.34 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.34 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p47",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "4.4 mi SW of Carbondale",
-   "county": "Jackson",
-   "zip": null,
-   "lat": 37.6722,
-   "lon": -89.2638,
-   "person": false,
-   "label": "Rain 1.61 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.61 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p48",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "4.6 mi NNE of Harrisburg",
-   "county": "Saline",
-   "zip": null,
-   "lat": 37.8011,
-   "lon": -88.5346,
-   "person": false,
-   "label": "Rain 1.09 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.09 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p49",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "3.5 mi ESE of Thompsonville",
-   "county": "Saline",
-   "zip": null,
-   "lat": 37.8896,
-   "lon": -88.7059,
-   "person": false,
-   "label": "Rain 1.27 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.27 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p50",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.0 mi SE of Herrin",
-   "county": "Williamson",
-   "zip": null,
-   "lat": 37.79,
-   "lon": -89.0216,
-   "person": false,
-   "label": "Rain 1.39 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.39 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p51",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "0.5 mi NNW of Greenville",
-   "county": "Bond",
-   "zip": null,
-   "lat": 38.8963,
-   "lon": -89.4042,
-   "person": false,
-   "label": "Rain 1.50 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.50 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p52",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "4.1 mi ENE of Cobden",
-   "county": "Union",
-   "zip": null,
-   "lat": 37.5597,
-   "lon": -89.188,
-   "person": false,
-   "label": "Rain 1.55 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.55 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p53",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "2.3 mi SW of Okawville",
-   "county": "Washington",
-   "zip": null,
-   "lat": 38.4085,
-   "lon": -89.5749,
-   "person": false,
-   "label": "Rain 1.46 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.46 in",
-     "note": null,
-     "at": "2026-11-26T13:06+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:06+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p54",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.3 mi NNE of Benton",
-   "county": "Franklin",
-   "zip": null,
-   "lat": 38.0236,
-   "lon": -88.9068,
-   "person": false,
-   "label": "Rain 1.63 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.63 in",
-     "note": null,
-     "at": "2026-11-26T13:07+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:07+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p55",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "0.7 mi SSW of Percy",
-   "county": "Randolph",
-   "zip": null,
-   "lat": 38.0074,
-   "lon": -89.6221,
-   "person": false,
-   "label": "Rain 1.65 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.65 in",
-     "note": null,
-     "at": "2026-11-26T13:15+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:15+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p56",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "7.1 mi N of Metropolis",
-   "county": "Massac",
-   "zip": null,
-   "lat": 37.2543,
-   "lon": -88.712,
-   "person": false,
-   "label": "Rain 1.13 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.13 in",
-     "note": null,
-     "at": "2026-11-26T13:15+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:15+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p57",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.3 mi WSW of Mount Vernon",
-   "county": "Jefferson",
-   "zip": null,
-   "lat": 38.3088,
-   "lon": -88.9312,
-   "person": false,
-   "label": "Rain 1.50 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.50 in",
-     "note": null,
-     "at": "2026-11-26T13:20+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:20+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p58",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "0.7 mi E of Cobden",
-   "county": "Union",
-   "zip": null,
-   "lat": 37.5335,
-   "lon": -89.2409,
-   "person": false,
-   "label": "Rain 1.60 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.60 in",
-     "note": null,
-     "at": "2026-11-26T13:28+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:28+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p59",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "0.6 mi NW of Carterville",
-   "county": "Williamson",
-   "zip": null,
-   "lat": 37.7679,
-   "lon": -89.0896,
-   "person": false,
-   "label": "Rain 1.33 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.33 in",
-     "note": null,
-     "at": "2026-11-26T13:30+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:30+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p60",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "0.7 mi W of Carbondale",
-   "county": "Jackson",
-   "zip": null,
-   "lat": 37.7226,
-   "lon": -89.2305,
-   "person": false,
-   "label": "Rain 1.79 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.79 in",
-     "note": null,
-     "at": "2026-11-26T13:30+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:30+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p61",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "0.9 mi WSW of Edwardsville",
-   "county": "Madison",
-   "zip": null,
-   "lat": 38.8089,
-   "lon": -89.97,
-   "person": false,
-   "label": "Rain 1.37 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.37 in",
-     "note": null,
-     "at": "2026-11-26T14:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T14:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p62",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "5.5 mi E of Edwardsville",
-   "county": "Madison",
-   "zip": null,
-   "lat": 38.7861,
-   "lon": -89.8633,
-   "person": false,
-   "label": "Rain 1.49 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.49 in",
-     "note": null,
-     "at": "2026-11-26T14:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T14:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p63",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "2.9 mi NNE of Metropolis",
-   "county": "Massac",
-   "zip": null,
-   "lat": 37.1908,
-   "lon": -88.6907,
-   "person": false,
-   "label": "Rain 1.16 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.16 in",
-     "note": null,
-     "at": "2026-11-26T14:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T14:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p64",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "2.4 mi NNW of St. Elmo",
-   "county": "Fayette",
-   "zip": null,
-   "lat": 39.056,
-   "lon": -88.8723,
-   "person": false,
-   "label": "Rain 1.22 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.22 in",
-     "note": null,
-     "at": "2026-11-26T14:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T14:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p65",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "8.0 mi SSE of Wayne City",
-   "county": "Hamilton",
-   "zip": null,
-   "lat": 38.2464,
-   "lon": -88.5192,
-   "person": false,
-   "label": "Rain 1.31 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.31 in",
-     "note": null,
-     "at": "2026-11-26T14:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T14:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p66",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.7 mi SSE of Junction",
-   "county": "Gallatin",
-   "zip": null,
-   "lat": 37.6991,
-   "lon": -88.2315,
-   "person": false,
-   "label": "Rain 1.17 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.17 in",
-     "note": null,
-     "at": "2026-11-26T14:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T14:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p67",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.5 mi SW of Ellis Grove",
-   "county": "Randolph",
-   "zip": null,
-   "lat": 37.9917,
-   "lon": -89.9243,
-   "person": false,
-   "label": "Snow 6.4 in",
-   "lines": [
-    {
-     "metric": "snow_cm",
-     "name": "Snowfall",
-     "value": "6.4 in",
-     "note": null,
-     "at": "2026-11-26T14:08+00:00",
-     "sev": 0.4
-    },
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.65 in",
-     "note": null,
-     "at": "2026-11-26T14:08+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Snowfall past the network's event threshold",
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T14:08+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p68",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "6.2 mi S of Carbondale",
-   "county": "Jackson",
-   "zip": null,
-   "lat": 37.6356,
-   "lon": -89.2041,
-   "person": false,
-   "label": "Rain 1.70 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.70 in",
-     "note": null,
-     "at": "2026-11-26T14:10+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T14:10+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p69",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "2.1 mi ESE of Villa Ridge",
-   "county": "Pulaski",
-   "zip": null,
-   "lat": 37.1442,
-   "lon": -89.1614,
-   "person": false,
-   "label": "Rain 1.46 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.46 in",
-     "note": null,
-     "at": "2026-11-26T14:12+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T14:12+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p70",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "2.4 mi W of Karnak",
-   "county": "Pulaski",
-   "zip": null,
-   "lat": 37.298,
-   "lon": -89.02,
-   "person": false,
-   "label": "Rain 1.60 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.60 in",
-     "note": null,
-     "at": "2026-11-26T14:20+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T14:20+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p71",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "3.7 mi S of Carbondale",
-   "county": "Jackson",
-   "zip": null,
-   "lat": 37.672,
-   "lon": -89.2093,
-   "person": false,
-   "label": "Rain 1.72 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.72 in",
-     "note": null,
-     "at": "2026-11-26T14:22+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T14:22+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p72",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "CoCoRaHS IL-MO-14",
-   "county": "Monroe",
-   "zip": null,
-   "lat": 38.4741,
-   "lon": -90.2057,
-   "person": false,
-   "label": "Rain 1.02 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.02 in",
-     "note": null,
-     "at": "2026-11-26T14:30+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T14:30+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p73",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.0 mi E of Highland",
-   "county": "Madison",
-   "zip": null,
-   "lat": 38.7393,
-   "lon": -89.6575,
-   "person": false,
-   "label": "Rain 1.49 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.49 in",
-     "note": null,
-     "at": "2026-11-26T15:00+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T15:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p74",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "2.8 mi WNW of Hoyleton",
-   "county": "Washington",
-   "zip": null,
-   "lat": 38.4574,
-   "lon": -89.3203,
-   "person": false,
-   "label": "Rain 1.24 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.24 in",
-     "note": null,
-     "at": "2026-11-26T15:15+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T15:15+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p75",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "3.3 mi NE of Trenton",
-   "county": "Clinton",
-   "zip": null,
-   "lat": 38.6438,
-   "lon": -89.6429,
-   "person": false,
-   "label": "Rain 1.18 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.18 in",
-     "note": null,
-     "at": "2026-11-26T15:30+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T15:30+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p76",
-   "topic": "weather",
-   "source": "CoCoRaHS observer",
-   "name": "1.4 mi NNE of Ashley",
-   "county": "Washington",
-   "zip": null,
-   "lat": 38.3471,
-   "lon": -89.1782,
-   "person": false,
-   "label": "Rain 1.74 in",
-   "lines": [
-    {
-     "metric": "rain_mm",
-     "name": "Rainfall",
-     "value": "1.74 in",
-     "note": null,
-     "at": "2026-11-26T15:30+00:00",
-     "sev": 0.4
-    }
-   ],
-   "why": [
-    "Rainfall past the network's event threshold"
-   ],
-   "status": "official",
-   "at": "2026-11-26T15:30+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p77",
-   "topic": "weather",
-   "source": "Airport station",
-   "name": "Joliet (JOT)",
-   "county": "Will",
-   "zip": null,
-   "lat": 41.5177,
-   "lon": -88.1756,
-   "person": false,
-   "label": "High 46.6 \u00b0F",
-   "lines": [
-    {
-     "metric": "temp_c",
-     "name": "Temperature",
-     "value": "46.6 \u00b0F",
-     "note": "the day's high",
-     "at": "2026-11-26T18:35+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Highest temperature in Illinois in the last 24 hours"
-   ],
-   "status": "official",
-   "at": "2026-11-27T06:55+00:00",
-   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=JOT&network=IL_ASOS",
-   "spark": {
-    "name": "Temperature",
-    "unit": "\u00b0F",
-    "t": [
-     -1340,
-     -1280,
-     -1220,
-     -1160,
-     -1100,
-     -1040,
-     -980,
-     -920,
-     -860,
-     -800,
-     -740,
-     -680,
-     -620,
-     -560,
-     -500,
-     -440,
-     -380,
-     -320,
-     -240,
-     -180,
-     -140,
-     -60,
-     0
-    ],
-    "v": [
-     41.0,
-     41.0,
-     41.5,
-     42.3,
-     42.8,
-     44.0,
-     44.6,
-     45.0,
-     45.5,
-     46.0,
-     46.6,
-     45.5,
-     44.2,
-     43.7,
-     43.7,
-     44.0,
-     44.6,
-     44.8,
-     44.2,
-     44.8,
-     45.0,
-     45.0,
-     44.2
-    ]
-   },
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p78",
    "topic": "water",
    "source": "USGS stream gauge",
-   "name": "Bonpas Creek at Browns",
-   "county": "Edwards",
+   "name": "Little Wabash River near Golden Gate",
+   "county": "Wayne",
    "zip": null,
-   "lat": 38.3864,
-   "lon": -87.9758,
+   "lat": 38.3719,
+   "lon": -88.2331,
    "person": false,
-   "label": "\u25b2 5.38 ft",
+   "label": "\u25b2 3.79 ft",
    "lines": [
     {
      "metric": "stage_m",
      "name": "Stage (gauge height)",
-     "value": "6.74 ft",
-     "note": "up 5.38 ft in 24 hours",
-     "at": "2026-11-27T06:45+00:00",
-     "sev": 0.0
-    },
-    {
-     "metric": "discharge_cms",
-     "name": "Streamflow",
-     "value": "468 cfs",
-     "note": "up 468 cfs in 24 hours",
-     "at": "2026-11-27T06:45+00:00",
+     "value": "8.96 ft",
+     "note": "up 3.79 ft in 24 hours",
+     "at": "2026-11-28T07:30+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Second-biggest rise in Illinois in the last 24 hours"
+    "Biggest rise in Illinois in the last 24 hours"
    ],
    "status": "official",
-   "at": "2026-11-27T06:45+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/03378000/",
-   "spark": {
-    "name": "Stage (gauge height)",
-    "unit": "ft",
-    "t": [
-     -1320,
-     -1260,
-     -1200,
-     -1140,
-     -1080,
-     -1020,
-     -960,
-     -900,
-     -840,
-     -780,
-     -720,
-     -660,
-     -600,
-     -540,
-     -480,
-     -420,
-     -360,
-     -300,
-     -240,
-     -180,
-     -120,
-     -60,
-     0
-    ],
-    "v": [
-     1.36,
-     1.36,
-     1.37,
-     1.38,
-     1.39,
-     1.4,
-     1.41,
-     1.43,
-     1.56,
-     1.72,
-     1.93,
-     2.13,
-     2.32,
-     2.5,
-     2.64,
-     2.8,
-     3.13,
-     3.59,
-     4.13,
-     4.73,
-     5.33,
-     6.05,
-     6.74
-    ]
-   },
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p79",
-   "topic": "water",
-   "source": "USGS stream gauge",
-   "name": "Silver Creek near Troy",
-   "county": "Madison",
-   "zip": null,
-   "lat": 38.7164,
-   "lon": -89.8292,
-   "person": false,
-   "label": "\u25b2 4.73 ft",
-   "lines": [
-    {
-     "metric": "stage_m",
-     "name": "Stage (gauge height)",
-     "value": "8.54 ft",
-     "note": "up 4.73 ft in 24 hours",
-     "at": "2026-11-27T07:15+00:00",
-     "sev": 0.0
-    },
-    {
-     "metric": "discharge_cms",
-     "name": "Streamflow",
-     "value": "329 cfs",
-     "note": "up 325 cfs in 24 hours",
-     "at": "2026-11-27T07:15+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Third-biggest rise in Illinois in the last 24 hours"
-   ],
-   "status": "official",
-   "at": "2026-11-27T07:15+00:00",
-   "url": "https://waterdata.usgs.gov/monitoring-location/05594450/",
+   "at": "2026-11-28T07:30+00:00",
+   "url": "https://waterdata.usgs.gov/monitoring-location/03380000/",
    "spark": {
     "name": "Stage (gauge height)",
     "unit": "ft",
@@ -2840,62 +171,556 @@
      0
     ],
     "v": [
-     3.81,
-     3.83,
-     3.86,
-     3.89,
-     3.93,
-     3.97,
-     4.02,
-     4.07,
-     4.13,
-     4.18,
-     4.27,
-     4.48,
-     4.83,
-     5.23,
-     5.61,
-     6.03,
-     6.51,
-     7.01,
-     7.47,
-     7.81,
-     8.12,
-     8.33,
-     8.47,
-     8.54
+     5.17,
+     5.26,
+     5.35,
+     5.41,
+     5.46,
+     5.48,
+     5.51,
+     5.65,
+     6.34,
+     7.38,
+     8.03,
+     8.45,
+     8.74,
+     8.93,
+     9.05,
+     9.13,
+     9.16,
+     9.18,
+     9.18,
+     9.16,
+     9.12,
+     9.07,
+     9.02,
+     8.96
     ]
    },
    "event": null,
    "news": [],
-   "tier": 2
+   "tier": 1
   },
   {
-   "id": "p80",
+   "id": "p5",
    "topic": "weather",
-   "source": "NWS storm report",
-   "name": "Freeburg",
+   "source": "Airport station",
+   "name": "Cahokia (CPS)",
    "county": "St. Clair",
    "zip": null,
-   "lat": 38.42,
-   "lon": -89.91,
+   "lat": 38.5707,
+   "lon": -90.1562,
    "person": false,
-   "label": "Snow 4.2 in",
+   "label": "Low 29 \u00b0F",
    "lines": [
     {
-     "metric": "snow_cm",
-     "name": "Snowfall",
-     "value": "4.2 in",
-     "note": null,
-     "at": "2026-11-26T09:14+00:00",
+     "metric": "temp_c",
+     "name": "Temperature",
+     "value": "29 \u00b0F",
+     "note": "the day's low",
+     "at": "2026-11-28T02:53+00:00",
      "sev": 0.0
     }
    ],
    "why": [
+    "Lowest temperature in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-11-28T06:53+00:00",
+   "url": "https://mesonet.agron.iastate.edu/sites/site.php?station=CPS&network=IL_ASOS",
+   "spark": {
+    "name": "Temperature",
+    "unit": "\u00b0F",
+    "t": [
+     -1320,
+     -1260,
+     -1200,
+     -1140,
+     -1080,
+     -1020,
+     -960,
+     -900,
+     -840,
+     -780,
+     -720,
+     -660,
+     -600,
+     -540,
+     -480,
+     -420,
+     -360,
+     -300,
+     -240,
+     -180,
+     -120,
+     -60,
+     0
+    ],
+    "v": [
+     36.0,
+     36.0,
+     36.0,
+     36.0,
+     36.0,
+     36.0,
+     36.0,
+     37.0,
+     39.0,
+     38.0,
+     41.0,
+     41.0,
+     41.0,
+     41.0,
+     39.0,
+     37.0,
+     34.0,
+     31.0,
+     29.0,
+     30.0,
+     30.0,
+     31.0,
+     32.0
+    ]
+   },
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p6",
+   "topic": "markets",
+   "source": "USDA grain bids",
+   "name": "West district",
+   "county": "Knox",
+   "zip": null,
+   "lat": 40.931,
+   "lon": -90.2138,
+   "person": false,
+   "label": "Corn -16 \u00a2",
+   "lines": [
+    {
+     "metric": "corn_basis",
+     "name": "Corn basis",
+     "value": "-16 \u00a2",
+     "note": "country elevators",
+     "at": "2026-11-27T18:51+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Lowest corn basis in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-11-27T18:51+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p7",
+   "topic": "markets",
+   "source": "USDA grain bids",
+   "name": "North district",
+   "county": "DeKalb",
+   "zip": null,
+   "lat": 41.8946,
+   "lon": -88.769,
+   "person": false,
+   "label": "Soybeans -30 \u00a2",
+   "lines": [
+    {
+     "metric": "soy_basis",
+     "name": "Soybean basis",
+     "value": "-30 \u00a2",
+     "note": "country elevators",
+     "at": "2026-11-27T18:51+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Lowest soybean basis in Illinois in the last 24 hours"
+   ],
+   "status": "official",
+   "at": "2026-11-27T18:51+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 1
+  },
+  {
+   "id": "p8",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "2.4 mi NNW of Chicago Heights",
+   "county": "Cook",
+   "zip": null,
+   "lat": 41.5428,
+   "lon": -87.6541,
+   "person": false,
+   "label": "Rain 2.18 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "2.18 in",
+     "note": null,
+     "at": "2026-11-27T15:00+00:00",
+     "sev": 0.7
+    }
+   ],
+   "why": [
+    "Rainfall well past the network's event threshold",
+    "In the news: \u201cHighest Rainfall Reports from Thanksgiving Day 11/26 thru Morning of 11/27 (NWS Chicago)\u201d"
+   ],
+   "status": "official",
+   "at": "2026-11-27T15:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [
+    "n1"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "p9",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "3.9 mi ESE of Bloomington",
+   "county": "McLean",
+   "zip": null,
+   "lat": 40.4535,
+   "lon": -88.9081,
+   "person": false,
+   "label": "Rain 1.19 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.19 in",
+     "note": null,
+     "at": "2026-11-27T12:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold",
+    "In the news: \u201cBloomington nixes mega data center proposals for two more years\u201d"
+   ],
+   "status": "official",
+   "at": "2026-11-27T12:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [
+    "n3"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "p10",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "3.8 mi SW of Bloomington",
+   "county": "McLean",
+   "zip": null,
+   "lat": 40.4476,
+   "lon": -89.0318,
+   "person": false,
+   "label": "Rain 1.14 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.14 in",
+     "note": null,
+     "at": "2026-11-27T12:30+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold",
+    "In the news: \u201cBloomington nixes mega data center proposals for two more years\u201d"
+   ],
+   "status": "official",
+   "at": "2026-11-27T12:30+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [
+    "n3"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "p11",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "1.9 mi SE of Oak Lawn",
+   "county": "Cook",
+   "zip": null,
+   "lat": 41.6936,
+   "lon": -87.729,
+   "person": false,
+   "label": "Rain 1.46 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.46 in",
+     "note": null,
+     "at": "2026-11-27T12:45+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold",
+    "In the news: \u201cHighest Rainfall Reports from Thanksgiving Day 11/26 thru Morning of 11/27 (NWS Chicago)\u201d"
+   ],
+   "status": "official",
+   "at": "2026-11-27T12:45+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [
+    "n1"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "p12",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.5 mi SSW of Oak Lawn",
+   "county": "Cook",
+   "zip": null,
+   "lat": 41.7084,
+   "lon": -87.7539,
+   "person": false,
+   "label": "Rain 1.52 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.52 in",
+     "note": null,
+     "at": "2026-11-27T12:50+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold",
+    "In the news: \u201cHighest Rainfall Reports from Thanksgiving Day 11/26 thru Morning of 11/27 (NWS Chicago)\u201d"
+   ],
+   "status": "official",
+   "at": "2026-11-27T12:50+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [
+    "n1"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "p13",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "5.0 mi WSW of Bloomington",
+   "county": "McLean",
+   "zip": null,
+   "lat": 40.4584,
+   "lon": -89.065,
+   "person": false,
+   "label": "Rain 1.02 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.02 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold",
+    "In the news: \u201cBloomington nixes mega data center proposals for two more years\u201d"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [
+    "n3"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "p14",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "2.0 mi WSW of Bloomington",
+   "county": "McLean",
+   "zip": null,
+   "lat": 40.4704,
+   "lon": -89.0104,
+   "person": false,
+   "label": "Rain 1.36 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.36 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold",
+    "In the news: \u201cBloomington nixes mega data center proposals for two more years\u201d"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [
+    "n3"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "p15",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "1.4 mi W of Lawrenceville",
+   "county": "Lawrence",
+   "zip": null,
+   "lat": 38.7244,
+   "lon": -87.7129,
+   "person": false,
+   "label": "Rain 2.11 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "2.11 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.7
+    }
+   ],
+   "why": [
+    "Rainfall well past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p16",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "2.7 mi W of Crete",
+   "county": "Will",
+   "zip": null,
+   "lat": 41.4457,
+   "lon": -87.6658,
+   "person": false,
+   "label": "Rain 2.11 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "2.11 in",
+     "note": null,
+     "at": "2026-11-27T14:00+00:00",
+     "sev": 0.7
+    }
+   ],
+   "why": [
+    "Rainfall well past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T14:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p17",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "5 mi W of Springfield",
+   "county": "Sangamon",
+   "zip": null,
+   "lat": 39.77,
+   "lon": -89.76,
+   "person": false,
+   "label": "Snow 1.8 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "1.8 in",
+     "note": null,
+     "at": "2026-11-26T03:45+00:00",
+     "sev": 0.0
+    }
+   ],
+   "why": [
+    "Reported to the NWS by the public",
+    "In the news: \u201cWest Sangamon County set to see snow, but Springfield to see rain\u201d"
+   ],
+   "status": "official",
+   "at": "2026-11-26T03:45+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [
+    "n2"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "p18",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "Waterloo",
+   "county": "Monroe",
+   "zip": null,
+   "lat": 38.33,
+   "lon": -90.15,
+   "person": false,
+   "label": "Snow 8.0 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "8.0 in",
+     "note": null,
+     "at": "2026-11-26T05:30+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Snowfall past the network's event threshold",
     "Reported to the NWS by a trained spotter"
    ],
    "status": "official",
-   "at": "2026-11-26T09:14+00:00",
+   "at": "2026-11-26T05:30+00:00",
    "url": null,
    "spark": null,
    "event": null,
@@ -2903,155 +728,28 @@
    "tier": 2
   },
   {
-   "id": "p81",
+   "id": "p19",
    "topic": "weather",
    "source": "NWS storm report",
-   "name": "2 mi S of Mascoutah",
+   "name": "2 mi SW of Millstadt",
    "county": "St. Clair",
    "zip": null,
-   "lat": 38.48,
-   "lon": -89.79,
+   "lat": 38.44,
+   "lon": -90.12,
    "person": false,
-   "label": "Snow 2.2 in",
+   "label": "Snow 8.7 in",
    "lines": [
     {
      "metric": "snow_cm",
      "name": "Snowfall",
-     "value": "2.2 in",
+     "value": "8.7 in",
      "note": null,
      "at": "2026-11-26T13:00+00:00",
-     "sev": 0.0
+     "sev": 0.4
     }
    ],
    "why": [
-    "Reported to the NWS by a CoCoRaHS observer"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p82",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "Lebanon",
-   "county": "St. Clair",
-   "zip": null,
-   "lat": 38.6,
-   "lon": -89.81,
-   "person": false,
-   "label": "Snow 1.7 in",
-   "lines": [
-    {
-     "metric": "snow_cm",
-     "name": "Snowfall",
-     "value": "1.7 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Reported to the NWS by a CoCoRaHS observer"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p83",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "4 mi S of Hardin",
-   "county": "Calhoun",
-   "zip": null,
-   "lat": 39.1,
-   "lon": -90.62,
-   "person": false,
-   "label": "Snow 1.4 in",
-   "lines": [
-    {
-     "metric": "snow_cm",
-     "name": "Snowfall",
-     "value": "1.4 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Reported to the NWS by a CoCoRaHS observer"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p84",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "1 mi E of Highland",
-   "county": "Madison",
-   "zip": null,
-   "lat": 38.74,
-   "lon": -89.65,
-   "person": false,
-   "label": "Snow 1.0 in",
-   "lines": [
-    {
-     "metric": "snow_cm",
-     "name": "Snowfall",
-     "value": "1.0 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
-    "Reported to the NWS by a CoCoRaHS observer"
-   ],
-   "status": "official",
-   "at": "2026-11-26T13:00+00:00",
-   "url": null,
-   "spark": null,
-   "event": null,
-   "news": [],
-   "tier": 2
-  },
-  {
-   "id": "p85",
-   "topic": "weather",
-   "source": "NWS storm report",
-   "name": "Saint Libory",
-   "county": "St. Clair",
-   "zip": null,
-   "lat": 38.36,
-   "lon": -89.71,
-   "person": false,
-   "label": "Snow 1.0 in",
-   "lines": [
-    {
-     "metric": "snow_cm",
-     "name": "Snowfall",
-     "value": "1.0 in",
-     "note": null,
-     "at": "2026-11-26T13:00+00:00",
-     "sev": 0.0
-    }
-   ],
-   "why": [
+    "Snowfall past the network's event threshold",
     "Reported to the NWS by a co-op observer"
    ],
    "status": "official",
@@ -3063,31 +761,2179 @@
    "tier": 2
   },
   {
-   "id": "p86",
+   "id": "p20",
    "topic": "weather",
    "source": "NWS storm report",
-   "name": "1 mi NE of Edwardsville",
-   "county": "Madison",
+   "name": "2 mi NW of Renault",
+   "county": "Monroe",
    "zip": null,
-   "lat": 38.81,
-   "lon": -89.96,
+   "lat": 38.17,
+   "lon": -90.15,
    "person": false,
-   "label": "Snow 5.4 in",
+   "label": "Snow 10.3 in",
    "lines": [
     {
      "metric": "snow_cm",
      "name": "Snowfall",
-     "value": "5.4 in",
+     "value": "10.3 in",
      "note": null,
      "at": "2026-11-26T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Snowfall past the network's event threshold",
+    "Reported to the NWS by a CoCoRaHS observer"
+   ],
+   "status": "official",
+   "at": "2026-11-26T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p21",
+   "topic": "weather",
+   "source": "NWS storm report",
+   "name": "2 mi SW of Ellis Grove",
+   "county": "Randolph",
+   "zip": null,
+   "lat": 37.99,
+   "lon": -89.93,
+   "person": false,
+   "label": "Snow 6.4 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "6.4 in",
+     "note": null,
+     "at": "2026-11-26T14:08+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Snowfall past the network's event threshold",
+    "Reported to the NWS by a CoCoRaHS observer"
+   ],
+   "status": "official",
+   "at": "2026-11-26T14:08+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p22",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.3 mi ESE of De Soto",
+   "county": "Jackson",
+   "zip": null,
+   "lat": 37.8141,
+   "lon": -89.2231,
+   "person": false,
+   "label": "Rain 1.12 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.12 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p23",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "1.9 mi WNW of Belleville",
+   "county": "St. Clair",
+   "zip": null,
+   "lat": 38.5427,
+   "lon": -90.0353,
+   "person": false,
+   "label": "Snow 7.2 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "7.2 in",
+     "note": null,
+     "at": "2026-11-26T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Snowfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p24",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "4.7 mi S of Columbia",
+   "county": "Monroe",
+   "zip": null,
+   "lat": 38.3872,
+   "lon": -90.2149,
+   "person": false,
+   "label": "Snow 9.0 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "9.0 in",
+     "note": null,
+     "at": "2026-11-26T13:30+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Snowfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:30+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p25",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "1.5 mi SW of Ellis Grove",
+   "county": "Randolph",
+   "zip": null,
+   "lat": 37.9917,
+   "lon": -89.9243,
+   "person": false,
+   "label": "Snow 6.4 in",
+   "lines": [
+    {
+     "metric": "snow_cm",
+     "name": "Snowfall",
+     "value": "6.4 in",
+     "note": null,
+     "at": "2026-11-26T14:08+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Snowfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p26",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "4.9 mi NW of Kankakee",
+   "county": "Kankakee",
+   "zip": null,
+   "lat": 41.1563,
+   "lon": -87.9386,
+   "person": false,
+   "label": "Rain 1.05 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.05 in",
+     "note": null,
+     "at": "2026-11-27T10:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T10:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p27",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.6 mi NW of Danville",
+   "county": "Vermilion",
+   "zip": null,
+   "lat": 40.1498,
+   "lon": -87.6267,
+   "person": false,
+   "label": "Rain 1.04 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.04 in",
+     "note": null,
+     "at": "2026-11-27T11:40+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T11:40+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p28",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "1.7 mi NNE of Belle Rive",
+   "county": "Jefferson",
+   "zip": null,
+   "lat": 38.2558,
+   "lon": -88.7299,
+   "person": false,
+   "label": "Rain 1.80 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.80 in",
+     "note": null,
+     "at": "2026-11-27T11:59+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T11:59+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p29",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "4.0 mi SW of Beason",
+   "county": "Logan",
+   "zip": null,
+   "lat": 40.097,
+   "lon": -89.2389,
+   "person": false,
+   "label": "Rain 1.08 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.08 in",
+     "note": null,
+     "at": "2026-11-27T12:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T12:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p30",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.3 mi SE of Newman",
+   "county": "Douglas",
+   "zip": null,
+   "lat": 39.7942,
+   "lon": -87.9832,
+   "person": false,
+   "label": "Rain 1.11 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.11 in",
+     "note": null,
+     "at": "2026-11-27T12:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T12:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p31",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "3.6 mi NW of Carterville",
+   "county": "Williamson",
+   "zip": null,
+   "lat": 37.8024,
+   "lon": -89.1248,
+   "person": false,
+   "label": "Rain 1.46 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.46 in",
+     "note": null,
+     "at": "2026-11-27T12:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T12:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p32",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "7.5 mi E of West Frankfort",
+   "county": "Franklin",
+   "zip": null,
+   "lat": 37.8998,
+   "lon": -88.7912,
+   "person": false,
+   "label": "Rain 1.56 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.56 in",
+     "note": null,
+     "at": "2026-11-27T12:30+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T12:30+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p33",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "4.2 mi NW of Danville",
+   "county": "Vermilion",
+   "zip": null,
+   "lat": 40.1929,
+   "lon": -87.6677,
+   "person": false,
+   "label": "Rain 1.04 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.04 in",
+     "note": null,
+     "at": "2026-11-27T12:38+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T12:38+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p34",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "4.1 mi NNW of Lovington",
+   "county": "Moultrie",
+   "zip": null,
+   "lat": 39.7712,
+   "lon": -88.6506,
+   "person": false,
+   "label": "Rain 1.11 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.11 in",
+     "note": null,
+     "at": "2026-11-27T12:53+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T12:53+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p35",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "4.5 mi NW of Nokomis",
+   "county": "Montgomery",
+   "zip": null,
+   "lat": 39.347,
+   "lon": -89.3455,
+   "person": false,
+   "label": "Rain 1.14 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.14 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p36",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "Crete 3.3 ENE Franktuary Farm",
+   "county": "Will",
+   "zip": null,
+   "lat": 41.4663,
+   "lon": -87.5544,
+   "person": false,
+   "label": "Rain 1.75 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.75 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p37",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "2.4 mi SSE of Urbana",
+   "county": "Champaign",
+   "zip": null,
+   "lat": 40.0763,
+   "lon": -88.1908,
+   "person": false,
+   "label": "Rain 1.06 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.06 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p38",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "2.6 mi SW of Omaha",
+   "county": "Gallatin",
+   "zip": null,
+   "lat": 37.867,
+   "lon": -88.3433,
+   "person": false,
+   "label": "Rain 1.58 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.58 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p39",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "2.6 mi E of Crete",
+   "county": "Will",
+   "zip": null,
+   "lat": 41.4468,
+   "lon": -87.5657,
+   "person": false,
+   "label": "Rain 1.74 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.74 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p40",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "3.1 mi WSW of Shawneetown",
+   "county": "Gallatin",
+   "zip": null,
+   "lat": 37.6946,
+   "lon": -88.2165,
+   "person": false,
+   "label": "Rain 1.48 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.48 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p41",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.2 mi SSW of Ina",
+   "county": "Jefferson",
+   "zip": null,
+   "lat": 38.1499,
+   "lon": -88.9056,
+   "person": false,
+   "label": "Rain 1.65 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.65 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p42",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "4.8 mi S of Marion",
+   "county": "Williamson",
+   "zip": null,
+   "lat": 37.6634,
+   "lon": -88.9485,
+   "person": false,
+   "label": "Rain 1.21 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.21 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p43",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.2 mi NE of Murphysboro",
+   "county": "Jackson",
+   "zip": null,
+   "lat": 37.7703,
+   "lon": -89.3348,
+   "person": false,
+   "label": "Rain 1.70 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.70 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p44",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.4 mi ENE of Peotone",
+   "county": "Will",
+   "zip": null,
+   "lat": 41.3336,
+   "lon": -87.7891,
+   "person": false,
+   "label": "Rain 1.26 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.26 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p45",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "5.3 mi NNW of Vienna",
+   "county": "Johnson",
+   "zip": null,
+   "lat": 37.4799,
+   "lon": -88.9431,
+   "person": false,
+   "label": "Rain 1.10 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.10 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p46",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "3.5 mi NNE of Harrisburg",
+   "county": "Saline",
+   "zip": null,
+   "lat": 37.7826,
+   "lon": -88.5219,
+   "person": false,
+   "label": "Rain 1.48 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.48 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p47",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "1.3 mi WSW of Mount Vernon",
+   "county": "Jefferson",
+   "zip": null,
+   "lat": 38.3088,
+   "lon": -88.9312,
+   "person": false,
+   "label": "Rain 1.35 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.35 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p48",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "6.4 mi NE of Lincoln",
+   "county": "Logan",
+   "zip": null,
+   "lat": 40.21,
+   "lon": -89.2734,
+   "person": false,
+   "label": "Rain 1.11 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.11 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p49",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.9 mi E of Alsip",
+   "county": "Cook",
+   "zip": null,
+   "lat": 41.6726,
+   "lon": -87.7181,
+   "person": false,
+   "label": "Rain 1.44 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.44 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p50",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "8.0 mi SSW of Marion",
+   "county": "Williamson",
+   "zip": null,
+   "lat": 37.6283,
+   "lon": -89.0039,
+   "person": false,
+   "label": "Rain 1.39 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.39 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p51",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.8 mi S of Hudson",
+   "county": "McLean",
+   "zip": null,
+   "lat": 40.5961,
+   "lon": -88.9883,
+   "person": false,
+   "label": "Rain 1.15 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.15 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p52",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "4.7 mi SSW of Charleston",
+   "county": "Coles",
+   "zip": null,
+   "lat": 39.4185,
+   "lon": -88.1949,
+   "person": false,
+   "label": "Rain 1.56 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.56 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p53",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "5.8 mi SE of Donovan",
+   "county": "Iroquois",
+   "zip": null,
+   "lat": 40.8258,
+   "lon": -87.5365,
+   "person": false,
+   "label": "Rain 1.20 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.20 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p54",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.8 mi NNE of Park Forest",
+   "county": "Cook",
+   "zip": null,
+   "lat": 41.4928,
+   "lon": -87.6815,
+   "person": false,
+   "label": "Rain 1.33 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.33 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p55",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "6.2 mi NNE of Pana",
+   "county": "Christian",
+   "zip": null,
+   "lat": 39.4736,
+   "lon": -89.0462,
+   "person": false,
+   "label": "Rain 1.26 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.26 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p56",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "1.0 mi NNE of Effingham",
+   "county": "Effingham",
+   "zip": null,
+   "lat": 39.133,
+   "lon": -88.5463,
+   "person": false,
+   "label": "Rain 1.66 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.66 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p57",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "3.4 mi SSE of Beecher",
+   "county": "Will",
+   "zip": null,
+   "lat": 41.3052,
+   "lon": -87.582,
+   "person": false,
+   "label": "Rain 1.46 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.46 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p58",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.4 mi NNE of Flanagan",
+   "county": "Livingston",
+   "zip": null,
+   "lat": 40.8828,
+   "lon": -88.8583,
+   "person": false,
+   "label": "Rain 1.18 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.18 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p59",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "5.2 mi NNW of El Paso",
+   "county": "Woodford",
+   "zip": null,
+   "lat": 40.8092,
+   "lon": -89.0546,
+   "person": false,
+   "label": "Rain 1.00 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.00 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p60",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "2.0 mi SE of Collison",
+   "county": "Vermilion",
+   "zip": null,
+   "lat": 40.2063,
+   "lon": -87.7768,
+   "person": false,
+   "label": "Rain 1.03 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.03 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p61",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.1 mi ESE of Homewood",
+   "county": "Cook",
+   "zip": null,
+   "lat": 41.5577,
+   "lon": -87.6594,
+   "person": false,
+   "label": "Rain 1.80 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.80 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p62",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "1.1 mi NNW of Christopher",
+   "county": "Franklin",
+   "zip": null,
+   "lat": 37.9875,
+   "lon": -89.0602,
+   "person": false,
+   "label": "Rain 1.26 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.26 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p63",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "2.9 mi ESE of Eldorado",
+   "county": "Saline",
+   "zip": null,
+   "lat": 37.7997,
+   "lon": -88.3901,
+   "person": false,
+   "label": "Rain 1.41 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.41 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p64",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.6 mi SSE of Savoy",
+   "county": "Champaign",
+   "zip": null,
+   "lat": 40.0566,
+   "lon": -88.2489,
+   "person": false,
+   "label": "Rain 1.08 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.08 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p65",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "2.1 mi W of Mattoon",
+   "county": "Coles",
+   "zip": null,
+   "lat": 39.4771,
+   "lon": -88.4073,
+   "person": false,
+   "label": "Rain 1.93 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.93 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p66",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "4.1 mi ENE of Herod",
+   "county": "Hardin",
+   "zip": null,
+   "lat": 37.5955,
+   "lon": -88.3655,
+   "person": false,
+   "label": "Rain 1.67 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.67 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p67",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "3.4 mi SSE of Henning",
+   "county": "Vermilion",
+   "zip": null,
+   "lat": 40.2647,
+   "lon": -87.6656,
+   "person": false,
+   "label": "Rain 1.27 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.27 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p68",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "4.6 mi NNE of Harrisburg",
+   "county": "Saline",
+   "zip": null,
+   "lat": 37.8011,
+   "lon": -88.5346,
+   "person": false,
+   "label": "Rain 1.49 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.49 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p69",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.5 mi WSW of Tuscola",
+   "county": "Douglas",
+   "zip": null,
+   "lat": 39.7945,
+   "lon": -88.2902,
+   "person": false,
+   "label": "Rain 1.12 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.12 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p70",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.5 mi NE of Shelbyville",
+   "county": "Shelby",
+   "zip": null,
+   "lat": 39.412,
+   "lon": -88.7961,
+   "person": false,
+   "label": "Rain 1.28 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.28 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p71",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "2.5 mi S of Champaign",
+   "county": "Champaign",
+   "zip": null,
+   "lat": 40.0768,
+   "lon": -88.2667,
+   "person": false,
+   "label": "Rain 1.16 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.16 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p72",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "1.4 mi WNW of Normal",
+   "county": "McLean",
+   "zip": null,
+   "lat": 40.5259,
+   "lon": -89.0227,
+   "person": false,
+   "label": "Rain 1.16 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.16 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p73",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "2.2 mi SE of Urbana",
+   "county": "Champaign",
+   "zip": null,
+   "lat": 40.0906,
+   "lon": -88.171,
+   "person": false,
+   "label": "Rain 1.00 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.00 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p74",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "1.7 mi SE of Normal",
+   "county": "McLean",
+   "zip": null,
+   "lat": 40.4997,
+   "lon": -88.9761,
+   "person": false,
+   "label": "Rain 1.16 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.16 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p75",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.6 mi N of Oak Forest",
+   "county": "Cook",
+   "zip": null,
+   "lat": 41.6155,
+   "lon": -87.7507,
+   "person": false,
+   "label": "Rain 1.57 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.57 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p76",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "3.2 mi SW of Decatur",
+   "county": "Macon",
+   "zip": null,
+   "lat": 39.8195,
+   "lon": -88.9766,
+   "person": false,
+   "label": "Rain 1.08 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.08 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p77",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "1.0 mi SE of Herrin",
+   "county": "Williamson",
+   "zip": null,
+   "lat": 37.79,
+   "lon": -89.0216,
+   "person": false,
+   "label": "Rain 1.54 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.54 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p78",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "2.2 mi W of Creal Springs",
+   "county": "Williamson",
+   "zip": null,
+   "lat": 37.6134,
+   "lon": -88.8766,
+   "person": false,
+   "label": "Rain 1.46 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.46 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p79",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "1.9 mi ENE of Urbana",
+   "county": "Champaign",
+   "zip": null,
+   "lat": 40.1155,
+   "lon": -88.1713,
+   "person": false,
+   "label": "Rain 0.99 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "0.99 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p80",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "2.8 mi NNE of Murphysboro",
+   "county": "Jackson",
+   "zip": null,
+   "lat": 37.8068,
+   "lon": -89.3245,
+   "person": false,
+   "label": "Rain 1.61 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.61 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p81",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "2.2 mi SE of Springfield",
+   "county": "Sangamon",
+   "zip": null,
+   "lat": 39.7603,
+   "lon": -89.6149,
+   "person": false,
+   "label": "Rain 0.93 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "0.93 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
      "sev": 0.0
     }
    ],
    "why": [
-    "Reported to the NWS by an emergency manager"
+    "In the news: \u201cWest Sangamon County set to see snow, but Springfield to see rain\u201d"
    ],
    "status": "official",
-   "at": "2026-11-26T13:36+00:00",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [
+    "n2"
+   ],
+   "tier": 2
+  },
+  {
+   "id": "p82",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "1.3 mi ESE of Frankfort",
+   "county": "Will",
+   "zip": null,
+   "lat": 41.4925,
+   "lon": -87.811,
+   "person": false,
+   "label": "Rain 1.18 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.18 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p83",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.5 mi ESE of Urbana",
+   "county": "Champaign",
+   "zip": null,
+   "lat": 40.1071,
+   "lon": -88.1969,
+   "person": false,
+   "label": "Rain 1.03 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.03 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p84",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "4.4 mi NNE of Illiopolis",
+   "county": "Macon",
+   "zip": null,
+   "lat": 39.9106,
+   "lon": -89.2169,
+   "person": false,
+   "label": "Rain 1.09 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.09 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p85",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "3.0 mi E of Crossville",
+   "county": "White",
+   "zip": null,
+   "lat": 38.1659,
+   "lon": -88.0103,
+   "person": false,
+   "label": "Rain 1.73 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.73 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p86",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "0.5 mi NNW of Georgetown",
+   "county": "Vermilion",
+   "zip": null,
+   "lat": 39.983,
+   "lon": -87.6402,
+   "person": false,
+   "label": "Rain 1.39 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.39 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
+   "url": null,
+   "spark": null,
+   "event": null,
+   "news": [],
+   "tier": 2
+  },
+  {
+   "id": "p87",
+   "topic": "weather",
+   "source": "CoCoRaHS observer",
+   "name": "1.3 mi SW of Palos Park",
+   "county": "Cook",
+   "zip": null,
+   "lat": 41.6528,
+   "lon": -87.8631,
+   "person": false,
+   "label": "Rain 1.05 in",
+   "lines": [
+    {
+     "metric": "rain_mm",
+     "name": "Rainfall",
+     "value": "1.05 in",
+     "note": null,
+     "at": "2026-11-27T13:00+00:00",
+     "sev": 0.4
+    }
+   ],
+   "why": [
+    "Rainfall past the network's event threshold"
+   ],
+   "status": "official",
+   "at": "2026-11-27T13:00+00:00",
    "url": null,
    "spark": null,
    "event": null,
@@ -3109,85 +2955,110 @@
    ],
    "stories": [
     {
-     "title": "Winter storm warning issued in parts of Illinois, Chicago could see Thanksgiving rain",
-     "source": "NBC Chicago",
-     "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNOTYwQTEyM3M0MFhWX1d2dW1KVWdLekkxM091WDRoUDhWbThDU0tYZEpMdTYxN3YwWHVZR0psN0JvbWQzZk4wNVdyVERsejdJQjZnbm5VWUtFdkNnRGJkQ256bXhyV0JvemdXQy1EWVUyc3k2bEdNUGFISUNCNUYzaFB3eGVuRjU4TE9aR2RLUWw1cUpxNW1La2IyWWFqa0wzS2RKdFA0ZC1xWXdCV3B1bE10X2R0aFh0MGfSAcIBQVVfeXFMTXQ1bmFRNHJGc01ja1dnZWprdEFSUktyVF9MdVdKc2JzNlg0RUZneEFneWhmOHRoS0pLcXViMFd0RTljMEN3NkpLbUk0cF9MVzNsemFxN0Z0UW9oN1VPLXh2VUFzTFhJTmR0Wk1WUDJBckY4cWhZRUZ1Tmg1ZmJiYzNUVGVldjJ2aUdxbzV3SnEwSVkzME5nUjNuTTBlcEtqU19zYTkxNTktTHUtRWR1QlZKeExBbGE4WUh2d0FhRXhtWFE?oc=5",
-     "at": "2026-11-25T19:01:22"
+     "title": "Highest Rainfall Reports from Thanksgiving Day 11/26 thru Morning of 11/27 (NWS Chicago)",
+     "source": "NWS Chicago statements",
+     "url": "https://mesonet.agron.iastate.edu/p.php?pid=202611271737-KLOT-NOUS43-PNSLOT",
+     "at": "2026-11-27T17:37:00+00:00"
     },
     {
-     "title": "Thanksgiving Nor'Easter Brings Rain, Cold To Chicago, Snow To Southwest Illinois",
+     "title": "Highest Wind Gusts on Thanksgiving Day 11/26 into Friday 11/27 (NWS Chicago)",
+     "source": "NWS Chicago statements",
+     "url": "https://mesonet.agron.iastate.edu/p.php?pid=202611271715-KLOT-NOUS43-PNSLOT",
+     "at": "2026-11-27T17:15:00+00:00"
+    },
+    {
+     "title": "End Of November Brings Rain, Temps In The 40s To Chicago Area",
      "source": "Patch",
-     "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNNUNGZkF2akZING9VUldPSEk0QzhaUmw2VzdYLTNEcTBJdEJ1UFJwSjM5Q1FVcElmY0hfekFEX2FFZGxiOGU2ekp2QVdVd2tRUUhzdGVCVmlGSzhWUVRTRmE0ZlRsV0g4UFVuRkhKTWxzZTlsOUZvbENYRUhtSEdoUGNDcU9pM3NuRVBNVlhMSTFQMlBqazV2MlN3T3p4cHl5TE1mZWVR0gHGAUFVX3lxTE13UGFONUZoUy1ZZnRUalY5aGo2LWk5S2Y1ZDQ5MUFSOVBOdGxkVVFLNUhlSjVVR21uOUZfWDVFTnBmOXA5WUVGR1hhMU1WZTFpYXFtQkZFU3FvM0poMzJoV1o1TXJKSzdXajhCSzd1d3J5N2hmWnNveFRuUGcwX3pINnFBMFBqMF9KSTROSkZqcGlBT2R6VU1zalVYOXBEUmtvamZKMndqdXNoZHNYOEw4c3FBcllYM1lTQURVOFluZnF6UlBXZw?oc=5",
-     "at": "2026-11-25T15:41:14"
-    },
-    {
-     "title": "Chicago Thanksgiving forecast calls for windy, rainy conditions",
-     "source": "NBC 5 Chicago",
-     "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQSkl6X2ZjcEZ4bk15MlVnZ2M1UDJwTkpwX3huMHVXOVhtWjE5YXRHZ1p5ejFIbExxYUctMUxjLTBybGlIaUlRZVM5R0R4LXQ2cGdaM2F6ZE5JOTFBNGtMbTVkeDYwV0NnMzNrSUh5SzRJTzNTVk5CTEw3a0FtNzFjNU5RZldZa040MHRIMFBja0s5dDVabVFoOFpyaHNfQ3hpWjZ6ekkxaWU3Zw?oc=5",
-     "at": "2026-11-26T14:28:41"
+     "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPdkpSY1REa3NETzVfajc5Q3ZsVVhqakJWeEN2empvVHhKQ2ZhelFrRmhNMEJ3anV4UE5rVHZmQ1N6NTJNUjRTREluTzZGbkw4dXZOZTBYU05JeGpKOVd3WjZtRTM4b2NPeFE2VEU5TzJnbXVob0QtS25uV1ZiN0tnd0wwYW1WeXBkYjRpUNIBrwFBVV95cUxPRVE2cVdyVWRiNHAycmF3S3RwLVdSazMtSVdYOUJyVzJEak5ON2hEdEthQUxwbjVPRER0X19zZ1B5Q2JHRDF1VWFVbVVKYlRpRzNnbHk0YldNemVJWUNaMUhVM1AwMy0xV2JuWFF0aVFOYjcxeUtGTVBkakVCZEQtRFFiQTZsVW1Md1UyS2NoSXhGRmNrbkxjRFJ5anBFRVh4NVFrR1o4VGRUdS1mZTdR?oc=5",
+     "at": "2026-11-27T18:41:39"
     }
    ],
    "more": [
-    "Chicago forecast calls for plenty of rain this Thanksgiving",
+    "Rain and Strong Winds Hit Chicago on Thanksgiving",
+    "Chicago Forecast Warns of Thanksgiving Wind and Rain",
+    "Chicago Thanksgiving forecast calls for windy, rainy conditions",
     "Chicago Thanksgiving forecast: Windy, rainy conditions",
-    "Chicago weather: Wednesday afternoon forecast",
     "Chicago weather: Thanksgiving forecast coming into focus"
    ],
-   "links": [],
+   "links": [
+    "p1",
+    "p8",
+    "p11",
+    "p12"
+   ],
    "alerts": []
   },
   {
    "id": "n2",
    "n": 2,
-   "topic": "landuse",
-   "place": "Springfield",
+   "topic": "weather",
+   "place": "Sangamon County",
    "statewide": false,
-   "lat": 39.7911,
-   "lon": -89.6446,
+   "lat": 39.7569,
+   "lon": -89.6624,
    "counties": [
     "17167"
    ],
    "stories": [
     {
-     "title": "Springfield rally puts pressure on Illinois over data center rules",
-     "source": "Yahoo",
-     "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQR0R0S1lYd25Zb29ZSm9MWHlaQ0VkN3E0N1hmclFJaTNaZGhhSDIyamNLSEdQcXdob1dqSm5JdjdVU1ZpbTE1ZzVqbXZudG5zLVVDeThrdkdnQXRCRExjTVVNbXcza2lLVnh3c2ZOaU4wMmJLRy15ejdTYk5BeXZIUlpTdkhmRllfWFJjcEF2MDA2RVpndE5WVUdNb1dzQTQzbnc?oc=5",
-     "at": "2026-11-25T17:40:00"
-    },
-    {
-     "title": "Advocates rally in Springfield for data center reforms in Illinois",
-     "source": "Chronicle Media",
-     "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQWDY3UDl3OVcxM1htOU9EdWNiOHhVZ3g5Z3EwMTFEaC13TEVralNwMFVwaC1fLXZqR2FacjAzVWNza3NHY19UdkZMcE5rNzZrdWFYS3JkUXNlczNuWXN4dlhQaFJyU0dGSTlsQUoxTHlzdUI0UG1IN3J0cVJSQ2FNRnhOS19KX2Q5WkpzaTBSWUVXNTlsb1plQjJaaEpWTzh2bU95Nl9VcDE3M1YzeXhtcW9VbFlQa2VNdGFN?oc=5",
-     "at": "2026-11-20T17:07:28"
-    },
-    {
-     "title": "\u2018Time is up\u2019: Advocates rally in Springfield for data center reforms in Illinois",
-     "source": "Shaw Local",
-     "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNUlByTGhzZTNaQ1o0Uk8yT2ptWGxXWk5zalpPcGZ6Z2VuN1gzMk9PM0hveXN1QTgtbjBmZnhvY2pjNW1jRjRqU1hqVUlSV2hSSXhTYXl6WW1FQnN3VDJZWGpaN3VkcGMzc3JESlBYTHlWSmU2SXpNUTJTbDNtd1ZqbXFKNi1sTGRKblpQbUZGQjQ0LV9RbUhSeFdrTWN3YnU4ejVwTVpBczFMS0UxVm9udUdrcXl1eml0Mm85RA?oc=5",
-     "at": "2026-11-19T12:00:01"
+     "title": "West Sangamon County set to see snow, but Springfield to see rain",
+     "source": "The State Journal-Register",
+     "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQU243TUN6cElPMHNZcDRBQ3JEWW1WdEJOcF9OT19KQzFtemUwV2xTTThKZGh1SFREZGtCcGxVQUp2cm9oOVMtZ1JleDVHWkxfUHBXSktOZ1hjaDZwOTEzUmlkdVZ6cmEwcVJ6TFVTQ2o1SzRidnQ1UENMZUhWY1ZMampIZHhoa3NyemN6VTVDMW1fOGl3NVIxeHI5TTRYY18zTF9wV1oyN0xvV2s?oc=5",
+     "at": "2026-11-25T19:19:00"
     }
    ],
    "more": [],
-   "links": [],
+   "links": [
+    "p17",
+    "p81"
+   ],
    "alerts": []
   },
   {
    "id": "n3",
    "n": 3,
-   "topic": "soil",
-   "place": "Pontiac",
+   "topic": "landuse",
+   "place": "Bloomington",
    "statewide": false,
-   "lat": 40.8894,
-   "lon": -88.6415,
+   "lat": 40.4758,
+   "lon": -88.9699,
    "counties": [
-    "17105"
+    "17113"
    ],
    "stories": [
     {
-     "title": "Pontiac field day to focus on cover crops, soil health and water quality",
-     "source": "The Pantagraph",
-     "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQYWVFN0MwRThuaWNxT0VwQUVyYVoxYmNQQ3k0X21qNU5KaXgyTFNRNW92N3UxVzQ0eWxRSzZMNlNfVDNTQmNoWTBjYWFKbmZianJzV0VleUU4dUJpNDVqNkJSODdXME5VVWlzRWJ4OWJrcU84R3NUNzc2RXlXZzlCZHhGNmN0SWh1OTU2dEE3TUxnV1FHVzExQVdxSFA5VkpWY2d2ZGVZMA?oc=5",
-     "at": "2026-11-26T13:45:00"
+     "title": "Bloomington nixes mega data center proposals for two more years",
+     "source": "Chronicle Media",
+     "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQeXdJV1Q2a1FkQ0wyeDBNV2ZpRFFNSTAxSG5BYWJjb0Q1X0VBeDBQdklYVmxCVVI5Zm1KSWNMNjY2YV9WUTRIQl91Vmp3NHI3QU5aSGVNdksxaVJoTVByX2VRYXp2a3lsODJaWFdfeDg4dzJWQVo1SVVtM2Y4Q3JMM2I1OW91Tm9OdVN4bXVaLWx0czVfV2pZZUExZHJsV3hNbnZKMFBnQWR4OUxWbnI2Xzk2TG1VY3VLQ2c?oc=5",
+     "at": "2026-11-28T01:21:26"
+    }
+   ],
+   "more": [],
+   "links": [
+    "p9",
+    "p10",
+    "p13",
+    "p14"
+   ],
+   "alerts": []
+  },
+  {
+   "id": "n4",
+   "n": 4,
+   "topic": "landuse",
+   "place": "Salem",
+   "statewide": false,
+   "lat": 38.6275,
+   "lon": -88.9594,
+   "counties": [
+    "17121"
+   ],
+   "stories": [
+    {
+     "title": "Data Center Developer to explain project at special Salem City Council meeting on Monday",
+     "source": "WJBD",
+     "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPSVVmVWsxVVpBcXVwRzI3UXNCOTRpejE0a3duNVR5QnhwZlBqbHdXSl9mUVE2eTYtOUVVaXloZjRMMnZjdE5FbUh3RGNveGNUcktJd0tZS2IxWjZTZjRtSEZlUDZIcDFIa3VWUFEzM3VWZ01WRWpMbERiVDNDTW1faE1JelFacFh0eEJITGI1el9EYTNaLXBRdldsaVN0Snh6UjBSUGRicm43bnBqSlVHX29yYnQzazItdlFVRUpPdHhiUlJpV0p4R1djUzM?oc=5",
+     "at": "2026-11-24T18:34:19"
     }
    ],
    "more": [],
@@ -3195,8 +3066,8 @@
    "alerts": []
   },
   {
-   "id": "n4",
-   "n": 4,
+   "id": "n5",
+   "n": 5,
    "topic": "weather",
    "place": null,
    "statewide": true,
@@ -3205,33 +3076,10 @@
    "counties": [],
    "stories": [
     {
-     "title": "Illinois winter storm set to bring several inches of snow for Thanksgiving",
-     "source": "Alton Telegraph",
-     "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOcVZPcUlILVM3VExpXzFIRkotZDV0RVZuTXRHNy1YVE1wdTAyZEpPVWl0dW5EWUtJUkdZOURqZ0ZlbkV4MGhLUU5Xbk1lVXdVRktZYXpGOW9sdk9jUk9mSTNIY0diRGVvYXdJbXl0MUJEckFaZmVWa1J1NUxhR3I3anFJbFBIRDUwQ3lFdEE2YjVhMFhadFg2a2dtemY0dw?oc=5",
-     "at": "2026-11-25T17:58:33"
-    }
-   ],
-   "more": [],
-   "links": [
-    "p1"
-   ],
-   "alerts": []
-  },
-  {
-   "id": "n5",
-   "n": 5,
-   "topic": "research",
-   "place": null,
-   "statewide": true,
-   "lat": null,
-   "lon": null,
-   "counties": [],
-   "stories": [
-    {
-     "title": "Ancient Cahokia was transformed amid droughts and flooding \u2013 climate change is reshaping modern communities in similar ways",
-     "source": "The Conversation",
-     "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxON2IyR1VIUXpRX1dpUXRhYlNLRWZBT2RYMThaRFpWRnY0UmpOQWZWZTFMdzVKXzFzQWJMOTJNNUt2VzhydXZYZjlhYTdYdVFFRjhtRm01cUNHZG9Yd0pSZFBGQkJxWkViNV9mV1dQbVRKN1BVMi1TNDJkZkZjVjhOcUZKT1BoQUszYUs2Z1hXZkxka0pFb3hJUmVfR3BzaHFXMDFwOW9FZ1huVnBtNmU5Tktfd0QyallkVUxiMWhtdVNqYmgya3AyM2h2enFMaE9BN3VJVDk1Qld3QU82TEFoQ1JqR0ZIT29KeVRuSQ?oc=5",
-     "at": "2026-11-25T13:39:48"
+     "title": "Watch Surprise Thanksgiving snowfall accumulates across Missouri and Illinois - FWX",
+     "source": "FOX One",
+     "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPakpndkVPT054ZnpjbnBtWWRSdDdRTVhqVzNlVnphS1RXRjZnQXdseEhKNzdyckhpWFlqWXhsNTlPTXVUcXdLYVhBd0lVME5jcWhiUmVJWEk5aDJZNXI0WlMySUdFajhkUTJ0TGo2dkxhY0I5R0ItNzhPWGM5cllLZExob1I5RG9yQjA3N1JnTHdvYmIxUl94U1JKUGZJUGd4ZzhUdnNwZElHWTd6TklYMnhhWDBxc2VSMnhMYzNZOHM?oc=5",
+     "at": "2026-11-26T16:52:12"
     }
    ],
    "more": [],
@@ -3243,6 +3091,27 @@
   {
    "id": "n6",
    "n": 6,
+   "topic": "agriculture",
+   "place": null,
+   "statewide": true,
+   "lat": null,
+   "lon": null,
+   "counties": [],
+   "stories": [
+    {
+     "title": "Good 2026 yields and a strong start to 2027 in southwestern Illinois",
+     "source": "Brownfield Ag News",
+     "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPdWVDV19FNVdnT1pRdjE5LTlLMnFmSFI0X3NPSkQtR1JzNGluNnNvVmZVclJyc0hCQV9fNEYtSWkxSGNGNV9RcHFMRTJLaGhLUWxkcV9qSDdSRzB0bnpzU3RUVjMyTEZxWVdkYlE5OUIwTEZBa0dHUS1GaV9hb3hUQWNMRDJrems4UkR0cUFnVi0waUtFeTRZb0dNYVFLdGYyaFBLTFZR?oc=5",
+     "at": "2026-11-27T15:54:06"
+    }
+   ],
+   "more": [],
+   "links": [],
+   "alerts": []
+  },
+  {
+   "id": "n7",
+   "n": 7,
    "topic": "air",
    "place": null,
    "statewide": true,
@@ -3258,14 +3127,15 @@
     }
    ],
    "more": [],
-   "links": [],
+   "links": [
+    "p3"
+   ],
    "alerts": []
   }
  ],
  "areas": [],
  "quiet": [
   "Agriculture",
-  "Air",
   "Seasons & nature",
   "Earthquakes",
   "Soil"
